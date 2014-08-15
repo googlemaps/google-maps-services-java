@@ -37,6 +37,9 @@ dependencies {
     compile 'joda-time:joda-time:2.4'
     
     testCompile 'junit:junit:4.11'
+    testCompile 'org.mockito:mockito-core:1.9.5'
+    testCompile 'com.google.mockwebserver:mockwebserver:20130706'
+    testCompile 'org.apache.httpcomponents:httpclient:4.3.5'
 }
 
 test {
