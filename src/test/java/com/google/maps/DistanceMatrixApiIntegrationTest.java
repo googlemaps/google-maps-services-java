@@ -8,17 +8,15 @@ import com.google.maps.DirectionsApi.RouteRestriction;
 import com.google.maps.model.DistanceMatrix;
 import com.google.maps.model.TravelMode;
 import com.google.maps.model.Unit;
-import com.google.testing.testsize.LargeTest;
 
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.experimental.categories.Category;
 
 import java.util.concurrent.TimeUnit;
 
-@RunWith(JUnit4.class) @LargeTest
+@Category(LargeTests.class)
 public class DistanceMatrixApiIntegrationTest {
 
   private GeoApiContext context;

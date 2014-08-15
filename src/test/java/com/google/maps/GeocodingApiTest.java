@@ -15,17 +15,15 @@ import com.google.maps.model.AddressType;
 import com.google.maps.model.GeocodingResult;
 import com.google.maps.model.LatLng;
 import com.google.maps.model.LocationType;
-import com.google.testing.testsize.LargeTest;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.experimental.categories.Category;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-@RunWith(JUnit4.class) @LargeTest
+@Category(LargeTests.class)
 public class GeocodingApiTest {
 
   public static final double EPSILON = 0.000001;

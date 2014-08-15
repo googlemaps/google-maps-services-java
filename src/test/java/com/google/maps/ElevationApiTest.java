@@ -6,16 +6,14 @@ import com.google.maps.model.EncodedPolyline;
 import com.google.maps.model.LatLng;
 import com.google.mockwebserver.MockResponse;
 import com.google.mockwebserver.MockWebServer;
-import com.google.testing.testsize.MediumTest;
 
 import org.junit.After;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.experimental.categories.Category;
 
 import java.util.Arrays;
 
-@RunWith(JUnit4.class) @MediumTest
+@Category(MediumTests.class)
 public class ElevationApiTest {
 
   private MockWebServer server = new MockWebServer();

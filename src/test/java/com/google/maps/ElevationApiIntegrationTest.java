@@ -7,16 +7,14 @@ import static org.junit.Assert.assertNotNull;
 import com.google.maps.model.ElevationResult;
 import com.google.maps.model.EncodedPolyline;
 import com.google.maps.model.LatLng;
-import com.google.testing.testsize.LargeTest;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.experimental.categories.Category;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-@RunWith(JUnit4.class) @LargeTest
+@Category(LargeTests.class)
 public class ElevationApiIntegrationTest {
 
   public static final double SYDNEY_ELEVATION = 19.11174774169922;

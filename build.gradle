@@ -39,6 +39,14 @@ dependencies {
     testCompile 'junit:junit:4.11'
 }
 
+test {
+    useJUnit {
+        includeCategories 'com.google.maps.SmallTests'
+        includeCategories 'com.google.maps.MediumTests'
+        includeCategories 'com.google.maps.LargeTests'
+    }
+}
+
 javadoc {
     exclude '**/internal/**'
 }
