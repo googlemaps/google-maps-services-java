@@ -24,7 +24,7 @@ public class DistanceMatrixApiIntegrationTest {
   @Before
   public void setUp() {
     context = new GeoApiContext()
-        .setApiKey("AIzaSyAZ0_yiPw2Zp2huKxug49ZYi-pytL6NZ-c") // TODO(macd): store elsewhere
+        .setApiKey(System.getenv("API_KEY"))
         .setConnectTimeout(1, TimeUnit.SECONDS)
         .setReadTimeout(1, TimeUnit.SECONDS)
         .setWriteTimeout(1, TimeUnit.SECONDS);

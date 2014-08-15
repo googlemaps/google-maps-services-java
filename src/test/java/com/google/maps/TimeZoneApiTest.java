@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit;
 public class TimeZoneApiTest {
 
   private static GeoApiContext context = new GeoApiContext(3)
-        .setApiKey("AIzaSyAZ0_yiPw2Zp2huKxug49ZYi-pytL6NZ-c")
+        .setApiKey(System.getenv("API_KEY"))
         .setConnectTimeout(1, TimeUnit.SECONDS)
         .setReadTimeout(1, TimeUnit.SECONDS)
         .setWriteTimeout(1, TimeUnit.SECONDS);
