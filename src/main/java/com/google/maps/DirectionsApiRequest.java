@@ -1,0 +1,172 @@
+package com.google.maps;
+
+import static com.google.maps.internal.StringJoin.join;
+
+import com.google.maps.DirectionsApi.RouteRestriction;
+import com.google.maps.model.DirectionsRoute;
+import com.google.maps.model.LatLng;
+import com.google.maps.model.TravelMode;
+import com.google.maps.model.Unit;
+
+import org.joda.time.ReadableInstant;
+
+/**
+ * Request for the Directions API.
+ */
+public class DirectionsApiRequest
+    extends PendingResultBase<DirectionsRoute[], DirectionsApiRequest, DirectionsApi.Response> {
+  private boolean optimizeWaypoints;
+  private String[] waypoints;
+
+  DirectionsApiRequest(GeoApiContext context) {
+    super(context, DirectionsApi.Response.class, DirectionsApi.BASE);
+  }
+
+  protected void validateRequest() {
+    if (!params().containsKey("origin")) {
+      throw new IllegalArgumentException("Request must contain 'origin'");
+    }
+    if (!params().containsKey("destination")) {
+      throw new IllegalArgumentException("Request must contain 'destination'");
+    }
+    if (params().get("mode") != null
+        && params().get("mode").equals(TravelMode.TRANSIT.toString())
+        && (!params().containsKey("arrival_time") && !params().containsKey("departure_time"))) {
+      throw new IllegalArgumentException(
+          "Transit request must contain either a departureTime or an arrivalTime");
+    }
+  }
+
+  /**
+   * The address or textual latitude/longitude value from which you wish to calculate directions.
+   * If you pass an address as a string, the Directions service will geocode the string and convert
+   * it to a latitude/longitude coordinate to calculate directions. If you pass coordinates, ensure
+   * that no space exists between the latitude and longitude values.
+   */
+  public DirectionsApiRequest origin(String origin) {
+    return param("origin", origin);
+  }
+
+  /**
+   * The address or textual latitude/longitude value from which you wish to calculate directions.
+   * If you pass an address as a string, the Directions service will geocode the string and convert
+   * it to a latitude/longitude coordinate to calculate directions. If you pass coordinates, ensure
+   * that no space exists between the latitude and longitude values.
+   */
+  public DirectionsApiRequest destination(String destination) {
+    return param("destination", destination);
+  }
+
+  /**
+   * The origin, as a latitude,longitude location.
+   */
+  public DirectionsApiRequest origin(LatLng origin) {
+    return origin(origin.toString());
+  }
+
+  /**
+   * The destination, as a latitude,longitude location.
+   */
+  public DirectionsApiRequest destination(LatLng destination) {
+    return destination(destination.toString());
+  }
+
+  /**
+   * Specifies the mode of transport to use when calculating directions. The mode defaults to
+   * driving if left unspecified. If you set the mode to {@code TRANSIT} you must also specify
+   * either a {@code departureTime} or an {@code arrivalTime}.
+   *
+   * @param mode The travel mode to request directions for.
+   */
+  public DirectionsApiRequest mode(TravelMode mode) {
+    return param("mode", mode);
+  }
+
+  /**
+   * Indicates that the calculated route(s) should avoid the indicated features.
+   *
+   * @param restrictions one or more of {@link Restriction#TOLLS},
+   *     {@link Restriction#HIGHWAYS}, {@link Restriction#FERRIES}
+   */
+  public DirectionsApiRequest avoid(RouteRestriction... restrictions) {
+    return param("avoid", join('|', restrictions));
+  }
+
+  /**
+   * Specifies the unit system to use when displaying results.
+   */
+  public DirectionsApiRequest units(Unit units) {
+    return param("units", units);
+  }
+
+  /**
+   * @param region The region code, specified as a ccTLD ("top-level domain") two-character value.
+   */
+  public DirectionsApiRequest region(String region) {
+    return param("region", region);
+  }
+
+  /**
+   * Set the arrival time for a Transit directions request.
+   *
+   * @param time The arrival time to calculate directions for.
+   */
+  public DirectionsApiRequest arrivalTime(ReadableInstant time) {
+    return param("arrival_time", Long.toString(time.getMillis() / 1000L));
+  }
+
+  /**
+   * Set the departure time for a Transit directions request.
+   *
+   * @param time The departure time to calculate directions for.
+   */
+  public DirectionsApiRequest departureTime(ReadableInstant time) {
+    return param("departure_time", Long.toString(time.getMillis() / 1000L));
+  }
+
+  /**
+   * Specifies a list of waypoints. Waypoints alter a route by routing it through the specified
+   * location(s). A waypoint is specified as either a latitude/longitude coordinate or as an
+   * address which will be geocoded. Waypoints are only supported for driving, walking and
+   * bicycling directions.
+   *
+   * <p>For more information on waypoints, see
+   * <a href="https://developers.google.com/maps/documentation/directions/#Waypoints">
+   * Using Waypoints in Routes</a>.
+   */
+  public DirectionsApiRequest waypoints(String... waypoints) {
+    if (waypoints == null || waypoints.length == 0) {
+      return this;
+    } else if (waypoints.length == 1) {
+      return param("waypoints", waypoints[0]);
+    } else {
+      return param("waypoints", (optimizeWaypoints ? "optimize:true|" : "") + join('|', waypoints));
+    }
+  }
+
+  /**
+   * Allow the Directions service to optimize the provided route by rearranging the waypoints in a
+   * more efficient order.
+   */
+  public DirectionsApiRequest optimizeWaypoints(boolean optimize) {
+    optimizeWaypoints = optimize;
+    if (waypoints != null) {
+      return waypoints(waypoints);
+    } else {
+      return this;
+    }
+  }
+
+  /**
+   * If set to true, specifies that the Directions service may provide more than one route
+   * alternative in the response. Note that providing route alternatives may increase the response
+   * time from the server.
+   */
+  public DirectionsApiRequest alternatives(boolean alternateRoutes) {
+    if (alternateRoutes) {
+      return param("alternatives", "true");
+    } else {
+      return param("alternatives", "false");
+    }
+  }
+}

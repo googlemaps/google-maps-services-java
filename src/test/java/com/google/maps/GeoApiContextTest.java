@@ -1,0 +1,173 @@
+package com.google.maps;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import static org.mockito.Mockito.mock;
+
+import com.google.maps.internal.ApiResponse;
+import com.google.maps.model.GeocodingResult;
+import com.google.mockwebserver.MockResponse;
+import com.google.mockwebserver.MockWebServer;
+import com.google.mockwebserver.RecordedRequest;
+import com.google.testing.testsize.MediumTest;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
+@RunWith(JUnit4.class) @MediumTest
+public class GeoApiContextTest {
+
+  private MockWebServer server = new MockWebServer();
+  private GeoApiContext context = new GeoApiContext(500, 0).setApiKey("AIza...");
+
+  @Test
+  public void testGetIncludesDefaultUserAgent() throws Exception {
+    // Set up a mock request
+    ApiResponse<String> fakeResponse = mock(ApiResponse.class);
+    String path = "/";
+    Map<String, String> params = new HashMap<>(1);
+    params.put("key", "value");
+
+    // Set up the fake web server
+    server.enqueue(new MockResponse());
+    server.play();
+    context.setBaseUrl(server.getUrl("").toString());
+
+    // Build & execute the request using our context
+    context.get(fakeResponse.getClass(), path, params).awaitIgnoreError();
+
+    // Read the headers
+    server.shutdown();
+    RecordedRequest request = server.takeRequest();
+    List<String> headers = request.getHeaders();
+    boolean headerFound = false;
+    for (String header : headers) {
+      if (header.startsWith("User-Agent: ")) {
+        headerFound = true;
+        assertTrue("User agent not in correct format",
+            header.matches("User-Agent: GoogleGeoApiClientJava/[^\\s]+"));
+      }
+    }
+
+    assertTrue("User agent header not present", headerFound);
+  }
+
+  @Test
+  public void testErrorResponseRetries() throws Exception {
+    // Set up mock responses
+    MockResponse errorResponse = new MockResponse();
+    errorResponse.setStatus("HTTP/1.1 500 Internal server error");
+    errorResponse.setBody("Uh-oh. Server Error.");
+    MockResponse goodResponse = new MockResponse();
+    goodResponse.setResponseCode(200);
+    goodResponse.setBody("{\n"
+        + "   \"results\" : [\n"
+        + "      {\n"
+        + "         \"address_components\" : [\n"
+        + "            {\n"
+        + "               \"long_name\" : \"1600\",\n"
+        + "               \"short_name\" : \"1600\",\n"
+        + "               \"types\" : [ \"street_number\" ]\n"
+        + "            }\n"
+        + "         ],\n"
+        + "         \"formatted_address\" : \"1600 Amphitheatre Parkway, Mountain View, "
+        +                                     "CA 94043, USA\",\n"
+        + "         \"geometry\" : {\n"
+        + "            \"location\" : {\n"
+        + "               \"lat\" : 37.4220033,\n"
+        + "               \"lng\" : -122.0839778\n"
+        + "            },\n"
+        + "            \"location_type\" : \"ROOFTOP\",\n"
+        + "            \"viewport\" : {\n"
+        + "               \"northeast\" : {\n"
+        + "                  \"lat\" : 37.4233522802915,\n"
+        + "                  \"lng\" : -122.0826288197085\n"
+        + "               },\n"
+        + "               \"southwest\" : {\n"
+        + "                  \"lat\" : 37.4206543197085,\n"
+        + "                  \"lng\" : -122.0853267802915\n"
+        + "               }\n"
+        + "            }\n"
+        + "         },\n"
+        + "         \"types\" : [ \"street_address\" ]\n"
+        + "      }\n"
+        + "   ],\n"
+        + "   \"status\" : \"OK\"\n"
+        + "}");
+
+    server.enqueue(errorResponse);
+    server.enqueue(goodResponse);
+    server.play();
+
+    // Build the context under test
+    context.setBaseUrl(server.getUrl("").toString());
+
+    // Execute
+    GeocodingResult[] result = context.get(GeocodingApi.Response.class, "/", "k", "v").await();
+    assertEquals(1, result.length);
+    assertEquals("1600 Amphitheatre Parkway, Mountain View, CA 94043, USA",
+        result[0].formattedAddress);
+
+    server.shutdown();
+  }
+
+  @Test(expected = IOException.class)
+  public void testRetryCanBeDisabled() throws Exception {
+    // Set up 2 mock responses, an error that shouldn't be retried and a success
+    MockResponse errorResponse = new MockResponse();
+    errorResponse.setStatus("HTTP/1.1 500 Internal server error");
+    errorResponse.setBody("Uh-oh. Server Error.");
+    server.enqueue(errorResponse);
+
+    MockResponse goodResponse = new MockResponse();
+    goodResponse.setResponseCode(200);
+    goodResponse.setBody("{\n"
+        + "   \"results\" : [],\n"
+        + "   \"status\" : \"ZERO_RESULTS\"\n"
+        + "}");
+    server.enqueue(goodResponse);
+
+    server.play();
+    context.setBaseUrl(server.getUrl("").toString());
+
+    // This should disable the retry, ensuring that the success response is NOT returned
+    context.setRetryTimeout(0, TimeUnit.MILLISECONDS);
+
+    // We should get the error response here, not the success response.
+    context.get(GeocodingApi.Response.class, "/", "k", "v").await();
+  }
+
+  @Test
+  public void testRetryEventuallyReturnsTheRightException() throws Exception {
+    MockResponse errorResponse = new MockResponse();
+    errorResponse.setStatus("HTTP/1.1 500 Internal server error");
+    errorResponse.setBody("Uh-oh. Server Error.");
+
+    // Enqueue some error responses.
+    for (int i = 0; i < 10; i++) {
+      server.enqueue(errorResponse);
+    }
+    server.play();
+
+    // Wire the mock web server to the context
+    context.setBaseUrl(server.getUrl("").toString());
+    context.setRetryTimeout(5, TimeUnit.SECONDS);
+
+    try {
+      context.get(GeocodingApi.Response.class, "/", "k", "v").await();
+    } catch (IOException ioe) {
+      // Ensure the message matches the status line in the mock responses.
+      assertEquals("Server Error: 500 Internal server error", ioe.getMessage());
+      return;
+    }
+    fail("Internal server error was expected but not observed.");
+  }
+}

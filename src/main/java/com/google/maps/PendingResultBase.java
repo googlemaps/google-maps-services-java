@@ -1,0 +1,100 @@
+package com.google.maps;
+
+import com.google.maps.internal.ApiResponse;
+import com.google.maps.internal.StringJoin.UrlValue;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * Base implementation for {@code PendingResult}.
+ *
+ * <p>{@code T} is the class of the result, {@code A} is the actual base class of this abstract
+ * class, and R is the type of the request.
+ */
+abstract class PendingResultBase<T, A extends PendingResultBase<T, A, R>,
+      R extends ApiResponse<T>>
+    implements PendingResult<T> {
+
+  private final GeoApiContext context;
+  private HashMap<String, String> params = new HashMap<>();
+  private PendingResult<T> delegate;
+  private Class<R> responseClass;
+  private String base;
+
+  protected PendingResultBase(GeoApiContext context, Class<R> responseClass, String base) {
+    this.context = context;
+    this.responseClass = responseClass;
+    this.base = base;
+  }
+
+  @Override
+  public final void setCallback(Callback<T> callback) {
+    makeRequest().setCallback(callback);
+  }
+
+  @Override
+  public final T await() throws Exception {
+    PendingResult<T> request = makeRequest();
+    T result = request.await();
+    return result;
+  }
+
+  @Override
+  public final T awaitIgnoreError() {
+    return makeRequest().awaitIgnoreError();
+  }
+
+  @Override
+  public final void cancel() {
+    if (delegate == null) {
+      return;
+    }
+    delegate.cancel();
+  }
+
+  private PendingResult<T> makeRequest() {
+    if (delegate != null) {
+      throw new IllegalStateException(
+          "'await', 'awaitIgnoreError' or 'setCallback' was already called.");
+    }
+    validateRequest();
+    delegate = context.get(responseClass, base, params);
+    return (PendingResult<T>) delegate;
+  }
+
+  protected abstract void validateRequest();
+
+  protected A param(String key, String val) {
+    params.put(key, val);
+
+    @SuppressWarnings("unchecked") // safe by specification - A is the actual class of this instance
+    A result = (A) this;
+    return result;
+  }
+
+  protected A param(String key, UrlValue val) {
+    params.put(key, val.toString());
+
+    @SuppressWarnings("unchecked") // safe by specification - A is the actual class of this instance
+    A result = (A) this;
+    return result;
+  }
+
+  protected Map<String, String> params() {
+    return Collections.unmodifiableMap(params);
+  }
+
+  /**
+   * The language in which to return results. Note that we often update supported languages so
+   * this list may not be exhaustive.
+   *
+   * @see <a href="https://developers.google.com/maps/faq#languagesupport">List of supported
+   * domain languages</a>
+   * @param language  The language code, e.g. "en-AU" or "es"
+   */
+  public final A language(String language) {
+    return param("language", language);
+  }
+}
