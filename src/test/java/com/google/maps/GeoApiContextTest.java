@@ -10,11 +10,9 @@ import com.google.maps.model.GeocodingResult;
 import com.google.mockwebserver.MockResponse;
 import com.google.mockwebserver.MockWebServer;
 import com.google.mockwebserver.RecordedRequest;
-import com.google.testing.testsize.MediumTest;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.experimental.categories.Category;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -22,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-@RunWith(JUnit4.class) @MediumTest
+@Category(MediumTests.class)
 public class GeoApiContextTest {
 
   private MockWebServer server = new MockWebServer();

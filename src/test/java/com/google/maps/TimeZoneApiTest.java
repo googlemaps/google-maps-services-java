@@ -8,22 +8,20 @@ import static org.junit.Assert.assertTrue;
 import com.google.maps.errors.ZeroResultsException;
 import com.google.maps.model.GeocodingResult;
 import com.google.maps.model.LatLng;
-import com.google.testing.testsize.LargeTest;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.experimental.categories.Category;
 
 import java.util.Date;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
-@RunWith(JUnit4.class) @LargeTest
+@Category(LargeTests.class)
 public class TimeZoneApiTest {
 
   private static GeoApiContext context = new GeoApiContext(3)
-        .setApiKey("AIzaSyAZ0_yiPw2Zp2huKxug49ZYi-pytL6NZ-c")
+        .setApiKey(System.getenv("API_KEY"))
         .setConnectTimeout(1, TimeUnit.SECONDS)
         .setReadTimeout(1, TimeUnit.SECONDS)
         .setWriteTimeout(1, TimeUnit.SECONDS);

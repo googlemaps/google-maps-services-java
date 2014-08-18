@@ -1,0 +1,55 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: 'signing'
+
+group = 'com.google.maps'
+sourceCompatibility = 1.7
+version = '0.1'
+// TODO(macd): add a check that this version equals the version in GeoApiContext.java
+
+repositories {
+    mavenCentral()
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from 'build/docs/javadoc'
+}
+  
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allSource
+    classifier = 'sources'
+}
+
+artifacts {
+    archives jar
+    archives javadocJar
+    archives sourcesJar
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'com.google.code.gson:gson:2.3'
+    compile 'com.squareup.okhttp:okhttp:2.0.0'
+    compile 'joda-time:joda-time:2.4'
+    
+    testCompile 'junit:junit:4.11'
+    testCompile 'org.mockito:mockito-core:1.9.5'
+    testCompile 'com.google.mockwebserver:mockwebserver:20130706'
+    testCompile 'org.apache.httpcomponents:httpclient:4.3.5'
+}
+
+test {
+    useJUnit {
+        includeCategories 'com.google.maps.SmallTests'
+        includeCategories 'com.google.maps.MediumTests'
+        includeCategories 'com.google.maps.LargeTests'
+    }
+}
+
+javadoc {
+    exclude '**/internal/**'
+}

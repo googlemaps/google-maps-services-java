@@ -10,22 +10,20 @@ import com.google.maps.DirectionsApi.RouteRestriction;
 import com.google.maps.model.DirectionsRoute;
 import com.google.maps.model.TravelMode;
 import com.google.maps.model.Unit;
-import com.google.testing.testsize.LargeTest;
 
 import org.joda.time.DateTime;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.experimental.categories.Category;
 
 import java.util.concurrent.TimeUnit;
 
 // TODO(macd): seperate unit tests from integration tests
-@RunWith(JUnit4.class) @LargeTest
+@Category(LargeTests.class)
 public class DirectionsApiTest {
 
   public static final double EPSILON = 0.000001;
   private static GeoApiContext context = new GeoApiContext(3)
-        .setApiKey("AIzaSyAZ0_yiPw2Zp2huKxug49ZYi-pytL6NZ-c") // TODO(macd): store somewhere safe
+        .setApiKey(System.getenv("API_KEY"))
         .setConnectTimeout(1, TimeUnit.SECONDS)
         .setReadTimeout(1, TimeUnit.SECONDS)
         .setWriteTimeout(1, TimeUnit.SECONDS);

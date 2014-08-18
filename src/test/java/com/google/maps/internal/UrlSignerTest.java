@@ -2,16 +2,17 @@ package com.google.maps.internal;
 
 import static org.junit.Assert.assertEquals;
 
-import okio.ByteString;
+import com.google.maps.SmallTests;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.experimental.categories.Category;
+
+import okio.ByteString;
 
 /**
  * Test case for {@link UrlSigner}.
  */
-@RunWith(JUnit4.class)
+@Category(SmallTests.class)
 public class UrlSignerTest {
 
   // From http://en.wikipedia.org/wiki/Hash-based_message_authentication_code
