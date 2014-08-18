@@ -17,6 +17,36 @@ System.out.println(results[0].formattedAddress);
 
 Check out [the tests](src/test/java/com/google/maps/) for more example usage.
 
+Installation
+------------
+
+Add this to your project via Maven or Gradle.
+
+### Maven
+```xml
+<dependency>
+    <groupId>com.google.maps</groupId>
+    <artifactId>google-maps-services</artifactId>
+    <version>(insert latest version)</version>
+</dependency>
+```
+
+### Gradle
+```groovy
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'com.google.maps:google-maps-services:(insert latest version)'
+    ...
+}
+```
+
+You can find the latest version by searching [Maven Central](https://search.maven.org/) or [Gradle, Please](http://gradleplease.appspot.com/).
+
+
+
 Features
 --------
 
