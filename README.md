@@ -1,12 +1,12 @@
-Google Maps Web Services Client for Java
-========================================
+Google Maps Web Services Java Client
+====================================
 
 ![Analytics](https://ga-beacon.appspot.com/UA-12846745-20/mapsengine-api-java-wrapper/readme?pixel)
 A native Java library for accessing the [Google Maps API Web Services](https://developers.google.com/maps/documentation/webservices/).
 
 
 Usage
----
+-----
 
 ```java
 GeoApiContext context = new GeoApiContext().setApiKey("AIza...");
@@ -18,7 +18,7 @@ System.out.println(results[0].formattedAddress);
 Check out [the tests](src/test/java/com/google/maps/) for more example usage.
 
 Features
-----
+--------
 
 ### Rate Limiting
 Never sleep between requests again! By default requests are sent at a maximum of 10 queries per second to match the restrictions on the API. If you want to speed up or slow down requests, you can do that too, using `new GeoApiContext(qps)`.
@@ -33,7 +33,7 @@ Business customers can use their [client ID and secret](https://developers.googl
 Native objects for each of the API responses.
 
 API Coverage
---------
+------------
 
 The following APIs are supported:
 
