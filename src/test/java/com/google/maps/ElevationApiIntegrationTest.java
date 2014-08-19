@@ -54,8 +54,9 @@ public class ElevationApiIntegrationTest {
       + "hhBlxErfCf{BtsCjpEjtD|}Aja@xnAbdDt|ErMrdFh{CzgAnlCnr@`wEM~mE`bA`uD|MlwKxmBvuFlhB|sN`_@fvB"
       + "p`CxhCt_@loDsS|eDlmChgFlqCbjCxk@vbGxmCjbMba@rpBaoClcCk_DhgEzYdzBl\\vsA_JfGztAbShkGtEhlDzh"
       + "C~w@hnB{e@yF}`D`_Ayx@~vGqn@l}CafC");
-  private static GeoApiContext context = new GeoApiContext(3)
+  private static GeoApiContext context = new GeoApiContext()
         .setApiKey(System.getenv("API_KEY"))
+        .setQueryRateLimit(3)
         .setConnectTimeout(1, TimeUnit.SECONDS)
         .setReadTimeout(1, TimeUnit.SECONDS)
         .setWriteTimeout(1, TimeUnit.SECONDS);

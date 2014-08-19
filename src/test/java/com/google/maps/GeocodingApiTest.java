@@ -42,8 +42,9 @@ import java.util.concurrent.TimeUnit;
 public class GeocodingApiTest {
 
   public static final double EPSILON = 0.000001;
-  private static GeoApiContext context = new GeoApiContext(3)
+  private static GeoApiContext context = new GeoApiContext()
         .setApiKey(System.getenv("API_KEY"))
+        .setQueryRateLimit(3)
         .setConnectTimeout(1, TimeUnit.SECONDS)
         .setReadTimeout(1, TimeUnit.SECONDS)
         .setWriteTimeout(1, TimeUnit.SECONDS);
