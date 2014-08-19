@@ -51,7 +51,7 @@ test {
     }
 }
 
-task updateVersion(type:Copy) {
+task updateVersion(type: Copy) {
     from('src') into "build/filtered/src"
     filter(ReplaceTokens, tokens: [VERSION: project.version])
 }
