@@ -22,7 +22,7 @@ import java.util.logging.Logger;
  * The entry point for making requests against the Google Geo APIs.
  */
 public class GeoApiContext {
-  private static final String VERSION = "0.0.1";
+  private static final String VERSION = "@VERSION@";  // Populated by the build script
   private static final String DEFAULT_HOST = "https://maps.googleapis.com";
   private static final String USER_AGENT = "GoogleGeoApiClientJava/" + VERSION;
   private static final int DEFAULT_QUERIES_PER_SECOND = 10;

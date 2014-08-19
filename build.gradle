@@ -1,11 +1,12 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+
 apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'signing'
 
 group = 'com.google.maps'
 sourceCompatibility = 1.7
-version = '0.1'
-// TODO(macd): add a check that this version equals the version in GeoApiContext.java
+version = '0.1.1'
 
 repositories {
     mavenCentral()
@@ -49,6 +50,13 @@ test {
         includeCategories 'com.google.maps.LargeTests'
     }
 }
+
+task updateVersion(type:Copy) {
+    from('src') into "build/filtered/src"
+    filter(ReplaceTokens, tokens: [VERSION: project.version])
+}
+compileJava.source = "build/filtered/src/main/java"
+compileJava.dependsOn updateVersion
 
 javadoc {
     exclude '**/internal/**'
