@@ -1,12 +1,13 @@
-Google Maps Web Services Java Client
+Java Client for Google Maps Services
 ====================================
 
+Use Java? Want to [Geocode](https://developers.google.com/maps/documentation/geocoding) something? Looking for [Directions](https://developers.google.com/maps/documentation/directions)? Maybe [Matrices of Directions](https://developers.google.com/maps/documentation/distancematrix)? This library brings the [Google Maps API Web Services](https://developers.google.com/maps/documentation/webservices/) to your Java application.
 ![Analytics](https://ga-beacon.appspot.com/UA-12846745-20/mapsengine-api-java-wrapper/readme?pixel)
-A native Java library for accessing the [Google Maps API Web Services](https://developers.google.com/maps/documentation/webservices/).
-
 
 Usage
 -----
+
+This example uses the [Geocoding API](https://developers.google.com/maps/documentation/geocoding).
 
 ```java
 GeoApiContext context = new GeoApiContext().setApiKey("AIza...");
@@ -15,12 +16,12 @@ GeocodingResult[] results =  GeocodingApi.geocode(context,
 System.out.println(results[0].formattedAddress);
 ```
 
-Check out [the tests](src/test/java/com/google/maps/) for more example usage.
+For more usage examples, check out [the tests](src/test/java/com/google/maps/).
 
 Installation
 ------------
 
-Add this to your project via Maven or Gradle.
+Add the library to your project via Maven or Gradle.
 
 ### Maven
 ```xml
@@ -45,7 +46,8 @@ dependencies {
 
 You can find the latest version by searching [Maven Central](https://search.maven.org/) or [Gradle, Please](http://gradleplease.appspot.com/).
 
-
+### Note!
+Keep in mind that the same [terms and conditions](https://developers.google.com/maps/terms) apply to usage of the APIs when they're accessed through this library.
 
 Features
 --------
@@ -57,7 +59,7 @@ Never sleep between requests again! By default requests are sent at a maximum of
 Automatically retry when intermittent failures occur. That is, when any of the retriable 5xx errors are returned from the API.
 
 ### Keys *and* Client IDs
-Business customers can use their [client ID and secret](https://developers.google.com/maps/documentation/business/webservices/auth) to authenticate. Free customers can use their API key, too.
+Business customers can use their [client ID and secret](https://developers.google.com/maps/documentation/business/webservices/auth) to authenticate. Free customers can use their [API key](https://developers.google.com/maps/faq#keysystem), too.
 
 ### POJOs
 Native objects for each of the API responses.
