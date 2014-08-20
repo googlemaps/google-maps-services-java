@@ -80,7 +80,7 @@ public class DistanceMatrixApiIntegrationTest extends AuthenticatedTest {
         .language("en-AU")
         .avoid(RouteRestriction.TOLLS)
         .units(Unit.IMPERIAL)
-        .departureTime(new DateTime().plusDays(5))
+        .departureTime(new DateTime().plusMinutes(2))  // this is ignored when an API key is used
         .await();
 
     assertEquals(8, matrix.rows.length);

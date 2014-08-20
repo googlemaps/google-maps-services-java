@@ -39,6 +39,6 @@ public class AuthenticatedTest {
     return contexts;
   }
 
-  public AuthenticatedTest() {
+  protected AuthenticatedTest() {
   }
 }
