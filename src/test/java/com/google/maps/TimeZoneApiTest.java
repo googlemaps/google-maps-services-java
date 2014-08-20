@@ -33,16 +33,18 @@ import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
 @Category(LargeTests.class)
-public class TimeZoneApiTest {
+public class TimeZoneApiTest extends AuthenticatedTest {
 
-  private static GeoApiContext context = new GeoApiContext()
-        .setApiKey(System.getenv("API_KEY"))
-        .setQueryRateLimit(3)
+  private GeoApiContext context;
+
+  private LatLng sydney;
+
+  public TimeZoneApiTest(GeoApiContext context) {
+    this.context = context.setQueryRateLimit(3)
         .setConnectTimeout(1, TimeUnit.SECONDS)
         .setReadTimeout(1, TimeUnit.SECONDS)
         .setWriteTimeout(1, TimeUnit.SECONDS);
-
-  private LatLng sydney;
+  }
 
   @Before
   public void setUp() throws Exception {

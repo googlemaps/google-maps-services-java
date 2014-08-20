@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Category(LargeTests.class)
-public class ElevationApiIntegrationTest {
+public class ElevationApiIntegrationTest extends AuthenticatedTest {
 
   public static final double SYDNEY_ELEVATION = 19.11174774169922;
   public static final double SYDNEY_POINT_ELEVATION = 19.10829925537109;
@@ -54,12 +54,15 @@ public class ElevationApiIntegrationTest {
       + "hhBlxErfCf{BtsCjpEjtD|}Aja@xnAbdDt|ErMrdFh{CzgAnlCnr@`wEM~mE`bA`uD|MlwKxmBvuFlhB|sN`_@fvB"
       + "p`CxhCt_@loDsS|eDlmChgFlqCbjCxk@vbGxmCjbMba@rpBaoClcCk_DhgEzYdzBl\\vsA_JfGztAbShkGtEhlDzh"
       + "C~w@hnB{e@yF}`D`_Ayx@~vGqn@l}CafC");
-  private static GeoApiContext context = new GeoApiContext()
-        .setApiKey(System.getenv("API_KEY"))
+  private GeoApiContext context;
+
+  public ElevationApiIntegrationTest(GeoApiContext context) {
+    this.context = context
         .setQueryRateLimit(3)
         .setConnectTimeout(1, TimeUnit.SECONDS)
         .setReadTimeout(1, TimeUnit.SECONDS)
         .setWriteTimeout(1, TimeUnit.SECONDS);
+  }
 
   @Test
   public void testGetPoint() throws Exception {

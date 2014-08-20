@@ -39,15 +39,19 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Category(LargeTests.class)
-public class GeocodingApiTest {
+public class GeocodingApiTest extends AuthenticatedTest {
 
   public static final double EPSILON = 0.000001;
-  private static GeoApiContext context = new GeoApiContext()
-        .setApiKey(System.getenv("API_KEY"))
+
+  private GeoApiContext context;
+
+  public GeocodingApiTest(GeoApiContext context) {
+    this.context = context
         .setQueryRateLimit(3)
         .setConnectTimeout(1, TimeUnit.SECONDS)
         .setReadTimeout(1, TimeUnit.SECONDS)
         .setWriteTimeout(1, TimeUnit.SECONDS);
+  }
 
   @Test
   public void testSimpleGeocode() throws Exception {
