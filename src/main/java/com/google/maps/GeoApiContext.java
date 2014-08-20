@@ -52,29 +52,8 @@ public class GeoApiContext {
   private static Logger log = Logger.getLogger(GeoApiContext.class.getName());
   private long errorTimeout = DEFAULT_BACKOFF_TIMEOUT_MILLIS;
 
-  /**
-   * Construct a {@code GeoApiContext} with default Queries Per Second rate limit.
-   */
   public GeoApiContext() {
-    this(DEFAULT_QUERIES_PER_SECOND);
-  }
-
-  /**
-   * Construct a {@code GeoApiContext} with {@code queriesPerSecond} rate limit.
-   */
-  public GeoApiContext(int queriesPerSecond) {
-    this(queriesPerSecond, (int) ((1.0 / (2.0 * queriesPerSecond)) * 1000.0));
-  }
-
-  /**
-   * Construct a {@code GeoApiContext} with {@code queriesPerSecond} rate limit, and a minimum delay
-   * between queries of {@code minimumDelay}.
-   */
-  public GeoApiContext(int queriesPerSecond, int minimumDelay) {
-    log.log(Level.INFO, "Configuring rate limit at QPS: " + queriesPerSecond + ", minimum delay "
-        + minimumDelay + "ms between requests");
-    client.setDispatcher(new Dispatcher(
-        new RateLimitExecutorService(queriesPerSecond, minimumDelay)));
+    setQueryRateLimit(DEFAULT_QUERIES_PER_SECOND);
   }
 
   <T, R extends ApiResponse<T>> PendingResult<T> get(Class<R> clazz, String path,
@@ -219,6 +198,31 @@ public class GeoApiContext {
    */
   public GeoApiContext setRetryTimeout(long timeout, TimeUnit unit) {
     this.errorTimeout = unit.toMillis(timeout);
+    return this;
+  }
+
+  /**
+   * Sets the maximum number of queries that will be executed during a 1 second interval.
+   * The default is 10. A minimum interval between requests will also be enforced,
+   * set to 1/(2 * {@code maxQps}).
+   */
+  public GeoApiContext setQueryRateLimit(int maxQps) {
+    return setQueryRateLimit(maxQps, (int) ((1.0 / (2.0 * maxQps)) * 1000.0));
+  }
+
+  /**
+   * Sets the rate at which queries are executed.
+   *
+   * @param maxQps The maximum number of queries to execute per second.
+   * @param minimumInterval The minimum amount of time, in milliseconds, to pause between requests.
+   * Note that this pause only occurs if the amount of time between requests has not elapsed
+   * naturally.
+   */
+  public GeoApiContext setQueryRateLimit(int maxQps, int minimumInterval) {
+    log.log(Level.INFO, "Configuring rate limit at QPS: " + maxQps + ", minimum delay "
+        + minimumInterval + "ms between requests");
+    client.setDispatcher(new Dispatcher(
+        new RateLimitExecutorService(maxQps, minimumInterval)));
     return this;
   }
 }

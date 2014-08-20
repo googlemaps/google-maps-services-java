@@ -39,7 +39,9 @@ import java.util.concurrent.TimeUnit;
 public class GeoApiContextTest {
 
   private MockWebServer server = new MockWebServer();
-  private GeoApiContext context = new GeoApiContext(500, 0).setApiKey("AIza...");
+  private GeoApiContext context = new GeoApiContext()
+      .setApiKey("AIza...")
+      .setQueryRateLimit(500, 0);
 
   @Test
   public void testGetIncludesDefaultUserAgent() throws Exception {
