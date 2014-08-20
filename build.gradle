@@ -43,14 +43,6 @@ dependencies {
     testCompile 'org.apache.httpcomponents:httpclient:4.3.5'
 }
 
-test {
-    useJUnit {
-        includeCategories 'com.google.maps.SmallTests'
-        includeCategories 'com.google.maps.MediumTests'
-        includeCategories 'com.google.maps.LargeTests'
-    }
-}
-
 task updateVersion(type: Copy) {
     from('src') into "build/filtered/src"
     filter(ReplaceTokens, tokens: [VERSION: project.version])
