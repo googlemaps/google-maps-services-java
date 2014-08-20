@@ -52,6 +52,10 @@ public class GeoApiContext {
   private static Logger log = Logger.getLogger(GeoApiContext.class.getName());
   private long errorTimeout = DEFAULT_BACKOFF_TIMEOUT_MILLIS;
 
+  public GeoApiContext() {
+    setQueryRateLimit(DEFAULT_QUERIES_PER_SECOND);
+  }
+
   <T, R extends ApiResponse<T>> PendingResult<T> get(Class<R> clazz, String path,
       Map<String, String> params) {
     StringBuilder query = new StringBuilder();
