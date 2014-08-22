@@ -25,21 +25,18 @@ import com.google.maps.model.TravelMode;
 import com.google.maps.model.Unit;
 
 import org.joda.time.DateTime;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
 import java.util.concurrent.TimeUnit;
 
 @Category(LargeTests.class)
-public class DistanceMatrixApiIntegrationTest {
+public class DistanceMatrixApiIntegrationTest extends AuthenticatedTest {
 
   private GeoApiContext context;
 
-  @Before
-  public void setUp() {
-    context = new GeoApiContext()
-        .setApiKey(System.getenv("API_KEY"))
+  public DistanceMatrixApiIntegrationTest(GeoApiContext context) {
+   this.context = context
         .setConnectTimeout(1, TimeUnit.SECONDS)
         .setReadTimeout(1, TimeUnit.SECONDS)
         .setWriteTimeout(1, TimeUnit.SECONDS);
@@ -83,7 +80,7 @@ public class DistanceMatrixApiIntegrationTest {
         .language("en-AU")
         .avoid(RouteRestriction.TOLLS)
         .units(Unit.IMPERIAL)
-        .departureTime(new DateTime().plusDays(5))
+        .departureTime(new DateTime().plusMinutes(2))  // this is ignored when an API key is used
         .await();
 
     assertEquals(8, matrix.rows.length);

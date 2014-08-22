@@ -32,17 +32,18 @@ import org.junit.experimental.categories.Category;
 
 import java.util.concurrent.TimeUnit;
 
-// TODO(macd): seperate unit tests from integration tests
 @Category(LargeTests.class)
-public class DirectionsApiTest {
+public class DirectionsApiTest extends AuthenticatedTest {
 
-  public static final double EPSILON = 0.000001;
-  private static GeoApiContext context = new GeoApiContext()
-        .setApiKey(System.getenv("API_KEY"))
+  private GeoApiContext context;
+
+  public DirectionsApiTest(GeoApiContext context) {
+    this.context = context
         .setQueryRateLimit(3)
         .setConnectTimeout(1, TimeUnit.SECONDS)
         .setReadTimeout(1, TimeUnit.SECONDS)
         .setWriteTimeout(1, TimeUnit.SECONDS);
+  }
 
   @Test
   public void testGetDirections() throws Exception {
