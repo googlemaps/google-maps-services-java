@@ -25,13 +25,12 @@ package com.google.maps.model;
  * that the next step is 37 miles/40 minutes from this step.
  *
  * <p>When using the Directions API to search for transit directions, the steps array will include
- * additional Transit Details
- * {@url https://developers.google.com/maps/documentation/directions/#TransitDetails}
- * in the form of a {@code transitDetails} array. If the directions include multiple modes of
- * transportation, detailed directions will be provided for walking or driving steps in a
- * {@code subSteps} array. For example, a walking step will include directions from the start and
- * end locations: "Walk to Innes Ave & Fitch St". That step will include detailed walking
- * directions for that route in the {@code subSteps} array, such as: "Head north-west",
+ * additional <a href="https://developers.google.com/maps/documentation/directions/#TransitDetails">
+ * Transit Details</a> in the form of a {@code transitDetails} array. If the directions include
+ * multiple modes of transportation, detailed directions will be provided for walking or driving
+ * steps in a {@code subSteps} array. For example, a walking step will include directions from
+ * the start and end locations: "Walk to Innes Ave & Fitch St". That step will include detailed
+ * walking directions for that route in the {@code subSteps} array, such as: "Head north-west",
  * "Turn left onto Arelious Walker", and "Turn left onto Innes Ave".
  */
 public class DirectionsStep {
@@ -75,8 +74,8 @@ public class DirectionsStep {
 
   /**
    * {@code travelMode} is the travel mode of this step. See
-   * {@url https://developers.google.com/maps/documentation/directions/#TravelModes} for
-   * more detail.
+   * <a href="https://developers.google.com/maps/documentation/directions/#TravelModes">Travel
+   * Modes</a> for more detail.
    */
   public TravelMode travelMode;
 }

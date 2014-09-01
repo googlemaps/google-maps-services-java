@@ -106,8 +106,8 @@ public class DistanceMatrixApiRequest
   /**
    * Introduces restrictions to the route. Only one restriction can be specified.
    *
-   * @param restriction  One of {@link Restriction#TOLLS}, {@link Restriction#FERRIES} or {@link
-   * Restriction#HIGHWAYS}.
+   * @param restriction  One of {@link RouteRestriction#TOLLS}, {@link RouteRestriction#FERRIES} or
+   * {@link RouteRestriction#HIGHWAYS}.
    */
   public DistanceMatrixApiRequest avoid(RouteRestriction restriction) {
     return param("avoid", restriction);
