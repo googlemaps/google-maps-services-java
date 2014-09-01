@@ -100,8 +100,8 @@ public class DirectionsApiRequest
   /**
    * Indicates that the calculated route(s) should avoid the indicated features.
    *
-   * @param restrictions one or more of {@link Restriction#TOLLS},
-   *     {@link Restriction#HIGHWAYS}, {@link Restriction#FERRIES}
+   * @param restrictions one or more of {@link RouteRestriction#TOLLS},
+   *     {@link RouteRestriction#HIGHWAYS}, {@link RouteRestriction#FERRIES}
    */
   public DirectionsApiRequest avoid(RouteRestriction... restrictions) {
     return param("avoid", join('|', restrictions));

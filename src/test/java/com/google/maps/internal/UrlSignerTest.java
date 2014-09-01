@@ -19,10 +19,10 @@ import static org.junit.Assert.assertEquals;
 
 import com.google.maps.SmallTests;
 
+import okio.ByteString;
+
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-
-import okio.ByteString;
 
 /**
  * Test case for {@link UrlSigner}.
