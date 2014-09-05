@@ -34,6 +34,10 @@ public class ElevationApiTest {
   private MockWebServer server = new MockWebServer();
   private GeoApiContext context = new GeoApiContext().setApiKey("AIzaFakeKey");
 
+  private void setMockBaseUrl() {
+    context.setBaseUrl("http://127.0.0.1:" + server.getPort());
+  }
+
   @After
   public void tearDown() throws Exception {
     // Need to shut the server down here as we're using expected exceptions
@@ -52,7 +56,7 @@ public class ElevationApiTest {
     server.enqueue(errorResponse);
     server.play();
 
-    context.setBaseUrl(server.getUrl("").toString());
+    setMockBaseUrl();
     // This should throw the InvalidRequestException
     ElevationApi.getByPoint(context, new LatLng(0, 0)).await();
   }
@@ -70,7 +74,7 @@ public class ElevationApiTest {
     server.enqueue(errorResponse);
     server.play();
 
-    context.setBaseUrl(server.getUrl("").toString());
+    setMockBaseUrl();
     // This should throw the RequestDeniedException
     ElevationApi.getByPoints(context, new EncodedPolyline(Arrays.asList(new LatLng(0, 0)))).await();
   }

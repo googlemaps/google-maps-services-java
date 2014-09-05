@@ -43,6 +43,10 @@ public class GeoApiContextTest {
       .setApiKey("AIza...")
       .setQueryRateLimit(500, 0);
 
+  private void setMockBaseUrl() {
+    context.setBaseUrl("http://127.0.0.1:" + server.getPort());
+  }
+
   @Test
   public void testGetIncludesDefaultUserAgent() throws Exception {
     // Set up a mock request
@@ -54,7 +58,7 @@ public class GeoApiContextTest {
     // Set up the fake web server
     server.enqueue(new MockResponse());
     server.play();
-    context.setBaseUrl(server.getUrl("").toString());
+    setMockBaseUrl();
 
     // Build & execute the request using our context
     context.get(fakeResponse.getClass(), path, params).awaitIgnoreError();
@@ -123,7 +127,7 @@ public class GeoApiContextTest {
     server.play();
 
     // Build the context under test
-    context.setBaseUrl(server.getUrl("").toString());
+    setMockBaseUrl();
 
     // Execute
     GeocodingResult[] result = context.get(GeocodingApi.Response.class, "/", "k", "v").await();
@@ -151,7 +155,7 @@ public class GeoApiContextTest {
     server.enqueue(goodResponse);
 
     server.play();
-    context.setBaseUrl(server.getUrl("").toString());
+    setMockBaseUrl();
 
     // This should disable the retry, ensuring that the success response is NOT returned
     context.setRetryTimeout(0, TimeUnit.MILLISECONDS);
@@ -173,7 +177,7 @@ public class GeoApiContextTest {
     server.play();
 
     // Wire the mock web server to the context
-    context.setBaseUrl(server.getUrl("").toString());
+    setMockBaseUrl();
     context.setRetryTimeout(5, TimeUnit.SECONDS);
 
     try {
