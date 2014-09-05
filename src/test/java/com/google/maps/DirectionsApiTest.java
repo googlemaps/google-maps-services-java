@@ -22,6 +22,7 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import com.google.maps.DirectionsApi.RouteRestriction;
+import com.google.maps.errors.NotFoundException;
 import com.google.maps.model.DirectionsRoute;
 import com.google.maps.model.TravelMode;
 import com.google.maps.model.Unit;
@@ -246,20 +247,8 @@ public class DirectionsApiTest extends AuthenticatedTest {
     assertTrue(routes.length > 1);
   }
 
-
-  @Test
-  public void testEnterprise() throws Exception {
-
-    // NOTE: test disabled. Fill in "clientId" and "secret" strings
-    if (true) {
-      return;
-    }
-
-    GeoApiContext context = new GeoApiContext().setEnterpriseCredentials("TODO_clientId",
-        "TODO_secret");
-    DirectionsRoute[] routes = DirectionsApi.getDirections(context, "Toronto", "San Francisco")
-        .await();
-    assertNotNull(routes);
-    assertNotNull(routes[0]);
+  @Test(expected = NotFoundException.class)
+  public void testNotFound() throws Exception {
+    DirectionsRoute[] routes = DirectionsApi.getDirections(context, "fksjdhgf", "faldfdaf").await();
   }
 }

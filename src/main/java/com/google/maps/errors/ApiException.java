@@ -40,6 +40,8 @@ public class ApiException extends Exception {
         return new InvalidRequestException(errorMessage);
       case "MAX_ELEMENTS_EXCEEDED":
         return new MaxElementsExceededException(errorMessage);
+      case "NOT_FOUND":
+        return new NotFoundException(errorMessage);
       case "OVER_QUERY_LIMIT":
         return new OverQueryLimitException(errorMessage);
       case "REQUEST_DENIED":
