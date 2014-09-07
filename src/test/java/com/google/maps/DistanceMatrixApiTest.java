@@ -20,8 +20,9 @@ import static org.junit.Assert.assertTrue;
 
 import com.google.maps.model.LatLng;
 import com.google.maps.model.TravelMode;
-import com.google.mockwebserver.MockResponse;
-import com.google.mockwebserver.MockWebServer;
+
+import com.squareup.okhttp.mockwebserver.MockResponse;
+import com.squareup.okhttp.mockwebserver.MockWebServer;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
@@ -55,7 +56,7 @@ public class DistanceMatrixApiTest {
     MockWebServer server = new MockWebServer();
     server.enqueue(response);
     server.play();
-    context.setBaseUrl(server.getUrl("").toString());
+    context.setBaseUrl("http://localhost:" + server.getPort());
 
     DistanceMatrixApi.newRequest(context)
         .origins(new LatLng(-31.9522, 115.8589),

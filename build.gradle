@@ -39,7 +39,7 @@ dependencies {
     
     testCompile 'junit:junit:4.11'
     testCompile 'org.mockito:mockito-core:1.9.5'
-    testCompile 'com.google.mockwebserver:mockwebserver:20130706'
+    testCompile 'com.squareup.okhttp:mockwebserver:2.0.0'
     testCompile 'org.apache.httpcomponents:httpclient:4.3.5'
 }
 

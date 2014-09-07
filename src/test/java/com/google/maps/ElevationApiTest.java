@@ -19,8 +19,9 @@ import com.google.maps.errors.InvalidRequestException;
 import com.google.maps.errors.RequestDeniedException;
 import com.google.maps.model.EncodedPolyline;
 import com.google.maps.model.LatLng;
-import com.google.mockwebserver.MockResponse;
-import com.google.mockwebserver.MockWebServer;
+
+import com.squareup.okhttp.mockwebserver.MockResponse;
+import com.squareup.okhttp.mockwebserver.MockWebServer;
 
 import org.junit.After;
 import org.junit.Test;
@@ -52,7 +53,7 @@ public class ElevationApiTest {
     server.enqueue(errorResponse);
     server.play();
 
-    context.setBaseUrl(server.getUrl("").toString());
+    context.setBaseUrl("http://localhost:" + server.getPort());
     // This should throw the InvalidRequestException
     ElevationApi.getByPoint(context, new LatLng(0, 0)).await();
   }
@@ -70,7 +71,7 @@ public class ElevationApiTest {
     server.enqueue(errorResponse);
     server.play();
 
-    context.setBaseUrl(server.getUrl("").toString());
+    context.setBaseUrl("http://localhost:" + server.getPort());
     // This should throw the RequestDeniedException
     ElevationApi.getByPoints(context, new EncodedPolyline(Arrays.asList(new LatLng(0, 0)))).await();
   }

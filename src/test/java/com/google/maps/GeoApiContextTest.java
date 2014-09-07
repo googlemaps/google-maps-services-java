@@ -22,9 +22,10 @@ import static org.mockito.Mockito.mock;
 
 import com.google.maps.internal.ApiResponse;
 import com.google.maps.model.GeocodingResult;
-import com.google.mockwebserver.MockResponse;
-import com.google.mockwebserver.MockWebServer;
-import com.google.mockwebserver.RecordedRequest;
+
+import com.squareup.okhttp.mockwebserver.MockResponse;
+import com.squareup.okhttp.mockwebserver.MockWebServer;
+import com.squareup.okhttp.mockwebserver.RecordedRequest;
 
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -54,7 +55,7 @@ public class GeoApiContextTest {
     // Set up the fake web server
     server.enqueue(new MockResponse());
     server.play();
-    context.setBaseUrl(server.getUrl("").toString());
+    context.setBaseUrl("http://localhost:" + server.getPort());
 
     // Build & execute the request using our context
     context.get(fakeResponse.getClass(), path, params).awaitIgnoreError();
@@ -123,7 +124,7 @@ public class GeoApiContextTest {
     server.play();
 
     // Build the context under test
-    context.setBaseUrl(server.getUrl("").toString());
+    context.setBaseUrl("http://localhost:" + server.getPort());
 
     // Execute
     GeocodingResult[] result = context.get(GeocodingApi.Response.class, "/", "k", "v").await();
@@ -151,7 +152,7 @@ public class GeoApiContextTest {
     server.enqueue(goodResponse);
 
     server.play();
-    context.setBaseUrl(server.getUrl("").toString());
+    context.setBaseUrl("http://localhost:" + server.getPort());
 
     // This should disable the retry, ensuring that the success response is NOT returned
     context.setRetryTimeout(0, TimeUnit.MILLISECONDS);
@@ -173,7 +174,7 @@ public class GeoApiContextTest {
     server.play();
 
     // Wire the mock web server to the context
-    context.setBaseUrl(server.getUrl("").toString());
+    context.setBaseUrl("http://localhost:" + server.getPort());
     context.setRetryTimeout(5, TimeUnit.SECONDS);
 
     try {
