@@ -39,6 +39,13 @@ public class AuthenticatedTest {
   public static Collection<Object[]> contexts() {
     Collection<Object[]> contexts = new ArrayList<>();
 
+    // Travis can't run authorized tests from pull requests.
+    // http://docs.travis-ci.com/user/pull-requests/#Security-Restrictions-when-testing-Pull-Requests
+    if (System.getenv("TRAVIS_PULL_REQUEST") != null
+        && !"false".equals(System.getenv("TRAVIS_PULL_REQUEST"))) {
+      return contexts;
+    }
+
    if (System.getenv("API_KEY") != null) {
       GeoApiContext context = new GeoApiContext()
           .setApiKey(System.getenv("API_KEY"));
