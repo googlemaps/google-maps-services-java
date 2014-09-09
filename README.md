@@ -18,6 +18,7 @@ System.out.println(results[0].formattedAddress);
 
 For more usage examples, check out [the tests](src/test/java/com/google/maps/).
 
+<!--
 Installation
 ------------
 
@@ -45,6 +46,7 @@ dependencies {
 ```
 
 You can find the latest version by searching [Maven Central](https://search.maven.org/) or [Gradle, Please](http://gradleplease.appspot.com/).
+-->
 
 ### Note!
 Keep in mind that the same [terms and conditions](https://developers.google.com/maps/terms) apply to usage of the APIs when they're accessed through this library.
@@ -64,6 +66,36 @@ Business customers can use their [client ID and secret](https://developers.googl
 ### POJOs
 Native objects for each of the API responses.
 
+### Asynchronous or synchronous -- you choose
+
+All requests support synchronous or asynchronous calling style.
+```java
+GeocodingApiRequest req = GeocodingApi.newRequest(context).address("Sydney");
+
+// Synchronous
+try {
+    req.await();
+    // Handle successful request.
+} catch (Exception e) {
+    // Handle error
+}
+
+req.awaitIgnoreError(); // No checked exception.
+
+// Async
+req.setCallback(new PendingResult.Callback<GeocodingResult[]>() {
+  @Override
+  public void onResult(GeocodingResult[] result) {
+    // Handle successful request.
+  }
+
+  @Override
+  public void onFailure(Throwable e) {
+    // Handle error.
+  }
+});
+```
+
 API Coverage
 ------------
 
@@ -74,3 +106,20 @@ The following APIs are supported:
 * [Elevation API](https://developers.google.com/maps/documentation/elevation)
 * [Geocoding API](https://developers.google.com/maps/documentation/geocoding)
 * [Time Zone API](https://developers.google.com/maps/documentation/timezone)
+
+Building the project
+--------------------
+
+```
+# Compile and package the project
+./gradlew jar
+
+# Run the tests. Note: you will need an API key to run the tests.
+API_KEY=AIza.... ./gradlew test
+
+# Run the tests with enterprise credentials.
+API_KEY=... CLIENT_ID=... CLIENT_SECRET=... ./gradlew test
+
+# Generate documentation
+./gradlew javadoc
+```
