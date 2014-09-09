@@ -243,12 +243,12 @@ public class GeocodingApiTest extends AuthenticatedTest {
   }
 
   /**
-   * Testing partial match for "21 Henr St, Bristol, UK"
+   * Testing partial match.
    */
   @Test
   public void testPartialMatch() throws Exception {
     GeocodingResult[] results = GeocodingApi.newRequest(context)
-        .address("21 Henr St, Bristol, UK").await();
+        .address("Pirrama Pyrmont").await();
 
     assertNotNull(results);
     assertTrue(results[0].partialMatch);
