@@ -68,7 +68,7 @@ uploadArchives {
             pom.project {
                 name 'Java Client for Google Maps Services'
                 packaging 'jar'
-                description 'Use the Google Maps API Web Services in Java!' +
+                description 'Use the Google Maps API Web Services in Java! ' +
                     'https://developers.google.com/maps/documentation/webservices/'
                 url 'https://github.com/googlemaps/google-maps-services-java'
 
@@ -109,5 +109,5 @@ uploadArchives {
 }
 
 signing {
-        sign configurations.archives
+    sign configurations.archives
 }
