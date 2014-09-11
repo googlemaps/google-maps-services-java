@@ -107,7 +107,7 @@ uploadArchives {
     }
 }
 
-if (ext."signing.secretKeyRingFile") {
+if (ext.'signing.secretKeyRingFile') {
     signing {
         sign configurations.archives
     }
