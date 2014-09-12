@@ -41,9 +41,11 @@ public class RateLimitExecutorService implements ExecutorService {
 
   private static final Logger log = Logger.getLogger(RateLimitExecutorService.class.getName());
 
+  // It's important we set Ok's second arg to threadFactory(.., true) to ensure the threads are
+  // killed when the app exits.
   private final ExecutorService delegate = new ThreadPoolExecutor(0, Integer.MAX_VALUE, 60,
       TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>(),
-      Util.threadFactory("Rate Limited Dispatcher", false));
+      Util.threadFactory("Rate Limited Dispatcher", true));
 
   private final Thread delayThread;
 
