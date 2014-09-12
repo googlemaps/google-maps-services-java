@@ -15,8 +15,6 @@
 
 package com.google.maps.internal;
 
-import com.squareup.okhttp.internal.Util;
-
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
@@ -28,6 +26,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -46,7 +45,7 @@ public class RateLimitExecutorService implements ExecutorService {
   // requests still pending after termination will be killed.
   private final ExecutorService delegate = new ThreadPoolExecutor(0, Integer.MAX_VALUE, 60,
       TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>(),
-      Util.threadFactory("Rate Limited Dispatcher", true));
+      threadFactory("Rate Limited Dispatcher", true));
 
   private final Thread delayThread;
 
@@ -97,6 +96,17 @@ public class RateLimitExecutorService implements ExecutorService {
     delayThread.setDaemon(true);
     delayThread.start();
   }
+
+  private static ThreadFactory threadFactory(final String name, final boolean daemon) {
+    return new ThreadFactory() {
+      @Override public Thread newThread(Runnable runnable) {
+        Thread result = new Thread(runnable, name);
+        result.setDaemon(daemon);
+        return result;
+      }
+    };
+  }
+
 
   @Override
   public void execute(Runnable runnable) {
