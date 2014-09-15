@@ -118,7 +118,7 @@ Building the project
 API_KEY=AIza.... ./gradlew test
 
 # Run the tests with enterprise credentials.
-API_KEY=... CLIENT_ID=... CLIENT_SECRET=... ./gradlew test
+CLIENT_ID=... CLIENT_SECRET=... ./gradlew test
 
 # Generate documentation
 ./gradlew javadoc
