@@ -18,7 +18,6 @@ System.out.println(results[0].formattedAddress);
 
 For more usage examples, check out [the tests](src/test/java/com/google/maps/).
 
-<!--
 Installation
 ------------
 
@@ -46,7 +45,6 @@ dependencies {
 ```
 
 You can find the latest version by searching [Maven Central](https://search.maven.org/) or [Gradle, Please](http://gradleplease.appspot.com/).
--->
 
 ### Note!
 Keep in mind that the same [terms and conditions](https://developers.google.com/maps/terms) apply to usage of the APIs when they're accessed through this library.
