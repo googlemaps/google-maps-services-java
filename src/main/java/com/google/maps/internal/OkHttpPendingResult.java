@@ -19,6 +19,8 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.maps.PendingResult;
+import com.google.maps.errors.ApiException;
+import com.google.maps.errors.OverQueryLimitException;
 import com.google.maps.model.AddressComponentType;
 import com.google.maps.model.AddressType;
 import com.google.maps.model.Distance;
@@ -222,9 +224,17 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
     R resp = gson.fromJson(reader, responseClass);
 
     if (resp.successful()) {
+      // Return successful responses
       return resp.getResult();
     } else {
-      throw resp.getError();
+      ApiException e = resp.getError();
+      if (e instanceof OverQueryLimitException && cumulativeSleepTime < errorTimeOut) {
+        // Retry over_query_limit errors
+        return request.retry();
+      } else {
+        // Throw anything else, including OQLs if we've spent too much time retrying
+        throw e;
+      }
     }
   }
 
