@@ -1,6 +1,8 @@
 Java Client for Google Maps Services
 ====================================
 
+![Build Status](https://travis-ci.org/googlemaps/google-maps-services-java.svg)&nbsp;![Maven Central Version](http://img.shields.io/maven-central/v/com.google.maps/google-maps-services.svg)
+
 Use Java? Want to [geocode](https://developers.google.com/maps/documentation/geocoding) something? Looking for [directions](https://developers.google.com/maps/documentation/directions)? Maybe [matrixes of directions](https://developers.google.com/maps/documentation/distancematrix)? This library brings the [Google Maps API Web Services](https://developers.google.com/maps/documentation/webservices/) to your Java application.
 ![Analytics](https://ga-beacon.appspot.com/UA-12846745-20/mapsengine-api-java-wrapper/readme?pixel)
 
@@ -44,7 +46,7 @@ dependencies {
 }
 ```
 
-You can find the latest version by searching [Maven Central](https://search.maven.org/) or [Gradle, Please](http://gradleplease.appspot.com/).
+You can find the latest version at the top of this README or by searching [Maven Central](https://search.maven.org/) or [Gradle, Please](http://gradleplease.appspot.com/).
 
 ### Note!
 Keep in mind that the same [terms and conditions](https://developers.google.com/maps/terms) apply to usage of the APIs when they're accessed through this library.
