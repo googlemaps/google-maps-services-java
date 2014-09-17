@@ -4,12 +4,22 @@ apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'signing'
 apply plugin: 'jacoco'
+apply plugin: 'com.github.kt3k.coveralls'
 
 group = 'com.google.maps'
 sourceCompatibility = 1.7
 
 repositories {
     mavenCentral()
+}
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.0.0'
+    }
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
@@ -52,6 +62,13 @@ compileJava.dependsOn updateVersion
 
 javadoc {
     exclude '**/internal/**'
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled = true // coveralls plugin depends on xml format report
+        html.enabled = true
+    }
 }
 
 uploadArchives {

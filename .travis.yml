@@ -5,6 +5,8 @@ jdk:
 notifications:
   email:
   - mdr-eng@google.com
+after_success:
+- ./gradlew jacocoTestReport coveralls
 env:
   matrix:
   - secure: TOW8DiUzKHdpa/ZL9yaAvzvzAsTfJ6+bW4y2JfukpLT4Qj0V6e6fFPlBwfOvGYR9NAGLpw7DxdNJcSn1sTxIdwvwm5YkriMoSNpHh7IMUs9vx5d/k9ZwR4RQ+XyVzm3oskoxOZUX3HnKvP3nJkGvLgTxsDBJw4FcpuU9V4yTEK4=
