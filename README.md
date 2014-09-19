@@ -20,6 +20,12 @@ System.out.println(results[0].formattedAddress);
 
 For more usage examples, check out [the tests](src/test/java/com/google/maps/).
 
+Javadoc
+-------
+
+View the
+[javadoc](https://googlemaps.github.io/google-maps-services-java/v0.1.2/javadoc).
+
 Installation
 ------------
 
@@ -112,14 +118,25 @@ Building the project
 
 ```
 # Compile and package the project
-./gradlew jar
+$ ./gradlew jar
 
 # Run the tests. Note: you will need an API key to run the tests.
-API_KEY=AIza.... ./gradlew test
+$ API_KEY=AIza.... ./gradlew test
 
 # Run the tests with enterprise credentials.
-CLIENT_ID=... CLIENT_SECRET=... ./gradlew test
+$ CLIENT_ID=... CLIENT_SECRET=... ./gradlew test
 
 # Generate documentation
-./gradlew javadoc
+$ ./gradlew javadoc
+
+# Publish documentation
+$ ./gradlew javadoc
+$ git checkout gh-pages
+$ rm -rf javadoc
+$ mkdir $VERSION
+$ mv build/docs/javadoc $VERSION
+$ git add $VERSION/javadoc
+$ git add latest
+$ git commit
+$ git push origin gh-pages
 ```
