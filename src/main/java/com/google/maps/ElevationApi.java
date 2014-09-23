@@ -22,7 +22,7 @@ import com.google.maps.model.ElevationResult;
 import com.google.maps.model.EncodedPolyline;
 import com.google.maps.model.LatLng;
 
-import java.util.Locale;
+import static com.google.maps.internal.StringJoin.join;
 
 /**
  * <p>The Google Elevation API provides you a simple interface to query locations
@@ -75,32 +75,19 @@ public class ElevationApi {
    * length is different after URL encoding).
    */
   private static String shortestParam(LatLng[] points) {
-    String joined = joinPoints(points, '|');
+    String joined = join('|', points);
     String encoded = "enc:" + PolylineEncoding.encode(points);
     return joined.length() < encoded.length() ? joined : encoded;
   }
 
-  private static String joinPoints(LatLng[] points, char separator) {
-    StringBuilder sb = new StringBuilder();
-    for (LatLng p : points) {
-      sb.append(p);
-      sb.append(separator);
-    }
-    sb.deleteCharAt(sb.length() - 1);
-    return sb.toString();
-  }
-
-  /**
+    /**
    * Retrieve the elevation of a single point.
    *
    * <p>For more detail, please see the
    * <a href="https://developers.google.com/maps/documentation/elevation/#Locations">documentation</a>.
    */
   public static PendingResult<ElevationResult> getByPoint(GeoApiContext context, LatLng point) {
-    // Enforcing English locale on floating point number to string conversion to avoid
-    // location parsing confusion on server side.
-    String location = String.format(Locale.ENGLISH, "%f,%f", point.lat, point.lng);
-    return context.get(SingularResponse.class, BASE, "locations", location);
+    return context.get(SingularResponse.class, BASE, "locations", point.toString());
   }
 
   private static class SingularResponse implements ApiResponse<ElevationResult> {
