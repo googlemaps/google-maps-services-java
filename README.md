@@ -36,12 +36,12 @@ contribute, please read [How to Contribute][contrib].
 
 ## Requirements
 
- - Java 7 or later.
- - A Google Maps API Key.
+ - Java 1.7 or later.
+ - A Google Maps API key.
 
-### API Keys
+### API keys
 
-Each Google Maps Web Service requires an API key or Client ID. API Keys are
+Each Google Maps Web Service requires an API key or Client ID. API keys are
 freely available with a Google Account at
 https://developers.google.com/console. To generate a server key for
 your project:
@@ -98,7 +98,7 @@ You can find the latest version at the top of this README or by searching
 
 ## Developer Documentation
 
-View the [javadoc](https://googlemaps.github.io/google-maps-services-java/v0.1.2/javadoc)
+View the [javadoc](https://googlemaps.github.io/google-maps-services-java/v0.1.2/javadoc).
 
 Additional documentation for the included web services is available at 
 https://developers.google.com/maps/.
@@ -128,7 +128,7 @@ For more usage examples, check out [the tests](src/test/java/com/google/maps/).
 
 Never sleep between requests again! By default, requests are sent at the expected rate limits for
 each web service, typically 10 queries per second for free users. If you want to speed up or slow
-down requests, you can do that too, using `new GeoApiContext(qps)`.
+down requests, you can do that too, using `new GeoApiContext().setQueryRateLimit(qps)`.
 
 ### Retry on Failure
 
