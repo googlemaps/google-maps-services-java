@@ -43,10 +43,10 @@ contribute, please read [How to Contribute][contrib].
 
 Each Google Maps Web Service requires an API key or Client ID. API Keys are
 freely available with a Google Account at
-[https://developers.google.com/console][console]. To generate a server key for
+https://developers.google.com/console. To generate a server key for
 your project:
 
- 1. Visit [https://developers.google.com/console][console] and log in with 
+ 1. Visit https://developers.google.com/console and log in with 
     a Google Account.
  1. Select an existing project, or create a new project.
  1. Click **Enable an API**.
@@ -100,7 +100,8 @@ You can find the latest version at the top of this README or by searching
 
 View the [javadoc](https://googlemaps.github.io/google-maps-services-java/v0.1.2/javadoc)
 
-Additional documentation for the included web services is available at [https://developers.google.com/maps/].
+Additional documentation for the included web services is available at 
+https://developers.google.com/maps/.
 
  - [Directions API]
  - [Distance Matrix API]
@@ -203,7 +204,6 @@ req.setCallback(new PendingResult.Callback<GeocodingResult[]>() {
 
 [apikey]: https://developers.google.com/maps/faq#keysystem
 [clientid]: https://developers.google.com/maps/documentation/business/webservices/auth
-[console]: https://developers.google.com/console/
 [contrib]: https://github.com/googlemaps/google-maps-services-java/blob/master/CONTRIB.md
 [Directions API]: https://developers.google.com/maps/documentation/directions
 [Distance Matrix API]: https://developers.google.com/maps/documentation/distancematrix
