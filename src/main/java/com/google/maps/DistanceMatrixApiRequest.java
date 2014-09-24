@@ -128,7 +128,7 @@ public class DistanceMatrixApiRequest
   }
 
   /**
-   * The departure time may be specified by Maps for Business customers for to specify the
+   * The departure time may be specified by Maps for Work customers for to specify the
    * departure time to receive trip duration considering current traffic conditions. The
    * departure time must be set to within a few minutes of the current time.
    *
