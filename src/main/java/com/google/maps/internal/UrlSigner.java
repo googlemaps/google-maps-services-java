@@ -25,7 +25,7 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
 /**
- * Utility class for supporting Maps for Business Digital signatures.
+ * Utility class for supporting Maps for Work Digital signatures.
  *
  * <p>See {@url https://developers.google.com/maps/documentation/business/webservices/auth#digital_signatures}
  * for more detail on this protocol.

@@ -48,7 +48,7 @@ public class DirectionsLeg {
    * <ol>
    *   <li>The directions request includes a departureTime parameter set to a value within a few
    *       minutes of the current time.</li>
-   *   <li>The request includes a valid Maps for Business client and signature parameter.</li>
+   *   <li>The request includes a valid Maps for Work client and signature parameter.</li>
    *   <li>Traffic conditions are available for the requested route.</li>
    *   <li>The directions request does not include stopover waypoints.</li>
    * </ol>

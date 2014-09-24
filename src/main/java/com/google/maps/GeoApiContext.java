@@ -137,7 +137,7 @@ public class GeoApiContext {
   private void checkContext() {
     if (urlSigner == null && apiKey == null) {
       throw new IllegalStateException(
-          "Must provide either API key or Maps for Business credentials.");
+          "Must provide either API key or Maps for Work credentials.");
     }
     if (urlSigner == null && !apiKey.startsWith("AIza")) {
       throw new IllegalStateException("Invalid API key.");
