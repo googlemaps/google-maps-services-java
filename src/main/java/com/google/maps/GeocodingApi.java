@@ -105,6 +105,11 @@ public class GeocodingApi {
 
     @Override
     public String toString() {
+      return toUrlValue();
+    }
+
+    @Override
+    public String toUrlValue() {
       return join(':', component, value);
     }
 

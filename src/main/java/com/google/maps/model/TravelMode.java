@@ -17,6 +17,9 @@ package com.google.maps.model;
 
 import com.google.maps.internal.StringJoin.UrlValue;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * You may specify the transportation mode to use for calulating directions. Directions are
  * calculating as driving directions by default.
@@ -27,7 +30,15 @@ import com.google.maps.internal.StringJoin.UrlValue;
  * .com/maps/documentation/distancematrix/#RequestParameters">Distance Matrix API travel modes</a>
  */
 public enum TravelMode implements UrlValue {
-  DRIVING("driving"), WALKING("walking"), BICYCLING("bicycling"), TRANSIT("transit");
+  DRIVING("driving"), WALKING("walking"), BICYCLING("bicycling"), TRANSIT("transit"),
+
+  /**
+   * Indicates an unknown travel mode returned by the server. The Java Client for Google Maps
+   * Services should be updated to support the new value.
+   */
+  UNKNOWN("unknown");
+
+  private static Logger log = Logger.getLogger(TravelMode.class.getName());
 
   private final String mode;
 
@@ -50,7 +61,16 @@ public enum TravelMode implements UrlValue {
     } else if (travelMode.equalsIgnoreCase(TRANSIT.toString())) {
       return TRANSIT;
     } else {
-      throw new RuntimeException("Unknown Travel Mode '" + travelMode + "'");
+      log.log(Level.WARNING, "Unknown Travel Mode '%s'", travelMode);
+      return UNKNOWN;
     }
+  }
+
+  @Override
+  public String toUrlValue() {
+    if (this == UNKNOWN) {
+      throw new UnsupportedOperationException("Shouldn't use TravelMode.UNKNOWN in a request.");
+    }
+    return mode;
   }
 }

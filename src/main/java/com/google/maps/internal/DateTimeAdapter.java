@@ -79,7 +79,7 @@ public class DateTimeAdapter extends TypeAdapter<DateTime> {
    */
   @Override
   public void write(JsonWriter writer, DateTime value) throws IOException {
-    throw new RuntimeException("Unimplemented method");
+    throw new UnsupportedOperationException("Unimplemented method");
   }
 
 }

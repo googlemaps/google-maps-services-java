@@ -34,7 +34,7 @@ public class AddressTypeAdapter extends TypeAdapter<AddressType> {
 
   /**
    * Read a address component type from a Geocoding API result and convert it to a
-   * {@link AddressComponentType}.
+   * {@link com.google.maps.model.AddressComponentType}.
    */
   @Override
   public AddressType read(JsonReader reader) throws IOException {
@@ -51,7 +51,7 @@ public class AddressTypeAdapter extends TypeAdapter<AddressType> {
    */
   @Override
   public void write(JsonWriter writer, AddressType value) throws IOException {
-    throw new RuntimeException("Unimplemented method");
+    throw new UnsupportedOperationException("Unimplemented method");
   }
 
 }

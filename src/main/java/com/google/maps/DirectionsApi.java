@@ -106,5 +106,10 @@ public class DirectionsApi {
     public String toString() {
       return restriction;
     }
+
+    @Override
+    public String toUrlValue() {
+      return restriction;
+    }
   }
 }

@@ -17,6 +17,9 @@ package com.google.maps.model;
 
 import com.google.maps.internal.StringJoin.UrlValue;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * The Adress types. Please see
  * <a href="https://developers.google.com/maps/documentation/geocoding/#Types">Address
@@ -177,7 +180,15 @@ public enum AddressType implements UrlValue {
   /**
    * {@code TRANSIT_STATION} indicates the location of a transit station.
    */
-  TRANSIT_STATION("transit_station");
+  TRANSIT_STATION("transit_station"),
+
+  /**
+   * Indicates an unknown address type returned by the server. The Java Client for Google Maps
+   * Services should be updated to support the new value.
+   */
+  UNKNOWN("unknown");
+
+  private static Logger log = Logger.getLogger(AddressType.class.getName());
 
   private String addressType;
 
@@ -187,6 +198,14 @@ public enum AddressType implements UrlValue {
 
   @Override
   public String toString() {
+    return addressType;
+  }
+
+  @Override
+  public String toUrlValue() {
+    if (this == UNKNOWN) {
+      throw new UnsupportedOperationException("Shouldn't use AddressType.UNKNOWN in a request.");
+    }
     return addressType;
   }
 
@@ -254,7 +273,8 @@ public enum AddressType implements UrlValue {
     } else if (addressType.equalsIgnoreCase(SUBLOCALITY_LEVEL_5.toString())) {
       return SUBLOCALITY_LEVEL_5;
     } else {
-      throw new RuntimeException("Unknown address type '" + addressType + "'");
+      log.log(Level.WARNING, "Unknown address type '%s'", addressType);
+      return UNKNOWN;
     }
   }
 }

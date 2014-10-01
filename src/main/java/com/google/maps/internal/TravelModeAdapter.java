@@ -50,7 +50,7 @@ public class TravelModeAdapter extends TypeAdapter<TravelMode> {
    */
   @Override
   public void write(JsonWriter writer, TravelMode value) throws IOException {
-    throw new RuntimeException("Unimplemented method");
+    throw new UnsupportedOperationException("Unimplemented method");
   }
 
 }
