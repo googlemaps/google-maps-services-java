@@ -17,6 +17,9 @@ package com.google.maps.model;
 
 import com.google.maps.internal.StringJoin.UrlValue;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * Location types for a reverse geocoding request. Please see
  * <a href="https://developers.google.com/maps/documentation/geocoding/#ReverseGeocoding">for
@@ -27,7 +30,7 @@ public enum LocationType implements UrlValue {
    * {@code ROOFTOP} restricts the results to addresses for which we have location information
    * accurate down to street address precision.
    */
-  ROOFTOP("ROOFTOP"),
+  ROOFTOP,
 
   /**
    * {@code RANGE_INTERPOLATED} restricts the results to those that reflect an approximation
@@ -35,23 +38,34 @@ public enum LocationType implements UrlValue {
    * interpolated range generally indicates that rooftop geocodes are unavailable for a street
    * address.
    */
-  RANGE_INTERPOLATED("RANGE_INTERPOLATED"),
+  RANGE_INTERPOLATED,
 
   /**
    * {@code GEOMETRIC_CENTER} restricts the results to geometric centers of a location such as a
    * polyline (for example, a street) or polygon (region).
    */
-  GEOMETRIC_CENTER("GEOMETRIC_CENTER"),
+  GEOMETRIC_CENTER,
 
   /**
    * {@code APPROXIMATE} restricts the results to those that are characterized as approximate.
    */
-  APPROXIMATE("APPROXIMATE");
+  APPROXIMATE,
 
-  private String locationType;
+  /**
+   * Indicates an unknown location type returned by the server. The Java Client for Google Maps
+   * Services should be updated to support the new value.
+   */
+  UNKNOWN;
 
-  LocationType(String locationType) {
-    this.locationType = locationType;
+
+  private static Logger log = Logger.getLogger(LocationType.class.getName());
+
+  @Override
+  public String toUrlValue() {
+    if (this == UNKNOWN) {
+      throw new UnsupportedOperationException("Shouldn't use LocationType.UNKNOWN in a request.");
+    }
+    return toString();
   }
 
   public LocationType lookup(String locationType) {
@@ -64,7 +78,8 @@ public enum LocationType implements UrlValue {
     } else if (locationType.equalsIgnoreCase(APPROXIMATE.toString())) {
       return APPROXIMATE;
     } else {
-      throw new RuntimeException("Unknown location type '" + locationType + "'");
+      log.log(Level.WARNING, "Unknown location type '%s'", locationType);
+      return UNKNOWN;
     }
   }
 }

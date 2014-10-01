@@ -44,6 +44,11 @@ public class LatLng implements UrlValue {
 
   @Override
   public String toString() {
+    return toUrlValue();
+  }
+
+  @Override
+  public String toUrlValue() {
     // Enforce Locale to English for double to string conversion
     return String.format(Locale.ENGLISH, "%f,%f", lat, lng);
   }

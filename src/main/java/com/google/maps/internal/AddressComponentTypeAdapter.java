@@ -51,7 +51,7 @@ public class AddressComponentTypeAdapter extends TypeAdapter<AddressComponentTyp
    */
   @Override
   public void write(JsonWriter writer, AddressComponentType value) throws IOException {
-    throw new RuntimeException("Unimplemented method");
+    throw new UnsupportedOperationException("Unimplemented method");
   }
 
 }

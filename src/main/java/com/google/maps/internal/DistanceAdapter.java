@@ -72,7 +72,7 @@ public class DistanceAdapter extends TypeAdapter<Distance> {
    */
   @Override
   public void write(JsonWriter writer, Distance value) throws IOException {
-    throw new RuntimeException("Unimplemented method");
+    throw new UnsupportedOperationException("Unimplemented method");
   }
 
 }

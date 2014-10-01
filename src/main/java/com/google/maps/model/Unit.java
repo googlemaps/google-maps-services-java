@@ -33,4 +33,10 @@ public enum Unit implements UrlValue {
   public String toString() {
     return type;
   }
+
+
+  @Override
+  public String toUrlValue() {
+    return type;
+  }
 }

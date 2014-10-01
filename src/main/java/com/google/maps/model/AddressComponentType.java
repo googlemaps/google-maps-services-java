@@ -15,6 +15,9 @@
 
 package com.google.maps.model;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * The Adress Component types. Please see
  * <a href="https://developers.google.com/maps/documentation/geocoding/#Types">Address Component
@@ -207,8 +210,15 @@ public enum AddressComponentType {
   /**
    * {@code TRANSIT_STATION} indicates the location of a transit station.
    */
-  TRANSIT_STATION("transit_station");
+  TRANSIT_STATION("transit_station"),
 
+  /**
+   * Indicates an unknown address component type returned by the server. The Java Client for Google
+   * Maps Services should be updated to support the new value.
+   */
+  UNKNOWN("unknown");
+
+  private static Logger log = Logger.getLogger(AddressComponentType.class.getName());
 
   private String addressComponentType;
 
@@ -297,7 +307,8 @@ public enum AddressComponentType {
     } else if (addressComponentType.equalsIgnoreCase(SUBLOCALITY_LEVEL_5.toString())) {
       return SUBLOCALITY_LEVEL_5;
     } else {
-      throw new RuntimeException("Unknown address component type '" + addressComponentType + "'");
+      log.log(Level.WARNING, "Unknown address component type '%s'", addressComponentType);
+      return UNKNOWN;
     }
   }
 }
