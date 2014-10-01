@@ -141,6 +141,12 @@ import com.google.maps.internal.StringJoin.UrlValue;
      */
     AIRPORT("airport"),
 
+
+    /**
+     * {@code UNIVERSITY} indicates a university.
+     */
+    UNIVERSITY("university"),
+
     /**
      * {@code PARK} indicates a named park.
      */
@@ -223,6 +229,8 @@ import com.google.maps.internal.StringJoin.UrlValue;
         return NATURAL_FEATURE;
       } else if (addressType.equalsIgnoreCase(AIRPORT.toString())) {
         return AIRPORT;
+      } else if (addressType.equalsIgnoreCase(UNIVERSITY.toString())) {
+        return UNIVERSITY;
       } else if (addressType.equalsIgnoreCase(PARK.toString())) {
         return PARK;
       } else if (addressType.equalsIgnoreCase(POINT_OF_INTEREST.toString())) {
