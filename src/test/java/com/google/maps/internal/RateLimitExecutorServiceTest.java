@@ -27,9 +27,12 @@ import java.util.AbstractMap;
 import java.util.Date;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 
 @Category(MediumTests.class)
 public class RateLimitExecutorServiceTest {
+
+  private static final Logger log = Logger.getLogger(RateLimitExecutorServiceTest.class.getName());
 
   @Test
   public void testRateLimitDoesNotExceedSuppliedQps() throws Exception {
@@ -62,7 +65,12 @@ public class RateLimitExecutorServiceTest {
 
     // Check that we executed at the correct rate
     for (Integer timestamp : executedTimestamps.keySet()) {
-      assertTrue(executedTimestamps.get(timestamp) <= qps);
+      Integer actualQps = executedTimestamps.get(timestamp);
+      // Logging QPS here to detect if a previous iteration had qps-1 and this is qps+1.
+      log.info(String.format("Timestamp(%d) logged %d queries (target of %d qps)",
+          timestamp, actualQps, qps));
+      assertTrue(String.format("Expected <= %d queries in a second, got %d.", qps, actualQps),
+          actualQps <= qps);
     }
     // Check that we executed every request
     assertEquals(100, countTotalRequests(executedTimestamps));
