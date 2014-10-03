@@ -95,9 +95,9 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
    * Preserve a request/response pair through an asynchronous callback.
    */
   private class QueuedResponse {
-    public final OkHttpPendingResult<T, R> request;
-    public final Response response;
-    public final Exception e;
+    private final OkHttpPendingResult<T, R> request;
+    private final Response response;
+    private final Exception e;
 
     public QueuedResponse(OkHttpPendingResult<T, R> request, Response response) {
       this.request = request;

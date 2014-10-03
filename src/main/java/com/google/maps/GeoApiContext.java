@@ -40,20 +40,21 @@ public class GeoApiContext {
   private static final String VERSION = "@VERSION@";  // Populated by the build script
   private static final String DEFAULT_HOST = "https://maps.googleapis.com";
   private static final String USER_AGENT = "GoogleGeoApiClientJava/" + VERSION;
-  private static final int DEFAULT_QUERIES_PER_SECOND = 10;
   private static final int DEFAULT_BACKOFF_TIMEOUT_MILLIS = 60 * 1000; // 60s
 
   private String host = DEFAULT_HOST;
   private String apiKey;
   private String clientId;
   private UrlSigner urlSigner;
-  private OkHttpClient client = new OkHttpClient();
+  private final OkHttpClient client = new OkHttpClient();
+  private final RateLimitExecutorService rateLimitExecutorService;
 
   private static Logger log = Logger.getLogger(GeoApiContext.class.getName());
   private long errorTimeout = DEFAULT_BACKOFF_TIMEOUT_MILLIS;
 
   public GeoApiContext() {
-    setQueryRateLimit(DEFAULT_QUERIES_PER_SECOND);
+    rateLimitExecutorService = new RateLimitExecutorService();
+    client.setDispatcher(new Dispatcher(rateLimitExecutorService));
   }
 
   <T, R extends ApiResponse<T>> PendingResult<T> get(Class<R> clazz, String path,
@@ -207,7 +208,8 @@ public class GeoApiContext {
    * set to 1/(2 * {@code maxQps}).
    */
   public GeoApiContext setQueryRateLimit(int maxQps) {
-    return setQueryRateLimit(maxQps, (int) ((1.0 / (2.0 * maxQps)) * 1000.0));
+    rateLimitExecutorService.setQueriesPerSecond(maxQps);
+    return this;
   }
 
   /**
@@ -219,10 +221,7 @@ public class GeoApiContext {
    * naturally.
    */
   public GeoApiContext setQueryRateLimit(int maxQps, int minimumInterval) {
-    log.log(Level.INFO, "Configuring rate limit at QPS: " + maxQps + ", minimum delay "
-        + minimumInterval + "ms between requests");
-    client.setDispatcher(new Dispatcher(
-        new RateLimitExecutorService(maxQps, minimumInterval)));
+    rateLimitExecutorService.setQueriesPerSecond(maxQps, minimumInterval);
     return this;
   }
 }

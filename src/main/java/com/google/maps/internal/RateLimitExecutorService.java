@@ -15,10 +15,8 @@
 
 package com.google.maps.internal;
 
-import org.joda.time.DateTime;
-
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
@@ -36,9 +34,12 @@ import java.util.logging.Logger;
 /**
  * Rate Limit Policy for Google Maps Web Services APIs.
  */
-public class RateLimitExecutorService implements ExecutorService {
+public class RateLimitExecutorService implements ExecutorService, Runnable {
 
   private static final Logger log = Logger.getLogger(RateLimitExecutorService.class.getName());
+  private static final int DEFAULT_QUERIES_PER_SECOND = 10;
+  private static final int SECOND = 1000;
+  private static final int HALF_SECOND = SECOND / 2;
 
   // It's important we set Ok's second arg to threadFactory(.., true) to ensure the threads are
   // killed when the app exits. For synchronous requests this is ideal but it means any async
@@ -47,54 +48,71 @@ public class RateLimitExecutorService implements ExecutorService {
       TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>(),
       threadFactory("Rate Limited Dispatcher", true));
 
-  private final Thread delayThread;
-
   private final BlockingQueue<Runnable> queue = new LinkedBlockingQueue<Runnable>();
 
-  public RateLimitExecutorService(final int queriesPerSecond, final int minimumDelay) {
-    delayThread = new Thread(new Runnable() {
+  private volatile int queriesPerSecond;
+  private volatile int minimumDelay;
+  private LinkedList<Long> sentTimes = new LinkedList<Long>();
+  private long lastSentTime = 0;
 
-      private List<DateTime> sentTimes = new ArrayList<DateTime>(queriesPerSecond);
-      private DateTime lastSentTime = new DateTime(0L);
-
-      @Override
-      public void run() {
-        try {
-          while (!delegate.isShutdown()) {
-            Runnable r = queue.take();
-
-            long requiredSeparationDelay = lastSentTime.plusMillis(minimumDelay).getMillis()
-                - System.currentTimeMillis();
-            if (requiredSeparationDelay > 0) {
-              Thread.sleep(requiredSeparationDelay);
-            }
-
-            DateTime oneSecondAgo = new DateTime().minusSeconds(1);
-
-            // Purge any sent times older than a second
-            while (sentTimes.size() > 0 && sentTimes.get(0).compareTo(oneSecondAgo) < 0) {
-              sentTimes.remove(0);
-            }
-
-            long delay = sentTimes.size() > 0
-                ? sentTimes.get(0).plusSeconds(1).getMillis() - System.currentTimeMillis()
-                : 0;
-            if (sentTimes.size() < queriesPerSecond || delay <= 0) {
-              delegate.execute(r);
-              lastSentTime = new DateTime();
-              sentTimes.add(lastSentTime);
-            } else {
-              queue.add(r);
-              Thread.sleep(delay);
-            }
-          }
-        } catch (InterruptedException ie) {
-          log.log(Level.INFO, "Interupted", ie);
-        }
-      }
-    });
+  public RateLimitExecutorService() {
+    setQueriesPerSecond(DEFAULT_QUERIES_PER_SECOND);
+    Thread delayThread = new Thread(this);
     delayThread.setDaemon(true);
     delayThread.start();
+  }
+
+  public void setQueriesPerSecond(int maxQps) {
+    this.queriesPerSecond = maxQps;
+    this.minimumDelay = HALF_SECOND / queriesPerSecond;
+  }
+
+  public void setQueriesPerSecond(int maxQps, int minimumInterval) {
+    this.queriesPerSecond = maxQps;
+    this.minimumDelay = minimumInterval;
+
+    log.log(Level.INFO, "Configuring rate limit at QPS: " + maxQps + ", minimum delay "
+        + minimumInterval + "ms between requests");
+  }
+
+  /**
+   * Main loop.
+   */
+  public void run() {
+    try {
+      while (!delegate.isShutdown()) {
+        long now = System.currentTimeMillis();
+        long oneSecondAgo = now - SECOND;
+
+        Runnable r = queue.take();
+
+        long requiredSeparationDelay = lastSentTime + minimumDelay - now;
+        if (requiredSeparationDelay > 0) {
+          Thread.sleep(requiredSeparationDelay);
+        }
+
+        // Purge any sent times older than a second
+        while (sentTimes.size() > 0 && sentTimes.peekFirst() < oneSecondAgo) {
+          sentTimes.pop();
+        }
+
+        long delay = 0;
+        if (sentTimes.size() > 0) {
+          delay = sentTimes.peekFirst() + SECOND - System.currentTimeMillis();
+        }
+
+        if (sentTimes.size() < queriesPerSecond || delay <= 0) {
+          delegate.execute(r);
+          lastSentTime = now;
+          sentTimes.add(lastSentTime);
+        } else {
+          queue.add(r);
+          Thread.sleep(delay);
+        }
+      }
+    } catch (InterruptedException ie) {
+      log.log(Level.INFO, "Interrupted", ie);
+    }
   }
 
   private static ThreadFactory threadFactory(final String name, final boolean daemon) {
@@ -106,7 +124,6 @@ public class RateLimitExecutorService implements ExecutorService {
       }
     };
   }
-
 
   @Override
   public void execute(Runnable runnable) {
