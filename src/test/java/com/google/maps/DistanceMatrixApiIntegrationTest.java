@@ -21,6 +21,7 @@ import static org.junit.Assert.assertTrue;
 
 import com.google.maps.DirectionsApi.RouteRestriction;
 import com.google.maps.model.DistanceMatrix;
+import com.google.maps.model.DistanceMatrixElementStatus;
 import com.google.maps.model.TravelMode;
 import com.google.maps.model.Unit;
 
@@ -59,6 +60,7 @@ public class DistanceMatrixApiIntegrationTest extends AuthenticatedTest {
     // Rows length will match the number of origin elements, regardless of whether they're routable.
     assertEquals(8, matrix.rows.length);
     assertEquals(5, matrix.rows[0].elements.length);
+    assertEquals(DistanceMatrixElementStatus.OK, matrix.rows[0].elements[0].status);
   }
 
   @Test
@@ -107,7 +109,4 @@ public class DistanceMatrixApiIntegrationTest extends AuthenticatedTest {
 
     assertNotNull(matrix);
   }
-
-
-
 }
