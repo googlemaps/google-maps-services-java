@@ -37,7 +37,7 @@ import java.util.Collection;
 public class AuthenticatedTest {
   @Parameters
   public static Collection<Object[]> contexts() {
-    Collection<Object[]> contexts = new ArrayList<>();
+    Collection<Object[]> contexts = new ArrayList<Object[]>();
 
     // Travis can't run authorized tests from pull requests.
     // http://docs.travis-ci.com/user/pull-requests/#Security-Restrictions-when-testing-Pull-Requests

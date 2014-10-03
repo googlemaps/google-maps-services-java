@@ -33,24 +33,23 @@ public class ApiException extends Exception {
    * @return The appropriate ApiException based on the status or null if no error occurred.
    */
   public static ApiException from(String status, String errorMessage) {
-    switch (status) {
-      case "OK":
-        return null;
-      case "INVALID_REQUEST":
-        return new InvalidRequestException(errorMessage);
-      case "MAX_ELEMENTS_EXCEEDED":
-        return new MaxElementsExceededException(errorMessage);
-      case "NOT_FOUND":
-        return new NotFoundException(errorMessage);
-      case "OVER_QUERY_LIMIT":
-        return new OverQueryLimitException(errorMessage);
-      case "REQUEST_DENIED":
-        return new RequestDeniedException(errorMessage);
-      case "UNKNOWN_ERROR":
-        return new UnknownErrorException(errorMessage);
-      case "ZERO_RESULTS":
-        return new ZeroResultsException(errorMessage);
-    }
+      if (status.equals("OK")) {
+          return null;
+      } else if (status.equals("INVALID_REQUEST")) {
+          return new InvalidRequestException(errorMessage);
+      } else if (status.equals("MAX_ELEMENTS_EXCEEDED")) {
+          return new MaxElementsExceededException(errorMessage);
+      } else if (status.equals("NOT_FOUND")) {
+          return new NotFoundException(errorMessage);
+      } else if (status.equals("OVER_QUERY_LIMIT")) {
+          return new OverQueryLimitException(errorMessage);
+      } else if (status.equals("REQUEST_DENIED")) {
+          return new RequestDeniedException(errorMessage);
+      } else if (status.equals("UNKNOWN_ERROR")) {
+          return new UnknownErrorException(errorMessage);
+      } else if (status.equals("ZERO_RESULTS")) {
+          return new ZeroResultsException(errorMessage);
+      }
 
     // We've hit an unknown error. This is not a state we should hit,
     // but we don't want to crash a user's application if we introduce a new error.

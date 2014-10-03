@@ -65,7 +65,7 @@ public class GeoApiContext {
       try {
         query.append(URLEncoder.encode(param.getValue(), "UTF-8"));
       } catch (UnsupportedEncodingException e) {
-        return new ExceptionResult<>(e);
+        return new ExceptionResult<T>(e);
       }
     }
     return getWithPath(clazz, FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES, path,
@@ -93,7 +93,7 @@ public class GeoApiContext {
       try {
         query.append(URLEncoder.encode(params[i], "UTF-8"));
       } catch (UnsupportedEncodingException e) {
-        return new ExceptionResult<>(e);
+        return new ExceptionResult<T>(e);
       }
     }
 
@@ -120,7 +120,7 @@ public class GeoApiContext {
         String signature = urlSigner.getSignature(url.toString());
         url.append("&signature=").append(signature);
       } catch (Exception e) {
-        return new ExceptionResult<>(e);
+        return new ExceptionResult<T>(e);
       }
     }
 
@@ -131,7 +131,7 @@ public class GeoApiContext {
 
     log.log(Level.INFO, "Request: {0}", host + url);
 
-    return new OkHttpPendingResult<>(req, client, clazz, fieldNamingPolicy, errorTimeout);
+    return new OkHttpPendingResult<T, R>(req, client, clazz, fieldNamingPolicy, errorTimeout);
   }
 
   private void checkContext() {
