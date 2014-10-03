@@ -17,9 +17,6 @@ package com.google.maps.model;
 
 import com.google.maps.internal.StringJoin.UrlValue;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 /**
  * Location types for a reverse geocoding request. Please see
  * <a href="https://developers.google.com/maps/documentation/geocoding/#ReverseGeocoding">for
@@ -57,29 +54,11 @@ public enum LocationType implements UrlValue {
    */
   UNKNOWN;
 
-
-  private static Logger log = Logger.getLogger(LocationType.class.getName());
-
   @Override
   public String toUrlValue() {
     if (this == UNKNOWN) {
       throw new UnsupportedOperationException("Shouldn't use LocationType.UNKNOWN in a request.");
     }
-    return toString();
-  }
-
-  public LocationType lookup(String locationType) {
-    if (locationType.equalsIgnoreCase(ROOFTOP.toString())) {
-      return ROOFTOP;
-    } else if (locationType.equalsIgnoreCase(RANGE_INTERPOLATED.toString())) {
-      return RANGE_INTERPOLATED;
-    } else if (locationType.equalsIgnoreCase(GEOMETRIC_CENTER.toString())) {
-      return GEOMETRIC_CENTER;
-    } else if (locationType.equalsIgnoreCase(APPROXIMATE.toString())) {
-      return APPROXIMATE;
-    } else {
-      log.log(Level.WARNING, "Unknown location type '%s'", locationType);
-      return UNKNOWN;
-    }
+    return name();
   }
 }

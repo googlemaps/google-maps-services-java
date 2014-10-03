@@ -17,8 +17,7 @@ package com.google.maps.model;
 
 import com.google.maps.internal.StringJoin.UrlValue;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Locale;
 
 /**
  * You may specify the transportation mode to use for calulating directions. Directions are
@@ -30,40 +29,17 @@ import java.util.logging.Logger;
  * .com/maps/documentation/distancematrix/#RequestParameters">Distance Matrix API travel modes</a>
  */
 public enum TravelMode implements UrlValue {
-  DRIVING("driving"), WALKING("walking"), BICYCLING("bicycling"), TRANSIT("transit"),
+  DRIVING, WALKING, BICYCLING, TRANSIT,
 
   /**
    * Indicates an unknown travel mode returned by the server. The Java Client for Google Maps
    * Services should be updated to support the new value.
    */
-  UNKNOWN("unknown");
-
-  private static Logger log = Logger.getLogger(TravelMode.class.getName());
-
-  private final String mode;
-
-  TravelMode(String mode) {
-    this.mode = mode;
-  }
+  UNKNOWN;
 
   @Override
   public String toString() {
-    return mode;
-  }
-
-  public static TravelMode lookup(String travelMode) {
-    if (travelMode.equalsIgnoreCase(DRIVING.toString())) {
-      return DRIVING;
-    } else if (travelMode.equalsIgnoreCase(WALKING.toString())) {
-      return WALKING;
-    } else if (travelMode.equalsIgnoreCase(BICYCLING.toString())) {
-      return BICYCLING;
-    } else if (travelMode.equalsIgnoreCase(TRANSIT.toString())) {
-      return TRANSIT;
-    } else {
-      log.log(Level.WARNING, "Unknown Travel Mode '%s'", travelMode);
-      return UNKNOWN;
-    }
+    return name().toLowerCase(Locale.ENGLISH);
   }
 
   @Override
@@ -71,6 +47,6 @@ public enum TravelMode implements UrlValue {
     if (this == UNKNOWN) {
       throw new UnsupportedOperationException("Shouldn't use TravelMode.UNKNOWN in a request.");
     }
-    return mode;
+    return name().toLowerCase(Locale.ENGLISH);
   }
 }

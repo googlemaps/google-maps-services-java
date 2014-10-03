@@ -17,26 +17,21 @@ package com.google.maps.model;
 
 import com.google.maps.internal.StringJoin.UrlValue;
 
+import java.util.Locale;
+
 /**
  * Units of measurement.
  */
 public enum Unit implements UrlValue {
-  METRIC("metric"), IMPERIAL("imperial");
-
-  private final String type;
-
-  Unit(String type) {
-    this.type = type;
-  }
+  METRIC, IMPERIAL;
 
   @Override
   public String toString() {
-    return type;
+    return toUrlValue();
   }
-
 
   @Override
   public String toUrlValue() {
-    return type;
+    return name().toLowerCase(Locale.ENGLISH);
   }
 }
