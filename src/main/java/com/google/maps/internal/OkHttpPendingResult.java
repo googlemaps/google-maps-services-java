@@ -21,11 +21,7 @@ import com.google.gson.GsonBuilder;
 import com.google.maps.PendingResult;
 import com.google.maps.errors.ApiException;
 import com.google.maps.errors.OverQueryLimitException;
-import com.google.maps.model.AddressComponentType;
-import com.google.maps.model.AddressType;
-import com.google.maps.model.Distance;
-import com.google.maps.model.Duration;
-import com.google.maps.model.TravelMode;
+import com.google.maps.model.*;
 
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Callback;
@@ -207,12 +203,14 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
     }
 
     Gson gson = new GsonBuilder()
-        .registerTypeAdapter(AddressComponentType.class, new AddressComponentTypeAdapter())
-        .registerTypeAdapter(AddressType.class, new AddressTypeAdapter())
         .registerTypeAdapter(DateTime.class, new DateTimeAdapter())
         .registerTypeAdapter(Distance.class, new DistanceAdapter())
         .registerTypeAdapter(Duration.class, new DurationAdapter())
-        .registerTypeAdapter(TravelMode.class, new TravelModeAdapter())
+        .registerTypeAdapter(AddressComponentType.class,
+              new SafeEnumAdapter<>(AddressComponentType.UNKNOWN))
+        .registerTypeAdapter(AddressType.class, new SafeEnumAdapter<>(AddressType.UNKNOWN))
+        .registerTypeAdapter(TravelMode.class, new SafeEnumAdapter<>(TravelMode.UNKNOWN))
+        .registerTypeAdapter(LocationType.class, new SafeEnumAdapter<>(LocationType.UNKNOWN))
         .setFieldNamingPolicy(fieldNamingPolicy)
         .create();
 

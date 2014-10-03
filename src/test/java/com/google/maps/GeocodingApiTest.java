@@ -90,6 +90,7 @@ public class GeocodingApiTest extends AuthenticatedTest {
     assertNotNull(results[0].geometry.location);
     assertEquals(-33.8674869, results[0].geometry.location.lat, EPSILON);
     assertEquals(151.2069902, results[0].geometry.location.lng, EPSILON);
+    assertEquals(LocationType.APPROXIMATE, results[0].geometry.locationType);
   }
 
   @Test
