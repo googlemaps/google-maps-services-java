@@ -28,7 +28,7 @@ public class DistanceMatrixElement {
    *
    * Will be one of {@link com.google.maps.model.DistanceMatrixElementStatus}.
    */
-  public String status;
+  public DistanceMatrixElementStatus status;
 
   /**
    * {@code duration} indicates the total duration of this leg
