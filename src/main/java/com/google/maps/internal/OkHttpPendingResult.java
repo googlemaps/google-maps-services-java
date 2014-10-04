@@ -38,7 +38,6 @@ import java.io.Reader;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CodingErrorAction;
-//import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -216,7 +215,6 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
         .create();
 
     InputStream in = response.body().byteStream();
-//    CharsetDecoder decoder = StandardCharsets.UTF_8.newDecoder();
     CharsetDecoder decoder = Charset.forName("utf8").newDecoder();
     // Handle illegal UTF-8 by skipping it.
     decoder.onMalformedInput(CodingErrorAction.IGNORE);

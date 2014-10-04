@@ -33,21 +33,21 @@ public class ApiException extends Exception {
    * @return The appropriate ApiException based on the status or null if no error occurred.
    */
   public static ApiException from(String status, String errorMessage) {
-      if (status.equals("OK")) {
+      if ("OK".equals(status)) {
           return null;
-      } else if (status.equals("INVALID_REQUEST")) {
+      } else if ("INVALID_REQUEST".equals(status)) {
           return new InvalidRequestException(errorMessage);
-      } else if (status.equals("MAX_ELEMENTS_EXCEEDED")) {
+      } else if ("MAX_ELEMENTS_EXCEEDED".equals(status)) {
           return new MaxElementsExceededException(errorMessage);
-      } else if (status.equals("NOT_FOUND")) {
+      } else if ("NOT_FOUND".equals(status)) {
           return new NotFoundException(errorMessage);
-      } else if (status.equals("OVER_QUERY_LIMIT")) {
+      } else if ("OVER_QUERY_LIMIT".equals(status)) {
           return new OverQueryLimitException(errorMessage);
-      } else if (status.equals("REQUEST_DENIED")) {
+      } else if ("REQUEST_DENIED".equals(status)) {
           return new RequestDeniedException(errorMessage);
-      } else if (status.equals("UNKNOWN_ERROR")) {
+      } else if ("UNKNOWN_ERROR".equals(status)) {
           return new UnknownErrorException(errorMessage);
-      } else if (status.equals("ZERO_RESULTS")) {
+      } else if ("ZERO_RESULTS".equals(status)) {
           return new ZeroResultsException(errorMessage);
       }
 
