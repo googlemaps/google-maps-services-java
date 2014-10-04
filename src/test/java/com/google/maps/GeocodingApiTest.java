@@ -61,7 +61,7 @@ public class GeocodingApiTest extends AuthenticatedTest {
 
   @Test
   public void testAsync() throws Exception {
-    final List<GeocodingResult[]> resps = new ArrayList<>();
+    final List<GeocodingResult[]> resps = new ArrayList<GeocodingResult[]>();
 
     PendingResult.Callback<GeocodingResult[]> callback =
         new PendingResult.Callback<GeocodingResult[]>() {

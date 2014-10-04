@@ -38,7 +38,7 @@ public class RateLimitExecutorServiceTest {
   public void testRateLimitDoesNotExceedSuppliedQps() throws Exception {
     int qps = 10;
     RateLimitExecutorService service = new RateLimitExecutorService(qps, 50);
-    final ConcurrentHashMap<Integer, Integer> executedTimestamps = new ConcurrentHashMap<>();
+    final ConcurrentHashMap<Integer, Integer> executedTimestamps = new ConcurrentHashMap<Integer, Integer>();
 
     for (int i = 0; i < 100; i++) {
       Runnable emptyTask = new Runnable() {

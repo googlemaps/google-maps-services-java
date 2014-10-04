@@ -52,7 +52,7 @@ public class GeoApiContextTest {
     // Set up a mock request
     ApiResponse<String> fakeResponse = mock(ApiResponse.class);
     String path = "/";
-    Map<String, String> params = new HashMap<>(1);
+    Map<String, String> params = new HashMap<String, String>(1);
     params.put("key", "value");
 
     // Set up the fake web server

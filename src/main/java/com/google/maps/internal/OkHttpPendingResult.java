@@ -35,9 +35,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CodingErrorAction;
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -133,7 +133,7 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
       }
     }
 
-    final BlockingQueue<QueuedResponse> waiter = new ArrayBlockingQueue<>(1);
+    final BlockingQueue<QueuedResponse> waiter = new ArrayBlockingQueue<QueuedResponse>(1);
     final OkHttpPendingResult<T, R> parent = this;
 
     // This callback will be called on another thread, handled by the RateLimitExecutorService.
@@ -207,15 +207,15 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
         .registerTypeAdapter(Distance.class, new DistanceAdapter())
         .registerTypeAdapter(Duration.class, new DurationAdapter())
         .registerTypeAdapter(AddressComponentType.class,
-              new SafeEnumAdapter<>(AddressComponentType.UNKNOWN))
-        .registerTypeAdapter(AddressType.class, new SafeEnumAdapter<>(AddressType.UNKNOWN))
-        .registerTypeAdapter(TravelMode.class, new SafeEnumAdapter<>(TravelMode.UNKNOWN))
-        .registerTypeAdapter(LocationType.class, new SafeEnumAdapter<>(LocationType.UNKNOWN))
+              new SafeEnumAdapter<AddressComponentType>(AddressComponentType.UNKNOWN))
+        .registerTypeAdapter(AddressType.class, new SafeEnumAdapter<AddressType>(AddressType.UNKNOWN))
+        .registerTypeAdapter(TravelMode.class, new SafeEnumAdapter<TravelMode>(TravelMode.UNKNOWN))
+        .registerTypeAdapter(LocationType.class, new SafeEnumAdapter<LocationType>(LocationType.UNKNOWN))
         .setFieldNamingPolicy(fieldNamingPolicy)
         .create();
 
     InputStream in = response.body().byteStream();
-    CharsetDecoder decoder = StandardCharsets.UTF_8.newDecoder();
+    CharsetDecoder decoder = Charset.forName("utf8").newDecoder();
     // Handle illegal UTF-8 by skipping it.
     decoder.onMalformedInput(CodingErrorAction.IGNORE);
     Reader reader = new InputStreamReader(in, decoder);

@@ -7,7 +7,7 @@ apply plugin: 'jacoco'
 apply plugin: 'com.github.kt3k.coveralls'
 
 group = 'com.google.maps'
-sourceCompatibility = 1.7
+sourceCompatibility = 1.6
 
 repositories {
     mavenCentral()

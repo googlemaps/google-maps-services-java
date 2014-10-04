@@ -33,7 +33,7 @@ abstract class PendingResultBase<T, A extends PendingResultBase<T, A, R>,
     implements PendingResult<T> {
 
   private final GeoApiContext context;
-  private HashMap<String, String> params = new HashMap<>();
+  private HashMap<String, String> params = new HashMap<String, String>();
   private PendingResult<T> delegate;
   private Class<R> responseClass;
   private String base;
