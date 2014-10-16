@@ -50,7 +50,7 @@ public class GeoApiContextTest {
   @Test
   public void testGetIncludesDefaultUserAgent() throws Exception {
     // Set up a mock request
-    ApiResponse<String> fakeResponse = mock(ApiResponse.class);
+    ApiResponse fakeResponse = mock(ApiResponse.class);
     String path = "/";
     Map<String, String> params = new HashMap<String, String>(1);
     params.put("key", "value");
