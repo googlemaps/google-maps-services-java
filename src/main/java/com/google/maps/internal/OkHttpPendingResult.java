@@ -31,13 +31,9 @@ import com.squareup.okhttp.Response;
 
 import org.joda.time.DateTime;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetDecoder;
-import java.nio.charset.CodingErrorAction;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -214,12 +210,8 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
         .setFieldNamingPolicy(fieldNamingPolicy)
         .create();
 
-    InputStream in = response.body().byteStream();
-    CharsetDecoder decoder = Charset.forName("utf8").newDecoder();
-    // Handle illegal UTF-8 by skipping it.
-    decoder.onMalformedInput(CodingErrorAction.IGNORE);
-    Reader reader = new InputStreamReader(in, decoder);
-    R resp = gson.fromJson(reader, responseClass);
+    byte[] bytes = getBytes(response);
+    R resp = gson.fromJson(new String(bytes, "utf8"), responseClass);
 
     if (resp.successful()) {
       // Return successful responses
@@ -234,6 +226,21 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
         throw e;
       }
     }
+  }
+
+  private byte[] getBytes(Response response) throws IOException {
+    InputStream in = response.body().byteStream();
+    ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+
+    int bytesRead;
+    byte[] data = new byte[16384];
+
+    while ((bytesRead = in.read(data, 0, data.length)) != -1) {
+      buffer.write(data, 0, bytesRead);
+    }
+
+    buffer.flush();
+    return buffer.toByteArray();
   }
 
   private T retry() throws Exception {
