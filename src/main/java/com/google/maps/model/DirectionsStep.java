@@ -47,6 +47,11 @@ public class DirectionsStep {
   public Distance distance;
 
   /**
+   * {@code maneuver} contains the maneuver required to move ahead. eg., turn-left
+   */
+  public String maneuver;
+
+  /**
    * {@code duration} contains the typical time required to perform the step, until the next step.
    */
   public Duration duration;
