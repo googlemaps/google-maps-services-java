@@ -44,6 +44,7 @@ public class DirectionsStep {
   /**
    * {@code distance} contains the distance covered by this step until the next step.
    */
+  @Deprecated
   public Distance distance;
 
   /**
