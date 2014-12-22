@@ -12,19 +12,25 @@
  * ANY KIND, either express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-
 package com.google.maps.internal;
 
 import com.google.maps.PendingResult;
+import com.squareup.okhttp.MediaType;
 
 /**
  * This class centralizes failure handling, independent of the calling style.
  */
 public class ExceptionResult<T> implements PendingResult<T> {
+
   private final Exception exception;
 
   public ExceptionResult(Exception exception) {
     this.exception = exception;
+  }
+
+  @Override
+  public final void setMethod(MethodType methodType, MediaType contentType) {
+    // TODO 
   }
 
   @Override

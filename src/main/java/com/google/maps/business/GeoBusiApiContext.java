@@ -12,73 +12,75 @@
  * ANY KIND, either express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-package com.google.maps;
+package com.google.maps.business;
 
+import com.google.maps.ApiContext;
 import com.google.maps.internal.UrlSigner;
 import java.util.concurrent.TimeUnit;
 
 /**
- * The entry point for making requests against the Google Geo APIs.
+ *
+ * @author Gavin.Lin
  */
-public class GeoApiContext extends ApiContext {
+public class GeoBusiApiContext extends ApiContext {
 
-  private static final String DEFAULT_HOST = "https://maps.googleapis.com";
+  private static final String DEFAULT_HOST = "https://www.googleapis.com";
 
-  public GeoApiContext() {
+  public GeoBusiApiContext() {
     super(DEFAULT_HOST);
   }
 
   @Override
-  protected GeoApiContext setBaseUrl(String baseUrl) {
-    host = baseUrl;
+  protected GeoBusiApiContext setBaseUrl(String baseUrl) {
+    this.host = baseUrl;
     return this;
   }
 
   @Override
-  public GeoApiContext setApiKey(String apiKey) {
+  public GeoBusiApiContext setApiKey(String apiKey) {
     this.apiKey = apiKey;
     return this;
   }
 
   @Override
-  public GeoApiContext setEnterpriseCredentials(String clientId, String cryptographicSecret) {
+  public GeoBusiApiContext setEnterpriseCredentials(String clientId, String cryptographicSecret) {
     this.clientId = clientId;
     this.urlSigner = new UrlSigner(cryptographicSecret);
     return this;
   }
 
   @Override
-  public GeoApiContext setConnectTimeout(long timeout, TimeUnit unit) {
+  public GeoBusiApiContext setConnectTimeout(long timeout, TimeUnit unit) {
     client.setConnectTimeout(timeout, unit);
     return this;
   }
 
   @Override
-  public GeoApiContext setReadTimeout(long timeout, TimeUnit unit) {
+  public GeoBusiApiContext setReadTimeout(long timeout, TimeUnit unit) {
     client.setReadTimeout(timeout, unit);
     return this;
   }
 
   @Override
-  public GeoApiContext setWriteTimeout(long timeout, TimeUnit unit) {
+  public GeoBusiApiContext setWriteTimeout(long timeout, TimeUnit unit) {
     client.setWriteTimeout(timeout, unit);
     return this;
   }
 
   @Override
-  public GeoApiContext setRetryTimeout(long timeout, TimeUnit unit) {
+  public GeoBusiApiContext setRetryTimeout(long timeout, TimeUnit unit) {
     this.errorTimeout = unit.toMillis(timeout);
     return this;
   }
 
   @Override
-  public GeoApiContext setQueryRateLimit(int maxQps) {
+  public GeoBusiApiContext setQueryRateLimit(int maxQps) {
     rateLimitExecutorService.setQueriesPerSecond(maxQps);
     return this;
   }
 
   @Override
-  public GeoApiContext setQueryRateLimit(int maxQps, int minimumInterval) {
+  public GeoBusiApiContext setQueryRateLimit(int maxQps, int minimumInterval) {
     rateLimitExecutorService.setQueriesPerSecond(maxQps, minimumInterval);
     return this;
   }

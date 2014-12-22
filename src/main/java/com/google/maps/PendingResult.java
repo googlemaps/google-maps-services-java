@@ -12,8 +12,9 @@
  * ANY KIND, either express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-
 package com.google.maps;
+
+import com.squareup.okhttp.MediaType;
 
 /**
  * Represents a pending result from an API call.
@@ -23,8 +24,12 @@ package com.google.maps;
 public interface PendingResult<T> {
 
   /**
-   * Performs the request asynchronously, calling onResult or onFailure after
-   * the request has been completed.
+   * set the request method: get or post. if post, must set content type
+   */
+  public void setMethod(MethodType methodType, MediaType contentType);
+  
+  /**
+   * Performs the request asynchronously, calling onResult or onFailure after the request has been completed.
    */
   public void setCallback(Callback<T> callback);
 
@@ -37,8 +42,8 @@ public interface PendingResult<T> {
   public T await() throws Exception;
 
   /**
-   * Performs the request synchronously, ignoring exceptions
-   * while performing the request and errors returned by the server.
+   * Performs the request synchronously, ignoring exceptions while performing the request and errors returned by the
+   * server.
    *
    * @return The result, or null if there was any error or exception ignored.
    */
@@ -63,5 +68,10 @@ public interface PendingResult<T> {
      * Called when there was an error performing the request.
      */
     void onFailure(Throwable e);
+  }
+  
+  public enum MethodType{
+    GET,
+    POST
   }
 }

@@ -12,7 +12,6 @@
  * ANY KIND, either express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-
 package com.google.maps.internal;
 
 import com.google.gson.FieldNamingPolicy;
@@ -25,6 +24,7 @@ import com.google.maps.model.*;
 
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
@@ -41,14 +41,15 @@ import java.util.concurrent.BlockingQueue;
 import java.util.logging.Logger;
 
 /**
- * A PendingResult backed by a HTTP call executed by OkHttp, a deserialization step using Gson,
- * rate limiting and a retry policy.
+ * A PendingResult backed by a HTTP call executed by OkHttp, a deserialization step using Gson, rate limiting and a
+ * retry policy.
  *
- * <p>{@code T} is the type of the result of this pending result, and {@code R} is the type of the
- * request.
+ * <p>
+ * {@code T} is the type of the result of this pending result, and {@code R} is the type of the request.
  */
 public class OkHttpPendingResult<T, R extends ApiResponse<T>>
-    implements PendingResult<T>, Callback {
+        implements PendingResult<T>, Callback {
+
   private final Request request;
   private final OkHttpClient client;
   private final Class<R> responseClass;
@@ -61,17 +62,17 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
   private long cumulativeSleepTime = 0;
 
   private static Logger log = Logger.getLogger(OkHttpPendingResult.class.getName());
-  private static final List<Integer> RETRY_ERROR_CODES =  Arrays.asList(500, 503, 504);
+  private static final List<Integer> RETRY_ERROR_CODES = Arrays.asList(500, 503, 504);
 
   /**
-   * @param request           HTTP request to execute.
-   * @param client            The client used to execute the request.
-   * @param responseClass     Model class to unmarshal JSON body content.
+   * @param request HTTP request to execute.
+   * @param client The client used to execute the request.
+   * @param responseClass Model class to unmarshal JSON body content.
    * @param fieldNamingPolicy FieldNamingPolicy for unmarshaling JSON.
-   * @param errorTimeOut      Number of milliseconds to re-send erroring requests.
+   * @param errorTimeOut Number of milliseconds to re-send erroring requests.
    */
   public OkHttpPendingResult(Request request, OkHttpClient client, Class<R> responseClass,
-      FieldNamingPolicy fieldNamingPolicy, long errorTimeOut) {
+          FieldNamingPolicy fieldNamingPolicy, long errorTimeOut) {
     this.request = request;
     this.client = client;
     this.responseClass = responseClass;
@@ -79,6 +80,11 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
     this.errorTimeOut = errorTimeOut;
 
     this.call = client.newCall(request);
+  }
+
+  @Override
+  public final void setMethod(MethodType methodType, MediaType contentType) {
+    // TODO
   }
 
   @Override
@@ -91,6 +97,7 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
    * Preserve a request/response pair through an asynchronous callback.
    */
   private class QueuedResponse {
+
     private final OkHttpPendingResult<T, R> request;
     private final Response response;
     private final Exception e;
@@ -100,6 +107,7 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
       this.response = response;
       this.e = null;
     }
+
     public QueuedResponse(OkHttpPendingResult<T, R> request, Exception e) {
       this.request = request;
       this.response = null;
@@ -120,7 +128,7 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
       long delayMillis = (long) (delaySecs * (Math.random() + 0.5) * 1000);
 
       log.config(String.format("Sleeping between errors for %dms (retry #%d, already slept %dms)",
-          delayMillis, retryCounter, cumulativeSleepTime));
+              delayMillis, retryCounter, cumulativeSleepTime));
       cumulativeSleepTime += delayMillis;
       try {
         Thread.sleep(delayMillis);
@@ -188,27 +196,27 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
 
   private T parseResponse(OkHttpPendingResult<T, R> request, Response response) throws Exception {
     if (RETRY_ERROR_CODES.contains(response.code()) && cumulativeSleepTime < errorTimeOut) {
-        // Retry is a blocking method, but that's OK. If we're here, we're either in an await()
-        // call, which is blocking anyway, or we're handling a callback in a separate thread.
-        return request.retry();
+      // Retry is a blocking method, but that's OK. If we're here, we're either in an await()
+      // call, which is blocking anyway, or we're handling a callback in a separate thread.
+      return request.retry();
     } else if (!response.isSuccessful()) {
       // The APIs return 200 even when the API request fails, as long as the transport mechanism
       // succeeds. INVALID_RESPONSE, etc are handled by the Gson parsing below.
       throw new IOException(String.format("Server Error: %d %s", response.code(),
-          response.message()));
+              response.message()));
     }
 
     Gson gson = new GsonBuilder()
-        .registerTypeAdapter(DateTime.class, new DateTimeAdapter())
-        .registerTypeAdapter(Distance.class, new DistanceAdapter())
-        .registerTypeAdapter(Duration.class, new DurationAdapter())
-        .registerTypeAdapter(AddressComponentType.class,
-              new SafeEnumAdapter<AddressComponentType>(AddressComponentType.UNKNOWN))
-        .registerTypeAdapter(AddressType.class, new SafeEnumAdapter<AddressType>(AddressType.UNKNOWN))
-        .registerTypeAdapter(TravelMode.class, new SafeEnumAdapter<TravelMode>(TravelMode.UNKNOWN))
-        .registerTypeAdapter(LocationType.class, new SafeEnumAdapter<LocationType>(LocationType.UNKNOWN))
-        .setFieldNamingPolicy(fieldNamingPolicy)
-        .create();
+            .registerTypeAdapter(DateTime.class, new DateTimeAdapter())
+            .registerTypeAdapter(Distance.class, new DistanceAdapter())
+            .registerTypeAdapter(Duration.class, new DurationAdapter())
+            .registerTypeAdapter(AddressComponentType.class,
+                    new SafeEnumAdapter<AddressComponentType>(AddressComponentType.UNKNOWN))
+            .registerTypeAdapter(AddressType.class, new SafeEnumAdapter<AddressType>(AddressType.UNKNOWN))
+            .registerTypeAdapter(TravelMode.class, new SafeEnumAdapter<TravelMode>(TravelMode.UNKNOWN))
+            .registerTypeAdapter(LocationType.class, new SafeEnumAdapter<LocationType>(LocationType.UNKNOWN))
+            .setFieldNamingPolicy(fieldNamingPolicy)
+            .create();
 
     byte[] bytes = getBytes(response);
     R resp = gson.fromJson(new String(bytes, "utf8"), responseClass);

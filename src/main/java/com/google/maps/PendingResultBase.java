@@ -17,6 +17,7 @@ package com.google.maps;
 
 import com.google.maps.internal.ApiResponse;
 import com.google.maps.internal.StringJoin.UrlValue;
+import com.squareup.okhttp.MediaType;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -28,20 +29,32 @@ import java.util.Map;
  * <p>{@code T} is the class of the result, {@code A} is the actual base class of this abstract
  * class, and R is the type of the request.
  */
-abstract class PendingResultBase<T, A extends PendingResultBase<T, A, R>,
+public abstract class PendingResultBase<T, A extends PendingResultBase<T, A, R>,
       R extends ApiResponse<T>>
     implements PendingResult<T> {
 
-  private final GeoApiContext context;
+  private final ApiContext context;
+  private MethodType methodType = MethodType.GET;
+  private MediaType contentType;
   private HashMap<String, String> params = new HashMap<String, String>();
+  private Object body = new Object();
   private PendingResult<T> delegate;
   private Class<R> responseClass;
   private String base;
 
-  protected PendingResultBase(GeoApiContext context, Class<R> responseClass, String base) {
+  protected PendingResultBase(ApiContext context, Class<R> responseClass, String base) {
     this.context = context;
     this.responseClass = responseClass;
     this.base = base;
+  }
+
+  @Override
+  public final void setMethod(MethodType methodType, MediaType contentType){
+    this.methodType = methodType;
+    if (methodType != MethodType.POST && contentType == null){
+      throw new IllegalArgumentException("If not GET, must set content type.");
+    }
+    this.contentType = contentType;
   }
 
   @Override
@@ -75,7 +88,9 @@ abstract class PendingResultBase<T, A extends PendingResultBase<T, A, R>,
           "'await', 'awaitIgnoreError' or 'setCallback' was already called.");
     }
     validateRequest();
-    delegate = context.get(responseClass, base, params);
+    delegate = methodType == MethodType.GET 
+            ? context.get(responseClass, base, params) 
+            : context.post(responseClass, base, params, contentType, body);
     return (PendingResult<T>) delegate;
   }
 
@@ -101,6 +116,18 @@ abstract class PendingResultBase<T, A extends PendingResultBase<T, A, R>,
     return Collections.unmodifiableMap(params);
   }
 
+  protected A body(Object body) {
+    this.body = body;
+
+    @SuppressWarnings("unchecked") // safe by specification - A is the actual class of this instance
+    A result = (A) this;
+    return result;
+  }
+
+  protected Object body() {
+    return this.body;
+  }
+  
   /**
    * The language in which to return results. Note that we often update supported languages so
    * this list may not be exhaustive.
