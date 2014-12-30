@@ -34,6 +34,8 @@ public class LatLng implements UrlValue {
    */
   public double lng;
 
+  public LatLng() {}
+
   /**
    * Construct a location with a latitude longitude pair.
    */
