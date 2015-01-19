@@ -206,7 +206,7 @@ public class GeocodingApiTest extends AuthenticatedTest {
         GeocodingApi.ComponentFilter.country("Finland")).await();
 
     assertNotNull(results);
-    assertEquals("Annegatan, Helsinki, Finland", results[0].formattedAddress);
+    assertEquals("Annegatan, Helsingfors, Finland", results[0].formattedAddress);
   }
 
   /**
