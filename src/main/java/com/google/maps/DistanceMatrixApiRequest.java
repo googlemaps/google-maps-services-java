@@ -96,11 +96,12 @@ public class DistanceMatrixApiRequest
   public DistanceMatrixApiRequest mode(TravelMode mode) {
     if (TravelMode.DRIVING.equals(mode)
         || TravelMode.WALKING.equals(mode)
-        || TravelMode.BICYCLING.equals(mode)) {
+        || TravelMode.BICYCLING.equals(mode)
+        || TravelMode.TRANSIT.equals(mode)) {
       return param("mode", mode);
     }
     throw new IllegalArgumentException("Distance Matrix API travel modes must be Driving, "
-        + "Walking or Bicycling");
+        + "Transit, Walking or Bicycling");
   }
 
   /**

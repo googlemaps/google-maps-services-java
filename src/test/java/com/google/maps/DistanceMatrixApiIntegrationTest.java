@@ -18,14 +18,18 @@ package com.google.maps;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import com.google.maps.DirectionsApi.RouteRestriction;
 import com.google.maps.model.DistanceMatrix;
+import com.google.maps.model.DistanceMatrixElement;
 import com.google.maps.model.DistanceMatrixElementStatus;
+import com.google.maps.model.DistanceMatrixRow;
 import com.google.maps.model.TravelMode;
 import com.google.maps.model.Unit;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
@@ -108,5 +112,29 @@ public class DistanceMatrixApiIntegrationTest extends AuthenticatedTest {
         .await();
 
     assertNotNull(matrix);
+  }
+
+  @Test
+  public void testTransitData() throws Exception {
+    DistanceMatrix matrix = DistanceMatrixApi.newRequest(context)
+        .origins("Fisherman's Wharf, San Francisco", "Union Square, San Francisco")
+        .destinations("Mikkeller Bar, San Francisco", "Moscone Center, San Francisco")
+        .mode(TravelMode.TRANSIT)
+        .departureTime(new DateTime(2015, 1, 1, 19, 0, DateTimeZone.UTC))
+        .await();
+
+    assertNotNull(matrix);
+
+    for (DistanceMatrixRow row : matrix.rows) {
+      for (DistanceMatrixElement cell : row.elements) {
+        if (cell.fare != null) {
+          assertEquals("USD", cell.fare.currency.getCurrencyCode());
+          assertNotNull(cell.fare.value);
+          return;
+        }
+      }
+    }
+
+    fail("No fare information found in a transit search.");
   }
 }
