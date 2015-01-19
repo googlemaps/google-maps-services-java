@@ -20,6 +20,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import com.google.maps.DirectionsApi.RouteRestriction;
 import com.google.maps.errors.NotFoundException;
@@ -28,6 +29,7 @@ import com.google.maps.model.TravelMode;
 import com.google.maps.model.Unit;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
@@ -245,6 +247,27 @@ public class DirectionsApiTest extends AuthenticatedTest {
 
     assertNotNull(routes);
     assertTrue(routes.length > 1);
+  }
+
+  /**
+   * Test fares are returned for transit requests that support them.
+   */
+  @Test
+  public void testFares() throws Exception {
+    DirectionsRoute[] routes = DirectionsApi.newRequest(context)
+        .origin("Fisherman's Wharf, San Francisco")
+        .destination("Union Square, San Francisco")
+        .mode(TravelMode.TRANSIT)
+        .departureTime(new DateTime(2015, 1, 1, 19, 0, DateTimeZone.UTC))
+        .await();
+
+    // Just in case we get a walking route or something silly
+    for (DirectionsRoute route : routes) {
+      if (route.fare.value != null && "USD".equals(route.fare.currency.getCurrencyCode())) {
+        return;
+      }
+    }
+    fail("Fare data not found in any route");
   }
 
   @Test(expected = NotFoundException.class)

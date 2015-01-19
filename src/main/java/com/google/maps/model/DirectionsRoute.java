@@ -63,6 +63,13 @@ public class DirectionsRoute {
   public String copyrights;
 
   /**
+   * {@code fare} contains information about the fare (that is, the ticket costs) on this route.
+   * This property is only returned for transit directions, and only for routes where fare
+   * information is available for all transit legs.
+   */
+  public Fare fare;
+
+  /**
    * {@code warnings} contains an array of warnings to be displayed when showing these directions.
    * You must handle and display these warnings yourself.
    */

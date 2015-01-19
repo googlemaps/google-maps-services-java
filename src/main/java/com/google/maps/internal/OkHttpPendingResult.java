@@ -202,6 +202,7 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
         .registerTypeAdapter(DateTime.class, new DateTimeAdapter())
         .registerTypeAdapter(Distance.class, new DistanceAdapter())
         .registerTypeAdapter(Duration.class, new DurationAdapter())
+        .registerTypeAdapter(Fare.class, new FareAdapter())
         .registerTypeAdapter(AddressComponentType.class,
               new SafeEnumAdapter<AddressComponentType>(AddressComponentType.UNKNOWN))
         .registerTypeAdapter(AddressType.class, new SafeEnumAdapter<AddressType>(AddressType.UNKNOWN))
