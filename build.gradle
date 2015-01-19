@@ -43,7 +43,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.google.code.gson:gson:2.3'
+    compile 'com.google.code.gson:gson:2.3.1'
     compile 'com.squareup.okhttp:okhttp:2.0.0'
     compile 'joda-time:joda-time:2.4'
 
