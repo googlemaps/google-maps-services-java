@@ -16,6 +16,7 @@
 package com.google.maps;
 
 import com.google.maps.errors.ApiException;
+import com.google.maps.internal.ApiConfig;
 import com.google.maps.internal.ApiResponse;
 import com.google.maps.internal.StringJoin.UrlValue;
 import com.google.maps.model.DirectionsRoute;
@@ -30,7 +31,7 @@ import com.google.maps.model.DirectionsRoute;
  * <p>See <a href="https://developers.google.com/maps/documentation/directions/">documentation</a>.
  */
 public class DirectionsApi {
-  static final String BASE = "/maps/api/directions/json";
+  static final ApiConfig API_CONFIG = new ApiConfig("/maps/api/directions/json");
 
   private DirectionsApi() {
   }

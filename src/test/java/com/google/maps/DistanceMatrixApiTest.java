@@ -55,7 +55,7 @@ public class DistanceMatrixApiTest {
     MockWebServer server = new MockWebServer();
     server.enqueue(response);
     server.play();
-    context.setBaseUrl("http://127.0.0.1:" + server.getPort());
+    context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
 
     DistanceMatrixApi.newRequest(context)
         .origins(new LatLng(-31.9522, 115.8589),

@@ -16,6 +16,7 @@
 package com.google.maps;
 
 import com.google.maps.errors.ApiException;
+import com.google.maps.internal.ApiConfig;
 import com.google.maps.internal.ApiResponse;
 import com.google.maps.model.DistanceMatrix;
 import com.google.maps.model.DistanceMatrixRow;
@@ -40,7 +41,7 @@ import com.google.maps.model.DistanceMatrixRow;
  * Matrix Documentation</a>
  */
 public class DistanceMatrixApi {
-  static final String BASE = "/maps/api/distancematrix/json";
+  static final ApiConfig API_CONFIG = new ApiConfig("/maps/api/distancematrix/json");
 
   private DistanceMatrixApi() {
   }
