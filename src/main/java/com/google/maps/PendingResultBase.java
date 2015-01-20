@@ -15,6 +15,7 @@
 
 package com.google.maps;
 
+import com.google.maps.internal.ApiConfig;
 import com.google.maps.internal.ApiResponse;
 import com.google.maps.internal.StringJoin.UrlValue;
 
@@ -33,15 +34,15 @@ abstract class PendingResultBase<T, A extends PendingResultBase<T, A, R>,
     implements PendingResult<T> {
 
   private final GeoApiContext context;
+  private final ApiConfig config;
   private HashMap<String, String> params = new HashMap<String, String>();
   private PendingResult<T> delegate;
-  private Class<R> responseClass;
-  private String base;
+  private Class<? extends R> responseClass;
 
-  protected PendingResultBase(GeoApiContext context, Class<R> responseClass, String base) {
+  protected PendingResultBase(GeoApiContext context, ApiConfig config, Class<? extends R> clazz) {
     this.context = context;
-    this.responseClass = responseClass;
-    this.base = base;
+    this.config = config;
+    this.responseClass = clazz;
   }
 
   @Override
@@ -75,7 +76,7 @@ abstract class PendingResultBase<T, A extends PendingResultBase<T, A, R>,
           "'await', 'awaitIgnoreError' or 'setCallback' was already called.");
     }
     validateRequest();
-    delegate = context.get(responseClass, base, params);
+    delegate = context.get(config, responseClass, params);
     return (PendingResult<T>) delegate;
   }
 

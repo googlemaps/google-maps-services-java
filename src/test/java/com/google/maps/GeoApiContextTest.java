@@ -20,6 +20,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 
+import com.google.maps.internal.ApiConfig;
 import com.google.maps.internal.ApiResponse;
 import com.google.maps.model.GeocodingResult;
 import com.google.mockwebserver.MockResponse;
@@ -44,7 +45,7 @@ public class GeoApiContextTest {
       .setQueryRateLimit(500, 0);
 
   private void setMockBaseUrl() {
-    context.setBaseUrl("http://127.0.0.1:" + server.getPort());
+    context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
   }
 
   @Test
@@ -61,7 +62,7 @@ public class GeoApiContextTest {
     setMockBaseUrl();
 
     // Build & execute the request using our context
-    context.get(fakeResponse.getClass(), path, params).awaitIgnoreError();
+    context.get(new ApiConfig(path), fakeResponse.getClass(), params).awaitIgnoreError();
 
     // Read the headers
     server.shutdown();
@@ -130,7 +131,8 @@ public class GeoApiContextTest {
     setMockBaseUrl();
 
     // Execute
-    GeocodingResult[] result = context.get(GeocodingApi.Response.class, "/", "k", "v").await();
+    GeocodingResult[] result = context.get(new ApiConfig("/"), GeocodingApi.Response.class,
+        "k", "v").await();
     assertEquals(1, result.length);
     assertEquals("1600 Amphitheatre Parkway, Mountain View, CA 94043, USA",
         result[0].formattedAddress);
@@ -161,7 +163,7 @@ public class GeoApiContextTest {
     context.setRetryTimeout(0, TimeUnit.MILLISECONDS);
 
     // We should get the error response here, not the success response.
-    context.get(GeocodingApi.Response.class, "/", "k", "v").await();
+    context.get(new ApiConfig("/"), GeocodingApi.Response.class, "k", "v").await();
   }
 
   @Test
@@ -181,7 +183,7 @@ public class GeoApiContextTest {
     context.setRetryTimeout(5, TimeUnit.SECONDS);
 
     try {
-      context.get(GeocodingApi.Response.class, "/", "k", "v").await();
+      context.get(new ApiConfig("/"), GeocodingApi.Response.class, "k", "v").await();
     } catch (IOException ioe) {
       // Ensure the message matches the status line in the mock responses.
       assertEquals("Server Error: 500 Internal server error", ioe.getMessage());
