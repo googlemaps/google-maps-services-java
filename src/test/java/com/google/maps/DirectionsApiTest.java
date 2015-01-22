@@ -26,6 +26,7 @@ import com.google.maps.DirectionsApi.RouteRestriction;
 import com.google.maps.errors.NotFoundException;
 import com.google.maps.model.DirectionsRoute;
 import com.google.maps.model.TransitMode;
+import com.google.maps.model.TransitRoutingPreference;
 import com.google.maps.model.TravelMode;
 import com.google.maps.model.Unit;
 
@@ -286,13 +287,17 @@ public class DirectionsApiTest extends AuthenticatedTest {
     // routes, but the main thing to catch is that no exception is thrown.
   }
 
+  /**
+   * Test the extended transit parameters: mode and routing preference.
+   */
   @Test
-  public void testTransitMode() throws Exception {
+  public void testTransitParams() throws Exception {
     DirectionsRoute[] routes = DirectionsApi.newRequest(context)
         .origin("Fisherman's Wharf, San Francisco")
         .destination("Union Square, San Francisco")
         .mode(TravelMode.TRANSIT)
-        .transitModes(TransitMode.BUS, TransitMode.TRAM)
+        .transitMode(TransitMode.BUS, TransitMode.TRAM)
+        .transitRoutingPreference(TransitRoutingPreference.LESS_WALKING)
         .await();
 
     assertTrue(routes.length > 0);

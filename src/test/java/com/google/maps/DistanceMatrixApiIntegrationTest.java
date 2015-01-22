@@ -26,6 +26,7 @@ import com.google.maps.model.DistanceMatrixElement;
 import com.google.maps.model.DistanceMatrixElementStatus;
 import com.google.maps.model.DistanceMatrixRow;
 import com.google.maps.model.TransitMode;
+import com.google.maps.model.TransitRoutingPreference;
 import com.google.maps.model.TravelMode;
 import com.google.maps.model.Unit;
 
@@ -167,13 +168,17 @@ public class DistanceMatrixApiIntegrationTest extends AuthenticatedTest {
     assertEquals(DistanceMatrixElementStatus.OK, matrix.rows[0].elements[0].status);
   }
 
+  /**
+   * Test the extended transit parameters: mode and routing preference.
+   */
   @Test
-  public void testTransitMode() throws Exception {
+  public void testTransitParams() throws Exception {
     DistanceMatrix matrix = DistanceMatrixApi.newRequest(context)
         .origins("Fisherman's Wharf, San Francisco", "Union Square, San Francisco")
         .destinations("Mikkeller Bar, San Francisco", "Moscone Center, San Francisco")
         .mode(TravelMode.TRANSIT)
         .transitModes(TransitMode.RAIL, TransitMode.TRAM)
+        .transitRoutingPreference(TransitRoutingPreference.LESS_WALKING)
         .arrivalTime(new DateTime(2015, 1, 1, 19, 0, DateTimeZone.UTC))
         .await();
 

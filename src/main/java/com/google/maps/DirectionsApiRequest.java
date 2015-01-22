@@ -21,6 +21,7 @@ import com.google.maps.DirectionsApi.RouteRestriction;
 import com.google.maps.model.DirectionsRoute;
 import com.google.maps.model.LatLng;
 import com.google.maps.model.TransitMode;
+import com.google.maps.model.TransitRoutingPreference;
 import com.google.maps.model.TravelMode;
 import com.google.maps.model.Unit;
 
@@ -189,7 +190,16 @@ public class DirectionsApiRequest
    * Specifies one or more preferred modes of transit. This parameter may only be specified for
    * requests where the mode is transit.
    */
-  public DirectionsApiRequest transitModes(TransitMode... transitModes) {
+  public DirectionsApiRequest transitMode(TransitMode... transitModes) {
     return param("transit_mode", join('|', transitModes));
+  }
+
+  /**
+   * Specifies preferences for transit requests. Using this parameter,
+   * you can bias the options returned, rather than accepting the default best route chosen by
+   * the API.
+   */
+  public DirectionsApiRequest transitRoutingPreference(TransitRoutingPreference pref) {
+    return param("transit_routing_preference", pref);
   }
 }
