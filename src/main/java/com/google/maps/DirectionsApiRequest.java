@@ -44,11 +44,10 @@ public class DirectionsApiRequest
     if (!params().containsKey("destination")) {
       throw new IllegalArgumentException("Request must contain 'destination'");
     }
-    if (params().get("mode") != null
-        && params().get("mode").equals(TravelMode.TRANSIT.toString())
-        && (!params().containsKey("arrival_time") && !params().containsKey("departure_time"))) {
+    if (TravelMode.TRANSIT.toString().equals(params().get("mode"))
+        && (params().containsKey("arrival_time") && params().containsKey("departure_time"))) {
       throw new IllegalArgumentException(
-          "Transit request must contain either a departureTime or an arrivalTime");
+          "Transit request must not contain both a departureTime and an arrivalTime");
     }
   }
 
@@ -131,7 +130,7 @@ public class DirectionsApiRequest
   }
 
   /**
-   * Set the departure time for a Transit directions request.
+   * Set the departure time for a Transit directions request. If not provided, "now" is assumed.
    *
    * @param time The departure time to calculate directions for.
    */

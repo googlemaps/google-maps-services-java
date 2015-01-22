@@ -270,6 +270,21 @@ public class DirectionsApiTest extends AuthenticatedTest {
     fail("Fare data not found in any route");
   }
 
+  /**
+   * Test transit without arrival or departure times specified.
+   */
+  @Test
+  public void testTransitWithoutSpecifyingTime() throws Exception {
+    DirectionsApi.newRequest(context)
+        .origin("Fisherman's Wharf, San Francisco")
+        .destination("Union Square, San Francisco")
+        .mode(TravelMode.TRANSIT)
+        .await();
+
+    // Since this test may run at different times-of-day, it's entirely valid to return zero
+    // routes, but the main thing to catch is that no exception is thrown.
+  }
+
   @Test(expected = NotFoundException.class)
   public void testNotFound() throws Exception {
     DirectionsRoute[] routes = DirectionsApi.getDirections(context, "fksjdhgf", "faldfdaf").await();

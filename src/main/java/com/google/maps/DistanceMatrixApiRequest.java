@@ -44,6 +44,11 @@ public class DistanceMatrixApiRequest
     if (!params().containsKey("destinations")) {
       throw new IllegalArgumentException("Request must contain 'destinations'");
     }
+    if (TravelMode.TRANSIT.toString().equals(params().get("mode"))
+        && (params().containsKey("arrival_time") && params().containsKey("departure_time"))) {
+      throw new IllegalArgumentException(
+          "Transit request must not contain both a departureTime and an arrivalTime");
+    }
   }
 
   /**
@@ -129,13 +134,32 @@ public class DistanceMatrixApiRequest
   }
 
   /**
-   * The departure time may be specified by Maps for Work customers for to specify the
-   * departure time to receive trip duration considering current traffic conditions. The
-   * departure time must be set to within a few minutes of the current time.
+   * Specifies the desired time of departure.
+   *
+   * <p>The departure time may be specified in two cases:
+   * <ul><li>For requests where the travel mode is transit: You can optionally specify one of
+   * departure_time or arrival_time. If neither time is specified, the departure_time defaults
+   * to now (that is, the departure time defaults to the current time).</li>
+   * <li>For requests where the travel mode is driving: Google Maps API for Work customers can
+   * specify the departure_time to receive trip duration considering current traffic conditions.
+   * The departure_time must be set to within a few minutes of the current time.</li>
+   * </ul>
+   *
+   * <p>Setting the parameter to null will remove it from the API request.
    *
    * @param departureTime  The time of departure.
    */
   public DistanceMatrixApiRequest departureTime(ReadableInstant departureTime) {
     return param("departure_time", Long.toString(departureTime.getMillis() / 1000L));
   }
+
+  /**
+   * Specifies the desired time of arrival for transit requests. You can specify either
+   * departure_time or arrival_time, but not both.
+   */
+  public DistanceMatrixApiRequest arrivalTime(ReadableInstant arrivalTime) {
+    return param("arrival_time", Long.toString(arrivalTime.getMillis() / 1000L));
+  }
+
+
 }

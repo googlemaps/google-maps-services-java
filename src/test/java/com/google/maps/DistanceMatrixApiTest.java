@@ -19,7 +19,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import com.google.maps.model.LatLng;
-import com.google.maps.model.TravelMode;
 import com.google.mockwebserver.MockResponse;
 import com.google.mockwebserver.MockWebServer;
 
@@ -35,18 +34,6 @@ import java.util.List;
 public class DistanceMatrixApiTest {
 
   private GeoApiContext context = new GeoApiContext().setApiKey("AIzaFakeKey");
-
-  @Test(expected = IllegalArgumentException.class)
-  public void testTravelModeRejectsInvalidMode() throws Exception {
-    String[] origins = {"Perth, WA"};
-    String[] destinations = {"Sydney, NSW"};
-
-    DistanceMatrixApi.newRequest(context)
-        .origins(origins)
-        .destinations(destinations)
-        .mode(TravelMode.TRANSIT)
-        .await();
-  }
 
   @Test
   public void testLatLngOriginDestinations() throws Exception {

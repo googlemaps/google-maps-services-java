@@ -137,4 +137,32 @@ public class DistanceMatrixApiIntegrationTest extends AuthenticatedTest {
 
     fail("No fare information found in a transit search.");
   }
+
+  /**
+   * Test transit without arrival or departure times specified.
+   */
+  @Test
+  public void testTransitWithoutSpecifyingTime() throws Exception {
+    DistanceMatrixApi.newRequest(context)
+        .origins("Fisherman's Wharf, San Francisco", "Union Square, San Francisco")
+        .destinations("Mikkeller Bar, San Francisco", "Moscone Center, San Francisco")
+        .mode(TravelMode.TRANSIT)
+        .await();
+
+    // Since this test may run at different times-of-day, it's entirely valid to return zero
+    // routes, but the main thing to catch is that no exception is thrown.
+  }
+
+  @Test
+  public void testTransitWithArrivalTime() throws Exception {
+    DistanceMatrix matrix = DistanceMatrixApi.newRequest(context)
+        .origins("Fisherman's Wharf, San Francisco", "Union Square, San Francisco")
+        .destinations("Mikkeller Bar, San Francisco", "Moscone Center, San Francisco")
+        .mode(TravelMode.TRANSIT)
+        .arrivalTime(new DateTime(2015, 1, 1, 19, 0, DateTimeZone.UTC))
+        .await();
+
+    assertNotNull(matrix);
+    assertEquals(DistanceMatrixElementStatus.OK, matrix.rows[0].elements[0].status);
+  }
 }
