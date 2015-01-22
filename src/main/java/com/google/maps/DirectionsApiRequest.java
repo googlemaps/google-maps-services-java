@@ -20,6 +20,7 @@ import static com.google.maps.internal.StringJoin.join;
 import com.google.maps.DirectionsApi.RouteRestriction;
 import com.google.maps.model.DirectionsRoute;
 import com.google.maps.model.LatLng;
+import com.google.maps.model.TransitMode;
 import com.google.maps.model.TravelMode;
 import com.google.maps.model.Unit;
 
@@ -182,5 +183,13 @@ public class DirectionsApiRequest
     } else {
       return param("alternatives", "false");
     }
+  }
+
+  /**
+   * Specifies one or more preferred modes of transit. This parameter may only be specified for
+   * requests where the mode is transit.
+   */
+  public DirectionsApiRequest transitModes(TransitMode... transitModes) {
+    return param("transit_mode", join('|', transitModes));
   }
 }

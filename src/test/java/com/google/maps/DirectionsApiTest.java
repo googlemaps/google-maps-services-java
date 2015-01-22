@@ -25,6 +25,7 @@ import static org.junit.Assert.fail;
 import com.google.maps.DirectionsApi.RouteRestriction;
 import com.google.maps.errors.NotFoundException;
 import com.google.maps.model.DirectionsRoute;
+import com.google.maps.model.TransitMode;
 import com.google.maps.model.TravelMode;
 import com.google.maps.model.Unit;
 
@@ -174,7 +175,7 @@ public class DirectionsApiTest extends AuthenticatedTest {
         .destination("Adelaide,SA")
         .optimizeWaypoints(true)
         .waypoints("Barossa Valley, SA", "Clare, SA", "Connawarra, SA",
-        "McLaren Vale, SA")
+            "McLaren Vale, SA")
         .await();
 
     assertNotNull(routes);
@@ -283,6 +284,18 @@ public class DirectionsApiTest extends AuthenticatedTest {
 
     // Since this test may run at different times-of-day, it's entirely valid to return zero
     // routes, but the main thing to catch is that no exception is thrown.
+  }
+
+  @Test
+  public void testTransitMode() throws Exception {
+    DirectionsRoute[] routes = DirectionsApi.newRequest(context)
+        .origin("Fisherman's Wharf, San Francisco")
+        .destination("Union Square, San Francisco")
+        .mode(TravelMode.TRANSIT)
+        .transitModes(TransitMode.BUS, TransitMode.TRAM)
+        .await();
+
+    assertTrue(routes.length > 0);
   }
 
   @Test(expected = NotFoundException.class)

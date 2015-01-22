@@ -25,6 +25,7 @@ import com.google.maps.model.DistanceMatrix;
 import com.google.maps.model.DistanceMatrixElement;
 import com.google.maps.model.DistanceMatrixElementStatus;
 import com.google.maps.model.DistanceMatrixRow;
+import com.google.maps.model.TransitMode;
 import com.google.maps.model.TravelMode;
 import com.google.maps.model.Unit;
 
@@ -159,6 +160,20 @@ public class DistanceMatrixApiIntegrationTest extends AuthenticatedTest {
         .origins("Fisherman's Wharf, San Francisco", "Union Square, San Francisco")
         .destinations("Mikkeller Bar, San Francisco", "Moscone Center, San Francisco")
         .mode(TravelMode.TRANSIT)
+        .arrivalTime(new DateTime(2015, 1, 1, 19, 0, DateTimeZone.UTC))
+        .await();
+
+    assertNotNull(matrix);
+    assertEquals(DistanceMatrixElementStatus.OK, matrix.rows[0].elements[0].status);
+  }
+
+  @Test
+  public void testTransitMode() throws Exception {
+    DistanceMatrix matrix = DistanceMatrixApi.newRequest(context)
+        .origins("Fisherman's Wharf, San Francisco", "Union Square, San Francisco")
+        .destinations("Mikkeller Bar, San Francisco", "Moscone Center, San Francisco")
+        .mode(TravelMode.TRANSIT)
+        .transitModes(TransitMode.RAIL, TransitMode.TRAM)
         .arrivalTime(new DateTime(2015, 1, 1, 19, 0, DateTimeZone.UTC))
         .await();
 
