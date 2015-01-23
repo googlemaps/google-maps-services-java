@@ -33,7 +33,7 @@ public class DistanceMatrixApiRequest
     extends PendingResultBase<DistanceMatrix, DistanceMatrixApiRequest, Response> {
 
   public DistanceMatrixApiRequest(GeoApiContext context) {
-    super(context, Response.class, DistanceMatrixApi.BASE);
+    super(context, DistanceMatrixApi.API_CONFIG, Response.class);
   }
 
   @Override

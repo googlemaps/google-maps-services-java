@@ -17,6 +17,7 @@ package com.google.maps;
 
 import static com.google.maps.internal.StringJoin.join;
 
+import com.google.maps.internal.ApiConfig;
 import com.google.maps.model.AddressType;
 import com.google.maps.model.GeocodingResult;
 import com.google.maps.model.LatLng;
@@ -28,10 +29,10 @@ import com.google.maps.model.LocationType;
 public class GeocodingApiRequest
     extends PendingResultBase<GeocodingResult[], GeocodingApiRequest, GeocodingApi.Response> {
 
-  private static final String BASE = "/maps/api/geocode/json";
+  private static final ApiConfig API_CONFIG = new ApiConfig("/maps/api/geocode/json");
 
   public GeocodingApiRequest(GeoApiContext context) {
-    super(context, GeocodingApi.Response.class, BASE);
+    super(context, API_CONFIG, GeocodingApi.Response.class);
   }
 
   @Override

@@ -34,7 +34,7 @@ public class DirectionsApiRequest
   private String[] waypoints;
 
   DirectionsApiRequest(GeoApiContext context) {
-    super(context, DirectionsApi.Response.class, DirectionsApi.BASE);
+    super(context, DirectionsApi.API_CONFIG, DirectionsApi.Response.class);
   }
 
   protected void validateRequest() {

@@ -35,7 +35,7 @@ public class ElevationApiTest {
   private GeoApiContext context = new GeoApiContext().setApiKey("AIzaFakeKey");
 
   private void setMockBaseUrl() {
-    context.setBaseUrl("http://127.0.0.1:" + server.getPort());
+    context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
   }
 
   @After

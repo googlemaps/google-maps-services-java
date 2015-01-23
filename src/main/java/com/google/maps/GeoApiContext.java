@@ -16,6 +16,7 @@
 package com.google.maps;
 
 import com.google.gson.FieldNamingPolicy;
+import com.google.maps.internal.ApiConfig;
 import com.google.maps.internal.ApiResponse;
 import com.google.maps.internal.ExceptionResult;
 import com.google.maps.internal.OkHttpPendingResult;
@@ -38,11 +39,10 @@ import java.util.logging.Logger;
  */
 public class GeoApiContext {
   private static final String VERSION = "@VERSION@";  // Populated by the build script
-  private static final String DEFAULT_HOST = "https://maps.googleapis.com";
   private static final String USER_AGENT = "GoogleGeoApiClientJava/" + VERSION;
   private static final int DEFAULT_BACKOFF_TIMEOUT_MILLIS = 60 * 1000; // 60s
 
-  private String host = DEFAULT_HOST;
+  private String baseUrlOverride;
   private String apiKey;
   private String clientId;
   private UrlSigner urlSigner;
@@ -57,7 +57,7 @@ public class GeoApiContext {
     client.setDispatcher(new Dispatcher(rateLimitExecutorService));
   }
 
-  <T, R extends ApiResponse<T>> PendingResult<T> get(Class<R> clazz, String path,
+  <T, R extends ApiResponse<T>> PendingResult<T> get(ApiConfig config, Class<? extends R> clazz,
       Map<String, String> params) {
     StringBuilder query = new StringBuilder();
 
@@ -69,17 +69,13 @@ public class GeoApiContext {
         return new ExceptionResult<T>(e);
       }
     }
-    return getWithPath(clazz, FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES, path,
+
+    return getWithPath(clazz, config.fieldNamingPolicy, config.hostName, config.path,
         query.toString());
   }
 
-  <T, R extends ApiResponse<T>> PendingResult<T> get(Class<R> clazz, String path,
+  <T, R extends ApiResponse<T>> PendingResult<T> get(ApiConfig config, Class<? extends R> clazz,
       String... params) {
-    return get(clazz, FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES, path, params);
-  }
-
-  <T, R extends ApiResponse<T>> PendingResult<T> get(Class<R> clazz,
-      FieldNamingPolicy fieldNamingPolicy, String path, String... params) {
     if (params.length % 2 != 0) {
       throw new IllegalArgumentException("Params must be matching key/value pairs.");
     }
@@ -98,11 +94,12 @@ public class GeoApiContext {
       }
     }
 
-    return getWithPath(clazz, fieldNamingPolicy, path, query.toString());
+    return getWithPath(clazz, config.fieldNamingPolicy, config.hostName, config.path,
+        query.toString());
   }
 
   private <T, R extends ApiResponse<T>> PendingResult<T> getWithPath(Class<R> clazz,
-      FieldNamingPolicy fieldNamingPolicy, String path, String encodedPath) {
+      FieldNamingPolicy fieldNamingPolicy, String hostName, String path, String encodedPath) {
     checkContext();
     if (!encodedPath.startsWith("&")) {
       throw new IllegalArgumentException("encodedPath must start with &");
@@ -125,12 +122,16 @@ public class GeoApiContext {
       }
     }
 
+    if (baseUrlOverride != null) {
+      hostName = baseUrlOverride;
+    }
+
     Request req = new Request.Builder()
         .get()
         .header("User-Agent", USER_AGENT)
-        .url(host + url).build();
+        .url(hostName + url).build();
 
-    log.log(Level.INFO, "Request: {0}", host + url);
+    log.log(Level.INFO, "Request: {0}", hostName + url);
 
     return new OkHttpPendingResult<T, R>(req, client, clazz, fieldNamingPolicy, errorTimeout);
   }
@@ -149,8 +150,8 @@ public class GeoApiContext {
    * Override the base URL of the API endpoint. Useful only for testing.
    * @param baseUrl  The URL to use, without a trailing slash, e.g. https://maps.googleapis.com
    */
-  GeoApiContext setBaseUrl(String baseUrl) {
-    host = baseUrl;
+  GeoApiContext setBaseUrlForTesting(String baseUrl) {
+    baseUrlOverride = baseUrl;
     return this;
   }
 
