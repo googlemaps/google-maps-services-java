@@ -20,14 +20,18 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import com.google.maps.DirectionsApi.RouteRestriction;
 import com.google.maps.errors.NotFoundException;
 import com.google.maps.model.DirectionsRoute;
+import com.google.maps.model.TransitMode;
+import com.google.maps.model.TransitRoutingPreference;
 import com.google.maps.model.TravelMode;
 import com.google.maps.model.Unit;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
@@ -172,7 +176,7 @@ public class DirectionsApiTest extends AuthenticatedTest {
         .destination("Adelaide,SA")
         .optimizeWaypoints(true)
         .waypoints("Barossa Valley, SA", "Clare, SA", "Connawarra, SA",
-        "McLaren Vale, SA")
+            "McLaren Vale, SA")
         .await();
 
     assertNotNull(routes);
@@ -245,6 +249,58 @@ public class DirectionsApiTest extends AuthenticatedTest {
 
     assertNotNull(routes);
     assertTrue(routes.length > 1);
+  }
+
+  /**
+   * Test fares are returned for transit requests that support them.
+   */
+  @Test
+  public void testFares() throws Exception {
+    DirectionsRoute[] routes = DirectionsApi.newRequest(context)
+        .origin("Fisherman's Wharf, San Francisco")
+        .destination("Union Square, San Francisco")
+        .mode(TravelMode.TRANSIT)
+        .departureTime(new DateTime(2015, 1, 1, 19, 0, DateTimeZone.UTC))
+        .await();
+
+    // Just in case we get a walking route or something silly
+    for (DirectionsRoute route : routes) {
+      if (route.fare.value != null && "USD".equals(route.fare.currency.getCurrencyCode())) {
+        return;
+      }
+    }
+    fail("Fare data not found in any route");
+  }
+
+  /**
+   * Test transit without arrival or departure times specified.
+   */
+  @Test
+  public void testTransitWithoutSpecifyingTime() throws Exception {
+    DirectionsApi.newRequest(context)
+        .origin("Fisherman's Wharf, San Francisco")
+        .destination("Union Square, San Francisco")
+        .mode(TravelMode.TRANSIT)
+        .await();
+
+    // Since this test may run at different times-of-day, it's entirely valid to return zero
+    // routes, but the main thing to catch is that no exception is thrown.
+  }
+
+  /**
+   * Test the extended transit parameters: mode and routing preference.
+   */
+  @Test
+  public void testTransitParams() throws Exception {
+    DirectionsRoute[] routes = DirectionsApi.newRequest(context)
+        .origin("Fisherman's Wharf, San Francisco")
+        .destination("Union Square, San Francisco")
+        .mode(TravelMode.TRANSIT)
+        .transitMode(TransitMode.BUS, TransitMode.TRAM)
+        .transitRoutingPreference(TransitRoutingPreference.LESS_WALKING)
+        .await();
+
+    assertTrue(routes.length > 0);
   }
 
   @Test(expected = NotFoundException.class)

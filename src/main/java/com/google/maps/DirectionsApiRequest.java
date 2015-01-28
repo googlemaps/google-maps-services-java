@@ -20,6 +20,8 @@ import static com.google.maps.internal.StringJoin.join;
 import com.google.maps.DirectionsApi.RouteRestriction;
 import com.google.maps.model.DirectionsRoute;
 import com.google.maps.model.LatLng;
+import com.google.maps.model.TransitMode;
+import com.google.maps.model.TransitRoutingPreference;
 import com.google.maps.model.TravelMode;
 import com.google.maps.model.Unit;
 
@@ -44,11 +46,10 @@ public class DirectionsApiRequest
     if (!params().containsKey("destination")) {
       throw new IllegalArgumentException("Request must contain 'destination'");
     }
-    if (params().get("mode") != null
-        && params().get("mode").equals(TravelMode.TRANSIT.toString())
-        && (!params().containsKey("arrival_time") && !params().containsKey("departure_time"))) {
+    if (TravelMode.TRANSIT.toString().equals(params().get("mode"))
+        && (params().containsKey("arrival_time") && params().containsKey("departure_time"))) {
       throw new IllegalArgumentException(
-          "Transit request must contain either a departureTime or an arrivalTime");
+          "Transit request must not contain both a departureTime and an arrivalTime");
     }
   }
 
@@ -131,7 +132,7 @@ public class DirectionsApiRequest
   }
 
   /**
-   * Set the departure time for a Transit directions request.
+   * Set the departure time for a Transit directions request. If not provided, "now" is assumed.
    *
    * @param time The departure time to calculate directions for.
    */
@@ -183,5 +184,22 @@ public class DirectionsApiRequest
     } else {
       return param("alternatives", "false");
     }
+  }
+
+  /**
+   * Specifies one or more preferred modes of transit. This parameter may only be specified for
+   * requests where the mode is transit.
+   */
+  public DirectionsApiRequest transitMode(TransitMode... transitModes) {
+    return param("transit_mode", join('|', transitModes));
+  }
+
+  /**
+   * Specifies preferences for transit requests. Using this parameter,
+   * you can bias the options returned, rather than accepting the default best route chosen by
+   * the API.
+   */
+  public DirectionsApiRequest transitRoutingPreference(TransitRoutingPreference pref) {
+    return param("transit_routing_preference", pref);
   }
 }

@@ -18,14 +18,20 @@ package com.google.maps;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import com.google.maps.DirectionsApi.RouteRestriction;
 import com.google.maps.model.DistanceMatrix;
+import com.google.maps.model.DistanceMatrixElement;
 import com.google.maps.model.DistanceMatrixElementStatus;
+import com.google.maps.model.DistanceMatrixRow;
+import com.google.maps.model.TransitMode;
+import com.google.maps.model.TransitRoutingPreference;
 import com.google.maps.model.TravelMode;
 import com.google.maps.model.Unit;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
@@ -108,5 +114,75 @@ public class DistanceMatrixApiIntegrationTest extends AuthenticatedTest {
         .await();
 
     assertNotNull(matrix);
+  }
+
+  @Test
+  public void testTransitData() throws Exception {
+    DistanceMatrix matrix = DistanceMatrixApi.newRequest(context)
+        .origins("Fisherman's Wharf, San Francisco", "Union Square, San Francisco")
+        .destinations("Mikkeller Bar, San Francisco", "Moscone Center, San Francisco")
+        .mode(TravelMode.TRANSIT)
+        .departureTime(new DateTime(2015, 1, 1, 19, 0, DateTimeZone.UTC))
+        .await();
+
+    assertNotNull(matrix);
+
+    for (DistanceMatrixRow row : matrix.rows) {
+      for (DistanceMatrixElement cell : row.elements) {
+        if (cell.fare != null) {
+          assertEquals("USD", cell.fare.currency.getCurrencyCode());
+          assertNotNull(cell.fare.value);
+          return;
+        }
+      }
+    }
+
+    fail("No fare information found in a transit search.");
+  }
+
+  /**
+   * Test transit without arrival or departure times specified.
+   */
+  @Test
+  public void testTransitWithoutSpecifyingTime() throws Exception {
+    DistanceMatrixApi.newRequest(context)
+        .origins("Fisherman's Wharf, San Francisco", "Union Square, San Francisco")
+        .destinations("Mikkeller Bar, San Francisco", "Moscone Center, San Francisco")
+        .mode(TravelMode.TRANSIT)
+        .await();
+
+    // Since this test may run at different times-of-day, it's entirely valid to return zero
+    // routes, but the main thing to catch is that no exception is thrown.
+  }
+
+  @Test
+  public void testTransitWithArrivalTime() throws Exception {
+    DistanceMatrix matrix = DistanceMatrixApi.newRequest(context)
+        .origins("Fisherman's Wharf, San Francisco", "Union Square, San Francisco")
+        .destinations("Mikkeller Bar, San Francisco", "Moscone Center, San Francisco")
+        .mode(TravelMode.TRANSIT)
+        .arrivalTime(new DateTime(2015, 1, 1, 19, 0, DateTimeZone.UTC))
+        .await();
+
+    assertNotNull(matrix);
+    assertEquals(DistanceMatrixElementStatus.OK, matrix.rows[0].elements[0].status);
+  }
+
+  /**
+   * Test the extended transit parameters: mode and routing preference.
+   */
+  @Test
+  public void testTransitParams() throws Exception {
+    DistanceMatrix matrix = DistanceMatrixApi.newRequest(context)
+        .origins("Fisherman's Wharf, San Francisco", "Union Square, San Francisco")
+        .destinations("Mikkeller Bar, San Francisco", "Moscone Center, San Francisco")
+        .mode(TravelMode.TRANSIT)
+        .transitModes(TransitMode.RAIL, TransitMode.TRAM)
+        .transitRoutingPreference(TransitRoutingPreference.LESS_WALKING)
+        .arrivalTime(new DateTime(2015, 1, 1, 19, 0, DateTimeZone.UTC))
+        .await();
+
+    assertNotNull(matrix);
+    assertEquals(DistanceMatrixElementStatus.OK, matrix.rows[0].elements[0].status);
   }
 }

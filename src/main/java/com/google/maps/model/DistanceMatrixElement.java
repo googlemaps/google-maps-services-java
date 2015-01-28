@@ -39,4 +39,10 @@ public class DistanceMatrixElement {
    * {@code distance} indicates the total distance covered by this leg.
    */
   public Distance distance;
+
+  /**
+   * {@code fare} indicates the contains information about the fare (that is, the ticket costs) on
+   * this route.
+   */
+  public Fare fare;
 }
