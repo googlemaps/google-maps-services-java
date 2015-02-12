@@ -27,7 +27,7 @@ import java.util.List;
  * detail on the protocol.
  */
 public class EncodedPolyline {
-  private String points;
+  private final String points;
 
   /**
    * @param encodedPoints A string representation of a path, encoded with the Polyline Algorithm.
