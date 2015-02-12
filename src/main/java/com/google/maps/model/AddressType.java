@@ -190,7 +190,7 @@ public enum AddressType implements UrlValue {
 
   private static Logger log = Logger.getLogger(AddressType.class.getName());
 
-  private String addressType;
+  private final String addressType;
 
   AddressType(String addressType) {
     this.addressType = addressType;
