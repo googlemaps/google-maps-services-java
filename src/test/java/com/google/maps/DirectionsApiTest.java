@@ -52,7 +52,8 @@ public class DirectionsApiTest extends AuthenticatedTest {
 
   @Test
   public void testGetDirections() throws Exception {
-    DirectionsRoute[] routes = DirectionsApi.getDirections(context, "Sydney", "Melbourne").await();
+    DirectionsRoute[] routes = DirectionsApi.getDirections(context, "Sydney, AU",
+        "Melbourne, AU").await();
     assertNotNull(routes);
     assertNotNull(routes[0]);
     assertThat(routes[0].overviewPolyline.decodePath().size(), not(0));
@@ -66,7 +67,7 @@ public class DirectionsApiTest extends AuthenticatedTest {
         .mode(TravelMode.BICYCLING)
         .avoid(RouteRestriction.HIGHWAYS, RouteRestriction.TOLLS, RouteRestriction.FERRIES)
         .units(Unit.METRIC)
-        .region("us")
+        .region("au")
         .origin("Sydney")
         .destination("Melbourne").await();
 
