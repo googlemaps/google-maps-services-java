@@ -37,7 +37,7 @@ contribute, please read [How to Contribute][contrib].
 
 ## Requirements
 
- - Java 1.6 or later.
+ - Java 1.7 or later.
  - A Google Maps API key.
 
 ### API keys
