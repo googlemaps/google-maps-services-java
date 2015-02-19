@@ -28,6 +28,7 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 
 import java.io.UnsupportedEncodingException;
+import java.net.Proxy;
 import java.net.URLEncoder;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -53,8 +54,15 @@ public class GeoApiContext {
   private long errorTimeout = DEFAULT_BACKOFF_TIMEOUT_MILLIS;
 
   public GeoApiContext() {
+    this(null);
+  }
+
+  public GeoApiContext(Proxy proxy) {
     rateLimitExecutorService = new RateLimitExecutorService();
     client.setDispatcher(new Dispatcher(rateLimitExecutorService));
+    if(proxy != null) {
+      client.setProxy(proxy);
+    }
   }
 
   <T, R extends ApiResponse<T>> PendingResult<T> get(ApiConfig config, Class<? extends R> clazz,
