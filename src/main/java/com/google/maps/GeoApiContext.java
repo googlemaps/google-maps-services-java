@@ -54,15 +54,8 @@ public class GeoApiContext {
   private long errorTimeout = DEFAULT_BACKOFF_TIMEOUT_MILLIS;
 
   public GeoApiContext() {
-    this(null);
-  }
-
-  public GeoApiContext(Proxy proxy) {
     rateLimitExecutorService = new RateLimitExecutorService();
     client.setDispatcher(new Dispatcher(rateLimitExecutorService));
-    if(proxy != null) {
-      client.setProxy(proxy);
-    }
   }
 
   <T, R extends ApiResponse<T>> PendingResult<T> get(ApiConfig config, Class<? extends R> clazz,
@@ -231,6 +224,16 @@ public class GeoApiContext {
    */
   public GeoApiContext setQueryRateLimit(int maxQps, int minimumInterval) {
     rateLimitExecutorService.setQueriesPerSecond(maxQps, minimumInterval);
+    return this;
+  }
+
+  /**
+   * Sets the proxy for new connections.
+   *
+   * @param proxy The proxy to be used by the underlying HTTP client.
+   */
+  public GeoApiContext setProxy(Proxy proxy) {
+    client.setProxy(proxy == null ? Proxy.NO_PROXY : proxy);
     return this;
   }
 }
