@@ -78,4 +78,12 @@ public class DirectionsStep {
    * Modes</a> for more detail.
    */
   public TravelMode travelMode;
+
+  /**
+   * {@code transitDetails} contains transit specific information. This field is only returned with
+   * travel_mode is set to "transit".
+   * See <a href="https://developers.google.com/maps/documentation/directions/#TransitDetails">
+   * Transit Details</a> for more detail.
+   */
+  public TransitDetails transitDetails;
 }
