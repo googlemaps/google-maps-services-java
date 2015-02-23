@@ -28,6 +28,7 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 
 import java.io.UnsupportedEncodingException;
+import java.net.Proxy;
 import java.net.URLEncoder;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -223,6 +224,16 @@ public class GeoApiContext {
    */
   public GeoApiContext setQueryRateLimit(int maxQps, int minimumInterval) {
     rateLimitExecutorService.setQueriesPerSecond(maxQps, minimumInterval);
+    return this;
+  }
+
+  /**
+   * Sets the proxy for new connections.
+   *
+   * @param proxy The proxy to be used by the underlying HTTP client.
+   */
+  public GeoApiContext setProxy(Proxy proxy) {
+    client.setProxy(proxy == null ? Proxy.NO_PROXY : proxy);
     return this;
   }
 }
