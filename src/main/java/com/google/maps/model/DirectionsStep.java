@@ -28,9 +28,9 @@ package com.google.maps.model;
  * additional <a href="https://developers.google.com/maps/documentation/directions/#TransitDetails">
  * Transit Details</a> in the form of a {@code transitDetails} array. If the directions include
  * multiple modes of transportation, detailed directions will be provided for walking or driving
- * steps in a {@code subSteps} array. For example, a walking step will include directions from
+ * steps in a {@code steps} array. For example, a walking step will include directions from
  * the start and end locations: "Walk to Innes Ave & Fitch St". That step will include detailed
- * walking directions for that route in the {@code subSteps} array, such as: "Head north-west",
+ * walking directions for that route in the {@code steps} array, such as: "Head north-west",
  * "Turn left onto Arelious Walker", and "Turn left onto Innes Ave".
  */
 public class DirectionsStep {
@@ -62,10 +62,10 @@ public class DirectionsStep {
   public LatLng endLocation;
 
   /**
-   * {@code subSteps} contains detailed directions for walking or driving steps in transit
+   * {@code steps} contains detailed directions for walking or driving steps in transit
    * directions. Substeps are only available when travelMode is set to "transit".
    */
-  public DirectionsStep[] subSteps;
+  public DirectionsStep[] steps;
 
   /**
    * {@code polyline} is the path of this step.
