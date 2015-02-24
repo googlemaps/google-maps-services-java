@@ -18,7 +18,7 @@ public class TransitDetails {
   public StopDetails arrivalStop;
 
   /**
-   * {@code arrivalStop} contains information about the departure stop/station for this part of the
+   * {@code departureStop} contains information about the departure stop/station for this part of the
    * trip.
    */
   public StopDetails departureStop;
