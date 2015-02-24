@@ -47,11 +47,11 @@ public class TransitDetails {
   public long headway;
 
   /**
-   * {@code numbStops} contains the number of stops in this step, counting the arrival stop, but not
+   * {@code numStops} contains the number of stops in this step, counting the arrival stop, but not
    * the departure stop. For example, if your directions involve leaving from Stop A, passing
-   * through stops B and C, and arriving at stop D, {@code numbStops} will return 3.
+   * through stops B and C, and arriving at stop D, {@code numStops} will return 3.
    */
-  public int numbStops;
+  public int numStops;
 
   /**
    * {@code line} contains information about the transit line used in this step.
