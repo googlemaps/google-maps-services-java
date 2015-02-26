@@ -308,4 +308,26 @@ public class DirectionsApiTest extends AuthenticatedTest {
   public void testNotFound() throws Exception {
     DirectionsRoute[] routes = DirectionsApi.getDirections(context, "fksjdhgf", "faldfdaf").await();
   }
+
+  /**
+   * Test transit details.
+   */
+  @Test
+  public void testTransitDetails() throws Exception {
+    DirectionsRoute[] routes = DirectionsApi.newRequest(context)
+        .origin("Bibliotheque Francois Mitterrand, Paris")
+        .destination("Pyramides, Paris")
+        .mode(TravelMode.TRANSIT)
+        .departureTime(new DateTime(2015, 2, 15, 11, 0, DateTimeZone.UTC))
+        .await();
+
+    assertNotNull(routes[0].legs[0].steps[0].transitDetails);
+    assertNotNull(routes[0].legs[0].steps[0].transitDetails.arrivalStop);
+    assertNotNull(routes[0].legs[0].steps[0].transitDetails.arrivalTime);
+    assertNotNull(routes[0].legs[0].steps[0].transitDetails.departureStop);
+    assertNotNull(routes[0].legs[0].steps[0].transitDetails.departureTime);
+    assertNotNull(routes[0].legs[0].steps[0].transitDetails.line);
+    assertNotNull(routes[0].legs[0].steps[0].transitDetails.line.agencies);
+    assertNotNull(routes[0].legs[0].steps[0].transitDetails.line.vehicle);
+  }
 }
