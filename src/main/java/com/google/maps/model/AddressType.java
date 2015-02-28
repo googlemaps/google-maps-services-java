@@ -15,15 +15,20 @@
 
 package com.google.maps.model;
 
-import com.google.maps.internal.StringJoin.UrlValue;
-
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.google.maps.internal.StringJoin.UrlValue;
 
 /**
  * The Adress types. Please see
  * <a href="https://developers.google.com/maps/documentation/geocoding/#Types">Address
  * Types</a> for more detail.
+ * Some address contains additional place category. Please see 
+ * <a href="https://developers.google.com/places/documentation/supported_types">Places</a>
  */
 public enum AddressType implements UrlValue {
 
@@ -183,16 +188,44 @@ public enum AddressType implements UrlValue {
   TRANSIT_STATION("transit_station"),
 
   /**
+   * {@code CHURCH} indicates the location of a church.
+   */
+  CHURCH("church"),
+
+  /**
+   * {@code FINANCE} indicates the location of a finance institute.
+   */
+  FINANCE("finance"),
+
+  /**
+   * {@code POST_OFFICE} indicates the location of a post office.
+   */
+  POST_OFFICE("post_office"),
+ 
+  /**
+   * {@code PLACE_OF_WORSHIP} indicates the location of a place of worship.
+   */
+  PLACE_OF_WORSHIP("place_of_worship"),
+    
+  /**
    * Indicates an unknown address type returned by the server. The Java Client for Google Maps
    * Services should be updated to support the new value.
    */
   UNKNOWN("unknown");
 
-  private static Logger log = Logger.getLogger(AddressType.class.getName());
+  private static final Logger log = Logger.getLogger(AddressType.class.getName());
 
+  /** for lookup */
+  private static final Map<String, AddressType> VALUE_MAP = new HashMap<String, AddressType>(); 
+  static {
+      for (final AddressType at : AddressType.values()) {
+          VALUE_MAP.put(at.addressType.toLowerCase(Locale.ENGLISH), at);
+      }
+  }
+  
   private final String addressType;
 
-  AddressType(String addressType) {
+  AddressType(final String addressType) {
     this.addressType = addressType;
   }
 
@@ -208,74 +241,20 @@ public enum AddressType implements UrlValue {
     }
     return addressType;
   }
+    
+  /**
+   * Enum lookup based search string.
+   * @param addressType finding addressType string.
+   * @return specified AddressType enum value or if it's not found then {@value AddressType#UNKNOWN}.
+   */
+  public static AddressType lookup(final String addressType) {
+      AddressType result = VALUE_MAP.get(addressType.toLowerCase(Locale.ENGLISH));
+      if (null != result) {
+          return result;
+      }
 
-  public static AddressType lookup(String addressType) {
-    if (addressType.equalsIgnoreCase(STREET_ADDRESS.toString())) {
-      return STREET_ADDRESS;
-    } else if (addressType.equalsIgnoreCase(ROUTE.toString())) {
-      return ROUTE;
-    } else if (addressType.equalsIgnoreCase(INTERSECTION.toString())) {
-      return INTERSECTION;
-    } else if (addressType.equalsIgnoreCase(POLITICAL.toString())) {
-      return POLITICAL;
-    } else if (addressType.equalsIgnoreCase(COUNTRY.toString())) {
-      return COUNTRY;
-    } else if (addressType.equalsIgnoreCase(ADMINISTRATIVE_AREA_LEVEL_1.toString())) {
-      return ADMINISTRATIVE_AREA_LEVEL_1;
-    } else if (addressType.equalsIgnoreCase(ADMINISTRATIVE_AREA_LEVEL_2.toString())) {
-      return ADMINISTRATIVE_AREA_LEVEL_2;
-    } else if (addressType.equalsIgnoreCase(ADMINISTRATIVE_AREA_LEVEL_3.toString())) {
-      return ADMINISTRATIVE_AREA_LEVEL_3;
-    } else if (addressType.equalsIgnoreCase(ADMINISTRATIVE_AREA_LEVEL_4.toString())) {
-      return ADMINISTRATIVE_AREA_LEVEL_4;
-    } else if (addressType.equalsIgnoreCase(ADMINISTRATIVE_AREA_LEVEL_5.toString())) {
-      return ADMINISTRATIVE_AREA_LEVEL_5;
-    } else if (addressType.equalsIgnoreCase(COLLOQUIAL_AREA.toString())) {
-      return COLLOQUIAL_AREA;
-    } else if (addressType.equalsIgnoreCase(LOCALITY.toString())) {
-      return LOCALITY;
-    } else if (addressType.equalsIgnoreCase(SUBLOCALITY.toString())) {
-      return SUBLOCALITY;
-    } else if (addressType.equalsIgnoreCase(NEIGHBORHOOD.toString())) {
-      return NEIGHBORHOOD;
-    } else if (addressType.equalsIgnoreCase(PREMISE.toString())) {
-      return PREMISE;
-    } else if (addressType.equalsIgnoreCase(SUBPREMISE.toString())) {
-      return SUBPREMISE;
-    } else if (addressType.equalsIgnoreCase(POSTAL_CODE.toString())) {
-      return POSTAL_CODE;
-    } else if (addressType.equalsIgnoreCase(NATURAL_FEATURE.toString())) {
-      return NATURAL_FEATURE;
-    } else if (addressType.equalsIgnoreCase(AIRPORT.toString())) {
-      return AIRPORT;
-    } else if (addressType.equalsIgnoreCase(UNIVERSITY.toString())) {
-      return UNIVERSITY;
-    } else if (addressType.equalsIgnoreCase(PARK.toString())) {
-      return PARK;
-    } else if (addressType.equalsIgnoreCase(POINT_OF_INTEREST.toString())) {
-      return POINT_OF_INTEREST;
-    } else if (addressType.equalsIgnoreCase(ESTABLISHMENT.toString())) {
-      return ESTABLISHMENT;
-    } else if (addressType.equalsIgnoreCase(BUS_STATION.toString())) {
-      return BUS_STATION;
-    } else if (addressType.equalsIgnoreCase(TRAIN_STATION.toString())) {
-      return TRAIN_STATION;
-    } else if (addressType.equalsIgnoreCase(TRANSIT_STATION.toString())) {
-      return TRANSIT_STATION;
-    } else if (addressType.equalsIgnoreCase(SUBLOCALITY_LEVEL_1.toString())) {
-      return SUBLOCALITY_LEVEL_1;
-    } else if (addressType.equalsIgnoreCase(SUBLOCALITY_LEVEL_2.toString())) {
-      return SUBLOCALITY_LEVEL_2;
-    } else if (addressType.equalsIgnoreCase(SUBLOCALITY_LEVEL_3.toString())) {
-      return SUBLOCALITY_LEVEL_3;
-    } else if (addressType.equalsIgnoreCase(SUBLOCALITY_LEVEL_4.toString())) {
-      return SUBLOCALITY_LEVEL_4;
-    } else if (addressType.equalsIgnoreCase(SUBLOCALITY_LEVEL_5.toString())) {
-      return SUBLOCALITY_LEVEL_5;
-    } else {
       log.log(Level.WARNING, "Unknown address type '%s'", addressType);
       return UNKNOWN;
-    }
   }
 }
 
