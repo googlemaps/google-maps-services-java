@@ -77,7 +77,7 @@ abstract class PendingResultBase<T, A extends PendingResultBase<T, A, R>,
     }
     validateRequest();
     delegate = context.get(config, responseClass, params);
-    return (PendingResult<T>) delegate;
+    return delegate;
   }
 
   protected abstract void validateRequest();

@@ -50,7 +50,7 @@ public class GeoApiContext {
   private final OkHttpClient client = new OkHttpClient();
   private final RateLimitExecutorService rateLimitExecutorService;
 
-  private static Logger log = Logger.getLogger(GeoApiContext.class.getName());
+  private static final Logger LOG = Logger.getLogger(GeoApiContext.class.getName());
   private long errorTimeout = DEFAULT_BACKOFF_TIMEOUT_MILLIS;
 
   public GeoApiContext() {
@@ -132,7 +132,7 @@ public class GeoApiContext {
         .header("User-Agent", USER_AGENT)
         .url(hostName + url).build();
 
-    log.log(Level.INFO, "Request: {0}", hostName + url);
+    LOG.log(Level.INFO, "Request: {0}", hostName + url);
 
     return new OkHttpPendingResult<T, R>(req, client, clazz, fieldNamingPolicy, errorTimeout);
   }

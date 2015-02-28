@@ -39,6 +39,7 @@ public class DirectionsApiRequest
     super(context, DirectionsApi.API_CONFIG, DirectionsApi.Response.class);
   }
 
+  @Override
   protected void validateRequest() {
     if (!params().containsKey("origin")) {
       throw new IllegalArgumentException("Request must contain 'origin'");

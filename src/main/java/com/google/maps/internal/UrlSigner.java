@@ -17,7 +17,6 @@ package com.google.maps.internal;
 
 import okio.ByteString;
 
-import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
@@ -49,7 +48,7 @@ public class UrlSigner {
    * Generate url safe HmacSHA1 of a path.
    */
   public String getSignature(String path)
-      throws NoSuchAlgorithmException, InvalidKeyException, IOException {
+      throws NoSuchAlgorithmException, InvalidKeyException {
     // TODO(macd): add test
     Mac mac = Mac.getInstance("HmacSHA1");
     mac.init(key);

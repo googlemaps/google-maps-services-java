@@ -60,7 +60,7 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
   private int retryCounter = 0;
   private long cumulativeSleepTime = 0;
 
-  private static Logger log = Logger.getLogger(OkHttpPendingResult.class.getName());
+  private static final Logger LOG = Logger.getLogger(OkHttpPendingResult.class.getName());
   private static final List<Integer> RETRY_ERROR_CODES =  Arrays.asList(500, 503, 504);
 
   /**
@@ -119,7 +119,7 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
       // Generate a jitter value between -delaySecs / 2 and +delaySecs / 2
       long delayMillis = (long) (delaySecs * (Math.random() + 0.5) * 1000);
 
-      log.config(String.format("Sleeping between errors for %dms (retry #%d, already slept %dms)",
+      LOG.config(String.format("Sleeping between errors for %dms (retry #%d, already slept %dms)",
           delayMillis, retryCounter, cumulativeSleepTime));
       cumulativeSleepTime += delayMillis;
       try {
@@ -243,7 +243,7 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
 
   private T retry() throws Exception {
     retryCounter++;
-    log.info("Retrying request. Retry #" + retryCounter);
+    LOG.info("Retrying request. Retry #" + retryCounter);
     this.call = client.newCall(request);
     return this.await();
   }

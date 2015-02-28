@@ -20,6 +20,8 @@ package com.google.maps.errors;
  * are determined by the {@code status} field returned in any of the Geo API responses.
  */
 public class ApiException extends Exception {
+  private static final long serialVersionUID = -6550606366694345191L;
+
   protected ApiException(String message) {
     super(message);
   }
