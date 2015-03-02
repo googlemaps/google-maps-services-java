@@ -129,6 +129,12 @@ public enum AddressComponentType {
    * country.
    */
   POSTAL_CODE,
+  
+  /**
+   * {@code POSTAL_CODE_PREFIX} indicates a postal code prefix as used to address postal mail within the
+   * country.
+   */
+  POSTAL_CODE_PREFIX,
 
   /**
    * {@code POSTAL_CODE_SUFFIX} indicates a postal code suffix as used to address postal mail within the
