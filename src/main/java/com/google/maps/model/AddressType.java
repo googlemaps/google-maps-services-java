@@ -213,16 +213,6 @@ public enum AddressType implements UrlValue {
    */
   UNKNOWN("unknown");
 
-  private static final Logger log = Logger.getLogger(AddressType.class.getName());
-
-  /** for lookup */
-  private static final Map<String, AddressType> VALUE_MAP = new HashMap<String, AddressType>(); 
-  static {
-      for (final AddressType at : AddressType.values()) {
-          VALUE_MAP.put(at.addressType.toLowerCase(Locale.ENGLISH), at);
-      }
-  }
-  
   private final String addressType;
 
   AddressType(final String addressType) {
@@ -242,19 +232,5 @@ public enum AddressType implements UrlValue {
     return addressType;
   }
     
-  /**
-   * Enum lookup based search string.
-   * @param addressType finding addressType string.
-   * @return specified AddressType enum value or if it's not found then {@value AddressType#UNKNOWN}.
-   */
-  public static AddressType lookup(final String addressType) {
-      AddressType result = VALUE_MAP.get(addressType.toLowerCase(Locale.ENGLISH));
-      if (null != result) {
-          return result;
-      }
-
-      log.log(Level.WARNING, "Unknown address type '%s'", addressType);
-      return UNKNOWN;
-  }
 }
 
