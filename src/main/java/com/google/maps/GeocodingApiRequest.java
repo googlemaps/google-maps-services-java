@@ -38,15 +38,17 @@ public class GeocodingApiRequest
   @Override
   protected void validateRequest() {
     // Must not have both address and latlng.
-    if (params().containsKey("latlng") && params().containsKey("address")) {
-      throw new IllegalArgumentException("Request must not contain both 'address' and 'latlng'.");
+    if (params().containsKey("latlng") && params().containsKey("address")
+        && params().containsKey("place_id")) {
+      throw new IllegalArgumentException("Request must contain only one of 'address', 'latlng' "
+          + "or 'place_id'.");
     }
 
-    // Must contain at least one of address, latlng, and components;
+    // Must contain at least one of place_id, address, latlng, and components;
     if (!params().containsKey("latlng") && !params().containsKey("address")
-        && !params().containsKey("components")) {
+        && !params().containsKey("components") && !params().containsKey("place_id")) {
       throw new IllegalArgumentException(
-          "Request must contain at least one of 'address', 'latlng' and 'components'.");
+          "Request must contain at least one of 'address', 'latlng', 'place_id' and 'components'.");
     }
   }
 
@@ -55,6 +57,13 @@ public class GeocodingApiRequest
    */
   public GeocodingApiRequest address(String address) {
     return param("address", address);
+  }
+
+  /**
+   * Create a forward geocode for {@code placeId}.
+   */
+  public GeocodingApiRequest place(String placeId) {
+    return param("place_id", placeId);
   }
 
   /**

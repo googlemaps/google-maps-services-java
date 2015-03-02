@@ -68,4 +68,9 @@ public class GeocodingResult {
    * Suggestions triggered in this way will not be marked as a partial match.
    */
   public boolean partialMatch;
+
+  /**
+   * {@code placeId} is a unique identifier for a place.
+   */
+  public String placeId;
 }

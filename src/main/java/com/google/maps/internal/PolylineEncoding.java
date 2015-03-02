@@ -35,7 +35,7 @@ public class PolylineEncoding {
 
     int len = encodedPath.length();
 
-    final List<LatLng> path = new ArrayList<>(len / 2);
+    final List<LatLng> path = new ArrayList<LatLng>(len / 2);
     int index = 0;
     int lat = 0;
     int lng = 0;
