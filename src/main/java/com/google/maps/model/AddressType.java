@@ -24,7 +24,7 @@ import java.util.logging.Logger;
 import com.google.maps.internal.StringJoin.UrlValue;
 
 /**
- * The Adress types. Please see
+ * The Address types. Please see
  * <a href="https://developers.google.com/maps/documentation/geocoding/#Types">Address
  * Types</a> for more detail.
  * Some address contains additional place category. Please see 
