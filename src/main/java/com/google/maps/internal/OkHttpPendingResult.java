@@ -18,6 +18,7 @@ package com.google.maps.internal;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
 import com.google.maps.PendingResult;
 import com.google.maps.errors.ApiException;
 import com.google.maps.errors.OverQueryLimitException;
@@ -191,11 +192,6 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
         // Retry is a blocking method, but that's OK. If we're here, we're either in an await()
         // call, which is blocking anyway, or we're handling a callback in a separate thread.
         return request.retry();
-    } else if (!response.isSuccessful()) {
-      // The APIs return 200 even when the API request fails, as long as the transport mechanism
-      // succeeds. INVALID_RESPONSE, etc are handled by the Gson parsing below.
-      throw new IOException(String.format("Server Error: %d %s", response.code(),
-          response.message()));
     }
 
     Gson gson = new GsonBuilder()
@@ -203,6 +199,7 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
         .registerTypeAdapter(Distance.class, new DistanceAdapter())
         .registerTypeAdapter(Duration.class, new DurationAdapter())
         .registerTypeAdapter(Fare.class, new FareAdapter())
+        .registerTypeAdapter(LatLng.class, new LatLngAdapter())
         .registerTypeAdapter(AddressComponentType.class,
               new SafeEnumAdapter<AddressComponentType>(AddressComponentType.UNKNOWN))
         .registerTypeAdapter(AddressType.class, new SafeEnumAdapter<AddressType>(AddressType.UNKNOWN))
@@ -212,7 +209,25 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
         .create();
 
     byte[] bytes = getBytes(response);
-    R resp = gson.fromJson(new String(bytes, "utf8"), responseClass);
+    R resp;
+
+    // Attempt to de-serialize before checking the HTTP status code, as there may be JSON in the
+    // body that we can use to provide a more descriptive exception.
+    try {
+      resp = gson.fromJson(new String(bytes, "utf8"), responseClass);
+    } catch (JsonSyntaxException e) {
+      // Check HTTP status for a more suitable exception
+      if (!response.isSuccessful()) {
+        // Some of the APIs return 200 even when the API request fails, as long as the transport
+        // mechanism succeeds. In these cases, INVALID_RESPONSE, etc are handled by the Gson
+        // parsing.
+        throw new IOException(String.format("Server Error: %d %s", response.code(),
+            response.message()));
+      }
+
+      // Otherwise just cough up the syntax exception.
+      throw e;
+    }
 
     if (resp.successful()) {
       // Return successful responses

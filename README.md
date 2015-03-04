@@ -18,6 +18,7 @@ APIs:
  - [Elevation API]
  - [Geocoding API]
  - [Time Zone API]
+ - [Roads API]
 
 Keep in mind that the same [terms and conditions](https://developers.google.com/maps/terms) apply
 to usage of the APIs when they're accessed through this library.
@@ -213,6 +214,7 @@ req.setCallback(new PendingResult.Callback<GeocodingResult[]>() {
 [Google Maps API Web Services]: https://developers.google.com/maps/documentation/webservices/
 [issues]: https://github.com/googlemaps/google-maps-services-java/issues
 [Time Zone API]: https://developers.google.com/maps/documentation/timezone
+[Roads API]: https://developers.google.com/maps/documentation/roads
 
 
 

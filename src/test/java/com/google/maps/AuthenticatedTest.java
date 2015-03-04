@@ -35,8 +35,10 @@ import java.util.Collection;
  */
 @RunWith(Parameterized.class) @Ignore
 public class AuthenticatedTest {
-  @Parameters
-  public static Collection<Object[]> contexts() {
+  protected AuthenticatedTest() {
+  }
+
+  public static Collection<Object[]> contexts(boolean supportsClientId) {
     Collection<Object[]> contexts = new ArrayList<Object[]>();
 
     // Travis can't run authorized tests from pull requests.
@@ -52,7 +54,9 @@ public class AuthenticatedTest {
       contexts.add(new Object[]{context});
     }
 
-    if (!(System.getenv("CLIENT_ID") == null || System.getenv("CLIENT_SECRET") == null)) {
+    if (supportsClientId
+        && (!(System.getenv("CLIENT_ID") == null
+            || System.getenv("CLIENT_SECRET") == null))) {
       GeoApiContext context = new GeoApiContext()
           .setEnterpriseCredentials(System.getenv("CLIENT_ID"), System.getenv("CLIENT_SECRET"));
       contexts.add(new Object[]{context});
@@ -66,6 +70,8 @@ public class AuthenticatedTest {
     return contexts;
   }
 
-  protected AuthenticatedTest() {
+  @Parameters
+  public static Collection<Object[]> contexts() {
+    return contexts(true);
   }
 }

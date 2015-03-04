@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Google Inc. All rights reserved.
+ * Copyright 2015 Google Inc. All rights reserved.
  *
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -16,11 +16,10 @@
 package com.google.maps.errors;
 
 /**
- * Indicates that the requesting account has exceeded short-term quota.
+ * An error returned by the API, including some extra information for aiding in debugging.
  */
-public class OverQueryLimitException extends ApiException {
-
-  public OverQueryLimitException(String errorMessage) {
-    super(errorMessage);
-  }
+public class ApiError {
+  public int code;
+  public String message;
+  public String status;
 }
