@@ -27,7 +27,7 @@ import com.google.maps.internal.StringJoin.UrlValue;
  * The Address types. Please see
  * <a href="https://developers.google.com/maps/documentation/geocoding/#Types">Address
  * Types</a> for more detail.
- * Some address contains additional place category. Please see 
+ * Some addresses contain additional place categories. Please see 
  * <a href="https://developers.google.com/places/documentation/supported_types">Places</a>
  */
 public enum AddressType implements UrlValue {
