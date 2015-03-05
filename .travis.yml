@@ -8,6 +8,6 @@ notifications:
 after_success:
 - ./gradlew jacocoTestReport coveralls
 env:
-  matrix:
+  global:
   - secure: TOW8DiUzKHdpa/ZL9yaAvzvzAsTfJ6+bW4y2JfukpLT4Qj0V6e6fFPlBwfOvGYR9NAGLpw7DxdNJcSn1sTxIdwvwm5YkriMoSNpHh7IMUs9vx5d/k9ZwR4RQ+XyVzm3oskoxOZUX3HnKvP3nJkGvLgTxsDBJw4FcpuU9V4yTEK4=
   - secure: JyoUWkUDIR8O6Fm0QAzmb67OqlMceExmu6GJG2Z/zNSELr8t0mkvKkZ9ApQ0rUxkimUdc5SDY541DCGbwDzmp4ZE1Jd47olq0YJNSUqFvNmdmGZOM+aUfN5jREl9c4R4XPw4GxFhjym8GUPXQTOjxV18nqPyt6aJxN8sq4062u0=
