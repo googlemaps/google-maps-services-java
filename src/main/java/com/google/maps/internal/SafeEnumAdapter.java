@@ -32,7 +32,7 @@ import java.util.logging.Logger;
  */
 public class SafeEnumAdapter<E extends Enum<E>> extends TypeAdapter<E> {
 
-  private static Logger log = Logger.getLogger(SafeEnumAdapter.class.getName());
+  private static final Logger LOG = Logger.getLogger(SafeEnumAdapter.class.getName());
 
   private final Class<E> clazz;
   private final E unknownValue;
@@ -62,7 +62,7 @@ public class SafeEnumAdapter<E extends Enum<E>> extends TypeAdapter<E> {
     try {
       return Enum.valueOf(clazz, value.toUpperCase(Locale.ENGLISH));
     } catch (IllegalArgumentException iae) {
-      log.warning(String.format("Unknown type for enum %s: '%s'", clazz.getName(), value));
+      LOG.warning(String.format("Unknown type for enum %s: '%s'", clazz.getName(), value));
       return unknownValue;
     }
   }

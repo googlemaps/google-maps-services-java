@@ -36,7 +36,7 @@ import java.util.logging.Logger;
  */
 public class RateLimitExecutorService implements ExecutorService, Runnable {
 
-  private static final Logger log = Logger.getLogger(RateLimitExecutorService.class.getName());
+  private static final Logger LOG = Logger.getLogger(RateLimitExecutorService.class.getName());
   private static final int DEFAULT_QUERIES_PER_SECOND = 10;
   private static final int SECOND = 1000;
   private static final int HALF_SECOND = SECOND / 2;
@@ -71,13 +71,14 @@ public class RateLimitExecutorService implements ExecutorService, Runnable {
     this.queriesPerSecond = maxQps;
     this.minimumDelay = minimumInterval;
 
-    log.log(Level.INFO, "Configuring rate limit at QPS: " + maxQps + ", minimum delay "
+    LOG.log(Level.INFO, "Configuring rate limit at QPS: " + maxQps + ", minimum delay "
         + minimumInterval + "ms between requests");
   }
 
   /**
    * Main loop.
    */
+  @Override
   public void run() {
     try {
       while (!delegate.isShutdown()) {
@@ -111,7 +112,7 @@ public class RateLimitExecutorService implements ExecutorService, Runnable {
         }
       }
     } catch (InterruptedException ie) {
-      log.log(Level.INFO, "Interrupted", ie);
+      LOG.log(Level.INFO, "Interrupted", ie);
     }
   }
 
