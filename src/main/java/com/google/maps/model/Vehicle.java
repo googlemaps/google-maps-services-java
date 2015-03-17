@@ -17,7 +17,7 @@ package com.google.maps.model;
 
 /**
  * The vehicle used on a line.
- *
+ * <p/>
  * <p>See <a href="https://developers.google.com/maps/documentation/directions/#TransitDetails">
  * Transit details</a> for more detail.
  */
@@ -29,11 +29,11 @@ public class Vehicle {
   public String name;
 
   /**
-   * {@code vehicle} contains the type of vehicle that runs on this line. See the
+   * {@code type} contains the type of vehicle that runs on this line. See the
    * {@link com.google.maps.model.VehicleType VehicleType} documentation for a complete list of
    * supported values.
    */
-  public VehicleType vehicle;
+  public VehicleType type;
 
   /**
    * {@code icon} contains the URL for an icon associated with this vehicle type.
