@@ -15,6 +15,11 @@
 
 package com.google.maps;
 
+import com.google.appengine.api.urlfetch.FetchOptions;
+import com.google.appengine.api.urlfetch.HTTPMethod;
+import com.google.appengine.api.urlfetch.HTTPRequest;
+import com.google.appengine.api.urlfetch.URLFetchService;
+import com.google.appengine.api.urlfetch.URLFetchServiceFactory;
 import com.google.gson.FieldNamingPolicy;
 import com.google.maps.internal.ApiConfig;
 import com.google.maps.internal.ApiResponse;
@@ -23,12 +28,19 @@ import com.google.maps.internal.OkHttpPendingResult;
 import com.google.maps.internal.RateLimitExecutorService;
 import com.google.maps.internal.UrlSigner;
 
-import com.squareup.okhttp.Dispatcher;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
+//import com.squareup.okhttp.Dispatcher;
+//import com.squareup.okhttp.OkHttpClient;
+//import com.squareup.okhttp.Request;
+
+
+
+
+
 
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 import java.net.Proxy;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -47,15 +59,17 @@ public class GeoApiContext {
   private String apiKey;
   private String clientId;
   private UrlSigner urlSigner;
-  private final OkHttpClient client = new OkHttpClient();
-  private final RateLimitExecutorService rateLimitExecutorService;
+  private final URLFetchService client = URLFetchServiceFactory.getURLFetchService();
+  private URLFetchService connection;
 
-  private static final Logger LOG = Logger.getLogger(GeoApiContext.class.getName());
+//  private final RateLimitExecutorService rateLimitExecutorService;
+
+  private static Logger log = Logger.getLogger(GeoApiContext.class.getName());
   private long errorTimeout = DEFAULT_BACKOFF_TIMEOUT_MILLIS;
 
   public GeoApiContext() {
-    rateLimitExecutorService = new RateLimitExecutorService();
-    client.setDispatcher(new Dispatcher(rateLimitExecutorService));
+//    rateLimitExecutorService = new RateLimitExecutorService();
+//    client.setDispatcher(new Dispatcher(rateLimitExecutorService));
   }
 
   <T, R extends ApiResponse<T>> PendingResult<T> get(ApiConfig config, Class<? extends R> clazz,
@@ -128,12 +142,21 @@ public class GeoApiContext {
       hostName = baseUrlOverride;
     }
 
-    Request req = new Request.Builder()
-        .get()
-        .header("User-Agent", USER_AGENT)
-        .url(hostName + url).build();
+//    HTTPRequest req = new Request.Builder()
+//        .get()
+//        .header("User-Agent", USER_AGENT)
+//        .url(hostName + url).build();
 
-    LOG.log(Level.INFO, "Request: {0}", hostName + url);
+    FetchOptions fetchOptions = FetchOptions.Builder.withDeadline( 10/*config.getReadTimeout() / 1000*/);
+    HTTPRequest req = null;
+    try {
+      req = new HTTPRequest(new URL(hostName + url), HTTPMethod.POST, fetchOptions);
+    } catch (MalformedURLException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+
+    log.log(Level.INFO, "Request: {0}", hostName + url);
 
     return new OkHttpPendingResult<T, R>(req, client, clazz, fieldNamingPolicy, errorTimeout);
   }
@@ -176,28 +199,28 @@ public class GeoApiContext {
    *
    * @see java.net.URLConnection#setConnectTimeout(int)
    */
-  public GeoApiContext setConnectTimeout(long timeout, TimeUnit unit) {
-    client.setConnectTimeout(timeout, unit);
-    return this;
-  }
+//  public GeoApiContext setConnectTimeout(long timeout, TimeUnit unit) {
+//    client.setConnectTimeout(timeout, unit);
+//    return this;
+//  }
 
   /**
    * Sets the default read timeout for new connections. A value of 0 means no timeout.
    *
    * @see java.net.URLConnection#setReadTimeout(int)
    */
-  public GeoApiContext setReadTimeout(long timeout, TimeUnit unit) {
-    client.setReadTimeout(timeout, unit);
-    return this;
-  }
+//  public GeoApiContext setReadTimeout(long timeout, TimeUnit unit) {
+//    client.setReadTimeout(timeout, unit);
+//    return this;
+//  }
 
   /**
    * Sets the default write timeout for new connections. A value of 0 means no timeout.
    */
-  public GeoApiContext setWriteTimeout(long timeout, TimeUnit unit) {
-    client.setWriteTimeout(timeout, unit);
-    return this;
-  }
+//  public GeoApiContext setWriteTimeout(long timeout, TimeUnit unit) {
+//    client.setWriteTimeout(timeout, unit);
+//    return this;
+//  }
 
   /**
    * Sets the time limit for which retry-able errors will be retried. Defaults to 60 seconds. Set
@@ -214,7 +237,7 @@ public class GeoApiContext {
    * set to 1/(2 * {@code maxQps}).
    */
   public GeoApiContext setQueryRateLimit(int maxQps) {
-    rateLimitExecutorService.setQueriesPerSecond(maxQps);
+//    rateLimitExecutorService.setQueriesPerSecond(maxQps);
     return this;
   }
 
@@ -227,7 +250,7 @@ public class GeoApiContext {
    * naturally.
    */
   public GeoApiContext setQueryRateLimit(int maxQps, int minimumInterval) {
-    rateLimitExecutorService.setQueriesPerSecond(maxQps, minimumInterval);
+//    rateLimitExecutorService.setQueriesPerSecond(maxQps, minimumInterval);
     return this;
   }
 
@@ -236,8 +259,8 @@ public class GeoApiContext {
    *
    * @param proxy The proxy to be used by the underlying HTTP client.
    */
-  public GeoApiContext setProxy(Proxy proxy) {
-    client.setProxy(proxy == null ? Proxy.NO_PROXY : proxy);
-    return this;
-  }
+//  public GeoApiContext setProxy(Proxy proxy) {
+//    client.setProxy(proxy == null ? Proxy.NO_PROXY : proxy);
+//    return this;
+//  }
 }

@@ -15,6 +15,10 @@
 
 package com.google.maps.internal;
 
+import com.google.appengine.api.urlfetch.HTTPRequest;
+import com.google.appengine.api.urlfetch.HTTPResponse;
+import com.google.appengine.api.urlfetch.URLFetchService;
+import com.google.appengine.api.urlfetch.URLFetchServiceFactory;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -23,12 +27,6 @@ import com.google.maps.PendingResult;
 import com.google.maps.errors.ApiException;
 import com.google.maps.errors.OverQueryLimitException;
 import com.google.maps.model.*;
-
-import com.squareup.okhttp.Call;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
 import org.joda.time.DateTime;
 
@@ -39,6 +37,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.Future;
 import java.util.logging.Logger;
 
 /**
@@ -49,19 +48,20 @@ import java.util.logging.Logger;
  * request.
  */
 public class OkHttpPendingResult<T, R extends ApiResponse<T>>
-    implements PendingResult<T>, Callback {
-  private final Request request;
-  private final OkHttpClient client;
+    implements PendingResult<T>/*, Callback*/ {
+  private final HTTPRequest request;
+  private final URLFetchService client;
   private final Class<R> responseClass;
   private final FieldNamingPolicy fieldNamingPolicy;
 
-  private Call call;
+//  private Call call;
   private Callback<T> callback;
   private long errorTimeOut;
   private int retryCounter = 0;
   private long cumulativeSleepTime = 0;
+  private Future<HTTPResponse> call;
 
-  private static final Logger LOG = Logger.getLogger(OkHttpPendingResult.class.getName());
+  private static Logger log = Logger.getLogger(OkHttpPendingResult.class.getName());
   private static final List<Integer> RETRY_ERROR_CODES =  Arrays.asList(500, 503, 504);
 
   /**
@@ -71,7 +71,7 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
    * @param fieldNamingPolicy FieldNamingPolicy for unmarshaling JSON.
    * @param errorTimeOut      Number of milliseconds to re-send erroring requests.
    */
-  public OkHttpPendingResult(Request request, OkHttpClient client, Class<R> responseClass,
+  public OkHttpPendingResult(HTTPRequest request, URLFetchService client, Class<R> responseClass,
       FieldNamingPolicy fieldNamingPolicy, long errorTimeOut) {
     this.request = request;
     this.client = client;
@@ -79,13 +79,13 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
     this.fieldNamingPolicy = fieldNamingPolicy;
     this.errorTimeOut = errorTimeOut;
 
-    this.call = client.newCall(request);
+    this.call = client.fetchAsync(request);
   }
 
   @Override
   public void setCallback(Callback<T> callback) {
     this.callback = callback;
-    call.enqueue(this);
+//    call.enqueue(this);
   }
 
   /**
@@ -93,10 +93,10 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
    */
   private class QueuedResponse {
     private final OkHttpPendingResult<T, R> request;
-    private final Response response;
+    private final HTTPResponse response;
     private final Exception e;
 
-    public QueuedResponse(OkHttpPendingResult<T, R> request, Response response) {
+    public QueuedResponse(OkHttpPendingResult<T, R> request, HTTPResponse response) {
       this.request = request;
       this.response = response;
       this.e = null;
@@ -110,48 +110,50 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
 
   @Override
   public T await() throws Exception {
-    // Handle sleeping for retried requests
-    if (retryCounter > 0) {
-      // 0.5 * (1.5 ^ i) represents an increased sleep time of 1.5x per iteration,
-      // starting at 0.5s when i = 0. The retryCounter will be 1 for the 1st retry,
-      // so subtract 1 here.
-      double delaySecs = 0.5 * Math.pow(1.5, retryCounter - 1);
-
-      // Generate a jitter value between -delaySecs / 2 and +delaySecs / 2
-      long delayMillis = (long) (delaySecs * (Math.random() + 0.5) * 1000);
-
-      LOG.config(String.format("Sleeping between errors for %dms (retry #%d, already slept %dms)",
-          delayMillis, retryCounter, cumulativeSleepTime));
-      cumulativeSleepTime += delayMillis;
-      try {
-        Thread.sleep(delayMillis);
-      } catch (InterruptedException e) {
-        // No big deal if we don't sleep as long as intended.
-      }
-    }
-
-    final BlockingQueue<QueuedResponse> waiter = new ArrayBlockingQueue<QueuedResponse>(1);
-    final OkHttpPendingResult<T, R> parent = this;
-
-    // This callback will be called on another thread, handled by the RateLimitExecutorService.
-    // Calling call.execute() directly would bypass the rate limiting.
-    call.enqueue(new com.squareup.okhttp.Callback() {
-      @Override
-      public void onFailure(Request request, IOException e) {
-        waiter.add(new QueuedResponse(parent, e));
-      }
-
-      @Override
-      public void onResponse(Response response) throws IOException {
-        waiter.add(new QueuedResponse(parent, response));
-      }
-    });
-
-    QueuedResponse r = waiter.take();
-    if (r.response != null) {
-      return parseResponse(r.request, r.response);
+//    // Handle sleeping for retried requests
+//    if (retryCounter > 0) {
+//      // 0.5 * (1.5 ^ i) represents an increased sleep time of 1.5x per iteration,
+//      // starting at 0.5s when i = 0. The retryCounter will be 1 for the 1st retry,
+//      // so subtract 1 here.
+//      double delaySecs = 0.5 * Math.pow(1.5, retryCounter - 1);
+//
+//      // Generate a jitter value between -delaySecs / 2 and +delaySecs / 2
+//      long delayMillis = (long) (delaySecs * (Math.random() + 0.5) * 1000);
+//
+//      log.config(String.format("Sleeping between errors for %dms (retry #%d, already slept %dms)",
+//          delayMillis, retryCounter, cumulativeSleepTime));
+//      cumulativeSleepTime += delayMillis;
+//      try {
+//        Thread.sleep(delayMillis);
+//      } catch (InterruptedException e) {
+//        // No big deal if we don't sleep as long as intended.
+//      }
+//    }
+//
+//    final BlockingQueue<QueuedResponse> waiter = new ArrayBlockingQueue<QueuedResponse>(1);
+//    final OkHttpPendingResult<T, R> parent = this;
+//
+//    // This callback will be called on another thread, handled by the RateLimitExecutorService.
+//    // Calling call.execute() directly would bypass the rate limiting.
+////    call.enqueue(new com.squareup.okhttp.Callback() {
+////      @Override
+////      public void onFailure(HTTPRequest request, IOException e) {
+////        waiter.add(new QueuedResponse(parent, e));
+////      }
+////
+////      @Override
+////      public void onResponse(HTTPResponse response) throws IOException {
+////        waiter.add(new QueuedResponse(parent, response));
+////      }
+////    });
+//
+//    QueuedResponse r = waiter.take();
+    HTTPResponse response = call.get();
+    
+    if( response != null) {
+      return parseResponse( this, response );
     } else {
-      throw r.e;
+      throw new Exception(response.getResponseCode() + " " + new String(response.getContent()));
     }
   }
 
@@ -166,29 +168,29 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
 
   @Override
   public void cancel() {
-    call.cancel();
+    call.cancel(true);
   }
 
-  @Override
-  public void onFailure(Request request, IOException ioe) {
-    if (callback != null) {
-      callback.onFailure(ioe);
-    }
-  }
+//  @Override
+//  public void onFailure(HTTPRequest request, IOException ioe) {
+//    if (callback != null) {
+//      callback.onFailure(ioe);
+//    }
+//  }
 
-  @Override
-  public void onResponse(Response response) throws IOException {
-    if (callback != null) {
-      try {
-        callback.onResult(parseResponse(this, response));
-      } catch (Exception e) {
-        callback.onFailure(e);
-      }
-    }
-  }
+//  @Override
+//  public void onResponse(HTTPResponse response) throws IOException {
+//    if (callback != null) {
+//      try {
+//        callback.onResult(parseResponse(this, response));
+//      } catch (Exception e) {
+//        callback.onFailure(e);
+//      }
+//    }
+//  }
 
-  private T parseResponse(OkHttpPendingResult<T, R> request, Response response) throws Exception {
-    if (RETRY_ERROR_CODES.contains(response.code()) && cumulativeSleepTime < errorTimeOut) {
+  private T parseResponse(OkHttpPendingResult<T, R> request, HTTPResponse response) throws Exception {
+    if (RETRY_ERROR_CODES.contains(response.getResponseCode()) && cumulativeSleepTime < errorTimeOut) {
         // Retry is a blocking method, but that's OK. If we're here, we're either in an await()
         // call, which is blocking anyway, or we're handling a callback in a separate thread.
         return request.retry();
@@ -217,12 +219,12 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
       resp = gson.fromJson(new String(bytes, "utf8"), responseClass);
     } catch (JsonSyntaxException e) {
       // Check HTTP status for a more suitable exception
-      if (!response.isSuccessful()) {
+      if (!(response.getResponseCode() < 400)) {
         // Some of the APIs return 200 even when the API request fails, as long as the transport
         // mechanism succeeds. In these cases, INVALID_RESPONSE, etc are handled by the Gson
         // parsing.
-        throw new IOException(String.format("Server Error: %d %s", response.code(),
-            response.message()));
+        throw new IOException(String.format("Server Error: %d %s", response.getResponseCode(),
+            new String(response.getContent())));
       }
 
       // Otherwise just cough up the syntax exception.
@@ -244,22 +246,14 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
     }
   }
 
-  private byte[] getBytes(Response response) throws IOException {
-    InputStream in = response.body().byteStream();
-    ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-    int bytesRead;
-    byte[] data = new byte[8192];
-    while ((bytesRead = in.read(data, 0, data.length)) != -1) {
-      buffer.write(data, 0, bytesRead);
-    }
-    buffer.flush();
-    return buffer.toByteArray();
+  private byte[] getBytes(HTTPResponse response) throws IOException {
+    return response.getContent();
   }
 
   private T retry() throws Exception {
     retryCounter++;
-    LOG.info("Retrying request. Retry #" + retryCounter);
-    this.call = client.newCall(request);
+    log.info("Retrying request. Retry #" + retryCounter);
+    this.call = client.fetchAsync(request);
     return this.await();
   }
 }
