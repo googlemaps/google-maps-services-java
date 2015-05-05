@@ -38,9 +38,9 @@ public class RoadsApiIntegrationTest extends KeyOnlyAuthenticatedTest {
 
   public RoadsApiIntegrationTest(GeoApiContext context) {
     this.context = context
-        .setConnectTimeout(1, TimeUnit.SECONDS)
-        .setReadTimeout(1, TimeUnit.SECONDS)
-        .setWriteTimeout(1, TimeUnit.SECONDS);
+        .setConnectTimeout(2, TimeUnit.SECONDS)
+        .setReadTimeout(2, TimeUnit.SECONDS)
+        .setWriteTimeout(2 , TimeUnit.SECONDS);
   }
 
   @Test
