@@ -105,6 +105,26 @@ public class RoadsApiIntegrationTest extends KeyOnlyAuthenticatedTest {
       assertTrue(speed.speedLimit > 0);
     }
   }
+  
+  @Test
+  public void testSpeedLimitsWithUsaLatLngs() throws Exception {
+    SpeedLimit[] speeds = RoadsApi.speedLimits(context,
+        new LatLng(33.777489, -84.397805),
+        new LatLng(33.777550, -84.395700),
+        new LatLng(33.776900, -84.393110),
+        new LatLng(33.776860, -84.389550),
+        new LatLng(33.775491, -84.388797),
+        new LatLng(33.773250, -84.388840),
+        new LatLng(33.771991, -84.388840)).await();
+
+    assertNotNull(speeds);
+    assertEquals(7, speeds.length);
+
+    for (SpeedLimit speed : speeds) {
+      assertNotNull(speed.placeId);
+      assertTrue(speed.speedLimit > 0);
+    }
+  }
 
   @Test
   public void testSpeedLimitsWithPlaceIds() throws Exception {
@@ -132,6 +152,24 @@ public class RoadsApiIntegrationTest extends KeyOnlyAuthenticatedTest {
         new LatLng(-33.867547, 151.193676),
         new LatLng(-33.867841, 151.194137),
         new LatLng(-33.868224, 151.194116)).await();
+
+    SnappedPoint[] points = response.snappedPoints;
+    SpeedLimit[] speeds = response.speedLimits;
+
+    assertEquals(7, points.length);
+    assertEquals(7, speeds.length);
+  }
+  
+  @Test
+  public void testSnappedSpeedLimitRequestUsa() throws Exception {
+    SnappedSpeedLimitResponse response = RoadsApi.snappedSpeedLimits(context,
+        new LatLng(33.777489, -84.397805),
+        new LatLng(33.777550, -84.395700),
+        new LatLng(33.776900, -84.393110),
+        new LatLng(33.776860, -84.389550),
+        new LatLng(33.775491, -84.388797),
+        new LatLng(33.773250, -84.388840),
+        new LatLng(33.771991, -84.388840)).await();
 
     SnappedPoint[] points = response.snappedPoints;
     SpeedLimit[] speeds = response.speedLimits;
