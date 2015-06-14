@@ -39,6 +39,9 @@ public class FareAdapter extends TypeAdapter<Fare> {
       } else if ("value".equals(key)) {
         // this relies on nextString() being able to coerce raw numbers to strings
         fare.value = new BigDecimal(reader.nextString());
+      } else {
+        // Be forgiving of unexpected values
+        reader.skipValue();
       }
     }
     reader.endObject();
