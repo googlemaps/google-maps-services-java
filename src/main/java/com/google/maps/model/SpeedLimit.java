@@ -30,7 +30,7 @@ public class SpeedLimit {
    *
    * <p>To obtain the speed in miles per hour, use {@link #speedLimitMph()}.
    */
-  public long speedLimit;
+  public double speedLimit;
 
   /**
    * Returns the speed limit in miles per hour (MPH).
