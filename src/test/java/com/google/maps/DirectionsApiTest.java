@@ -326,11 +326,12 @@ public class DirectionsApiTest extends AuthenticatedTest {
 
     // Skip the initial walking steps
     int i = 0;
-    for (; i < testLeg.steps.length - 1
-        && testLeg.steps[i].travelMode != TravelMode.TRANSIT; i++)
+    while (testLeg.steps[i].travelMode != TravelMode.TRANSIT) {
+      i++;
+    }
 
     assertTrue("Could not find a transit leg in directions",
-        i < testLeg.steps.length - 1);
+        i < testLeg.steps.length);
 
     assertNotNull(testLeg.steps[i].transitDetails);
     assertNotNull(testLeg.steps[i].transitDetails.arrivalStop);
