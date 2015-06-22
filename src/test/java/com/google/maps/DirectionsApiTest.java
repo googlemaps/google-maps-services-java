@@ -24,6 +24,7 @@ import static org.junit.Assert.fail;
 
 import com.google.maps.DirectionsApi.RouteRestriction;
 import com.google.maps.errors.NotFoundException;
+import com.google.maps.model.DirectionsLeg;
 import com.google.maps.model.DirectionsRoute;
 import com.google.maps.model.TransitMode;
 import com.google.maps.model.TransitRoutingPreference;
@@ -321,13 +322,24 @@ public class DirectionsApiTest extends AuthenticatedTest {
         .departureTime(new DateTime(2015, 2, 15, 11, 0, DateTimeZone.UTC))
         .await();
 
-    assertNotNull(routes[0].legs[0].steps[0].transitDetails);
-    assertNotNull(routes[0].legs[0].steps[0].transitDetails.arrivalStop);
-    assertNotNull(routes[0].legs[0].steps[0].transitDetails.arrivalTime);
-    assertNotNull(routes[0].legs[0].steps[0].transitDetails.departureStop);
-    assertNotNull(routes[0].legs[0].steps[0].transitDetails.departureTime);
-    assertNotNull(routes[0].legs[0].steps[0].transitDetails.line);
-    assertNotNull(routes[0].legs[0].steps[0].transitDetails.line.agencies);
-    assertNotNull(routes[0].legs[0].steps[0].transitDetails.line.vehicle);
+    DirectionsLeg testLeg = routes[0].legs[0];
+
+    // Skip the initial walking steps
+    int i = 0;
+    while (testLeg.steps[i].travelMode != TravelMode.TRANSIT) {
+      i++;
+    }
+
+    assertTrue("Could not find a transit leg in directions",
+        i < testLeg.steps.length);
+
+    assertNotNull(testLeg.steps[i].transitDetails);
+    assertNotNull(testLeg.steps[i].transitDetails.arrivalStop);
+    assertNotNull(testLeg.steps[i].transitDetails.arrivalTime);
+    assertNotNull(testLeg.steps[i].transitDetails.departureStop);
+    assertNotNull(testLeg.steps[i].transitDetails.departureTime);
+    assertNotNull(testLeg.steps[i].transitDetails.line);
+    assertNotNull(testLeg.steps[i].transitDetails.line.agencies);
+    assertNotNull(testLeg.steps[i].transitDetails.line.vehicle);
   }
 }
