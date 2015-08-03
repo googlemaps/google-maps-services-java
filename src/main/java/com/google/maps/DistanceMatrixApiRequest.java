@@ -54,6 +54,15 @@ public class DistanceMatrixApiRequest
   }
 
   /**
+   * A channel to pass with the request
+   *
+   * @param channel String to pass with the request)
+   */
+  public DistanceMatrixApiRequest channel(String channel) {
+    return param("channel", join('|', channel));
+  }
+
+  /**
    * One or more addresses from which to calculate distance and time. The service will geocode
    * the string and convert it to a latitude/longitude coordinate to calculate directions.
    *
