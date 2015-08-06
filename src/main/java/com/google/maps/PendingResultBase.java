@@ -122,6 +122,6 @@ abstract class PendingResultBase<T, A extends PendingResultBase<T, A, R>,
    * @param channel String to pass with the request for analytics
    */
   public A channel(String channel) {
-    return param("channel", join('|', channel));
+    return param("channel", channel);
   }
 }
