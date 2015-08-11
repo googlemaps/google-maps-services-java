@@ -47,6 +47,7 @@ public class GeoApiContext {
   private String apiKey;
   private String clientId;
   private UrlSigner urlSigner;
+  private String channel;
   private final OkHttpClient client = new OkHttpClient();
   private final RateLimitExecutorService rateLimitExecutorService;
 
@@ -60,6 +61,10 @@ public class GeoApiContext {
 
   <T, R extends ApiResponse<T>> PendingResult<T> get(ApiConfig config, Class<? extends R> clazz,
       Map<String, String> params) {
+    if(channel != null && !channel.isEmpty() && !params.containsKey("channel")){
+      params.put("channel", channel);
+    }
+
     StringBuilder query = new StringBuilder();
 
     for (Map.Entry<String, String> param : params.entrySet()) {
@@ -83,7 +88,11 @@ public class GeoApiContext {
 
     StringBuilder query = new StringBuilder();
 
+    boolean channelSet = false;
     for (int i = 0; i < params.length; i++) {
+      if(params[i]=="channel"){
+        channelSet = true;
+      }
       query.append('&').append(params[i]).append('=');
       i++;
 
@@ -93,6 +102,10 @@ public class GeoApiContext {
       } catch (UnsupportedEncodingException e) {
         return new ExceptionResult<T>(e);
       }
+    }
+
+    if(channelSet==false && channel != null && !channel.isEmpty() ){
+      query.append("&chanel=").append(channel);
     }
 
     return getWithPath(clazz, config.fieldNamingPolicy, config.hostName, config.path,
@@ -168,6 +181,15 @@ public class GeoApiContext {
   public GeoApiContext setEnterpriseCredentials(String clientId, String cryptographicSecret) {
     this.clientId = clientId;
     this.urlSigner = new UrlSigner(cryptographicSecret);
+    return this;
+  }
+
+  /**
+   * Sets the default channel for requests (can be overridden by requests).  Only useful for Google Maps for Work clients;
+   * @param channel  The channel to use for analytics
+   */
+  public GeoApiContext setChannel(String channel) {
+    this.channel = channel;
     return this;
   }
 
