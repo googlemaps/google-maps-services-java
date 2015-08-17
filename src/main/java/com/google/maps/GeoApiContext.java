@@ -185,7 +185,7 @@ public class GeoApiContext {
   }
 
   /**
-   * Sets the default channel for requests (can be overridden by requests).  Only useful for Google Maps for Work clients;
+   * Sets the default channel for requests (can be overridden by requests).  Only useful for Google Maps for Work clients.
    * @param channel  The channel to use for analytics
    */
   public GeoApiContext setChannel(String channel) {
