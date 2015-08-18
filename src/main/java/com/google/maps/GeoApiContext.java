@@ -104,8 +104,9 @@ public class GeoApiContext {
       }
     }
 
-    if(channelSet==false && channel != null && !channel.isEmpty() ){
-      query.append("&chanel=").append(channel);
+    // Channel can be supplied per-request or per-context. We prioritize it from the request, so if it's not provided there, provide it here
+    if (channelSet == false && channel != null && !channel.isEmpty()) {
+      query.append("&channel=").append(channel);
     }
 
     return getWithPath(clazz, config.fieldNamingPolicy, config.hostName, config.path,
