@@ -113,4 +113,15 @@ abstract class PendingResultBase<T, A extends PendingResultBase<T, A, R>,
   public final A language(String language) {
     return param("language", language);
   }
+
+  /**
+   * A channel to pass with the request.  channel is used by Google Maps API for Work
+   * users to be able to track usage across different applications with the same clientID.
+   * See: https://developers.google.com/maps/documentation/business/clientside/quota
+   *
+   * @param channel String to pass with the request for analytics
+   */
+  public A channel(String channel) {
+    return param("channel", channel);
+  }
 }
