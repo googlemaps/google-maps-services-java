@@ -15,6 +15,10 @@
 
 package com.google.maps;
 
+import com.google.maps.errors.ApiException;
+
+import java.io.IOException;
+
 /**
  * Represents a pending result from an API call.
  *
@@ -32,9 +36,10 @@ public interface PendingResult<T> {
    * Performs the request synchronously.
    *
    * @return The result.
-   * @throws Exception
+   * @throws ApiException When an error has been returned by the API
+   * @throws java.io.IOException When the server returns a non-retriable response code.
    */
-  public T await() throws Exception;
+  public T await() throws ApiException, IOException;
 
   /**
    * Performs the request synchronously, ignoring exceptions

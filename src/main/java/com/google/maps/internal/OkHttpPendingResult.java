@@ -39,6 +39,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -94,14 +95,14 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
   private class QueuedResponse {
     private final OkHttpPendingResult<T, R> request;
     private final Response response;
-    private final Exception e;
+    private final IOException e;
 
     public QueuedResponse(OkHttpPendingResult<T, R> request, Response response) {
       this.request = request;
       this.response = response;
       this.e = null;
     }
-    public QueuedResponse(OkHttpPendingResult<T, R> request, Exception e) {
+    public QueuedResponse(OkHttpPendingResult<T, R> request, IOException e) {
       this.request = request;
       this.response = null;
       this.e = e;
@@ -109,7 +110,7 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
   }
 
   @Override
-  public T await() throws Exception {
+  public T await() throws ApiException, IOException {
     // Handle sleeping for retried requests
     if (retryCounter > 0) {
       // 0.5 * (1.5 ^ i) represents an increased sleep time of 1.5x per iteration,
@@ -147,11 +148,16 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
       }
     });
 
-    QueuedResponse r = waiter.take();
-    if (r.response != null) {
-      return parseResponse(r.request, r.response);
-    } else {
-      throw r.e;
+    try {
+      QueuedResponse r = waiter.take();
+      if (r.response != null) {
+        return parseResponse(r.request, r.response);
+      } else {
+        throw r.e;
+      }
+    } catch (InterruptedException e) {
+      LOG.log(Level.SEVERE, "Thread interrupted while executing", e);
+      return null;
     }
   }
 
@@ -187,7 +193,8 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
     }
   }
 
-  private T parseResponse(OkHttpPendingResult<T, R> request, Response response) throws Exception {
+  private T parseResponse(OkHttpPendingResult<T, R> request, Response response)
+      throws ApiException, IOException {
     if (RETRY_ERROR_CODES.contains(response.code()) && cumulativeSleepTime < errorTimeOut) {
         // Retry is a blocking method, but that's OK. If we're here, we're either in an await()
         // call, which is blocking anyway, or we're handling a callback in a separate thread.
@@ -256,7 +263,7 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
     return buffer.toByteArray();
   }
 
-  private T retry() throws Exception {
+  private T retry() throws ApiException, IOException {
     retryCounter++;
     LOG.info("Retrying request. Retry #" + retryCounter);
     this.call = client.newCall(request);
