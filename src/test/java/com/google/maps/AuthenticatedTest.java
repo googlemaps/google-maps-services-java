@@ -48,18 +48,28 @@ public class AuthenticatedTest {
       return contexts;
     }
 
-   if (System.getenv("API_KEY") != null) {
+    if (System.getenv("API_KEY") != null) {
       GeoApiContext context = new GeoApiContext()
           .setApiKey(System.getenv("API_KEY"));
       contexts.add(new Object[]{context});
+    } else if (System.getProperty("api.key") != null && !System.getProperty("api.key").equals("")) {
+      GeoApiContext context = new GeoApiContext()
+          .setApiKey(System.getProperty("api.key"));
+      contexts.add(new Object[]{context});
     }
 
-    if (supportsClientId
-        && (!(System.getenv("CLIENT_ID") == null
-            || System.getenv("CLIENT_SECRET") == null))) {
-      GeoApiContext context = new GeoApiContext()
-          .setEnterpriseCredentials(System.getenv("CLIENT_ID"), System.getenv("CLIENT_SECRET"));
-      contexts.add(new Object[]{context});
+    if (supportsClientId) {
+        if (!(System.getenv("CLIENT_ID") == null
+        || System.getenv("CLIENT_SECRET") == null)) {
+        GeoApiContext context = new GeoApiContext()
+            .setEnterpriseCredentials(System.getenv("CLIENT_ID"), System.getenv("CLIENT_SECRET"));
+        contexts.add(new Object[]{context});
+      } else if (!(System.getProperty("client.id") == null || System.getProperty("client.id").equals("")
+          || System.getProperty("client.secret") == null || System.getProperty("client.secret").equals(""))) {
+          GeoApiContext context = new GeoApiContext()
+              .setEnterpriseCredentials(System.getProperty("client.id"), System.getProperty("client.secret"));
+          contexts.add(new Object[]{context});
+        }
     }
 
     if (contexts.size() == 0) {
