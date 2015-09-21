@@ -140,7 +140,7 @@ public class GeocodingApiTest extends AuthenticatedTest {
         .address("1600 Amphitheatre Parkway, Mountain View, CA").await();
 
     assertNotNull(results);
-    assertEquals("1600 Amphitheatre Parkway, Mountain View, CA 94043, USA",
+    assertEquals("1600 Amphitheatre Pkwy, Mountain View, CA 94043, USA",
         results[0].formattedAddress);
   }
 
@@ -229,7 +229,7 @@ public class GeocodingApiTest extends AuthenticatedTest {
         .latlng(new LatLng(40.714224, -73.961452)).await();
 
     assertNotNull(results);
-    assertEquals("277 Bedford Avenue, Brooklyn, NY 11211, USA", results[0].formattedAddress);
+    assertEquals("277 Bedford Ave, Brooklyn, NY 11211, USA", results[0].formattedAddress);
     assertEquals("277", results[0].addressComponents[0].longName);
     assertEquals("277", results[0].addressComponents[0].shortName);
     assertEquals(AddressComponentType.STREET_NUMBER,
