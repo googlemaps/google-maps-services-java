@@ -48,28 +48,30 @@ public class AuthenticatedTest {
       return contexts;
     }
 
-    if (System.getenv("API_KEY") != null) {
+    String apiKey = System.getenv("API_KEY");
+    if (apiKey == null) {
+      apiKey = System.getProperty("api.key");
+    }
+
+    if (apiKey != null && !apiKey.equalsIgnoreCase("")) {
       GeoApiContext context = new GeoApiContext()
-          .setApiKey(System.getenv("API_KEY"));
-      contexts.add(new Object[]{context});
-    } else if (System.getProperty("api.key") != null && !System.getProperty("api.key").equals("")) {
-      GeoApiContext context = new GeoApiContext()
-          .setApiKey(System.getProperty("api.key"));
+          .setApiKey(apiKey);
       contexts.add(new Object[]{context});
     }
 
     if (supportsClientId) {
-        if (!(System.getenv("CLIENT_ID") == null
-        || System.getenv("CLIENT_SECRET") == null)) {
+      String clientId = System.getenv("CLIENT_ID");
+      String clientSecret = System.getenv("CLIENT_SECRET");
+      if (clientId == null && clientSecret == null) {
+        clientId = System.getProperty("client.id");
+        clientSecret = System.getProperty("client.secret");
+      }
+
+      if (!(clientId == null || clientId.equals("") || clientSecret == null || clientSecret.equals(""))) {
         GeoApiContext context = new GeoApiContext()
-            .setEnterpriseCredentials(System.getenv("CLIENT_ID"), System.getenv("CLIENT_SECRET"));
+            .setEnterpriseCredentials(clientId, clientSecret);
         contexts.add(new Object[]{context});
-      } else if (!(System.getProperty("client.id") == null || System.getProperty("client.id").equals("")
-          || System.getProperty("client.secret") == null || System.getProperty("client.secret").equals(""))) {
-          GeoApiContext context = new GeoApiContext()
-              .setEnterpriseCredentials(System.getProperty("client.id"), System.getProperty("client.secret"));
-          contexts.add(new Object[]{context});
-        }
+      }
     }
 
     if (contexts.size() == 0) {
