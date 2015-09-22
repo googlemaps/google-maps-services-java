@@ -10,7 +10,7 @@ Maybe [matrices of directions][Distance Matrix API]? This library brings the [Go
 Services] to your server-side Java application.
 ![Analytics](https://ga-beacon.appspot.com/UA-12846745-20/google-maps-services-java/readme?pixel)
 
-The Java Client for Google Maps Services is a Java Client library for the following Google Maps 
+The Java Client for Google Maps Services is a Java Client library for the following Google Maps
 APIs:
 
  - [Directions API]
@@ -48,11 +48,11 @@ freely available with a Google Account at
 https://developers.google.com/console. To generate a server key for
 your project:
 
- 1. Visit https://developers.google.com/console and log in with 
+ 1. Visit https://developers.google.com/console and log in with
     a Google Account.
  1. Select an existing project, or create a new project.
  1. Click **Enable an API**.
- 1. Browse for the API, and set its status to "On". The Java Client for Google Maps Services 
+ 1. Browse for the API, and set its status to "On". The Java Client for Google Maps Services
     accesses the following APIs:
     * Directions API
     * Distance Matrix API
@@ -102,7 +102,7 @@ You can find the latest version at the top of this README or by searching
 
 View the [javadoc](https://googlemaps.github.io/google-maps-services-java/v0.1.7/javadoc).
 
-Additional documentation for the included web services is available at 
+Additional documentation for the included web services is available at
 https://developers.google.com/maps/.
 
  - [Directions API]
@@ -215,8 +215,3 @@ req.setCallback(new PendingResult.Callback<GeocodingResult[]>() {
 [issues]: https://github.com/googlemaps/google-maps-services-java/issues
 [Time Zone API]: https://developers.google.com/maps/documentation/timezone
 [Roads API]: https://developers.google.com/maps/documentation/roads
-
-
-
-
-

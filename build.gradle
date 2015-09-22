@@ -60,6 +60,13 @@ task updateVersion(type: Copy) {
 compileJava.source = "build/filtered/src/main/java"
 compileJava.dependsOn updateVersion
 
+// Propagate API Key system properties to test tasks
+tasks.withType(Test) {
+    systemProperty 'api.key', System.getProperty('api.key')
+    systemProperty 'client.id', System.getProperty('client.id')
+    systemProperty 'client.secret', System.getProperty('client.secret')
+}
+
 javadoc {
     exclude '**/internal/**'
 }
