@@ -16,7 +16,6 @@
 package com.google.maps.model;
 
 import java.net.URL;
-import java.util.List;
 
 /**
  * PlaceDetails is the result of a Place Details request. A Place Details request returns more
@@ -90,16 +89,16 @@ public class PlaceDetails {
     }
 
     /**
-     * periods[] is an array of opening periods covering seven days, starting from Sunday, in
+     * periods is an array of opening periods covering seven days, starting from Sunday, in
      * chronological order.
      */
-    public List<Period> periods;
+    public Period[] periods;
 
     /**
      * weekdayText is an array of seven strings representing the formatted opening hours for each
      * day of the week.
      */
-    public List<String> weekdayText;
+    public String[] weekdayText;
 
     /**
      * permanentlyClosed indicates whether the place has permanently shut down.
@@ -121,11 +120,11 @@ public class PlaceDetails {
     public int width;
 
     /** htmlAttributions contains any required attributions. */
-    public List<String> htmlAttributions;
+    public String[] htmlAttributions;
   }
 
   /** photos is a list of photo objects, each containing a reference to an image. */
-  public List<Photo> photos;
+  public Photo[] photos;
 
   /** placeId is a textual identifier that uniquely identifies a place. */
   public String placeId;
@@ -153,7 +152,7 @@ public class PlaceDetails {
 
   /** altIds is an optional array of alternative place IDs for the place, with a scope related to
    * each alternative ID. */
-  public List<AlternatePlaceIds> altIds;
+  public AlternatePlaceIds[] altIds;
 
   public enum PriceLevel {
     FREE, INEXPENSIVE, MODERATE, EXPENSIVE, VERY_EXPENSIVE
@@ -170,7 +169,7 @@ public class PlaceDetails {
       }
 
       /** type is the name of the aspect that is being rated. */
-      public RatingType type;
+      public String type; // TODO(brettmorgan): convert to RatingType.
 
       /** rating is the user's rating for this particular aspect, from 0 to 3. */
       public int rating;
@@ -178,11 +177,11 @@ public class PlaceDetails {
 
     /** aspects contains a collection of AspectRating objects, each of which provides a rating of
      * a single attribute of the establishment. */
-    public List<AspectRating> aspects;
+    public AspectRating[] aspects;
 
     /** authorName the name of the user who submitted the review. Anonymous reviews are attributed
      * to "A Google user". */
-    public String authorName;
+    public String authorName; // TODO(brettmorgan): figure out how to map author_name -> authorName
 
     /** authorUrl the URL to the users Google+ profile, if available. */
     public URL authorUrl;
@@ -202,11 +201,11 @@ public class PlaceDetails {
     public long time; // TODO(brettmorgan): figure out how to convert this to a DateTime.
   }
 
-  /** reviews is a list of up to five reviews. */
-  public List<Review> reviews;
+  /** reviews is an array of up to five reviews. */
+  public Review[] reviews;
 
-  /** types contains a list of feature types describing the given result. */
-  public List<String> types;
+  /** types contains an array of feature types describing the given result. */
+  public String[] types;
 
   /** url contains the URL of the official Google page for this place. This will be the
    * establishment's Google+ page if the Google+ page exists, otherwise it will be the
@@ -225,9 +224,9 @@ public class PlaceDetails {
   /** website lists the authoritative website for this place, such as a business' homepage. */
   public URL website;
 
-  /** htmlAttributions contains a set of attributions about this listing which must be displayed
+  /** htmlAttributions contains an array of attributions about this listing which must be displayed
    * to the user. */
-  public List<String> htmlAttributions;
+  public String[] htmlAttributions;
 
 }
 

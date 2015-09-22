@@ -8,7 +8,7 @@ public class PlaceDetailsRequest
     extends PendingResultBase<PlaceDetails, PlaceDetailsRequest, PlacesApi.PlaceDetailsResponse> {
 
   static final ApiConfig API_CONFIG = new ApiConfig("/maps/api/place/details/json")
-      .fieldNamingPolicy(FieldNamingPolicy.IDENTITY);
+      .fieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
 
   public PlaceDetailsRequest(GeoApiContext context) {
     super(context, API_CONFIG, PlacesApi.PlaceDetailsResponse.class);

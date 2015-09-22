@@ -35,14 +35,10 @@ import java.util.List;
 public class PlacesApi {
 
   static final ApiConfig TEXT_SEARCH_API_CONFIG = new ApiConfig("/maps/api/place/textsearch/json")
-      .fieldNamingPolicy(FieldNamingPolicy.IDENTITY);
-
-
-  static final ApiConfig PLACE_PHOTOS_API_CONFIG = new ApiConfig("/maps/api/place/photo")
-      .fieldNamingPolicy(FieldNamingPolicy.IDENTITY);
+      .fieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
 
   static final ApiConfig QUERY_AUTOCOMPLETE_API_CONFIG = new ApiConfig("/maps/api/place/queryautocomplete/json")
-      .fieldNamingPolicy(FieldNamingPolicy.IDENTITY);
+      .fieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
 
   private PlacesApi() {
   }
@@ -59,7 +55,7 @@ public class PlacesApi {
   static class PlaceDetailsResponse implements ApiResponse<PlaceDetails> {
     public String status;
     public PlaceDetails result;
-    public List<String> htmlAttributions;
+    public String[] htmlAttributions;
     public String errorMessage;
 
     @Override

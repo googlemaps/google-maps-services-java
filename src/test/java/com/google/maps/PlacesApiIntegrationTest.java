@@ -61,11 +61,12 @@ public class PlacesApiIntegrationTest extends KeyOnlyAuthenticatedTest {
     assertNotNull(placeDetails.openingHours.periods);
     assertNotNull(placeDetails.openingHours.weekdayText);
     assertNotNull(placeDetails.photos);
-    assertNotNull(placeDetails.photos.get(0).photoReference);
-    assertNotNull(placeDetails.photos.get(0).height);
-    assertNotNull(placeDetails.photos.get(0).width);
-    assertNotNull(placeDetails.photos.get(0).htmlAttributions);
-    assertNotNull(placeDetails.photos.get(0).htmlAttributions.get(0));
+    assertNotNull(placeDetails.photos[0]);
+    assertNotNull(placeDetails.photos[0].photoReference);
+    assertNotNull(placeDetails.photos[0].height);
+    assertNotNull(placeDetails.photos[0].width);
+    assertNotNull(placeDetails.photos[0].htmlAttributions);
+    assertNotNull(placeDetails.photos[0].htmlAttributions[0]);
 
   }
 }
