@@ -36,6 +36,12 @@ public class PlaceDetails {
   /** formattedPhoneNumber contains the place's phone number in its local format. */
   public String formattedPhoneNumber;
 
+  /** adrAddress is an undocumented address field.
+   * @deprecated Undocumented field. See b/24313079
+   */
+  @Deprecated
+  public String adrAddress;
+
   public class Geometry {
     /** The location of a Place, as a latitude, longitude pair. */
     public LatLng location;
@@ -162,6 +168,16 @@ public class PlaceDetails {
    * will vary from region to region. */
   public PriceLevel priceLevel;
 
+  /** rating contains the place's rating, from 1.0 to 5.0, based on aggregated user reviews. */
+  public float rating;
+
+  /** userRatingsTotal is an undocumented field.
+   *
+   * @deprecated this field is not documented.
+   */
+  public int userRatingsTotal;
+
+
   static public class Review {
     static public class AspectRating {
       public enum RatingType {
@@ -228,5 +244,18 @@ public class PlaceDetails {
    * to the user. */
   public String[] htmlAttributions;
 
+  /** id is deprecated. Please do not use. This field may stop being returned at any time.
+   *
+   * @deprecated This field is deprecated. See the deprecation warning at the top of
+   * <a href="https://developers.google.com/places/web-service/details">this page</a>
+   */
+  public String id;
+
+  /** reference is deprecated. Please do not use. This field may stop being returned at any time.
+   *
+   * @deprecated This field is deprecated. See the deprecation warning at the top of
+   * <a href="https://developers.google.com/places/web-service/details">this page</a>
+   */
+  public String reference;
 }
 
