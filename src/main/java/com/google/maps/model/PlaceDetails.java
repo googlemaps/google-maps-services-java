@@ -167,7 +167,13 @@ public class PlaceDetails {
   public AlternatePlaceIds[] altIds;
 
   public enum PriceLevel {
-    FREE, INEXPENSIVE, MODERATE, EXPENSIVE, VERY_EXPENSIVE
+    FREE, INEXPENSIVE, MODERATE, EXPENSIVE, VERY_EXPENSIVE,
+
+    /**
+     * Indicates an unknown price level type returned by the server. The Java Client for Google Maps
+     * Services should be updated to support the new value.
+     */
+    UNKNOWN
   }
 
   /** priceLevel is the price level of the place. The exact amount indicated by a specific value

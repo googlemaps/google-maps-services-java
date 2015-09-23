@@ -20,6 +20,7 @@ import com.google.maps.model.PlaceDetails;
 import com.google.maps.model.PlaceDetails.Review.AspectRating.RatingType;
 import com.google.maps.model.PlaceDetails.OpeningHours.Period.OpenClose.DayOfWeek;
 import com.google.maps.model.PlaceDetails.OpeningHours.Period;
+import com.google.maps.model.PlaceDetails.PriceLevel;
 
 import com.google.mockwebserver.MockResponse;
 import com.google.mockwebserver.MockWebServer;
@@ -39,13 +40,21 @@ import static org.junit.Assert.assertTrue;
 public class PlacesApiTest {
 
   public static final String GOOGLE_SYDNEY = "ChIJN1t_tDeuEmsRUsoyG83frY4";
+  public static final String QUAY_PLACE_ID = "ChIJ02qnq0KuEmsRHUJF4zo1x4I";
+
   private GeoApiContext context = new GeoApiContext().setApiKey("AIzaFakeKey");
   private String responseBody;
+  private String quayResponseBody;
 
   public PlacesApiTest() {
-    InputStream input = this.getClass().getResourceAsStream("PlaceDetailsResponse.txt");
+    responseBody = retrieveBody("PlaceDetailsResponse.txt");
+    quayResponseBody = retrieveBody("PlaceDetailsQuay.txt");
+  }
+
+  private String retrieveBody(String filename) {
+    InputStream input = this.getClass().getResourceAsStream(filename);
     Scanner s = new java.util.Scanner(input).useDelimiter("\\A");
-    responseBody = s.next();
+    return s.next();
   }
 
   @Test
@@ -64,6 +73,16 @@ public class PlacesApiTest {
     assertParamValue(GOOGLE_SYDNEY, "placeid", actualParams);
 
     server.shutdown();
+  }
+
+  // TODO(brettmorgan): find a home for these utility methods
+
+  private List<NameValuePair> parseQueryParamsFromRequestLine(String requestLine) throws Exception {
+    // Extract the URL part from the HTTP request line
+    String[] chunks = requestLine.split("\\s");
+    String url = chunks[1];
+
+    return URLEncodedUtils.parse(new URI(url), "UTF-8");
   }
 
   @Test
@@ -238,14 +257,33 @@ public class PlacesApiTest {
     server.shutdown();
   }
 
-  // TODO(brettmorgan): find a home for these utility methods
+  @Test
+  public void testPlaceDetailsLookupQuay() throws Exception {
 
-  private List<NameValuePair> parseQueryParamsFromRequestLine(String requestLine) throws Exception {
-    // Extract the URL part from the HTTP request line
-    String[] chunks = requestLine.split("\\s");
-    String url = chunks[1];
+    MockResponse response = new MockResponse();
+    response.setBody(quayResponseBody);
+    MockWebServer server = new MockWebServer();
+    server.enqueue(response);
+    server.play();
+    context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
 
-    return URLEncodedUtils.parse(new URI(url), "UTF-8");
+    PlaceDetails placeDetails = PlacesApi.placeDetails(context, QUAY_PLACE_ID).await();
+
+    assertNotNull(placeDetails);
+
+    assertNotNull(placeDetails.priceLevel);
+    assertEquals(PriceLevel.VERY_EXPENSIVE, placeDetails.priceLevel);
+
+    assertNotNull(placeDetails.photos);
+    PlaceDetails.Photo photo = placeDetails.photos[0];
+    assertEquals(1944, photo.height);
+    assertEquals(2592, photo.width);
+    assertEquals("<a href=\"https://maps.google.com/maps/contrib/101719343658521132777\">James Prendergast</a>",
+        photo.htmlAttributions[0]);
+    assertEquals("CmRdAAAATDVdhv0RdMEZlvO2jNE_EXXZZnCWvenfvLmWCsYqVtCFxZiasbcv1X0CNDTkpaCtrurGzVxTVt8Fqc7egdA7VyFeq1VFaq1GiFatWrFAUm_H0CN9u2wbfjb1Zf0NL9QiEhCj6I5O2h6eFH_2sa5hyVaEGhTdn8b7RWD-2W64OrT3mFGjzzLWlQ",
+        photo.photoReference);
+
+    server.shutdown();
   }
 
   private void assertParamValue(String expectedValue, String paramName, List<NameValuePair> params)

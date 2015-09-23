@@ -25,7 +25,7 @@ import com.google.maps.errors.OverQueryLimitException;
 import com.google.maps.model.*;
 import com.google.maps.model.PlaceDetails.Review.AspectRating.RatingType;
 import com.google.maps.model.PlaceDetails.OpeningHours.Period.OpenClose.DayOfWeek;
-
+import com.google.maps.model.PlaceDetails.PriceLevel;
 
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Callback;
@@ -210,6 +210,7 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
         .registerTypeAdapter(LocationType.class, new SafeEnumAdapter<LocationType>(LocationType.UNKNOWN))
         .registerTypeAdapter(RatingType.class, new SafeEnumAdapter<RatingType>(RatingType.UNKNOWN))
         .registerTypeAdapter(DayOfWeek.class, new DayOfWeekAdaptor())
+        .registerTypeAdapter(PriceLevel.class, new PriceLevelAdaptor())
         .setFieldNamingPolicy(fieldNamingPolicy)
         .create();
 
