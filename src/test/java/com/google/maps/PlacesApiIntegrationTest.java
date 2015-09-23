@@ -95,26 +95,32 @@ public class PlacesApiIntegrationTest extends KeyOnlyAuthenticatedTest {
     assertTrue(placeDetails.utcOffset <= 660);
 
     // Photos
-    assertNotNull(placeDetails.photos);
-    assertNotNull(placeDetails.photos[0]);
-    assertNotNull(placeDetails.photos[0].photoReference);
-    assertNotNull(placeDetails.photos[0].height);
-    assertNotNull(placeDetails.photos[0].width);
-    assertNotNull(placeDetails.photos[0].htmlAttributions);
-    assertNotNull(placeDetails.photos[0].htmlAttributions[0]);
+    {
+      assertNotNull(placeDetails.photos);
+      PlaceDetails.Photo photo = placeDetails.photos[0];
+      assertNotNull(photo);
+      assertNotNull(photo.photoReference);
+      assertNotNull(photo.height);
+      assertNotNull(photo.width);
+      assertNotNull(photo.htmlAttributions);
+      assertNotNull(photo.htmlAttributions[0]);
+    }
 
     // Reviews
-    assertNotNull(placeDetails.reviews);
-    assertNotNull(placeDetails.reviews[0]);
-    assertNotNull(placeDetails.reviews[0].authorName);
-    assertNotNull(placeDetails.reviews[0].authorUrl);
-    assertNotNull(placeDetails.reviews[0].language);
-    assertNotNull(placeDetails.reviews[0].rating);
-    assertNotNull(placeDetails.reviews[0].aspects);
-    assertNotNull(placeDetails.reviews[0].aspects[0]);
-    assertNotNull(placeDetails.reviews[0].aspects[0].rating);
-    assertNotNull(placeDetails.reviews[0].aspects[0].type);
-
+    {
+      assertNotNull(placeDetails.reviews);
+      PlaceDetails.Review review = placeDetails.reviews[0];
+      assertNotNull(review);
+      assertNotNull(review.authorName);
+      assertNotNull(review.authorUrl);
+      assertNotNull(review.language);
+      assertNotNull(review.rating);
+      assertNotNull(review.aspects);
+      PlaceDetails.Review.AspectRating aspect = review.aspects[0];
+      assertNotNull(aspect);
+      assertNotNull(aspect.rating);
+      assertNotNull(aspect.type);
+    }
     // Place ID
     assertNotNull(placeDetails.placeId);
     assertEquals(placeDetails.placeId, GOOGLE_SYDNEY);
