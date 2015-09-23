@@ -37,47 +37,38 @@ public class PlacesApi {
   static final ApiConfig TEXT_SEARCH_API_CONFIG = new ApiConfig("/maps/api/place/textsearch/json")
       .fieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
 
-  static final ApiConfig QUERY_AUTOCOMPLETE_API_CONFIG = new ApiConfig("/maps/api/place/queryautocomplete/json")
-      .fieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
-
   private PlacesApi() {
   }
 
+  /*
+   * Please note: We are specifically not implementing:
+   *  - Nearby Search
+   *  - Radar Search
+   *  - Place Add
+   *  - Place Autocomplete
+   */
+
   /**
    * Request the details of a Place.
+   *
+   * We are only enabling looking up Places by placeId as the older Place identifier - reference - is deprecated.
+   * Please see the <a href="https://developers.google.com/places/web-service/details#deprecation">deprecation warning</a>.
+   *
+   * @param context The context on which to make Geo API requests.
+   * @param placeId The PlaceID to request details on.
+   * @return Returns a PlaceDetailsRequest that you can configure and execute.
    */
+
   public static PlaceDetailsRequest placeDetails(GeoApiContext context, String placeId) {
     PlaceDetailsRequest request = new PlaceDetailsRequest(context);
     request.placeId(placeId);
     return request;
   }
 
-  static class PlaceDetailsResponse implements ApiResponse<PlaceDetails> {
-    public String status;
-    public PlaceDetails result;
-    public String[] htmlAttributions;
-    public String errorMessage;
+  public static QueryAutocompleteRequest queryAutocomplete(GeoApiContext context) {
+    QueryAutocompleteRequest request = new QueryAutocompleteRequest(context);
 
-    @Override
-    public boolean successful() {
-      return "OK".equals(status) || "ZERO_RESULTS".equals(status);
-    }
-
-    @Override
-    public PlaceDetails getResult() {
-      if (result != null) {
-        result.htmlAttributions = htmlAttributions;
-      }
-      return result;
-    }
-
-    @Override
-    public ApiException getError() {
-      if (successful()) {
-        return null;
-      }
-      return ApiException.from(status, errorMessage);
-    }
+    return request;
   }
 
 }
