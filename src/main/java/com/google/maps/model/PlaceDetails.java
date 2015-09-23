@@ -70,7 +70,13 @@ public class PlaceDetails {
     static public class Period {
       static public class OpenClose {
         public enum DayOfWeek {
-          SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY
+          SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY,
+
+          /**
+           * Indicates an unknown day of week type returned by the server. The Java Client for Google Maps
+           * Services should be updated to support the new value.
+           */
+          UNKNOWN
         }
 
         /**
@@ -181,11 +187,17 @@ public class PlaceDetails {
   static public class Review {
     static public class AspectRating {
       public enum RatingType {
-        APPEAL, ATMOSPHERE, DECOR, FACILITIES, FOOD, OVERALL, QUALITY, SERVICE
+        APPEAL, ATMOSPHERE, DECOR, FACILITIES, FOOD, OVERALL, QUALITY, SERVICE,
+
+        /**
+         * Indicates an unknown rating type returned by the server. The Java Client for Google Maps
+         * Services should be updated to support the new value.
+         */
+        UNKNOWN
       }
 
       /** type is the name of the aspect that is being rated. */
-      public String type; // TODO(brettmorgan): convert to RatingType.
+      public RatingType type;
 
       /** rating is the user's rating for this particular aspect, from 0 to 3. */
       public int rating;
@@ -197,7 +209,7 @@ public class PlaceDetails {
 
     /** authorName the name of the user who submitted the review. Anonymous reviews are attributed
      * to "A Google user". */
-    public String authorName; // TODO(brettmorgan): figure out how to map author_name -> authorName
+    public String authorName;
 
     /** authorUrl the URL to the users Google+ profile, if available. */
     public URL authorUrl;

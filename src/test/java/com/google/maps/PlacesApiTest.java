@@ -17,6 +17,10 @@ package com.google.maps;
 
 import com.google.maps.model.AddressComponentType;
 import com.google.maps.model.PlaceDetails;
+import com.google.maps.model.PlaceDetails.Review.AspectRating.RatingType;
+import com.google.maps.model.PlaceDetails.OpeningHours.Period.OpenClose.DayOfWeek;
+import com.google.maps.model.PlaceDetails.OpeningHours.Period;
+
 import com.google.mockwebserver.MockResponse;
 import com.google.mockwebserver.MockWebServer;
 import org.apache.http.NameValuePair;
@@ -136,9 +140,44 @@ public class PlacesApiTest {
     // Opening Hours
     assertNotNull(placeDetails.openingHours);
     assertNotNull(placeDetails.openingHours.openNow);
+    assertTrue(placeDetails.openingHours.openNow);
     assertNotNull(placeDetails.openingHours.periods);
+    assertEquals(placeDetails.openingHours.periods.length, 5);
+
+    {
+      Period monday = placeDetails.openingHours.periods[0];
+      Period tuesday = placeDetails.openingHours.periods[1];
+      Period wednesday = placeDetails.openingHours.periods[2];
+      Period thursday = placeDetails.openingHours.periods[3];
+      Period friday = placeDetails.openingHours.periods[4];
+
+      assertEquals(DayOfWeek.MONDAY, monday.open.day);
+      assertEquals("0830", monday.open.time);
+      assertEquals(DayOfWeek.MONDAY, monday.close.day);
+      assertEquals("1730", monday.close.time);
+
+      assertEquals(DayOfWeek.TUESDAY, tuesday.open.day);
+      assertEquals("0830", tuesday.open.time);
+      assertEquals(DayOfWeek.TUESDAY, tuesday.close.day);
+      assertEquals("1730", tuesday.close.time);
+
+      assertEquals(DayOfWeek.WEDNESDAY, wednesday.open.day);
+      assertEquals("0830", wednesday.open.time);
+      assertEquals(DayOfWeek.WEDNESDAY, wednesday.close.day);
+      assertEquals("1730", wednesday.close.time);
+
+      assertEquals(DayOfWeek.THURSDAY, thursday.open.day);
+      assertEquals("0830", thursday.open.time);
+      assertEquals(DayOfWeek.THURSDAY, thursday.close.day);
+      assertEquals("1730", thursday.close.time);
+
+      assertEquals(DayOfWeek.FRIDAY, friday.open.day);
+      assertEquals("0830", friday.open.time);
+      assertEquals(DayOfWeek.FRIDAY, friday.close.day);
+      assertEquals("1700", friday.close.time);
+    }
+
     assertNotNull(placeDetails.openingHours.weekdayText);
-    assertNotNull(placeDetails.utcOffset);
     assertEquals(placeDetails.openingHours.weekdayText[0], "Monday: 8:30 am – 5:30 pm");
     assertEquals(placeDetails.openingHours.weekdayText[1], "Tuesday: 8:30 am – 5:30 pm");
     assertEquals(placeDetails.openingHours.weekdayText[2], "Wednesday: 8:30 am – 5:30 pm");
@@ -146,7 +185,7 @@ public class PlacesApiTest {
     assertEquals(placeDetails.openingHours.weekdayText[4], "Friday: 8:30 am – 5:00 pm");
     assertEquals(placeDetails.openingHours.weekdayText[5], "Saturday: Closed");
     assertEquals(placeDetails.openingHours.weekdayText[6], "Sunday: Closed");
-
+    assertNotNull(placeDetails.utcOffset);
     assertEquals(placeDetails.utcOffset, 600);
 
 
@@ -163,13 +202,22 @@ public class PlacesApiTest {
     assertNotNull(placeDetails.reviews);
     assertNotNull(placeDetails.reviews[0]);
     assertNotNull(placeDetails.reviews[0].authorName);
+    assertEquals(placeDetails.reviews[0].authorName, "Danielle Lonnon");
     assertNotNull(placeDetails.reviews[0].authorUrl);
+    assertEquals(placeDetails.reviews[0].authorUrl.toURI(),
+        new URI("https://plus.google.com/118257578392162991040"));
     assertNotNull(placeDetails.reviews[0].language);
+    assertEquals(placeDetails.reviews[0].language, "en");
     assertNotNull(placeDetails.reviews[0].rating);
+    assertEquals(placeDetails.reviews[0].rating, 5);
+    assertNotNull(placeDetails.reviews[0].text);
+    assertTrue(placeDetails.reviews[0].text.startsWith("As someone who works in the theatre,"));
     assertNotNull(placeDetails.reviews[0].aspects);
     assertNotNull(placeDetails.reviews[0].aspects[0]);
     assertNotNull(placeDetails.reviews[0].aspects[0].rating);
+    assertEquals(placeDetails.reviews[0].aspects[0].rating, 3);
     assertNotNull(placeDetails.reviews[0].aspects[0].type);
+    assertEquals(placeDetails.reviews[0].aspects[0].type, RatingType.OVERALL);
 
     // Place ID
     assertNotNull(placeDetails.placeId);
