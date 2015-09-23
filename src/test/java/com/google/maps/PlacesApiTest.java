@@ -23,6 +23,7 @@ import com.google.maps.model.PlaceDetails.OpeningHours.Period.OpenClose.DayOfWee
 import com.google.maps.model.PlaceDetails.OpeningHours.Period;
 import com.google.maps.model.PlaceDetails.PriceLevel;
 
+import com.google.maps.model.QueryAutocompletePrediction;
 import com.google.mockwebserver.MockResponse;
 import com.google.mockwebserver.MockWebServer;
 import org.apache.http.NameValuePair;
@@ -42,17 +43,19 @@ public class PlacesApiTest {
 
   public static final String GOOGLE_SYDNEY = "ChIJN1t_tDeuEmsRUsoyG83frY4";
   public static final String QUAY_PLACE_ID = "ChIJ02qnq0KuEmsRHUJF4zo1x4I";
-  public static final String QUERY_AUTOCOMPLETE_INPUT = "Pizza near Par";
+  public static final String QUERY_AUTOCOMPLETE_INPUT = "pizza near par";
 
   private GeoApiContext context = new GeoApiContext().setApiKey("AIzaFakeKey");
   private String placeDetailResponseBody;
   private String quayResponseBody;
   private String queryAutocompleteResponseBody;
+  private String queryAutocompleteWithPlaceIdResponseBody;
 
   public PlacesApiTest() {
     placeDetailResponseBody = retrieveBody("PlaceDetailsResponse.txt");
     quayResponseBody = retrieveBody("PlaceDetailsQuay.txt");
     queryAutocompleteResponseBody = retrieveBody("QueryAutocompleteResponse.txt");
+    queryAutocompleteWithPlaceIdResponseBody = retrieveBody("QueryAutocompleteResponseWithPlaceID.txt");
   }
 
   private String retrieveBody(String filename) {
@@ -323,6 +326,62 @@ public class PlacesApiTest {
     assertNotNull(predictions);
     assertEquals(predictions.length, 5);
 
+    {
+      QueryAutocompletePrediction prediction = predictions[0];
+      assertNotNull(prediction);
+      assertNotNull(prediction.description);
+      assertEquals("pizza near Paris, France", prediction.description);
+
+      assertEquals(3, prediction.matchedSubstrings.length);
+      QueryAutocompletePrediction.MatchedSubstring matchedSubstring = prediction.matchedSubstrings[0];
+      assertEquals(5, matchedSubstring.length);
+      assertEquals(0, matchedSubstring.offset);
+
+      assertEquals(4, prediction.terms.length);
+      QueryAutocompletePrediction.Term term = prediction.terms[0];
+      assertEquals(0, term.offset);
+      assertEquals("pizza", term.value);
+    }
+
+  }
+
+  @Test
+  public void testQueryAutocompleteWithPlaceId() throws Exception {
+    MockResponse response = new MockResponse();
+    response.setBody(queryAutocompleteWithPlaceIdResponseBody);
+    MockWebServer server = new MockWebServer();
+    server.enqueue(response);
+    server.play();
+    context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
+
+    QueryAutocompletePrediction[] predictions = PlacesApi.queryAutocomplete(context, QUERY_AUTOCOMPLETE_INPUT).await();
+
+    assertNotNull(predictions);
+    assertEquals(predictions.length, 1);
+
+    {
+      QueryAutocompletePrediction prediction = predictions[0];
+      assertNotNull(prediction);
+      assertNotNull(prediction.description);
+      assertEquals("Bondi Pizza, Campbell Parade, Sydney, New South Wales, Australia", prediction.description);
+
+      assertEquals(2, prediction.matchedSubstrings.length);
+      QueryAutocompletePrediction.MatchedSubstring matchedSubstring = prediction.matchedSubstrings[0];
+      assertEquals(5, matchedSubstring.length);
+      assertEquals(6, matchedSubstring.offset);
+
+      assertEquals(5, prediction.terms.length);
+      QueryAutocompletePrediction.Term term = prediction.terms[0];
+      assertEquals(0, term.offset);
+      assertEquals("Bondi Pizza", term.value);
+
+      assertEquals("ChIJv0wpwp6tEmsR0Glcf5tugrk", prediction.placeId);
+
+      // Deprecated fields. These will be removed once they are no longer returned by the API.
+      assertEquals("c478ed4e7cb075b307fdce4ad4f6c9d15cab01d7", prediction.id);
+      assertEquals("ClRPAAAAYozD2iM3dQvDMrvrLDIALGoHO7v6pWhxn5vIm18pOyLLqToyikFov34qJoe4NnpoaLtGIWd5LWm5hOpWU1BT-SEI2jGZ8WXuDvYiFtQtjGMSEIR4thVlMws1tnNuE3hE2k0aFCqP_yHWRNSLqaP_vQFzazO-D7Hl",
+          prediction.reference);
+    }
   }
 
   // TODO(brettmorgan): find a home for these utility methods
