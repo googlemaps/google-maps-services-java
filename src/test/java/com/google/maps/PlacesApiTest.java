@@ -16,6 +16,7 @@
 package com.google.maps;
 
 import com.google.maps.model.AddressComponentType;
+import com.google.maps.model.LatLng;
 import com.google.maps.model.PlaceDetails;
 import com.google.maps.model.PlaceDetails.Review.AspectRating.RatingType;
 import com.google.maps.model.PlaceDetails.OpeningHours.Period.OpenClose.DayOfWeek;
@@ -41,14 +42,17 @@ public class PlacesApiTest {
 
   public static final String GOOGLE_SYDNEY = "ChIJN1t_tDeuEmsRUsoyG83frY4";
   public static final String QUAY_PLACE_ID = "ChIJ02qnq0KuEmsRHUJF4zo1x4I";
+  public static final String QUERY_AUTOCOMPLETE_INPUT = "Pizza near Par";
 
   private GeoApiContext context = new GeoApiContext().setApiKey("AIzaFakeKey");
-  private String responseBody;
+  private String placeDetailResponseBody;
   private String quayResponseBody;
+  private String queryAutocompleteResponseBody;
 
   public PlacesApiTest() {
-    responseBody = retrieveBody("PlaceDetailsResponse.txt");
+    placeDetailResponseBody = retrieveBody("PlaceDetailsResponse.txt");
     quayResponseBody = retrieveBody("PlaceDetailsQuay.txt");
+    queryAutocompleteResponseBody = retrieveBody("QueryAutocompleteResponse.txt");
   }
 
   private String retrieveBody(String filename) {
@@ -75,21 +79,11 @@ public class PlacesApiTest {
     server.shutdown();
   }
 
-  // TODO(brettmorgan): find a home for these utility methods
-
-  private List<NameValuePair> parseQueryParamsFromRequestLine(String requestLine) throws Exception {
-    // Extract the URL part from the HTTP request line
-    String[] chunks = requestLine.split("\\s");
-    String url = chunks[1];
-
-    return URLEncodedUtils.parse(new URI(url), "UTF-8");
-  }
-
   @Test
   public void testPlaceDetailsLookupGoogleSydney() throws Exception {
 
     MockResponse response = new MockResponse();
-    response.setBody(responseBody);
+    response.setBody(placeDetailResponseBody);
     MockWebServer server = new MockWebServer();
     server.enqueue(response);
     server.play();
@@ -284,6 +278,61 @@ public class PlacesApiTest {
         photo.photoReference);
 
     server.shutdown();
+  }
+
+  @Test
+  public void testQueryAutocompleteRequest() throws Exception {
+    MockResponse response = new MockResponse();
+    response.setBody("");
+    MockWebServer server = new MockWebServer();
+    server.enqueue(response);
+    server.play();
+    context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
+
+    QueryAutocompleteRequest req = PlacesApi.queryAutocomplete(context, QUERY_AUTOCOMPLETE_INPUT);
+    req.offset(10);
+    LatLng location = new LatLng(10, 20);
+    req.location(location);
+    req.radius(5000);
+    req.language("en");
+    req.awaitIgnoreError();
+
+    List<NameValuePair> actualParams =
+        parseQueryParamsFromRequestLine(server.takeRequest().getRequestLine());
+    assertParamValue(QUERY_AUTOCOMPLETE_INPUT, "input", actualParams);
+    assertParamValue("10", "offset", actualParams);
+    assertParamValue(location.toUrlValue(), "location", actualParams);
+    assertParamValue("5000", "radius", actualParams);
+    assertParamValue("en", "language", actualParams);
+
+    server.shutdown();
+
+  }
+
+  @Test
+  public void testQueryAutocompletePizzaNearPar() throws Exception {
+    MockResponse response = new MockResponse();
+    response.setBody(queryAutocompleteResponseBody);
+    MockWebServer server = new MockWebServer();
+    server.enqueue(response);
+    server.play();
+    context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
+
+    QueryAutocompletePrediction[] predictions = PlacesApi.queryAutocomplete(context, QUERY_AUTOCOMPLETE_INPUT).await();
+
+    assertNotNull(predictions);
+    assertEquals(predictions.length, 5);
+
+  }
+
+  // TODO(brettmorgan): find a home for these utility methods
+
+  private List<NameValuePair> parseQueryParamsFromRequestLine(String requestLine) throws Exception {
+    // Extract the URL part from the HTTP request line
+    String[] chunks = requestLine.split("\\s");
+    String url = chunks[1];
+
+    return URLEncodedUtils.parse(new URI(url), "UTF-8");
   }
 
   private void assertParamValue(String expectedValue, String paramName, List<NameValuePair> params)
