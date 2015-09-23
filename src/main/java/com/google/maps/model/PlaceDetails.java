@@ -37,6 +37,7 @@ public class PlaceDetails {
   public String formattedPhoneNumber;
 
   /** adrAddress is an undocumented address field.
+   *
    * @deprecated Undocumented field. See b/24313079
    */
   @Deprecated
