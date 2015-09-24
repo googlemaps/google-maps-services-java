@@ -15,15 +15,12 @@
 
 package com.google.maps;
 
-import com.google.maps.model.AddressComponentType;
-import com.google.maps.model.LatLng;
-import com.google.maps.model.PlaceDetails;
+import com.google.maps.model.*;
 import com.google.maps.model.PlaceDetails.Review.AspectRating.RatingType;
 import com.google.maps.model.PlaceDetails.OpeningHours.Period.OpenClose.DayOfWeek;
 import com.google.maps.model.PlaceDetails.OpeningHours.Period;
 import com.google.maps.model.PlaceDetails.PriceLevel;
 
-import com.google.maps.model.QueryAutocompletePrediction;
 import com.google.mockwebserver.MockResponse;
 import com.google.mockwebserver.MockWebServer;
 import org.apache.http.NameValuePair;
@@ -45,17 +42,19 @@ public class PlacesApiTest {
   public static final String QUAY_PLACE_ID = "ChIJ02qnq0KuEmsRHUJF4zo1x4I";
   public static final String QUERY_AUTOCOMPLETE_INPUT = "pizza near par";
 
-  private GeoApiContext context = new GeoApiContext().setApiKey("AIzaFakeKey");
-  private String placeDetailResponseBody;
-  private String quayResponseBody;
-  private String queryAutocompleteResponseBody;
-  private String queryAutocompleteWithPlaceIdResponseBody;
+  private final GeoApiContext context = new GeoApiContext().setApiKey("AIzaFakeKey");
+  private final String placeDetailResponseBody;
+  private final String quayResponseBody;
+  private final String queryAutocompleteResponseBody;
+  private final String queryAutocompleteWithPlaceIdResponseBody;
+  private final String textSearchResponseBody;
 
   public PlacesApiTest() {
-    placeDetailResponseBody = retrieveBody("PlaceDetailsResponse.txt");
-    quayResponseBody = retrieveBody("PlaceDetailsQuay.txt");
-    queryAutocompleteResponseBody = retrieveBody("QueryAutocompleteResponse.txt");
-    queryAutocompleteWithPlaceIdResponseBody = retrieveBody("QueryAutocompleteResponseWithPlaceID.txt");
+    placeDetailResponseBody = retrieveBody("PlaceDetailsResponse.json");
+    quayResponseBody = retrieveBody("PlaceDetailsQuay.json");
+    queryAutocompleteResponseBody = retrieveBody("QueryAutocompleteResponse.json");
+    queryAutocompleteWithPlaceIdResponseBody = retrieveBody("QueryAutocompleteResponseWithPlaceID.json");
+    textSearchResponseBody = retrieveBody("TextSearchResponse.json");
   }
 
   private String retrieveBody(String filename) {
@@ -379,9 +378,55 @@ public class PlacesApiTest {
 
       // Deprecated fields. These will be removed once they are no longer returned by the API.
       assertEquals("c478ed4e7cb075b307fdce4ad4f6c9d15cab01d7", prediction.id);
-      assertEquals("ClRPAAAAYozD2iM3dQvDMrvrLDIALGoHO7v6pWhxn5vIm18pOyLLqToyikFov34qJoe4NnpoaLtGIWd5LWm5hOpWU1BT-SEI2jGZ8WXuDvYiFtQtjGMSEIR4thVlMws1tnNuE3hE2k0aFCqP_yHWRNSLqaP_vQFzazO-D7Hl",
+      assertEquals("ClRPAAAAYozD2iM3dQvDMrvrLDIALGoHO7v6pWhxn5vIm18pOyLLqToyikFov34qJoe4NnpoaLtGIWd5LWm5hOpWU1BT-" +
+              "SEI2jGZ8WXuDvYiFtQtjGMSEIR4thVlMws1tnNuE3hE2k0aFCqP_yHWRNSLqaP_vQFzazO-D7Hl",
           prediction.reference);
     }
+  }
+
+  @Test
+  public void testTextSearch() throws Exception {
+    MockResponse response = new MockResponse();
+    response.setBody(textSearchResponseBody);
+    MockWebServer server = new MockWebServer();
+    server.enqueue(response);
+    server.play();
+    context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
+
+    PlacesSearchResponse results = PlacesApi.textSearch(context, "Google Sydney").await();
+
+    assertNotNull(results);
+    assertNotNull(results.results);
+    assertEquals(1, results.results.length);
+    {
+      PlacesSearchResult result = results.results[0];
+      assertNotNull(result.formattedAddress);
+      assertEquals("5, 48 Pirrama Rd, Pyrmont NSW 2009, Australia", result.formattedAddress);
+      assertNotNull(result.geometry);
+      assertNotNull(result.geometry.location);
+      assertEquals(-33.866611, result.geometry.location.lat, 0.0001);
+      assertEquals(151.195832, result.geometry.location.lng, 0.0001);
+      assertNotNull(result.icon);
+      assertEquals(new URI("https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png"),
+          result.icon.toURI());
+      assertNotNull(result.name);
+      assertEquals("Google", result.name);
+//      assertNotNull(result.openingHours); TODO(brettmorgan): add opening_hours
+//      assertNotNull(result.photos); TODO(brettmorgan): add photos
+      assertNotNull(result.placeId);
+      assertEquals("ChIJN1t_tDeuEmsRUsoyG83frY4", result.placeId);
+      assertEquals(4.4, result.rating, 0.0001);
+      assertNotNull(result.types);
+      assertNotNull(result.types[0]);
+      assertEquals("establishment", result.types[0]);
+
+      // Deprecated fields. These will be removed once they are no longer returned by the API.
+      assertEquals("4f89212bf76dde31f092cfc14d7506555d85b5c7", result.id);
+      assertEquals("CmRaAAAA3EN_NWHqY6zWa9vRX-tfJNji1FqeIxf0_V3xZQmBezAPO3SRwOrjRJzKxjnxTvhB_" +
+          "Lz4dRvLp1HTfoAThW4aFwVmqmE_V-3saLDSF77rXfclqxA9ncQkHXhLFg0J4AqXEhDh8umU5GO0JU1aeJVJeGFgGhR-" +
+          "xp1AIR1GlQOE53OqTADfFQwy8Q", result.reference);
+    }
+
   }
 
   // TODO(brettmorgan): find a home for these utility methods
