@@ -17,6 +17,7 @@ package com.google.maps;
 
 import com.google.maps.model.AddressComponentType;
 import com.google.maps.model.PlaceDetails;
+import com.google.maps.model.PlacesSearchResponse;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
@@ -132,5 +133,12 @@ public class PlacesApiIntegrationTest extends KeyOnlyAuthenticatedTest {
     assertEquals(placeDetails.rating, 4.4, 1.0);
     assertNotNull(placeDetails.userRatingsTotal);
     assertTrue(placeDetails.userRatingsTotal > 95);
+  }
+
+  @Test
+  public void testTextSearch() throws Exception {
+    PlacesSearchResponse response = PlacesApi.textSearch(context, "Google Sydney").await();
+
+    assertNotNull(response);
   }
 }

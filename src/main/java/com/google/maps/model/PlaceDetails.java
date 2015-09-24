@@ -43,11 +43,6 @@ public class PlaceDetails {
   @Deprecated
   public String adrAddress;
 
-  public class Geometry {
-    /** The location of a Place, as a latitude, longitude pair. */
-    public LatLng location;
-  }
-
   /** geometry is the location of the Place. */
   public Geometry geometry;
 
