@@ -34,9 +34,6 @@ import java.util.List;
  */
 public class PlacesApi {
 
-  static final ApiConfig TEXT_SEARCH_API_CONFIG = new ApiConfig("/maps/api/place/textsearch/json")
-      .fieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
-
   private PlacesApi() {
   }
 
@@ -68,6 +65,12 @@ public class PlacesApi {
   public static QueryAutocompleteRequest queryAutocomplete(GeoApiContext context, String input) {
     QueryAutocompleteRequest request = new QueryAutocompleteRequest(context);
     request.input(input);
+    return request;
+  }
+
+  public static TextSearchRequest textSearch(GeoApiContext context, String query) {
+    TextSearchRequest request = new TextSearchRequest(context);
+    request.query(query);
     return request;
   }
 
