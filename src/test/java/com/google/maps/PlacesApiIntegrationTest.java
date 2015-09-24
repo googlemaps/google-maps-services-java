@@ -18,6 +18,7 @@ package com.google.maps;
 import com.google.maps.model.AddressComponentType;
 import com.google.maps.model.PlaceDetails;
 import com.google.maps.model.PlacesSearchResponse;
+import com.google.maps.model.PlacesSearchResult;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
@@ -140,5 +141,17 @@ public class PlacesApiIntegrationTest extends KeyOnlyAuthenticatedTest {
     PlacesSearchResponse response = PlacesApi.textSearch(context, "Google Sydney").await();
 
     assertNotNull(response);
+
+    assertNotNull(response.results);
+    assertEquals(1, response.results.length);
+    {
+      PlacesSearchResult result = response.results[0];
+      assertNotNull(result);
+      assertNotNull(result.formattedAddress);
+      assertEquals("5, 48 Pirrama Rd, Pyrmont NSW 2009, Australia", result.formattedAddress);
+      assertNotNull(result.placeId);
+      assertEquals("ChIJN1t_tDeuEmsRUsoyG83frY4", result.placeId);
+    }
+
   }
 }
