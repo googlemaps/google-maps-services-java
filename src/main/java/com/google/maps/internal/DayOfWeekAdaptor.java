@@ -4,9 +4,7 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
-import com.google.maps.model.PlaceDetails;
-import com.google.maps.model.PlaceDetails.OpeningHours.Period.OpenClose.DayOfWeek;
-import org.joda.time.DateTime;
+import com.google.maps.model.OpeningHours.Period.OpenClose.DayOfWeek;
 
 import java.io.IOException;
 

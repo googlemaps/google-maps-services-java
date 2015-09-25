@@ -15,12 +15,18 @@
 
 package com.google.maps;
 
-import com.google.maps.model.*;
-import com.google.maps.model.PlaceDetails.Review.AspectRating.RatingType;
-import com.google.maps.model.PlaceDetails.OpeningHours.Period.OpenClose.DayOfWeek;
-import com.google.maps.model.PlaceDetails.OpeningHours.Period;
+import com.google.maps.model.AddressComponentType;
+import com.google.maps.model.LatLng;
+import com.google.maps.model.OpeningHours.Period;
+import com.google.maps.model.OpeningHours.Period.OpenClose.DayOfWeek;
+import com.google.maps.model.Photo;
+import com.google.maps.model.PlaceDetails;
 import com.google.maps.model.PlaceDetails.PriceLevel;
-
+import com.google.maps.model.PlaceDetails.Review.AspectRating.RatingType;
+import com.google.maps.model.PlaceIdScope;
+import com.google.maps.model.PlacesSearchResponse;
+import com.google.maps.model.PlacesSearchResult;
+import com.google.maps.model.QueryAutocompletePrediction;
 import com.google.mockwebserver.MockResponse;
 import com.google.mockwebserver.MockWebServer;
 import org.apache.http.NameValuePair;
@@ -33,6 +39,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -238,7 +245,7 @@ public class PlacesApiTest {
     assertNotNull(placeDetails.placeId);
     assertEquals(placeDetails.placeId, GOOGLE_SYDNEY);
     assertNotNull(placeDetails.scope);
-    assertEquals(placeDetails.scope, PlaceDetails.PlaceIdScope.GOOGLE);
+    assertEquals(placeDetails.scope, PlaceIdScope.GOOGLE);
     assertNotNull(placeDetails.types);
     assertEquals(placeDetails.types[0], "establishment");
     assertNotNull(placeDetails.rating);
@@ -271,7 +278,7 @@ public class PlacesApiTest {
     assertEquals(PriceLevel.VERY_EXPENSIVE, placeDetails.priceLevel);
 
     assertNotNull(placeDetails.photos);
-    PlaceDetails.Photo photo = placeDetails.photos[0];
+    Photo photo = placeDetails.photos[0];
     assertEquals(1944, photo.height);
     assertEquals(2592, photo.width);
     assertEquals("<a href=\"https://maps.google.com/maps/contrib/101719343658521132777\">James Prendergast</a>",
@@ -404,14 +411,14 @@ public class PlacesApiTest {
 
     List<NameValuePair> actualParams = parseQueryParamsFromRequestLine(server.takeRequest().getRequestLine());
     assertParamValue("Google Sydney", "query", actualParams);
-    assertParamValue( location.toUrlValue(), "location",actualParams);
+    assertParamValue(location.toUrlValue(), "location", actualParams);
     assertParamValue(String.valueOf(3000), "radius", actualParams);
     assertParamValue(String.valueOf(1), "minprice", actualParams);
     assertParamValue(String.valueOf(4), "maxprice", actualParams);
     assertParamValue("true", "opennow", actualParams);
   }
 
-    @Test
+  @Test
   public void testTextSearchResponse() throws Exception {
     MockResponse response = new MockResponse();
     response.setBody(textSearchResponseBody);
@@ -438,8 +445,23 @@ public class PlacesApiTest {
           result.icon.toURI());
       assertNotNull(result.name);
       assertEquals("Google", result.name);
-//      assertNotNull(result.openingHours); TODO(brettmorgan): add opening_hours
-//      assertNotNull(result.photos); TODO(brettmorgan): add photos
+      assertNotNull(result.openingHours);
+      assertFalse(result.openingHours.openNow);
+      assertNotNull(result.photos);
+      {
+        assertEquals(1, result.photos.length);
+        Photo photo = result.photos[0];
+        assertNotNull(photo);
+        assertEquals(2322, photo.height);
+        assertEquals(4128, photo.width);
+        assertNotNull(photo.htmlAttributions);
+        assertEquals(1, photo.htmlAttributions.length);
+        assertEquals("<a href=\"https://maps.google.com/maps/contrib/107252953636064841537\">William Stewart</a>",
+            photo.htmlAttributions[0]);
+        assertEquals("CmRdAAAAa43ZeiQvF4n-Yv5UnEGcIe0KjdTzzTH4g-g1GuKgWas0g8W7793eFDGxkrG4Z5i_Jua0Z-" +
+            "Ib88IuYe2iVAZ0W3Q7wUrp4A2mux4BjZmakLFkTkPj_OZ7ek3vSGnrzqExEhBqB3AIn82lmf38RnVSFH1CGhSWrvzN30A_" +
+            "ABGNScuiYEU70wau3w", photo.photoReference);
+      }
       assertNotNull(result.placeId);
       assertEquals("ChIJN1t_tDeuEmsRUsoyG83frY4", result.placeId);
       assertEquals(4.4, result.rating, 0.0001);

@@ -15,8 +15,9 @@
 
 package com.google.maps;
 
-import com.google.maps.model.AddressComponentType;
+import com.google.maps.model.Photo;
 import com.google.maps.model.PlaceDetails;
+import com.google.maps.model.PlaceIdScope;
 import com.google.maps.model.PlacesSearchResponse;
 import com.google.maps.model.PlacesSearchResult;
 import org.junit.Test;
@@ -99,7 +100,7 @@ public class PlacesApiIntegrationTest extends KeyOnlyAuthenticatedTest {
     // Photos
     {
       assertNotNull(placeDetails.photos);
-      PlaceDetails.Photo photo = placeDetails.photos[0];
+      Photo photo = placeDetails.photos[0];
       assertNotNull(photo);
       assertNotNull(photo.photoReference);
       assertNotNull(photo.height);
@@ -127,7 +128,7 @@ public class PlacesApiIntegrationTest extends KeyOnlyAuthenticatedTest {
     assertNotNull(placeDetails.placeId);
     assertEquals(placeDetails.placeId, GOOGLE_SYDNEY);
     assertNotNull(placeDetails.scope);
-    assertEquals(placeDetails.scope, PlaceDetails.PlaceIdScope.GOOGLE);
+    assertEquals(placeDetails.scope, PlaceIdScope.GOOGLE);
     assertNotNull(placeDetails.types);
     assertEquals(placeDetails.types[0], "establishment");
     assertNotNull(placeDetails.rating);

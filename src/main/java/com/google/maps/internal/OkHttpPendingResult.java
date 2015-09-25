@@ -24,7 +24,7 @@ import com.google.maps.errors.ApiException;
 import com.google.maps.errors.OverQueryLimitException;
 import com.google.maps.model.*;
 import com.google.maps.model.PlaceDetails.Review.AspectRating.RatingType;
-import com.google.maps.model.PlaceDetails.OpeningHours.Period.OpenClose.DayOfWeek;
+import com.google.maps.model.OpeningHours.Period.OpenClose.DayOfWeek;
 import com.google.maps.model.PlaceDetails.PriceLevel;
 
 import com.squareup.okhttp.Call;
