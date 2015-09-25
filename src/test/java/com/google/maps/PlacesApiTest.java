@@ -291,13 +291,13 @@ public class PlacesApiTest {
     server.play();
     context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
 
-    QueryAutocompleteRequest req = PlacesApi.queryAutocomplete(context, QUERY_AUTOCOMPLETE_INPUT);
-    req.offset(10);
     LatLng location = new LatLng(10, 20);
-    req.location(location);
-    req.radius(5000);
-    req.language("en");
-    req.awaitIgnoreError();
+    PlacesApi.queryAutocomplete(context, QUERY_AUTOCOMPLETE_INPUT)
+        .offset(10)
+        .location(location)
+        .radius(5000)
+        .language("en")
+        .awaitIgnoreError();
 
     List<NameValuePair> actualParams =
         parseQueryParamsFromRequestLine(server.takeRequest().getRequestLine());
@@ -385,7 +385,34 @@ public class PlacesApiTest {
   }
 
   @Test
-  public void testTextSearch() throws Exception {
+  public void testTextSearchRequest() throws Exception {
+    MockResponse response = new MockResponse();
+    response.setBody("");
+    MockWebServer server = new MockWebServer();
+    server.enqueue(response);
+    server.play();
+    context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
+
+    LatLng location = new LatLng(10, 20);
+    PlacesApi.textSearch(context, "Google Sydney")
+        .location(location)
+        .radius(3000)
+        .minprice(1)
+        .maxprice(4)
+        .opennow(true)
+        .awaitIgnoreError();
+
+    List<NameValuePair> actualParams = parseQueryParamsFromRequestLine(server.takeRequest().getRequestLine());
+    assertParamValue("Google Sydney", "query", actualParams);
+    assertParamValue( location.toUrlValue(), "location",actualParams);
+    assertParamValue(String.valueOf(3000), "radius", actualParams);
+    assertParamValue(String.valueOf(1), "minprice", actualParams);
+    assertParamValue(String.valueOf(4), "maxprice", actualParams);
+    assertParamValue("true", "opennow", actualParams);
+  }
+
+    @Test
+  public void testTextSearchResponse() throws Exception {
     MockResponse response = new MockResponse();
     response.setBody(textSearchResponseBody);
     MockWebServer server = new MockWebServer();
