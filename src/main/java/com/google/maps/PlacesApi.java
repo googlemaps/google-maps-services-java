@@ -46,6 +46,20 @@ public class PlacesApi {
    */
 
   /**
+   * The Google Places API Text Search Service is a web service that returns information about a
+   * set of places based on a string — for example "pizza in New York" or "shoe stores near Ottawa".
+   *
+   * @param context The context on which to make Geo API requests.
+   * @param query The text string on which to search, for example: "restaurant".
+   * @return Returns a TextSearchRequest that you can configure and execute.
+   */
+  public static TextSearchRequest textSearch(GeoApiContext context, String query) {
+    TextSearchRequest request = new TextSearchRequest(context);
+    request.query(query);
+    return request;
+  }
+
+  /**
    * Request the details of a Place.
    *
    * We are only enabling looking up Places by placeId as the older Place identifier - reference - is deprecated.
@@ -62,15 +76,16 @@ public class PlacesApi {
     return request;
   }
 
+  /**
+   * Query Autocomplete allows you to add on-the-fly geographic query predictions to your application.
+   *
+   * @param context The context on which to make Geo API requests.
+   * @param input input is the text string on which to search.
+   * @return Returns a QueryAutocompleteRequest that you can configure and execute.
+   */
   public static QueryAutocompleteRequest queryAutocomplete(GeoApiContext context, String input) {
     QueryAutocompleteRequest request = new QueryAutocompleteRequest(context);
     request.input(input);
-    return request;
-  }
-
-  public static TextSearchRequest textSearch(GeoApiContext context, String query) {
-    TextSearchRequest request = new TextSearchRequest(context);
-    request.query(query);
     return request;
   }
 
