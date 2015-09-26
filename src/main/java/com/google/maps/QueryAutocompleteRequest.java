@@ -7,6 +7,10 @@ import com.google.maps.internal.ApiResponse;
 import com.google.maps.model.LatLng;
 import com.google.maps.model.QueryAutocompletePrediction;
 
+/**
+ * A <a href="https://developers.google.com/places/web-service/query#query_autocomplete_requests">Query Autocomplete</a>
+ * request.
+ */
 public class QueryAutocompleteRequest
     extends PendingResultBase<QueryAutocompletePrediction[], QueryAutocompleteRequest, QueryAutocompleteRequest.Response> {
 

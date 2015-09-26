@@ -2,6 +2,13 @@ package com.google.maps.model;
 
 import java.net.URL;
 
+/**
+ * <p>PlaceSearchResult represents a single result in the search results return from the Google Places API Web
+ * Service.</p>
+ *
+ * <p>Please see <a href="https://developers.google.com/places/web-service/search#PlaceSearchResults">Place
+ * Search Results</a> for more detail.</p>
+ */
 public class PlacesSearchResult {
 
   /** formattedAddress is a string containing the human-readable address of this place. */
@@ -22,10 +29,10 @@ public class PlacesSearchResult {
   /** icon contains the URL of a recommended icon which may be displayed to the user when indicating this result. */
   public URL icon;
 
-  /** place_id is a textual identifier that uniquely identifies a place. */
+  /** placeId is a textual identifier that uniquely identifies a place. */
   public String placeId;
 
-  /** scope: Indicates the scope of the placeId. */
+  /** scope indicates the scope of the placeId. */
   public PlaceIdScope scope;
 
   /** rating contains the place's rating, from 1.0 to 5.0, based on aggregated user reviews. */

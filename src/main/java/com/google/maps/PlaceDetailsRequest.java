@@ -6,6 +6,9 @@ import com.google.maps.internal.ApiConfig;
 import com.google.maps.internal.ApiResponse;
 import com.google.maps.model.PlaceDetails;
 
+/**
+ * A <a href="https://developers.google.com/places/web-service/details#PlaceDetailsRequests">Place Details</a> request.
+ */
 public class PlaceDetailsRequest
     extends PendingResultBase<PlaceDetails, PlaceDetailsRequest, PlaceDetailsRequest.Response> {
 
