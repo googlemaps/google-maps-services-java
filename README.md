@@ -17,8 +17,9 @@ APIs:
  - [Distance Matrix API]
  - [Elevation API]
  - [Geocoding API]
- - [Time Zone API]
+ - [Places API]
  - [Roads API]
+ - [Time Zone API]
 
 Keep in mind that the same [terms and conditions](https://developers.google.com/maps/terms) apply
 to usage of the APIs when they're accessed through this library.
@@ -58,6 +59,8 @@ your project:
     * Distance Matrix API
     * Elevation API
     * Geocoding API
+    * Places API
+    * Roads API
     * Time Zone API
  1. Once you've enabled the APIs, click **Credentials** from the left navigation of the Developer
     Console.
@@ -109,6 +112,7 @@ https://developers.google.com/maps/.
  - [Distance Matrix API]
  - [Elevation API]
  - [Geocoding API]
+ - [Places API]
  - [Time Zone API]
 
 ## Usage
@@ -213,5 +217,6 @@ req.setCallback(new PendingResult.Callback<GeocodingResult[]>() {
 [Geocoding API]: https://developers.google.com/maps/documentation/geocoding
 [Google Maps API Web Services]: https://developers.google.com/maps/documentation/webservices/
 [issues]: https://github.com/googlemaps/google-maps-services-java/issues
+[Places API]: https://developers.google.com/places/web-service/
 [Time Zone API]: https://developers.google.com/maps/documentation/timezone
 [Roads API]: https://developers.google.com/maps/documentation/roads
