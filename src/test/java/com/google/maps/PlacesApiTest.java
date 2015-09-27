@@ -55,6 +55,7 @@ public class PlacesApiTest {
   private final String queryAutocompleteResponseBody;
   private final String queryAutocompleteWithPlaceIdResponseBody;
   private final String textSearchResponseBody;
+  private final String textSearchPizzaInNYCbody;
 
   public PlacesApiTest() {
     placeDetailResponseBody = retrieveBody("PlaceDetailsResponse.json");
@@ -62,12 +63,17 @@ public class PlacesApiTest {
     queryAutocompleteResponseBody = retrieveBody("QueryAutocompleteResponse.json");
     queryAutocompleteWithPlaceIdResponseBody = retrieveBody("QueryAutocompleteResponseWithPlaceID.json");
     textSearchResponseBody = retrieveBody("TextSearchResponse.json");
+    textSearchPizzaInNYCbody = retrieveBody("TextSearchPizzaInNYC.json");
   }
 
   private String retrieveBody(String filename) {
     InputStream input = this.getClass().getResourceAsStream(filename);
     Scanner s = new java.util.Scanner(input).useDelimiter("\\A");
-    return s.next();
+    String body = s.next();
+    if (body == null || body.length() == 0) {
+      throw new IllegalArgumentException("filename '" + filename + "' resulted in null or empty body");
+    }
+    return body;
   }
 
   @Test
@@ -149,7 +155,8 @@ public class PlacesApiTest {
 
     // URLs
     assertNotNull(placeDetails.icon);
-    assertEquals(placeDetails.icon.toURI(), new URI("https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png"));
+    assertEquals(placeDetails.icon.toURI(),
+        new URI("https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png"));
     assertNotNull(placeDetails.url);
     assertEquals(placeDetails.url.toURI(), new URI("https://plus.google.com/111337342022929067349/about?hl=en-US"));
     assertNotNull(placeDetails.website);
@@ -283,7 +290,8 @@ public class PlacesApiTest {
     assertEquals(2592, photo.width);
     assertEquals("<a href=\"https://maps.google.com/maps/contrib/101719343658521132777\">James Prendergast</a>",
         photo.htmlAttributions[0]);
-    assertEquals("CmRdAAAATDVdhv0RdMEZlvO2jNE_EXXZZnCWvenfvLmWCsYqVtCFxZiasbcv1X0CNDTkpaCtrurGzVxTVt8Fqc7egdA7VyFeq1VFaq1GiFatWrFAUm_H0CN9u2wbfjb1Zf0NL9QiEhCj6I5O2h6eFH_2sa5hyVaEGhTdn8b7RWD-2W64OrT3mFGjzzLWlQ",
+    assertEquals(
+        "CmRdAAAATDVdhv0RdMEZlvO2jNE_EXXZZnCWvenfvLmWCsYqVtCFxZiasbcv1X0CNDTkpaCtrurGzVxTVt8Fqc7egdA7VyFeq1VFaq1GiFatWrFAUm_H0CN9u2wbfjb1Zf0NL9QiEhCj6I5O2h6eFH_2sa5hyVaEGhTdn8b7RWD-2W64OrT3mFGjzzLWlQ",
         photo.photoReference);
 
     server.shutdown();
@@ -349,6 +357,7 @@ public class PlacesApiTest {
       assertEquals("pizza", term.value);
     }
 
+    server.shutdown();
   }
 
   @Test
@@ -389,6 +398,8 @@ public class PlacesApiTest {
               "SEI2jGZ8WXuDvYiFtQtjGMSEIR4thVlMws1tnNuE3hE2k0aFCqP_yHWRNSLqaP_vQFzazO-D7Hl",
           prediction.reference);
     }
+
+    server.shutdown();
   }
 
   @Test
@@ -401,7 +412,7 @@ public class PlacesApiTest {
     context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
 
     LatLng location = new LatLng(10, 20);
-    PlacesApi.textSearch(context, "Google Sydney")
+    PlacesApi.textSearchQuery(context, "Google Sydney")
         .location(location)
         .radius(3000)
         .minprice(1)
@@ -416,6 +427,8 @@ public class PlacesApiTest {
     assertParamValue(String.valueOf(1), "minprice", actualParams);
     assertParamValue(String.valueOf(4), "maxprice", actualParams);
     assertParamValue("true", "opennow", actualParams);
+
+    server.shutdown();
   }
 
   @Test
@@ -427,7 +440,7 @@ public class PlacesApiTest {
     server.play();
     context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
 
-    PlacesSearchResponse results = PlacesApi.textSearch(context, "Google Sydney").await();
+    PlacesSearchResponse results = PlacesApi.textSearchQuery(context, "Google Sydney").await();
 
     assertNotNull(results);
     assertNotNull(results.results);
@@ -476,9 +489,33 @@ public class PlacesApiTest {
           "xp1AIR1GlQOE53OqTADfFQwy8Q", result.reference);
     }
 
+    server.shutdown();
   }
 
-  // TODO(brettmorgan): find a home for these utility methods
+  @Test
+  public void testTextSearchNYC() throws Exception {
+    MockWebServer server;
+    {
+      server = new MockWebServer();
+      MockResponse response = new MockResponse();
+      response.setBody(textSearchPizzaInNYCbody);
+      server.enqueue(response);
+      server.play();
+      context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
+    }
+
+    PlacesSearchResponse results = PlacesApi.textSearchQuery(context, "Pizza in New York").await();
+    assertNotNull(results.nextPageToken);
+    assertEquals("CuQB1wAAANI17eHXt1HpqbLjkj7T5Ti69DEAClo02Qampg7Q6W_O_krFbge7hnTtDR7oVF3asex" +
+        "HcGnUtR1ZKjroYd4BTCXxSGPi9LEkjJ0P_zVE7byjEBcHvkdxB6nCHKHAgVNGqe0ZHuwSYKlr3C1-" +
+        "kuellMYwMlg3WSe69bJr1Ck35uToNZkUGvo4yjoYxNFRn1lABEnjPskbMdyHAjUDwvBDxzgGxpd8t" +
+        "0EzA9UOM8Y1jqWnZGJM7u8gacNFcI4prr0Doh9etjY1yHrgGYI4F7lKPbfLQKiks_wYzoHbcAcdbB" +
+        "jkEhAxDHC0XXQ16thDAlwVbEYaGhSaGDw5sHbaZkG9LZIqbcas0IJU8w", results.nextPageToken);
+
+    server.shutdown();
+  }
+
+    // TODO(brettmorgan): find a home for these utility methods
 
   private List<NameValuePair> parseQueryParamsFromRequestLine(String requestLine) throws Exception {
     // Extract the URL part from the HTTP request line

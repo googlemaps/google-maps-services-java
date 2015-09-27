@@ -21,10 +21,10 @@ public class PlacesSearchResponse {
   public String htmlAttributions[];
 
   /**
-   * nextPageRequest is a request that can be used to request up to 20 additional results. This field will be null
+   * nextPageToken is a token that can be used to request up to 20 additional results. This field will be null
    * if there are no further results. The maximum number of results that can be returned is 60. There is a short delay
-   * between when this response is issued, and when nextPageRequest will become valid to execute.
+   * between when this response is issued, and when nextPageToken will become valid to execute.
    */
-  public TextSearchRequest nextPageRequest;
+  public String nextPageToken;
 
 }

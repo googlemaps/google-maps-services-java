@@ -28,6 +28,7 @@ import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 @Category(LargeTests.class)
@@ -76,7 +77,8 @@ public class PlacesApiIntegrationTest extends KeyOnlyAuthenticatedTest {
 
     // URLs
     assertNotNull(placeDetails.icon);
-    assertEquals(placeDetails.icon.toURI(), new URI("https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png"));
+    assertEquals(placeDetails.icon.toURI(),
+        new URI("https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png"));
     assertNotNull(placeDetails.url);
     assertEquals(placeDetails.url.toURI(), new URI("https://plus.google.com/111337342022929067349/about?hl=en-US"));
     assertNotNull(placeDetails.website);
@@ -139,7 +141,7 @@ public class PlacesApiIntegrationTest extends KeyOnlyAuthenticatedTest {
 
   @Test
   public void testTextSearch() throws Exception {
-    PlacesSearchResponse response = PlacesApi.textSearch(context, "Google Sydney").await();
+    PlacesSearchResponse response = PlacesApi.textSearchQuery(context, "Google Sydney").await();
 
     assertNotNull(response);
 
@@ -153,6 +155,29 @@ public class PlacesApiIntegrationTest extends KeyOnlyAuthenticatedTest {
       assertNotNull(result.placeId);
       assertEquals("ChIJN1t_tDeuEmsRUsoyG83frY4", result.placeId);
     }
+
+  }
+
+  @Test
+  public void testPizzaInNewYork() throws Exception {
+    PlacesSearchResponse response = PlacesApi.textSearchQuery(context, "Pizza in New York").await();
+    assertNotNull(response);
+    assertNotNull(response.results);
+    assertEquals(20, response.results.length);
+    assertNotNull(response.nextPageToken);
+
+    // The returned page token is not valid for a couple of seconds.
+    try {
+      Thread.sleep(3 * 1000); // 3 seconds
+    } catch(InterruptedException ex) {
+      Thread.currentThread().interrupt();
+    }
+
+    PlacesSearchResponse response2 = PlacesApi.textSearchNextPage(context, response.nextPageToken).await();
+    assertNotNull(response2);
+    assertNotNull(response2.results);
+    assertEquals(20, response2.results.length);
+    assertNotNull(response2.nextPageToken);
 
   }
 }

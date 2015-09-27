@@ -51,11 +51,26 @@ public class PlacesApi {
    *
    * @param context The context on which to make Geo API requests.
    * @param query The text string on which to search, for example: "restaurant".
-   * @return Returns a TextSearchRequest that you can configure and execute.
+   * @return Returns a TextSearchRequest that can  be configured and executed.
    */
-  public static TextSearchRequest textSearch(GeoApiContext context, String query) {
+  public static TextSearchRequest textSearchQuery(GeoApiContext context, String query) {
     TextSearchRequest request = new TextSearchRequest(context);
     request.query(query);
+    return request;
+  }
+
+  /**
+   * This is for getting the next page of Text Search results. The nextPageToken, returned in a PlaceSearchResponse
+   * when there are more pages of results, encodes all of the original Text Search Request parameters, and are thus
+   * not required on this call.
+   *
+   * @param context The context on which to make Geo API requests.
+   * @param nextPageToken The nextPageToken returned as part of a PlaceSearchResponse.
+   * @return Returns a TextSearchRequest that can be executed.
+   */
+  public static TextSearchRequest textSearchNextPage(GeoApiContext context, String nextPageToken) {
+    TextSearchRequest request = new TextSearchRequest(context);
+    request.pagetoken(nextPageToken);
     return request;
   }
 

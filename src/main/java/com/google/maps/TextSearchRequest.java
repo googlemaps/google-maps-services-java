@@ -8,6 +8,9 @@ import com.google.maps.model.LatLng;
 import com.google.maps.model.PlacesSearchResponse;
 import com.google.maps.model.PlacesSearchResult;
 
+/**
+ * A <a href="https://developers.google.com/places/web-service/search#TextSearchRequests">Text Search</a> request.
+ */
 public class TextSearchRequest
     extends PendingResultBase<PlacesSearchResponse, TextSearchRequest, TextSearchRequest.Response>{
 
@@ -71,6 +74,14 @@ public class TextSearchRequest
     return param("opennow", String.valueOf(opennow));
   }
 
+  /**
+   * pagetoken teturns the next 20 results from a previously run search. Setting a pagetoken parameter will execute a
+   * search with the same parameters used previously — all parameters other than pagetoken will be ignored.
+   */
+  public TextSearchRequest pagetoken(String nextPageToken) {
+    return param("pagetoken", nextPageToken);
+  }
+
   /* We are explicitly not implementing the following parameters:
    *  - rankby
    *  - name
@@ -80,8 +91,9 @@ public class TextSearchRequest
 
   @Override
   protected void validateRequest() {
-    if (!params().containsKey("query")) {
-      throw new IllegalArgumentException("Request must contain 'query'.");
+    // query is required, but query is encoded inside of a pagetoken returned from the server.
+    if (!params().containsKey("query") && !params().containsKey("pagetoken")) {
+      throw new IllegalArgumentException("Request must contain 'query' or a 'pagetoken'.");
     }
 
     if (params().containsKey("location") && !params().containsKey("radius")) {
@@ -96,6 +108,7 @@ public class TextSearchRequest
     public String status;
     public String htmlAttributions[];
     public PlacesSearchResult results[];
+    public String nextPageToken;
     public String errorMessage;
 
     @Override
@@ -108,6 +121,7 @@ public class TextSearchRequest
       PlacesSearchResponse result = new PlacesSearchResponse();
       result.htmlAttributions = htmlAttributions;
       result.results = results;
+      result.nextPageToken = nextPageToken;
       return result;
     }
 
