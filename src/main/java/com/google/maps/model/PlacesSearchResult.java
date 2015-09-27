@@ -18,8 +18,8 @@ package com.google.maps.model;
 import java.net.URL;
 
 /**
- * <p>PlaceSearchResult represents a single result in the search results return from the Google Places API Web
- * Service.</p>
+ * PlaceSearchResult represents a single result in the search results return from the Google Places API Web
+ * Service.
  *
  * <p>Please see <a href="https://developers.google.com/places/web-service/search#PlaceSearchResults">Place
  * Search Results</a> for more detail.</p>
