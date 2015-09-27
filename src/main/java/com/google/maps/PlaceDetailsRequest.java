@@ -27,7 +27,7 @@ public class PlaceDetailsRequest
   @Override
   protected void validateRequest() {
     if (!params().containsKey("placeid")) {
-      throw new IllegalArgumentException("Request must contain  'place_id'.");
+      throw new IllegalArgumentException("Request must contain  'placeId'.");
     }
   }
 
