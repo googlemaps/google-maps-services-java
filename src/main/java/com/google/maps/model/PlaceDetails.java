@@ -38,7 +38,7 @@ public class PlaceDetails {
 
   /** adrAddress is an undocumented address field.
    *
-   * @deprecated Undocumented field. See b/24313079
+   * @deprecated Undocumented field.
    */
   @Deprecated
   public String adrAddress;
