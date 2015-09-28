@@ -43,21 +43,44 @@ public class QueryAutocompletePrediction {
    */
   public String placeId;
 
+  /**
+   * types is an array indicating the type of the address component.
+   *
+   * <p>Please see <a href="https://developers.google.com/places/supported_types">supported types</a>
+   * for a list of types that can be returned.</p>
+   */
   public String types[];
 
-  // TODO(brettmorgan): Document this on https://developers.google.com/places/web-service/query
+  /**
+   * terms contains an array of terms identifying each section of the returned description (a section
+   * of the description is generally terminated with a comma). Each entry in the array has a value
+   * field, containing the text of the term, and an offset field, defining the start position of this
+   * term in the description, measured in Unicode characters.
+   */
+  public Term terms[];
+
+  /**
+   * MatchedSubstring describe sthe location of the entered term in the prediction result text, so
+   * that the term can be highlighted if desired.
+   */
   public static class MatchedSubstring {
+    /** length degines the length of the matched substring. */
     public int length;
+    /** offset defines the start position of the matched substring. */
     public int offset;
   }
 
   public MatchedSubstring matchedSubstrings[];
 
-  // TODO(brettmorgan): Document this on https://developers.google.com/places/web-service/query
+  /**
+   * Term identifies each section of the returned description (a section of the description is
+   * generally terminated with a comma).
+   */
   public static class Term {
+    /** offset defines the start position of this term in the description, measured in Unicode characters. */
     public int offset;
+    /** The text of the matched term. */
     public String value;
   }
 
-  public Term terms[];
 }
