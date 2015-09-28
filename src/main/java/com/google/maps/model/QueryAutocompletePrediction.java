@@ -23,22 +23,6 @@ public class QueryAutocompletePrediction {
   public String description;
 
   /**
-   * Deprecated field. Do not use.
-   *
-   * @deprecated This field is deprecated. Please see
-   * <a href="https://developers.google.com/places/web-service/query#deprecation">the deprecation notice</a>.
-   */
-  public String id;
-
-  /**
-   * Deprecated field. Do not use.
-   *
-   * @deprecated This field is deprecated. Please see
-   * <a href="https://developers.google.com/places/web-service/query#deprecation">the deprecation notice</a>.
-   */
-  public String reference;
-
-  /**
    * The Place ID of the place.
    */
   public String placeId;

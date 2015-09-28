@@ -145,10 +145,6 @@ public class PlacesApiTest {
     assertEquals(placeDetails.formattedAddress, "5, 48 Pirrama Rd, Pyrmont NSW 2009, Australia");
     assertNotNull(placeDetails.vicinity);
     assertEquals(placeDetails.vicinity, "5 48 Pirrama Road, Pyrmont");
-    assertNotNull(placeDetails.adrAddress);
-    assertEquals(placeDetails.adrAddress, "5, <span class=\"street-address\">48 Pirrama Rd</span>," +
-        " <span class=\"locality\">Pyrmont</span> <span class=\"region\">NSW</span> " +
-        "<span class=\"postal-code\">2009</span>, <span class=\"country-name\">Australia</span>");
 
     // Phone numbers
     assertNotNull(placeDetails.formattedPhoneNumber);
@@ -268,12 +264,6 @@ public class PlacesApiTest {
     assertEquals(placeDetails.types[0], "establishment");
     assertNotNull(placeDetails.rating);
     assertEquals(placeDetails.rating, 4.4, 0.1);
-    assertNotNull(placeDetails.userRatingsTotal);
-    assertEquals(placeDetails.userRatingsTotal, 98);
-
-    // Deprecated fields. Here for test completeness, but will be removed once the field is no longer returned.
-    assertNotNull(placeDetails.id);
-    assertNotNull(placeDetails.reference);
   }
 
   @Test
@@ -386,12 +376,6 @@ public class PlacesApiTest {
       assertEquals("Bondi Pizza", term.value);
 
       assertEquals("ChIJv0wpwp6tEmsR0Glcf5tugrk", prediction.placeId);
-
-      // Deprecated fields. These will be removed once they are no longer returned by the API.
-      assertEquals("c478ed4e7cb075b307fdce4ad4f6c9d15cab01d7", prediction.id);
-      assertEquals("ClRPAAAAYozD2iM3dQvDMrvrLDIALGoHO7v6pWhxn5vIm18pOyLLqToyikFov34qJoe4NnpoaLtGIWd5LWm5hOpWU1BT-" +
-              "SEI2jGZ8WXuDvYiFtQtjGMSEIR4thVlMws1tnNuE3hE2k0aFCqP_yHWRNSLqaP_vQFzazO-D7Hl",
-          prediction.reference);
     }
   }
 
@@ -470,12 +454,6 @@ public class PlacesApiTest {
       assertNotNull(result.types);
       assertNotNull(result.types[0]);
       assertEquals("establishment", result.types[0]);
-
-      // Deprecated fields. These will be removed once they are no longer returned by the API.
-      assertEquals("4f89212bf76dde31f092cfc14d7506555d85b5c7", result.id);
-      assertEquals("CmRaAAAA3EN_NWHqY6zWa9vRX-tfJNji1FqeIxf0_V3xZQmBezAPO3SRwOrjRJzKxjnxTvhB_" +
-          "Lz4dRvLp1HTfoAThW4aFwVmqmE_V-3saLDSF77rXfclqxA9ncQkHXhLFg0J4AqXEhDh8umU5GO0JU1aeJVJeGFgGhR-" +
-          "xp1AIR1GlQOE53OqTADfFQwy8Q", result.reference);
     }
   }
 
