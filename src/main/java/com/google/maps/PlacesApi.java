@@ -47,8 +47,8 @@ public class PlacesApi {
    */
 
   /**
-   * The Google Places API Text Search Service is a web service that returns information about a
-   * set of places based on a string — for example "pizza in New York" or "shoe stores near Ottawa".
+   * Perform a search for Places using a text query — for example "pizza in New York" or
+   * "shoe stores near Ottawa".
    *
    * @param context The context on which to make Geo API requests.
    * @param query The text string on which to search, for example: "restaurant".
@@ -61,7 +61,7 @@ public class PlacesApi {
   }
 
   /**
-   * This is for getting the next page of Text Search results. The nextPageToken, returned in a PlaceSearchResponse
+   * Retrieve the next page of Text Search results. The nextPageToken, returned in a PlaceSearchResponse
    * when there are more pages of results, encodes all of the original Text Search Request parameters, and are thus
    * not required on this call.
    *
