@@ -415,8 +415,8 @@ public class PlacesApiTest {
     PlacesApi.textSearchQuery(context, "Google Sydney")
         .location(location)
         .radius(3000)
-        .minprice(1)
-        .maxprice(4)
+        .minprice(PriceLevel.INEXPENSIVE)
+        .maxprice(PriceLevel.VERY_EXPENSIVE)
         .opennow(true)
         .awaitIgnoreError();
 
