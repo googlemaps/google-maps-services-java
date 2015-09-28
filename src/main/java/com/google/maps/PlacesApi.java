@@ -25,10 +25,11 @@ import com.google.maps.model.PlaceDetails;
 import java.util.List;
 
 /**
- * The Google Places API enables you to get data from the same database used by Google Maps and
- * Google+ Local. Places features more than 100 million businesses and points of interest that are
- * updated frequently through owner-verified listings and user-moderated contributions.
- * <p/>
+ * Performs a text search for places. The Google Places API enables you to get data from the same
+ * database used by Google Maps and Google+ Local. Places features more than 100 million businesses
+ * and points of interest that are updated frequently through owner-verified listings and
+ * user-moderated contributions.
+ *
  * <p>See also: <a href="https://developers.google.com/places/web-service/">Places API Web Service
  * documentation</a>.
  */
