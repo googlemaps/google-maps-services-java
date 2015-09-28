@@ -129,7 +129,6 @@ public class PlacesApiIntegrationTest extends KeyOnlyAuthenticatedTest {
     assertNotNull(placeDetails.types);
     assertEquals(placeDetails.types[0], "establishment");
     assertNotNull(placeDetails.rating);
-    assertEquals(placeDetails.rating, 4.4, 1.0);
   }
 
   @Test
