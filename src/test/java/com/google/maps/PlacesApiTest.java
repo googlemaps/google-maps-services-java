@@ -31,6 +31,8 @@ import com.google.mockwebserver.MockResponse;
 import com.google.mockwebserver.MockWebServer;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.InputStream;
@@ -57,6 +59,7 @@ public class PlacesApiTest {
   private final String textSearchResponseBody;
   private final String textSearchPizzaInNYCbody;
 
+
   public PlacesApiTest() {
     placeDetailResponseBody = retrieveBody("PlaceDetailsResponse.json");
     quayResponseBody = retrieveBody("PlaceDetailsQuay.json");
@@ -76,11 +79,22 @@ public class PlacesApiTest {
     return body;
   }
 
+  private MockWebServer server;
+
+  @Before
+  public void setup() {
+    server = new MockWebServer();
+  }
+
+  @After
+  public void teardown() throws Exception {
+    server.shutdown();
+  }
+
   @Test
   public void testPlaceDetailsRequest() throws Exception {
     MockResponse response = new MockResponse();
     response.setBody("");
-    MockWebServer server = new MockWebServer();
     server.enqueue(response);
     server.play();
     context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
@@ -90,8 +104,6 @@ public class PlacesApiTest {
     List<NameValuePair> actualParams =
         parseQueryParamsFromRequestLine(server.takeRequest().getRequestLine());
     assertParamValue(GOOGLE_SYDNEY, "placeid", actualParams);
-
-    server.shutdown();
   }
 
   @Test
@@ -99,7 +111,6 @@ public class PlacesApiTest {
 
     MockResponse response = new MockResponse();
     response.setBody(placeDetailResponseBody);
-    MockWebServer server = new MockWebServer();
     server.enqueue(response);
     server.play();
     context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
@@ -263,8 +274,6 @@ public class PlacesApiTest {
     // Deprecated fields. Here for test completeness, but will be removed once the field is no longer returned.
     assertNotNull(placeDetails.id);
     assertNotNull(placeDetails.reference);
-
-    server.shutdown();
   }
 
   @Test
@@ -272,18 +281,14 @@ public class PlacesApiTest {
 
     MockResponse response = new MockResponse();
     response.setBody(quayResponseBody);
-    MockWebServer server = new MockWebServer();
     server.enqueue(response);
     server.play();
     context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
 
     PlaceDetails placeDetails = PlacesApi.placeDetails(context, QUAY_PLACE_ID).await();
-
     assertNotNull(placeDetails);
-
     assertNotNull(placeDetails.priceLevel);
     assertEquals(PriceLevel.VERY_EXPENSIVE, placeDetails.priceLevel);
-
     assertNotNull(placeDetails.photos);
     Photo photo = placeDetails.photos[0];
     assertEquals(1944, photo.height);
@@ -293,15 +298,12 @@ public class PlacesApiTest {
     assertEquals(
         "CmRdAAAATDVdhv0RdMEZlvO2jNE_EXXZZnCWvenfvLmWCsYqVtCFxZiasbcv1X0CNDTkpaCtrurGzVxTVt8Fqc7egdA7VyFeq1VFaq1GiFatWrFAUm_H0CN9u2wbfjb1Zf0NL9QiEhCj6I5O2h6eFH_2sa5hyVaEGhTdn8b7RWD-2W64OrT3mFGjzzLWlQ",
         photo.photoReference);
-
-    server.shutdown();
   }
 
   @Test
   public void testQueryAutocompleteRequest() throws Exception {
     MockResponse response = new MockResponse();
     response.setBody("");
-    MockWebServer server = new MockWebServer();
     server.enqueue(response);
     server.play();
     context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
@@ -321,16 +323,12 @@ public class PlacesApiTest {
     assertParamValue(location.toUrlValue(), "location", actualParams);
     assertParamValue("5000", "radius", actualParams);
     assertParamValue("en", "language", actualParams);
-
-    server.shutdown();
-
   }
 
   @Test
   public void testQueryAutocompletePizzaNearPar() throws Exception {
     MockResponse response = new MockResponse();
     response.setBody(queryAutocompleteResponseBody);
-    MockWebServer server = new MockWebServer();
     server.enqueue(response);
     server.play();
     context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
@@ -356,15 +354,12 @@ public class PlacesApiTest {
       assertEquals(0, term.offset);
       assertEquals("pizza", term.value);
     }
-
-    server.shutdown();
   }
 
   @Test
   public void testQueryAutocompleteWithPlaceId() throws Exception {
     MockResponse response = new MockResponse();
     response.setBody(queryAutocompleteWithPlaceIdResponseBody);
-    MockWebServer server = new MockWebServer();
     server.enqueue(response);
     server.play();
     context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
@@ -398,15 +393,12 @@ public class PlacesApiTest {
               "SEI2jGZ8WXuDvYiFtQtjGMSEIR4thVlMws1tnNuE3hE2k0aFCqP_yHWRNSLqaP_vQFzazO-D7Hl",
           prediction.reference);
     }
-
-    server.shutdown();
   }
 
   @Test
   public void testTextSearchRequest() throws Exception {
     MockResponse response = new MockResponse();
     response.setBody("");
-    MockWebServer server = new MockWebServer();
     server.enqueue(response);
     server.play();
     context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
@@ -427,15 +419,12 @@ public class PlacesApiTest {
     assertParamValue(String.valueOf(1), "minprice", actualParams);
     assertParamValue(String.valueOf(4), "maxprice", actualParams);
     assertParamValue("true", "opennow", actualParams);
-
-    server.shutdown();
   }
 
   @Test
   public void testTextSearchResponse() throws Exception {
     MockResponse response = new MockResponse();
     response.setBody(textSearchResponseBody);
-    MockWebServer server = new MockWebServer();
     server.enqueue(response);
     server.play();
     context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
@@ -488,21 +477,15 @@ public class PlacesApiTest {
           "Lz4dRvLp1HTfoAThW4aFwVmqmE_V-3saLDSF77rXfclqxA9ncQkHXhLFg0J4AqXEhDh8umU5GO0JU1aeJVJeGFgGhR-" +
           "xp1AIR1GlQOE53OqTADfFQwy8Q", result.reference);
     }
-
-    server.shutdown();
   }
 
   @Test
   public void testTextSearchNYC() throws Exception {
-    MockWebServer server;
-    {
-      server = new MockWebServer();
-      MockResponse response = new MockResponse();
-      response.setBody(textSearchPizzaInNYCbody);
-      server.enqueue(response);
-      server.play();
-      context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
-    }
+    MockResponse response = new MockResponse();
+    response.setBody(textSearchPizzaInNYCbody);
+    server.enqueue(response);
+    server.play();
+    context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
 
     PlacesSearchResponse results = PlacesApi.textSearchQuery(context, "Pizza in New York").await();
     assertNotNull(results.nextPageToken);
@@ -511,8 +494,6 @@ public class PlacesApiTest {
         "kuellMYwMlg3WSe69bJr1Ck35uToNZkUGvo4yjoYxNFRn1lABEnjPskbMdyHAjUDwvBDxzgGxpd8t" +
         "0EzA9UOM8Y1jqWnZGJM7u8gacNFcI4prr0Doh9etjY1yHrgGYI4F7lKPbfLQKiks_wYzoHbcAcdbB" +
         "jkEhAxDHC0XXQ16thDAlwVbEYaGhSaGDw5sHbaZkG9LZIqbcas0IJU8w", results.nextPageToken);
-
-    server.shutdown();
   }
 
     // TODO(brettmorgan): find a home for these utility methods
