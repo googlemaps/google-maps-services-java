@@ -72,7 +72,7 @@ public class TextSearchRequest
    * maxprice restricts to places that are at most this price level.
    */
   public TextSearchRequest maxprice(PlaceDetails.PriceLevel priceLevel) {
-    return param("maxprice", String.valueOf(priceLevel));
+    return param("maxprice", priceLevel);
   }
 
   /**
