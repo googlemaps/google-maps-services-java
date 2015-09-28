@@ -35,8 +35,10 @@ public class PlacesSearchResponse {
 
   /**
    * nextPageToken is a token that can be used to request up to 20 additional results. This field will be null
-   * if there are no further results. The maximum number of results that can be returned is 60. There is a short delay
-   * between when this response is issued, and when nextPageToken will become valid to execute.
+   * if there are no further results. The maximum number of results that can be returned is 60.
+   *
+   * <p>Note: There is a short delay between when this response is issued, and when nextPageToken will become
+   * valid to execute.</p>
    */
   public String nextPageToken;
 
