@@ -52,7 +52,7 @@ public class OpeningHours {
   public String[] weekdayText;
 
   /**
-   * permanentlyClosed indicates whether the place has permanently shut down.
+   * permanentlyClosed indicates that the place has permanently shut down.
    */
-  public Boolean permanentlyClosed;
+  public boolean permanentlyClosed;
 }
