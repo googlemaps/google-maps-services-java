@@ -95,9 +95,8 @@ public class PlacesApiIntegrationTest extends KeyOnlyAuthenticatedTest {
     assertNotNull(placeDetails.openingHours.weekdayText);
     assertNotNull(placeDetails.utcOffset);
 
-    // Sydney varies between GMT+10 and GMT+11
-    assertTrue(placeDetails.utcOffset >= 600);
-    assertTrue(placeDetails.utcOffset <= 660);
+    // Sydney can be either UTC+10 or UTC+11
+    assertTrue(placeDetails.utcOffset == 600 || placeDetails.utcOffset == 660);
 
     // Photos
     {
