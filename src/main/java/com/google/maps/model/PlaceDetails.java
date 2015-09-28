@@ -153,7 +153,9 @@ public class PlaceDetails {
     public long time; // TODO(brettmorgan): figure out how to convert this to a DateTime.
   }
 
-  /** reviews is an array of up to five reviews. */
+  /** reviews is an array of up to five reviews. If a language parameter was specified in the Place
+   * Details request, the Places Service will bias the results to prefer reviews written in that
+   * language. */
   public Review[] reviews;
 
   /** types contains an array of feature types describing the given result. */
