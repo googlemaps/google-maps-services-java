@@ -20,7 +20,8 @@ package com.google.maps.model;
  */
 public enum PlaceIdScope {
   /**
-   * APP indicates the place ID is recognised by your application only.
+   * APP indicates the place ID is recognised by your application only.  This is because your
+   * application added the place, and the place has not yet passed the moderation process.
    */
   APP,
   /**

@@ -65,20 +65,4 @@ public class PlacesSearchResult {
   /** vicinity contains a feature name of a nearby location. */
   public String vicinity;
 
-  /**
-   * This field is deprecated. Please do not use this field.
-   *
-   * @deprecated Please see the <a href="https://developers.google.com/places/web-service/search#deprecation">
-   *   deprecation notice</a>.
-   */
-  public String id;
-
-  /**
-   * This field is deprecated. Please do not use this field.
-   *
-   * @deprecated Please see the <a href="https://developers.google.com/places/web-service/search#deprecation">
-   *   deprecation notice</a>.
-   */
-  public String reference;
-
 }

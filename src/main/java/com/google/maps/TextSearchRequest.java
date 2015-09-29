@@ -20,6 +20,7 @@ import com.google.maps.errors.ApiException;
 import com.google.maps.internal.ApiConfig;
 import com.google.maps.internal.ApiResponse;
 import com.google.maps.model.LatLng;
+import com.google.maps.model.PlaceDetails;
 import com.google.maps.model.PlacesSearchResponse;
 import com.google.maps.model.PlacesSearchResult;
 
@@ -63,23 +64,15 @@ public class TextSearchRequest
   /**
    * minprice restricts to places that are at least this price level.
    */
-  public TextSearchRequest minprice(int priceLevel) {
-    if (priceLevel < 0 || priceLevel > 4) {
-      throw new IllegalArgumentException("minprice must be between 0 and 4, inclusive.");
-    }
-
-    return param("minprice", String.valueOf(priceLevel));
+  public TextSearchRequest minprice(PlaceDetails.PriceLevel priceLevel) {
+    return param("minprice", priceLevel);
   }
 
   /**
    * maxprice restricts to places that are at most this price level.
    */
-  public TextSearchRequest maxprice(int priceLevel) {
-    if (priceLevel < 0 || priceLevel > 4) {
-      throw new IllegalArgumentException("maxprice must be between 0 and 4, inclusive.");
-    }
-
-    return param("maxprice", String.valueOf(priceLevel));
+  public TextSearchRequest maxprice(PlaceDetails.PriceLevel priceLevel) {
+    return param("maxprice", priceLevel);
   }
 
   /**

@@ -15,6 +15,8 @@
 
 package com.google.maps.model;
 
+import com.google.maps.internal.StringJoin;
+
 import java.net.URL;
 
 /**
@@ -36,22 +38,19 @@ public class PlaceDetails {
   /** formattedPhoneNumber contains the place's phone number in its local format. */
   public String formattedPhoneNumber;
 
-  /** adrAddress is an undocumented address field.
-   *
-   * @deprecated Undocumented field.
-   */
-  @Deprecated
-  public String adrAddress;
-
   /** geometry is the location of the Place. */
   public Geometry geometry;
 
-  /** icon contains the URL of a suggested icon which may be displayed to the user when indicating
-   * this result on a map. */
+  /**
+   * icon contains the URL of a suggested icon which may be displayed to the user when indicating
+   * this result on a map.
+   */
   public URL icon;
 
-  /** internationalPhoneNumber contains the place's phone number in international format.
-   * International format includes the country code, and is prefixed with the plus (+) sign. */
+  /**
+   * internationalPhoneNumber contains the place's phone number in international format.
+   * International format includes the country code, and is prefixed with the plus (+) sign.
+   */
   public String internationalPhoneNumber;
 
   /** name contains the human-readable name for the returned result. */
@@ -70,43 +69,63 @@ public class PlaceDetails {
   public PlaceIdScope scope;
 
   static public class AlternatePlaceIds {
-    /** placeId — The most likely reason for a place to have an alternative place ID is if your
+    /**
+     * placeId — The most likely reason for a place to have an alternative place ID is if your
      * application adds a place and receives an application-scoped place ID, then later receives a
-     * Google-scoped place ID after passing the moderation process. */
+     * Google-scoped place ID after passing the moderation process.
+     */
     public String placeId;
 
-    /** scope — The scope of an alternative place ID will always be APP, indicating that the
-     * alternative place ID is recognised by your application only. */
+    /**
+     * scope — The scope of an alternative place ID will always be APP, indicating that the
+     * alternative place ID is recognised by your application only.
+     */
     public PlaceIdScope scope;
   }
 
-  /** altIds is an optional array of alternative place IDs for the place, with a scope related to
-   * each alternative ID. */
+  /**
+   * altIds is an optional array of alternative place IDs for the place, with a scope related to
+   * each alternative ID.
+   */
   public AlternatePlaceIds[] altIds;
 
-  public enum PriceLevel {
-    FREE, INEXPENSIVE, MODERATE, EXPENSIVE, VERY_EXPENSIVE,
+  public enum PriceLevel implements StringJoin.UrlValue {
+    FREE("0"), INEXPENSIVE("1"), MODERATE("2"), EXPENSIVE("3"), VERY_EXPENSIVE("4"),
 
     /**
      * Indicates an unknown price level type returned by the server. The Java Client for Google Maps
      * Services should be updated to support the new value.
      */
-    UNKNOWN
+    UNKNOWN("Unknown");
+
+    private final String priceLevel;
+
+    PriceLevel(final String priceLevel) {
+      this.priceLevel = priceLevel;
+    }
+
+    @Override
+    public String toString() {
+      return priceLevel;
+    }
+
+    @Override
+    public String toUrlValue() {
+      if (this == UNKNOWN) {
+        throw new UnsupportedOperationException("Shouldn't use PriceLevel.UNKNOWN in a request.");
+      }
+      return priceLevel;
+    }
   }
 
-  /** priceLevel is the price level of the place. The exact amount indicated by a specific value
-   * will vary from region to region. */
+  /**
+   * priceLevel is the price level of the place. The exact amount indicated by a specific value
+   * will vary from region to region.
+   */
   public PriceLevel priceLevel;
 
   /** rating contains the place's rating, from 1.0 to 5.0, based on aggregated user reviews. */
   public float rating;
-
-  /** userRatingsTotal is an undocumented field.
-   *
-   * @deprecated this field is not documented.
-   */
-  public int userRatingsTotal;
-
 
   static public class Review {
     static public class AspectRating {
@@ -127,12 +146,16 @@ public class PlaceDetails {
       public int rating;
     }
 
-    /** aspects contains a collection of AspectRating objects, each of which provides a rating of
-     * a single attribute of the establishment. */
+    /**
+     * aspects contains a collection of AspectRating objects, each of which provides a rating of
+     * a single attribute of the establishment.
+     */
     public AspectRating[] aspects;
 
-    /** authorName the name of the user who submitted the review. Anonymous reviews are attributed
-     * to "A Google user". */
+    /**
+     * authorName the name of the user who submitted the review. Anonymous reviews are attributed
+     * to "A Google user".
+     */
     public String authorName;
 
     /** authorUrl the URL to the users Google+ profile, if available. */
@@ -141,8 +164,10 @@ public class PlaceDetails {
     /** language an IETF language code indicating the language used in the user's review. */
     public String language;
 
-    /** rating the user's overall rating for this place. This is a whole number, ranging from 1 to
-     * 5. */
+    /**
+     * rating the user's overall rating for this place. This is a whole number, ranging from 1 to
+     * 5.
+     */
     public int rating;
 
     /** text is the user's review. When reviewing a location with Google Places, text reviews are
@@ -153,45 +178,42 @@ public class PlaceDetails {
     public long time; // TODO(brettmorgan): figure out how to convert this to a DateTime.
   }
 
-  /** reviews is an array of up to five reviews. */
+  /**
+   * reviews is an array of up to five reviews. If a language parameter was specified in the Place
+   * Details request, the Places Service will bias the results to prefer reviews written in that
+   * language.
+   */
   public Review[] reviews;
 
   /** types contains an array of feature types describing the given result. */
   public String[] types;
 
-  /** url contains the URL of the official Google page for this place. This will be the
+  /**
+   * url contains the URL of the official Google page for this place. This will be the
    * establishment's Google+ page if the Google+ page exists, otherwise it will be the
    * Google-owned page that contains the best available information about the place. Applications
    * must link to or embed this page on any screen that shows detailed results about the place to
-   * the user. */
+   * the user.
+   */
   public URL url;
 
   /** utcOffset contains the number of minutes this place’s current timezone is offset from UTC. */
   public int utcOffset;
 
-  /** vicinity lists a simplified address for the place, including the street name, street number,
-   * and locality, but not the province/state, postal code, or country. */
+  /**
+   * vicinity lists a simplified address for the place, including the street name, street number,
+   * and locality, but not the province/state, postal code, or country.
+   */
   public String vicinity;
 
   /** website lists the authoritative website for this place, such as a business' homepage. */
   public URL website;
 
-  /** htmlAttributions contains an array of attributions about this listing which must be displayed
-   * to the user. */
+  /**
+   * htmlAttributions contains an array of attributions about this listing which must be displayed
+   * to the user.
+   */
   public String[] htmlAttributions;
 
-  /** id is deprecated. Please do not use. This field may stop being returned at any time.
-   *
-   * @deprecated This field is deprecated. See the deprecation warning at the top of
-   * <a href="https://developers.google.com/places/web-service/details">this page</a>
-   */
-  public String id;
-
-  /** reference is deprecated. Please do not use. This field may stop being returned at any time.
-   *
-   * @deprecated This field is deprecated. See the deprecation warning at the top of
-   * <a href="https://developers.google.com/places/web-service/details">this page</a>
-   */
-  public String reference;
 }
 

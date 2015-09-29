@@ -53,12 +53,10 @@ public class PriceLevelAdaptor extends TypeAdapter<PlaceDetails.PriceLevel> {
           return PlaceDetails.PriceLevel.EXPENSIVE;
         case 4:
           return PlaceDetails.PriceLevel.VERY_EXPENSIVE;
-        default:
-          return PlaceDetails.PriceLevel.UNKNOWN;
       }
-    } else {
-      return PlaceDetails.PriceLevel.UNKNOWN;
     }
+
+    return PlaceDetails.PriceLevel.UNKNOWN;
   }
 
   /**

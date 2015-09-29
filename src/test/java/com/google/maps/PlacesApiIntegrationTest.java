@@ -56,10 +56,6 @@ public class PlacesApiIntegrationTest extends KeyOnlyAuthenticatedTest {
     assertEquals(placeDetails.formattedAddress, "5, 48 Pirrama Rd, Pyrmont NSW 2009, Australia");
     assertNotNull(placeDetails.vicinity);
     assertEquals(placeDetails.vicinity, "5 48 Pirrama Road, Pyrmont");
-    assertNotNull(placeDetails.adrAddress);
-    assertEquals(placeDetails.adrAddress, "5, <span class=\"street-address\">48 Pirrama Rd</span>," +
-        " <span class=\"locality\">Pyrmont</span> <span class=\"region\">NSW</span> " +
-        "<span class=\"postal-code\">2009</span>, <span class=\"country-name\">Australia</span>");
 
     // Phone numbers
     assertNotNull(placeDetails.formattedPhoneNumber);
@@ -95,9 +91,8 @@ public class PlacesApiIntegrationTest extends KeyOnlyAuthenticatedTest {
     assertNotNull(placeDetails.openingHours.weekdayText);
     assertNotNull(placeDetails.utcOffset);
 
-    // Sydney varies between GMT+10 and GMT+11
-    assertTrue(placeDetails.utcOffset >= 600);
-    assertTrue(placeDetails.utcOffset <= 660);
+    // Sydney can be either UTC+10 or UTC+11
+    assertTrue(placeDetails.utcOffset == 600 || placeDetails.utcOffset == 660);
 
     // Photos
     {
@@ -134,9 +129,6 @@ public class PlacesApiIntegrationTest extends KeyOnlyAuthenticatedTest {
     assertNotNull(placeDetails.types);
     assertEquals(placeDetails.types[0], "establishment");
     assertNotNull(placeDetails.rating);
-    assertEquals(placeDetails.rating, 4.4, 1.0);
-    assertNotNull(placeDetails.userRatingsTotal);
-    assertTrue(placeDetails.userRatingsTotal > 95);
   }
 
   @Test

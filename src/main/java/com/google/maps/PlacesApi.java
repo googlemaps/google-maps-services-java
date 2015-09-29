@@ -25,10 +25,11 @@ import com.google.maps.model.PlaceDetails;
 import java.util.List;
 
 /**
- * The Google Places API enables you to get data from the same database used by Google Maps and
- * Google+ Local. Places features more than 100 million businesses and points of interest that are
- * updated frequently through owner-verified listings and user-moderated contributions.
- * <p/>
+ * Performs a text search for places. The Google Places API enables you to get data from the same
+ * database used by Google Maps and Google+ Local. Places features more than 100 million businesses
+ * and points of interest that are updated frequently through owner-verified listings and
+ * user-moderated contributions.
+ *
  * <p>See also: <a href="https://developers.google.com/places/web-service/">Places API Web Service
  * documentation</a>.
  */
@@ -46,8 +47,8 @@ public class PlacesApi {
    */
 
   /**
-   * The Google Places API Text Search Service is a web service that returns information about a
-   * set of places based on a string — for example "pizza in New York" or "shoe stores near Ottawa".
+   * Perform a search for Places using a text query — for example "pizza in New York" or
+   * "shoe stores near Ottawa".
    *
    * @param context The context on which to make Geo API requests.
    * @param query The text string on which to search, for example: "restaurant".
@@ -60,7 +61,7 @@ public class PlacesApi {
   }
 
   /**
-   * This is for getting the next page of Text Search results. The nextPageToken, returned in a PlaceSearchResponse
+   * Retrieve the next page of Text Search results. The nextPageToken, returned in a PlaceSearchResponse
    * when there are more pages of results, encodes all of the original Text Search Request parameters, and are thus
    * not required on this call.
    *

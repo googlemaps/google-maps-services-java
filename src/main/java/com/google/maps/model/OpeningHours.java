@@ -3,6 +3,8 @@ package com.google.maps.model;
 public class OpeningHours {
   /**
    * openNow is a boolean value indicating if the place is open at the current time.
+   *
+   * <p>Note: this field will be null if it isn't present in the response.</p>
    */
   public Boolean openNow;
 
@@ -52,7 +54,9 @@ public class OpeningHours {
   public String[] weekdayText;
 
   /**
-   * permanentlyClosed indicates whether the place has permanently shut down.
+   * permanentlyClosed indicates that the place has permanently shut down.
+   *
+   * <p>Note: this field will be null if it isn't present in the response.</p>
    */
   public Boolean permanentlyClosed;
 }
