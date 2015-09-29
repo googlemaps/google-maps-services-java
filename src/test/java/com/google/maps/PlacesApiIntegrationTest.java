@@ -15,20 +15,18 @@
 
 package com.google.maps;
 
-import com.google.maps.model.Photo;
-import com.google.maps.model.PlaceDetails;
-import com.google.maps.model.PlaceIdScope;
-import com.google.maps.model.PlacesSearchResponse;
-import com.google.maps.model.PlacesSearchResult;
+import com.google.maps.model.*;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.net.URI;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 @Category(LargeTests.class)
@@ -148,6 +146,26 @@ public class PlacesApiIntegrationTest extends KeyOnlyAuthenticatedTest {
       assertEquals("ChIJN1t_tDeuEmsRUsoyG83frY4", result.placeId);
     }
 
+  }
+
+  @Test
+  public void testPhoto() throws Exception {
+    PlaceDetails placeDetails = PlacesApi.placeDetails(context, GOOGLE_SYDNEY).await();
+
+    assertNotNull(placeDetails);
+    assertNotNull(placeDetails.photos);
+    assertTrue(placeDetails.photos.length > 0);
+    assertNotNull(placeDetails.photos[0].photoReference);
+
+    String photoReference = placeDetails.photos[0].photoReference;
+    int width = placeDetails.photos[0].width;
+
+    PhotoResult photoResult = PlacesApi.photo(context, photoReference).maxWidth(width).await();
+    assertNotNull(photoResult);
+
+    // Assert that the image data represents a real image by parsing it with javax.imageio.
+    BufferedImage image = ImageIO.read(new ByteArrayInputStream(photoResult.imageData));
+    assertNotNull(image);
   }
 
   @Test

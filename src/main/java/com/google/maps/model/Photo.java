@@ -16,7 +16,7 @@
 package com.google.maps.model;
 
 /**
- * <p>This describes a photo available with a Search Result.</p>
+ * This describes a photo available with a Search Result.
  *
  * <p>Please see <a href="https://developers.google.com/places/web-service/photos">Photos</a> for more details.</p>
  */

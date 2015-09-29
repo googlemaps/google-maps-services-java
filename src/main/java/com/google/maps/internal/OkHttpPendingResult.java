@@ -20,6 +20,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import com.google.maps.PendingResult;
+import com.google.maps.PhotoRequest;
 import com.google.maps.errors.ApiException;
 import com.google.maps.errors.OverQueryLimitException;
 import com.google.maps.model.*;
@@ -47,7 +48,7 @@ import java.util.logging.Logger;
 /**
  * A PendingResult backed by a HTTP call executed by OkHttp, a deserialization step using Gson,
  * rate limiting and a retry policy.
- *
+ * <p/>
  * <p>{@code T} is the type of the result of this pending result, and {@code R} is the type of the
  * request.
  */
@@ -65,7 +66,7 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
   private long cumulativeSleepTime = 0;
 
   private static final Logger LOG = Logger.getLogger(OkHttpPendingResult.class.getName());
-  private static final List<Integer> RETRY_ERROR_CODES =  Arrays.asList(500, 503, 504);
+  private static final List<Integer> RETRY_ERROR_CODES = Arrays.asList(500, 503, 504);
 
   /**
    * @param request           HTTP request to execute.
@@ -104,6 +105,7 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
       this.response = response;
       this.e = null;
     }
+
     public QueuedResponse(OkHttpPendingResult<T, R> request, Exception e) {
       this.request = request;
       this.response = null;
@@ -197,6 +199,22 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
         return request.retry();
     }
 
+    byte[] bytes = getBytes(response);
+    R resp;
+    String contentType = response.header("Content-Type");
+
+    // Places Photo API special case
+    if (contentType != null &&
+        contentType.startsWith("image") &&
+        responseClass == PhotoRequest.Response.class &&
+        response.code() == 200) {
+      // Photo API response is just a raw image byte array.
+      PhotoResult result = new PhotoResult();
+      result.contentType = contentType;
+      result.imageData = bytes;
+      return (T) result;
+    }
+
     Gson gson = new GsonBuilder()
         .registerTypeAdapter(DateTime.class, new DateTimeAdapter())
         .registerTypeAdapter(Distance.class, new DistanceAdapter())
@@ -204,7 +222,7 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
         .registerTypeAdapter(Fare.class, new FareAdapter())
         .registerTypeAdapter(LatLng.class, new LatLngAdapter())
         .registerTypeAdapter(AddressComponentType.class,
-              new SafeEnumAdapter<AddressComponentType>(AddressComponentType.UNKNOWN))
+            new SafeEnumAdapter<AddressComponentType>(AddressComponentType.UNKNOWN))
         .registerTypeAdapter(AddressType.class, new SafeEnumAdapter<AddressType>(AddressType.UNKNOWN))
         .registerTypeAdapter(TravelMode.class, new SafeEnumAdapter<TravelMode>(TravelMode.UNKNOWN))
         .registerTypeAdapter(LocationType.class, new SafeEnumAdapter<LocationType>(LocationType.UNKNOWN))
@@ -213,9 +231,6 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
         .registerTypeAdapter(PriceLevel.class, new PriceLevelAdaptor())
         .setFieldNamingPolicy(fieldNamingPolicy)
         .create();
-
-    byte[] bytes = getBytes(response);
-    R resp;
 
     // Attempt to de-serialize before checking the HTTP status code, as there may be JSON in the
     // body that we can use to provide a more descriptive exception.

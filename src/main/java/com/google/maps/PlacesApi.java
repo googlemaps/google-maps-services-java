@@ -85,6 +85,19 @@ public class PlacesApi {
   }
 
   /**
+   * Request a Photo from a PhotoReference.
+   *
+   * @param context The context on which to make Geo API requests.
+   * @param photoReference The reference to the photo to retrieve.
+   * @return Returns a PhotoRequest that you can execute.
+   */
+  public static PhotoRequest photo(GeoApiContext context, String photoReference) {
+    PhotoRequest request = new PhotoRequest(context);
+    request.photoReference(photoReference);
+    return request;
+  }
+
+  /**
    * Query Autocomplete allows you to add on-the-fly geographic query predictions to your application.
    *
    * @param context The context on which to make Geo API requests.
