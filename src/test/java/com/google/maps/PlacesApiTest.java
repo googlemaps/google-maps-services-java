@@ -474,7 +474,30 @@ public class PlacesApiTest {
         "jkEhAxDHC0XXQ16thDAlwVbEYaGhSaGDw5sHbaZkG9LZIqbcas0IJU8w", results.nextPageToken);
   }
 
-    // TODO(brettmorgan): find a home for these utility methods
+  @Test
+  public void testPhotoRequest() throws Exception {
+    MockResponse response = new MockResponse();
+    response.setBody("");
+    server.enqueue(response);
+    server.play();
+    context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
+
+    final String photoReference = "Photo Reference";
+    final int width = 200;
+    final int height = 100;
+
+    PlacesApi.photo(context, photoReference)
+        .maxWidth(width)
+        .maxHeight(height)
+        .awaitIgnoreError();
+
+    List<NameValuePair> actualParams = parseQueryParamsFromRequestLine(server.takeRequest().getRequestLine());
+    assertParamValue(photoReference, "photoreference", actualParams);
+    assertParamValue(String.valueOf(width), "maxwidth", actualParams);
+    assertParamValue(String.valueOf(height), "maxheight", actualParams);
+  }
+
+  // TODO(brettmorgan): find a home for these utility methods
 
   private List<NameValuePair> parseQueryParamsFromRequestLine(String requestLine) throws Exception {
     // Extract the URL part from the HTTP request line
