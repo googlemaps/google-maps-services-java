@@ -38,14 +38,6 @@ public class PlacesApi {
   private PlacesApi() {
   }
 
-  /*
-   * Please note: We are specifically not implementing:
-   *  - Nearby Search
-   *  - Radar Search
-   *  - Place Add
-   *  - Place Autocomplete
-   */
-
   /**
    * Perform a search for Places using a text query — for example "pizza in New York" or
    * "shoe stores near Ottawa".
