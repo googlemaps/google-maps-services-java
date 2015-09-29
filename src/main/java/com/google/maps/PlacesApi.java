@@ -15,15 +15,6 @@
 
 package com.google.maps;
 
-import com.google.gson.FieldNamingPolicy;
-import com.google.maps.errors.ApiException;
-import com.google.maps.internal.ApiConfig;
-import com.google.maps.internal.ApiResponse;
-import com.google.maps.model.LatLng;
-import com.google.maps.model.PlaceDetails;
-
-import java.util.List;
-
 /**
  * Performs a text search for places. The Google Places API enables you to get data from the same
  * database used by Google Maps and Google+ Local. Places features more than 100 million businesses
