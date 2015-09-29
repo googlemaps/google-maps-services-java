@@ -16,6 +16,7 @@
 package com.google.maps.model;
 
 import com.google.maps.internal.StringJoin;
+import org.joda.time.Instant;
 
 import java.net.URL;
 
@@ -175,7 +176,7 @@ public class PlaceDetails {
     public String text;
 
     /** time is the time that the review was submitted, as seconds since epoch.*/
-    public long time; // TODO(brettmorgan): figure out how to convert this to a DateTime.
+    public Instant time;
   }
 
   /**

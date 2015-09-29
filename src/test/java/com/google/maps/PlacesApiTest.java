@@ -31,6 +31,7 @@ import com.google.mockwebserver.MockResponse;
 import com.google.mockwebserver.MockWebServer;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
+import org.joda.time.LocalTime;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -188,29 +189,33 @@ public class PlacesApiTest {
       Period friday = placeDetails.openingHours.periods[4];
 
       assertEquals(DayOfWeek.MONDAY, monday.open.day);
-      assertEquals("0830", monday.open.time);
+      LocalTime opening = new LocalTime(8,30);
+      LocalTime closing5pm = new LocalTime(17,0);
+      LocalTime closing530pm = new LocalTime(17,30);
+
+      assertEquals(opening, monday.open.time);
       assertEquals(DayOfWeek.MONDAY, monday.close.day);
-      assertEquals("1730", monday.close.time);
+      assertEquals(closing530pm, monday.close.time);
 
       assertEquals(DayOfWeek.TUESDAY, tuesday.open.day);
-      assertEquals("0830", tuesday.open.time);
+      assertEquals(opening, tuesday.open.time);
       assertEquals(DayOfWeek.TUESDAY, tuesday.close.day);
-      assertEquals("1730", tuesday.close.time);
+      assertEquals(closing530pm, tuesday.close.time);
 
       assertEquals(DayOfWeek.WEDNESDAY, wednesday.open.day);
-      assertEquals("0830", wednesday.open.time);
+      assertEquals(opening, wednesday.open.time);
       assertEquals(DayOfWeek.WEDNESDAY, wednesday.close.day);
-      assertEquals("1730", wednesday.close.time);
+      assertEquals(closing530pm, wednesday.close.time);
 
       assertEquals(DayOfWeek.THURSDAY, thursday.open.day);
-      assertEquals("0830", thursday.open.time);
+      assertEquals(opening, thursday.open.time);
       assertEquals(DayOfWeek.THURSDAY, thursday.close.day);
-      assertEquals("1730", thursday.close.time);
+      assertEquals(closing530pm, thursday.close.time);
 
       assertEquals(DayOfWeek.FRIDAY, friday.open.day);
-      assertEquals("0830", friday.open.time);
+      assertEquals(opening, friday.open.time);
       assertEquals(DayOfWeek.FRIDAY, friday.close.day);
-      assertEquals("1700", friday.close.time);
+      assertEquals(closing5pm, friday.close.time);
     }
 
     assertNotNull(placeDetails.openingHours.weekdayText);
@@ -227,33 +232,36 @@ public class PlacesApiTest {
 
     // Photos
     assertNotNull(placeDetails.photos);
-    assertNotNull(placeDetails.photos[0]);
-    assertNotNull(placeDetails.photos[0].photoReference);
-    assertNotNull(placeDetails.photos[0].height);
-    assertNotNull(placeDetails.photos[0].width);
-    assertNotNull(placeDetails.photos[0].htmlAttributions);
-    assertNotNull(placeDetails.photos[0].htmlAttributions[0]);
+    Photo photo = placeDetails.photos[0];
+    assertNotNull(photo);
+    assertNotNull(photo.photoReference);
+    assertNotNull(photo.height);
+    assertNotNull(photo.width);
+    assertNotNull(photo.htmlAttributions);
+    assertNotNull(photo.htmlAttributions[0]);
 
     // Reviews
     assertNotNull(placeDetails.reviews);
-    assertNotNull(placeDetails.reviews[0]);
-    assertNotNull(placeDetails.reviews[0].authorName);
-    assertEquals(placeDetails.reviews[0].authorName, "Danielle Lonnon");
-    assertNotNull(placeDetails.reviews[0].authorUrl);
-    assertEquals(placeDetails.reviews[0].authorUrl.toURI(),
-        new URI("https://plus.google.com/118257578392162991040"));
-    assertNotNull(placeDetails.reviews[0].language);
-    assertEquals(placeDetails.reviews[0].language, "en");
-    assertNotNull(placeDetails.reviews[0].rating);
-    assertEquals(placeDetails.reviews[0].rating, 5);
-    assertNotNull(placeDetails.reviews[0].text);
-    assertTrue(placeDetails.reviews[0].text.startsWith("As someone who works in the theatre,"));
-    assertNotNull(placeDetails.reviews[0].aspects);
-    assertNotNull(placeDetails.reviews[0].aspects[0]);
-    assertNotNull(placeDetails.reviews[0].aspects[0].rating);
-    assertEquals(placeDetails.reviews[0].aspects[0].rating, 3);
-    assertNotNull(placeDetails.reviews[0].aspects[0].type);
-    assertEquals(placeDetails.reviews[0].aspects[0].type, RatingType.OVERALL);
+    PlaceDetails.Review review = placeDetails.reviews[0];
+    assertNotNull(review);
+    assertNotNull(review.authorName);
+    assertEquals("Danielle Lonnon", review.authorName);
+    assertNotNull(review.authorUrl);
+    assertEquals(new URI("https://plus.google.com/118257578392162991040"), review.authorUrl.toURI());
+    assertNotNull(review.language);
+    assertEquals("en", review.language);
+    assertNotNull(review.rating);
+    assertEquals(5, review.rating);
+    assertNotNull(review.text);
+    assertTrue(review.text.startsWith("As someone who works in the theatre,"));
+    assertNotNull(review.aspects);
+    PlaceDetails.Review.AspectRating aspect = review.aspects[0];
+    assertNotNull(aspect);
+    assertNotNull(aspect.rating);
+    assertEquals(3, aspect.rating);
+    assertNotNull(aspect.type);
+    assertEquals(RatingType.OVERALL, aspect.type);
+    assertEquals(1425790392, review.time.getMillis() / 1000);
 
     // Place ID
     assertNotNull(placeDetails.placeId);

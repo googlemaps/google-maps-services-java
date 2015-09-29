@@ -35,6 +35,8 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
 import org.joda.time.DateTime;
+import org.joda.time.Instant;
+import org.joda.time.LocalTime;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -229,6 +231,8 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
         .registerTypeAdapter(RatingType.class, new SafeEnumAdapter<RatingType>(RatingType.UNKNOWN))
         .registerTypeAdapter(DayOfWeek.class, new DayOfWeekAdaptor())
         .registerTypeAdapter(PriceLevel.class, new PriceLevelAdaptor())
+        .registerTypeAdapter(Instant.class, new InstantAdapter())
+        .registerTypeAdapter(LocalTime.class, new LocalTimeAdapter())
         .setFieldNamingPolicy(fieldNamingPolicy)
         .create();
 
