@@ -24,6 +24,11 @@ APIs:
 Keep in mind that the same [terms and conditions](https://developers.google.com/maps/terms) apply
 to usage of the APIs when they're accessed through this library.
 
+**Note:** The Java Client for Google Maps Services is for use in server applications. If you're building a 
+mobile application, you will need to introduce a proxy server to act as intermediary between your mobile
+application and the [Google Maps API Web Services]. The Java Client for Google Maps Services would make an 
+excellent choice as the basis for such a proxy server.
+
 ## Support
 
 This library is community supported. We're comfortable enough with the stability and features of
