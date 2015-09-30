@@ -32,6 +32,7 @@ import com.google.mockwebserver.MockWebServer;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.joda.time.LocalTime;
+import org.joda.time.format.DateTimeFormat;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -262,6 +263,7 @@ public class PlacesApiTest {
     assertNotNull(aspect.type);
     assertEquals(RatingType.OVERALL, aspect.type);
     assertEquals(1425790392, review.time.getMillis() / 1000);
+    assertEquals("2015-03-08 04:53AM", review.time.toString(DateTimeFormat.forPattern("YYYY-MM-dd HH:mmaa")));
 
     // Place ID
     assertNotNull(placeDetails.placeId);
