@@ -35,7 +35,7 @@ public class PlaceDetailsRequest
   }
 
   /** Get the Place Details for the specified Place ID. Required. */
-  PlaceDetailsRequest placeId(String placeId) {
+  public PlaceDetailsRequest placeId(String placeId) {
     return param("placeid", placeId);
   }
 
