@@ -150,6 +150,10 @@ public class PlaceDetails {
     /**
      * aspects contains a collection of AspectRating objects, each of which provides a rating of
      * a single attribute of the establishment.
+     *
+     * <p>Note: this is a
+     * <a href="https://developers.google.com/places/web-service/details#PremiumData">Premium Data</a>
+     * field available to the Google Places API for Work customers.</p>
      */
     public AspectRating[] aspects;
 
