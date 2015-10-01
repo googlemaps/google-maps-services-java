@@ -77,11 +77,9 @@ public class QueryAutocompleteRequest
   }
 
   public static class Response implements ApiResponse<QueryAutocompletePrediction[]> {
-
     public String status;
     public QueryAutocompletePrediction predictions[];
     public String errorMessage;
-
 
     @Override
     public boolean successful() {
