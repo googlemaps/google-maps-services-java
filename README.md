@@ -118,6 +118,7 @@ https://developers.google.com/maps/.
  - [Elevation API]
  - [Geocoding API]
  - [Places API]
+ - [Roads API]
  - [Time Zone API]
 
 ## Usage
