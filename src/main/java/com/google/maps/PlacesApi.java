@@ -78,6 +78,12 @@ public class PlacesApi {
   /**
    * Request a Photo from a PhotoReference.
    *
+   * <p>Note: If you want to use a Photo in a web browser, please retrieve the photos for a place
+   * via our <a href="https://developers.google.com/maps/documentation/javascript/places#places_photos">
+   *   JavaScript Places Library</a>. Likewise, on Android, Places Photos  can be retrieved using the
+   *   <a href="https://developers.google.com/places/android-api/photos">Google Places API for
+   *   Android</a>.</p>
+   *
    * @param context The context on which to make Geo API requests.
    * @param photoReference The reference to the photo to retrieve.
    * @return Returns a PhotoRequest that you can execute.
