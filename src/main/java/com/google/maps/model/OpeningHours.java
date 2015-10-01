@@ -17,6 +17,11 @@ package com.google.maps.model;
 
 import org.joda.time.LocalTime;
 
+/**
+ * Opening hours for a Place Details result. Please see
+ * <a href="https://developers.google.com/places/web-service/details#PlaceDetailsResults">Place
+ * Details Results</a> for more details.
+ */
 public class OpeningHours {
   /**
    * openNow is a boolean value indicating if the place is open at the current time.
@@ -25,6 +30,7 @@ public class OpeningHours {
    */
   public Boolean openNow;
 
+  /** Period models the opening hours for a Place for a single day. */
   static public class Period {
     static public class OpenClose {
       public enum DayOfWeek {
