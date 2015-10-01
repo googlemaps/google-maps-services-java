@@ -47,6 +47,7 @@ public class OpeningHours {
        * Day that this Open/Close pair is for.
        */
       public Period.OpenClose.DayOfWeek day;
+
       /**
        * Time that this Open or Close happens at.
        */
@@ -72,7 +73,7 @@ public class OpeningHours {
 
   /**
    * weekdayText is an array of seven strings representing the formatted opening hours for each
-   * day of the week.
+   * day of the week, for example "Monday: 8:30 am – 5:30 pm".
    */
   public String[] weekdayText;
 
