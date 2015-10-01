@@ -40,9 +40,9 @@ public class PriceLevelAdaptor extends TypeAdapter<PlaceDetails.PriceLevel> {
     }
 
     if (reader.peek() == JsonToken.NUMBER) {
-      int day = reader.nextInt();
+      int priceLevel = reader.nextInt();
 
-      switch (day) {
+      switch (priceLevel) {
         case 0:
           return PlaceDetails.PriceLevel.FREE;
         case 1:
