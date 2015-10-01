@@ -15,6 +15,13 @@
 
 package com.google.maps.model;
 
+/**
+ * QueryAutocompletePrediction represents a single Query Autocomplete result returned from the
+ * Google Places API Web Service.
+ *
+ * <p>Please see <a href="https://developers.google.com/places/web-service/query#query_autocomplete_responses">
+ *   Query Autocomplete Responses</a> for more detail.</p>
+ */
 public class QueryAutocompletePrediction {
 
   /**
@@ -44,12 +51,14 @@ public class QueryAutocompletePrediction {
   public Term terms[];
 
   /**
-   * MatchedSubstring describe sthe location of the entered term in the prediction result text, so
+   * MatchedSubstring describes the location of the entered term in the prediction result text, so
    * that the term can be highlighted if desired.
    */
   public static class MatchedSubstring {
-    /** length degines the length of the matched substring. */
+
+    /** length describes the length of the matched substring. */
     public int length;
+
     /** offset defines the start position of the matched substring. */
     public int offset;
   }
@@ -61,8 +70,10 @@ public class QueryAutocompletePrediction {
    * generally terminated with a comma).
    */
   public static class Term {
+
     /** offset defines the start position of this term in the description, measured in Unicode characters. */
     public int offset;
+
     /** The text of the matched term. */
     public String value;
   }
