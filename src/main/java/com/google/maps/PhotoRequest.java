@@ -77,6 +77,7 @@ public class PhotoRequest
   public static class Response implements ApiResponse<PhotoResult> {
     // This class is here to keep the type system happy.
     // It is not actually instantiated by OkHttpPendingResult.
+    private Response() {}
 
     @Override
     public boolean successful() {
