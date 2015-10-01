@@ -401,9 +401,9 @@ public class PlacesApiTest {
     PlacesApi.textSearchQuery(context, "Google Sydney")
         .location(location)
         .radius(3000)
-        .minprice(PriceLevel.INEXPENSIVE)
-        .maxprice(PriceLevel.VERY_EXPENSIVE)
-        .opennow(true)
+        .minPrice(PriceLevel.INEXPENSIVE)
+        .maxPrice(PriceLevel.VERY_EXPENSIVE)
+        .openNow(true)
         .awaitIgnoreError();
 
     List<NameValuePair> actualParams = parseQueryParamsFromRequestLine(server.takeRequest().getRequestLine());

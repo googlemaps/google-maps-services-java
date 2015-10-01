@@ -62,46 +62,39 @@ public class TextSearchRequest
   }
 
   /**
-   * minprice restricts to places that are at least this price level.
+   * minPrice restricts to places that are at least this price level.
    */
-  public TextSearchRequest minprice(PlaceDetails.PriceLevel priceLevel) {
+  public TextSearchRequest minPrice(PlaceDetails.PriceLevel priceLevel) {
     return param("minprice", priceLevel);
   }
 
   /**
-   * maxprice restricts to places that are at most this price level.
+   * maxPrice restricts to places that are at most this price level.
    */
-  public TextSearchRequest maxprice(PlaceDetails.PriceLevel priceLevel) {
+  public TextSearchRequest maxPrice(PlaceDetails.PriceLevel priceLevel) {
     return param("maxprice", priceLevel);
   }
 
   /**
-   * opennow returns only those places that are open for business at the time the query is sent.
+   * openNow returns only those places that are open for business at the time the query is sent.
    */
-  public TextSearchRequest opennow(boolean opennow) {
-    return param("opennow", String.valueOf(opennow));
+  public TextSearchRequest openNow(boolean openNow) {
+    return param("opennow", String.valueOf(openNow));
   }
 
   /**
-   * pagetoken teturns the next 20 results from a previously run search. Setting a pagetoken parameter will execute a
-   * search with the same parameters used previously — all parameters other than pagetoken will be ignored.
+   * pageToken returns the next 20 results from a previously run search. Setting a pageToken parameter will execute a
+   * search with the same parameters used previously — all parameters other than pageToken will be ignored.
    */
-  public TextSearchRequest pagetoken(String nextPageToken) {
+  public TextSearchRequest pageToken(String nextPageToken) {
     return param("pagetoken", nextPageToken);
   }
 
-  /* We are explicitly not implementing the following parameters:
-   *  - rankby
-   *  - name
-   *  - types
-   *  - zagatselected
-   */
-
   @Override
   protected void validateRequest() {
-    // query is required, but query is encoded inside of a pagetoken returned from the server.
+    // query is required, but query is encoded inside of a pageToken returned from the server.
     if (!params().containsKey("query") && !params().containsKey("pagetoken")) {
-      throw new IllegalArgumentException("Request must contain 'query' or a 'pagetoken'.");
+      throw new IllegalArgumentException("Request must contain 'query' or a 'pageToken'.");
     }
 
     if (params().containsKey("location") && !params().containsKey("radius")) {
