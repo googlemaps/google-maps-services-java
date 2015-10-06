@@ -50,7 +50,7 @@ import java.util.logging.Logger;
 /**
  * A PendingResult backed by a HTTP call executed by OkHttp, a deserialization step using Gson,
  * rate limiting and a retry policy.
- *
+ * <p/>
  * <p>{@code T} is the type of the result of this pending result, and {@code R} is the type of the
  * request.
  */
