@@ -19,56 +19,56 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
-import com.google.maps.model.Fare;
+import com.google.maps.model.OpeningHours.Period.OpenClose.DayOfWeek;
 
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Currency;
 
 /**
- * This class handles conversion from JSON to {@link com.google.maps.model.Fare}.
+ * This class handles conversion from JSON to {@link DayOfWeek}.
+ *
+ * <p>Please see
+ * <a href="https://google-gson.googlecode.com/svn/trunk/gson/docs/javadocs/com/google/gson/TypeAdapter.html">GSON Type
+ * Adapter</a> for more detail.
  */
-public class FareAdapter extends TypeAdapter<Fare> {
+public class DayOfWeekAdaptor extends TypeAdapter<DayOfWeek> {
 
-  /**
-   * Read a Fare object from the Directions API and convert to a {@link com.google.maps.model.Fare}
-   *
-   * <pre>{
-   *   "currency": "USD",
-   *   "value": 6
-   * }</pre>
-   */
   @Override
-  public Fare read(JsonReader reader) throws IOException {
+  public DayOfWeek read(JsonReader reader) throws IOException {
     if (reader.peek() == JsonToken.NULL) {
       reader.nextNull();
       return null;
     }
 
-    Fare fare = new Fare();
-    reader.beginObject();
-    while (reader.hasNext()) {
-      String key = reader.nextName();
-      if ("currency".equals(key)) {
-        fare.currency = Currency.getInstance(reader.nextString());
-      } else if ("value".equals(key)) {
-        // this relies on nextString() being able to coerce raw numbers to strings
-        fare.value = new BigDecimal(reader.nextString());
-      } else {
-        // Be forgiving of unexpected values
-        reader.skipValue();
+    if (reader.peek() == JsonToken.NUMBER) {
+      int day = reader.nextInt();
+
+      switch (day) {
+        case 0:
+          return DayOfWeek.SUNDAY;
+        case 1:
+          return DayOfWeek.MONDAY;
+        case 2:
+          return DayOfWeek.TUESDAY;
+        case 3:
+          return DayOfWeek.WEDNESDAY;
+        case 4:
+          return DayOfWeek.THURSDAY;
+        case 5:
+          return DayOfWeek.FRIDAY;
+        case 6:
+          return DayOfWeek.SATURDAY;
       }
     }
-    reader.endObject();
 
-    return fare;
+    return DayOfWeek.UNKNOWN;
   }
 
   /**
    * This method is not implemented.
    */
   @Override
-  public void write(JsonWriter out, Fare value) throws IOException {
+  public void write(JsonWriter writer, DayOfWeek value) throws IOException {
     throw new UnsupportedOperationException("Unimplemented method");
   }
+
 }

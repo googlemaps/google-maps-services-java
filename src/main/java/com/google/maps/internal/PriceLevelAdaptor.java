@@ -19,56 +19,52 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
-import com.google.maps.model.Fare;
+import com.google.maps.model.PlaceDetails;
 
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Currency;
 
 /**
- * This class handles conversion from JSON to {@link com.google.maps.model.Fare}.
+ * This class handles conversion from JSON to {@link PlaceDetails.PriceLevel}.
+ *
+ * <p>Please see
+ * <a href="https://google-gson.googlecode.com/svn/trunk/gson/docs/javadocs/com/google/gson/TypeAdapter.html">GSON Type
+ * Adapter</a> for more detail.
  */
-public class FareAdapter extends TypeAdapter<Fare> {
+public class PriceLevelAdaptor extends TypeAdapter<PlaceDetails.PriceLevel> {
 
-  /**
-   * Read a Fare object from the Directions API and convert to a {@link com.google.maps.model.Fare}
-   *
-   * <pre>{
-   *   "currency": "USD",
-   *   "value": 6
-   * }</pre>
-   */
   @Override
-  public Fare read(JsonReader reader) throws IOException {
+  public PlaceDetails.PriceLevel read(JsonReader reader) throws IOException {
     if (reader.peek() == JsonToken.NULL) {
       reader.nextNull();
       return null;
     }
 
-    Fare fare = new Fare();
-    reader.beginObject();
-    while (reader.hasNext()) {
-      String key = reader.nextName();
-      if ("currency".equals(key)) {
-        fare.currency = Currency.getInstance(reader.nextString());
-      } else if ("value".equals(key)) {
-        // this relies on nextString() being able to coerce raw numbers to strings
-        fare.value = new BigDecimal(reader.nextString());
-      } else {
-        // Be forgiving of unexpected values
-        reader.skipValue();
+    if (reader.peek() == JsonToken.NUMBER) {
+      int priceLevel = reader.nextInt();
+
+      switch (priceLevel) {
+        case 0:
+          return PlaceDetails.PriceLevel.FREE;
+        case 1:
+          return PlaceDetails.PriceLevel.INEXPENSIVE;
+        case 2:
+          return PlaceDetails.PriceLevel.MODERATE;
+        case 3:
+          return PlaceDetails.PriceLevel.EXPENSIVE;
+        case 4:
+          return PlaceDetails.PriceLevel.VERY_EXPENSIVE;
       }
     }
-    reader.endObject();
 
-    return fare;
+    return PlaceDetails.PriceLevel.UNKNOWN;
   }
 
   /**
    * This method is not implemented.
    */
   @Override
-  public void write(JsonWriter out, Fare value) throws IOException {
+  public void write(JsonWriter writer, PlaceDetails.PriceLevel value) throws IOException {
     throw new UnsupportedOperationException("Unimplemented method");
   }
+
 }
