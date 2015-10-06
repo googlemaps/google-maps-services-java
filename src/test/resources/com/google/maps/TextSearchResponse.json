@@ -1,0 +1,38 @@
+{
+  "html_attributions": [],
+  "results": [
+    {
+      "formatted_address": "5, 48 Pirrama Rd, Pyrmont NSW 2009, Australia",
+      "geometry": {
+        "location": {
+          "lat": -33.866611,
+          "lng": 151.195832
+        }
+      },
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png",
+      "id": "4f89212bf76dde31f092cfc14d7506555d85b5c7",
+      "name": "Google",
+      "opening_hours": {
+        "open_now": false,
+        "weekday_text": []
+      },
+      "photos": [
+        {
+          "height": 2322,
+          "html_attributions": [
+            "<a href=\"https://maps.google.com/maps/contrib/107252953636064841537\">William Stewart</a>"
+          ],
+          "photo_reference": "CmRdAAAAa43ZeiQvF4n-Yv5UnEGcIe0KjdTzzTH4g-g1GuKgWas0g8W7793eFDGxkrG4Z5i_Jua0Z-Ib88IuYe2iVAZ0W3Q7wUrp4A2mux4BjZmakLFkTkPj_OZ7ek3vSGnrzqExEhBqB3AIn82lmf38RnVSFH1CGhSWrvzN30A_ABGNScuiYEU70wau3w",
+          "width": 4128
+        }
+      ],
+      "place_id": "ChIJN1t_tDeuEmsRUsoyG83frY4",
+      "rating": 4.4,
+      "reference": "CmRaAAAA3EN_NWHqY6zWa9vRX-tfJNji1FqeIxf0_V3xZQmBezAPO3SRwOrjRJzKxjnxTvhB_Lz4dRvLp1HTfoAThW4aFwVmqmE_V-3saLDSF77rXfclqxA9ncQkHXhLFg0J4AqXEhDh8umU5GO0JU1aeJVJeGFgGhR-xp1AIR1GlQOE53OqTADfFQwy8Q",
+      "types": [
+        "establishment"
+      ]
+    }
+  ],
+  "status": "OK"
+}

@@ -19,56 +19,40 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
-import com.google.maps.model.Fare;
+import org.joda.time.LocalTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Currency;
 
 /**
- * This class handles conversion from JSON to {@link com.google.maps.model.Fare}.
+ * This class handles conversion from JSON to {@link LocalTime}.
  */
-public class FareAdapter extends TypeAdapter<Fare> {
-
+public class LocalTimeAdapter extends TypeAdapter<LocalTime> {
   /**
-   * Read a Fare object from the Directions API and convert to a {@link com.google.maps.model.Fare}
-   *
-   * <pre>{
-   *   "currency": "USD",
-   *   "value": 6
-   * }</pre>
+   * Read a time from the Places API and convert to a {@link LocalTime}
    */
   @Override
-  public Fare read(JsonReader reader) throws IOException {
+  public LocalTime read(JsonReader reader) throws IOException {
     if (reader.peek() == JsonToken.NULL) {
       reader.nextNull();
       return null;
     }
 
-    Fare fare = new Fare();
-    reader.beginObject();
-    while (reader.hasNext()) {
-      String key = reader.nextName();
-      if ("currency".equals(key)) {
-        fare.currency = Currency.getInstance(reader.nextString());
-      } else if ("value".equals(key)) {
-        // this relies on nextString() being able to coerce raw numbers to strings
-        fare.value = new BigDecimal(reader.nextString());
-      } else {
-        // Be forgiving of unexpected values
-        reader.skipValue();
-      }
+    if (reader.peek() == JsonToken.STRING) {
+      DateTimeFormatter dtf = DateTimeFormat.forPattern("HHmm");
+      return LocalTime.parse(reader.nextString(), dtf);
     }
-    reader.endObject();
 
-    return fare;
+    throw new UnsupportedOperationException("Unsupported format");
   }
 
   /**
    * This method is not implemented.
    */
   @Override
-  public void write(JsonWriter out, Fare value) throws IOException {
+  public void write(JsonWriter out, LocalTime value) throws IOException {
     throw new UnsupportedOperationException("Unimplemented method");
   }
+
 }

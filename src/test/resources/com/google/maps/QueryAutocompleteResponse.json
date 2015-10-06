@@ -1,0 +1,185 @@
+
+{
+   "predictions" : [
+      {
+         "description" : "pizza near Paris, France",
+         "matched_substrings" : [
+            {
+               "length" : 5,
+               "offset" : 0
+            },
+            {
+               "length" : 4,
+               "offset" : 6
+            },
+            {
+               "length" : 3,
+               "offset" : 11
+            }
+         ],
+         "terms" : [
+            {
+               "offset" : 0,
+               "value" : "pizza"
+            },
+            {
+               "offset" : 6,
+               "value" : "near"
+            },
+            {
+               "offset" : 11,
+               "value" : "Paris"
+            },
+            {
+               "offset" : 18,
+               "value" : "France"
+            }
+         ]
+      },
+      {
+         "description" : "pizza near Parana, Brazil",
+         "matched_substrings" : [
+            {
+               "length" : 5,
+               "offset" : 0
+            },
+            {
+               "length" : 4,
+               "offset" : 6
+            },
+            {
+               "length" : 3,
+               "offset" : 11
+            }
+         ],
+         "terms" : [
+            {
+               "offset" : 0,
+               "value" : "pizza"
+            },
+            {
+               "offset" : 6,
+               "value" : "near"
+            },
+            {
+               "offset" : 11,
+               "value" : "Parana"
+            },
+            {
+               "offset" : 19,
+               "value" : "Brazil"
+            }
+         ]
+      },
+      {
+         "description" : "pizza near Para, Brazil",
+         "matched_substrings" : [
+            {
+               "length" : 5,
+               "offset" : 0
+            },
+            {
+               "length" : 4,
+               "offset" : 6
+            },
+            {
+               "length" : 3,
+               "offset" : 11
+            }
+         ],
+         "terms" : [
+            {
+               "offset" : 0,
+               "value" : "pizza"
+            },
+            {
+               "offset" : 6,
+               "value" : "near"
+            },
+            {
+               "offset" : 11,
+               "value" : "Para"
+            },
+            {
+               "offset" : 17,
+               "value" : "Brazil"
+            }
+         ]
+      },
+      {
+         "description" : "pizza near Paraiba, Brazil",
+         "matched_substrings" : [
+            {
+               "length" : 5,
+               "offset" : 0
+            },
+            {
+               "length" : 4,
+               "offset" : 6
+            },
+            {
+               "length" : 3,
+               "offset" : 11
+            }
+         ],
+         "terms" : [
+            {
+               "offset" : 0,
+               "value" : "pizza"
+            },
+            {
+               "offset" : 6,
+               "value" : "near"
+            },
+            {
+               "offset" : 11,
+               "value" : "Paraiba"
+            },
+            {
+               "offset" : 20,
+               "value" : "Brazil"
+            }
+         ]
+      },
+      {
+         "description" : "pizza near Park Avenue, NY, United States",
+         "matched_substrings" : [
+            {
+               "length" : 5,
+               "offset" : 0
+            },
+            {
+               "length" : 4,
+               "offset" : 6
+            },
+            {
+               "length" : 3,
+               "offset" : 11
+            }
+         ],
+         "terms" : [
+            {
+               "offset" : 0,
+               "value" : "pizza"
+            },
+            {
+               "offset" : 6,
+               "value" : "near"
+            },
+            {
+               "offset" : 11,
+               "value" : "Park Avenue"
+            },
+            {
+               "offset" : 24,
+               "value" : "NY"
+            },
+            {
+               "offset" : 28,
+               "value" : "United States"
+            }
+         ]
+      }
+   ],
+   "status" : "OK"
+}
