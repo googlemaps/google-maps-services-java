@@ -22,9 +22,8 @@ import java.util.List;
 /**
  * Encoded Polylines are used by the API to represent paths.
  *
- * <p>See <a href="https://developers.google
- * .com/maps/documentation/utilities/polylinealgorithm">Encoded Polyline Algorithm</a> for more
- * detail on the protocol.
+ * <p>See <a href="https://developers.google.com/maps/documentation/utilities/polylinealgorithm">
+ *   Encoded Polyline Algorithm</a> for more detail on the protocol.
  */
 public class EncodedPolyline {
   private final String points;

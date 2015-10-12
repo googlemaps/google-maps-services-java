@@ -22,12 +22,13 @@ import com.google.maps.internal.StringJoin.UrlValue;
 import com.google.maps.model.DirectionsRoute;
 
 /**
- * <p>The Google Directions API is a service that calculates directions between locations
+ * The Google Directions API is a service that calculates directions between locations
  * using an HTTP request. You can search for directions for several modes of transportation,
  * include transit, driving, walking or cycling. Directions may specify origins, destinations
  * and waypoints either as text strings (e.g. "Chicago, IL" or "Darwin, NT, Australia") or as
  * latitude/longitude coordinates. The Directions API can return multi-part directions using
  * a series of waypoints.
+ *
  * <p>See <a href="https://developers.google.com/maps/documentation/directions/">documentation</a>.
  */
 public class DirectionsApi {
@@ -78,7 +79,7 @@ public class DirectionsApi {
    * @see <a href="https://developers.google.com/maps/documentation/directions/#Restrictions">
    *      Restrictions in the Directions API</a>
    * @see <a href="https://developers.google.com/maps/documentation/distancematrix/#Restrictions">
-   *      Restrictions in the Distance Matrix API></a>
+   *      Restrictions in the Distance Matrix API</a>
    */
   public enum RouteRestriction implements UrlValue {
 

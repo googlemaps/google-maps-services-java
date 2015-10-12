@@ -17,7 +17,7 @@ package com.google.maps.model;
 
 /**
  * The vehicle used on a line.
- * <p/>
+ *
  * <p>See <a href="https://developers.google.com/maps/documentation/directions/#TransitDetails">
  * Transit details</a> for more detail.
  */

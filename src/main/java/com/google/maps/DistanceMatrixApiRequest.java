@@ -125,9 +125,8 @@ public class DistanceMatrixApiRequest
    * Specifies the unit system to use when expressing distance as text. Distance Matrix results
    * contain text within distance fields to indicate the distance of the calculated route.
    *
-   * @see <a href="https://developers.google
-   * .com/maps/documentation/distancematrix/#unit_systems">Unit systems in the Distance Matrix
-   * API</a>
+   * @see <a href="https://developers.google.com/maps/documentation/distancematrix/#unit_systems">
+   *   Unit systems in the Distance Matrix API</a>
    *
    * @param unit One of {@link Unit#METRIC}, {@link Unit#IMPERIAL}.
    */

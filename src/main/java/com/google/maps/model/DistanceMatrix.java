@@ -18,8 +18,8 @@ package com.google.maps.model;
 /**
  * A complete result from a Distance Matrix API call.
  *
- * @see <a href="https://developers.google
- * .com/maps/documentation/distancematrix/#DistanceMatrixResponses">Distance Matrix Results</a>
+ * @see <a href="https://developers.google.com/maps/documentation/distancematrix/#DistanceMatrixResponses">
+ *   Distance Matrix Results</a>
  */
 public class DistanceMatrix {
 
