@@ -23,10 +23,10 @@ import java.util.Locale;
  * You may specify the transportation mode to use for calulating directions. Directions are
  * calculating as driving directions by default.
  *
- * @see <a href="https://developers.google
- * .com/maps/documentation/directions/#TravelModes">Directions API travel modes</a>
- * @see <a href="https://developers.google
- * .com/maps/documentation/distancematrix/#RequestParameters">Distance Matrix API travel modes</a>
+ * @see <a href="https://developers.google.com/maps/documentation/directions/#TravelModes">
+ *   Directions API travel modes</a>
+ * @see <a href="https://developers.google.com/maps/documentation/distancematrix/#RequestParameters">
+ *   Distance Matrix API travel modes</a>
  */
 public enum TravelMode implements UrlValue {
   DRIVING, WALKING, BICYCLING, TRANSIT,
