@@ -211,6 +211,11 @@ public enum AddressComponentType {
   TRAIN_STATION,
 
   /**
+   * {@code SUBWAY_STATION} indicates the location of a subway station.
+   */
+  SUBWAY_STATION,
+
+  /**
    * {@code TRANSIT_STATION} indicates the location of a transit station.
    */
   TRANSIT_STATION,
