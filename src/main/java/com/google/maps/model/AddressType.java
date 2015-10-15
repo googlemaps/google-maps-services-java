@@ -183,6 +183,11 @@ public enum AddressType implements UrlValue {
   TRAIN_STATION("train_station"),
 
   /**
+   * {@code SUBWAY_STATION} indicates the location of a subway station.
+   */
+  SUBWAY_STATION("subway_station"),
+
+  /**
    * {@code TRANSIT_STATION} indicates the location of a transit station.
    */
   TRANSIT_STATION("transit_station"),
