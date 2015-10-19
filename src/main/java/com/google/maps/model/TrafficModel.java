@@ -20,15 +20,10 @@ import com.google.maps.internal.StringJoin.UrlValue;
 import java.util.Locale;
 
 /**
- * You may specify transit mode when requesting transit directions or distances.
+ * Specifies traffic prediction model when request future directions.
  */
-public enum TransitMode implements UrlValue {
-  BUS, SUBWAY, TRAIN, TRAM,
-
-  /**
-   * Indicates preferred travel by train, tram, light rail and subway.
-   */
-  RAIL;
+public enum TrafficModel implements UrlValue {
+  BEST_GUESS, OPTIMISTIC, PESSIMISTIC;
 
   @Override
   public String toString() {
@@ -37,6 +32,6 @@ public enum TransitMode implements UrlValue {
 
   @Override
   public String toUrlValue() {
-    return name().toLowerCase(Locale.ENGLISH);
+    return toString();
   }
 }
