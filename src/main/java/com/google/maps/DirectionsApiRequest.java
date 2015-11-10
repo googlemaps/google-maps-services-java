@@ -20,6 +20,7 @@ import static com.google.maps.internal.StringJoin.join;
 import com.google.maps.DirectionsApi.RouteRestriction;
 import com.google.maps.model.DirectionsRoute;
 import com.google.maps.model.LatLng;
+import com.google.maps.model.TrafficModel;
 import com.google.maps.model.TransitMode;
 import com.google.maps.model.TransitRoutingPreference;
 import com.google.maps.model.TravelMode;
@@ -51,6 +52,10 @@ public class DirectionsApiRequest
         && (params().containsKey("arrival_time") && params().containsKey("departure_time"))) {
       throw new IllegalArgumentException(
           "Transit request must not contain both a departureTime and an arrivalTime");
+    }
+    if (params().containsKey("traffic_model") && !params().containsKey("departure_time")) {
+      throw new IllegalArgumentException("Specifying a traffic model requires that departure time"
+          + " be provided.");
     }
   }
 
@@ -133,7 +138,9 @@ public class DirectionsApiRequest
   }
 
   /**
-   * Set the departure time for a Transit directions request. If not provided, "now" is assumed.
+   * Set the departure time for a transit or driving directions request. If both departure time
+   * and traffic model are not provided, then "now" is assumed. If traffic model is supplied,
+   * then departure time must be specified.
    *
    * @param time The departure time to calculate directions for.
    */
@@ -202,5 +209,13 @@ public class DirectionsApiRequest
    */
   public DirectionsApiRequest transitRoutingPreference(TransitRoutingPreference pref) {
     return param("transit_routing_preference", pref);
+  }
+
+  /**
+   * Specifies the traffic model to use when requesting future driving directions. Once set, you
+   * must specify a departure time.
+   */
+  public DirectionsApiRequest trafficModel(TrafficModel trafficModel) {
+    return param("traffic_model", trafficModel);
   }
 }

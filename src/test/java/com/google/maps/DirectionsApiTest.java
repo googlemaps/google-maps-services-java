@@ -26,6 +26,7 @@ import com.google.maps.DirectionsApi.RouteRestriction;
 import com.google.maps.errors.NotFoundException;
 import com.google.maps.model.DirectionsLeg;
 import com.google.maps.model.DirectionsRoute;
+import com.google.maps.model.TrafficModel;
 import com.google.maps.model.TransitMode;
 import com.google.maps.model.TransitRoutingPreference;
 import com.google.maps.model.TravelMode;
@@ -33,6 +34,7 @@ import com.google.maps.model.Unit;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.joda.time.Duration;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
@@ -251,6 +253,22 @@ public class DirectionsApiTest extends AuthenticatedTest {
 
     assertNotNull(routes);
     assertTrue(routes.length > 1);
+  }
+
+  /**
+   * Tests the {@code traffic_model} and {@code duration_in_traffic} parameters.
+   */
+  @Test
+  public void testTrafficModel() throws Exception {
+    DirectionsRoute[] routes = DirectionsApi.newRequest(context)
+        .origin("Sydney Town Hall")
+        .destination("Parramatta Town Hall")
+        .mode(TravelMode.DRIVING)
+        .departureTime(new DateTime().plus(Duration.standardMinutes(2)))
+        .trafficModel(TrafficModel.PESSIMISTIC)
+        .await();
+
+    assertNotNull(routes[0].legs[0].durationInTraffic);
   }
 
   /**
