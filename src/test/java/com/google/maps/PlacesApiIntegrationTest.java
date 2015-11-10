@@ -15,19 +15,26 @@
 
 package com.google.maps;
 
-import com.google.maps.model.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+import com.google.maps.model.Photo;
+import com.google.maps.model.PhotoResult;
+import com.google.maps.model.PlaceDetails;
+import com.google.maps.model.PlaceIdScope;
+import com.google.maps.model.PlacesSearchResponse;
+import com.google.maps.model.PlacesSearchResult;
+
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.net.URI;
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import javax.imageio.ImageIO;
 
 @Category(LargeTests.class)
 public class PlacesApiIntegrationTest extends KeyOnlyAuthenticatedTest {
@@ -51,36 +58,39 @@ public class PlacesApiIntegrationTest extends KeyOnlyAuthenticatedTest {
     // Address
     assertNotNull(placeDetails.addressComponents);
     assertNotNull(placeDetails.formattedAddress);
-    assertEquals(placeDetails.formattedAddress, "5, 48 Pirrama Rd, Pyrmont NSW 2009, Australia");
+    assertEquals("5, 48 Pirrama Rd, Pyrmont NSW 2009, Australia", placeDetails.formattedAddress);
     assertNotNull(placeDetails.vicinity);
-    assertEquals(placeDetails.vicinity, "5 48 Pirrama Road, Pyrmont");
+    assertEquals("5 48 Pirrama Road, Pyrmont", placeDetails.vicinity);
 
     // Phone numbers
     assertNotNull(placeDetails.formattedPhoneNumber);
-    assertEquals(placeDetails.formattedPhoneNumber, "(02) 9374 4000");
+    assertEquals("(02) 9374 4000", placeDetails.formattedPhoneNumber);
     assertNotNull(placeDetails.internationalPhoneNumber);
-    assertEquals(placeDetails.internationalPhoneNumber, "+61 2 9374 4000");
+    assertEquals("+61 2 9374 4000", placeDetails.internationalPhoneNumber);
 
     // Geometry
     assertNotNull(placeDetails.geometry);
     assertNotNull(placeDetails.geometry.location);
     assertNotNull(placeDetails.geometry.location.lat);
-    assertEquals(placeDetails.geometry.location.lat, -33.866611, 0.001);
+    assertEquals(-33.866611, placeDetails.geometry.location.lat, 0.001);
     assertNotNull(placeDetails.geometry.location.lng);
-    assertEquals(placeDetails.geometry.location.lng, 151.195832, 0.001);
+    assertEquals(151.195832, placeDetails.geometry.location.lng, 0.001);
 
     // URLs
     assertNotNull(placeDetails.icon);
-    assertEquals(placeDetails.icon.toURI(),
-        new URI("https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png"));
+    assertEquals(
+        new URI("https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png"),
+        placeDetails.icon.toURI());
     assertNotNull(placeDetails.url);
-    assertEquals(placeDetails.url.toURI(), new URI("https://plus.google.com/111337342022929067349/about?hl=en-US"));
+    assertEquals(new URI("https://maps.google.com/?cid=10281119596374313554"),
+        placeDetails.url.toURI());
     assertNotNull(placeDetails.website);
-    assertEquals(placeDetails.website.toURI(), new URI("https://www.google.com.au/about/careers/locations/sydney/"));
+    assertEquals(new URI("https://www.google.com.au/about/careers/locations/sydney/"),
+        placeDetails.website.toURI());
 
     // Name
     assertNotNull(placeDetails.name);
-    assertEquals(placeDetails.name, "Google");
+    assertEquals("Google", placeDetails.name);
 
     // Opening Hours
     assertNotNull(placeDetails.openingHours);
@@ -121,11 +131,11 @@ public class PlacesApiIntegrationTest extends KeyOnlyAuthenticatedTest {
     }
     // Place ID
     assertNotNull(placeDetails.placeId);
-    assertEquals(placeDetails.placeId, GOOGLE_SYDNEY);
+    assertEquals(GOOGLE_SYDNEY, placeDetails.placeId);
     assertNotNull(placeDetails.scope);
-    assertEquals(placeDetails.scope, PlaceIdScope.GOOGLE);
+    assertEquals(PlaceIdScope.GOOGLE, placeDetails.scope);
     assertNotNull(placeDetails.types);
-    assertEquals(placeDetails.types[0], "establishment");
+    assertEquals("establishment", placeDetails.types[0]);
     assertNotNull(placeDetails.rating);
   }
 
