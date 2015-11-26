@@ -25,6 +25,7 @@ import static org.junit.Assert.fail;
 import com.google.maps.DirectionsApi.RouteRestriction;
 import com.google.maps.errors.NotFoundException;
 import com.google.maps.model.DirectionsLeg;
+import com.google.maps.model.DirectionsResult;
 import com.google.maps.model.DirectionsRoute;
 import com.google.maps.model.TrafficModel;
 import com.google.maps.model.TransitMode;
@@ -55,18 +56,18 @@ public class DirectionsApiTest extends AuthenticatedTest {
 
   @Test
   public void testGetDirections() throws Exception {
-    DirectionsRoute[] routes = DirectionsApi.getDirections(context, "Sydney, AU",
+    DirectionsResult result = DirectionsApi.getDirections(context, "Sydney, AU",
         "Melbourne, AU").await();
-    assertNotNull(routes);
-    assertNotNull(routes[0]);
-    assertThat(routes[0].overviewPolyline.decodePath().size(), not(0));
-    assertEquals("Sydney NSW, Australia", routes[0].legs[0].startAddress);
-    assertEquals("Melbourne VIC, Australia", routes[0].legs[0].endAddress);
+    assertNotNull(result.routes);
+    assertNotNull(result.routes[0]);
+    assertThat(result.routes[0].overviewPolyline.decodePath().size(), not(0));
+    assertEquals("Sydney NSW, Australia", result.routes[0].legs[0].startAddress);
+    assertEquals("Melbourne VIC, Australia", result.routes[0].legs[0].endAddress);
   }
 
   @Test
   public void testBuilder() throws Exception {
-    DirectionsRoute[] routes = DirectionsApi.newRequest(context)
+    DirectionsResult result = DirectionsApi.newRequest(context)
         .mode(TravelMode.BICYCLING)
         .avoid(RouteRestriction.HIGHWAYS, RouteRestriction.TOLLS, RouteRestriction.FERRIES)
         .units(Unit.METRIC)
@@ -74,108 +75,113 @@ public class DirectionsApiTest extends AuthenticatedTest {
         .origin("Sydney")
         .destination("Melbourne").await();
 
-    assertNotNull(routes);
-    assertNotNull(routes[0]);
+    assertNotNull(result.routes);
+    assertNotNull(result.routes[0]);
   }
 
   @Test
   public void testTravelModeRoundTrip() throws Exception {
-    DirectionsRoute[] routes = DirectionsApi.newRequest(context)
+    DirectionsResult result = DirectionsApi.newRequest(context)
         .mode(TravelMode.BICYCLING)
         .origin("Town Hall, Sydney")
         .destination("Parramatta, NSW").await();
 
-    assertNotNull(routes);
-    assertNotNull(routes[0]);
-    assertEquals(TravelMode.BICYCLING, routes[0].legs[0].steps[0].travelMode);
+    assertNotNull(result.routes);
+    assertNotNull(result.routes[0]);
+    assertEquals(TravelMode.BICYCLING, result.routes[0].legs[0].steps[0].travelMode);
   }
 
   @Test
   public void testResponseTimesArePopulatedCorrectly() throws Exception {
     DateTime now = new DateTime();
-    DirectionsRoute[] routes = DirectionsApi.newRequest(context)
+    DirectionsResult result = DirectionsApi.newRequest(context)
         .mode(TravelMode.TRANSIT)
         .origin("Town Hall, Sydney")
         .destination("Parramatta, NSW")
         .departureTime(now)
         .await();
 
-    assertNotNull(routes);
-    assertNotNull(routes[0]);
-    assertNotNull(routes[0].legs);
-    assertNotNull(routes[0].legs[0]);
-    assertNotNull(routes[0].legs[0].arrivalTime);
-    assertNotNull(routes[0].legs[0].departureTime);
+    assertNotNull(result.routes);
+    assertNotNull(result.routes[0]);
+    assertNotNull(result.routes[0].legs);
+    assertNotNull(result.routes[0].legs[0]);
+    assertNotNull(result.routes[0].legs[0].arrivalTime);
+    assertNotNull(result.routes[0].legs[0].departureTime);
   }
 
   /**
    * A simple query from Toronto to Montreal.
-   * {@url http://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal}
+   *
+   * {@code http://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal}
    */
   @Test
   public void testTorontoToMontreal() throws Exception {
-    DirectionsRoute[] routes = DirectionsApi.newRequest(context)
+    DirectionsResult result = DirectionsApi.newRequest(context)
         .origin("Toronto")
         .destination("Montreal").await();
 
-    assertNotNull(routes);
+    assertNotNull(result.routes);
   }
 
   /**
    * Going from Toronto to Montreal by bicycle, avoiding highways.
-   * {@url http://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&avoid=highways&mode=bicycling}
+   *
+   * {@code http://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&avoid=highways&mode=bicycling}
    */
   @Test
   public void testTorontoToMontrealByBicycleAvoidingHighways() throws Exception {
-    DirectionsRoute[] routes = DirectionsApi.newRequest(context)
+    DirectionsResult result = DirectionsApi.newRequest(context)
         .origin("Toronto")
         .destination("Montreal")
         .avoid(RouteRestriction.HIGHWAYS)
         .mode(TravelMode.BICYCLING)
         .await();
 
-    assertNotNull(routes);
+    assertNotNull(result.routes);
   }
 
   /**
    * Brooklyn to Queens by public transport.
-   * {@url http://maps.googleapis.com/maps/api/directions/json?origin=Brooklyn&destination=Queens&departure_time=1343641500&mode=transit}
+   *
+   * {@code http://maps.googleapis.com/maps/api/directions/json?origin=Brooklyn&destination=Queens&departure_time=1343641500&mode=transit}
    */
   @Test
   public void testBrooklynToQueensByTransit() throws Exception {
-    DirectionsRoute[] routes = DirectionsApi.newRequest(context)
+    DirectionsResult result = DirectionsApi.newRequest(context)
         .origin("Brooklyn")
         .destination("Queens")
         .departureTime(new DateTime(1343641500))
         .mode(TravelMode.TRANSIT)
         .await();
 
-    assertNotNull(routes);
+    assertNotNull(result.routes);
   }
 
   /**
    * Boston to Concord, via Charlestown and Lexington.
-   * {@url http://maps.googleapis.com/maps/api/directions/json?origin=Boston,MA&destination=Concord,MA&waypoints=Charlestown,MA|Lexington,MA
+   *
+   * {@code http://maps.googleapis.com/maps/api/directions/json?origin=Boston,MA&destination=Concord,MA&waypoints=Charlestown,MA|Lexington,MA
    */
   @Test
   public void testBostonToConcordViaCharlestownAndLexignton() throws Exception {
-    DirectionsRoute[] routes = DirectionsApi.newRequest(context)
+    DirectionsResult result = DirectionsApi.newRequest(context)
         .origin("Boston,MA")
         .destination("Concord,MA")
         .waypoints("Charlestown,MA", "Lexington,MA")
         .await();
 
-    assertNotNull(routes);
+    assertNotNull(result.routes);
   }
 
   /**
    * A wine tour around Adelaide in South Australia. This shows off how to get Directions Web
    * Service API to find the shortest path amongst a set of way points.
-   * {@url http://maps.googleapis.com/maps/api/directions/json?origin=Adelaide,SA&destination=Adelaide,SA&waypoints=optimize:true|Barossa+Valley,SA|Clare,SA|Connawarra,SA|McLaren+Vale,SA}
+   *
+   * {@code http://maps.googleapis.com/maps/api/directions/json?origin=Adelaide,SA&destination=Adelaide,SA&waypoints=optimize:true|Barossa+Valley,SA|Clare,SA|Connawarra,SA|McLaren+Vale,SA}
    */
   @Test
   public void testAdelaideWineTour() throws Exception {
-    DirectionsRoute[] routes = DirectionsApi.newRequest(context)
+    DirectionsResult result = DirectionsApi.newRequest(context)
         .origin("Adelaide,SA")
         .destination("Adelaide,SA")
         .optimizeWaypoints(true)
@@ -183,46 +189,48 @@ public class DirectionsApiTest extends AuthenticatedTest {
             "McLaren Vale, SA")
         .await();
 
-    assertNotNull(routes);
-    assertEquals(1, routes.length);
+    assertNotNull(result.routes);
+    assertEquals(1, result.routes.length);
 
     // optimize:true returns the waypoint_order of the optimized route.
     // "waypoint_order": [ 1, 0, 2, 3 ]
-    assertNotNull(routes[0].waypointOrder);
-    assertEquals(1, routes[0].waypointOrder[0]);
-    assertEquals(0, routes[0].waypointOrder[1]);
-    assertEquals(2, routes[0].waypointOrder[2]);
-    assertEquals(3, routes[0].waypointOrder[3]);
+    assertNotNull(result.routes[0].waypointOrder);
+    assertEquals(1, result.routes[0].waypointOrder[0]);
+    assertEquals(0, result.routes[0].waypointOrder[1]);
+    assertEquals(2, result.routes[0].waypointOrder[2]);
+    assertEquals(3, result.routes[0].waypointOrder[3]);
   }
 
   /**
    * Toledo to Madrid, in Spain. This showcases region biasing results.
-   * {@url http://maps.googleapis.com/maps/api/directions/json?origin=Toledo&destination=Madrid&region=es}
+   *
+   * {@code http://maps.googleapis.com/maps/api/directions/json?origin=Toledo&destination=Madrid&region=es}
    */
   @Test
   public void testToledoToMadridInSpain() throws Exception {
-    DirectionsRoute[] routes = DirectionsApi.newRequest(context)
+    DirectionsResult result = DirectionsApi.newRequest(context)
         .origin("Toledo")
         .destination("Madrid")
         .region("es")
         .await();
 
-    assertNotNull(routes);
+    assertNotNull(result.routes);
   }
 
   /**
    * This is the same query above, without region biasing. It returns no routes.
-   * {@url http://maps.googleapis.com/maps/api/directions/json?origin=Toledo&destination=Madrid}
+   *
+   * {@code http://maps.googleapis.com/maps/api/directions/json?origin=Toledo&destination=Madrid}
    */
   @Test
   public void testToledoToMadridNotSpain() throws Exception {
-    DirectionsRoute[] routes = DirectionsApi.newRequest(context)
+    DirectionsResult result = DirectionsApi.newRequest(context)
         .origin("Toledo")
         .destination("Madrid")
         .await();
 
-    assertNotNull(routes);
-    assertEquals(0, routes.length);
+    assertNotNull(result.routes);
+    assertEquals(0, result.routes.length);
   }
 
   /**
@@ -230,14 +238,14 @@ public class DirectionsApiTest extends AuthenticatedTest {
    */
   @Test
   public void testLanguageParameter() throws Exception {
-    DirectionsRoute[] routes = DirectionsApi.newRequest(context)
+    DirectionsResult result = DirectionsApi.newRequest(context)
         .origin("Toledo")
         .destination("Madrid")
         .region("es")
         .language("es")
         .await();
 
-    assertNotNull(routes);
+    assertNotNull(result.routes);
   }
 
   /**
@@ -245,14 +253,14 @@ public class DirectionsApiTest extends AuthenticatedTest {
    */
   @Test
   public void testAlternatives() throws Exception {
-    DirectionsRoute[] routes = DirectionsApi.newRequest(context)
+    DirectionsResult result = DirectionsApi.newRequest(context)
         .origin("Sydney Town Hall")
         .destination("Parramatta Town Hall")
         .alternatives(true)
         .await();
 
-    assertNotNull(routes);
-    assertTrue(routes.length > 1);
+    assertNotNull(result.routes);
+    assertTrue(result.routes.length > 1);
   }
 
   /**
@@ -260,7 +268,7 @@ public class DirectionsApiTest extends AuthenticatedTest {
    */
   @Test
   public void testTrafficModel() throws Exception {
-    DirectionsRoute[] routes = DirectionsApi.newRequest(context)
+    DirectionsResult result = DirectionsApi.newRequest(context)
         .origin("Sydney Town Hall")
         .destination("Parramatta Town Hall")
         .mode(TravelMode.DRIVING)
@@ -268,7 +276,7 @@ public class DirectionsApiTest extends AuthenticatedTest {
         .trafficModel(TrafficModel.PESSIMISTIC)
         .await();
 
-    assertNotNull(routes[0].legs[0].durationInTraffic);
+    assertNotNull(result.routes[0].legs[0].durationInTraffic);
   }
 
   /**
@@ -276,7 +284,7 @@ public class DirectionsApiTest extends AuthenticatedTest {
    */
   @Test
   public void testFares() throws Exception {
-    DirectionsRoute[] routes = DirectionsApi.newRequest(context)
+    DirectionsResult result = DirectionsApi.newRequest(context)
         .origin("Fisherman's Wharf, San Francisco")
         .destination("Union Square, San Francisco")
         .mode(TravelMode.TRANSIT)
@@ -284,7 +292,7 @@ public class DirectionsApiTest extends AuthenticatedTest {
         .await();
 
     // Just in case we get a walking route or something silly
-    for (DirectionsRoute route : routes) {
+    for (DirectionsRoute route : result.routes) {
       if (route.fare.value != null && "USD".equals(route.fare.currency.getCurrencyCode())) {
         return;
       }
@@ -312,7 +320,7 @@ public class DirectionsApiTest extends AuthenticatedTest {
    */
   @Test
   public void testTransitParams() throws Exception {
-    DirectionsRoute[] routes = DirectionsApi.newRequest(context)
+    DirectionsResult result = DirectionsApi.newRequest(context)
         .origin("Fisherman's Wharf, San Francisco")
         .destination("Union Square, San Francisco")
         .mode(TravelMode.TRANSIT)
@@ -320,12 +328,12 @@ public class DirectionsApiTest extends AuthenticatedTest {
         .transitRoutingPreference(TransitRoutingPreference.LESS_WALKING)
         .await();
 
-    assertTrue(routes.length > 0);
+    assertTrue(result.routes.length > 0);
   }
 
   @Test(expected = NotFoundException.class)
   public void testNotFound() throws Exception {
-    DirectionsRoute[] routes = DirectionsApi.getDirections(context, "fksjdhgf", "faldfdaf").await();
+    DirectionsApi.getDirections(context, "fksjdhgf", "faldfdaf").await();
   }
 
   /**
@@ -333,14 +341,14 @@ public class DirectionsApiTest extends AuthenticatedTest {
    */
   @Test
   public void testTransitDetails() throws Exception {
-    DirectionsRoute[] routes = DirectionsApi.newRequest(context)
+    DirectionsResult result = DirectionsApi.newRequest(context)
         .origin("Bibliotheque Francois Mitterrand, Paris")
         .destination("Pyramides, Paris")
         .mode(TravelMode.TRANSIT)
         .departureTime(new DateTime(2015, 2, 15, 11, 0, DateTimeZone.UTC))
         .await();
 
-    DirectionsLeg testLeg = routes[0].legs[0];
+    DirectionsLeg testLeg = result.routes[0].legs[0];
 
     // Skip the initial walking steps
     int i = 0;

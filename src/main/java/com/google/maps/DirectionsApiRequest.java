@@ -18,7 +18,7 @@ package com.google.maps;
 import static com.google.maps.internal.StringJoin.join;
 
 import com.google.maps.DirectionsApi.RouteRestriction;
-import com.google.maps.model.DirectionsRoute;
+import com.google.maps.model.DirectionsResult;
 import com.google.maps.model.LatLng;
 import com.google.maps.model.TrafficModel;
 import com.google.maps.model.TransitMode;
@@ -32,7 +32,7 @@ import org.joda.time.ReadableInstant;
  * Request for the Directions API.
  */
 public class DirectionsApiRequest
-    extends PendingResultBase<DirectionsRoute[], DirectionsApiRequest, DirectionsApi.Response> {
+    extends PendingResultBase<DirectionsResult, DirectionsApiRequest, DirectionsApi.Response> {
   private boolean optimizeWaypoints;
   private String[] waypoints;
 
