@@ -23,10 +23,9 @@ package com.google.maps.model;
  */
 public class GeocodedWaypoint {
   /**
-   * {@code geocoderStatus} indicates the status code resulting from the geocoding operation. This
-   * field may contain the values {@code "OK"} or {@code "ZERO_RESULTS"}.
+   * {@code geocoderStatus} indicates the status code resulting from the geocoding operation.
    */
-  public String geocoderStatus;
+  public GeocodedWaypointStatus geocoderStatus;
 
   /**
    * {@code partialMatch} indicates that the geocoder did not return an exact match for the original

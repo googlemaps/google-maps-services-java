@@ -15,24 +15,17 @@
 
 package com.google.maps;
 
-import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
 import com.google.maps.DirectionsApi.RouteRestriction;
 import com.google.maps.errors.NotFoundException;
 import com.google.maps.model.DirectionsLeg;
 import com.google.maps.model.DirectionsResult;
 import com.google.maps.model.DirectionsRoute;
+import com.google.maps.model.GeocodedWaypointStatus;
 import com.google.maps.model.TrafficModel;
 import com.google.maps.model.TransitMode;
 import com.google.maps.model.TransitRoutingPreference;
 import com.google.maps.model.TravelMode;
 import com.google.maps.model.Unit;
-
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Duration;
@@ -40,6 +33,13 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
 import java.util.concurrent.TimeUnit;
+
+import static org.hamcrest.CoreMatchers.not;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 @Category(LargeTests.class)
 public class DirectionsApiTest extends AuthenticatedTest {
@@ -368,4 +368,23 @@ public class DirectionsApiTest extends AuthenticatedTest {
     assertNotNull(testLeg.steps[i].transitDetails.line.agencies);
     assertNotNull(testLeg.steps[i].transitDetails.line.vehicle);
   }
+
+  /**
+   * Test geocoder status.
+   */
+  @Test
+  public void testGeocodedWaypoints() throws Exception {
+    DirectionsResult result = DirectionsApi.newRequest(context)
+        .origin("48 Pirrama Rd, Pyrmont NSW")
+        .destination("Airport Dr, Sydney NSW")
+        .mode(TravelMode.DRIVING)
+        .await();
+
+    assertNotNull(result.geocodedWaypoints);
+    assertEquals(2, result.geocodedWaypoints.length);
+    assertEquals(GeocodedWaypointStatus.OK, result.geocodedWaypoints[0].geocoderStatus);
+    assertEquals(GeocodedWaypointStatus.OK, result.geocodedWaypoints[1].geocoderStatus);
+
+  }
+
 }
