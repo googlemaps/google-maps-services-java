@@ -17,6 +17,7 @@ package com.google.maps;
 
 import com.google.maps.DirectionsApi.RouteRestriction;
 import com.google.maps.errors.NotFoundException;
+import com.google.maps.model.AddressType;
 import com.google.maps.model.DirectionsLeg;
 import com.google.maps.model.DirectionsResult;
 import com.google.maps.model.DirectionsRoute;
@@ -383,7 +384,9 @@ public class DirectionsApiTest extends AuthenticatedTest {
     assertNotNull(result.geocodedWaypoints);
     assertEquals(2, result.geocodedWaypoints.length);
     assertEquals(GeocodedWaypointStatus.OK, result.geocodedWaypoints[0].geocoderStatus);
+    assertEquals(AddressType.PREMISE, result.geocodedWaypoints[0].types[0]);
     assertEquals(GeocodedWaypointStatus.OK, result.geocodedWaypoints[1].geocoderStatus);
+    assertEquals(AddressType.ROUTE, result.geocodedWaypoints[1].types[0]);
 
   }
 

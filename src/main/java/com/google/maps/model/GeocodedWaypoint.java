@@ -42,5 +42,5 @@ public class GeocodedWaypoint {
    * {@code types} indicates the address type of the geocoding result used for calculating
    * directions.
    */
-  public String types[];
+  public AddressType types[];
 }
