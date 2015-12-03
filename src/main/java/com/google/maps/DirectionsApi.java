@@ -39,17 +39,41 @@ public class DirectionsApi {
   private DirectionsApi() {
   }
 
-  public static DirectionsApiRequest newRequest(GeoApiContext context) {
-    return new DirectionsApiRequest(context);
+  public static FullDirectionsApiRequest newRequest(GeoApiContext context) {
+    return new FullDirectionsApiRequest(context);
   }
 
   public static DirectionsApiRequest getDirections(GeoApiContext context,
                                                    String origin,
                                                    String destination) {
-    return newRequest(context).origin(origin).destination(destination);
+    return new DirectionsApiRequest(context).origin(origin).destination(destination);
   }
 
-  static class Response implements ApiResponse<DirectionsResult> {
+  static class Response implements ApiResponse<DirectionsRoute[]> {
+    public String status;
+    public String errorMessage;
+    public DirectionsRoute[] routes;
+
+    @Override
+    public boolean successful() {
+      return "OK".equals(status) || "ZERO_RESULTS".equals(status);
+    }
+
+    @Override
+    public DirectionsRoute[] getResult() {
+      return routes;
+    }
+
+    @Override
+    public ApiException getError() {
+      if (successful()) {
+        return null;
+      }
+      return ApiException.from(status, errorMessage);
+    }
+  }
+
+  static class FullResponse implements ApiResponse<DirectionsResult> {
     public String status;
     public String errorMessage;
     public GeocodedWaypoint[] geocodedWaypoints;
