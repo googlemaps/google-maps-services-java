@@ -371,7 +371,7 @@ public class DirectionsApiTest extends AuthenticatedTest {
   }
 
   /**
-   * Test geocoder status.
+   * Test GeocodedWaypoints results.
    */
   @Test
   public void testGeocodedWaypoints() throws Exception {
