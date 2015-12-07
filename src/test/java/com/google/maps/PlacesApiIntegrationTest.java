@@ -135,7 +135,6 @@ public class PlacesApiIntegrationTest extends KeyOnlyAuthenticatedTest {
     assertNotNull(placeDetails.scope);
     assertEquals(PlaceIdScope.GOOGLE, placeDetails.scope);
     assertNotNull(placeDetails.types);
-    assertEquals("establishment", placeDetails.types[0]);
     assertNotNull(placeDetails.rating);
   }
 

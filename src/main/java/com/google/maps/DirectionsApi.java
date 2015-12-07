@@ -19,7 +19,9 @@ import com.google.maps.errors.ApiException;
 import com.google.maps.internal.ApiConfig;
 import com.google.maps.internal.ApiResponse;
 import com.google.maps.internal.StringJoin.UrlValue;
+import com.google.maps.model.DirectionsResult;
 import com.google.maps.model.DirectionsRoute;
+import com.google.maps.model.GeocodedWaypoint;
 
 /**
  * The Google Directions API is a service that calculates directions between locations
@@ -44,12 +46,13 @@ public class DirectionsApi {
   public static DirectionsApiRequest getDirections(GeoApiContext context,
                                                    String origin,
                                                    String destination) {
-    return newRequest(context).origin(origin).destination(destination);
+    return new DirectionsApiRequest(context).origin(origin).destination(destination);
   }
 
-  static class Response implements ApiResponse<DirectionsRoute[]> {
+  static class Response implements ApiResponse<DirectionsResult> {
     public String status;
     public String errorMessage;
+    public GeocodedWaypoint[] geocodedWaypoints;
     public DirectionsRoute[] routes;
 
     @Override
@@ -58,8 +61,11 @@ public class DirectionsApi {
     }
 
     @Override
-    public DirectionsRoute[] getResult() {
-      return routes;
+    public DirectionsResult getResult() {
+      DirectionsResult result = new DirectionsResult();
+      result.geocodedWaypoints = geocodedWaypoints;
+      result.routes = routes;
+      return result;
     }
 
     @Override

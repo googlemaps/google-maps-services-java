@@ -15,30 +15,29 @@
 
 package com.google.maps;
 
-import static com.google.maps.internal.StringJoin.join;
-
-import com.google.maps.DirectionsApi.RouteRestriction;
-import com.google.maps.model.DirectionsRoute;
+import com.google.maps.model.DirectionsResult;
 import com.google.maps.model.LatLng;
 import com.google.maps.model.TrafficModel;
 import com.google.maps.model.TransitMode;
 import com.google.maps.model.TransitRoutingPreference;
 import com.google.maps.model.TravelMode;
 import com.google.maps.model.Unit;
-
 import org.joda.time.ReadableInstant;
+
+import static com.google.maps.internal.StringJoin.join;
 
 /**
  * Request for the Directions API.
  */
 public class DirectionsApiRequest
-    extends PendingResultBase<DirectionsRoute[], DirectionsApiRequest, DirectionsApi.Response> {
-  private boolean optimizeWaypoints;
-  private String[] waypoints;
+    extends PendingResultBase<DirectionsResult, DirectionsApiRequest, DirectionsApi.Response> {
 
   DirectionsApiRequest(GeoApiContext context) {
     super(context, DirectionsApi.API_CONFIG, DirectionsApi.Response.class);
   }
+
+  protected boolean optimizeWaypoints;
+  protected String[] waypoints;
 
   @Override
   protected void validateRequest() {
@@ -107,10 +106,10 @@ public class DirectionsApiRequest
   /**
    * Indicates that the calculated route(s) should avoid the indicated features.
    *
-   * @param restrictions one or more of {@link RouteRestriction#TOLLS},
-   *     {@link RouteRestriction#HIGHWAYS}, {@link RouteRestriction#FERRIES}
+   * @param restrictions one or more of {@link DirectionsApi.RouteRestriction#TOLLS},
+   *     {@link DirectionsApi.RouteRestriction#HIGHWAYS}, {@link DirectionsApi.RouteRestriction#FERRIES}
    */
-  public DirectionsApiRequest avoid(RouteRestriction... restrictions) {
+  public DirectionsApiRequest avoid(DirectionsApi.RouteRestriction... restrictions) {
     return param("avoid", join('|', restrictions));
   }
 
@@ -218,4 +217,5 @@ public class DirectionsApiRequest
   public DirectionsApiRequest trafficModel(TrafficModel trafficModel) {
     return param("traffic_model", trafficModel);
   }
+
 }
