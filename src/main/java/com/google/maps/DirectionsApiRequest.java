@@ -20,7 +20,11 @@ import com.google.maps.model.DirectionsRoute;
 /**
  * Request for the Directions API.
  *
- * <p>This request generates an elided result with just the routes.</p>
+ * <p>
+ *   This request generates an elided result with just the routes.
+ *   For the full request, use {@link FullDirectionsApiRequest} by calling
+ *   {@link com.google.maps.DirectionsApi#newRequest(GeoApiContext)}.
+ * </p>
  */
 public class DirectionsApiRequest
     extends DirectionsApiRequestBase<DirectionsRoute[], DirectionsApiRequest, DirectionsApi.Response> {

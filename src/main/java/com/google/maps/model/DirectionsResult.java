@@ -33,7 +33,7 @@ public class DirectionsResult {
   public GeocodedWaypoint geocodedWaypoints[];
 
   /**
-   * routes contains an array of routes from the origin to the destination. See
+   * {@code routes} contains an array of routes from the origin to the destination. See
    * <a href="https://developers.google.com/maps/documentation/directions/intro#Routes">Routes</a>
    * for more detail.
    */

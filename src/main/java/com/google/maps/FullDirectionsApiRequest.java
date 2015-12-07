@@ -19,7 +19,11 @@ import com.google.maps.model.DirectionsResult;
 /**
  * Request for the Directions API.
  *
- * <p>This request generates a full result with the routes and geocoded waypoints.</p>
+ * <p>
+ *   This request generates a full result with the routes and geocoded waypoints.
+ *   For just the routes, use {@link DirectionsApiRequest} by calling
+ *   {@link com.google.maps.DirectionsApi#getDirections(GeoApiContext, String, String)}.
+ * </p>
  */
 public class FullDirectionsApiRequest
     extends DirectionsApiRequestBase<DirectionsResult, FullDirectionsApiRequest, DirectionsApi.FullResponse> {
