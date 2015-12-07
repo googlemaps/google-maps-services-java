@@ -57,13 +57,13 @@ public class DirectionsApiTest extends AuthenticatedTest {
 
   @Test
   public void testGetDirections() throws Exception {
-    DirectionsRoute[] result = DirectionsApi.getDirections(context, "Sydney, AU",
+    DirectionsResult result = DirectionsApi.getDirections(context, "Sydney, AU",
         "Melbourne, AU").await();
-    assertNotNull(result);
-    assertNotNull(result[0]);
-    assertThat(result[0].overviewPolyline.decodePath().size(), not(0));
-    assertEquals("Sydney NSW, Australia", result[0].legs[0].startAddress);
-    assertEquals("Melbourne VIC, Australia", result[0].legs[0].endAddress);
+    assertNotNull(result.routes);
+    assertNotNull(result.routes[0]);
+    assertThat(result.routes[0].overviewPolyline.decodePath().size(), not(0));
+    assertEquals("Sydney NSW, Australia", result.routes[0].legs[0].startAddress);
+    assertEquals("Melbourne VIC, Australia", result.routes[0].legs[0].endAddress);
   }
 
   @Test
