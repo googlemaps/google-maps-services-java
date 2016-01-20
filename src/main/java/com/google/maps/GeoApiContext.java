@@ -223,8 +223,8 @@ public class GeoApiContext {
   }
 
   /**
-   * Sets the time limit for which retry-able errors will be retried. Defaults to 60 seconds. Set
-   * to zero to disable.
+   * Sets the cumulative time limit for which retry-able errors will be retried. Defaults to 60
+   * seconds. Set to zero to retry requests forever.
    */
   public GeoApiContext setRetryTimeout(long timeout, TimeUnit unit) {
     this.errorTimeout = unit.toMillis(timeout);
