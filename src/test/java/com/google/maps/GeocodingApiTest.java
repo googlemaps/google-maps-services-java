@@ -264,12 +264,15 @@ public class GeocodingApiTest extends AuthenticatedTest {
     assertTrue(results[0].partialMatch);
   }
 
+  /**
+   * Testing UTF8 result parsing.
+   */
   @Test
   public void testUtfResult() throws Exception {
     GeocodingResult[] results = GeocodingApi.newRequest(context)
-        .components(ComponentFilter.postalCode("96766"))
+        .latlng(new LatLng(46.8023388,1.6551867))
         .await();
 
-    assertEquals("Līhuʻe, HI 96766, USA", results[0].formattedAddress);
+    assertEquals("1 Rue Fernand Raynaud, 36000 Châteauroux, France", results[0].formattedAddress);
   }
 }
