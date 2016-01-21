@@ -1,7 +1,8 @@
 language: java
 jdk:
 - oraclejdk7
-- openjdk7
+# TODO(https://github.com/travis-ci/travis-ci/issues/5227): add back in once working
+# - openjdk7
 notifications:
   email:
   - mdr-eng@google.com
