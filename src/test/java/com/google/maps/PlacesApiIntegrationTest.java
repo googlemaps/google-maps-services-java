@@ -202,4 +202,14 @@ public class PlacesApiIntegrationTest extends KeyOnlyAuthenticatedTest {
     assertEquals("Sacré-Cœur", details.name);
   }
 
+  @Test
+  public void testPlaceTextSearchPermanentlyClosed() throws Exception {
+    PlacesSearchResponse response = PlacesApi.textSearchQuery(context, "ABC Learning Centres in australia").await();
+    assertNotNull(response);
+    PlacesSearchResult result = response.results[0];
+    assertNotNull(result);
+    assertEquals("ABC Learning Centre", result.name);
+    assertEquals(true, result.permanentlyClosed);
+  }
+
 }
