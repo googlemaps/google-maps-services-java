@@ -65,4 +65,6 @@ public class PlacesSearchResult {
   /** vicinity contains a feature name of a nearby location. */
   public String vicinity;
 
+  /** permanentlyClosed is a boolean flag indicating whether the place has permanently shut down. */
+  public boolean permanentlyClosed;
 }

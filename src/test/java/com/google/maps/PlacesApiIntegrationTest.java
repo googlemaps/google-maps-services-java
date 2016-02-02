@@ -92,13 +92,6 @@ public class PlacesApiIntegrationTest extends KeyOnlyAuthenticatedTest {
     assertNotNull(placeDetails.name);
     assertEquals("Google", placeDetails.name);
 
-    // Opening Hours
-    assertNotNull(placeDetails.openingHours);
-    assertNotNull(placeDetails.openingHours.openNow);
-    assertNotNull(placeDetails.openingHours.periods);
-    assertNotNull(placeDetails.openingHours.weekdayText);
-    assertNotNull(placeDetails.utcOffset);
-
     // Sydney can be either UTC+10 or UTC+11
     assertTrue(placeDetails.utcOffset == 600 || placeDetails.utcOffset == 660);
 
@@ -199,4 +192,24 @@ public class PlacesApiIntegrationTest extends KeyOnlyAuthenticatedTest {
     assertNotNull(response2.nextPageToken);
 
   }
+
+  @Test
+  public void testPlaceDetailsInFrench() throws Exception {
+    PlaceDetails details = PlacesApi.placeDetails(context, "ChIJ442GNENu5kcRGYUrvgqHw88").language("fr").await();
+    assertNotNull(details);
+    assertEquals("ChIJ442GNENu5kcRGYUrvgqHw88", details.placeId);
+    assertEquals("35 Rue du Chevalier de la Barre, 75018 Paris, France", details.formattedAddress);
+    assertEquals("Sacré-Cœur", details.name);
+  }
+
+  @Test
+  public void testPlaceTextSearchPermanentlyClosed() throws Exception {
+    PlacesSearchResponse response = PlacesApi.textSearchQuery(context, "ABC Learning Centres in australia").await();
+    assertNotNull(response);
+    PlacesSearchResult result = response.results[0];
+    assertNotNull(result);
+    assertEquals("ABC Learning Centre", result.name);
+    assertEquals(true, result.permanentlyClosed);
+  }
+
 }
