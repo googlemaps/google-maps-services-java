@@ -195,9 +195,11 @@ public class PlacesApiIntegrationTest extends KeyOnlyAuthenticatedTest {
 
   @Test
   public void testPlaceDetailsInFrench() throws Exception {
-    PlaceDetails details = PlacesApi.placeDetails(context, "ChIJixLu7DBu5kcRQnIpA2tErS8").language("fr").await();
+    PlaceDetails details = PlacesApi.placeDetails(context, "ChIJ442GNENu5kcRGYUrvgqHw88").language("fr").await();
     assertNotNull(details);
-    assertEquals("ChIJixLu7DBu5kcRQnIpA2tErS8", details.placeId);
-    assertEquals("8 Rue de Londres, 75009 Paris, France", details.formattedAddress);
+    assertEquals("ChIJ442GNENu5kcRGYUrvgqHw88", details.placeId);
+    assertEquals("35 Rue du Chevalier de la Barre, 75018 Paris, France", details.formattedAddress);
+    assertEquals("Sacré-Cœur", details.name);
   }
+
 }
