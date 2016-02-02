@@ -92,13 +92,6 @@ public class PlacesApiIntegrationTest extends KeyOnlyAuthenticatedTest {
     assertNotNull(placeDetails.name);
     assertEquals("Google", placeDetails.name);
 
-    // Opening Hours
-    assertNotNull(placeDetails.openingHours);
-    assertNotNull(placeDetails.openingHours.openNow);
-    assertNotNull(placeDetails.openingHours.periods);
-    assertNotNull(placeDetails.openingHours.weekdayText);
-    assertNotNull(placeDetails.utcOffset);
-
     // Sydney can be either UTC+10 or UTC+11
     assertTrue(placeDetails.utcOffset == 600 || placeDetails.utcOffset == 660);
 
