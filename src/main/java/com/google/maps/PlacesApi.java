@@ -15,6 +15,8 @@
 
 package com.google.maps;
 
+import com.google.maps.model.LatLng;
+
 /**
  * Performs a text search for places. The Google Places API enables you to get data from the same
  * database used by Google Maps and Google+ Local. Places features more than 100 million businesses
@@ -27,6 +29,15 @@ package com.google.maps;
 public class PlacesApi {
 
   private PlacesApi() {
+  }
+
+  /**
+   * Perform a search for nearby Places.
+   */
+  public static NearbySearchRequest nearbySearchQuery(GeoApiContext context, LatLng location) {
+    NearbySearchRequest request = new NearbySearchRequest(context);
+    request.location(location);
+    return request;
   }
 
   /**

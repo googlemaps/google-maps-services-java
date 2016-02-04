@@ -26,7 +26,7 @@ import com.google.maps.errors.OverQueryLimitException;
 import com.google.maps.model.*;
 import com.google.maps.model.PlaceDetails.Review.AspectRating.RatingType;
 import com.google.maps.model.OpeningHours.Period.OpenClose.DayOfWeek;
-import com.google.maps.model.PlaceDetails.PriceLevel;
+import com.google.maps.model.PriceLevel;
 
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Callback;
@@ -194,6 +194,7 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
     }
   }
 
+  @SuppressWarnings("unchecked")
   private T parseResponse(OkHttpPendingResult<T, R> request, Response response) throws Exception {
     if (RETRY_ERROR_CODES.contains(response.code()) && cumulativeSleepTime < errorTimeOut) {
         // Retry is a blocking method, but that's OK. If we're here, we're either in an await()

@@ -19,10 +19,7 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.maps.errors.ApiException;
 import com.google.maps.internal.ApiConfig;
 import com.google.maps.internal.ApiResponse;
-import com.google.maps.model.LatLng;
-import com.google.maps.model.PlaceDetails;
-import com.google.maps.model.PlacesSearchResponse;
-import com.google.maps.model.PlacesSearchResult;
+import com.google.maps.model.*;
 
 /**
  * A <a href="https://developers.google.com/places/web-service/search#TextSearchRequests">Text Search</a> request.
@@ -64,15 +61,22 @@ public class TextSearchRequest
   /**
    * minPrice restricts to places that are at least this price level.
    */
-  public TextSearchRequest minPrice(PlaceDetails.PriceLevel priceLevel) {
+  public TextSearchRequest minPrice(PriceLevel priceLevel) {
     return param("minprice", priceLevel);
   }
 
   /**
    * maxPrice restricts to places that are at most this price level.
    */
-  public TextSearchRequest maxPrice(PlaceDetails.PriceLevel priceLevel) {
+  public TextSearchRequest maxPrice(PriceLevel priceLevel) {
     return param("maxprice", priceLevel);
+  }
+
+  /**
+   * name is one or more terms to be matched against the names of places, separated with a space character.
+   */
+  public TextSearchRequest name(String name) {
+    return param("name", name);
   }
 
   /**
@@ -88,6 +92,13 @@ public class TextSearchRequest
    */
   public TextSearchRequest pageToken(String nextPageToken) {
     return param("pagetoken", nextPageToken);
+  }
+
+  /**
+   * rankby specifies the order in which results are listed.
+   */
+  public TextSearchRequest rankby(Rankby ranking) {
+    return param("rankby", ranking);
   }
 
   @Override

@@ -21,7 +21,7 @@ import com.google.maps.model.OpeningHours.Period;
 import com.google.maps.model.OpeningHours.Period.OpenClose.DayOfWeek;
 import com.google.maps.model.Photo;
 import com.google.maps.model.PlaceDetails;
-import com.google.maps.model.PlaceDetails.PriceLevel;
+import com.google.maps.model.PriceLevel;
 import com.google.maps.model.PlaceDetails.Review.AspectRating.RatingType;
 import com.google.maps.model.PlaceIdScope;
 import com.google.maps.model.PlacesSearchResponse;

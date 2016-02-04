@@ -15,7 +15,6 @@
 
 package com.google.maps.model;
 
-import com.google.maps.internal.StringJoin;
 import org.joda.time.Instant;
 
 import java.net.URL;
@@ -89,35 +88,6 @@ public class PlaceDetails {
    * each alternative ID.
    */
   public AlternatePlaceIds[] altIds;
-
-  public enum PriceLevel implements StringJoin.UrlValue {
-    FREE("0"), INEXPENSIVE("1"), MODERATE("2"), EXPENSIVE("3"), VERY_EXPENSIVE("4"),
-
-    /**
-     * Indicates an unknown price level type returned by the server. The Java Client for Google Maps
-     * Services should be updated to support the new value.
-     */
-    UNKNOWN("Unknown");
-
-    private final String priceLevel;
-
-    PriceLevel(final String priceLevel) {
-      this.priceLevel = priceLevel;
-    }
-
-    @Override
-    public String toString() {
-      return priceLevel;
-    }
-
-    @Override
-    public String toUrlValue() {
-      if (this == UNKNOWN) {
-        throw new UnsupportedOperationException("Shouldn't use PriceLevel.UNKNOWN in a request.");
-      }
-      return priceLevel;
-    }
-  }
 
   /**
    * priceLevel is the price level of the place. The exact amount indicated by a specific value
