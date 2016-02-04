@@ -294,7 +294,7 @@ public class DirectionsApiTest extends AuthenticatedTest {
 
     // Just in case we get a walking route or something silly
     for (DirectionsRoute route : result.routes) {
-      if (route.fare.value != null && "USD".equals(route.fare.currency.getCurrencyCode())) {
+      if (route.fare != null && route.fare.value != null && "USD".equals(route.fare.currency.getCurrencyCode())) {
         return;
       }
     }
