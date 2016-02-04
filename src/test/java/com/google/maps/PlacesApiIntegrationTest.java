@@ -18,6 +18,7 @@ package com.google.maps;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import com.google.maps.model.Photo;
 import com.google.maps.model.PhotoResult;
@@ -206,10 +207,14 @@ public class PlacesApiIntegrationTest extends KeyOnlyAuthenticatedTest {
   public void testPlaceTextSearchPermanentlyClosed() throws Exception {
     PlacesSearchResponse response = PlacesApi.textSearchQuery(context, "ABC Learning Centres in australia").await();
     assertNotNull(response);
-    PlacesSearchResult result = response.results[0];
-    assertNotNull(result);
-    assertEquals("ABC Learning Centre", result.name);
-    assertEquals(true, result.permanentlyClosed);
+    for (PlacesSearchResult result: response.results) {
+      assertNotNull(result);
+      if(result.permanentlyClosed) {
+        // test success condition
+        return;
+      }
+    }
+    fail("No permanently closed result found.");
   }
 
 }
