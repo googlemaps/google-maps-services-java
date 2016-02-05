@@ -130,8 +130,9 @@ public class DistanceMatrixApiIntegrationTest extends AuthenticatedTest {
     for (DistanceMatrixRow row : matrix.rows) {
       for (DistanceMatrixElement cell : row.elements) {
         if (cell.fare != null) {
-          assertEquals("BRL", cell.fare.currency.getCurrencyCode());
           assertNotNull(cell.fare.value);
+          assertNotNull(cell.fare.currency);
+          assertEquals("BRL", cell.fare.currency.getCurrencyCode());
           return;
         }
       }

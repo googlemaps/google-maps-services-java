@@ -294,7 +294,10 @@ public class DirectionsApiTest extends AuthenticatedTest {
 
     // Just in case we get a walking route or something silly
     for (DirectionsRoute route : result.routes) {
-      if (route.fare != null && route.fare.value != null && "BRL".equals(route.fare.currency.getCurrencyCode())) {
+      if (route.fare != null) {
+        assertNotNull(route.fare.value);
+        assertNotNull(route.fare.currency);
+        assertEquals("BRL", route.fare.currency.getCurrencyCode());
         return;
       }
     }
