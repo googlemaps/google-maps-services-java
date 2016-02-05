@@ -15,18 +15,10 @@
 
 package com.google.maps;
 
-import com.google.maps.model.AddressComponentType;
-import com.google.maps.model.LatLng;
+import com.google.maps.model.*;
 import com.google.maps.model.OpeningHours.Period;
 import com.google.maps.model.OpeningHours.Period.OpenClose.DayOfWeek;
-import com.google.maps.model.Photo;
-import com.google.maps.model.PlaceDetails;
-import com.google.maps.model.PriceLevel;
 import com.google.maps.model.PlaceDetails.Review.AspectRating.RatingType;
-import com.google.maps.model.PlaceIdScope;
-import com.google.maps.model.PlacesSearchResponse;
-import com.google.maps.model.PlacesSearchResult;
-import com.google.maps.model.QueryAutocompletePrediction;
 import com.google.mockwebserver.MockResponse;
 import com.google.mockwebserver.MockWebServer;
 import org.apache.http.NameValuePair;
@@ -505,6 +497,75 @@ public class PlacesApiTest {
     assertParamValue(photoReference, "photoreference", actualParams);
     assertParamValue(String.valueOf(width), "maxwidth", actualParams);
     assertParamValue(String.valueOf(height), "maxheight", actualParams);
+  }
+
+  @Test
+  public void testNearbySearchRequest() throws Exception {
+    MockResponse response = new MockResponse();
+    response.setBody("");
+    server.enqueue(response);
+    server.play();
+    context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
+
+    LatLng location = new LatLng(10, 20);
+    PlacesApi.nearbySearchQuery(context, location)
+        .radius(5000)
+        .rankby(Rankby.PROMINENCE)
+        .keyword("keyword")
+        .language("en")
+        .minPrice(PriceLevel.INEXPENSIVE)
+        .maxPrice(PriceLevel.EXPENSIVE)
+        .name("name")
+        .openNow(true)
+        .type(PlaceType.AIRPORT)
+        .pageToken("next-page-token")
+        .awaitIgnoreError();
+
+    List<NameValuePair> actualParams =
+        parseQueryParamsFromRequestLine(server.takeRequest().getRequestLine());
+    assertParamValue(location.toUrlValue(), "location", actualParams);
+    assertParamValue("5000", "radius", actualParams);
+    assertParamValue(Rankby.PROMINENCE.toString(), "rankby", actualParams);
+    assertParamValue("keyword", "keyword", actualParams);
+    assertParamValue("en", "language", actualParams);
+    assertParamValue(PriceLevel.INEXPENSIVE.toString(), "minprice", actualParams);
+    assertParamValue(PriceLevel.EXPENSIVE.toString(), "maxprice", actualParams);
+    assertParamValue("name", "name", actualParams);
+    assertParamValue("true", "opennow", actualParams);
+    assertParamValue(PlaceType.AIRPORT.toString(), "type", actualParams);
+    assertParamValue("next-page-token", "pagetoken", actualParams);
+  }
+
+  @Test
+  public void testRadarSearchRequest() throws Exception {
+    MockResponse response = new MockResponse();
+    response.setBody("");
+    server.enqueue(response);
+    server.play();
+    context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
+
+    LatLng location = new LatLng(10, 20);
+    PlacesApi.radarSearchQuery(context, location, 5000)
+        .keyword("keyword")
+        .language("en")
+        .minPrice(PriceLevel.INEXPENSIVE)
+        .maxPrice(PriceLevel.EXPENSIVE)
+        .name("name")
+        .openNow(true)
+        .type(PlaceType.AIRPORT)
+        .awaitIgnoreError();
+
+    List<NameValuePair> actualParams =
+        parseQueryParamsFromRequestLine(server.takeRequest().getRequestLine());
+    assertParamValue(location.toUrlValue(), "location", actualParams);
+    assertParamValue("5000", "radius", actualParams);
+    assertParamValue("keyword", "keyword", actualParams);
+    assertParamValue("en", "language", actualParams);
+    assertParamValue(PriceLevel.INEXPENSIVE.toString(), "minprice", actualParams);
+    assertParamValue(PriceLevel.EXPENSIVE.toString(), "maxprice", actualParams);
+    assertParamValue("name", "name", actualParams);
+    assertParamValue("true", "opennow", actualParams);
+    assertParamValue(PlaceType.AIRPORT.toString(), "type", actualParams);
   }
 
   // TODO(brettmorgan): find a home for these utility methods

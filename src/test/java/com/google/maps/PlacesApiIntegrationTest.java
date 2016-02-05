@@ -259,4 +259,36 @@ public class PlacesApiIntegrationTest extends KeyOnlyAuthenticatedTest {
     assertNotNull(response2.nextPageToken);
   }
 
+  @Test
+  public void testRadarSearchRequestByKeyword() throws Exception {
+    PlacesSearchResponse response = PlacesApi.radarSearchQuery(context, SYDNEY, 10000)
+        .keyword("pub").await();
+    assertNotNull(response);
+    assertNotNull(response.results);
+    assertEquals(200, response.results.length);
+  }
+
+  @Test
+  public void testRadarSearchRequestByName() throws Exception {
+    PlacesSearchResponse response = PlacesApi.radarSearchQuery(context, SYDNEY, 10000)
+        .name("Sydney Town Hall").await();
+    assertNotNull(response);
+    assertNotNull(response.results);
+    String placeId = response.results[0].placeId;
+    assertNotNull(placeId);
+
+    PlaceDetails placeDetails = PlacesApi.placeDetails(context, placeId).await();
+    assertNotNull(placeDetails);
+    assertEquals("Sydney Town Hall", placeDetails.name);
+  }
+
+  @Test
+  public void testRadarSearchRequestByType() throws Exception {
+    PlacesSearchResponse response = PlacesApi.radarSearchQuery(context, SYDNEY, 10000)
+        .type(PlaceType.BAR).await();
+    assertNotNull(response);
+    assertNotNull(response.results);
+    assertEquals(200, response.results.length);
+  }
+
 }
