@@ -8,7 +8,7 @@ Java Client for Google Maps Services
 Use Java? Want to [geocode][Geocoding API] something? Looking for [directions][Directions API]?
 Maybe [matrices of directions][Distance Matrix API]? This library brings the [Google Maps API Web
 Services] to your server-side Java application.
-![Analytics](https://ga-beacon.appspot.com/UA-12846745-20/google-maps-services-java/readme?pixel)
+![Analytics](https://maps-ga-beacon.appspot.com/UA-12846745-20/google-maps-services-java/readme?pixel)
 
 The Java Client for Google Maps Services is a Java Client library for the following Google Maps
 APIs:
