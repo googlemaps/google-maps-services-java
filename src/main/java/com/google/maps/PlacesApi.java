@@ -33,10 +33,28 @@ public class PlacesApi {
 
   /**
    * Perform a search for nearby Places.
+   * @param context The context on which to make Geo API requests.
+   * @param location The latitude/longitude around which to retrieve place information.
+   * @return Returns a NearbySearchRequest that can  be configured and executed.
    */
   public static NearbySearchRequest nearbySearchQuery(GeoApiContext context, LatLng location) {
     NearbySearchRequest request = new NearbySearchRequest(context);
     request.location(location);
+    return request;
+  }
+
+  /**
+   * Retrieve the next page of Text Search results. The nextPageToken, returned in a PlaceSearchResponse
+   * when there are more pages of results, encodes all of the original Text Search Request parameters, and are thus
+   * not required on this call.
+   *
+   * @param context The context on which to make Geo API requests.
+   * @param nextPageToken The nextPageToken returned as part of a PlaceSearchResponse.
+   * @return Returns a TextSearchRequest that can be executed.
+   */
+  public static NearbySearchRequest nearbySearchNextPage(GeoApiContext context, String nextPageToken) {
+    NearbySearchRequest request = new NearbySearchRequest(context);
+    request.pageToken(nextPageToken);
     return request;
   }
 
@@ -66,6 +84,13 @@ public class PlacesApi {
   public static TextSearchRequest textSearchNextPage(GeoApiContext context, String nextPageToken) {
     TextSearchRequest request = new TextSearchRequest(context);
     request.pageToken(nextPageToken);
+    return request;
+  }
+
+  public static RadarSearchRequest radarSearchQuery(GeoApiContext context, LatLng location, int radius) {
+    RadarSearchRequest request = new RadarSearchRequest(context);
+    request.location(location);
+    request.radius(radius);
     return request;
   }
 

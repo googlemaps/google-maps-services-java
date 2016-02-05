@@ -88,27 +88,44 @@ public class NearbySearchRequest extends PendingResultBase<PlacesSearchResponse,
     return param("opennow", String.valueOf(openNow));
   }
 
+  /**
+   * pageToken returns the next 20 results from a previously run search. Setting a pageToken parameter will execute a
+   * search with the same parameters used previously — all parameters other than pageToken will be ignored.
+   */
+  public NearbySearchRequest pageToken(String nextPageToken) {
+    return param("pagetoken", nextPageToken);
+  }
+
+  /**
+   * type ...
+   */
+  public NearbySearchRequest type(PlaceType type) {
+    return param("type", type);
+  }
+
   @Override
   protected void validateRequest() {
 
-    // radius must not be included if rankby=distance
-    if (params().containsKey("rankby") &&
-        params().get("rankby").equals(Rankby.DISTANCE.toString()) &&
-        params().containsKey("radius")) {
-      throw new IllegalArgumentException("Request must not contain radius with rankby=distance");
-    }
+    // If pagetoken is included, all other parameters are ignored.
+    if (!params().containsKey("pagetoken")) {
 
-    // If rankby=DISTANCE is specified, then one or more of keyword, name, or types is required.
-    if (params().containsKey("rankby") &&
-        params().get("rankby").equals(Rankby.DISTANCE.toString()) &&
-        !params().containsKey("keyword") &&
-        !params().containsKey("name") &&
-        !params().containsKey("types")) {
-      throw new IllegalArgumentException("With rankby=distance is specified, then one or more of keyword, name, or types is required");
-    }
+      // radius must not be included if rankby=distance
+      if (params().containsKey("rankby") &&
+          params().get("rankby").equals(Rankby.DISTANCE.toString()) &&
+          params().containsKey("radius")) {
+        throw new IllegalArgumentException("Request must not contain radius with rankby=distance");
+      }
 
+      // If rankby=distance is specified, then one or more of keyword, name, or type is required.
+      if (params().containsKey("rankby") &&
+          params().get("rankby").equals(Rankby.DISTANCE.toString()) &&
+          !params().containsKey("keyword") &&
+          !params().containsKey("name") &&
+          !params().containsKey("type")) {
+        throw new IllegalArgumentException("With rankby=distance is specified, then one or more of keyword, name, or type is required");
+      }
+    }
   }
-
 
   public class Response implements ApiResponse<PlacesSearchResponse> {
 
