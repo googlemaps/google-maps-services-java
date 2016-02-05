@@ -286,15 +286,18 @@ public class DirectionsApiTest extends AuthenticatedTest {
   @Test
   public void testFares() throws Exception {
     DirectionsResult result = DirectionsApi.newRequest(context)
-        .origin("Fisherman's Wharf, San Francisco")
-        .destination("Union Square, San Francisco")
+        .origin("Parada República 2, Brazil")
+        .destination("Praça Pres. Kenedy, Santo André - SP, Brazil")
         .mode(TravelMode.TRANSIT)
         .departureTime(new DateTime(2015, 1, 1, 19, 0, DateTimeZone.UTC))
         .await();
 
     // Just in case we get a walking route or something silly
     for (DirectionsRoute route : result.routes) {
-      if (route.fare != null && route.fare.value != null && "USD".equals(route.fare.currency.getCurrencyCode())) {
+      if (route.fare != null) {
+        assertNotNull(route.fare.value);
+        assertNotNull(route.fare.currency);
+        assertEquals("BRL", route.fare.currency.getCurrencyCode());
         return;
       }
     }

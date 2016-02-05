@@ -119,8 +119,8 @@ public class DistanceMatrixApiIntegrationTest extends AuthenticatedTest {
   @Test
   public void testTransitData() throws Exception {
     DistanceMatrix matrix = DistanceMatrixApi.newRequest(context)
-        .origins("Fisherman's Wharf, San Francisco", "Union Square, San Francisco")
-        .destinations("Mikkeller Bar, San Francisco", "Moscone Center, San Francisco")
+        .origins("Parada República 2, Brazil")
+        .destinations("Praça Pres. Kenedy, Santo André - SP, Brazil")
         .mode(TravelMode.TRANSIT)
         .departureTime(new DateTime(2015, 1, 1, 19, 0, DateTimeZone.UTC))
         .await();
@@ -130,8 +130,9 @@ public class DistanceMatrixApiIntegrationTest extends AuthenticatedTest {
     for (DistanceMatrixRow row : matrix.rows) {
       for (DistanceMatrixElement cell : row.elements) {
         if (cell.fare != null) {
-          assertEquals("USD", cell.fare.currency.getCurrencyCode());
           assertNotNull(cell.fare.value);
+          assertNotNull(cell.fare.currency);
+          assertEquals("BRL", cell.fare.currency.getCurrencyCode());
           return;
         }
       }
