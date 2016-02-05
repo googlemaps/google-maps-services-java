@@ -20,12 +20,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import com.google.maps.model.Photo;
-import com.google.maps.model.PhotoResult;
-import com.google.maps.model.PlaceDetails;
-import com.google.maps.model.PlaceIdScope;
-import com.google.maps.model.PlacesSearchResponse;
-import com.google.maps.model.PlacesSearchResult;
+import com.google.maps.model.*;
 
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -40,6 +35,8 @@ import javax.imageio.ImageIO;
 @Category(LargeTests.class)
 public class PlacesApiIntegrationTest extends KeyOnlyAuthenticatedTest {
   public static final String GOOGLE_SYDNEY = "ChIJN1t_tDeuEmsRUsoyG83frY4";
+  public static final LatLng SYDNEY = new LatLng(-33.8650, 151.2094);
+  public static final long TWO_SECONDS = 2 * 1000;
 
   public PlacesApiIntegrationTest(GeoApiContext context) {
     this.context = context
@@ -215,6 +212,51 @@ public class PlacesApiIntegrationTest extends KeyOnlyAuthenticatedTest {
       }
     }
     fail("No permanently closed result found.");
+  }
+
+  @Test
+  public void testNearbySearchRequestByKeyword() throws Exception {
+    PlacesSearchResponse response = PlacesApi.nearbySearchQuery(context, SYDNEY)
+        .radius(10000).keyword("pub").await();
+    assertNotNull(response);
+    assertNotNull(response.results);
+    assertEquals(20, response.results.length);
+  }
+
+  @Test
+  public void testNearbySearchRequestByName() throws Exception {
+    PlacesSearchResponse response = PlacesApi.nearbySearchQuery(context, SYDNEY)
+        .radius(10000).name("Sydney Town Hall").await();
+    assertNotNull(response);
+    assertNotNull(response.results);
+    assertEquals("Sydney Town Hall", response.results[0].name);
+  }
+
+  @Test
+  public void testNearbySearchRequestByType() throws Exception {
+    PlacesSearchResponse response = PlacesApi.nearbySearchQuery(context, SYDNEY)
+        .radius(10000).type(PlaceType.BAR).await();
+    assertNotNull(response);
+    assertNotNull(response.results);
+    assertEquals(20, response.results.length);
+  }
+
+  @Test
+  public void testNearbySearchRequestNextPage() throws Exception {
+    PlacesSearchResponse response = PlacesApi.nearbySearchQuery(context, SYDNEY)
+        .radius(10000).type(PlaceType.BAR).await();
+    assertNotNull(response);
+    assertNotNull(response.results);
+    assertEquals(20, response.results.length);
+    assertNotNull(response.nextPageToken);
+
+    Thread.sleep(TWO_SECONDS);
+
+    PlacesSearchResponse response2 = PlacesApi.nearbySearchNextPage(context, response.nextPageToken).await();
+    assertNotNull(response2);
+    assertNotNull(response2.results);
+    assertEquals(20, response2.results.length);
+    assertNotNull(response2.nextPageToken);
   }
 
 }
