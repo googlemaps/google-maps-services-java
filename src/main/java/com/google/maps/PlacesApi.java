@@ -87,6 +87,15 @@ public class PlacesApi {
     return request;
   }
 
+  /**
+   *Perform a radar search for up to 200 places, but with less detail than is returned from Text Search or
+   * Nearby Search.
+   *
+   * @param context The context on which to make Geo API requests.
+   * @param location The location around which to retrieve place information.
+   * @param radius The distance in meters within which to return place results.
+   * @return Returns a RadarSearchRequest that can be configured and executed.
+   */
   public static RadarSearchRequest radarSearchQuery(GeoApiContext context, LatLng location, int radius) {
     RadarSearchRequest request = new RadarSearchRequest(context);
     request.location(location);
@@ -127,6 +136,20 @@ public class PlacesApi {
   public static PhotoRequest photo(GeoApiContext context, String photoReference) {
     PhotoRequest request = new PhotoRequest(context);
     request.photoReference(photoReference);
+    return request;
+  }
+
+  /**
+   * The Place Autocomplete service can match on full words as well as substrings. Applications can therefore send
+   * queries as the user types, to provide on-the-fly place predictions.
+   *
+   * @param context The context on which to make Geo API requests.
+   * @param input input is the text string on which to search.
+   * @return Returns a PlaceAutocompleteRequest that you can configure and execute.
+   */
+  public static PlaceAutocompleteRequest placeAutocomplete(GeoApiContext context, String input) {
+    PlaceAutocompleteRequest request = new PlaceAutocompleteRequest(context);
+    request.input(input);
     return request;
   }
 

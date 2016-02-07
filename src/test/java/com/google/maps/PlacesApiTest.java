@@ -325,24 +325,24 @@ public class PlacesApiTest {
     server.play();
     context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
 
-    QueryAutocompletePrediction[] predictions = PlacesApi.queryAutocomplete(context, QUERY_AUTOCOMPLETE_INPUT).await();
+    AutocompletePrediction[] predictions = PlacesApi.queryAutocomplete(context, QUERY_AUTOCOMPLETE_INPUT).await();
 
     assertNotNull(predictions);
     assertEquals(predictions.length, 5);
 
     {
-      QueryAutocompletePrediction prediction = predictions[0];
+      AutocompletePrediction prediction = predictions[0];
       assertNotNull(prediction);
       assertNotNull(prediction.description);
       assertEquals("pizza near Paris, France", prediction.description);
 
       assertEquals(3, prediction.matchedSubstrings.length);
-      QueryAutocompletePrediction.MatchedSubstring matchedSubstring = prediction.matchedSubstrings[0];
+      AutocompletePrediction.MatchedSubstring matchedSubstring = prediction.matchedSubstrings[0];
       assertEquals(5, matchedSubstring.length);
       assertEquals(0, matchedSubstring.offset);
 
       assertEquals(4, prediction.terms.length);
-      QueryAutocompletePrediction.Term term = prediction.terms[0];
+      AutocompletePrediction.Term term = prediction.terms[0];
       assertEquals(0, term.offset);
       assertEquals("pizza", term.value);
     }
@@ -356,24 +356,24 @@ public class PlacesApiTest {
     server.play();
     context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
 
-    QueryAutocompletePrediction[] predictions = PlacesApi.queryAutocomplete(context, QUERY_AUTOCOMPLETE_INPUT).await();
+    AutocompletePrediction[] predictions = PlacesApi.queryAutocomplete(context, QUERY_AUTOCOMPLETE_INPUT).await();
 
     assertNotNull(predictions);
     assertEquals(predictions.length, 1);
 
     {
-      QueryAutocompletePrediction prediction = predictions[0];
+      AutocompletePrediction prediction = predictions[0];
       assertNotNull(prediction);
       assertNotNull(prediction.description);
       assertEquals("Bondi Pizza, Campbell Parade, Sydney, New South Wales, Australia", prediction.description);
 
       assertEquals(2, prediction.matchedSubstrings.length);
-      QueryAutocompletePrediction.MatchedSubstring matchedSubstring = prediction.matchedSubstrings[0];
+      AutocompletePrediction.MatchedSubstring matchedSubstring = prediction.matchedSubstrings[0];
       assertEquals(5, matchedSubstring.length);
       assertEquals(6, matchedSubstring.offset);
 
       assertEquals(5, prediction.terms.length);
-      QueryAutocompletePrediction.Term term = prediction.terms[0];
+      AutocompletePrediction.Term term = prediction.terms[0];
       assertEquals(0, term.offset);
       assertEquals("Bondi Pizza", term.value);
 

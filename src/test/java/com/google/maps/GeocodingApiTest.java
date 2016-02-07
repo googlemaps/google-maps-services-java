@@ -15,8 +15,8 @@
 
 package com.google.maps;
 
-import static com.google.maps.GeocodingApi.ComponentFilter.administrativeArea;
-import static com.google.maps.GeocodingApi.ComponentFilter.country;
+import static com.google.maps.ComponentFilter.administrativeArea;
+import static com.google.maps.ComponentFilter.country;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -24,7 +24,6 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import com.google.maps.GeocodingApi.ComponentFilter;
 import com.google.maps.model.AddressComponentType;
 import com.google.maps.model.AddressType;
 import com.google.maps.model.GeocodingResult;
@@ -180,7 +179,7 @@ public class GeocodingApiTest extends AuthenticatedTest {
   @Test
   public void testGeocodeWithComponentFilter() throws Exception {
     GeocodingResult[] results = GeocodingApi.newRequest(context).address("santa cruz")
-        .components(GeocodingApi.ComponentFilter.country("ES")).await();
+        .components(ComponentFilter.country("ES")).await();
 
     assertNotNull(results);
     assertEquals("Santa Cruz de Tenerife, Santa Cruz de Tenerife, Spain",
@@ -210,9 +209,9 @@ public class GeocodingApiTest extends AuthenticatedTest {
   @Test
   public void testGeocodeWithJustComponents() throws Exception {
     GeocodingResult[] results = GeocodingApi.newRequest(context).components(
-        GeocodingApi.ComponentFilter.route("Annegatan"),
-        GeocodingApi.ComponentFilter.administrativeArea("Helsinki"),
-        GeocodingApi.ComponentFilter.country("Finland")).await();
+        ComponentFilter.route("Annegatan"),
+        ComponentFilter.administrativeArea("Helsinki"),
+        ComponentFilter.country("Finland")).await();
 
     assertNotNull(results);
     assertTrue(results[0].formattedAddress.startsWith("Annegatan"));

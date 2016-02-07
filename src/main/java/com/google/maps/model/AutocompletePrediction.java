@@ -16,13 +16,13 @@
 package com.google.maps.model;
 
 /**
- * QueryAutocompletePrediction represents a single Query Autocomplete result returned from the
+ * AutocompletePrediction represents a single Autocomplete result returned from the
  * Google Places API Web Service.
  *
  * <p>Please see <a href="https://developers.google.com/places/web-service/query#query_autocomplete_responses">
  *   Query Autocomplete Responses</a> for more detail.</p>
  */
-public class QueryAutocompletePrediction {
+public class AutocompletePrediction {
 
   /**
    * Description of the matched prediction.

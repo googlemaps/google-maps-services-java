@@ -105,7 +105,7 @@ public class GeocodingApiRequest
    * <a href="https://developers.google.com/maps/documentation/geocoding/?hl=pl#ComponentFiltering">
    * Component Filtering</a>.
    */
-  public GeocodingApiRequest components(GeocodingApi.ComponentFilter... filters) {
+  public GeocodingApiRequest components(ComponentFilter... filters) {
     return param("components", join('|', filters));
   }
 
