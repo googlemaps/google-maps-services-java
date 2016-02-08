@@ -15,11 +15,7 @@
 
 package com.google.maps.internal;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 import com.google.maps.MediumTests;
-
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
@@ -28,6 +24,9 @@ import java.util.Date;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 @Category(MediumTests.class)
 public class RateLimitExecutorServiceTest {

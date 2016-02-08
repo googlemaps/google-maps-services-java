@@ -15,16 +15,15 @@
 
 package com.google.maps.internal;
 
-import static com.google.maps.model.LatLngAssert.assertEquals;
-import static org.junit.Assert.assertEquals;
-
 import com.google.maps.SmallTests;
 import com.google.maps.model.LatLng;
-
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
 import java.util.List;
+
+import static com.google.maps.model.LatLngAssert.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Test case for {@link PolylineEncoding}.

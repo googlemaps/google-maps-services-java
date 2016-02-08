@@ -15,10 +15,21 @@
 
 package com.google.maps;
 
-import com.google.maps.model.*;
+import com.google.maps.model.AddressComponentType;
+import com.google.maps.model.AutocompletePrediction;
+import com.google.maps.model.ComponentFilter;
+import com.google.maps.model.LatLng;
 import com.google.maps.model.OpeningHours.Period;
 import com.google.maps.model.OpeningHours.Period.OpenClose.DayOfWeek;
+import com.google.maps.model.Photo;
+import com.google.maps.model.PlaceDetails;
 import com.google.maps.model.PlaceDetails.Review.AspectRating.RatingType;
+import com.google.maps.model.PlaceIdScope;
+import com.google.maps.model.PlaceType;
+import com.google.maps.model.PlacesSearchResponse;
+import com.google.maps.model.PlacesSearchResult;
+import com.google.maps.model.PriceLevel;
+import com.google.maps.model.Rankby;
 import com.google.mockwebserver.MockResponse;
 import com.google.mockwebserver.MockWebServer;
 import org.apache.http.NameValuePair;
@@ -34,7 +45,11 @@ import java.net.URI;
 import java.util.List;
 import java.util.Scanner;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 public class PlacesApiTest {
 

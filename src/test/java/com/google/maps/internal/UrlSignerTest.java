@@ -15,14 +15,12 @@
 
 package com.google.maps.internal;
 
-import static org.junit.Assert.assertEquals;
-
 import com.google.maps.SmallTests;
-
 import okio.ByteString;
-
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Test case for {@link UrlSigner}.

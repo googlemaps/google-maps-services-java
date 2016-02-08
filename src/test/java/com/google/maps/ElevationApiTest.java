@@ -21,12 +21,12 @@ import com.google.maps.model.EncodedPolyline;
 import com.google.maps.model.LatLng;
 import com.google.mockwebserver.MockResponse;
 import com.google.mockwebserver.MockWebServer;
-
 import org.junit.After;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 @Category(MediumTests.class)
 public class ElevationApiTest {
@@ -76,6 +76,6 @@ public class ElevationApiTest {
 
     setMockBaseUrl();
     // This should throw the RequestDeniedException
-    ElevationApi.getByPoints(context, new EncodedPolyline(Arrays.asList(new LatLng(0, 0)))).await();
+    ElevationApi.getByPoints(context, new EncodedPolyline(Collections.singletonList(new LatLng(0, 0)))).await();
   }
 }
