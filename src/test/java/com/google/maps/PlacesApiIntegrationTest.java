@@ -291,4 +291,12 @@ public class PlacesApiIntegrationTest extends KeyOnlyAuthenticatedTest {
     assertEquals(200, response.results.length);
   }
 
+  @Test
+  public void testPlaceAutocomplete() throws Exception {
+    AutocompletePrediction[] predictions = PlacesApi.placeAutocomplete(context, "Sydney Town Ha").await();
+    assertNotNull(predictions);
+    assertTrue(predictions.length > 0);
+    assertTrue(predictions[0].description.startsWith("Sydney Town Hall"));
+  }
+
 }

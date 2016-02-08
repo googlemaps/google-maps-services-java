@@ -34,10 +34,7 @@ import java.net.URI;
 import java.util.List;
 import java.util.Scanner;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class PlacesApiTest {
 
@@ -395,7 +392,10 @@ public class PlacesApiTest {
         .radius(3000)
         .minPrice(PriceLevel.INEXPENSIVE)
         .maxPrice(PriceLevel.VERY_EXPENSIVE)
+        .name("name")
         .openNow(true)
+        .rankby(Rankby.DISTANCE)
+        .type(PlaceType.AIRPORT)
         .awaitIgnoreError();
 
     List<NameValuePair> actualParams = parseQueryParamsFromRequestLine(server.takeRequest().getRequestLine());
@@ -404,7 +404,29 @@ public class PlacesApiTest {
     assertParamValue(String.valueOf(3000), "radius", actualParams);
     assertParamValue(String.valueOf(1), "minprice", actualParams);
     assertParamValue(String.valueOf(4), "maxprice", actualParams);
+    assertParamValue("name", "name", actualParams);
     assertParamValue("true", "opennow", actualParams);
+    assertParamValue(Rankby.DISTANCE.toString(), "rankby", actualParams);
+    assertParamValue(PlaceType.AIRPORT.toString(), "type", actualParams);
+  }
+
+  @Test
+  public void testTextSearchLocationWithoutRadius() throws Exception {
+    MockResponse response = new MockResponse();
+    response.setBody("");
+    server.enqueue(response);
+    server.play();
+    context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
+
+    LatLng location = new LatLng(10, 20);
+    try {
+      PlacesApi.textSearchQuery(context, "query")
+          .location(location)
+          .await();
+      fail("Must throw exception for invalid parameter combination");
+    } catch (IllegalArgumentException e) {
+      // Expected behaviour
+    }
   }
 
   @Test
@@ -537,6 +559,45 @@ public class PlacesApiTest {
   }
 
   @Test
+  public void testNearbySearchRadiusAndRankbyDistance() throws Exception {
+    MockResponse response = new MockResponse();
+    response.setBody("");
+    server.enqueue(response);
+    server.play();
+    context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
+
+    LatLng location = new LatLng(10, 20);
+    try {
+      PlacesApi.nearbySearchQuery(context, location)
+          .radius(5000)
+          .rankby(Rankby.DISTANCE)
+          .await();
+      fail("Must throw exception for invalid parameter combination");
+    } catch (IllegalArgumentException e) {
+      // Expected behaviour
+    }
+  }
+
+  @Test
+  public void testNearbySearchRankbyDistanceWithoutKeywordNameOrType() throws Exception {
+    MockResponse response = new MockResponse();
+    response.setBody("");
+    server.enqueue(response);
+    server.play();
+    context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
+
+    LatLng location = new LatLng(10, 20);
+    try {
+      PlacesApi.nearbySearchQuery(context, location)
+          .rankby(Rankby.DISTANCE)
+          .await();
+      fail("Must throw exception for invalid parameter combination");
+    } catch (IllegalArgumentException e) {
+      // Expected behaviour
+    }
+  }
+
+  @Test
   public void testRadarSearchRequest() throws Exception {
     MockResponse response = new MockResponse();
     response.setBody("");
@@ -566,6 +627,51 @@ public class PlacesApiTest {
     assertParamValue("name", "name", actualParams);
     assertParamValue("true", "opennow", actualParams);
     assertParamValue(PlaceType.AIRPORT.toString(), "type", actualParams);
+  }
+
+  @Test
+  public void testRadarSearchLocationWithoutKeywordNameOrType() throws Exception {
+    MockResponse response = new MockResponse();
+    response.setBody("");
+    server.enqueue(response);
+    server.play();
+    context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
+
+    LatLng location = new LatLng(10, 20);
+    try {
+      PlacesApi.radarSearchQuery(context, location, 5000)
+          .await();
+      fail("Must throw exception for invalid parameter combination");
+    } catch (IllegalArgumentException e) {
+      // Expected behaviour
+    }
+  }
+
+  @Test
+  public void testPlaceAutocompleteRequest() throws Exception {
+    MockResponse response = new MockResponse();
+    response.setBody("");
+    server.enqueue(response);
+    server.play();
+    context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
+
+    LatLng location = new LatLng(10, 20);
+    PlacesApi.placeAutocomplete(context, "Sydney Town Hall")
+        .offset(4)
+        .location(location)
+        .radius(5000)
+        .type(PlaceType.AIRPORT)
+        .components(ComponentFilter.country("AU"))
+        .awaitIgnoreError();
+
+    List<NameValuePair> actualParams =
+        parseQueryParamsFromRequestLine(server.takeRequest().getRequestLine());
+    assertParamValue("Sydney Town Hall", "input", actualParams);
+    assertParamValue(Integer.toString(4), "offset", actualParams);
+    assertParamValue(location.toUrlValue(), "location", actualParams);
+    assertParamValue("5000", "radius", actualParams);
+    assertParamValue(PlaceType.AIRPORT.toString(), "type", actualParams);
+    assertParamValue(ComponentFilter.country("AU").toString(), "components", actualParams);
   }
 
   // TODO(brettmorgan): find a home for these utility methods
