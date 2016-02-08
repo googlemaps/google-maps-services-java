@@ -22,7 +22,6 @@ import com.google.maps.internal.ExceptionResult;
 import com.google.maps.internal.OkHttpPendingResult;
 import com.google.maps.internal.RateLimitExecutorService;
 import com.google.maps.internal.UrlSigner;
-
 import com.squareup.okhttp.Dispatcher;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -90,7 +89,7 @@ public class GeoApiContext {
 
     boolean channelSet = false;
     for (int i = 0; i < params.length; i++) {
-      if(params[i]=="channel"){
+      if(params[i].equals("channel")){
         channelSet = true;
       }
       query.append('&').append(params[i]).append('=');
@@ -105,7 +104,7 @@ public class GeoApiContext {
     }
 
     // Channel can be supplied per-request or per-context. We prioritize it from the request, so if it's not provided there, provide it here
-    if (channelSet == false && channel != null && !channel.isEmpty()) {
+    if (!channelSet && channel != null && !channel.isEmpty()) {
       query.append("&channel=").append(channel);
     }
 

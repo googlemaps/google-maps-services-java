@@ -15,8 +15,6 @@
 
 package com.google.maps;
 
-import static com.google.maps.internal.StringJoin.join;
-
 import com.google.maps.errors.ApiException;
 import com.google.maps.internal.ApiConfig;
 import com.google.maps.internal.ApiResponse;
@@ -24,6 +22,8 @@ import com.google.maps.internal.PolylineEncoding;
 import com.google.maps.model.ElevationResult;
 import com.google.maps.model.EncodedPolyline;
 import com.google.maps.model.LatLng;
+
+import static com.google.maps.internal.StringJoin.join;
 
 /**
  * <p>The Google Elevation API provides you a simple interface to query locations

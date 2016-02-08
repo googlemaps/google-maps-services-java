@@ -15,8 +15,6 @@
 
 package com.google.maps;
 
-import static com.google.maps.internal.StringJoin.join;
-
 import com.google.gson.FieldNamingPolicy;
 import com.google.maps.errors.ApiError;
 import com.google.maps.errors.ApiException;
@@ -26,6 +24,8 @@ import com.google.maps.model.LatLng;
 import com.google.maps.model.SnappedPoint;
 import com.google.maps.model.SnappedSpeedLimitResponse;
 import com.google.maps.model.SpeedLimit;
+
+import static com.google.maps.internal.StringJoin.join;
 
 /**
  * The Google Maps Roads API identifies the roads a vehicle was traveling along and provides

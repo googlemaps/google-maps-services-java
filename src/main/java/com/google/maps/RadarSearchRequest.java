@@ -19,7 +19,11 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.maps.errors.ApiException;
 import com.google.maps.internal.ApiConfig;
 import com.google.maps.internal.ApiResponse;
-import com.google.maps.model.*;
+import com.google.maps.model.LatLng;
+import com.google.maps.model.PlaceType;
+import com.google.maps.model.PlacesSearchResponse;
+import com.google.maps.model.PlacesSearchResult;
+import com.google.maps.model.PriceLevel;
 
 public class RadarSearchRequest
     extends PendingResultBase<PlacesSearchResponse, RadarSearchRequest, RadarSearchRequest.Response> {

@@ -19,7 +19,12 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.maps.errors.ApiException;
 import com.google.maps.internal.ApiConfig;
 import com.google.maps.internal.ApiResponse;
-import com.google.maps.model.*;
+import com.google.maps.model.LatLng;
+import com.google.maps.model.PlaceType;
+import com.google.maps.model.PlacesSearchResponse;
+import com.google.maps.model.PlacesSearchResult;
+import com.google.maps.model.PriceLevel;
+import com.google.maps.model.Rankby;
 
 /**
  * A <a href="https://developers.google.com/places/web-service/search#PlaceSearchRequests">Nearby
