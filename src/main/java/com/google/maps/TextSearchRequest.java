@@ -102,7 +102,7 @@ public class TextSearchRequest
   }
 
   /**
-   * type ...
+   * TODO(brettmorgan): document type
    */
   public TextSearchRequest type(PlaceType type) {
     return param("type", type);

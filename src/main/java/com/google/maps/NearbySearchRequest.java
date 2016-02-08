@@ -97,7 +97,7 @@ public class NearbySearchRequest extends PendingResultBase<PlacesSearchResponse,
   }
 
   /**
-   * type ...
+   * TODO(brettmorgan): document type
    */
   public NearbySearchRequest type(PlaceType type) {
     return param("type", type);
@@ -107,23 +107,24 @@ public class NearbySearchRequest extends PendingResultBase<PlacesSearchResponse,
   protected void validateRequest() {
 
     // If pagetoken is included, all other parameters are ignored.
-    if (!params().containsKey("pagetoken")) {
+    if (params().containsKey("pagetoken")) {
+      return;
+    }
 
-      // radius must not be included if rankby=distance
-      if (params().containsKey("rankby") &&
-          params().get("rankby").equals(Rankby.DISTANCE.toString()) &&
-          params().containsKey("radius")) {
-        throw new IllegalArgumentException("Request must not contain radius with rankby=distance");
-      }
+    // radius must not be included if rankby=distance
+    if (params().containsKey("rankby") &&
+        params().get("rankby").equals(Rankby.DISTANCE.toString()) &&
+        params().containsKey("radius")) {
+      throw new IllegalArgumentException("Request must not contain radius with rankby=distance");
+    }
 
-      // If rankby=distance is specified, then one or more of keyword, name, or type is required.
-      if (params().containsKey("rankby") &&
-          params().get("rankby").equals(Rankby.DISTANCE.toString()) &&
-          !params().containsKey("keyword") &&
-          !params().containsKey("name") &&
-          !params().containsKey("type")) {
-        throw new IllegalArgumentException("With rankby=distance is specified, then one or more of keyword, name, or type is required");
-      }
+    // If rankby=distance is specified, then one or more of keyword, name, or type is required.
+    if (params().containsKey("rankby") &&
+        params().get("rankby").equals(Rankby.DISTANCE.toString()) &&
+        !params().containsKey("keyword") &&
+        !params().containsKey("name") &&
+        !params().containsKey("type")) {
+      throw new IllegalArgumentException("With rankby=distance is specified, then one or more of keyword, name, or type is required");
     }
   }
 

@@ -74,9 +74,8 @@ public class PlaceAutocompleteRequest
   }
 
   /**
-   * type ...
+   * TODO(brettmorgan): document type
    */
-
   public PlaceAutocompleteRequest type(PlaceType type) {
     return param("type", type);
   }

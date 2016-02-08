@@ -85,7 +85,7 @@ public class RadarSearchRequest
   }
 
   /**
-   * type ...
+   * TODO(brettmorgan): document type
    */
   public RadarSearchRequest type(PlaceType type) {
     return param("type", type);
