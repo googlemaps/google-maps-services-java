@@ -43,13 +43,14 @@ public class RadarSearchRequest
   }
 
   /**
-   * radius defines the distance (in meters) within which to bias place results.
+   * radius defines the distance (in meters) within which to return place results. The maximum allowed radius is
+   * 50,000 meters. Note that radius must not be included if rankby=DISTANCE is specified.
    */
-  public RadarSearchRequest radius(int radius) {
-    if (radius > 50000) {
+  public RadarSearchRequest radius(int distance) {
+    if (distance > 50000) {
       throw new IllegalArgumentException("The maximum allowed radius is 50,000 meters.");
     }
-    return param("radius", String.valueOf(radius));
+    return param("radius", String.valueOf(distance));
   }
 
   /**

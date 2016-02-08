@@ -48,11 +48,14 @@ public class NearbySearchRequest
   }
 
   /**
-   * radius defines the DISTANCE (in meters) within which to return place results. The maximum allowed radius is
+   * radius defines the distance (in meters) within which to return place results. The maximum allowed radius is
    * 50,000 meters. Note that radius must not be included if rankby=DISTANCE is specified.
    */
   public NearbySearchRequest radius(int distance) {
-    return param("radius", Integer.toString(distance));
+    if (distance > 50000) {
+      throw new IllegalArgumentException("The maximum allowed radius is 50,000 meters.");
+    }
+    return param("radius", String.valueOf(distance));
   }
 
   /**

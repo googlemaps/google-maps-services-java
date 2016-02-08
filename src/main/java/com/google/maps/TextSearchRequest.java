@@ -117,16 +117,17 @@ public class TextSearchRequest
   protected void validateRequest() {
 
     // All other parameters are ignored if pagetoken is specified.
-    if (!params().containsKey("pagetoken")) {
+    if (params().containsKey("pagetoken")) {
+      return;
+    }
 
-      if (!params().containsKey("query")) {
-        throw new IllegalArgumentException("Request must contain 'query' or a 'pageToken'.");
-      }
+    if (!params().containsKey("query")) {
+      throw new IllegalArgumentException("Request must contain 'query' or a 'pageToken'.");
+    }
 
-      if (params().containsKey("location") && !params().containsKey("radius")) {
-        throw new IllegalArgumentException(
-            "Request must contain 'radius' parameter when it contains a 'location' parameter.");
-      }
+    if (params().containsKey("location") && !params().containsKey("radius")) {
+      throw new IllegalArgumentException(
+          "Request must contain 'radius' parameter when it contains a 'location' parameter.");
     }
   }
 
