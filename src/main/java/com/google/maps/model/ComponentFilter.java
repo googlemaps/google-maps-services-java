@@ -29,8 +29,8 @@ import static com.google.maps.internal.StringJoin.join;
  * Component Filtering</a> for more detail.
  */
 public class ComponentFilter implements StringJoin.UrlValue {
-  private final String component;
-  private final String value;
+  public final String component;
+  public final String value;
 
   ComponentFilter(String component, String value) {
     this.component = component;

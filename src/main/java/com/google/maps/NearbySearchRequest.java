@@ -21,7 +21,12 @@ import com.google.maps.internal.ApiConfig;
 import com.google.maps.internal.ApiResponse;
 import com.google.maps.model.*;
 
-public class NearbySearchRequest extends PendingResultBase<PlacesSearchResponse, NearbySearchRequest, NearbySearchRequest.Response> {
+/**
+ * A <a href="https://developers.google.com/places/web-service/search#PlaceSearchRequests">Nearby
+ * Search</a> request.
+ */
+public class NearbySearchRequest
+    extends PendingResultBase<PlacesSearchResponse, NearbySearchRequest, NearbySearchRequest.Response> {
 
   static final ApiConfig API_CONFIG = new ApiConfig("/maps/api/place/nearbysearch/json")
       .fieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
