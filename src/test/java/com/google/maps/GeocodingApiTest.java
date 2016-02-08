@@ -15,8 +15,8 @@
 
 package com.google.maps;
 
-import static com.google.maps.ComponentFilter.administrativeArea;
-import static com.google.maps.ComponentFilter.country;
+import static com.google.maps.model.ComponentFilter.administrativeArea;
+import static com.google.maps.model.ComponentFilter.country;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -24,11 +24,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import com.google.maps.model.AddressComponentType;
-import com.google.maps.model.AddressType;
-import com.google.maps.model.GeocodingResult;
-import com.google.maps.model.LatLng;
-import com.google.maps.model.LocationType;
+import com.google.maps.model.*;
 
 import org.junit.Test;
 import org.junit.experimental.categories.Category;

@@ -18,10 +18,7 @@ package com.google.maps;
 import static com.google.maps.internal.StringJoin.join;
 
 import com.google.maps.internal.ApiConfig;
-import com.google.maps.model.AddressType;
-import com.google.maps.model.GeocodingResult;
-import com.google.maps.model.LatLng;
-import com.google.maps.model.LocationType;
+import com.google.maps.model.*;
 
 /**
  * Request for the Geocoding API.
