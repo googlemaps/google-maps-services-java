@@ -107,7 +107,7 @@ public class TextSearchRequest
   }
 
   /**
-   * TODO(brettmorgan): document type
+   * type restricts the results to places matching the specified type.
    */
   public TextSearchRequest type(PlaceType type) {
     return param("type", type);

@@ -110,7 +110,7 @@ public class NearbySearchRequest
   }
 
   /**
-   * TODO(brettmorgan): document type
+   * type restricts the results to places matching the specified type.
    */
   public NearbySearchRequest type(PlaceType type) {
     return param("type", type);

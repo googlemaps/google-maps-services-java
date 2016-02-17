@@ -90,7 +90,7 @@ public class RadarSearchRequest
   }
 
   /**
-   * TODO(brettmorgan): document type
+   * type restricts the results to places matching the specified type.
    */
   public RadarSearchRequest type(PlaceType type) {
     return param("type", type);

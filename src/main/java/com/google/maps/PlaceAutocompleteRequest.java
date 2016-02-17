@@ -74,7 +74,7 @@ public class PlaceAutocompleteRequest
   }
 
   /**
-   * TODO(brettmorgan): document type
+   * type restricts the results to places matching the specified type.
    */
   public PlaceAutocompleteRequest type(PlaceType type) {
     return param("type", type);

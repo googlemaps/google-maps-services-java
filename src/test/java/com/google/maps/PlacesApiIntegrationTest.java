@@ -271,7 +271,7 @@ public class PlacesApiIntegrationTest extends KeyOnlyAuthenticatedTest {
         .keyword("pub").await();
     assertNotNull(response);
     assertNotNull(response.results);
-    assertEquals(200, response.results.length);
+    assertTrue(175 < response.results.length);
   }
 
   @Test
