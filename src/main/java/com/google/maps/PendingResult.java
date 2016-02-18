@@ -23,36 +23,35 @@ package com.google.maps;
 public interface PendingResult<T> {
 
   /**
-   * Performs the request asynchronously, calling onResult or onFailure after
-   * the request has been completed.
+   * Performs the request asynchronously, calling onResult or onFailure after the request has been
+   * completed.
    */
-  public void setCallback(Callback<T> callback);
+  void setCallback(Callback<T> callback);
 
   /**
    * Performs the request synchronously.
    *
    * @return The result.
-   * @throws Exception
    */
-  public T await() throws Exception;
+  T await() throws Exception;
 
   /**
-   * Performs the request synchronously, ignoring exceptions
-   * while performing the request and errors returned by the server.
+   * Performs the request synchronously, ignoring exceptions while performing the request and errors
+   * returned by the server.
    *
    * @return The result, or null if there was any error or exception ignored.
    */
-  public T awaitIgnoreError();
+  T awaitIgnoreError();
 
   /**
    * Attempt to cancel the request.
    */
-  public void cancel();
+  void cancel();
 
   /**
    * The callback interface the API client code needs to implement to handle API results.
    */
-  public interface Callback<T> {
+  interface Callback<T> {
 
     /**
      * Called when the request was successfully completed.

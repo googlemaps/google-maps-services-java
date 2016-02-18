@@ -118,7 +118,8 @@ public class RateLimitExecutorService implements ExecutorService, Runnable {
 
   private static ThreadFactory threadFactory(final String name, final boolean daemon) {
     return new ThreadFactory() {
-      @Override public Thread newThread(Runnable runnable) {
+      @Override
+      public Thread newThread(Runnable runnable) {
         Thread result = new Thread(runnable, name);
         result.setDaemon(daemon);
         return result;
@@ -181,13 +182,13 @@ public class RateLimitExecutorService implements ExecutorService, Runnable {
 
   @Override
   public <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> callables, long l,
-      TimeUnit timeUnit) throws InterruptedException {
+                                       TimeUnit timeUnit) throws InterruptedException {
     return delegate.invokeAll(callables, l, timeUnit);
   }
 
   @Override
   public <T> T invokeAny(Collection<? extends Callable<T>> callables) throws InterruptedException,
-  ExecutionException {
+      ExecutionException {
     return delegate.invokeAny(callables);
   }
 

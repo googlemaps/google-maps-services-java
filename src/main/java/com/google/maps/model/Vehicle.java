@@ -29,9 +29,9 @@ public class Vehicle {
   public String name;
 
   /**
-   * {@code type} contains the type of vehicle that runs on this line. See the
-   * {@link com.google.maps.model.VehicleType VehicleType} documentation for a complete list of
-   * supported values.
+   * {@code type} contains the type of vehicle that runs on this line. See the {@link
+   * com.google.maps.model.VehicleType VehicleType} documentation for a complete list of supported
+   * values.
    */
   public VehicleType type;
 

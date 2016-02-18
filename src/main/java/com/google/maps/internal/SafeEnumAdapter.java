@@ -28,6 +28,7 @@ import java.util.logging.Logger;
  * A {@link com.google.gson.TypeAdapter} that maps case-insensitive values to an enum type. If the
  * value is not found, an UNKNOWN value is returned, and logged. This allows the server to return
  * values this client doesn't yet know about.
+ *
  * @param <E> the enum type to map values to.
  */
 public class SafeEnumAdapter<E extends Enum<E>> extends TypeAdapter<E> {

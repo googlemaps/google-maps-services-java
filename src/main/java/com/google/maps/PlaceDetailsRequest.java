@@ -22,7 +22,8 @@ import com.google.maps.internal.ApiResponse;
 import com.google.maps.model.PlaceDetails;
 
 /**
- * A <a href="https://developers.google.com/places/web-service/details#PlaceDetailsRequests">Place Details</a> request.
+ * A <a href="https://developers.google.com/places/web-service/details#PlaceDetailsRequests">Place
+ * Details</a> request.
  */
 public class PlaceDetailsRequest
     extends PendingResultBase<PlaceDetails, PlaceDetailsRequest, PlaceDetailsRequest.Response> {
@@ -34,7 +35,9 @@ public class PlaceDetailsRequest
     super(context, API_CONFIG, Response.class);
   }
 
-  /** Get the Place Details for the specified Place ID. Required. */
+  /**
+   * Get the Place Details for the specified Place ID. Required.
+   */
   public PlaceDetailsRequest placeId(String placeId) {
     return param("placeid", placeId);
   }

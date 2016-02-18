@@ -24,9 +24,9 @@ import java.util.Locale;
  * calculating as driving directions by default.
  *
  * @see <a href="https://developers.google.com/maps/documentation/directions/#TravelModes">
- *   Directions API travel modes</a>
+ * Directions API travel modes</a>
  * @see <a href="https://developers.google.com/maps/documentation/distancematrix/#RequestParameters">
- *   Distance Matrix API travel modes</a>
+ * Distance Matrix API travel modes</a>
  */
 public enum TravelMode implements UrlValue {
   DRIVING, WALKING, BICYCLING, TRANSIT,

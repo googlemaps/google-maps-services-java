@@ -15,6 +15,8 @@
 
 package com.google.maps;
 
+import static com.google.maps.internal.StringJoin.join;
+
 import com.google.maps.model.DirectionsResult;
 import com.google.maps.model.LatLng;
 import com.google.maps.model.TrafficModel;
@@ -22,9 +24,8 @@ import com.google.maps.model.TransitMode;
 import com.google.maps.model.TransitRoutingPreference;
 import com.google.maps.model.TravelMode;
 import com.google.maps.model.Unit;
-import org.joda.time.ReadableInstant;
 
-import static com.google.maps.internal.StringJoin.join;
+import org.joda.time.ReadableInstant;
 
 /**
  * Request for the Directions API.
@@ -59,9 +60,9 @@ public class DirectionsApiRequest
   }
 
   /**
-   * The address or textual latitude/longitude value from which you wish to calculate directions.
-   * If you pass an address as a string, the Directions service will geocode the string and convert
-   * it to a latitude/longitude coordinate to calculate directions. If you pass coordinates, ensure
+   * The address or textual latitude/longitude value from which you wish to calculate directions. If
+   * you pass an address as a string, the Directions service will geocode the string and convert it
+   * to a latitude/longitude coordinate to calculate directions. If you pass coordinates, ensure
    * that no space exists between the latitude and longitude values.
    */
   public DirectionsApiRequest origin(String origin) {
@@ -69,9 +70,9 @@ public class DirectionsApiRequest
   }
 
   /**
-   * The address or textual latitude/longitude value from which you wish to calculate directions.
-   * If you pass an address as a string, the Directions service will geocode the string and convert
-   * it to a latitude/longitude coordinate to calculate directions. If you pass coordinates, ensure
+   * The address or textual latitude/longitude value from which you wish to calculate directions. If
+   * you pass an address as a string, the Directions service will geocode the string and convert it
+   * to a latitude/longitude coordinate to calculate directions. If you pass coordinates, ensure
    * that no space exists between the latitude and longitude values.
    */
   public DirectionsApiRequest destination(String destination) {
@@ -106,8 +107,8 @@ public class DirectionsApiRequest
   /**
    * Indicates that the calculated route(s) should avoid the indicated features.
    *
-   * @param restrictions one or more of {@link DirectionsApi.RouteRestriction#TOLLS},
-   *     {@link DirectionsApi.RouteRestriction#HIGHWAYS}, {@link DirectionsApi.RouteRestriction#FERRIES}
+   * @param restrictions one or more of {@link DirectionsApi.RouteRestriction#TOLLS}, {@link
+   *                     DirectionsApi.RouteRestriction#HIGHWAYS}, {@link DirectionsApi.RouteRestriction#FERRIES}
    */
   public DirectionsApiRequest avoid(DirectionsApi.RouteRestriction... restrictions) {
     return param("avoid", join('|', restrictions));
@@ -137,9 +138,9 @@ public class DirectionsApiRequest
   }
 
   /**
-   * Set the departure time for a transit or driving directions request. If both departure time
-   * and traffic model are not provided, then "now" is assumed. If traffic model is supplied,
-   * then departure time must be specified.
+   * Set the departure time for a transit or driving directions request. If both departure time and
+   * traffic model are not provided, then "now" is assumed. If traffic model is supplied, then
+   * departure time must be specified.
    *
    * @param time The departure time to calculate directions for.
    */
@@ -149,12 +150,11 @@ public class DirectionsApiRequest
 
   /**
    * Specifies a list of waypoints. Waypoints alter a route by routing it through the specified
-   * location(s). A waypoint is specified as either a latitude/longitude coordinate or as an
-   * address which will be geocoded. Waypoints are only supported for driving, walking and
-   * bicycling directions.
+   * location(s). A waypoint is specified as either a latitude/longitude coordinate or as an address
+   * which will be geocoded. Waypoints are only supported for driving, walking and bicycling
+   * directions.
    *
-   * <p>For more information on waypoints, see
-   * <a href="https://developers.google.com/maps/documentation/directions/#Waypoints">
+   * <p>For more information on waypoints, see <a href="https://developers.google.com/maps/documentation/directions/#Waypoints">
    * Using Waypoints in Routes</a>.
    */
   public DirectionsApiRequest waypoints(String... waypoints) {
@@ -202,9 +202,8 @@ public class DirectionsApiRequest
   }
 
   /**
-   * Specifies preferences for transit requests. Using this parameter,
-   * you can bias the options returned, rather than accepting the default best route chosen by
-   * the API.
+   * Specifies preferences for transit requests. Using this parameter, you can bias the options
+   * returned, rather than accepting the default best route chosen by the API.
    */
   public DirectionsApiRequest transitRoutingPreference(TransitRoutingPreference pref) {
     return param("transit_routing_preference", pref);

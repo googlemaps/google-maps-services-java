@@ -23,10 +23,11 @@ import org.junit.runners.Parameterized.Parameters;
 import java.util.Collection;
 
 /**
- * A specific authenticated test that will never attempt to use client ID and secret credentials
- * to run.
+ * A specific authenticated test that will never attempt to use client ID and secret credentials to
+ * run.
  */
-@RunWith(Parameterized.class) @Ignore
+@RunWith(Parameterized.class)
+@Ignore
 public class KeyOnlyAuthenticatedTest extends AuthenticatedTest {
   protected KeyOnlyAuthenticatedTest() {
   }

@@ -43,7 +43,7 @@ public class DistanceMatrixApiIntegrationTest extends AuthenticatedTest {
   private GeoApiContext context;
 
   public DistanceMatrixApiIntegrationTest(GeoApiContext context) {
-   this.context = context
+    this.context = context
         .setConnectTimeout(1, TimeUnit.SECONDS)
         .setReadTimeout(1, TimeUnit.SECONDS)
         .setWriteTimeout(1, TimeUnit.SECONDS);
@@ -51,12 +51,12 @@ public class DistanceMatrixApiIntegrationTest extends AuthenticatedTest {
 
   @Test
   public void testGetDistanceMatrixWithBasicStringParams() throws Exception {
-    String[] origins = new String[] {
+    String[] origins = new String[]{
         "Perth, Australia", "Sydney, Australia", "Melbourne, Australia",
         "Adelaide, Australia", "Brisbane, Australia", "Darwin, Australia",
         "Hobart, Australia", "Canberra, Australia"
     };
-    String[] destinations = new String[] {
+    String[] destinations = new String[]{
         "Uluru, Australia", "Kakadu, Australia", "Blue Mountains, Australia",
         "Bungle Bungles, Australia", "The Pinnacles, Australia"
     };
@@ -71,12 +71,12 @@ public class DistanceMatrixApiIntegrationTest extends AuthenticatedTest {
 
   @Test
   public void testNewRequestWithAllPossibleParams() throws Exception {
-    String[] origins = new String[] {
+    String[] origins = new String[]{
         "Perth, Australia", "Sydney, Australia", "Melbourne, Australia",
         "Adelaide, Australia", "Brisbane, Australia", "Darwin, Australia",
         "Hobart, Australia", "Canberra, Australia"
     };
-    String[] destinations = new String[] {
+    String[] destinations = new String[]{
         "Uluru, Australia", "Kakadu, Australia", "Blue Mountains, Australia",
         "Bungle Bungles, Australia", "The Pinnacles, Australia"
     };

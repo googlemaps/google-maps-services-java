@@ -20,9 +20,13 @@ package com.google.maps.model;
  */
 public class SnappedSpeedLimitResponse {
 
-  /** Speed limit results. */
+  /**
+   * Speed limit results.
+   */
   public SpeedLimit[] speedLimits;
 
-  /** Snap-to-road results. */
+  /**
+   * Snap-to-road results.
+   */
   public SnappedPoint[] snappedPoints;
 }
