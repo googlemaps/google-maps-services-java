@@ -15,6 +15,11 @@
 
 package com.google.maps;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import com.google.maps.model.AutocompletePrediction;
 import com.google.maps.model.LatLng;
 import com.google.maps.model.Photo;
@@ -24,19 +29,16 @@ import com.google.maps.model.PlaceIdScope;
 import com.google.maps.model.PlaceType;
 import com.google.maps.model.PlacesSearchResponse;
 import com.google.maps.model.PlacesSearchResult;
+
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.net.URI;
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import javax.imageio.ImageIO;
 
 @Category(LargeTests.class)
 public class PlacesApiIntegrationTest extends KeyOnlyAuthenticatedTest {
@@ -185,7 +187,7 @@ public class PlacesApiIntegrationTest extends KeyOnlyAuthenticatedTest {
     // The returned page token is not valid for a couple of seconds.
     try {
       Thread.sleep(3 * 1000); // 3 seconds
-    } catch(InterruptedException ex) {
+    } catch (InterruptedException ex) {
       Thread.currentThread().interrupt();
     }
 
@@ -210,9 +212,9 @@ public class PlacesApiIntegrationTest extends KeyOnlyAuthenticatedTest {
   public void testPlaceTextSearchPermanentlyClosed() throws Exception {
     PlacesSearchResponse response = PlacesApi.textSearchQuery(context, "ABC Learning Centres in australia").await();
     assertNotNull(response);
-    for (PlacesSearchResult result: response.results) {
+    for (PlacesSearchResult result : response.results) {
       assertNotNull(result);
-      if(result.permanentlyClosed) {
+      if (result.permanentlyClosed) {
         // test success condition
         return;
       }

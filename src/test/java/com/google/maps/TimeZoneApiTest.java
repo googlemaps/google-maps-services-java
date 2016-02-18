@@ -15,9 +15,15 @@
 
 package com.google.maps;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
 import com.google.maps.errors.ZeroResultsException;
 import com.google.maps.model.GeocodingResult;
 import com.google.maps.model.LatLng;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -25,11 +31,6 @@ import org.junit.experimental.categories.Category;
 import java.util.Date;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 
 @Category(LargeTests.class)
 public class TimeZoneApiTest extends AuthenticatedTest {

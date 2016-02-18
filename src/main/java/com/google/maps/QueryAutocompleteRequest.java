@@ -70,7 +70,8 @@ public class QueryAutocompleteRequest
 
   /**
    * radius is the distance (in meters) within which to return place results. Note that setting a
-   * radius biases results to the indicated area, but may not fully restrict results to the specified area.
+   * radius biases results to the indicated area, but may not fully restrict results to the
+   * specified area.
    */
   public QueryAutocompleteRequest radius(int radius) {
     return param("radius", String.valueOf(radius));

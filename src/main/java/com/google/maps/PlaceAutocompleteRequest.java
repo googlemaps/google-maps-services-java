@@ -15,6 +15,8 @@
 
 package com.google.maps;
 
+import static com.google.maps.internal.StringJoin.join;
+
 import com.google.gson.FieldNamingPolicy;
 import com.google.maps.errors.ApiException;
 import com.google.maps.internal.ApiConfig;
@@ -23,8 +25,6 @@ import com.google.maps.model.AutocompletePrediction;
 import com.google.maps.model.ComponentFilter;
 import com.google.maps.model.LatLng;
 import com.google.maps.model.PlaceType;
-
-import static com.google.maps.internal.StringJoin.join;
 
 /**
  * A <a href="https://developers.google.com/places/web-service/autocomplete#place_autocomplete_requests">Place
@@ -67,7 +67,8 @@ public class PlaceAutocompleteRequest
 
   /**
    * radius is the distance (in meters) within which to return place results. Note that setting a
-   * radius biases results to the indicated area, but may not fully restrict results to the specified area.
+   * radius biases results to the indicated area, but may not fully restrict results to the
+   * specified area.
    */
   public PlaceAutocompleteRequest radius(int radius) {
     return param("radius", String.valueOf(radius));
@@ -81,8 +82,8 @@ public class PlaceAutocompleteRequest
   }
 
   /**
-   * Components is a grouping of places to which you would like to restrict your results. Currently, you can use
-   * components to filter by country.
+   * Components is a grouping of places to which you would like to restrict your results. Currently,
+   * you can use components to filter by country.
    */
   public PlaceAutocompleteRequest components(ComponentFilter... filters) {
     return param("components", join('|', filters));

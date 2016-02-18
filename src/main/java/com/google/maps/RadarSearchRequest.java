@@ -43,8 +43,9 @@ public class RadarSearchRequest
   }
 
   /**
-   * radius defines the distance (in meters) within which to return place results. The maximum allowed radius is
-   * 50,000 meters. Note that radius must not be included if rankby=DISTANCE is specified.
+   * radius defines the distance (in meters) within which to return place results. The maximum
+   * allowed radius is 50,000 meters. Note that radius must not be included if rankby=DISTANCE is
+   * specified.
    */
   public RadarSearchRequest radius(int distance) {
     if (distance > 50000) {
@@ -54,8 +55,9 @@ public class RadarSearchRequest
   }
 
   /**
-   * keyword is a term to be matched against all content that Google has indexed for this place, including but not
-   * limited to name, type, and address, as well as customer reviews and other third-party content.
+   * keyword is a term to be matched against all content that Google has indexed for this place,
+   * including but not limited to name, type, and address, as well as customer reviews and other
+   * third-party content.
    */
   public RadarSearchRequest keyword(String keyword) {
     return param("keyword", keyword);
@@ -76,7 +78,8 @@ public class RadarSearchRequest
   }
 
   /**
-   * name is one or more terms to be matched against the names of places, separated with a space character.
+   * name is one or more terms to be matched against the names of places, separated with a space
+   * character.
    */
   public RadarSearchRequest name(String name) {
     return param("name", name);

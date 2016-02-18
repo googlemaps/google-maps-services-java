@@ -27,10 +27,11 @@ import com.google.maps.model.PriceLevel;
 import com.google.maps.model.RankBy;
 
 /**
- * A <a href="https://developers.google.com/places/web-service/search#TextSearchRequests">Text Search</a> request.
+ * A <a href="https://developers.google.com/places/web-service/search#TextSearchRequests">Text
+ * Search</a> request.
  */
 public class TextSearchRequest
-    extends PendingResultBase<PlacesSearchResponse, TextSearchRequest, TextSearchRequest.Response>{
+    extends PendingResultBase<PlacesSearchResponse, TextSearchRequest, TextSearchRequest.Response> {
 
   static final ApiConfig API_CONFIG = new ApiConfig("/maps/api/place/textsearch/json")
       .fieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
@@ -78,7 +79,8 @@ public class TextSearchRequest
   }
 
   /**
-   * name is one or more terms to be matched against the names of places, separated with a space character.
+   * name is one or more terms to be matched against the names of places, separated with a space
+   * character.
    */
   public TextSearchRequest name(String name) {
     return param("name", name);
@@ -92,8 +94,9 @@ public class TextSearchRequest
   }
 
   /**
-   * pageToken returns the next 20 results from a previously run search. Setting a pageToken parameter will execute a
-   * search with the same parameters used previously — all parameters other than pageToken will be ignored.
+   * pageToken returns the next 20 results from a previously run search. Setting a pageToken
+   * parameter will execute a search with the same parameters used previously — all parameters other
+   * than pageToken will be ignored.
    */
   public TextSearchRequest pageToken(String nextPageToken) {
     return param("pagetoken", nextPageToken);

@@ -15,6 +15,11 @@
 
 package com.google.maps;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import com.google.maps.model.AddressComponentType;
 import com.google.maps.model.AutocompletePrediction;
 import com.google.maps.model.ComponentFilter;
@@ -32,6 +37,7 @@ import com.google.maps.model.PriceLevel;
 import com.google.maps.model.RankBy;
 import com.google.mockwebserver.MockResponse;
 import com.google.mockwebserver.MockWebServer;
+
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.joda.time.LocalTime;
@@ -44,11 +50,6 @@ import java.io.InputStream;
 import java.net.URI;
 import java.util.List;
 import java.util.Scanner;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 public class PlacesApiTest {
 

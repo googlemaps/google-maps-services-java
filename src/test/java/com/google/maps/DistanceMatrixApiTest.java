@@ -15,9 +15,13 @@
 
 package com.google.maps;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import com.google.maps.model.LatLng;
 import com.google.mockwebserver.MockResponse;
 import com.google.mockwebserver.MockWebServer;
+
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.junit.Test;
@@ -25,9 +29,6 @@ import org.junit.experimental.categories.Category;
 
 import java.net.URI;
 import java.util.List;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 @Category(MediumTests.class)
 public class DistanceMatrixApiTest {
@@ -45,9 +46,9 @@ public class DistanceMatrixApiTest {
 
     DistanceMatrixApi.newRequest(context)
         .origins(new LatLng(-31.9522, 115.8589),
-                 new LatLng(-37.8136, 144.9631))
+            new LatLng(-37.8136, 144.9631))
         .destinations(new LatLng(-25.344677, 131.036692),
-                      new LatLng(-13.092297, 132.394057))
+            new LatLng(-13.092297, 132.394057))
         .awaitIgnoreError();
 
     List<NameValuePair> actualParams =

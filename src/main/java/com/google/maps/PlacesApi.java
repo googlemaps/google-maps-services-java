@@ -33,7 +33,8 @@ public class PlacesApi {
 
   /**
    * Perform a search for nearby Places.
-   * @param context The context on which to make Geo API requests.
+   *
+   * @param context  The context on which to make Geo API requests.
    * @param location The latitude/longitude around which to retrieve place information.
    * @return Returns a NearbySearchRequest that can  be configured and executed.
    */
@@ -44,11 +45,11 @@ public class PlacesApi {
   }
 
   /**
-   * Retrieve the next page of Text Search results. The nextPageToken, returned in a PlaceSearchResponse
-   * when there are more pages of results, encodes all of the original Text Search Request parameters, and are thus
-   * not required on this call.
+   * Retrieve the next page of Text Search results. The nextPageToken, returned in a
+   * PlaceSearchResponse when there are more pages of results, encodes all of the original Text
+   * Search Request parameters, and are thus not required on this call.
    *
-   * @param context The context on which to make Geo API requests.
+   * @param context       The context on which to make Geo API requests.
    * @param nextPageToken The nextPageToken returned as part of a PlaceSearchResponse.
    * @return Returns a TextSearchRequest that can be executed.
    */
@@ -59,11 +60,11 @@ public class PlacesApi {
   }
 
   /**
-   * Perform a search for Places using a text query — for example "pizza in New York" or
-   * "shoe stores near Ottawa".
+   * Perform a search for Places using a text query — for example "pizza in New York" or "shoe
+   * stores near Ottawa".
    *
    * @param context The context on which to make Geo API requests.
-   * @param query The text string on which to search, for example: "restaurant".
+   * @param query   The text string on which to search, for example: "restaurant".
    * @return Returns a TextSearchRequest that can  be configured and executed.
    */
   public static TextSearchRequest textSearchQuery(GeoApiContext context, String query) {
@@ -73,11 +74,11 @@ public class PlacesApi {
   }
 
   /**
-   * Retrieve the next page of Text Search results. The nextPageToken, returned in a PlaceSearchResponse
-   * when there are more pages of results, encodes all of the original Text Search Request parameters, and are thus
-   * not required on this call.
+   * Retrieve the next page of Text Search results. The nextPageToken, returned in a
+   * PlaceSearchResponse when there are more pages of results, encodes all of the original Text
+   * Search Request parameters, and are thus not required on this call.
    *
-   * @param context The context on which to make Geo API requests.
+   * @param context       The context on which to make Geo API requests.
    * @param nextPageToken The nextPageToken returned as part of a PlaceSearchResponse.
    * @return Returns a TextSearchRequest that can be executed.
    */
@@ -88,12 +89,12 @@ public class PlacesApi {
   }
 
   /**
-   * Perform a radar search for up to 200 places, but with less detail than is returned from Text Search or
-   * Nearby Search.
+   * Perform a radar search for up to 200 places, but with less detail than is returned from Text
+   * Search or Nearby Search.
    *
-   * @param context The context on which to make Geo API requests.
+   * @param context  The context on which to make Geo API requests.
    * @param location The location around which to retrieve place information.
-   * @param radius The distance in meters within which to return place results.
+   * @param radius   The distance in meters within which to return place results.
    * @return Returns a RadarSearchRequest that can be configured and executed.
    */
   public static RadarSearchRequest radarSearchQuery(GeoApiContext context, LatLng location, int radius) {
@@ -106,8 +107,9 @@ public class PlacesApi {
   /**
    * Request the details of a Place.
    *
-   * We are only enabling looking up Places by placeId as the older Place identifier - reference - is deprecated.
-   * Please see the <a href="https://developers.google.com/places/web-service/details#deprecation">deprecation warning</a>.
+   * We are only enabling looking up Places by placeId as the older Place identifier - reference -
+   * is deprecated. Please see the <a href="https://developers.google.com/places/web-service/details#deprecation">deprecation
+   * warning</a>.
    *
    * @param context The context on which to make Geo API requests.
    * @param placeId The PlaceID to request details on.
@@ -125,11 +127,11 @@ public class PlacesApi {
    *
    * <p>Note: If you want to use a Photo in a web browser, please retrieve the photos for a place
    * via our <a href="https://developers.google.com/maps/documentation/javascript/places#places_photos">
-   *   JavaScript Places Library</a>. Likewise, on Android, Places Photos  can be retrieved using the
-   *   <a href="https://developers.google.com/places/android-api/photos">Google Places API for
-   *   Android</a>.</p>
+   * JavaScript Places Library</a>. Likewise, on Android, Places Photos  can be retrieved using the
+   * <a href="https://developers.google.com/places/android-api/photos">Google Places API for
+   * Android</a>.</p>
    *
-   * @param context The context on which to make Geo API requests.
+   * @param context        The context on which to make Geo API requests.
    * @param photoReference The reference to the photo to retrieve.
    * @return Returns a PhotoRequest that you can execute.
    */
@@ -140,11 +142,11 @@ public class PlacesApi {
   }
 
   /**
-   * The Place Autocomplete service can match on full words as well as substrings. Applications can therefore send
-   * queries as the user types, to provide on-the-fly place predictions.
+   * The Place Autocomplete service can match on full words as well as substrings. Applications can
+   * therefore send queries as the user types, to provide on-the-fly place predictions.
    *
    * @param context The context on which to make Geo API requests.
-   * @param input input is the text string on which to search.
+   * @param input   input is the text string on which to search.
    * @return Returns a PlaceAutocompleteRequest that you can configure and execute.
    */
   public static PlaceAutocompleteRequest placeAutocomplete(GeoApiContext context, String input) {
@@ -154,10 +156,11 @@ public class PlacesApi {
   }
 
   /**
-   * Query Autocomplete allows you to add on-the-fly geographic query predictions to your application.
+   * Query Autocomplete allows you to add on-the-fly geographic query predictions to your
+   * application.
    *
    * @param context The context on which to make Geo API requests.
-   * @param input input is the text string on which to search.
+   * @param input   input is the text string on which to search.
    * @return Returns a QueryAutocompleteRequest that you can configure and execute.
    */
   public static QueryAutocompleteRequest queryAutocomplete(GeoApiContext context, String input) {

@@ -48,8 +48,9 @@ public class NearbySearchRequest
   }
 
   /**
-   * radius defines the distance (in meters) within which to return place results. The maximum allowed radius is
-   * 50,000 meters. Note that radius must not be included if rankby=DISTANCE is specified.
+   * radius defines the distance (in meters) within which to return place results. The maximum
+   * allowed radius is 50,000 meters. Note that radius must not be included if rankby=DISTANCE is
+   * specified.
    */
   public NearbySearchRequest radius(int distance) {
     if (distance > 50000) {
@@ -66,8 +67,9 @@ public class NearbySearchRequest
   }
 
   /**
-   * keyword is a term to be matched against all content that Google has indexed for this place, including but not
-   * limited to name, type, and address, as well as customer reviews and other third-party content.
+   * keyword is a term to be matched against all content that Google has indexed for this place,
+   * including but not limited to name, type, and address, as well as customer reviews and other
+   * third-party content.
    */
   public NearbySearchRequest keyword(String keyword) {
     return param("keyword", keyword);
@@ -88,7 +90,8 @@ public class NearbySearchRequest
   }
 
   /**
-   * name is one or more terms to be matched against the names of places, separated with a space character.
+   * name is one or more terms to be matched against the names of places, separated with a space
+   * character.
    */
   public NearbySearchRequest name(String name) {
     return param("name", name);
@@ -102,8 +105,9 @@ public class NearbySearchRequest
   }
 
   /**
-   * pageToken returns the next 20 results from a previously run search. Setting a pageToken parameter will execute a
-   * search with the same parameters used previously — all parameters other than pageToken will be ignored.
+   * pageToken returns the next 20 results from a previously run search. Setting a pageToken
+   * parameter will execute a search with the same parameters used previously — all parameters other
+   * than pageToken will be ignored.
    */
   public NearbySearchRequest pageToken(String nextPageToken) {
     return param("pagetoken", nextPageToken);

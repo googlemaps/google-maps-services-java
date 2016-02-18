@@ -15,18 +15,19 @@
 
 package com.google.maps.internal;
 
-import okio.ByteString;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
+
+import okio.ByteString;
 
 /**
  * Utility class for supporting Maps for Work Digital signatures.
  *
- * <p>See <a href="https://developers.google.com/maps/documentation/directions/get-api-key#client-id">Using a client
- * ID</a> for more detail on this protocol.
+ * <p>See <a href="https://developers.google.com/maps/documentation/directions/get-api-key#client-id">Using
+ * a client ID</a> for more detail on this protocol.
  */
 public class UrlSigner {
   private final SecretKeySpec key;

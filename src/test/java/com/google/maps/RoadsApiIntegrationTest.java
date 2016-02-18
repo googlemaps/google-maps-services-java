@@ -15,21 +15,22 @@
 
 package com.google.maps;
 
-import com.google.maps.model.LatLng;
-import com.google.maps.model.SnappedPoint;
-import com.google.maps.model.SnappedSpeedLimitResponse;
-import com.google.maps.model.SpeedLimit;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
-
-import java.util.concurrent.TimeUnit;
-
 import static org.hamcrest.CoreMatchers.either;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+
+import com.google.maps.model.LatLng;
+import com.google.maps.model.SnappedPoint;
+import com.google.maps.model.SnappedSpeedLimitResponse;
+import com.google.maps.model.SpeedLimit;
+
+import org.junit.Test;
+import org.junit.experimental.categories.Category;
+
+import java.util.concurrent.TimeUnit;
 
 @Category(LargeTests.class)
 public class RoadsApiIntegrationTest extends KeyOnlyAuthenticatedTest {
@@ -39,7 +40,7 @@ public class RoadsApiIntegrationTest extends KeyOnlyAuthenticatedTest {
     this.context = context
         .setConnectTimeout(2, TimeUnit.SECONDS)
         .setReadTimeout(2, TimeUnit.SECONDS)
-        .setWriteTimeout(2 , TimeUnit.SECONDS);
+        .setWriteTimeout(2, TimeUnit.SECONDS);
   }
 
   @Test
@@ -104,7 +105,7 @@ public class RoadsApiIntegrationTest extends KeyOnlyAuthenticatedTest {
       assertTrue(speed.speedLimit > 0);
     }
   }
-  
+
   @Test
   public void testSpeedLimitsWithUsaLatLngs() throws Exception {
     SpeedLimit[] speeds = RoadsApi.speedLimits(context,
@@ -158,7 +159,7 @@ public class RoadsApiIntegrationTest extends KeyOnlyAuthenticatedTest {
     assertEquals(7, points.length);
     assertEquals(7, speeds.length);
   }
-  
+
   @Test
   public void testSnappedSpeedLimitRequestUsa() throws Exception {
     SnappedSpeedLimitResponse response = RoadsApi.snappedSpeedLimits(context,

@@ -19,6 +19,7 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
+
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
@@ -27,8 +28,7 @@ import java.io.IOException;
 /**
  * This class handles conversion from JSON to {@link DateTime}s.
  *
- * <p>Please see
- * <a href="https://google-gson.googlecode.com/svn/trunk/gson/docs/javadocs/com/google/gson/TypeAdapter.html">TypeAdapter</a>
+ * <p>Please see <a href="https://google-gson.googlecode.com/svn/trunk/gson/docs/javadocs/com/google/gson/TypeAdapter.html">TypeAdapter</a>
  * for more detail.
  */
 public class DateTimeAdapter extends TypeAdapter<DateTime> {

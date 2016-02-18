@@ -35,11 +35,13 @@ import com.google.maps.model.PhotoResult;
 import com.google.maps.model.PlaceDetails.Review.AspectRating.RatingType;
 import com.google.maps.model.PriceLevel;
 import com.google.maps.model.TravelMode;
+
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
+
 import org.joda.time.DateTime;
 import org.joda.time.Instant;
 import org.joda.time.LocalTime;
@@ -54,8 +56,8 @@ import java.util.concurrent.BlockingQueue;
 import java.util.logging.Logger;
 
 /**
- * A PendingResult backed by a HTTP call executed by OkHttp, a deserialization step using Gson,
- * rate limiting and a retry policy.
+ * A PendingResult backed by a HTTP call executed by OkHttp, a deserialization step using Gson, rate
+ * limiting and a retry policy.
  *
  * <p>{@code T} is the type of the result of this pending result, and {@code R} is the type of the
  * request.
@@ -84,7 +86,7 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
    * @param errorTimeOut      Number of milliseconds to re-send erroring requests.
    */
   public OkHttpPendingResult(Request request, OkHttpClient client, Class<R> responseClass,
-      FieldNamingPolicy fieldNamingPolicy, long errorTimeOut) {
+                             FieldNamingPolicy fieldNamingPolicy, long errorTimeOut) {
     this.request = request;
     this.client = client;
     this.responseClass = responseClass;
@@ -203,9 +205,9 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
   @SuppressWarnings("unchecked")
   private T parseResponse(OkHttpPendingResult<T, R> request, Response response) throws Exception {
     if (RETRY_ERROR_CODES.contains(response.code()) && cumulativeSleepTime < errorTimeOut) {
-        // Retry is a blocking method, but that's OK. If we're here, we're either in an await()
-        // call, which is blocking anyway, or we're handling a callback in a separate thread.
-        return request.retry();
+      // Retry is a blocking method, but that's OK. If we're here, we're either in an await()
+      // call, which is blocking anyway, or we're handling a callback in a separate thread.
+      return request.retry();
     }
 
     byte[] bytes = getBytes(response);

@@ -27,7 +27,8 @@ import java.util.Currency;
 public class Fare {
 
   /**
-   * {@code currency} contains the currency indicating the currency that the amount is expressed in.
+   * {@code currency} contains the currency indicating the currency that the amount is expressed
+   * in.
    */
   public Currency currency;
 

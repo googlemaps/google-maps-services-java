@@ -15,6 +15,8 @@
 
 package com.google.maps;
 
+import static com.google.maps.internal.StringJoin.join;
+
 import com.google.gson.FieldNamingPolicy;
 import com.google.maps.errors.ApiError;
 import com.google.maps.errors.ApiException;
@@ -24,8 +26,6 @@ import com.google.maps.model.LatLng;
 import com.google.maps.model.SnappedPoint;
 import com.google.maps.model.SnappedSpeedLimitResponse;
 import com.google.maps.model.SpeedLimit;
-
-import static com.google.maps.internal.StringJoin.join;
 
 /**
  * The Google Maps Roads API identifies the roads a vehicle was traveling along and provides
@@ -43,35 +43,36 @@ public class RoadsApi {
       .fieldNamingPolicy(FieldNamingPolicy.IDENTITY);
 
   static final ApiConfig SPEEDS_API_CONFIG = new ApiConfig("/v1/speedLimits")
-          .hostName(API_BASE_URL)
-          .supportsClientId(false)
-          .fieldNamingPolicy(FieldNamingPolicy.IDENTITY);
+      .hostName(API_BASE_URL)
+      .supportsClientId(false)
+      .fieldNamingPolicy(FieldNamingPolicy.IDENTITY);
 
-  private RoadsApi() {}
+  private RoadsApi() {
+  }
 
   /**
-   * Takes up to 100 GPS points collected along a route, and returns a similar set of data with
-   * the points snapped to the most likely roads the vehicle was traveling along.
+   * Takes up to 100 GPS points collected along a route, and returns a similar set of data with the
+   * points snapped to the most likely roads the vehicle was traveling along.
    */
   public static PendingResult<SnappedPoint[]> snapToRoads(GeoApiContext context,
-      LatLng... path) {
+                                                          LatLng... path) {
     return context.get(ROADS_API_CONFIG, RoadsResponse.class, "path", join('|', path));
   }
 
   /**
-   * Takes up to 100 GPS points collected along a route, and returns a similar set of data with
-   * the points snapped to the most likely roads the vehicle was traveling along. Additionally,
-   * you can request that the points be interpolated, resulting in a path that smoothly follows
-   * the geometry of the road.
+   * Takes up to 100 GPS points collected along a route, and returns a similar set of data with the
+   * points snapped to the most likely roads the vehicle was traveling along. Additionally, you can
+   * request that the points be interpolated, resulting in a path that smoothly follows the geometry
+   * of the road.
    *
    * @param interpolate Whether to interpolate a path to include all points forming the full
-   * road-geometry. When true, additional interpolated points will also be returned,
-   * resulting in a path that smoothly follows the geometry of the road,
-   * even around corners and through tunnels.
-   * @param path The path to be snapped.
+   *                    road-geometry. When true, additional interpolated points will also be
+   *                    returned, resulting in a path that smoothly follows the geometry of the
+   *                    road, even around corners and through tunnels.
+   * @param path        The path to be snapped.
    */
   public static PendingResult<SnappedPoint[]> snapToRoads(GeoApiContext context,
-      boolean interpolate, LatLng... path) {
+                                                          boolean interpolate, LatLng... path) {
     return context.get(ROADS_API_CONFIG, RoadsResponse.class,
         "path", join('|', path),
         "interpolate", String.valueOf(interpolate));
@@ -98,12 +99,12 @@ public class RoadsApi {
    * incomplete, and/or outdated. Inaccuracies in our data may be reported through the <a
    * href="http://www.google.com/mapmaker">Google Map Maker</a> service.
    *
-   * @param placeIds The Place ID of the road segment. Place IDs are returned by the
-   * {@link #snapToRoads(GeoApiContext, com.google.maps.model.LatLng...)} method. You can pass up
-   * to 100 placeIds with each request.
+   * @param placeIds The Place ID of the road segment. Place IDs are returned by the {@link
+   *                 #snapToRoads(GeoApiContext, com.google.maps.model.LatLng...)} method. You can
+   *                 pass up to 100 placeIds with each request.
    */
   public static PendingResult<SpeedLimit[]> speedLimits(GeoApiContext context,
-      String... placeIds) {
+                                                        String... placeIds) {
     String[] placeParams = new String[2 * placeIds.length];
     int i = 0;
     for (String placeId : placeIds) {
@@ -119,7 +120,7 @@ public class RoadsApi {
    * This is useful for interactive applications where you need to
    */
   public static PendingResult<SnappedSpeedLimitResponse> snappedSpeedLimits(GeoApiContext context,
-      LatLng... path) {
+                                                                            LatLng... path) {
     return context.get(SPEEDS_API_CONFIG, CombinedResponse.class, "path", join('|', path));
   }
 

@@ -16,11 +16,11 @@
 package com.google.maps.model;
 
 /**
- * AutocompletePrediction represents a single Autocomplete result returned from the
- * Google Places API Web Service.
+ * AutocompletePrediction represents a single Autocomplete result returned from the Google Places
+ * API Web Service.
  *
  * <p>Please see <a href="https://developers.google.com/places/web-service/query#query_autocomplete_responses">
- *   Query Autocomplete Responses</a> for more detail.</p>
+ * Query Autocomplete Responses</a> for more detail.</p>
  */
 public class AutocompletePrediction {
 
@@ -37,16 +37,16 @@ public class AutocompletePrediction {
   /**
    * types is an array indicating the type of the address component.
    *
-   * <p>Please see <a href="https://developers.google.com/places/supported_types">supported types</a>
-   * for a list of types that can be returned.</p>
+   * <p>Please see <a href="https://developers.google.com/places/supported_types">supported
+   * types</a> for a list of types that can be returned.</p>
    */
   public String types[];
 
   /**
-   * terms contains an array of terms identifying each section of the returned description (a section
-   * of the description is generally terminated with a comma). Each entry in the array has a value
-   * field, containing the text of the term, and an offset field, defining the start position of this
-   * term in the description, measured in Unicode characters.
+   * terms contains an array of terms identifying each section of the returned description (a
+   * section of the description is generally terminated with a comma). Each entry in the array has a
+   * value field, containing the text of the term, and an offset field, defining the start position
+   * of this term in the description, measured in Unicode characters.
    */
   public Term terms[];
 
@@ -56,10 +56,14 @@ public class AutocompletePrediction {
    */
   public static class MatchedSubstring {
 
-    /** length describes the length of the matched substring. */
+    /**
+     * length describes the length of the matched substring.
+     */
     public int length;
 
-    /** offset defines the start position of the matched substring. */
+    /**
+     * offset defines the start position of the matched substring.
+     */
     public int offset;
   }
 
@@ -71,10 +75,15 @@ public class AutocompletePrediction {
    */
   public static class Term {
 
-    /** offset defines the start position of this term in the description, measured in Unicode characters. */
+    /**
+     * offset defines the start position of this term in the description, measured in Unicode
+     * characters.
+     */
     public int offset;
 
-    /** The text of the matched term. */
+    /**
+     * The text of the matched term.
+     */
     public String value;
   }
 

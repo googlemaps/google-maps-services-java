@@ -15,18 +15,19 @@
 
 package com.google.maps;
 
+import static com.google.maps.model.LatLngAssert.assertEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import com.google.maps.model.ElevationResult;
 import com.google.maps.model.EncodedPolyline;
 import com.google.maps.model.LatLng;
+
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
-import static com.google.maps.model.LatLngAssert.assertEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 @Category(LargeTests.class)
 public class ElevationApiIntegrationTest extends AuthenticatedTest {

@@ -15,13 +15,14 @@
 
 package com.google.maps.model;
 
-import com.google.maps.SmallTests;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
-
 import static com.google.maps.internal.StringJoin.UrlValue;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
+
+import com.google.maps.SmallTests;
+
+import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 @Category(SmallTests.class)
 public class EnumsTest {

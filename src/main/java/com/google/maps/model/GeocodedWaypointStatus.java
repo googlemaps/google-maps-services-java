@@ -19,7 +19,7 @@ package com.google.maps.model;
  * The status result for a single {@link com.google.maps.model.GeocodedWaypoint}.
  *
  * @see <a href="https://developers.google.com/maps/documentation/directions/intro#StatusCodes">
- *   Documentation on status codes</a>
+ * Documentation on status codes</a>
  */
 public enum GeocodedWaypointStatus {
   /**

@@ -18,7 +18,8 @@ package com.google.maps.model;
 import com.google.maps.internal.StringJoin;
 
 /**
- * PlaceType is used by the Places API to restrict the results to places matching the specified type.
+ * PlaceType is used by the Places API to restrict the results to places matching the specified
+ * type.
  */
 public enum PlaceType implements StringJoin.UrlValue {
 

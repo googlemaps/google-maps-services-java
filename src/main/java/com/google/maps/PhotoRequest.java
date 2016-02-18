@@ -21,7 +21,8 @@ import com.google.maps.internal.ApiResponse;
 import com.google.maps.model.PhotoResult;
 
 /**
- * A <a href="https://developers.google.com/places/web-service/photos#place_photo_requests">Place Photo</a> request.
+ * A <a href="https://developers.google.com/places/web-service/photos#place_photo_requests">Place
+ * Photo</a> request.
  */
 public class PhotoRequest
     extends PendingResultBase<PhotoResult, PhotoRequest, PhotoRequest.Response> {
@@ -46,8 +47,8 @@ public class PhotoRequest
   /**
    * Set the photoReference for this request.
    *
-   * @param photoReference A string identifier that uniquely identifies a photo. Photo references are returned from
-   *                       either a Place Search or Place Details request.
+   * @param photoReference A string identifier that uniquely identifies a photo. Photo references
+   *                       are returned from either a Place Search or Place Details request.
    * @return Returns the configured PhotoRequest.
    */
   public PhotoRequest photoReference(String photoReference) {
@@ -57,7 +58,8 @@ public class PhotoRequest
   /**
    * Set the maxHeight for this request.
    *
-   * @param maxHeight Specifies the maximum desired height, in pixels, of the image returned by the Place Photos service.
+   * @param maxHeight Specifies the maximum desired height, in pixels, of the image returned by the
+   *                  Place Photos service.
    * @return Returns the configured PhotoRequest.
    */
   public PhotoRequest maxHeight(int maxHeight) {
@@ -67,7 +69,8 @@ public class PhotoRequest
   /**
    * Set the maxWidth for this request.
    *
-   * @param maxWidth Specifies the maximum desired width, in pixels, of the image returned by the Place Photos service.
+   * @param maxWidth Specifies the maximum desired width, in pixels, of the image returned by the
+   *                 Place Photos service.
    * @return Returns the configured PhotoRequest.
    */
   public PhotoRequest maxWidth(int maxWidth) {
@@ -77,7 +80,8 @@ public class PhotoRequest
   public static class Response implements ApiResponse<PhotoResult> {
     // This class is here to keep the type system happy.
     // It is not actually instantiated by OkHttpPendingResult.
-    private Response() {}
+    private Response() {
+    }
 
     @Override
     public boolean successful() {

@@ -14,14 +14,15 @@
  */
 
 package com.google.maps.model;
+
 /**
  * The distance component for Directions API results.
  */
 public class Distance {
 
   /**
-   * This is the numeric distance, always in meters. This is intended to be used only in
-   * algorithmic situations, e.g. sorting results by some user specified metric.
+   * This is the numeric distance, always in meters. This is intended to be used only in algorithmic
+   * situations, e.g. sorting results by some user specified metric.
    */
   public long inMeters;
 

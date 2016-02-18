@@ -15,17 +15,16 @@
 
 package com.google.maps.model;
 
-import com.google.maps.internal.StringJoin;
-
 import static com.google.maps.internal.StringJoin.join;
+
+import com.google.maps.internal.StringJoin;
 
 /**
  * This class represents a component filter for a geocode request. In a geocoding response, the
- * Google Geocoding API can return address results restricted to a specific area. The restriction
- * is specified using the components filter.
+ * Google Geocoding API can return address results restricted to a specific area. The restriction is
+ * specified using the components filter.
  *
- * <p>Please see
- * <a href="https://developers.google.com/maps/documentation/geocoding/#ComponentFiltering">
+ * <p>Please see <a href="https://developers.google.com/maps/documentation/geocoding/#ComponentFiltering">
  * Component Filtering</a> for more detail.
  */
 public class ComponentFilter implements StringJoin.UrlValue {
@@ -79,6 +78,6 @@ public class ComponentFilter implements StringJoin.UrlValue {
    * {@code country} matches a country name or a two letter ISO 3166-1 country code.
    */
   public static ComponentFilter country(String country) {
-    return new ComponentFilter("country" , country);
+    return new ComponentFilter("country", country);
   }
 }

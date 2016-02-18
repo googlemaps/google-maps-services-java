@@ -15,6 +15,8 @@
 
 package com.google.maps;
 
+import static com.google.maps.internal.StringJoin.join;
+
 import com.google.maps.DirectionsApi.RouteRestriction;
 import com.google.maps.DistanceMatrixApi.Response;
 import com.google.maps.model.DistanceMatrix;
@@ -23,9 +25,8 @@ import com.google.maps.model.TransitMode;
 import com.google.maps.model.TransitRoutingPreference;
 import com.google.maps.model.TravelMode;
 import com.google.maps.model.Unit;
-import org.joda.time.ReadableInstant;
 
-import static com.google.maps.internal.StringJoin.join;
+import org.joda.time.ReadableInstant;
 
 /**
  * A request to the Distance Matrix API.
@@ -53,8 +54,8 @@ public class DistanceMatrixApiRequest
   }
 
   /**
-   * One or more addresses from which to calculate distance and time. The service will geocode
-   * the string and convert it to a latitude/longitude coordinate to calculate directions.
+   * One or more addresses from which to calculate distance and time. The service will geocode the
+   * string and convert it to a latitude/longitude coordinate to calculate directions.
    *
    * @param origins String to geocode and use as an origin point (e.g. "New York, NY")
    */
@@ -65,7 +66,7 @@ public class DistanceMatrixApiRequest
   /**
    * One or more latitude/longitude values from which to calculate distance and time.
    *
-   * @param points  The origin points.
+   * @param points The origin points.
    */
   public DistanceMatrixApiRequest origins(LatLng... points) {
     return param("origins", join('|', points));
@@ -76,7 +77,7 @@ public class DistanceMatrixApiRequest
    * One or more addresses to which to calculate distance and time. The service will geocode the
    * string and convert it to a latitude/longitude coordinate to calculate directions.
    *
-   * @param destinations  String to geocode and use as a destination point (e.g. "New Jersey, NY")
+   * @param destinations String to geocode and use as a destination point (e.g. "New Jersey, NY")
    */
   public DistanceMatrixApiRequest destinations(String... destinations) {
     return param("destinations", join('|', destinations));
@@ -113,8 +114,8 @@ public class DistanceMatrixApiRequest
   /**
    * Introduces restrictions to the route. Only one restriction can be specified.
    *
-   * @param restriction  One of {@link RouteRestriction#TOLLS}, {@link RouteRestriction#FERRIES} or
-   * {@link RouteRestriction#HIGHWAYS}.
+   * @param restriction One of {@link RouteRestriction#TOLLS}, {@link RouteRestriction#FERRIES} or
+   *                    {@link RouteRestriction#HIGHWAYS}.
    */
   public DistanceMatrixApiRequest avoid(RouteRestriction restriction) {
     return param("avoid", restriction);
@@ -124,10 +125,9 @@ public class DistanceMatrixApiRequest
    * Specifies the unit system to use when expressing distance as text. Distance Matrix results
    * contain text within distance fields to indicate the distance of the calculated route.
    *
-   * @see <a href="https://developers.google.com/maps/documentation/distancematrix/#unit_systems">
-   *   Unit systems in the Distance Matrix API</a>
-   *
    * @param unit One of {@link Unit#METRIC}, {@link Unit#IMPERIAL}.
+   * @see <a href="https://developers.google.com/maps/documentation/distancematrix/#unit_systems">
+   * Unit systems in the Distance Matrix API</a>
    */
   public DistanceMatrixApiRequest units(Unit unit) {
     return param("units", unit);
@@ -136,18 +136,17 @@ public class DistanceMatrixApiRequest
   /**
    * Specifies the desired time of departure.
    *
-   * <p>The departure time may be specified in two cases:
-   * <ul><li>For requests where the travel mode is transit: You can optionally specify one of
-   * departure_time or arrival_time. If neither time is specified, the departure_time defaults
-   * to now (that is, the departure time defaults to the current time).</li>
-   * <li>For requests where the travel mode is driving: Google Maps API for Work customers can
-   * specify the departure_time to receive trip duration considering current traffic conditions.
-   * The departure_time must be set to within a few minutes of the current time.</li>
+   * <p>The departure time may be specified in two cases: <ul><li>For requests where the travel mode
+   * is transit: You can optionally specify one of departure_time or arrival_time. If neither time
+   * is specified, the departure_time defaults to now (that is, the departure time defaults to the
+   * current time).</li> <li>For requests where the travel mode is driving: Google Maps API for Work
+   * customers can specify the departure_time to receive trip duration considering current traffic
+   * conditions. The departure_time must be set to within a few minutes of the current time.</li>
    * </ul>
    *
    * <p>Setting the parameter to null will remove it from the API request.
    *
-   * @param departureTime  The time of departure.
+   * @param departureTime The time of departure.
    */
   public DistanceMatrixApiRequest departureTime(ReadableInstant departureTime) {
     return param("departure_time", Long.toString(departureTime.getMillis() / 1000L));
@@ -170,9 +169,8 @@ public class DistanceMatrixApiRequest
   }
 
   /**
-   * Specifies preferences for transit requests. Using this parameter,
-   * you can bias the options returned, rather than accepting the default best route chosen by
-   * the API.
+   * Specifies preferences for transit requests. Using this parameter, you can bias the options
+   * returned, rather than accepting the default best route chosen by the API.
    */
   public DistanceMatrixApiRequest transitRoutingPreference(TransitRoutingPreference pref) {
     return param("transit_routing_preference", pref);

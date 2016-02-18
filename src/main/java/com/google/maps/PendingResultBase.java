@@ -30,7 +30,7 @@ import java.util.Map;
  * class, and R is the type of the request.
  */
 abstract class PendingResultBase<T, A extends PendingResultBase<T, A, R>,
-      R extends ApiResponse<T>>
+    R extends ApiResponse<T>>
     implements PendingResult<T> {
 
   private final GeoApiContext context;
@@ -53,8 +53,7 @@ abstract class PendingResultBase<T, A extends PendingResultBase<T, A, R>,
   @Override
   public final T await() throws Exception {
     PendingResult<T> request = makeRequest();
-    T result = request.await();
-    return result;
+    return request.await();
   }
 
   @Override
@@ -86,7 +85,7 @@ abstract class PendingResultBase<T, A extends PendingResultBase<T, A, R>,
     params.put(key, val);
 
     @SuppressWarnings("unchecked") // safe by specification - A is the actual class of this instance
-    A result = (A) this;
+        A result = (A) this;
     return result;
   }
 
@@ -94,7 +93,7 @@ abstract class PendingResultBase<T, A extends PendingResultBase<T, A, R>,
     params.put(key, val.toString());
 
     @SuppressWarnings("unchecked") // safe by specification - A is the actual class of this instance
-    A result = (A) this;
+        A result = (A) this;
     return result;
   }
 
@@ -103,21 +102,21 @@ abstract class PendingResultBase<T, A extends PendingResultBase<T, A, R>,
   }
 
   /**
-   * The language in which to return results. Note that we often update supported languages so
-   * this list may not be exhaustive.
+   * The language in which to return results. Note that we often update supported languages so this
+   * list may not be exhaustive.
    *
-   * @see <a href="https://developers.google.com/maps/faq#languagesupport">List of supported
-   * domain languages</a>
-   * @param language  The language code, e.g. "en-AU" or "es"
+   * @param language The language code, e.g. "en-AU" or "es"
+   * @see <a href="https://developers.google.com/maps/faq#languagesupport">List of supported domain
+   * languages</a>
    */
   public final A language(String language) {
     return param("language", language);
   }
 
   /**
-   * A channel to pass with the request.  channel is used by Google Maps API for Work
-   * users to be able to track usage across different applications with the same clientID.
-   * See: https://developers.google.com/maps/documentation/business/clientside/quota
+   * A channel to pass with the request.  channel is used by Google Maps API for Work users to be
+   * able to track usage across different applications with the same clientID. See:
+   * https://developers.google.com/maps/documentation/business/clientside/quota
    *
    * @param channel String to pass with the request for analytics
    */

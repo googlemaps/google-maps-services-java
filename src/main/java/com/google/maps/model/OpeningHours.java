@@ -18,8 +18,7 @@ package com.google.maps.model;
 import org.joda.time.LocalTime;
 
 /**
- * Opening hours for a Place Details result. Please see
- * <a href="https://developers.google.com/places/web-service/details#PlaceDetailsResults">Place
+ * Opening hours for a Place Details result. Please see <a href="https://developers.google.com/places/web-service/details#PlaceDetailsResults">Place
  * Details Results</a> for more details.
  */
 public class OpeningHours {
@@ -30,15 +29,17 @@ public class OpeningHours {
    */
   public Boolean openNow;
 
-  /** Period models the opening hours for a Place for a single day. */
+  /**
+   * Period models the opening hours for a Place for a single day.
+   */
   static public class Period {
     static public class OpenClose {
       public enum DayOfWeek {
         SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY,
 
         /**
-         * Indicates an unknown day of week type returned by the server. The Java Client for Google Maps
-         * Services should be updated to support the new value.
+         * Indicates an unknown day of week type returned by the server. The Java Client for Google
+         * Maps Services should be updated to support the new value.
          */
         UNKNOWN
       }
@@ -72,8 +73,8 @@ public class OpeningHours {
   public Period[] periods;
 
   /**
-   * weekdayText is an array of seven strings representing the formatted opening hours for each
-   * day of the week, for example "Monday: 8:30 am – 5:30 pm".
+   * weekdayText is an array of seven strings representing the formatted opening hours for each day
+   * of the week, for example "Monday: 8:30 am – 5:30 pm".
    */
   public String[] weekdayText;
 

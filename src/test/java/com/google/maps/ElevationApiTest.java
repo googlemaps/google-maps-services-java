@@ -21,11 +21,11 @@ import com.google.maps.model.EncodedPolyline;
 import com.google.maps.model.LatLng;
 import com.google.mockwebserver.MockResponse;
 import com.google.mockwebserver.MockWebServer;
+
 import org.junit.After;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
-import java.util.Arrays;
 import java.util.Collections;
 
 @Category(MediumTests.class)

@@ -15,6 +15,11 @@
 
 package com.google.maps;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import com.google.maps.DirectionsApi.RouteRestriction;
 import com.google.maps.model.DistanceMatrix;
 import com.google.maps.model.DistanceMatrixElement;
@@ -24,6 +29,7 @@ import com.google.maps.model.TransitMode;
 import com.google.maps.model.TransitRoutingPreference;
 import com.google.maps.model.TravelMode;
 import com.google.maps.model.Unit;
+
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.junit.Test;
@@ -31,18 +37,13 @@ import org.junit.experimental.categories.Category;
 
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
 @Category(LargeTests.class)
 public class DistanceMatrixApiIntegrationTest extends AuthenticatedTest {
 
   private GeoApiContext context;
 
   public DistanceMatrixApiIntegrationTest(GeoApiContext context) {
-   this.context = context
+    this.context = context
         .setConnectTimeout(1, TimeUnit.SECONDS)
         .setReadTimeout(1, TimeUnit.SECONDS)
         .setWriteTimeout(1, TimeUnit.SECONDS);
@@ -50,12 +51,12 @@ public class DistanceMatrixApiIntegrationTest extends AuthenticatedTest {
 
   @Test
   public void testGetDistanceMatrixWithBasicStringParams() throws Exception {
-    String[] origins = new String[] {
+    String[] origins = new String[]{
         "Perth, Australia", "Sydney, Australia", "Melbourne, Australia",
         "Adelaide, Australia", "Brisbane, Australia", "Darwin, Australia",
         "Hobart, Australia", "Canberra, Australia"
     };
-    String[] destinations = new String[] {
+    String[] destinations = new String[]{
         "Uluru, Australia", "Kakadu, Australia", "Blue Mountains, Australia",
         "Bungle Bungles, Australia", "The Pinnacles, Australia"
     };
@@ -70,12 +71,12 @@ public class DistanceMatrixApiIntegrationTest extends AuthenticatedTest {
 
   @Test
   public void testNewRequestWithAllPossibleParams() throws Exception {
-    String[] origins = new String[] {
+    String[] origins = new String[]{
         "Perth, Australia", "Sydney, Australia", "Melbourne, Australia",
         "Adelaide, Australia", "Brisbane, Australia", "Darwin, Australia",
         "Hobart, Australia", "Canberra, Australia"
     };
-    String[] destinations = new String[] {
+    String[] destinations = new String[]{
         "Uluru, Australia", "Kakadu, Australia", "Blue Mountains, Australia",
         "Bungle Bungles, Australia", "The Pinnacles, Australia"
     };
