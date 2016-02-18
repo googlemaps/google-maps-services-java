@@ -28,12 +28,13 @@ import java.util.Collection;
  *
  * <p>Sub-classes need to implement a 1-arg constructor that takes a GeoApiContext that will be
  * supplied with an appropriate API key or client ID and secret set. The {@code RunWith
- * (Paramaterized.class)} annotation will then ensure that each test that inherits will be run
- * for each context returned from {@link #contexts()}. That is,
- * if an API_KEY and CLIENT_ID+CLIENT_SECRET are found, each test will be run twice and supplied
- * a context with the appropriate authentication tokens set.
+ * (Paramaterized.class)} annotation will then ensure that each test that inherits will be run for
+ * each context returned from {@link #contexts()}. That is, if an API_KEY and
+ * CLIENT_ID+CLIENT_SECRET are found, each test will be run twice and supplied a context with the
+ * appropriate authentication tokens set.
  */
-@RunWith(Parameterized.class) @Ignore
+@RunWith(Parameterized.class)
+@Ignore
 public class AuthenticatedTest {
   protected AuthenticatedTest() {
   }

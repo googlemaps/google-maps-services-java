@@ -38,8 +38,8 @@ public enum AddressComponentType {
   INTERSECTION,
 
   /**
-   * {@code POLITICAL} indicates a political entity. Usually, this type indicates a polygon of
-   * some civil administration.
+   * {@code POLITICAL} indicates a political entity. Usually, this type indicates a polygon of some
+   * civil administration.
    */
   POLITICAL,
 
@@ -65,22 +65,22 @@ public enum AddressComponentType {
 
   /**
    * {@code ADMINISTRATIVE_AREA_LEVEL_3} indicates a third-order civil entity below the country
-   * level. This type indicates a minor civil division. Not all nations exhibit these
-   * administrative levels.
+   * level. This type indicates a minor civil division. Not all nations exhibit these administrative
+   * levels.
    */
   ADMINISTRATIVE_AREA_LEVEL_3,
 
   /**
    * {@code ADMINISTRATIVE_AREA_LEVEL_4} indicates a fourth-order civil entity below the country
-   * level. This type indicates a minor civil division. Not all nations exhibit these
-   * administrative levels.
+   * level. This type indicates a minor civil division. Not all nations exhibit these administrative
+   * levels.
    */
   ADMINISTRATIVE_AREA_LEVEL_4,
 
   /**
    * {@code ADMINISTRATIVE_AREA_LEVEL_5} indicates a fifth-order civil entity below the country
-   * level. This type indicates a minor civil division. Not all nations exhibit these
-   * administrative levels.
+   * level. This type indicates a minor civil division. Not all nations exhibit these administrative
+   * levels.
    */
   ADMINISTRATIVE_AREA_LEVEL_5,
 
@@ -113,8 +113,8 @@ public enum AddressComponentType {
   NEIGHBORHOOD,
 
   /**
-   * {@code PREMISE} indicates a named location, usually a building or collection of buildings
-   * with a common name.
+   * {@code PREMISE} indicates a named location, usually a building or collection of buildings with
+   * a common name.
    */
   PREMISE,
 
@@ -125,20 +125,19 @@ public enum AddressComponentType {
   SUBPREMISE,
 
   /**
-   * {@code POSTAL_CODE} indicates a postal code as used to address postal mail within the
-   * country.
+   * {@code POSTAL_CODE} indicates a postal code as used to address postal mail within the country.
    */
   POSTAL_CODE,
 
   /**
-   * {@code POSTAL_CODE_PREFIX} indicates a postal code prefix as used to address postal mail
-   * within the country.
+   * {@code POSTAL_CODE_PREFIX} indicates a postal code prefix as used to address postal mail within
+   * the country.
    */
   POSTAL_CODE_PREFIX,
 
   /**
-   * {@code POSTAL_CODE_SUFFIX} indicates a postal code suffix as used to address postal mail within the
-   * country.
+   * {@code POSTAL_CODE_SUFFIX} indicates a postal code suffix as used to address postal mail within
+   * the country.
    */
   POSTAL_CODE_SUFFIX,
 
@@ -185,8 +184,8 @@ public enum AddressComponentType {
   POST_BOX,
 
   /**
-   * {@code POSTAL_TOWN} indicates a grouping of geographic areas, such as locality and
-   * sublocality, used for mailing addresses in some countries.
+   * {@code POSTAL_TOWN} indicates a grouping of geographic areas, such as locality and sublocality,
+   * used for mailing addresses in some countries.
    */
   POSTAL_TOWN,
 

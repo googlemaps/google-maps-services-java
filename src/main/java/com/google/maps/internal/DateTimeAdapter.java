@@ -28,8 +28,7 @@ import java.io.IOException;
 /**
  * This class handles conversion from JSON to {@link DateTime}s.
  *
- * <p>Please see
- * {@url https://google-gson.googlecode.com/svn/trunk/gson/docs/javadocs/com/google/gson/TypeAdapter.html}
+ * <p>Please see <a href="https://google-gson.googlecode.com/svn/trunk/gson/docs/javadocs/com/google/gson/TypeAdapter.html">TypeAdapter</a>
  * for more detail.
  */
 public class DateTimeAdapter extends TypeAdapter<DateTime> {

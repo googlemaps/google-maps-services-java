@@ -27,18 +27,18 @@ import java.io.IOException;
  * Handle conversion from varying types of latitude and longitude representations.
  */
 public class LatLngAdapter extends TypeAdapter<LatLng> {
- /**
+  /**
    * Reads in a JSON object and try to create a LatLng in one of the following formats.
-  *
-  * <pre>{
-  *   "lat" : -33.8353684,
-  *   "lng" : 140.8527069
-  * }
-  *
-  * {
-  *   "latitude": -33.865257570508334,
-  *   "longitude": 151.19287000481452
-  * }</pre>
+   *
+   * <pre>{
+   *   "lat" : -33.8353684,
+   *   "lng" : 140.8527069
+   * }
+   *
+   * {
+   *   "latitude": -33.865257570508334,
+   *   "longitude": 151.19287000481452
+   * }</pre>
    */
   @Override
   public LatLng read(JsonReader reader) throws IOException {

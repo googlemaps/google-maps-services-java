@@ -20,10 +20,13 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import com.google.maps.model.AutocompletePrediction;
+import com.google.maps.model.LatLng;
 import com.google.maps.model.Photo;
 import com.google.maps.model.PhotoResult;
 import com.google.maps.model.PlaceDetails;
 import com.google.maps.model.PlaceIdScope;
+import com.google.maps.model.PlaceType;
 import com.google.maps.model.PlacesSearchResponse;
 import com.google.maps.model.PlacesSearchResult;
 
@@ -40,6 +43,8 @@ import javax.imageio.ImageIO;
 @Category(LargeTests.class)
 public class PlacesApiIntegrationTest extends KeyOnlyAuthenticatedTest {
   public static final String GOOGLE_SYDNEY = "ChIJN1t_tDeuEmsRUsoyG83frY4";
+  public static final LatLng SYDNEY = new LatLng(-33.8650, 151.2094);
+  public static final long TWO_SECONDS = 2 * 1000;
 
   public PlacesApiIntegrationTest(GeoApiContext context) {
     this.context = context
@@ -182,7 +187,7 @@ public class PlacesApiIntegrationTest extends KeyOnlyAuthenticatedTest {
     // The returned page token is not valid for a couple of seconds.
     try {
       Thread.sleep(3 * 1000); // 3 seconds
-    } catch(InterruptedException ex) {
+    } catch (InterruptedException ex) {
       Thread.currentThread().interrupt();
     }
 
@@ -207,14 +212,99 @@ public class PlacesApiIntegrationTest extends KeyOnlyAuthenticatedTest {
   public void testPlaceTextSearchPermanentlyClosed() throws Exception {
     PlacesSearchResponse response = PlacesApi.textSearchQuery(context, "ABC Learning Centres in australia").await();
     assertNotNull(response);
-    for (PlacesSearchResult result: response.results) {
+    for (PlacesSearchResult result : response.results) {
       assertNotNull(result);
-      if(result.permanentlyClosed) {
+      if (result.permanentlyClosed) {
         // test success condition
         return;
       }
     }
     fail("No permanently closed result found.");
+  }
+
+  @Test
+  public void testNearbySearchRequestByKeyword() throws Exception {
+    PlacesSearchResponse response = PlacesApi.nearbySearchQuery(context, SYDNEY)
+        .radius(10000).keyword("pub").await();
+    assertNotNull(response);
+    assertNotNull(response.results);
+    assertEquals(20, response.results.length);
+  }
+
+  @Test
+  public void testNearbySearchRequestByName() throws Exception {
+    PlacesSearchResponse response = PlacesApi.nearbySearchQuery(context, SYDNEY)
+        .radius(10000).name("Sydney Town Hall").await();
+    assertNotNull(response);
+    assertNotNull(response.results);
+    assertEquals("Sydney Town Hall", response.results[0].name);
+  }
+
+  @Test
+  public void testNearbySearchRequestByType() throws Exception {
+    PlacesSearchResponse response = PlacesApi.nearbySearchQuery(context, SYDNEY)
+        .radius(10000).type(PlaceType.BAR).await();
+    assertNotNull(response);
+    assertNotNull(response.results);
+    assertEquals(20, response.results.length);
+  }
+
+  @Test
+  public void testNearbySearchRequestNextPage() throws Exception {
+    PlacesSearchResponse response = PlacesApi.nearbySearchQuery(context, SYDNEY)
+        .radius(10000).type(PlaceType.BAR).await();
+    assertNotNull(response);
+    assertNotNull(response.results);
+    assertEquals(20, response.results.length);
+    assertNotNull(response.nextPageToken);
+
+    Thread.sleep(TWO_SECONDS);
+
+    PlacesSearchResponse response2 = PlacesApi.nearbySearchNextPage(context, response.nextPageToken).await();
+    assertNotNull(response2);
+    assertNotNull(response2.results);
+    assertEquals(20, response2.results.length);
+    assertNotNull(response2.nextPageToken);
+  }
+
+  @Test
+  public void testRadarSearchRequestByKeyword() throws Exception {
+    PlacesSearchResponse response = PlacesApi.radarSearchQuery(context, SYDNEY, 10000)
+        .keyword("pub").await();
+    assertNotNull(response);
+    assertNotNull(response.results);
+    assertTrue(175 < response.results.length);
+  }
+
+  @Test
+  public void testRadarSearchRequestByName() throws Exception {
+    PlacesSearchResponse response = PlacesApi.radarSearchQuery(context, SYDNEY, 10000)
+        .name("Sydney Town Hall").await();
+    assertNotNull(response);
+    assertNotNull(response.results);
+    String placeId = response.results[0].placeId;
+    assertNotNull(placeId);
+
+    PlaceDetails placeDetails = PlacesApi.placeDetails(context, placeId).await();
+    assertNotNull(placeDetails);
+    assertEquals("Sydney Town Hall", placeDetails.name);
+  }
+
+  @Test
+  public void testRadarSearchRequestByType() throws Exception {
+    PlacesSearchResponse response = PlacesApi.radarSearchQuery(context, SYDNEY, 10000)
+        .type(PlaceType.BAR).await();
+    assertNotNull(response);
+    assertNotNull(response.results);
+    assertEquals(200, response.results.length);
+  }
+
+  @Test
+  public void testPlaceAutocomplete() throws Exception {
+    AutocompletePrediction[] predictions = PlacesApi.placeAutocomplete(context, "Sydney Town Ha").await();
+    assertNotNull(predictions);
+    assertTrue(predictions.length > 0);
+    assertTrue(predictions[0].description.startsWith("Sydney Town Hall"));
   }
 
 }

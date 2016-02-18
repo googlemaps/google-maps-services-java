@@ -60,8 +60,8 @@ public class GeoApiContext {
   }
 
   <T, R extends ApiResponse<T>> PendingResult<T> get(ApiConfig config, Class<? extends R> clazz,
-      Map<String, String> params) {
-    if(channel != null && !channel.isEmpty() && !params.containsKey("channel")){
+                                                     Map<String, String> params) {
+    if (channel != null && !channel.isEmpty() && !params.containsKey("channel")) {
       params.put("channel", channel);
     }
 
@@ -81,7 +81,7 @@ public class GeoApiContext {
   }
 
   <T, R extends ApiResponse<T>> PendingResult<T> get(ApiConfig config, Class<? extends R> clazz,
-      String... params) {
+                                                     String... params) {
     if (params.length % 2 != 0) {
       throw new IllegalArgumentException("Params must be matching key/value pairs.");
     }
@@ -90,7 +90,7 @@ public class GeoApiContext {
 
     boolean channelSet = false;
     for (int i = 0; i < params.length; i++) {
-      if(params[i]=="channel"){
+      if (params[i].equals("channel")) {
         channelSet = true;
       }
       query.append('&').append(params[i]).append('=');
@@ -105,7 +105,7 @@ public class GeoApiContext {
     }
 
     // Channel can be supplied per-request or per-context. We prioritize it from the request, so if it's not provided there, provide it here
-    if (channelSet == false && channel != null && !channel.isEmpty()) {
+    if (!channelSet && channel != null && !channel.isEmpty()) {
       query.append("&channel=").append(channel);
     }
 
@@ -114,8 +114,8 @@ public class GeoApiContext {
   }
 
   private <T, R extends ApiResponse<T>> PendingResult<T> getWithPath(Class<R> clazz,
-      FieldNamingPolicy fieldNamingPolicy, String hostName, String path,
-      boolean canUseClientId, String encodedPath) {
+                                                                     FieldNamingPolicy fieldNamingPolicy, String hostName, String path,
+                                                                     boolean canUseClientId, String encodedPath) {
     checkContext(canUseClientId);
     if (!encodedPath.startsWith("&")) {
       throw new IllegalArgumentException("encodedPath must start with &");
@@ -167,7 +167,8 @@ public class GeoApiContext {
 
   /**
    * Override the base URL of the API endpoint. Useful only for testing.
-   * @param baseUrl  The URL to use, without a trailing slash, e.g. https://maps.googleapis.com
+   *
+   * @param baseUrl The URL to use, without a trailing slash, e.g. https://maps.googleapis.com
    */
   GeoApiContext setBaseUrlForTesting(String baseUrl) {
     baseUrlOverride = baseUrl;
@@ -186,8 +187,10 @@ public class GeoApiContext {
   }
 
   /**
-   * Sets the default channel for requests (can be overridden by requests).  Only useful for Google Maps for Work clients.
-   * @param channel  The channel to use for analytics
+   * Sets the default channel for requests (can be overridden by requests).  Only useful for Google
+   * Maps for Work clients.
+   *
+   * @param channel The channel to use for analytics
    */
   public GeoApiContext setChannel(String channel) {
     this.channel = channel;
@@ -232,9 +235,9 @@ public class GeoApiContext {
   }
 
   /**
-   * Sets the maximum number of queries that will be executed during a 1 second interval.
-   * The default is 10. A minimum interval between requests will also be enforced,
-   * set to 1/(2 * {@code maxQps}).
+   * Sets the maximum number of queries that will be executed during a 1 second interval. The
+   * default is 10. A minimum interval between requests will also be enforced, set to 1/(2 * {@code
+   * maxQps}).
    */
   public GeoApiContext setQueryRateLimit(int maxQps) {
     rateLimitExecutorService.setQueriesPerSecond(maxQps);
@@ -244,10 +247,10 @@ public class GeoApiContext {
   /**
    * Sets the rate at which queries are executed.
    *
-   * @param maxQps The maximum number of queries to execute per second.
+   * @param maxQps          The maximum number of queries to execute per second.
    * @param minimumInterval The minimum amount of time, in milliseconds, to pause between requests.
-   * Note that this pause only occurs if the amount of time between requests has not elapsed
-   * naturally.
+   *                        Note that this pause only occurs if the amount of time between requests
+   *                        has not elapsed naturally.
    */
   public GeoApiContext setQueryRateLimit(int maxQps, int minimumInterval) {
     rateLimitExecutorService.setQueriesPerSecond(maxQps, minimumInterval);

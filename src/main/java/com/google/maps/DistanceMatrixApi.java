@@ -22,23 +22,22 @@ import com.google.maps.model.DistanceMatrix;
 import com.google.maps.model.DistanceMatrixRow;
 
 /**
- * The Google Distance Matrix API is a service that provides travel distance and time for a
- * matrix of origins and destinations. The information returned is based on the recommended route
- * between start and end points, as calculated by the Google Maps API,
- * and consists of rows containing duration and distance values for each pair.
+ * The Google Distance Matrix API is a service that provides travel distance and time for a matrix
+ * of origins and destinations. The information returned is based on the recommended route between
+ * start and end points, as calculated by the Google Maps API, and consists of rows containing
+ * duration and distance values for each pair.
  *
  * <p>This service does not return detailed route information. Route information can be obtained by
- * passing the desired single origin and destination to the Directions API,
- * {@link com.google.maps.DirectionsApi}.
+ * passing the desired single origin and destination to the Directions API, {@link
+ * com.google.maps.DirectionsApi}.
  *
  * <p><strong>Note:</strong> Use of the Distance Matrix API must relate to the display of
- * information on a Google Map; for example, to determine origin-destination pairs that fall
- * within a specific driving time from one another, before requesting and displaying those
- * destinations on a map. Use of the service in an application that doesn't display a Google map
- * is prohibited.
+ * information on a Google Map; for example, to determine origin-destination pairs that fall within
+ * a specific driving time from one another, before requesting and displaying those destinations on
+ * a map. Use of the service in an application that doesn't display a Google map is prohibited.
  *
- * @see <a href="https://developers.google.com/maps/documentation/distancematrix/">Distance
- * Matrix Documentation</a>
+ * @see <a href="https://developers.google.com/maps/documentation/distancematrix/">Distance Matrix
+ * Documentation</a>
  */
 public class DistanceMatrixApi {
   static final ApiConfig API_CONFIG = new ApiConfig("/maps/api/distancematrix/json");
@@ -51,7 +50,7 @@ public class DistanceMatrixApi {
   }
 
   public static DistanceMatrixApiRequest getDistanceMatrix(GeoApiContext context, String[] origins,
-      String[] destinations) {
+                                                           String[] destinations) {
     return newRequest(context).origins(origins).destinations(destinations);
   }
 

@@ -20,8 +20,8 @@ package com.google.maps.model;
  */
 public class SpeedLimit {
   /**
-   * {@code placeId} is a unique identifier for a place. All placeIds returned by the Roads API
-   * will correspond to road segments.
+   * {@code placeId} is a unique identifier for a place. All placeIds returned by the Roads API will
+   * correspond to road segments.
    */
   public String placeId;
 
