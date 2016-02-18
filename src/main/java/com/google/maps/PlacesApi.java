@@ -88,7 +88,7 @@ public class PlacesApi {
   }
 
   /**
-   *Perform a radar search for up to 200 places, but with less detail than is returned from Text Search or
+   * Perform a radar search for up to 200 places, but with less detail than is returned from Text Search or
    * Nearby Search.
    *
    * @param context The context on which to make Geo API requests.
