@@ -49,7 +49,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 public class PlacesApiTest {
 
@@ -194,9 +193,9 @@ public class PlacesApiTest {
       Period friday = placeDetails.openingHours.periods[4];
 
       assertEquals(DayOfWeek.MONDAY, monday.open.day);
-      LocalTime opening = new LocalTime(8,30);
-      LocalTime closing5pm = new LocalTime(17,0);
-      LocalTime closing530pm = new LocalTime(17,30);
+      LocalTime opening = new LocalTime(8, 30);
+      LocalTime closing5pm = new LocalTime(17, 0);
+      LocalTime closing530pm = new LocalTime(17, 30);
 
       assertEquals(opening, monday.open.time);
       assertEquals(DayOfWeek.MONDAY, monday.close.day);
@@ -425,7 +424,7 @@ public class PlacesApiTest {
     assertParamValue(PlaceType.AIRPORT.toString(), "type", actualParams);
   }
 
-  @Test
+  @Test(expected = IllegalArgumentException.class)
   public void testTextSearchLocationWithoutRadius() throws Exception {
     MockResponse response = new MockResponse();
     response.setBody("");
@@ -434,14 +433,9 @@ public class PlacesApiTest {
     context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
 
     LatLng location = new LatLng(10, 20);
-    try {
-      PlacesApi.textSearchQuery(context, "query")
-          .location(location)
-          .await();
-      fail("Must throw exception for invalid parameter combination");
-    } catch (IllegalArgumentException e) {
-      // Expected behaviour
-    }
+    PlacesApi.textSearchQuery(context, "query")
+        .location(location)
+        .await();
   }
 
   @Test
@@ -573,7 +567,7 @@ public class PlacesApiTest {
     assertParamValue("next-page-token", "pagetoken", actualParams);
   }
 
-  @Test
+  @Test(expected = IllegalArgumentException.class)
   public void testNearbySearchRadiusAndRankbyDistance() throws Exception {
     MockResponse response = new MockResponse();
     response.setBody("");
@@ -582,18 +576,13 @@ public class PlacesApiTest {
     context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
 
     LatLng location = new LatLng(10, 20);
-    try {
-      PlacesApi.nearbySearchQuery(context, location)
-          .radius(5000)
-          .rankby(Rankby.DISTANCE)
-          .await();
-      fail("Must throw exception for invalid parameter combination");
-    } catch (IllegalArgumentException e) {
-      // Expected behaviour
-    }
+    PlacesApi.nearbySearchQuery(context, location)
+        .radius(5000)
+        .rankby(Rankby.DISTANCE)
+        .await();
   }
 
-  @Test
+  @Test(expected = IllegalArgumentException.class)
   public void testNearbySearchRankbyDistanceWithoutKeywordNameOrType() throws Exception {
     MockResponse response = new MockResponse();
     response.setBody("");
@@ -602,14 +591,9 @@ public class PlacesApiTest {
     context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
 
     LatLng location = new LatLng(10, 20);
-    try {
-      PlacesApi.nearbySearchQuery(context, location)
-          .rankby(Rankby.DISTANCE)
-          .await();
-      fail("Must throw exception for invalid parameter combination");
-    } catch (IllegalArgumentException e) {
-      // Expected behaviour
-    }
+    PlacesApi.nearbySearchQuery(context, location)
+        .rankby(Rankby.DISTANCE)
+        .await();
   }
 
   @Test
@@ -644,7 +628,7 @@ public class PlacesApiTest {
     assertParamValue(PlaceType.AIRPORT.toString(), "type", actualParams);
   }
 
-  @Test
+  @Test(expected = IllegalArgumentException.class)
   public void testRadarSearchLocationWithoutKeywordNameOrType() throws Exception {
     MockResponse response = new MockResponse();
     response.setBody("");
@@ -653,13 +637,8 @@ public class PlacesApiTest {
     context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
 
     LatLng location = new LatLng(10, 20);
-    try {
-      PlacesApi.radarSearchQuery(context, location, 5000)
-          .await();
-      fail("Must throw exception for invalid parameter combination");
-    } catch (IllegalArgumentException e) {
-      // Expected behaviour
-    }
+    PlacesApi.radarSearchQuery(context, location, 5000)
+        .await();
   }
 
   @Test
