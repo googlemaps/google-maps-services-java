@@ -17,12 +17,15 @@ package com.google.maps.model;
 
 import com.google.maps.internal.StringJoin;
 
-public enum Rankby implements StringJoin.UrlValue {
+/**
+ * RankBy is used by the Places API to specify the order in which results are listed.
+ */
+public enum RankBy implements StringJoin.UrlValue {
   PROMINENCE("prominence"), DISTANCE("distance");
 
   private final String ranking;
 
-  Rankby(String ranking) {
+  RankBy(String ranking) {
     this.ranking = ranking;
   }
 

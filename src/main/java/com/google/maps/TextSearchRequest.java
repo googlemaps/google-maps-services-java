@@ -24,7 +24,7 @@ import com.google.maps.model.PlaceType;
 import com.google.maps.model.PlacesSearchResponse;
 import com.google.maps.model.PlacesSearchResult;
 import com.google.maps.model.PriceLevel;
-import com.google.maps.model.Rankby;
+import com.google.maps.model.RankBy;
 
 /**
  * A <a href="https://developers.google.com/places/web-service/search#TextSearchRequests">Text Search</a> request.
@@ -102,7 +102,7 @@ public class TextSearchRequest
   /**
    * rankby specifies the order in which results are listed.
    */
-  public TextSearchRequest rankby(Rankby ranking) {
+  public TextSearchRequest rankby(RankBy ranking) {
     return param("rankby", ranking);
   }
 

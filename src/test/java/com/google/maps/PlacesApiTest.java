@@ -29,7 +29,7 @@ import com.google.maps.model.PlaceType;
 import com.google.maps.model.PlacesSearchResponse;
 import com.google.maps.model.PlacesSearchResult;
 import com.google.maps.model.PriceLevel;
-import com.google.maps.model.Rankby;
+import com.google.maps.model.RankBy;
 import com.google.mockwebserver.MockResponse;
 import com.google.mockwebserver.MockWebServer;
 import org.apache.http.NameValuePair;
@@ -408,7 +408,7 @@ public class PlacesApiTest {
         .maxPrice(PriceLevel.VERY_EXPENSIVE)
         .name("name")
         .openNow(true)
-        .rankby(Rankby.DISTANCE)
+        .rankby(RankBy.DISTANCE)
         .type(PlaceType.AIRPORT)
         .awaitIgnoreError();
 
@@ -420,7 +420,7 @@ public class PlacesApiTest {
     assertParamValue(String.valueOf(4), "maxprice", actualParams);
     assertParamValue("name", "name", actualParams);
     assertParamValue("true", "opennow", actualParams);
-    assertParamValue(Rankby.DISTANCE.toString(), "rankby", actualParams);
+    assertParamValue(RankBy.DISTANCE.toString(), "rankby", actualParams);
     assertParamValue(PlaceType.AIRPORT.toString(), "type", actualParams);
   }
 
@@ -541,7 +541,7 @@ public class PlacesApiTest {
     LatLng location = new LatLng(10, 20);
     PlacesApi.nearbySearchQuery(context, location)
         .radius(5000)
-        .rankby(Rankby.PROMINENCE)
+        .rankby(RankBy.PROMINENCE)
         .keyword("keyword")
         .language("en")
         .minPrice(PriceLevel.INEXPENSIVE)
@@ -556,7 +556,7 @@ public class PlacesApiTest {
         parseQueryParamsFromRequestLine(server.takeRequest().getRequestLine());
     assertParamValue(location.toUrlValue(), "location", actualParams);
     assertParamValue("5000", "radius", actualParams);
-    assertParamValue(Rankby.PROMINENCE.toString(), "rankby", actualParams);
+    assertParamValue(RankBy.PROMINENCE.toString(), "rankby", actualParams);
     assertParamValue("keyword", "keyword", actualParams);
     assertParamValue("en", "language", actualParams);
     assertParamValue(PriceLevel.INEXPENSIVE.toString(), "minprice", actualParams);
@@ -578,7 +578,7 @@ public class PlacesApiTest {
     LatLng location = new LatLng(10, 20);
     PlacesApi.nearbySearchQuery(context, location)
         .radius(5000)
-        .rankby(Rankby.DISTANCE)
+        .rankby(RankBy.DISTANCE)
         .await();
   }
 
@@ -592,7 +592,7 @@ public class PlacesApiTest {
 
     LatLng location = new LatLng(10, 20);
     PlacesApi.nearbySearchQuery(context, location)
-        .rankby(Rankby.DISTANCE)
+        .rankby(RankBy.DISTANCE)
         .await();
   }
 

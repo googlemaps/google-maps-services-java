@@ -24,7 +24,7 @@ import com.google.maps.model.PlaceType;
 import com.google.maps.model.PlacesSearchResponse;
 import com.google.maps.model.PlacesSearchResult;
 import com.google.maps.model.PriceLevel;
-import com.google.maps.model.Rankby;
+import com.google.maps.model.RankBy;
 
 /**
  * A <a href="https://developers.google.com/places/web-service/search#PlaceSearchRequests">Nearby
@@ -61,7 +61,7 @@ public class NearbySearchRequest
   /**
    * rankby specifies the order in which results are listed.
    */
-  public NearbySearchRequest rankby(Rankby ranking) {
+  public NearbySearchRequest rankby(RankBy ranking) {
     return param("rankby", ranking);
   }
 
@@ -126,14 +126,14 @@ public class NearbySearchRequest
 
     // radius must not be included if rankby=distance
     if (params().containsKey("rankby") &&
-        params().get("rankby").equals(Rankby.DISTANCE.toString()) &&
+        params().get("rankby").equals(RankBy.DISTANCE.toString()) &&
         params().containsKey("radius")) {
       throw new IllegalArgumentException("Request must not contain radius with rankby=distance");
     }
 
     // If rankby=distance is specified, then one or more of keyword, name, or type is required.
     if (params().containsKey("rankby") &&
-        params().get("rankby").equals(Rankby.DISTANCE.toString()) &&
+        params().get("rankby").equals(RankBy.DISTANCE.toString()) &&
         !params().containsKey("keyword") &&
         !params().containsKey("name") &&
         !params().containsKey("type")) {
