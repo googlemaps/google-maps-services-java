@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Google Inc. All rights reserved.
+ * Copyright 2016 Google Inc. All rights reserved.
  *
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -15,26 +15,28 @@
 
 package com.google.maps.model;
 
+import com.google.maps.internal.StringJoin;
+
 /**
- * The distance component for Directions API results.
+ * RankBy is used by the Places API to specify the order in which results are listed.
  */
-public class Distance {
+public enum RankBy implements StringJoin.UrlValue {
+  PROMINENCE("prominence"), DISTANCE("distance");
 
-  /**
-   * This is the numeric distance, always in meters. This is intended to be used only in algorithmic
-   * situations, e.g. sorting results by some user specified metric.
-   */
-  public long inMeters;
+  private final String ranking;
 
-  /**
-   * This is the human friendly distance. This is rounded and in an appropriate unit for the
-   * request. The units can be overriden with a request parameter.
-   */
-  public String humanReadable;
+  RankBy(String ranking) {
+    this.ranking = ranking;
+  }
 
   @Override
   public String toString() {
-    return humanReadable;
+    return ranking;
   }
-}
 
+  @Override
+  public String toUrlValue() {
+    return ranking;
+  }
+
+}

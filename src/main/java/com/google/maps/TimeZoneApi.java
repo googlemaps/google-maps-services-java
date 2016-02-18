@@ -24,13 +24,12 @@ import com.google.maps.model.LatLng;
 import java.util.TimeZone;
 
 /**
- * <p>The Google Time Zone API provides a simple interface to request the time zone
- * for a location on the earth.
- * <p>See <a href="https://developers.google.com/maps/documentation/timezone/">documentation</a>.
+ * <p>The Google Time Zone API provides a simple interface to request the time zone for a location
+ * on the earth. <p>See <a href="https://developers.google.com/maps/documentation/timezone/">documentation</a>.
  */
 public class TimeZoneApi {
   private static final ApiConfig API_CONFIG = new ApiConfig("/maps/api/timezone/json")
-          .fieldNamingPolicy(FieldNamingPolicy.IDENTITY);
+      .fieldNamingPolicy(FieldNamingPolicy.IDENTITY);
 
   private TimeZoneApi() {
   }

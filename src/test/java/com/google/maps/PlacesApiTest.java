@@ -15,20 +15,29 @@
 
 package com.google.maps;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import com.google.maps.model.AddressComponentType;
+import com.google.maps.model.AutocompletePrediction;
+import com.google.maps.model.ComponentFilter;
 import com.google.maps.model.LatLng;
 import com.google.maps.model.OpeningHours.Period;
 import com.google.maps.model.OpeningHours.Period.OpenClose.DayOfWeek;
 import com.google.maps.model.Photo;
 import com.google.maps.model.PlaceDetails;
-import com.google.maps.model.PlaceDetails.PriceLevel;
 import com.google.maps.model.PlaceDetails.Review.AspectRating.RatingType;
 import com.google.maps.model.PlaceIdScope;
+import com.google.maps.model.PlaceType;
 import com.google.maps.model.PlacesSearchResponse;
 import com.google.maps.model.PlacesSearchResult;
-import com.google.maps.model.QueryAutocompletePrediction;
+import com.google.maps.model.PriceLevel;
+import com.google.maps.model.RankBy;
 import com.google.mockwebserver.MockResponse;
 import com.google.mockwebserver.MockWebServer;
+
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.joda.time.LocalTime;
@@ -41,11 +50,6 @@ import java.io.InputStream;
 import java.net.URI;
 import java.util.List;
 import java.util.Scanner;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 public class PlacesApiTest {
 
@@ -190,9 +194,9 @@ public class PlacesApiTest {
       Period friday = placeDetails.openingHours.periods[4];
 
       assertEquals(DayOfWeek.MONDAY, monday.open.day);
-      LocalTime opening = new LocalTime(8,30);
-      LocalTime closing5pm = new LocalTime(17,0);
-      LocalTime closing530pm = new LocalTime(17,30);
+      LocalTime opening = new LocalTime(8, 30);
+      LocalTime closing5pm = new LocalTime(17, 0);
+      LocalTime closing530pm = new LocalTime(17, 30);
 
       assertEquals(opening, monday.open.time);
       assertEquals(DayOfWeek.MONDAY, monday.close.day);
@@ -333,24 +337,24 @@ public class PlacesApiTest {
     server.play();
     context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
 
-    QueryAutocompletePrediction[] predictions = PlacesApi.queryAutocomplete(context, QUERY_AUTOCOMPLETE_INPUT).await();
+    AutocompletePrediction[] predictions = PlacesApi.queryAutocomplete(context, QUERY_AUTOCOMPLETE_INPUT).await();
 
     assertNotNull(predictions);
     assertEquals(predictions.length, 5);
 
     {
-      QueryAutocompletePrediction prediction = predictions[0];
+      AutocompletePrediction prediction = predictions[0];
       assertNotNull(prediction);
       assertNotNull(prediction.description);
       assertEquals("pizza near Paris, France", prediction.description);
 
       assertEquals(3, prediction.matchedSubstrings.length);
-      QueryAutocompletePrediction.MatchedSubstring matchedSubstring = prediction.matchedSubstrings[0];
+      AutocompletePrediction.MatchedSubstring matchedSubstring = prediction.matchedSubstrings[0];
       assertEquals(5, matchedSubstring.length);
       assertEquals(0, matchedSubstring.offset);
 
       assertEquals(4, prediction.terms.length);
-      QueryAutocompletePrediction.Term term = prediction.terms[0];
+      AutocompletePrediction.Term term = prediction.terms[0];
       assertEquals(0, term.offset);
       assertEquals("pizza", term.value);
     }
@@ -364,24 +368,24 @@ public class PlacesApiTest {
     server.play();
     context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
 
-    QueryAutocompletePrediction[] predictions = PlacesApi.queryAutocomplete(context, QUERY_AUTOCOMPLETE_INPUT).await();
+    AutocompletePrediction[] predictions = PlacesApi.queryAutocomplete(context, QUERY_AUTOCOMPLETE_INPUT).await();
 
     assertNotNull(predictions);
     assertEquals(predictions.length, 1);
 
     {
-      QueryAutocompletePrediction prediction = predictions[0];
+      AutocompletePrediction prediction = predictions[0];
       assertNotNull(prediction);
       assertNotNull(prediction.description);
       assertEquals("Bondi Pizza, Campbell Parade, Sydney, New South Wales, Australia", prediction.description);
 
       assertEquals(2, prediction.matchedSubstrings.length);
-      QueryAutocompletePrediction.MatchedSubstring matchedSubstring = prediction.matchedSubstrings[0];
+      AutocompletePrediction.MatchedSubstring matchedSubstring = prediction.matchedSubstrings[0];
       assertEquals(5, matchedSubstring.length);
       assertEquals(6, matchedSubstring.offset);
 
       assertEquals(5, prediction.terms.length);
-      QueryAutocompletePrediction.Term term = prediction.terms[0];
+      AutocompletePrediction.Term term = prediction.terms[0];
       assertEquals(0, term.offset);
       assertEquals("Bondi Pizza", term.value);
 
@@ -403,7 +407,10 @@ public class PlacesApiTest {
         .radius(3000)
         .minPrice(PriceLevel.INEXPENSIVE)
         .maxPrice(PriceLevel.VERY_EXPENSIVE)
+        .name("name")
         .openNow(true)
+        .rankby(RankBy.DISTANCE)
+        .type(PlaceType.AIRPORT)
         .awaitIgnoreError();
 
     List<NameValuePair> actualParams = parseQueryParamsFromRequestLine(server.takeRequest().getRequestLine());
@@ -412,7 +419,24 @@ public class PlacesApiTest {
     assertParamValue(String.valueOf(3000), "radius", actualParams);
     assertParamValue(String.valueOf(1), "minprice", actualParams);
     assertParamValue(String.valueOf(4), "maxprice", actualParams);
+    assertParamValue("name", "name", actualParams);
     assertParamValue("true", "opennow", actualParams);
+    assertParamValue(RankBy.DISTANCE.toString(), "rankby", actualParams);
+    assertParamValue(PlaceType.AIRPORT.toString(), "type", actualParams);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testTextSearchLocationWithoutRadius() throws Exception {
+    MockResponse response = new MockResponse();
+    response.setBody("");
+    server.enqueue(response);
+    server.play();
+    context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
+
+    LatLng location = new LatLng(10, 20);
+    PlacesApi.textSearchQuery(context, "query")
+        .location(location)
+        .await();
   }
 
   @Test
@@ -505,6 +529,144 @@ public class PlacesApiTest {
     assertParamValue(photoReference, "photoreference", actualParams);
     assertParamValue(String.valueOf(width), "maxwidth", actualParams);
     assertParamValue(String.valueOf(height), "maxheight", actualParams);
+  }
+
+  @Test
+  public void testNearbySearchRequest() throws Exception {
+    MockResponse response = new MockResponse();
+    response.setBody("");
+    server.enqueue(response);
+    server.play();
+    context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
+
+    LatLng location = new LatLng(10, 20);
+    PlacesApi.nearbySearchQuery(context, location)
+        .radius(5000)
+        .rankby(RankBy.PROMINENCE)
+        .keyword("keyword")
+        .language("en")
+        .minPrice(PriceLevel.INEXPENSIVE)
+        .maxPrice(PriceLevel.EXPENSIVE)
+        .name("name")
+        .openNow(true)
+        .type(PlaceType.AIRPORT)
+        .pageToken("next-page-token")
+        .awaitIgnoreError();
+
+    List<NameValuePair> actualParams =
+        parseQueryParamsFromRequestLine(server.takeRequest().getRequestLine());
+    assertParamValue(location.toUrlValue(), "location", actualParams);
+    assertParamValue("5000", "radius", actualParams);
+    assertParamValue(RankBy.PROMINENCE.toString(), "rankby", actualParams);
+    assertParamValue("keyword", "keyword", actualParams);
+    assertParamValue("en", "language", actualParams);
+    assertParamValue(PriceLevel.INEXPENSIVE.toString(), "minprice", actualParams);
+    assertParamValue(PriceLevel.EXPENSIVE.toString(), "maxprice", actualParams);
+    assertParamValue("name", "name", actualParams);
+    assertParamValue("true", "opennow", actualParams);
+    assertParamValue(PlaceType.AIRPORT.toString(), "type", actualParams);
+    assertParamValue("next-page-token", "pagetoken", actualParams);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testNearbySearchRadiusAndRankbyDistance() throws Exception {
+    MockResponse response = new MockResponse();
+    response.setBody("");
+    server.enqueue(response);
+    server.play();
+    context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
+
+    LatLng location = new LatLng(10, 20);
+    PlacesApi.nearbySearchQuery(context, location)
+        .radius(5000)
+        .rankby(RankBy.DISTANCE)
+        .await();
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testNearbySearchRankbyDistanceWithoutKeywordNameOrType() throws Exception {
+    MockResponse response = new MockResponse();
+    response.setBody("");
+    server.enqueue(response);
+    server.play();
+    context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
+
+    LatLng location = new LatLng(10, 20);
+    PlacesApi.nearbySearchQuery(context, location)
+        .rankby(RankBy.DISTANCE)
+        .await();
+  }
+
+  @Test
+  public void testRadarSearchRequest() throws Exception {
+    MockResponse response = new MockResponse();
+    response.setBody("");
+    server.enqueue(response);
+    server.play();
+    context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
+
+    LatLng location = new LatLng(10, 20);
+    PlacesApi.radarSearchQuery(context, location, 5000)
+        .keyword("keyword")
+        .language("en")
+        .minPrice(PriceLevel.INEXPENSIVE)
+        .maxPrice(PriceLevel.EXPENSIVE)
+        .name("name")
+        .openNow(true)
+        .type(PlaceType.AIRPORT)
+        .awaitIgnoreError();
+
+    List<NameValuePair> actualParams =
+        parseQueryParamsFromRequestLine(server.takeRequest().getRequestLine());
+    assertParamValue(location.toUrlValue(), "location", actualParams);
+    assertParamValue("5000", "radius", actualParams);
+    assertParamValue("keyword", "keyword", actualParams);
+    assertParamValue("en", "language", actualParams);
+    assertParamValue(PriceLevel.INEXPENSIVE.toString(), "minprice", actualParams);
+    assertParamValue(PriceLevel.EXPENSIVE.toString(), "maxprice", actualParams);
+    assertParamValue("name", "name", actualParams);
+    assertParamValue("true", "opennow", actualParams);
+    assertParamValue(PlaceType.AIRPORT.toString(), "type", actualParams);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testRadarSearchLocationWithoutKeywordNameOrType() throws Exception {
+    MockResponse response = new MockResponse();
+    response.setBody("");
+    server.enqueue(response);
+    server.play();
+    context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
+
+    LatLng location = new LatLng(10, 20);
+    PlacesApi.radarSearchQuery(context, location, 5000)
+        .await();
+  }
+
+  @Test
+  public void testPlaceAutocompleteRequest() throws Exception {
+    MockResponse response = new MockResponse();
+    response.setBody("");
+    server.enqueue(response);
+    server.play();
+    context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
+
+    LatLng location = new LatLng(10, 20);
+    PlacesApi.placeAutocomplete(context, "Sydney Town Hall")
+        .offset(4)
+        .location(location)
+        .radius(5000)
+        .type(PlaceType.AIRPORT)
+        .components(ComponentFilter.country("AU"))
+        .awaitIgnoreError();
+
+    List<NameValuePair> actualParams =
+        parseQueryParamsFromRequestLine(server.takeRequest().getRequestLine());
+    assertParamValue("Sydney Town Hall", "input", actualParams);
+    assertParamValue(Integer.toString(4), "offset", actualParams);
+    assertParamValue(location.toUrlValue(), "location", actualParams);
+    assertParamValue("5000", "radius", actualParams);
+    assertParamValue(PlaceType.AIRPORT.toString(), "type", actualParams);
+    assertParamValue(ComponentFilter.country("AU").toString(), "components", actualParams);
   }
 
   // TODO(brettmorgan): find a home for these utility methods

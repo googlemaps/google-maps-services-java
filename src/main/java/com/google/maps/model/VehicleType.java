@@ -105,7 +105,7 @@ public enum VehicleType {
    * cars, with each car acting as a counterweight for the other.
    */
   FUNICULAR,
-  
+
   /**
    * All other vehicles will return this type.
    */

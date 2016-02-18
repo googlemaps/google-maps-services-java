@@ -26,9 +26,8 @@ import java.io.IOException;
 /**
  * This class handles conversion from JSON to {@link DayOfWeek}.
  *
- * <p>Please see
- * <a href="https://google-gson.googlecode.com/svn/trunk/gson/docs/javadocs/com/google/gson/TypeAdapter.html">GSON Type
- * Adapter</a> for more detail.
+ * <p>Please see <a href="https://google-gson.googlecode.com/svn/trunk/gson/docs/javadocs/com/google/gson/TypeAdapter.html">GSON
+ * Type Adapter</a> for more detail.
  */
 public class DayOfWeekAdaptor extends TypeAdapter<DayOfWeek> {
 

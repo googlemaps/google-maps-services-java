@@ -19,6 +19,7 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
+import com.google.maps.model.Distance;
 import com.google.maps.model.Duration;
 
 import java.io.IOException;
@@ -27,8 +28,8 @@ import java.io.IOException;
  * This class handles conversion from JSON to {@link Distance}.
  *
  * <p>Please see
- * {@url https://google-gson.googlecode.com/svn/trunk/gson/docs/javadocs/com/google/gson/TypeAdapter.html}
- * for more detail.
+ * <a href="https://google-gson.googlecode.com/svn/trunk/gson/docs/javadocs/com/google/gson/TypeAdapter.html">GSON Type
+ * Adapter</a> for more detail.
  */
 public class DurationAdapter extends TypeAdapter<Duration> {
 

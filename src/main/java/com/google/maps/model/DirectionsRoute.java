@@ -21,7 +21,7 @@ package com.google.maps.model;
  * exist) it still returns an empty routes array.
  *
  * <p>Please see <a href="https://developers.google.com/maps/documentation/directions/#Routes">
- *   Routes</a> for more detail.
+ * Routes</a> for more detail.
  */
 public class DirectionsRoute {
   /**
@@ -38,9 +38,9 @@ public class DirectionsRoute {
   public DirectionsLeg[] legs;
 
   /**
-   * {@code waypointOrder} contains an array indicating the order of any waypoints in the
-   * calculated route. This waypoints may be reordered if the request was passed
-   * {@code optimize:true} within its {@code waypoints} parameter.
+   * {@code waypointOrder} contains an array indicating the order of any waypoints in the calculated
+   * route. This waypoints may be reordered if the request was passed {@code optimize:true} within
+   * its {@code waypoints} parameter.
    */
   public int[] waypointOrder;
 
@@ -56,8 +56,8 @@ public class DirectionsRoute {
   public Bounds bounds;
 
   /**
-   * {@code copyrights} contains the copyrights text to be displayed for this route. You must
-   * handle and display this information yourself.
+   * {@code copyrights} contains the copyrights text to be displayed for this route. You must handle
+   * and display this information yourself.
    */
   public String copyrights;
 

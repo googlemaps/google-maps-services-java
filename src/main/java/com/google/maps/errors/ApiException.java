@@ -16,8 +16,8 @@
 package com.google.maps.errors;
 
 /**
- * ApiException and it's descendants represent an error returned by the remote API. API errors
- * are determined by the {@code status} field returned in any of the Geo API responses.
+ * ApiException and it's descendants represent an error returned by the remote API. API errors are
+ * determined by the {@code status} field returned in any of the Geo API responses.
  */
 public class ApiException extends Exception {
   private static final long serialVersionUID = -6550606366694345191L;
@@ -27,31 +27,31 @@ public class ApiException extends Exception {
   }
 
   /**
-   * Construct the appropriate ApiException from the response. If the response was successful,
-   * this method will return null.
+   * Construct the appropriate ApiException from the response. If the response was successful, this
+   * method will return null.
    *
-   * @param status  The status field returned from the API
+   * @param status       The status field returned from the API
    * @param errorMessage The error message returned from the API
    * @return The appropriate ApiException based on the status or null if no error occurred.
    */
   public static ApiException from(String status, String errorMessage) {
     // Classic Geo API error formats
     if ("OK".equals(status)) {
-        return null;
+      return null;
     } else if ("INVALID_REQUEST".equals(status)) {
-        return new InvalidRequestException(errorMessage);
+      return new InvalidRequestException(errorMessage);
     } else if ("MAX_ELEMENTS_EXCEEDED".equals(status)) {
-        return new MaxElementsExceededException(errorMessage);
+      return new MaxElementsExceededException(errorMessage);
     } else if ("NOT_FOUND".equals(status)) {
-        return new NotFoundException(errorMessage);
+      return new NotFoundException(errorMessage);
     } else if ("OVER_QUERY_LIMIT".equals(status)) {
-        return new OverQueryLimitException(errorMessage);
+      return new OverQueryLimitException(errorMessage);
     } else if ("REQUEST_DENIED".equals(status)) {
-        return new RequestDeniedException(errorMessage);
+      return new RequestDeniedException(errorMessage);
     } else if ("UNKNOWN_ERROR".equals(status)) {
-        return new UnknownErrorException(errorMessage);
+      return new UnknownErrorException(errorMessage);
     } else if ("ZERO_RESULTS".equals(status)) {
-        return new ZeroResultsException(errorMessage);
+      return new ZeroResultsException(errorMessage);
     }
 
     // New-style Geo API error formats
@@ -68,7 +68,7 @@ public class ApiException extends Exception {
     // We've hit an unknown error. This is not a state we should hit,
     // but we don't want to crash a user's application if we introduce a new error.
     return new UnknownErrorException("An unexpected error occurred. "
-       + "Status: " + status + ", "
-       + "Message: " + errorMessage);
+        + "Status: " + status + ", "
+        + "Message: " + errorMessage);
   }
 }

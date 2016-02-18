@@ -26,10 +26,9 @@ import com.google.maps.model.EncodedPolyline;
 import com.google.maps.model.LatLng;
 
 /**
- * <p>The Google Elevation API provides you a simple interface to query locations
- * on the earth for elevation data. Additionally, you may request sampled elevation
- * data along paths, allowing you to calculate elevation changes along routes.
- * <p>See <a href="https://developers.google.com/maps/documentation/elevation/">documentation</a>.
+ * <p>The Google Elevation API provides you a simple interface to query locations on the earth for
+ * elevation data. Additionally, you may request sampled elevation data along paths, allowing you to
+ * calculate elevation changes along routes. <p>See <a href="https://developers.google.com/maps/documentation/elevation/">documentation</a>.
  */
 public class ElevationApi {
   private static final ApiConfig API_CONFIG = new ApiConfig("/maps/api/elevation/json");
@@ -41,7 +40,7 @@ public class ElevationApi {
    * See <a href="https://developers.google.com/maps/documentation/elevation/#Locations">documentation</a>.
    */
   public static PendingResult<ElevationResult[]> getByPoints(GeoApiContext context,
-      LatLng... points) {
+                                                             LatLng... points) {
     return context.get(API_CONFIG, MultiResponse.class,
         "locations", shortestParam(points));
   }
@@ -69,8 +68,7 @@ public class ElevationApi {
   }
 
   /**
-   * Chooses the shortest param (only a guess, since the
-   * length is different after URL encoding).
+   * Chooses the shortest param (only a guess, since the length is different after URL encoding).
    */
   private static String shortestParam(LatLng[] points) {
     String joined = join('|', points);
@@ -78,7 +76,7 @@ public class ElevationApi {
     return joined.length() < encoded.length() ? joined : encoded;
   }
 
-    /**
+  /**
    * Retrieve the elevation of a single point.
    *
    * <p>For more detail, please see the
@@ -118,7 +116,7 @@ public class ElevationApi {
    * <p>See <a href="https://developers.google.com/maps/documentation/elevation/#Locations">documentation</a>.
    */
   public static PendingResult<ElevationResult[]> getByPoints(GeoApiContext context,
-                                                      EncodedPolyline encodedPolyline) {
+                                                             EncodedPolyline encodedPolyline) {
     return context.get(API_CONFIG, MultiResponse.class,
         "locations", "enc:" + encodedPolyline.getEncodedPath());
   }

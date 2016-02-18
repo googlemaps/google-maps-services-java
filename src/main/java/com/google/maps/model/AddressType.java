@@ -15,19 +15,13 @@
 
 package com.google.maps.model;
 
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import com.google.maps.internal.StringJoin.UrlValue;
 
 /**
  * The Address types. Please see
  * <a href="https://developers.google.com/maps/documentation/geocoding/#Types">Address
  * Types</a> for more detail.
- * Some addresses contain additional place categories. Please see 
+ * Some addresses contain additional place categories. Please see
  * <a href="https://developers.google.com/places/documentation/supported_types">Places</a>
  */
 public enum AddressType implements UrlValue {
@@ -48,8 +42,8 @@ public enum AddressType implements UrlValue {
   INTERSECTION("intersection"),
 
   /**
-   * {@code POLITICAL} indicates a political entity. Usually, this type indicates a polygon of
-   * some civil administration.
+   * {@code POLITICAL} indicates a political entity. Usually, this type indicates a polygon of some
+   * civil administration.
    */
   POLITICAL("political"),
 
@@ -75,22 +69,22 @@ public enum AddressType implements UrlValue {
 
   /**
    * {@code ADMINISTRATIVE_AREA_LEVEL_3} indicates a third-order civil entity below the country
-   * level. This type indicates a minor civil division. Not all nations exhibit these
-   * administrative levels.
+   * level. This type indicates a minor civil division. Not all nations exhibit these administrative
+   * levels.
    */
   ADMINISTRATIVE_AREA_LEVEL_3("administrative_area_level_3"),
 
   /**
    * {@code ADMINISTRATIVE_AREA_LEVEL_4} indicates a fourth-order civil entity below the country
-   * level. This type indicates a minor civil division. Not all nations exhibit these
-   * administrative levels.
+   * level. This type indicates a minor civil division. Not all nations exhibit these administrative
+   * levels.
    */
   ADMINISTRATIVE_AREA_LEVEL_4("administrative_area_level_4"),
 
   /**
    * {@code ADMINISTRATIVE_AREA_LEVEL_5} indicates a fifth-order civil entity below the country
-   * level. This type indicates a minor civil division. Not all nations exhibit these
-   * administrative levels.
+   * level. This type indicates a minor civil division. Not all nations exhibit these administrative
+   * levels.
    */
   ADMINISTRATIVE_AREA_LEVEL_5("administrative_area_level_5"),
 
@@ -122,8 +116,8 @@ public enum AddressType implements UrlValue {
   NEIGHBORHOOD("neighborhood"),
 
   /**
-   * {@code PREMISE} indicates a named location, usually a building or collection of buildings
-   * with a common name.
+   * {@code PREMISE} indicates a named location, usually a building or collection of buildings with
+   * a common name.
    */
   PREMISE("premise"),
 
@@ -134,8 +128,7 @@ public enum AddressType implements UrlValue {
   SUBPREMISE("subpremise"),
 
   /**
-   * {@code POSTAL_CODE} indicates a postal code as used to address postal mail within the
-   * country.
+   * {@code POSTAL_CODE} indicates a postal code as used to address postal mail within the country.
    */
   POSTAL_CODE("postal_code"),
 
@@ -206,12 +199,12 @@ public enum AddressType implements UrlValue {
    * {@code POST_OFFICE} indicates the location of a post office.
    */
   POST_OFFICE("post_office"),
- 
+
   /**
    * {@code PLACE_OF_WORSHIP} indicates the location of a place of worship.
    */
   PLACE_OF_WORSHIP("place_of_worship"),
-    
+
   /**
    * Indicates an unknown address type returned by the server. The Java Client for Google Maps
    * Services should be updated to support the new value.
@@ -236,6 +229,6 @@ public enum AddressType implements UrlValue {
     }
     return addressType;
   }
-    
+
 }
 

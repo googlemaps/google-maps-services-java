@@ -40,7 +40,7 @@ public class RoadsApiIntegrationTest extends KeyOnlyAuthenticatedTest {
     this.context = context
         .setConnectTimeout(2, TimeUnit.SECONDS)
         .setReadTimeout(2, TimeUnit.SECONDS)
-        .setWriteTimeout(2 , TimeUnit.SECONDS);
+        .setWriteTimeout(2, TimeUnit.SECONDS);
   }
 
   @Test
@@ -105,7 +105,7 @@ public class RoadsApiIntegrationTest extends KeyOnlyAuthenticatedTest {
       assertTrue(speed.speedLimit > 0);
     }
   }
-  
+
   @Test
   public void testSpeedLimitsWithUsaLatLngs() throws Exception {
     SpeedLimit[] speeds = RoadsApi.speedLimits(context,
@@ -159,7 +159,7 @@ public class RoadsApiIntegrationTest extends KeyOnlyAuthenticatedTest {
     assertEquals(7, points.length);
     assertEquals(7, speeds.length);
   }
-  
+
   @Test
   public void testSnappedSpeedLimitRequestUsa() throws Exception {
     SnappedSpeedLimitResponse response = RoadsApi.snappedSpeedLimits(context,
