@@ -401,7 +401,7 @@ public class DirectionsApiTest extends AuthenticatedTest {
   public void testLocalIconInParis() throws Exception {
     DirectionsResult result = DirectionsApi.newRequest(context)
         .origin("paris metro bibliotheque francois mitterrand")
-        .destination("paris%20metro%20pyramides")
+        .destination("paris metro pyramides")
         .mode(TravelMode.TRANSIT)
         .await();
     assertNotNull(result);
