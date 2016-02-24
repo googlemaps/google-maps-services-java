@@ -206,9 +206,16 @@ public enum AddressType implements UrlValue {
   PLACE_OF_WORSHIP("place_of_worship"),
 
   /**
-   * {@code WARD} indicates a specific type of Japanese locality, to facilitate distinction between multiple locality components within a Japanese address.
+   * {@code WARD} indicates a specific type of Japanese locality, to facilitate distinction between
+   * multiple locality components within a Japanese address.
    */
   WARD("ward"),
+
+  /**
+   * {@code POSTAL_TOWN} indicates a grouping of geographic areas, such as locality and sublocality,
+   * used for mailing addresses in some countries.
+   */
+  POSTAL_TOWN("postal_town"),
 
   /**
    * Indicates an unknown address type returned by the server. The Java Client for Google Maps
