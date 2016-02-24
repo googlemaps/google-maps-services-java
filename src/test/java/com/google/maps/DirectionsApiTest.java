@@ -394,4 +394,29 @@ public class DirectionsApiTest extends AuthenticatedTest {
 
   }
 
+  /**
+   * Test {@code local_icon} for Directions in Paris.
+   */
+  @Test
+  public void testLocalIconInParis() throws Exception {
+    DirectionsResult result = DirectionsApi.newRequest(context)
+        .origin("paris metro bibliotheque francois mitterrand")
+        .destination("paris metro pyramides")
+        .mode(TravelMode.TRANSIT)
+        .await();
+    assertNotNull(result);
+    assertNotNull(result.routes);
+    assertNotNull(result.routes[0]);
+    assertNotNull(result.routes[0].legs);
+    assertNotNull(result.routes[0].legs[0]);
+    assertNotNull(result.routes[0].legs[0].steps);
+    assertNotNull(result.routes[0].legs[0].steps[0]);
+    assertNotNull(result.routes[0].legs[0].steps[0].transitDetails);
+    assertNotNull(result.routes[0].legs[0].steps[0].transitDetails.line);
+    assertNotNull(result.routes[0].legs[0].steps[0].transitDetails.line.vehicle);
+    assertNotNull(result.routes[0].legs[0].steps[0].transitDetails.line.vehicle.local_icon);
+    assertEquals("//maps.gstatic.com/mapfiles/transit/iw2/6/fr-paris-metro.png",
+        result.routes[0].legs[0].steps[0].transitDetails.line.vehicle.local_icon);
+  }
+
 }

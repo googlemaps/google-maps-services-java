@@ -39,4 +39,9 @@ public class Vehicle {
    * {@code icon} contains the URL for an icon associated with this vehicle type.
    */
   public String icon;
+
+  /**
+   * {@code local_icon} contains the URL for an icon based on the local transport signage.
+   */
+  public String local_icon;
 }
