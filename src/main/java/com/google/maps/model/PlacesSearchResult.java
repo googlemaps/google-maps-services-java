@@ -67,7 +67,7 @@ public class PlacesSearchResult {
   /**
    * types contains an array of feature types describing the given result.
    */
-  public String types[];
+  public AddressType types[];
 
   /**
    * openingHours may contain whether the place is open now or not.

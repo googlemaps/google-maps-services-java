@@ -21,6 +21,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import com.google.maps.model.AddressComponentType;
+import com.google.maps.model.AddressType;
 import com.google.maps.model.AutocompletePrediction;
 import com.google.maps.model.ComponentFilter;
 import com.google.maps.model.LatLng;
@@ -487,7 +488,7 @@ public class PlacesApiTest {
       assertEquals(4.4, result.rating, 0.0001);
       assertNotNull(result.types);
       assertNotNull(result.types[0]);
-      assertEquals("establishment", result.types[0]);
+      assertEquals(AddressType.ESTABLISHMENT, result.types[0]);
     }
   }
 
