@@ -41,7 +41,7 @@ public class Vehicle {
   public String icon;
 
   /**
-   * {@code local_icon} contains the URL for an icon based on the local transport signage.
+   * {@code localIcon} contains the URL for an icon based on the local transport signage.
    */
-  public String local_icon;
+  public String localIcon;
 }

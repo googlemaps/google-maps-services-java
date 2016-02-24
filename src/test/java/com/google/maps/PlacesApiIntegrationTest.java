@@ -178,8 +178,8 @@ public class PlacesApiIntegrationTest extends KeyOnlyAuthenticatedTest {
     assertNotNull(image);
   }
 
-  @Test
-  public void testPizzaInNewYork() throws Exception {
+    @Test
+  public void testPizzaInNewYorkPagination() throws Exception {
     PlacesSearchResponse response = PlacesApi.textSearchQuery(context, "Pizza in New York").await();
     assertNotNull(response);
     assertNotNull(response.results);
@@ -317,6 +317,6 @@ public class PlacesApiIntegrationTest extends KeyOnlyAuthenticatedTest {
     assertNotNull(response);
     assertNotNull(response.results[0]);
     assertEquals("Kita Ward, Kyoto, Kyoto Prefecture, Japan", response.results[0].formattedAddress);
-    assertTrue(Arrays.asList(response.results[0].types).contains(AddressType.WARD));
+    assertTrue(Arrays.asList(response.results[0].types).contains("ward"));
   }
 }

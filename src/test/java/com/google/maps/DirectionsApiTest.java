@@ -414,9 +414,9 @@ public class DirectionsApiTest extends AuthenticatedTest {
     assertNotNull(result.routes[0].legs[0].steps[0].transitDetails);
     assertNotNull(result.routes[0].legs[0].steps[0].transitDetails.line);
     assertNotNull(result.routes[0].legs[0].steps[0].transitDetails.line.vehicle);
-    assertNotNull(result.routes[0].legs[0].steps[0].transitDetails.line.vehicle.local_icon);
+    assertNotNull(result.routes[0].legs[0].steps[0].transitDetails.line.vehicle.localIcon);
     assertEquals("//maps.gstatic.com/mapfiles/transit/iw2/6/fr-paris-metro.png",
-        result.routes[0].legs[0].steps[0].transitDetails.line.vehicle.local_icon);
+        result.routes[0].legs[0].steps[0].transitDetails.line.vehicle.localIcon);
   }
 
 }
