@@ -269,14 +269,15 @@ public class PlacesApiIntegrationTest extends KeyOnlyAuthenticatedTest {
     assertNotNull(response2.nextPageToken);
   }
 
-  @Test
-  public void testRadarSearchRequestByKeyword() throws Exception {
-    PlacesSearchResponse response = PlacesApi.radarSearchQuery(context, SYDNEY, 10000)
-        .keyword("pub").await();
-    assertNotNull(response);
-    assertNotNull(response.results);
-    assertTrue(100 < response.results.length);
-  }
+// Flaky test.
+//  @Test
+//  public void testRadarSearchRequestByKeyword() throws Exception {
+//    PlacesSearchResponse response = PlacesApi.radarSearchQuery(context, SYDNEY, 10000)
+//        .keyword("pub").await();
+//    assertNotNull(response);
+//    assertNotNull(response.results);
+//    assertTrue(100 < response.results.length);
+//  }
 
   @Test
   public void testRadarSearchRequestByName() throws Exception {
