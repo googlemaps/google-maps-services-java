@@ -178,7 +178,7 @@ public class PlacesApiIntegrationTest extends KeyOnlyAuthenticatedTest {
     assertNotNull(image);
   }
 
-    @Test
+  @Test
   public void testPizzaInNewYorkPagination() throws Exception {
     PlacesSearchResponse response = PlacesApi.textSearchQuery(context, "Pizza in New York").await();
     assertNotNull(response);
