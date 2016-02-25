@@ -20,6 +20,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import com.google.maps.model.AddressType;
 import com.google.maps.model.AutocompletePrediction;
 import com.google.maps.model.LatLng;
 import com.google.maps.model.Photo;
@@ -36,6 +37,7 @@ import org.junit.experimental.categories.Category;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.net.URI;
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 import javax.imageio.ImageIO;
@@ -177,7 +179,7 @@ public class PlacesApiIntegrationTest extends KeyOnlyAuthenticatedTest {
   }
 
   @Test
-  public void testPizzaInNewYork() throws Exception {
+  public void testPizzaInNewYorkPagination() throws Exception {
     PlacesSearchResponse response = PlacesApi.textSearchQuery(context, "Pizza in New York").await();
     assertNotNull(response);
     assertNotNull(response.results);
@@ -273,7 +275,7 @@ public class PlacesApiIntegrationTest extends KeyOnlyAuthenticatedTest {
         .keyword("pub").await();
     assertNotNull(response);
     assertNotNull(response.results);
-    assertTrue(175 < response.results.length);
+    assertTrue(100 < response.results.length);
   }
 
   @Test
@@ -301,10 +303,20 @@ public class PlacesApiIntegrationTest extends KeyOnlyAuthenticatedTest {
 
   @Test
   public void testPlaceAutocomplete() throws Exception {
-    AutocompletePrediction[] predictions = PlacesApi.placeAutocomplete(context, "Sydney Town Ha").await();
+    AutocompletePrediction[] predictions = PlacesApi.placeAutocomplete(context, "Sydney Town Ha")
+        .await();
     assertNotNull(predictions);
     assertTrue(predictions.length > 0);
     assertTrue(predictions[0].description.startsWith("Sydney Town Hall"));
   }
 
+  @Test
+  public void testKitaWard() throws Exception {
+    PlacesSearchResponse response = PlacesApi.textSearchQuery(context,
+        "Kita Ward, Kyoto, Kyoto Prefecture, Japan").await();
+    assertNotNull(response);
+    assertNotNull(response.results[0]);
+    assertEquals("Kita Ward, Kyoto, Kyoto Prefecture, Japan", response.results[0].formattedAddress);
+    assertTrue(Arrays.asList(response.results[0].types).contains("ward"));
+  }
 }

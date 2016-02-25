@@ -21,6 +21,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import com.google.maps.model.AddressComponentType;
+import com.google.maps.model.AddressType;
 import com.google.maps.model.AutocompletePrediction;
 import com.google.maps.model.ComponentFilter;
 import com.google.maps.model.LatLng;
