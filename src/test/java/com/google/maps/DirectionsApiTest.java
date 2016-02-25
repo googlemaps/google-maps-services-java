@@ -405,16 +405,6 @@ public class DirectionsApiTest extends AuthenticatedTest {
         .mode(TravelMode.TRANSIT)
         .await();
     assertNotNull(result);
-    assertNotNull(result.routes);
-    assertNotNull(result.routes[0]);
-    assertNotNull(result.routes[0].legs);
-    assertNotNull(result.routes[0].legs[0]);
-    assertNotNull(result.routes[0].legs[0].steps);
-    assertNotNull(result.routes[0].legs[0].steps[0]);
-    assertNotNull(result.routes[0].legs[0].steps[0].transitDetails);
-    assertNotNull(result.routes[0].legs[0].steps[0].transitDetails.line);
-    assertNotNull(result.routes[0].legs[0].steps[0].transitDetails.line.vehicle);
-    assertNotNull(result.routes[0].legs[0].steps[0].transitDetails.line.vehicle.localIcon);
     assertEquals("//maps.gstatic.com/mapfiles/transit/iw2/6/fr-paris-metro.png",
         result.routes[0].legs[0].steps[0].transitDetails.line.vehicle.localIcon);
   }
