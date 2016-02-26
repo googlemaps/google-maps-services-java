@@ -24,7 +24,6 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import com.google.maps.model.AddressComponentType;
 import com.google.maps.model.AddressType;
 import com.google.maps.model.ComponentFilter;
 import com.google.maps.model.GeocodingResult;
@@ -232,8 +231,7 @@ public class GeocodingApiTest extends AuthenticatedTest {
     assertEquals("277 Bedford Ave, Brooklyn, NY 11211, USA", results[0].formattedAddress);
     assertEquals("277", results[0].addressComponents[0].longName);
     assertEquals("277", results[0].addressComponents[0].shortName);
-    assertEquals(AddressComponentType.STREET_NUMBER,
-        results[0].addressComponents[0].types[0]);
+    assertEquals(AddressType.STREET_NUMBER, results[0].addressComponents[0].types[0]);
     assertEquals(AddressType.STREET_ADDRESS, results[0].types[0]);
   }
 

@@ -211,20 +211,6 @@ public class PlacesApiIntegrationTest extends KeyOnlyAuthenticatedTest {
   }
 
   @Test
-  public void testPlaceTextSearchPermanentlyClosed() throws Exception {
-    PlacesSearchResponse response = PlacesApi.textSearchQuery(context, "ABC Learning Centres in australia").await();
-    assertNotNull(response);
-    for (PlacesSearchResult result : response.results) {
-      assertNotNull(result);
-      if (result.permanentlyClosed) {
-        // test success condition
-        return;
-      }
-    }
-    fail("No permanently closed result found.");
-  }
-
-  @Test
   public void testNearbySearchRequestByKeyword() throws Exception {
     PlacesSearchResponse response = PlacesApi.nearbySearchQuery(context, SYDNEY)
         .radius(10000).keyword("pub").await();

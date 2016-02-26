@@ -26,6 +26,9 @@ import com.google.maps.internal.StringJoin.UrlValue;
  */
 public enum AddressType implements UrlValue {
 
+  // The following types are supported and returned by the geocoder in both the address type
+  // and address component type arrays
+
   /**
    * {@code STREET_ADDRESS} indicates a precise street address.
    */
@@ -99,6 +102,12 @@ public enum AddressType implements UrlValue {
   LOCALITY("locality"),
 
   /**
+   * {@code WARD} indicates a specific type of Japanese locality, to facilitate distinction between
+   * multiple locality components within a Japanese address.
+   */
+  WARD("ward"),
+
+  /**
    * {@code SUBLOCALITY} indicates a first-order civil entity below a locality. For some locations
    * may receive one of the additional types: sublocality_level_1 to sublocality_level_5. Each
    * sublocality level is a civil entity. Larger numbers indicate a smaller geographic area.
@@ -142,12 +151,6 @@ public enum AddressType implements UrlValue {
    */
   AIRPORT("airport"),
 
-
-  /**
-   * {@code UNIVERSITY} indicates a university.
-   */
-  UNIVERSITY("university"),
-
   /**
    * {@code PARK} indicates a named park.
    */
@@ -160,10 +163,43 @@ public enum AddressType implements UrlValue {
    */
   POINT_OF_INTEREST("point_of_interest"),
 
+  // In addition to the above, address components may include the types below.
+
+  /**
+   * {@code FLOOR} indicates the floor of a building address.
+   */
+  FLOOR("floor"),
+
   /**
    * {@code ESTABLISHMENT} typically indicates a place that has not yet been categorized.
    */
   ESTABLISHMENT("establishment"),
+
+  /**
+   * {@code PARKING} indicates a parking lot or parking structure.
+   */
+  PARKING("parking"),
+
+  /**
+   * {@code POST_BOX} indicates a specific postal box.
+   */
+  POST_BOX("post_box"),
+
+  /**
+   * {@code POSTAL_TOWN} indicates a grouping of geographic areas, such as locality and sublocality,
+   * used for mailing addresses in some countries.
+   */
+  POSTAL_TOWN("postal_town"),
+
+  /**
+   * {@code ROOM} indicates the room of a building address.
+   */
+  ROOM("room"),
+
+  /**
+   * {@code STREET_NUMBER} indicates the precise street number.
+   */
+  STREET_NUMBER("street_number"),
 
   /**
    * {@code BUS_STATION} indicates the location of a bus stop.
@@ -185,6 +221,13 @@ public enum AddressType implements UrlValue {
    */
   TRANSIT_STATION("transit_station"),
 
+  // Additional Address Types
+
+  /**
+   * {@code UNIVERSITY} indicates a university.
+   */
+  UNIVERSITY("university"),
+
   /**
    * {@code CHURCH} indicates the location of a church.
    */
@@ -205,17 +248,6 @@ public enum AddressType implements UrlValue {
    */
   PLACE_OF_WORSHIP("place_of_worship"),
 
-  /**
-   * {@code WARD} indicates a specific type of Japanese locality, to facilitate distinction between
-   * multiple locality components within a Japanese address.
-   */
-  WARD("ward"),
-
-  /**
-   * {@code POSTAL_TOWN} indicates a grouping of geographic areas, such as locality and sublocality,
-   * used for mailing addresses in some countries.
-   */
-  POSTAL_TOWN("postal_town"),
 
   /**
    * Indicates an unknown address type returned by the server. The Java Client for Google Maps
