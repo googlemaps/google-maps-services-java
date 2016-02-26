@@ -39,6 +39,6 @@ public class AddressComponent {
    * This indicates the type of each part of the address. Examples include street number or
    * country.
    */
-  public AddressComponentType[] types;
+  public AddressType[] types;
 
 }

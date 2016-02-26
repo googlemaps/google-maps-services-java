@@ -23,7 +23,6 @@ import com.google.maps.PendingResult;
 import com.google.maps.PhotoRequest;
 import com.google.maps.errors.ApiException;
 import com.google.maps.errors.OverQueryLimitException;
-import com.google.maps.model.AddressComponentType;
 import com.google.maps.model.AddressType;
 import com.google.maps.model.Distance;
 import com.google.maps.model.Duration;
@@ -232,8 +231,6 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
         .registerTypeAdapter(Duration.class, new DurationAdapter())
         .registerTypeAdapter(Fare.class, new FareAdapter())
         .registerTypeAdapter(LatLng.class, new LatLngAdapter())
-        .registerTypeAdapter(AddressComponentType.class,
-            new SafeEnumAdapter<AddressComponentType>(AddressComponentType.UNKNOWN))
         .registerTypeAdapter(AddressType.class, new SafeEnumAdapter<AddressType>(AddressType.UNKNOWN))
         .registerTypeAdapter(TravelMode.class, new SafeEnumAdapter<TravelMode>(TravelMode.UNKNOWN))
         .registerTypeAdapter(LocationType.class, new SafeEnumAdapter<LocationType>(LocationType.UNKNOWN))
