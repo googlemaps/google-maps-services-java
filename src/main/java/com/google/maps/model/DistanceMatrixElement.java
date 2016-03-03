@@ -35,6 +35,8 @@ public class DistanceMatrixElement {
    */
   public Duration duration;
 
+  public Duration durationInTraffic;
+
   /**
    * {@code distance} indicates the total distance covered by this leg.
    */

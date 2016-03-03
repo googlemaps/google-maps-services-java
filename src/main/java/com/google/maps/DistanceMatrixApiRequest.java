@@ -19,12 +19,7 @@ import static com.google.maps.internal.StringJoin.join;
 
 import com.google.maps.DirectionsApi.RouteRestriction;
 import com.google.maps.DistanceMatrixApi.Response;
-import com.google.maps.model.DistanceMatrix;
-import com.google.maps.model.LatLng;
-import com.google.maps.model.TransitMode;
-import com.google.maps.model.TransitRoutingPreference;
-import com.google.maps.model.TravelMode;
-import com.google.maps.model.Unit;
+import com.google.maps.model.*;
 
 import org.joda.time.ReadableInstant;
 
@@ -150,6 +145,14 @@ public class DistanceMatrixApiRequest
    */
   public DistanceMatrixApiRequest departureTime(ReadableInstant departureTime) {
     return param("departure_time", Long.toString(departureTime.getMillis() / 1000L));
+  }
+
+  /**
+   * Specifies the traffic model to use when requesting future driving directions. Once set, you
+   * must specify a departure time.
+   */
+  public DistanceMatrixApiRequest trafficModel(TrafficModel trafficModel) {
+    return param("traffic_model", trafficModel);
   }
 
   /**
