@@ -35,6 +35,17 @@ public class DistanceMatrixElement {
    */
   public Duration duration;
 
+  /**
+   * {@code durationInTraffic} indicates the length of time to travel this route,
+   * based on current and historical traffic conditions.  The duration in traffic
+   * will only be returned if all of the following are true:
+   * <ol>
+   *   <li>The request includes a departureTime parameter.</li>
+   *   <li>The request includes a valid API key, or a valid Google Maps APIs Premium Plan client ID and signature.</li>
+   *   <li>Traffic conditions are available for the requested route.</li>
+   *   <li>The mode parameter is set to driving.</li>
+   * </ol>
+   */
   public Duration durationInTraffic;
 
   /**

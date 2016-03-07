@@ -148,8 +148,9 @@ public class DistanceMatrixApiRequest
   }
 
   /**
-   * Specifies the traffic model to use when requesting future driving directions. Once set, you
-   * must specify a departure time.
+   * Specifies the assumptions to use when calculating time in traffic.  This
+   * parameter may only be specified when the travel mode is driving and
+   * the request includes a departure_time.
    */
   public DistanceMatrixApiRequest trafficModel(TrafficModel trafficModel) {
     return param("traffic_model", trafficModel);
