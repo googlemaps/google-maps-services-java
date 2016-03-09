@@ -19,7 +19,13 @@ import static com.google.maps.internal.StringJoin.join;
 
 import com.google.maps.DirectionsApi.RouteRestriction;
 import com.google.maps.DistanceMatrixApi.Response;
-import com.google.maps.model.*;
+import com.google.maps.model.DistanceMatrix;
+import com.google.maps.model.LatLng;
+import com.google.maps.model.TransitMode;
+import com.google.maps.model.TransitRoutingPreference;
+import com.google.maps.model.TravelMode;
+import com.google.maps.model.Unit;
+import com.google.maps.model.TrafficModel;
 
 import org.joda.time.ReadableInstant;
 
