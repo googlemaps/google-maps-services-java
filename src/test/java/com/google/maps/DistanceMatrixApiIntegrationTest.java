@@ -25,6 +25,7 @@ import com.google.maps.model.DistanceMatrix;
 import com.google.maps.model.DistanceMatrixElement;
 import com.google.maps.model.DistanceMatrixElementStatus;
 import com.google.maps.model.DistanceMatrixRow;
+import com.google.maps.model.TrafficModel;
 import com.google.maps.model.TransitMode;
 import com.google.maps.model.TransitRoutingPreference;
 import com.google.maps.model.TravelMode;
@@ -185,5 +186,21 @@ public class DistanceMatrixApiIntegrationTest extends AuthenticatedTest {
 
     assertNotNull(matrix);
     assertEquals(DistanceMatrixElementStatus.OK, matrix.rows[0].elements[0].status);
+  }
+
+  @Test
+  public void testDurationInTrafficWithTrafficModel() throws Exception {
+    final long ONE_HOUR_MILLIS = 60 * 60 * 1000;
+    DistanceMatrix matrix = DistanceMatrixApi.newRequest(context)
+            .origins("Fisherman's Wharf, San Francisco")
+            .destinations("San Francisco International Airport, San Francisco, CA")
+            .mode(TravelMode.DRIVING)
+            .trafficModel(TrafficModel.PESSIMISTIC)
+            .departureTime(new DateTime(System.currentTimeMillis() + ONE_HOUR_MILLIS))
+            .await();
+
+    assertNotNull(matrix);
+    assertEquals(DistanceMatrixElementStatus.OK, matrix.rows[0].elements[0].status);
+    assertTrue(0 < matrix.rows[0].elements[0].durationInTraffic.inSeconds);
   }
 }
