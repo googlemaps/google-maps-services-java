@@ -191,14 +191,14 @@ public class DistanceMatrixApiIntegrationTest extends AuthenticatedTest {
   @Test
   public void testDurationInTrafficWithTrafficModel() throws Exception {
     final long ONE_HOUR_MILLIS = 60 * 60 * 1000;
-    DistanceMatrix matrix = DistanceMatrixApi.newRequest(context)
+    DistanceMatrixApiRequest request = DistanceMatrixApi.newRequest(context)
             .origins("Fisherman's Wharf, San Francisco")
             .destinations("San Francisco International Airport, San Francisco, CA")
             .mode(TravelMode.DRIVING)
             .trafficModel(TrafficModel.PESSIMISTIC)
-            .departureTime(new DateTime(System.currentTimeMillis() + ONE_HOUR_MILLIS))
-            .await();
-
+            .departureTime(new DateTime(System.currentTimeMillis() + ONE_HOUR_MILLIS));
+    assertTrue("pessimistic".equals(request.params().get("traffic_model")));
+    DistanceMatrix matrix = request.await();
     assertNotNull(matrix);
     assertEquals(DistanceMatrixElementStatus.OK, matrix.rows[0].elements[0].status);
     assertTrue(0 < matrix.rows[0].elements[0].durationInTraffic.inSeconds);
