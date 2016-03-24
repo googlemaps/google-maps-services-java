@@ -25,6 +25,7 @@ import com.google.maps.model.TransitMode;
 import com.google.maps.model.TransitRoutingPreference;
 import com.google.maps.model.TravelMode;
 import com.google.maps.model.Unit;
+import com.google.maps.model.TrafficModel;
 
 import org.joda.time.ReadableInstant;
 
@@ -150,6 +151,15 @@ public class DistanceMatrixApiRequest
    */
   public DistanceMatrixApiRequest departureTime(ReadableInstant departureTime) {
     return param("departure_time", Long.toString(departureTime.getMillis() / 1000L));
+  }
+
+  /**
+   * Specifies the assumptions to use when calculating time in traffic.  This
+   * parameter may only be specified when the travel mode is driving and
+   * the request includes a departure_time.
+   */
+  public DistanceMatrixApiRequest trafficModel(TrafficModel trafficModel) {
+    return param("traffic_model", trafficModel);
   }
 
   /**
