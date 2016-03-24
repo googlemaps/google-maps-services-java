@@ -28,6 +28,7 @@ import com.google.maps.model.LatLng;
 import com.google.maps.model.OpeningHours.Period;
 import com.google.maps.model.OpeningHours.Period.OpenClose.DayOfWeek;
 import com.google.maps.model.Photo;
+import com.google.maps.model.PlaceAutocompleteType;
 import com.google.maps.model.PlaceDetails;
 import com.google.maps.model.PlaceDetails.Review.AspectRating.RatingType;
 import com.google.maps.model.PlaceIdScope;
@@ -38,6 +39,7 @@ import com.google.maps.model.PriceLevel;
 import com.google.maps.model.RankBy;
 import com.google.mockwebserver.MockResponse;
 import com.google.mockwebserver.MockWebServer;
+
 
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
@@ -656,7 +658,7 @@ public class PlacesApiTest {
         .offset(4)
         .location(location)
         .radius(5000)
-        .type(PlaceType.AIRPORT)
+        .type(PlaceAutocompleteType.ESTABLISHMENT)
         .components(ComponentFilter.country("AU"))
         .awaitIgnoreError();
 
@@ -666,7 +668,7 @@ public class PlacesApiTest {
     assertParamValue(Integer.toString(4), "offset", actualParams);
     assertParamValue(location.toUrlValue(), "location", actualParams);
     assertParamValue("5000", "radius", actualParams);
-    assertParamValue(PlaceType.AIRPORT.toString(), "type", actualParams);
+    assertParamValue(PlaceAutocompleteType.ESTABLISHMENT.toString(), "types", actualParams);
     assertParamValue(ComponentFilter.country("AU").toString(), "components", actualParams);
   }
 

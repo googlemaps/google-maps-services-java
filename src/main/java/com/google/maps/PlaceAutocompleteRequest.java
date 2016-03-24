@@ -24,7 +24,7 @@ import com.google.maps.internal.ApiResponse;
 import com.google.maps.model.AutocompletePrediction;
 import com.google.maps.model.ComponentFilter;
 import com.google.maps.model.LatLng;
-import com.google.maps.model.PlaceType;
+import com.google.maps.model.PlaceAutocompleteType;
 
 /**
  * A <a href="https://developers.google.com/places/web-service/autocomplete#place_autocomplete_requests">Place
@@ -77,8 +77,8 @@ public class PlaceAutocompleteRequest
   /**
    * type restricts the results to places matching the specified type.
    */
-  public PlaceAutocompleteRequest type(PlaceType type) {
-    return param("type", type);
+  public PlaceAutocompleteRequest type(PlaceAutocompleteType type) {
+    return param("types", type);
   }
 
   /**

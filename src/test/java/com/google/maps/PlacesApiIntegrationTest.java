@@ -18,13 +18,15 @@ package com.google.maps;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
 
-import com.google.maps.model.AddressType;
 import com.google.maps.model.AutocompletePrediction;
+import com.google.maps.model.ComponentFilter;
 import com.google.maps.model.LatLng;
 import com.google.maps.model.Photo;
 import com.google.maps.model.PhotoResult;
+import com.google.maps.model.PlaceAutocompleteType;
 import com.google.maps.model.PlaceDetails;
 import com.google.maps.model.PlaceIdScope;
 import com.google.maps.model.PlaceType;
@@ -309,6 +311,22 @@ public class PlacesApiIntegrationTest extends KeyOnlyAuthenticatedTest {
     assertNotNull(predictions);
     assertTrue(predictions.length > 0);
     assertTrue(predictions[0].description.startsWith("Sydney Town Hall"));
+  }
+
+  @Test
+  public void testPlaceAutocompleteWithType() throws Exception {
+    AutocompletePrediction[] predictions = PlacesApi.placeAutocomplete(context, "po")
+            .components(ComponentFilter.country("nz"))
+            .type(PlaceAutocompleteType.REGIONS)
+            .await();
+    assertNotNull(predictions);
+    assertTrue(predictions.length > 0);
+    for (int i = 0; i < predictions.length; i++) {
+      for (int j = 0; j < predictions[i].types.length; j++) {
+        assertFalse(predictions[i].types[j].equals("route"));
+        assertFalse(predictions[i].types[j].equals("establishment"));
+      }
+    }
   }
 
   @Test
