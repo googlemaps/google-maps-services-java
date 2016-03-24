@@ -10,7 +10,7 @@ group = 'com.google.maps'
 sourceCompatibility = 1.6
 
 repositories {
-    mavenCentral()
+    jcenter()
 }
 
 buildscript {

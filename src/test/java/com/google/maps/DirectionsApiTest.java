@@ -282,30 +282,6 @@ public class DirectionsApiTest extends AuthenticatedTest {
   }
 
   /**
-   * Test fares are returned for transit requests that support them.
-   */
-  @Test
-  public void testFares() throws Exception {
-    DirectionsResult result = DirectionsApi.newRequest(context)
-        .origin("Parada República 2, Brazil")
-        .destination("Praça Pres. Kenedy, Santo André - SP, Brazil")
-        .mode(TravelMode.TRANSIT)
-        .departureTime(new DateTime(2015, 1, 1, 19, 0, DateTimeZone.UTC))
-        .await();
-
-    // Just in case we get a walking route or something silly
-    for (DirectionsRoute route : result.routes) {
-      if (route.fare != null) {
-        assertNotNull(route.fare.value);
-        assertNotNull(route.fare.currency);
-        assertEquals("BRL", route.fare.currency.getCurrencyCode());
-        return;
-      }
-    }
-    fail("Fare data not found in any route");
-  }
-
-  /**
    * Test transit without arrival or departure times specified.
    */
   @Test
@@ -339,39 +315,6 @@ public class DirectionsApiTest extends AuthenticatedTest {
   @Test(expected = NotFoundException.class)
   public void testNotFound() throws Exception {
     DirectionsApi.getDirections(context, "fksjdhgf", "faldfdaf").await();
-  }
-
-  /**
-   * Test transit details.
-   */
-  @Test
-  public void testTransitDetails() throws Exception {
-    DirectionsResult result = DirectionsApi.newRequest(context)
-        .origin("Bibliotheque Francois Mitterrand, Paris")
-        .destination("Pyramides, Paris")
-        .mode(TravelMode.TRANSIT)
-        .departureTime(new DateTime(2015, 2, 15, 11, 0, DateTimeZone.UTC))
-        .await();
-
-    DirectionsLeg testLeg = result.routes[0].legs[0];
-
-    // Skip the initial walking steps
-    int i = 0;
-    while (testLeg.steps[i].travelMode != TravelMode.TRANSIT) {
-      i++;
-    }
-
-    assertTrue("Could not find a transit leg in directions",
-        i < testLeg.steps.length);
-
-    assertNotNull(testLeg.steps[i].transitDetails);
-    assertNotNull(testLeg.steps[i].transitDetails.arrivalStop);
-    assertNotNull(testLeg.steps[i].transitDetails.arrivalTime);
-    assertNotNull(testLeg.steps[i].transitDetails.departureStop);
-    assertNotNull(testLeg.steps[i].transitDetails.departureTime);
-    assertNotNull(testLeg.steps[i].transitDetails.line);
-    assertNotNull(testLeg.steps[i].transitDetails.line.agencies);
-    assertNotNull(testLeg.steps[i].transitDetails.line.vehicle);
   }
 
   /**
