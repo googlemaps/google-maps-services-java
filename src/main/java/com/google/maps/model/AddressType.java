@@ -234,6 +234,10 @@ public enum AddressType implements UrlValue {
     return addressType;
   }
 
+  public String toCanonicalLiteral() {
+    return toString();
+  }
+
   @Override
   public String toUrlValue() {
     if (this == UNKNOWN) {
