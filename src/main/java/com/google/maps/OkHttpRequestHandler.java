@@ -16,7 +16,9 @@ import java.util.logging.Logger;
 
 
 /**
- * Created by brettmorgan on 4/29/16.
+ * A strategy for handling requests using OkHttp.
+ *
+ * @see com.google.maps.GeoApiContext.RequestHandler
  */
 public class OkHttpRequestHandler implements GeoApiContext.RequestHandler {
   private static final Logger LOG = Logger.getLogger(OkHttpRequestHandler.class.getName());

@@ -19,20 +19,13 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.maps.internal.ApiConfig;
 import com.google.maps.internal.ApiResponse;
 import com.google.maps.internal.ExceptionResult;
-import com.google.maps.internal.OkHttpPendingResult;
-import com.google.maps.internal.RateLimitExecutorService;
 import com.google.maps.internal.UrlSigner;
-
-import com.squareup.okhttp.Dispatcher;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
 
 import java.io.UnsupportedEncodingException;
 import java.net.Proxy;
 import java.net.URLEncoder;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**

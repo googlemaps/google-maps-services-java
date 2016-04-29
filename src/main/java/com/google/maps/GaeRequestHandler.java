@@ -17,7 +17,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Created by brettmorgan on 4/29/16.
+ * A strategy for handling requests using Google App Engine.
+ *
+ * @see com.google.maps.GeoApiContext.RequestHandler
  */
 public class GaeRequestHandler implements GeoApiContext.RequestHandler {
   private static final Logger LOG = Logger.getLogger(GaeRequestHandler.class.getName());
