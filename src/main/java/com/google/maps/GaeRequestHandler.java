@@ -47,7 +47,8 @@ public class GaeRequestHandler implements GeoApiContext.RequestHandler {
     try {
       req = new HTTPRequest(new URL(hostName + url), HTTPMethod.POST, fetchOptions);
     } catch (MalformedURLException e) {
-      LOG.log(Level.SEVERE, "Requesting '"+hostName + url+"'", e);
+      LOG.log(Level.SEVERE, String.format("Request: %s%s", hostName, url), e);
+      throw(e);
     }
 
     return new GaePendingResult<T, R>(req, client, clazz, fieldNamingPolicy, errorTimeout);
@@ -55,31 +56,37 @@ public class GaeRequestHandler implements GeoApiContext.RequestHandler {
 
   @Override
   public void setConnectTimeout(long timeout, TimeUnit unit) {
+    // TODO: Investigate if GAE URL Fetch Service supports setting connection timeout
     throw new RuntimeException("setConnectTimeout not implemented for Google App Engine");
   }
 
   @Override
   public void setReadTimeout(long timeout, TimeUnit unit) {
+    // TODO: Investigate if GAE URL Fetch Service supports setting read timeout
     throw new RuntimeException("setReadTimeout not implemented for Google App Engine");
   }
 
   @Override
   public void setWriteTimeout(long timeout, TimeUnit unit) {
+    // TODO: Investigate if GAE URL Fetch Service supports setting write timeout
     throw new RuntimeException("setWriteTimeout not implemented for Google App Engine");
   }
 
   @Override
   public void setQueriesPerSecond(int maxQps) {
+    // TODO: Investigate if GAE URL Fetch Service supports setting qps
     throw new RuntimeException("setQueriesPerSecond not implemented for Google App Engine");
   }
 
   @Override
   public void setQueriesPerSecond(int maxQps, int minimumInterval) {
+    // TODO: Investigate if GAE URL Fetch Service supports setting qps
     throw new RuntimeException("setQueriesPerSecond not implemented for Google App Engine");
   }
 
   @Override
   public void setProxy(Proxy proxy) {
+    // TODO: Investigate if GAE URL Fetch Service supports setting proxy
     throw new RuntimeException("setProxy not implemented for Google App Engine");
   }
 }

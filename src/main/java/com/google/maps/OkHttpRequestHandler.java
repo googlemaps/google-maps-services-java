@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
- package com.google.maps;
+package com.google.maps;
 
 import com.google.gson.FieldNamingPolicy;
 import com.google.maps.internal.ApiResponse;
