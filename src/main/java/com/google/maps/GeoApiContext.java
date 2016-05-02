@@ -44,6 +44,14 @@ public class GeoApiContext {
   private RequestHandler requestHandler;
 
 
+  /**
+   * RequestHandler is the service provider interface that enables requests to be handled via
+   * switchable back ends. There are supplied implementations of this interface for both
+   * OkHttp and Google App Engine's URL Fetch API.
+   *
+   * @see OkHttpRequestHandler
+   * @see GaeRequestHandler
+   */
   public interface RequestHandler {
     <T, R extends ApiResponse<T>> PendingResult<T> handle(String hostName, String url, String userAgent, Class<R> clazz, FieldNamingPolicy fieldNamingPolicy, long errorTimeout);
     void setConnectTimeout(long timeout, TimeUnit unit);
@@ -70,7 +78,7 @@ public class GeoApiContext {
    * @see OkHttpRequestHandler
    * @see GaeRequestHandler
    *
-   * @param requestHandler
+   * @param requestHandler How to handle URL requests to the Google Maps APIs.
    */
   public GeoApiContext(RequestHandler requestHandler) {
     this.requestHandler = requestHandler;

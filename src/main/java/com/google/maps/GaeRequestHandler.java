@@ -32,7 +32,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * A strategy for handling requests using Google App Engine.
+ * A strategy for handling URL requests using Google App Engine's URL Fetch API.
  *
  * @see com.google.maps.GeoApiContext.RequestHandler
  */
@@ -48,7 +48,7 @@ public class GaeRequestHandler implements GeoApiContext.RequestHandler {
       req = new HTTPRequest(new URL(hostName + url), HTTPMethod.POST, fetchOptions);
     } catch (MalformedURLException e) {
       LOG.log(Level.SEVERE, String.format("Request: %s%s", hostName, url), e);
-      throw(e);
+      throw(new RuntimeException(e));
     }
 
     return new GaePendingResult<T, R>(req, client, clazz, fieldNamingPolicy, errorTimeout);

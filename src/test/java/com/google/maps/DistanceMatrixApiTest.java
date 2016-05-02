@@ -53,8 +53,8 @@ public class DistanceMatrixApiTest {
 
     List<NameValuePair> actualParams =
         parseQueryParamsFromRequestLine(server.takeRequest().getRequestLine());
-    assertParamValue("-31.952200,115.858900|-37.813600,144.963100", "origins", actualParams);
-    assertParamValue("-25.344677,131.036692|-13.092297,132.394057", "destinations", actualParams);
+    assertParamValue("-31.95220000,115.85890000|-37.81360000,144.96310000", "origins", actualParams);
+    assertParamValue("-25.34467700,131.03669200|-13.09229700,132.39405700", "destinations", actualParams);
 
     server.shutdown();
   }

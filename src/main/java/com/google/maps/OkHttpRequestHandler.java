@@ -31,7 +31,7 @@ import java.util.logging.Logger;
 
 
 /**
- * A strategy for handling requests using OkHttp.
+ * A strategy for handling URL requests using OkHttp.
  *
  * @see com.google.maps.GeoApiContext.RequestHandler
  */
