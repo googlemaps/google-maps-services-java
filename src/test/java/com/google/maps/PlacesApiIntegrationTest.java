@@ -296,7 +296,7 @@ public class PlacesApiIntegrationTest extends KeyOnlyAuthenticatedTest {
         .await();
     assertNotNull(predictions);
     assertTrue(predictions.length > 0);
-    assertTrue(predictions[0].description.startsWith("Sydney Town Hall"));
+    assertTrue(predictions[0].description.contains("Town Hall"));
   }
 
   @Test
