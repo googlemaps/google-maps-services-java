@@ -19,20 +19,13 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.maps.internal.ApiConfig;
 import com.google.maps.internal.ApiResponse;
 import com.google.maps.internal.ExceptionResult;
-import com.google.maps.internal.OkHttpPendingResult;
-import com.google.maps.internal.RateLimitExecutorService;
 import com.google.maps.internal.UrlSigner;
-
-import com.squareup.okhttp.Dispatcher;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
 
 import java.io.UnsupportedEncodingException;
 import java.net.Proxy;
 import java.net.URLEncoder;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -48,15 +41,47 @@ public class GeoApiContext {
   private String clientId;
   private UrlSigner urlSigner;
   private String channel;
-  private final OkHttpClient client = new OkHttpClient();
-  private final RateLimitExecutorService rateLimitExecutorService;
+  private RequestHandler requestHandler;
+
+
+  /**
+   * RequestHandler is the service provider interface that enables requests to be handled via
+   * switchable back ends. There are supplied implementations of this interface for both
+   * OkHttp and Google App Engine's URL Fetch API.
+   *
+   * @see OkHttpRequestHandler
+   * @see GaeRequestHandler
+   */
+  public interface RequestHandler {
+    <T, R extends ApiResponse<T>> PendingResult<T> handle(String hostName, String url, String userAgent, Class<R> clazz, FieldNamingPolicy fieldNamingPolicy, long errorTimeout);
+    void setConnectTimeout(long timeout, TimeUnit unit);
+    void setReadTimeout(long timeout, TimeUnit unit);
+    void setWriteTimeout(long timeout, TimeUnit unit);
+    void setQueriesPerSecond(int maxQps);
+    void setQueriesPerSecond(int maxQps, int minimumInterval);
+    void setProxy(Proxy proxy);
+  }
 
   private static final Logger LOG = Logger.getLogger(GeoApiContext.class.getName());
   private long errorTimeout = DEFAULT_BACKOFF_TIMEOUT_MILLIS;
 
+  /**
+   * Construct a GeoApiContext with OkHttp.
+   */
   public GeoApiContext() {
-    rateLimitExecutorService = new RateLimitExecutorService();
-    client.setDispatcher(new Dispatcher(rateLimitExecutorService));
+    this(new OkHttpRequestHandler());
+  }
+
+  /**
+   * Construct a GeoApiContext with the specified strategy for handling requests.
+   *
+   * @see OkHttpRequestHandler
+   * @see GaeRequestHandler
+   *
+   * @param requestHandler How to handle URL requests to the Google Maps APIs.
+   */
+  public GeoApiContext(RequestHandler requestHandler) {
+    this.requestHandler = requestHandler;
   }
 
   <T, R extends ApiResponse<T>> PendingResult<T> get(ApiConfig config, Class<? extends R> clazz,
@@ -142,14 +167,7 @@ public class GeoApiContext {
       hostName = baseUrlOverride;
     }
 
-    Request req = new Request.Builder()
-        .get()
-        .header("User-Agent", USER_AGENT)
-        .url(hostName + url).build();
-
-    LOG.log(Level.INFO, "Request: {0}", hostName + url);
-
-    return new OkHttpPendingResult<T, R>(req, client, clazz, fieldNamingPolicy, errorTimeout);
+    return requestHandler.handle(hostName, url.toString(), USER_AGENT, clazz, fieldNamingPolicy, errorTimeout);
   }
 
   private void checkContext(boolean canUseClientId) {
@@ -203,7 +221,7 @@ public class GeoApiContext {
    * @see java.net.URLConnection#setConnectTimeout(int)
    */
   public GeoApiContext setConnectTimeout(long timeout, TimeUnit unit) {
-    client.setConnectTimeout(timeout, unit);
+    requestHandler.setConnectTimeout(timeout, unit);
     return this;
   }
 
@@ -213,7 +231,7 @@ public class GeoApiContext {
    * @see java.net.URLConnection#setReadTimeout(int)
    */
   public GeoApiContext setReadTimeout(long timeout, TimeUnit unit) {
-    client.setReadTimeout(timeout, unit);
+    requestHandler.setReadTimeout(timeout, unit);
     return this;
   }
 
@@ -221,7 +239,7 @@ public class GeoApiContext {
    * Sets the default write timeout for new connections. A value of 0 means no timeout.
    */
   public GeoApiContext setWriteTimeout(long timeout, TimeUnit unit) {
-    client.setWriteTimeout(timeout, unit);
+    requestHandler.setWriteTimeout(timeout, unit);
     return this;
   }
 
@@ -240,7 +258,7 @@ public class GeoApiContext {
    * maxQps}).
    */
   public GeoApiContext setQueryRateLimit(int maxQps) {
-    rateLimitExecutorService.setQueriesPerSecond(maxQps);
+    requestHandler.setQueriesPerSecond(maxQps);
     return this;
   }
 
@@ -253,7 +271,7 @@ public class GeoApiContext {
    *                        has not elapsed naturally.
    */
   public GeoApiContext setQueryRateLimit(int maxQps, int minimumInterval) {
-    rateLimitExecutorService.setQueriesPerSecond(maxQps, minimumInterval);
+    requestHandler.setQueriesPerSecond(maxQps, minimumInterval);
     return this;
   }
 
@@ -263,7 +281,7 @@ public class GeoApiContext {
    * @param proxy The proxy to be used by the underlying HTTP client.
    */
   public GeoApiContext setProxy(Proxy proxy) {
-    client.setProxy(proxy == null ? Proxy.NO_PROXY : proxy);
+    requestHandler.setProxy(proxy == null ? Proxy.NO_PROXY : proxy);
     return this;
   }
 }

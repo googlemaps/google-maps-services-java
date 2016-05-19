@@ -136,6 +136,18 @@ For more usage examples, check out [the tests](src/test/java/com/google/maps/).
 
 ## Features
 
+### Google App Engine Support
+
+You can use this client library on Google App Engine with a single line code change.
+
+```java
+GeoApiContext context = new GeoApiContext(new GaeRequestHandler()).setApiKey(API_KEY);
+```
+
+The `new GaeRequestHandler()` argument to the `GeoApiContext` constructor tells the
+Java Client for Google Maps Services to utilise the apropriate calls for making HTTP
+requests from Google App Engine, instead of the default OkHttp based strategy.
+
 ### Rate Limiting
 
 Never sleep between requests again! By default, requests are sent at the expected rate limits for
