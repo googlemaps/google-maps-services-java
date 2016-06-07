@@ -349,7 +349,7 @@ public class DirectionsApiTest extends AuthenticatedTest {
         .await();
     assertNotNull(result);
     assertEquals("//maps.gstatic.com/mapfiles/transit/iw2/6/fr-paris-metro.png",
-        result.routes[0].legs[0].steps[0].transitDetails.line.vehicle.localIcon);
+        result.routes[0].legs[0].steps[1].transitDetails.line.vehicle.localIcon);
   }
 
 }
