@@ -55,6 +55,22 @@ public class GaeRequestHandler implements GeoApiContext.RequestHandler {
   }
 
   @Override
+  public <T, R extends ApiResponse<T>> PendingResult<T> handlePost(String hostName, String url, String jsonPayload, String userAgent, Class<R> clazz, FieldNamingPolicy fieldNamingPolicy, long errorTimeout) {
+    FetchOptions fetchOptions = FetchOptions.Builder.withDeadline(10);
+    HTTPRequest req = null;
+    try {
+      req = new HTTPRequest(new URL(hostName + url), HTTPMethod.POST, fetchOptions);
+      req.setPayload(jsonPayload.getBytes());
+    } catch (MalformedURLException e) {
+      LOG.log(Level.SEVERE, String.format("Request: %s%s", hostName, url), e);
+      throw(new RuntimeException(e));
+    }
+
+    return new GaePendingResult<T, R>(req, client, clazz, fieldNamingPolicy, errorTimeout);
+  }
+
+
+  @Override
   public void setConnectTimeout(long timeout, TimeUnit unit) {
     // TODO: Investigate if GAE URL Fetch Service supports setting connection timeout
     throw new RuntimeException("setConnectTimeout not implemented for Google App Engine");

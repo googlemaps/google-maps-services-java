@@ -15,13 +15,17 @@
 
 package com.google.maps;
 
+import static com.google.appengine.repackaged.com.google.common.base.StringUtil.JsEscapingMode.JSON;
+
 import com.google.gson.FieldNamingPolicy;
 import com.google.maps.internal.ApiResponse;
 import com.google.maps.internal.OkHttpPendingResult;
 import com.google.maps.internal.RateLimitExecutorService;
 import com.squareup.okhttp.Dispatcher;
+import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
 
 import java.net.Proxy;
 import java.util.concurrent.TimeUnit;
@@ -40,6 +44,7 @@ public class OkHttpRequestHandler implements GeoApiContext.RequestHandler {
 
   private final OkHttpClient client = new OkHttpClient();
   private final RateLimitExecutorService rateLimitExecutorService;
+  public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
   public OkHttpRequestHandler() {
     rateLimitExecutorService = new RateLimitExecutorService();
@@ -54,6 +59,19 @@ public class OkHttpRequestHandler implements GeoApiContext.RequestHandler {
         .url(hostName + url).build();
 
     LOG.log(Level.INFO, "Request: {0}", hostName + url);
+
+    return new OkHttpPendingResult<T, R>(req, client, clazz, fieldNamingPolicy, errorTimeout);
+  }
+  @Override
+  public <T, R extends ApiResponse<T>> PendingResult<T> handlePost(String hostName, String url, String jsonPayload, String userAgent, Class<R> clazz, FieldNamingPolicy fieldNamingPolicy, long errorTimeout) {
+    RequestBody body = RequestBody.create(JSON, jsonPayload);
+    Request req = new Request.Builder()
+        .post(body)
+        .header("User-Agent", userAgent)
+        .url(hostName + url).build();
+
+    LOG.log(Level.INFO, "Request: {0}", hostName + url);
+    LOG.log(Level.INFO, "Request Body: {0}", jsonPayload);
 
     return new OkHttpPendingResult<T, R>(req, client, clazz, fieldNamingPolicy, errorTimeout);
   }
