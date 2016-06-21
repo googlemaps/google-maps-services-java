@@ -108,7 +108,7 @@ You can find the latest version at the top of this README or by searching
 
 ## Developer Documentation
 
-View the [javadoc](https://googlemaps.github.io/google-maps-services-java/v0.1.12/javadoc).
+View the [javadoc](https://googlemaps.github.io/google-maps-services-java/v0.1.15/javadoc).
 
 Additional documentation for the included web services is available at
 https://developers.google.com/maps/.
@@ -135,6 +135,18 @@ System.out.println(results[0].formattedAddress);
 For more usage examples, check out [the tests](src/test/java/com/google/maps/).
 
 ## Features
+
+### Google App Engine Support
+
+You can use this client library on Google App Engine with a single line code change.
+
+```java
+GeoApiContext context = new GeoApiContext(new GaeRequestHandler()).setApiKey(API_KEY);
+```
+
+The `new GaeRequestHandler()` argument to the `GeoApiContext` constructor tells the
+Java Client for Google Maps Services to utilise the apropriate calls for making HTTP
+requests from Google App Engine, instead of the default OkHttp based strategy.
 
 ### Rate Limiting
 
