@@ -55,12 +55,12 @@ public class GaeRequestHandler implements GeoApiContext.RequestHandler {
   }
 
   @Override
-  public <T, R extends ApiResponse<T>> PendingResult<T> handlePost(String hostName, String url, String jsonPayload, String userAgent, Class<R> clazz, FieldNamingPolicy fieldNamingPolicy, long errorTimeout) {
+  public <T, R extends ApiResponse<T>> PendingResult<T> handlePost(String hostName, String url, String payload, String userAgent, Class<R> clazz, FieldNamingPolicy fieldNamingPolicy, long errorTimeout) {
     FetchOptions fetchOptions = FetchOptions.Builder.withDeadline(10);
     HTTPRequest req = null;
     try {
       req = new HTTPRequest(new URL(hostName + url), HTTPMethod.POST, fetchOptions);
-      req.setPayload(jsonPayload.getBytes());
+      req.setPayload(payload.getBytes());
     } catch (MalformedURLException e) {
       LOG.log(Level.SEVERE, String.format("Request: %s%s", hostName, url), e);
       throw(new RuntimeException(e));

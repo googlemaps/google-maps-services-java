@@ -18,8 +18,7 @@ package com.google.maps;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import com.google.maps.model.CellTower;
-import com.google.maps.model.GeolocationPostPayload;
+import com.google.maps.model.GeolocationPayload;
 import com.google.maps.model.GeolocationResult;
 import com.google.maps.model.WifiAccessPoint;
 
@@ -33,7 +32,7 @@ public class GeolocationApiTest extends AuthenticatedTest {
 
   private GeoApiContext context;
 
-  public GeolocationApiTest (GeoApiContext context) {
+  public GeolocationApiTest(GeoApiContext context) {
     this.context = context
         .setQueryRateLimit(3)
         .setConnectTimeout(1, TimeUnit.SECONDS)
@@ -43,23 +42,20 @@ public class GeolocationApiTest extends AuthenticatedTest {
 
   @Test
   public void testSimpleGeolocation() throws Exception {
-    GeolocationPostPayload payload = new GeolocationPostPayload();
+    GeolocationPayload payload = new GeolocationPayload();
     payload.homeMobileCountryCode = 310;
     payload.homeMobileNetworkCode = 410;
     payload.radioType = "gsm";
     payload.carrier = "Vodafone";
     payload.considerIp = true;
-
     WifiAccessPoint[] wifiAccessPoints = new WifiAccessPoint[1];
     wifiAccessPoints[0] = new WifiAccessPoint();
-    wifiAccessPoints[0].macAddress ="01:23:45:67:89:AB";
+    wifiAccessPoints[0].macAddress = "01:23:45:67:89:AB";
     wifiAccessPoints[0].signalStrength = -65;
     wifiAccessPoints[0].age = 0;
     wifiAccessPoints[0].channel = 11;
     wifiAccessPoints[0].signalToNoiseRatio = 40;
-
     payload.wifiAccessPoints = wifiAccessPoints;
-
     /*
     CellTower[] cellTowers = new CellTower[1];
     cellTowers[0] =  new CellTower();
@@ -72,16 +68,11 @@ public class GeolocationApiTest extends AuthenticatedTest {
     cellTowers[0].timingAdvance = 15;
     payload.cellTowers = cellTowers;
     */
-
     GeolocationResult result = GeolocationApi.geolocate(context, payload).await();
-
     assertNotNull(result);
     assertNotNull(result.location);
     assertEquals("accuracy", 2855.0, result.accuracy, 0.01);
     assertEquals("lat", 37.428433999999996, result.location.lat, 0.01);
     assertEquals("lng", -122.0723816, result.location.lng, 0.01);
-
-
-
   }
 }

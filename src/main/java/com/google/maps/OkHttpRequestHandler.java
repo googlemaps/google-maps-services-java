@@ -15,8 +15,6 @@
 
 package com.google.maps;
 
-import static com.google.appengine.repackaged.com.google.common.base.StringUtil.JsEscapingMode.JSON;
-
 import com.google.gson.FieldNamingPolicy;
 import com.google.maps.internal.ApiResponse;
 import com.google.maps.internal.OkHttpPendingResult;
@@ -41,10 +39,10 @@ import java.util.logging.Logger;
  */
 public class OkHttpRequestHandler implements GeoApiContext.RequestHandler {
   private static final Logger LOG = Logger.getLogger(OkHttpRequestHandler.class.getName());
+  private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
   private final OkHttpClient client = new OkHttpClient();
   private final RateLimitExecutorService rateLimitExecutorService;
-  public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
   public OkHttpRequestHandler() {
     rateLimitExecutorService = new RateLimitExecutorService();
@@ -63,44 +61,38 @@ public class OkHttpRequestHandler implements GeoApiContext.RequestHandler {
     return new OkHttpPendingResult<T, R>(req, client, clazz, fieldNamingPolicy, errorTimeout);
   }
   @Override
-  public <T, R extends ApiResponse<T>> PendingResult<T> handlePost(String hostName, String url, String jsonPayload, String userAgent, Class<R> clazz, FieldNamingPolicy fieldNamingPolicy, long errorTimeout) {
-    RequestBody body = RequestBody.create(JSON, jsonPayload);
+  public <T, R extends ApiResponse<T>> PendingResult<T> handlePost(String hostName, String url, String payload, String userAgent, Class<R> clazz, FieldNamingPolicy fieldNamingPolicy, long errorTimeout) {
+    RequestBody body = RequestBody.create(JSON, payload);
     Request req = new Request.Builder()
         .post(body)
         .header("User-Agent", userAgent)
         .url(hostName + url).build();
 
-    LOG.log(Level.INFO, "Request: {0}", hostName + url);
-    LOG.log(Level.INFO, "Request Body: {0}", jsonPayload);
+    LOG.log(Level.CONFIG, "Request: {0}", hostName + url);
+    LOG.log(Level.CONFIG, "Request Body: {0}", payload);
 
     return new OkHttpPendingResult<T, R>(req, client, clazz, fieldNamingPolicy, errorTimeout);
   }
-
   @Override
   public void setConnectTimeout(long timeout, TimeUnit unit) {
     client.setConnectTimeout(timeout, unit);
   }
-
   @Override
   public void setReadTimeout(long timeout, TimeUnit unit) {
     client.setReadTimeout(timeout, unit);
   }
-
   @Override
   public void setWriteTimeout(long timeout, TimeUnit unit) {
     client.setWriteTimeout(timeout, unit);
   }
-
   @Override
   public void setQueriesPerSecond(int maxQps) {
     rateLimitExecutorService.setQueriesPerSecond(maxQps);
   }
-
   @Override
   public void setQueriesPerSecond(int maxQps, int minimumInterval) {
     rateLimitExecutorService.setQueriesPerSecond(maxQps, minimumInterval);
   }
-
   @Override
   public void setProxy(Proxy proxy) {
     client.setProxy(proxy);

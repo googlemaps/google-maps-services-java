@@ -211,7 +211,6 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
     }
 
     byte[] bytes = getBytes(response);
-    LOG.info("response body" + new String(bytes));
     R resp;
     String contentType = response.header("Content-Type");
 

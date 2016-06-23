@@ -21,7 +21,7 @@ import com.google.maps.internal.ApiConfig;
 import com.google.maps.internal.ApiResponse;
 import com.google.maps.internal.ExceptionResult;
 import com.google.maps.internal.UrlSigner;
-import com.google.maps.model.GeolocationPostPayload;
+import com.google.maps.model.GeolocationPayload;
 
 import java.io.UnsupportedEncodingException;
 import java.net.Proxy;
@@ -56,7 +56,7 @@ public class GeoApiContext {
    */
   public interface RequestHandler {
     <T, R extends ApiResponse<T>> PendingResult<T> handle(String hostName, String url, String userAgent, Class<R> clazz, FieldNamingPolicy fieldNamingPolicy, long errorTimeout);
-    <T, R extends ApiResponse<T>> PendingResult<T> handlePost(String hostName, String url, String jsonPayload, String userAgent, Class<R> clazz, FieldNamingPolicy fieldNamingPolicy, long errorTimeout);
+    <T, R extends ApiResponse<T>> PendingResult<T> handlePost(String hostName, String url, String payload, String userAgent, Class<R> clazz, FieldNamingPolicy fieldNamingPolicy, long errorTimeout);
     void setConnectTimeout(long timeout, TimeUnit unit);
     void setReadTimeout(long timeout, TimeUnit unit);
     void setWriteTimeout(long timeout, TimeUnit unit);
@@ -86,8 +86,6 @@ public class GeoApiContext {
   public GeoApiContext(RequestHandler requestHandler) {
     this.requestHandler = requestHandler;
   }
-
-
 
   <T, R extends ApiResponse<T>> PendingResult<T> get(ApiConfig config, Class<? extends R> clazz,
                                                      Map<String, String> params) {
@@ -145,7 +143,7 @@ public class GeoApiContext {
 
   <T, R extends ApiResponse<T>> PendingResult<T> post(ApiConfig config,
       Class<? extends R> clazz,
-      GeolocationPostPayload payload) {
+      GeolocationPayload payload) {
 
     checkContext(config.supportsClientId);
 
