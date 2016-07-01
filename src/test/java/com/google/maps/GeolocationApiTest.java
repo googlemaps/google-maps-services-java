@@ -17,7 +17,11 @@ package com.google.maps;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
+import com.google.maps.errors.ZeroResultsException;
+import com.google.maps.model.CellTower;
+import com.google.maps.model.CellTower.CellTowerBuilder;
 import com.google.maps.model.GeolocationPayload;
 import com.google.maps.model.GeolocationResult;
 import com.google.maps.model.WifiAccessPoint;
@@ -28,7 +32,7 @@ import org.junit.experimental.categories.Category;
 import java.util.concurrent.TimeUnit;
 
 @Category(LargeTests.class)
-public class GeolocationApiTest extends AuthenticatedTest {
+public class GeolocationApiTest extends KeyOnlyAuthenticatedTest {
 
   private GeoApiContext context;
 
@@ -39,40 +43,199 @@ public class GeolocationApiTest extends AuthenticatedTest {
         .setReadTimeout(1, TimeUnit.SECONDS)
         .setWriteTimeout(1, TimeUnit.SECONDS);
   }
-
   @Test
-  public void testSimpleGeolocation() throws Exception {
-    GeolocationPayload payload = new GeolocationPayload();
-    payload.homeMobileCountryCode = 310;
-    payload.homeMobileNetworkCode = 410;
-    payload.radioType = "gsm";
-    payload.carrier = "Vodafone";
-    payload.considerIp = true;
-    WifiAccessPoint[] wifiAccessPoints = new WifiAccessPoint[1];
-    wifiAccessPoints[0] = new WifiAccessPoint();
-    wifiAccessPoints[0].macAddress = "01:23:45:67:89:AB";
-    wifiAccessPoints[0].signalStrength = -65;
-    wifiAccessPoints[0].age = 0;
-    wifiAccessPoints[0].channel = 11;
-    wifiAccessPoints[0].signalToNoiseRatio = 40;
-    payload.wifiAccessPoints = wifiAccessPoints;
-    /*
-    CellTower[] cellTowers = new CellTower[1];
-    cellTowers[0] =  new CellTower();
-    cellTowers[0].cellId = 42;
-    cellTowers[0].locationAreaCode = 415;
-    cellTowers[0].mobileCountryCode = 310;
-    cellTowers[0].mobileNetworkCode = 410;
-    cellTowers[0].age = 0;
-    cellTowers[0].signalStrength = -60;
-    cellTowers[0].timingAdvance = 15;
-    payload.cellTowers = cellTowers;
-    */
+  public void testDocSampleGeolocation() throws Exception {
+    // https://developers.google.com/maps/documentation/geolocation/intro#sample-requests
+    GeolocationPayload payload = new GeolocationPayload.GeolocationPayloadBuilder()
+        .ConsiderIp(false)
+        .HomeMobileCountryCode(310)
+        .HomeMobileNetworkCode(260)
+        .RadioType("gsm")
+        .Carrier("T-Mobile")
+        .AddCellTower(new CellTower.CellTowerBuilder()
+            .CellId(39627456)
+            .LocationAreaCode(40495)
+            .MobileCountryCode(310)
+            .MobileNetworkCode(260)
+            .Age(0)
+            .SignalStrength(-95)
+            .createCellTower())
+        .AddWifiAccessPoint(new WifiAccessPoint.WifiAccessPointBuilder()
+            .MacAddress("01:23:45:67:89:AB")
+            .SignalStrength(-65)
+            .SignalToNoiseRatio(8)
+            .Channel(8)
+            .Age(0)
+            .createWifiAccessPoint())
+        .AddWifiAccessPoint(new WifiAccessPoint.WifiAccessPointBuilder()
+            .MacAddress("01:23:45:67:89:AC")
+            .SignalStrength(4)
+            .SignalToNoiseRatio(4)
+            .Age(0)
+            .createWifiAccessPoint())
+        .createGeolocationPayload();
+
+    GeolocationResult result = GeolocationApi.geolocate(context, payload).await();
+
+    assertNotNull(result);
+    assertNotNull(result.location);
+    assertEquals("accuracy", 1145.0, result.accuracy, 0.00001);
+    assertEquals("lat", 37.4248297, result.location.lat, 0.00001);
+    assertEquals("lng", -122.07346549999998, result.location.lng, 0.00001);
+  }
+  @Test
+  public void testMinimumWifiGeolocation() throws Exception {
+    GeolocationPayload payload = new GeolocationPayload.GeolocationPayloadBuilder()
+        .ConsiderIp(false)
+        .AddWifiAccessPoint(new WifiAccessPoint.WifiAccessPointBuilder()
+            .MacAddress("94:b4:0f:ff:6b:11")
+            .createWifiAccessPoint())
+        .AddWifiAccessPoint(new WifiAccessPoint.WifiAccessPointBuilder()
+            .MacAddress("94:b4:0f:ff:6b:10")
+            .createWifiAccessPoint())
+        .createGeolocationPayload();
+
+    GeolocationResult result = GeolocationApi.geolocate(context, payload).await();
+
+    assertNotNull(result);
+    assertNotNull(result.location);
+    assertEquals("accuracy", 150.0, result.accuracy, 0.00001);
+    assertEquals("lat", 37.3989885, result.location.lat, 0.00001);
+    assertEquals("lng", -122.0585196, result.location.lng, 0.00001);
+  }
+  @Test
+  public void testAlternatePayloadBuilderGeolocation() throws Exception {
+    WifiAccessPoint[] wifiAccessPoints = new WifiAccessPoint[2];
+    wifiAccessPoints[0] = new WifiAccessPoint.WifiAccessPointBuilder()
+        .MacAddress("94:b4:0f:ff:6b:11")
+        .createWifiAccessPoint();
+    wifiAccessPoints[1] = new WifiAccessPoint.WifiAccessPointBuilder()
+        .MacAddress("94:b4:0f:ff:6b:10")
+        .createWifiAccessPoint();
+
+    GeolocationPayload payload = new GeolocationPayload.GeolocationPayloadBuilder()
+        .ConsiderIp(false)
+        .WifiAccessPoints(wifiAccessPoints)
+        .createGeolocationPayload();
+
+    GeolocationResult result = GeolocationApi.geolocate(context, payload).await();
+
+    assertNotNull(result);
+    assertNotNull(result.location);
+    assertEquals("accuracy", 150.0, result.accuracy, 0.00001);
+    assertEquals("lat", 37.3989885, result.location.lat, 0.00001);
+    assertEquals("lng", -122.0585196, result.location.lng, 0.00001);
+  }
+  @Test
+  public void testMaximumWifiGeolocation() throws Exception {
+    GeolocationPayload payload = new GeolocationPayload.GeolocationPayloadBuilder()
+        .ConsiderIp(false)
+        .HomeMobileCountryCode(310)
+        .HomeMobileNetworkCode(410)
+        .RadioType("gsm")
+        .Carrier("Vodafone")
+        .AddWifiAccessPoint(new WifiAccessPoint.WifiAccessPointBuilder()
+            .MacAddress("94:b4:0f:ff:88:31")
+            .SignalStrength(-61)
+            .SignalToNoiseRatio(49)
+            .Channel(40)
+            .Age(0)
+            .createWifiAccessPoint())
+        .AddWifiAccessPoint(new WifiAccessPoint.WifiAccessPointBuilder()
+            .MacAddress("94:b4:0f:ff:88:30")
+            .SignalStrength(-64)
+            .SignalToNoiseRatio(46)
+            .Channel(40)
+            .Age(0)
+            .createWifiAccessPoint())
+        .createGeolocationPayload();
+
     GeolocationResult result = GeolocationApi.geolocate(context, payload).await();
     assertNotNull(result);
     assertNotNull(result.location);
-    assertEquals("accuracy", 2855.0, result.accuracy, 0.01);
-    assertEquals("lat", 37.428433999999996, result.location.lat, 0.01);
-    assertEquals("lng", -122.0723816, result.location.lng, 0.01);
+    assertEquals("accuracy", 25.0, result.accuracy, 0.00001);
+    assertEquals("lat", 37.3990122, result.location.lat, 0.00001);
+    assertEquals("lng", -122.0583656, result.location.lng, 0.00001);
+  }
+  @Test
+  public void testMinimumCellTowerGeolocation() throws Exception {
+    GeolocationPayload payload = new GeolocationPayload.GeolocationPayloadBuilder()
+        .ConsiderIp(false)
+        .AddCellTower(new CellTower.CellTowerBuilder()
+            .CellId(39627456)
+            .LocationAreaCode(40495)
+            .MobileCountryCode(310)
+            .MobileNetworkCode(260)
+            .createCellTower())
+        .createGeolocationPayload();
+
+    GeolocationResult result = GeolocationApi.geolocate(context, payload).await();
+    assertNotNull(result);
+    assertNotNull(result.location);
+    assertEquals("accuracy", 658.0, result.accuracy, 0.00001);
+    assertEquals("lat", 37.42659, result.location.lat, 0.00001);
+    assertEquals("lng", -122.07266190000001, result.location.lng, 0.00001);
+  }
+  @Test
+  public void testMaximumCellTowerGeolocation() throws Exception {
+    GeolocationPayload payload = new GeolocationPayload.GeolocationPayloadBuilder()
+        .ConsiderIp(false)
+        .HomeMobileCountryCode(310)
+        .HomeMobileNetworkCode(260)
+        .RadioType("gsm")
+        .Carrier("Vodafone")
+        .AddCellTower(new CellTower.CellTowerBuilder()
+            .CellId(39627456)
+            .LocationAreaCode(40495)
+            .MobileCountryCode(310)
+            .MobileNetworkCode(260)
+            .Age(0)
+            .SignalStrength(-103)
+            .TimingAdvance(15)
+            .createCellTower())
+        .createGeolocationPayload();
+
+    GeolocationResult result = GeolocationApi.geolocate(context, payload).await();
+    assertNotNull(result);
+    assertNotNull(result.location);
+    assertEquals("accuracy", 1145.0, result.accuracy, 0.00001);
+    assertEquals("lat", 37.4248297, result.location.lat, 0.00001);
+    assertEquals("lng", -122.07346549999998, result.location.lng, 0.00001);
+  }
+  @Test
+  public void testNoPayloadGeolocation0() throws Exception {
+    GeolocationPayload payload = new GeolocationPayload.GeolocationPayloadBuilder()
+        .createGeolocationPayload();
+    GeolocationResult result = GeolocationApi.geolocate(context, payload).await();
+    assertNotNull(result);
+    assertNotNull(result.location);
+  }
+  @Test
+  public void testNoPayloadGeolocation1() throws Exception {
+    GeolocationResult result = GeolocationApi.newRequest(context).await();
+    assertNotNull(result);
+    assertNotNull(result.location);
+  }
+  @Test
+  public void testNotFoundGeolocation() throws Exception {
+    GeolocationPayload payload = new GeolocationPayload.GeolocationPayloadBuilder()
+        .ConsiderIp(false)
+        .createGeolocationPayload();
+    try {
+      GeolocationResult result = GeolocationApi.geolocate(context, payload).await();
+    } catch (Exception e) {
+      assertTrue(e.getMessage().equals("notFound - Not Found"));
+    }
+  }
+  @Test
+  public void testInvalidArgumentGeolocation() throws Exception {
+    GeolocationPayload payload = new GeolocationPayload.GeolocationPayloadBuilder()
+        .HomeMobileCountryCode(-310)
+        .createGeolocationPayload();
+    try {
+      GeolocationResult result = GeolocationApi.geolocate(context, payload).await();
+    } catch (Exception e) {
+      assertTrue(e.getMessage().equals("invalid - Invalid value for UnsignedInteger: -310"));
+    }
   }
 }

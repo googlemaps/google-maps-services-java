@@ -141,9 +141,9 @@ public class GeoApiContext {
         config.supportsClientId, query.toString());
   }
 
-  <T, R extends ApiResponse<T>> PendingResult<T> post(ApiConfig config,
+  <T, R extends ApiResponse<T>, P> PendingResult<T> post(ApiConfig config,
       Class<? extends R> clazz,
-      GeolocationPayload payload) {
+      P payload) {
 
     checkContext(config.supportsClientId);
 

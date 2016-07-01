@@ -29,7 +29,7 @@ public interface PendingResult<T> {
   void setCallback(Callback<T> callback);
 
   /**
-   * Performs the request synchronously.
+   * Performs the GET request synchronously.
    *
    * @return The result.
    */

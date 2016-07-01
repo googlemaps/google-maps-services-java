@@ -19,6 +19,7 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
+import com.google.maps.GeolocationApi;
 import com.google.maps.PendingResult;
 import com.google.maps.PhotoRequest;
 import com.google.maps.errors.ApiException;
@@ -53,6 +54,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -214,6 +216,10 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
     R resp;
     String contentType = response.header("Content-Type");
 
+    // TODO: remove these logs
+    LOG.log(Level.INFO, "Response: {0}", response);
+    LOG.log(Level.INFO, "Response Body: {0}", new String(bytes, "utf8"));
+
     // Places Photo API special case
     if (contentType != null &&
         contentType.startsWith("image") &&
@@ -242,6 +248,7 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
         .registerTypeAdapter(PriceLevel.class, new PriceLevelAdaptor())
         .registerTypeAdapter(Instant.class, new InstantAdapter())
         .registerTypeAdapter(LocalTime.class, new LocalTimeAdapter())
+        .registerTypeAdapter(GeolocationApi.Response.class, new GeolocationResponseAdapter())
         .setFieldNamingPolicy(fieldNamingPolicy)
         .create();
 
@@ -250,6 +257,8 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
     try {
       resp = gson.fromJson(new String(bytes, "utf8"), responseClass);
     } catch (JsonSyntaxException e) {
+      // TODO: remove these logs
+      LOG.log(Level.INFO, "JsonSyntaxException: {0}", e);
       // Check HTTP status for a more suitable exception
       if (!response.isSuccessful()) {
         // Some of the APIs return 200 even when the API request fails, as long as the transport

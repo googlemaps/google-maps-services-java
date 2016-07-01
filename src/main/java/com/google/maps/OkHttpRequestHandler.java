@@ -68,8 +68,9 @@ public class OkHttpRequestHandler implements GeoApiContext.RequestHandler {
         .header("User-Agent", userAgent)
         .url(hostName + url).build();
 
-    LOG.log(Level.CONFIG, "Request: {0}", hostName + url);
-    LOG.log(Level.CONFIG, "Request Body: {0}", payload);
+    // TODO: remove these logs
+    LOG.log(Level.INFO, "Request: {0}", hostName + url);
+    LOG.log(Level.INFO, "Request Body: {0}", payload);
 
     return new OkHttpPendingResult<T, R>(req, client, clazz, fieldNamingPolicy, errorTimeout);
   }

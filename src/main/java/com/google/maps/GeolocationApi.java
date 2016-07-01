@@ -16,12 +16,14 @@
 package com.google.maps;
 
 import com.google.gson.FieldNamingPolicy;
-import com.google.maps.errors.ApiError;
 import com.google.maps.errors.ApiException;
 import com.google.maps.internal.ApiConfig;
 import com.google.maps.internal.ApiResponse;
 import com.google.maps.model.GeolocationPayload;
 import com.google.maps.model.GeolocationResult;
+import com.google.maps.model.LatLng;
+
+import java.util.logging.Logger;
 
 /*
  *  The Google Maps Geolocation API returns a location and accuracy radius based on information
@@ -34,8 +36,9 @@ import com.google.maps.model.GeolocationResult;
  */
 public class GeolocationApi {
   private static final String API_BASE_URL = "https://www.googleapis.com";
+  private static final Logger LOG = Logger.getLogger(GeolocationApi.class.getName());
 
-  private static final ApiConfig GEOLOCATION_API_CONFIG = new ApiConfig("/geolocation/v1/geolocate")
+   static final ApiConfig GEOLOCATION_API_CONFIG = new ApiConfig("/geolocation/v1/geolocate")
       .hostName(API_BASE_URL)
       .supportsClientId(false)
       .fieldNamingPolicy(FieldNamingPolicy.IDENTITY);
@@ -44,27 +47,56 @@ public class GeolocationApi {
   }
 
   public static PendingResult<GeolocationResult> geolocate(GeoApiContext context, GeolocationPayload payload) {
-
-    return context.post(GEOLOCATION_API_CONFIG, GeolocationResponse.class, payload);
+    return context.post(GEOLOCATION_API_CONFIG, Response.class, payload);
   }
 
-  private static class GeolocationResponse implements ApiResponse<GeolocationResult> {
-    private GeolocationResult result;
-    private ApiError error;
+  public static GeolocationApiRequest newRequest(GeoApiContext context) {
+    return new GeolocationApiRequest(context);
+  }
+
+   public static class Response implements ApiResponse<GeolocationResult> {
+     public int code = 200;
+     public String message = "OK";
+     public double accuracy = -1.0;
+     public LatLng location = null;
+     public String domain = null;
+     public String reason = null;
+     public String debugInfo = null;
 
     @Override
     public boolean successful() {
-      return error == null;
+      return code == 200;
     }
-
     @Override
     public GeolocationResult getResult() {
+      GeolocationResult result = new GeolocationResult();
+      result.accuracy = accuracy;
+      result.location = location;
       return result;
     }
-
     @Override
     public ApiException getError() {
-      return ApiException.from(error.status, error.message);
+      if (successful()) {
+        return null;
+      }
+      ApiException e;
+      // try and fit the older error codes into the new style geo api error formats
+      if(reason.equals("keyInvalid")) {
+        e = ApiException.from("ACCESS_NOT_CONFIGURED", reason +" - "+ message);
+      } else if(reason.equals("dailyLimitExceeded")) {
+        e = ApiException.from("RESOURCE_EXHAUSTED", reason +" - "+ message);
+      } else if(reason.equals("userRateLimitExceeded")) {
+        e = ApiException.from("RESOURCE_EXHAUSTED", reason +" - "+ message);
+      } else if(reason.equals("notFound")) {
+        e = ApiException.from("ZERO_RESULTS", reason +" - "+ message);
+      } else if(reason.equals("parseError")) {
+        e = ApiException.from("INVALID_ARGUMENT", reason +" - "+ message);
+      } else if(reason.equals("invalid")) {
+        e = ApiException.from("INVALID_ARGUMENT", reason +" - "+ message);
+      } else {
+        e = ApiException.from("UNKNOWN_ERROR", reason +" - "+ message);
+      }
+      return e;
     }
   }
 }

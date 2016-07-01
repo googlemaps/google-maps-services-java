@@ -26,6 +26,22 @@ package com.google.maps.model;
  *
  */
 public class WifiAccessPoint {
+  public WifiAccessPoint() {
+
+  }
+  // constructor only used by the builder class below
+  private WifiAccessPoint(
+      String _macAddress,
+      Integer _signalStrength,
+      Integer _age,
+      Integer _channel,
+      Integer _signalToNoiseRatio) {
+    macAddress = _macAddress;
+    signalStrength = _signalStrength;
+    age = _age;
+    channel = _channel;
+    signalToNoiseRatio = _signalToNoiseRatio;
+  }
   /**
   * {@code macAddress}: (required) The MAC address of the WiFi node. Separators must be : (colon) and
   * hex digits must use uppercase.
@@ -34,17 +50,61 @@ public class WifiAccessPoint {
   /**
   * {@code signalStrength}: The current signal strength measured in dBm.
   */
-  public int signalStrength;
+  public Integer signalStrength = null;
   /**
    * {@code age}: The number of milliseconds since this access point was detected.
    */
-  public int age;
+  public Integer age = null;
   /**
    * {@code channel}: The channel over which the client is communicating with the access point.
    */
-  public int channel;
+  public Integer channel = null;
   /**
    * {@code signalToNoiseRatio}: The current signal to noise ratio measured in dB.
    */
-  public int signalToNoiseRatio;
+  public Integer signalToNoiseRatio = null;
+
+  public static class WifiAccessPointBuilder {
+    private String _macAddress = null;
+    private Integer _signalStrength = null;
+    private Integer _age = null;
+    private Integer _channel = null;
+    private Integer _signalToNoiseRatio = null;
+
+    // create the actual wifi access point
+    public WifiAccessPoint createWifiAccessPoint()
+    {
+      return new WifiAccessPoint(
+          _macAddress,
+          _signalStrength,
+          _age,
+          _channel,
+          _signalToNoiseRatio);
+    }
+    public WifiAccessPointBuilder MacAddress (String newMacAddress)
+    {
+      this._macAddress = newMacAddress;
+      return this;
+    }
+    public WifiAccessPointBuilder SignalStrength(int newSignalStrength)
+    {
+      this._signalStrength = new Integer(newSignalStrength);
+      return this;
+    }
+    public WifiAccessPointBuilder Age(int newAge)
+    {
+      this._age = new Integer(newAge);
+      return this;
+    }
+    public WifiAccessPointBuilder Channel(int newChannel)
+    {
+      this._channel = new Integer(newChannel);
+      return this;
+    }
+    public WifiAccessPointBuilder SignalToNoiseRatio(int newSignalToNoiseRatio)
+    {
+      this._signalToNoiseRatio = new Integer(newSignalToNoiseRatio);
+      return this;
+    }
+  }
 }
