@@ -216,10 +216,6 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
     R resp;
     String contentType = response.header("Content-Type");
 
-    // TODO: remove these logs
-    LOG.log(Level.INFO, "Response: {0}", response);
-    LOG.log(Level.INFO, "Response Body: {0}", new String(bytes, "utf8"));
-
     // Places Photo API special case
     if (contentType != null &&
         contentType.startsWith("image") &&
@@ -257,8 +253,6 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
     try {
       resp = gson.fromJson(new String(bytes, "utf8"), responseClass);
     } catch (JsonSyntaxException e) {
-      // TODO: remove these logs
-      LOG.log(Level.INFO, "JsonSyntaxException: {0}", e);
       // Check HTTP status for a more suitable exception
       if (!response.isSuccessful()) {
         // Some of the APIs return 200 even when the API request fails, as long as the transport

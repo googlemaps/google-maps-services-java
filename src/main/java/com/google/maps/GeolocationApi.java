@@ -39,15 +39,18 @@ public class GeolocationApi {
   private static final Logger LOG = Logger.getLogger(GeolocationApi.class.getName());
 
    static final ApiConfig GEOLOCATION_API_CONFIG = new ApiConfig("/geolocation/v1/geolocate")
-      .hostName(API_BASE_URL)
-      .supportsClientId(false)
-      .fieldNamingPolicy(FieldNamingPolicy.IDENTITY);
+       .hostName(API_BASE_URL)
+       .supportsClientId(false)
+       .fieldNamingPolicy(FieldNamingPolicy.IDENTITY)
+       .requestVerb("POST");
 
   private GeolocationApi () {
   }
 
   public static PendingResult<GeolocationResult> geolocate(GeoApiContext context, GeolocationPayload payload) {
-    return context.post(GEOLOCATION_API_CONFIG, Response.class, payload);
+    return new GeolocationApiRequest(context)
+        .Payload(payload)
+        .CreatePayload();
   }
 
   public static GeolocationApiRequest newRequest(GeoApiContext context) {
@@ -80,23 +83,7 @@ public class GeolocationApi {
         return null;
       }
       ApiException e;
-      // try and fit the older error codes into the new style geo api error formats
-      if(reason.equals("keyInvalid")) {
-        e = ApiException.from("ACCESS_NOT_CONFIGURED", reason +" - "+ message);
-      } else if(reason.equals("dailyLimitExceeded")) {
-        e = ApiException.from("RESOURCE_EXHAUSTED", reason +" - "+ message);
-      } else if(reason.equals("userRateLimitExceeded")) {
-        e = ApiException.from("RESOURCE_EXHAUSTED", reason +" - "+ message);
-      } else if(reason.equals("notFound")) {
-        e = ApiException.from("ZERO_RESULTS", reason +" - "+ message);
-      } else if(reason.equals("parseError")) {
-        e = ApiException.from("INVALID_ARGUMENT", reason +" - "+ message);
-      } else if(reason.equals("invalid")) {
-        e = ApiException.from("INVALID_ARGUMENT", reason +" - "+ message);
-      } else {
-        e = ApiException.from("UNKNOWN_ERROR", reason +" - "+ message);
-      }
-      return e;
+      return ApiException.from(reason, message);
     }
   }
 }

@@ -141,9 +141,9 @@ public class GeoApiContext {
         config.supportsClientId, query.toString());
   }
 
-  <T, R extends ApiResponse<T>, P> PendingResult<T> post(ApiConfig config,
+  <T, R extends ApiResponse<T>> PendingResult<T> post(ApiConfig config,
       Class<? extends R> clazz,
-      P payload) {
+      Map<String, String> params) {
 
     checkContext(config.supportsClientId);
 
@@ -168,10 +168,7 @@ public class GeoApiContext {
       hostName = baseUrlOverride;
     }
 
-    Gson gson = new Gson();
-    String jsonPayload = gson.toJson(payload);
-
-    return requestHandler.handlePost(hostName, url.toString(), jsonPayload, USER_AGENT, clazz, config.fieldNamingPolicy, errorTimeout);
+    return requestHandler.handlePost(hostName, url.toString(), params.get("_payload"), USER_AGENT, clazz, config.fieldNamingPolicy, errorTimeout);
   }
 
   private <T, R extends ApiResponse<T>> PendingResult<T> getWithPath(Class<R> clazz,

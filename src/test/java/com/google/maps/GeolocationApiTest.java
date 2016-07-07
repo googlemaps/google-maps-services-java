@@ -19,9 +19,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import com.google.maps.errors.ZeroResultsException;
 import com.google.maps.model.CellTower;
-import com.google.maps.model.CellTower.CellTowerBuilder;
 import com.google.maps.model.GeolocationPayload;
 import com.google.maps.model.GeolocationResult;
 import com.google.maps.model.WifiAccessPoint;
@@ -30,6 +28,7 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 
 @Category(LargeTests.class)
 public class GeolocationApiTest extends KeyOnlyAuthenticatedTest {
@@ -46,7 +45,7 @@ public class GeolocationApiTest extends KeyOnlyAuthenticatedTest {
   @Test
   public void testDocSampleGeolocation() throws Exception {
     // https://developers.google.com/maps/documentation/geolocation/intro#sample-requests
-    GeolocationPayload payload = new GeolocationPayload.GeolocationPayloadBuilder()
+    GeolocationResult result = GeolocationApi.newRequest(context)
         .ConsiderIp(false)
         .HomeMobileCountryCode(310)
         .HomeMobileNetworkCode(260)
@@ -73,9 +72,8 @@ public class GeolocationApiTest extends KeyOnlyAuthenticatedTest {
             .SignalToNoiseRatio(4)
             .Age(0)
             .createWifiAccessPoint())
-        .createGeolocationPayload();
-
-    GeolocationResult result = GeolocationApi.geolocate(context, payload).await();
+        .CreatePayload()
+        .await();
 
     assertNotNull(result);
     assertNotNull(result.location);
@@ -85,7 +83,7 @@ public class GeolocationApiTest extends KeyOnlyAuthenticatedTest {
   }
   @Test
   public void testMinimumWifiGeolocation() throws Exception {
-    GeolocationPayload payload = new GeolocationPayload.GeolocationPayloadBuilder()
+    GeolocationResult result = GeolocationApi.newRequest(context)
         .ConsiderIp(false)
         .AddWifiAccessPoint(new WifiAccessPoint.WifiAccessPointBuilder()
             .MacAddress("94:b4:0f:ff:6b:11")
@@ -93,9 +91,8 @@ public class GeolocationApiTest extends KeyOnlyAuthenticatedTest {
         .AddWifiAccessPoint(new WifiAccessPoint.WifiAccessPointBuilder()
             .MacAddress("94:b4:0f:ff:6b:10")
             .createWifiAccessPoint())
-        .createGeolocationPayload();
-
-    GeolocationResult result = GeolocationApi.geolocate(context, payload).await();
+        .CreatePayload()
+        .await();
 
     assertNotNull(result);
     assertNotNull(result.location);
@@ -104,7 +101,7 @@ public class GeolocationApiTest extends KeyOnlyAuthenticatedTest {
     assertEquals("lng", -122.0585196, result.location.lng, 0.00001);
   }
   @Test
-  public void testAlternatePayloadBuilderGeolocation() throws Exception {
+  public void testAlternateWifiSetterGeolocation() throws Exception {
     WifiAccessPoint[] wifiAccessPoints = new WifiAccessPoint[2];
     wifiAccessPoints[0] = new WifiAccessPoint.WifiAccessPointBuilder()
         .MacAddress("94:b4:0f:ff:6b:11")
@@ -113,12 +110,11 @@ public class GeolocationApiTest extends KeyOnlyAuthenticatedTest {
         .MacAddress("94:b4:0f:ff:6b:10")
         .createWifiAccessPoint();
 
-    GeolocationPayload payload = new GeolocationPayload.GeolocationPayloadBuilder()
+    GeolocationResult result = GeolocationApi.newRequest(context)
         .ConsiderIp(false)
         .WifiAccessPoints(wifiAccessPoints)
-        .createGeolocationPayload();
-
-    GeolocationResult result = GeolocationApi.geolocate(context, payload).await();
+        .CreatePayload()
+        .await();
 
     assertNotNull(result);
     assertNotNull(result.location);
@@ -128,7 +124,7 @@ public class GeolocationApiTest extends KeyOnlyAuthenticatedTest {
   }
   @Test
   public void testMaximumWifiGeolocation() throws Exception {
-    GeolocationPayload payload = new GeolocationPayload.GeolocationPayloadBuilder()
+    GeolocationResult result = GeolocationApi.newRequest(context)
         .ConsiderIp(false)
         .HomeMobileCountryCode(310)
         .HomeMobileNetworkCode(410)
@@ -148,9 +144,9 @@ public class GeolocationApiTest extends KeyOnlyAuthenticatedTest {
             .Channel(40)
             .Age(0)
             .createWifiAccessPoint())
-        .createGeolocationPayload();
+        .CreatePayload()
+        .await();
 
-    GeolocationResult result = GeolocationApi.geolocate(context, payload).await();
     assertNotNull(result);
     assertNotNull(result.location);
     assertEquals("accuracy", 25.0, result.accuracy, 0.00001);
@@ -159,6 +155,26 @@ public class GeolocationApiTest extends KeyOnlyAuthenticatedTest {
   }
   @Test
   public void testMinimumCellTowerGeolocation() throws Exception {
+    GeolocationResult result = GeolocationApi.newRequest(context)
+        .ConsiderIp(false)
+        .AddCellTower(new CellTower.CellTowerBuilder()
+            .CellId(39627456)
+            .LocationAreaCode(40495)
+            .MobileCountryCode(310)
+            .MobileNetworkCode(260)
+            .createCellTower())
+        .CreatePayload()
+        .await();
+
+    assertNotNull(result);
+    assertNotNull(result.location);
+    assertEquals("accuracy", 658.0, result.accuracy, 0.00001);
+    assertEquals("lat", 37.42659, result.location.lat, 0.00001);
+    assertEquals("lng", -122.07266190000001, result.location.lng, 0.00001);
+  }
+  @Test
+  public void testAlternatePayloadBuilderGeolocation() throws Exception {
+    // using the alternate style of payload building
     GeolocationPayload payload = new GeolocationPayload.GeolocationPayloadBuilder()
         .ConsiderIp(false)
         .AddCellTower(new CellTower.CellTowerBuilder()
@@ -178,7 +194,7 @@ public class GeolocationApiTest extends KeyOnlyAuthenticatedTest {
   }
   @Test
   public void testMaximumCellTowerGeolocation() throws Exception {
-    GeolocationPayload payload = new GeolocationPayload.GeolocationPayloadBuilder()
+    GeolocationResult result = GeolocationApi.newRequest(context)
         .ConsiderIp(false)
         .HomeMobileCountryCode(310)
         .HomeMobileNetworkCode(260)
@@ -193,9 +209,9 @@ public class GeolocationApiTest extends KeyOnlyAuthenticatedTest {
             .SignalStrength(-103)
             .TimingAdvance(15)
             .createCellTower())
-        .createGeolocationPayload();
+        .CreatePayload()
+        .await();
 
-    GeolocationResult result = GeolocationApi.geolocate(context, payload).await();
     assertNotNull(result);
     assertNotNull(result.location);
     assertEquals("accuracy", 1145.0, result.accuracy, 0.00001);
@@ -206,36 +222,40 @@ public class GeolocationApiTest extends KeyOnlyAuthenticatedTest {
   public void testNoPayloadGeolocation0() throws Exception {
     GeolocationPayload payload = new GeolocationPayload.GeolocationPayloadBuilder()
         .createGeolocationPayload();
+
     GeolocationResult result = GeolocationApi.geolocate(context, payload).await();
     assertNotNull(result);
     assertNotNull(result.location);
   }
   @Test
   public void testNoPayloadGeolocation1() throws Exception {
-    GeolocationResult result = GeolocationApi.newRequest(context).await();
+    GeolocationResult result = GeolocationApi.newRequest(context)
+        .CreatePayload()
+        .await();
+
     assertNotNull(result);
     assertNotNull(result.location);
   }
   @Test
   public void testNotFoundGeolocation() throws Exception {
-    GeolocationPayload payload = new GeolocationPayload.GeolocationPayloadBuilder()
-        .ConsiderIp(false)
-        .createGeolocationPayload();
     try {
-      GeolocationResult result = GeolocationApi.geolocate(context, payload).await();
+      GeolocationResult result = GeolocationApi.newRequest(context)
+          .ConsiderIp(false)
+          .CreatePayload()
+          .await();
     } catch (Exception e) {
-      assertTrue(e.getMessage().equals("notFound - Not Found"));
+      assertTrue(e.getMessage().equals("Not Found"));
     }
   }
   @Test
   public void testInvalidArgumentGeolocation() throws Exception {
-    GeolocationPayload payload = new GeolocationPayload.GeolocationPayloadBuilder()
-        .HomeMobileCountryCode(-310)
-        .createGeolocationPayload();
     try {
-      GeolocationResult result = GeolocationApi.geolocate(context, payload).await();
+      GeolocationResult result = GeolocationApi.newRequest(context)
+          .HomeMobileCountryCode(-310)
+          .CreatePayload()
+          .await();
     } catch (Exception e) {
-      assertTrue(e.getMessage().equals("invalid - Invalid value for UnsignedInteger: -310"));
+      assertTrue(e.getMessage().equals("Invalid value for UnsignedInteger: -310"));
     }
   }
 }

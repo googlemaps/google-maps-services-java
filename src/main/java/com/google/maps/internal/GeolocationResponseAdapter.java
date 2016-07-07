@@ -6,10 +6,7 @@ import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
 import com.google.maps.GeolocationApi;
 
-import sun.rmi.runtime.Log;
-
 import java.io.IOException;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 

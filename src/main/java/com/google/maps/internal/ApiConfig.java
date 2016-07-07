@@ -25,6 +25,7 @@ public class ApiConfig {
   public FieldNamingPolicy fieldNamingPolicy = FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES;
   public String hostName = "https://maps.googleapis.com";
   public boolean supportsClientId = true;
+  public String requestVerb = "GET";
 
   public ApiConfig(String path) {
     this.path = path;
@@ -42,6 +43,11 @@ public class ApiConfig {
 
   public ApiConfig supportsClientId(boolean supportsClientId) {
     this.supportsClientId = supportsClientId;
+    return this;
+  }
+
+  public ApiConfig requestVerb(String requestVerb) {
+    this.requestVerb = requestVerb;
     return this;
   }
 }
