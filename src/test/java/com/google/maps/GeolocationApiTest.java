@@ -101,6 +101,29 @@ public class GeolocationApiTest extends KeyOnlyAuthenticatedTest {
     assertEquals("lng", -122.0585196, result.location.lng, 0.00001);
   }
   @Test
+  public void testBasicGeolocation() throws Exception {
+    GeolocationResult result = GeolocationApi.newRequest(context)
+        .ConsiderIp(false)
+        .AddWifiAccessPoint(new WifiAccessPoint.WifiAccessPointBuilder()
+            .MacAddress("92:68:c3:f8:76:47")
+            .SignalStrength(-42)
+            .SignalToNoiseRatio(68)
+            .createWifiAccessPoint())
+        .AddWifiAccessPoint(new WifiAccessPoint.WifiAccessPointBuilder()
+            .MacAddress("94:b4:0f:ff:6b:11")
+            .SignalStrength(-55)
+            .SignalToNoiseRatio(55)
+            .createWifiAccessPoint())
+        .CreatePayload()
+        .await();
+
+    assertNotNull(result);
+    assertNotNull(result.location);
+    assertEquals("accuracy", 150.0, result.accuracy, 0.00001);
+    assertEquals("lat", 37.3989885, result.location.lat, 0.00001);
+    assertEquals("lng", -122.0585196, result.location.lng, 0.00001);
+  }
+  @Test
   public void testAlternateWifiSetterGeolocation() throws Exception {
     WifiAccessPoint[] wifiAccessPoints = new WifiAccessPoint[2];
     wifiAccessPoints[0] = new WifiAccessPoint.WifiAccessPointBuilder()

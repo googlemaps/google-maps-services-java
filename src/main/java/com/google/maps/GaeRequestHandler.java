@@ -16,6 +16,7 @@
 package com.google.maps;
 
 import com.google.appengine.api.urlfetch.FetchOptions;
+import com.google.appengine.api.urlfetch.HTTPHeader;
 import com.google.appengine.api.urlfetch.HTTPMethod;
 import com.google.appengine.api.urlfetch.HTTPRequest;
 import com.google.appengine.api.urlfetch.URLFetchService;
@@ -60,6 +61,7 @@ public class GaeRequestHandler implements GeoApiContext.RequestHandler {
     HTTPRequest req = null;
     try {
       req = new HTTPRequest(new URL(hostName + url), HTTPMethod.POST, fetchOptions);
+      req.setHeader(new HTTPHeader("Content-Type", "application/json; charset=utf-8"));
       req.setPayload(payload.getBytes());
     } catch (MalformedURLException e) {
       LOG.log(Level.SEVERE, String.format("Request: %s%s", hostName, url), e);
