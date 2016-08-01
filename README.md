@@ -138,7 +138,7 @@ and `clientSecret` variables with appropriate values.
 
 For a guide on how to generate the `clientSecret` (digital signature), see the
 documentation for the API you're using. For example, see the guide for the
-[Directions API](/maps/documentation/directions/get-api-key#client-id).
+[Directions API][directions-client-id].
 
 ```java
 GeoApiContext context = new GeoApiContext().setEnterpriseCredentials(clientID, clientSecret);
@@ -245,6 +245,7 @@ req.setCallback(new PendingResult.Callback<GeocodingResult[]>() {
 [clientid]: https://developers.google.com/maps/documentation/business/webservices/auth
 [contrib]: https://github.com/googlemaps/google-maps-services-java/blob/master/CONTRIB.md
 [Directions API]: https://developers.google.com/maps/documentation/directions
+[directions-client-id]: https://developers.google.com/maps/documentation/directions/get-api-key#client-id
 [Distance Matrix API]: https://developers.google.com/maps/documentation/distancematrix
 [Elevation API]: https://developers.google.com/maps/documentation/elevation
 [Geocoding API]: https://developers.google.com/maps/documentation/geocoding
