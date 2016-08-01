@@ -123,10 +123,25 @@ https://developers.google.com/maps/.
 
 ## Usage
 
-This example uses the [Geocoding API].
+This example uses the [Geocoding API] with an API key:
 
 ```java
 GeoApiContext context = new GeoApiContext().setApiKey("AIza...");
+GeocodingResult[] results =  GeocodingApi.geocode(context,
+    "1600 Amphitheatre Parkway Mountain View, CA 94043").await();
+System.out.println(results[0].formattedAddress);
+```
+
+Below is the same example, using client ID and client secret (digital signature)
+for authentication. This code assumes you have previously loaded the `clientID`
+and `clientSecret` variables with appropriate values.
+
+For a guide on how to generate the `clientSecret` (digital signature), see the
+documentation for the API you're using. For example, see the guide for the
+[Directions API](/maps/documentation/directions/get-api-key#client-id).
+
+```java
+GeoApiContext context = new GeoApiContext().setEnterpriseCredentials(clientID, clientSecret);
 GeocodingResult[] results =  GeocodingApi.geocode(context,
     "1600 Amphitheatre Parkway Mountain View, CA 94043").await();
 System.out.println(results[0].formattedAddress);
