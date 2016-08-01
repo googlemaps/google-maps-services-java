@@ -59,7 +59,7 @@ To get an API key:
  1. Visit https://developers.google.com/console and log in with
     a Google Account.
  1. Select one of your existing projects, or create a new project.
- 1. Enable the API(s) you want to use. The Node.js Client for Google Maps Services
+ 1. Enable the API(s) you want to use. The Java Client for Google Maps Services
     accesses the following APIs:
     * Directions API
     * Distance Matrix API
