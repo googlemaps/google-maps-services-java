@@ -49,16 +49,17 @@ contribute, please read [How to Contribute][contrib].
 
 ### API keys
 
-Each Google Maps Web Service requires an API key or Client ID. API keys are
-freely available with a Google Account at
-https://developers.google.com/console. To generate a server key for
-your project:
+Each Google Maps Web Service request requires an API key or client ID. API keys
+are freely available with a Google Account at
+https://developers.google.com/console. The type of API key you need is a 
+**Server key**. 
+
+To get an API key:
 
  1. Visit https://developers.google.com/console and log in with
     a Google Account.
- 1. Select an existing project, or create a new project.
- 1. Click **Enable an API**.
- 1. Browse for the API, and set its status to "On". The Java Client for Google Maps Services
+ 1. Select one of your existing projects, or create a new project.
+ 1. Enable the API(s) you want to use. The Java Client for Google Maps Services
     accesses the following APIs:
     * Directions API
     * Distance Matrix API
@@ -67,14 +68,12 @@ your project:
     * Places API
     * Roads API
     * Time Zone API
- 1. Once you've enabled the APIs, click **Credentials** from the left navigation of the Developer
-    Console.
- 1. In the "Public API access", click **Create new Key**.
- 1. Choose **Server Key**.
+ 1. Create a new **Server key**.
  1. If you'd like to restrict requests to a specific IP address, do so now.
- 1. Click **Create**.
-
-Your API key should be 40 characters long, and begin with `AIza`.
+ 
+For guided help, follow the instructions for the [Directions API][directions-key]. 
+You only need one API key, but remember to enable all the APIs you need.
+For even more information, see the guide to [API keys][apikey].
 
 **Important:** This key should be kept secret on your server.
 
@@ -123,10 +122,25 @@ https://developers.google.com/maps/.
 
 ## Usage
 
-This example uses the [Geocoding API].
+This example uses the [Geocoding API] with an API key:
 
 ```java
 GeoApiContext context = new GeoApiContext().setApiKey("AIza...");
+GeocodingResult[] results =  GeocodingApi.geocode(context,
+    "1600 Amphitheatre Parkway Mountain View, CA 94043").await();
+System.out.println(results[0].formattedAddress);
+```
+
+Below is the same example, using client ID and client secret (digital signature)
+for authentication. This code assumes you have previously loaded the `clientID`
+and `clientSecret` variables with appropriate values.
+
+For a guide on how to generate the `clientSecret` (digital signature), see the
+documentation for the API you're using. For example, see the guide for the
+[Directions API][directions-client-id].
+
+```java
+GeoApiContext context = new GeoApiContext().setEnterpriseCredentials(clientID, clientSecret);
 GeocodingResult[] results =  GeocodingApi.geocode(context,
     "1600 Amphitheatre Parkway Mountain View, CA 94043").await();
 System.out.println(results[0].formattedAddress);
@@ -159,10 +173,10 @@ down requests, you can do that too, using `new GeoApiContext().setQueryRateLimit
 Automatically retry when intermittent failures occur. That is, when any of the retriable 5xx errors
 are returned from the API.
 
-### Keys *and* Client IDs
+### Client IDs
 
-Maps API for Work customers can use their [client ID and secret][clientid] to authenticate. Free
-customers can use their [API key][apikey], too.
+Google Maps APIs Premium Plan customers can use their [client ID and secret][clientid] to authenticate,
+instead of an API key.
 
 ### POJOs
 
@@ -230,6 +244,8 @@ req.setCallback(new PendingResult.Callback<GeocodingResult[]>() {
 [clientid]: https://developers.google.com/maps/documentation/business/webservices/auth
 [contrib]: https://github.com/googlemaps/google-maps-services-java/blob/master/CONTRIB.md
 [Directions API]: https://developers.google.com/maps/documentation/directions
+[directions-key]: https://developers.google.com/maps/documentation/directions/get-api-key#key
+[directions-client-id]: https://developers.google.com/maps/documentation/directions/get-api-key#client-id
 [Distance Matrix API]: https://developers.google.com/maps/documentation/distancematrix
 [Elevation API]: https://developers.google.com/maps/documentation/elevation
 [Geocoding API]: https://developers.google.com/maps/documentation/geocoding
