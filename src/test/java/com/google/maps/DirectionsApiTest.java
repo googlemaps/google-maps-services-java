@@ -15,33 +15,28 @@
 
 package com.google.maps;
 
-import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
 import com.google.maps.DirectionsApi.RouteRestriction;
 import com.google.maps.errors.NotFoundException;
 import com.google.maps.model.AddressType;
-import com.google.maps.model.DirectionsLeg;
 import com.google.maps.model.DirectionsResult;
-import com.google.maps.model.DirectionsRoute;
 import com.google.maps.model.GeocodedWaypointStatus;
 import com.google.maps.model.TrafficModel;
 import com.google.maps.model.TransitMode;
 import com.google.maps.model.TransitRoutingPreference;
 import com.google.maps.model.TravelMode;
 import com.google.maps.model.Unit;
-
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.joda.time.Duration;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
 import java.util.concurrent.TimeUnit;
+
+import static org.hamcrest.CoreMatchers.not;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 @Category(LargeTests.class)
 public class DirectionsApiTest extends AuthenticatedTest {
@@ -176,34 +171,6 @@ public class DirectionsApiTest extends AuthenticatedTest {
   }
 
   /**
-   * A wine tour around Adelaide in South Australia. This shows off how to get Directions Web
-   * Service API to find the shortest path amongst a set of way points.
-   *
-   * {@code http://maps.googleapis.com/maps/api/directions/json?origin=Adelaide,SA&destination=Adelaide,SA&waypoints=optimize:true|Barossa+Valley,SA|Clare,SA|Connawarra,SA|McLaren+Vale,SA}
-   */
-  @Test
-  public void testAdelaideWineTour() throws Exception {
-    DirectionsResult result = DirectionsApi.newRequest(context)
-        .origin("Adelaide,SA")
-        .destination("Adelaide,SA")
-        .optimizeWaypoints(true)
-        .waypoints("Barossa Valley, SA", "Clare, SA", "Connawarra, SA",
-            "McLaren Vale, SA")
-        .await();
-
-    assertNotNull(result.routes);
-    assertEquals(1, result.routes.length);
-
-    // optimize:true returns the waypoint_order of the optimized route.
-    // "waypoint_order": [ 1, 0, 2, 3 ]
-    assertNotNull(result.routes[0].waypointOrder);
-    assertEquals(1, result.routes[0].waypointOrder[0]);
-    assertEquals(0, result.routes[0].waypointOrder[1]);
-    assertEquals(2, result.routes[0].waypointOrder[2]);
-    assertEquals(3, result.routes[0].waypointOrder[3]);
-  }
-
-  /**
    * Toledo to Madrid, in Spain. This showcases region biasing results.
    *
    * {@code http://maps.googleapis.com/maps/api/directions/json?origin=Toledo&destination=Madrid&region=es}
@@ -251,33 +218,21 @@ public class DirectionsApiTest extends AuthenticatedTest {
   }
 
   /**
-   * Testing the alternatives param.
-   */
-  @Test
-  public void testAlternatives() throws Exception {
-    DirectionsResult result = DirectionsApi.newRequest(context)
-        .origin("Sydney Town Hall")
-        .destination("Parramatta Town Hall")
-        .alternatives(true)
-        .await();
-
-    assertNotNull(result.routes);
-    assertTrue(result.routes.length > 1);
-  }
-
-  /**
    * Tests the {@code traffic_model} and {@code duration_in_traffic} parameters.
    */
   @Test
   public void testTrafficModel() throws Exception {
     DirectionsResult result = DirectionsApi.newRequest(context)
-        .origin("Sydney Town Hall")
-        .destination("Parramatta Town Hall")
+        .origin("48 Pirrama Road, Pyrmont NSW 2009")
+        .destination("182 Church St, Parramatta NSW 2150")
         .mode(TravelMode.DRIVING)
         .departureTime(new DateTime().plus(Duration.standardMinutes(2)))
         .trafficModel(TrafficModel.PESSIMISTIC)
         .await();
 
+    assertNotNull(result);
+    assertTrue(result.routes.length > 0);
+    assertTrue(result.routes[0].legs.length > 0);
     assertNotNull(result.routes[0].legs[0].durationInTraffic);
   }
 
@@ -331,25 +286,10 @@ public class DirectionsApiTest extends AuthenticatedTest {
     assertNotNull(result.geocodedWaypoints);
     assertEquals(2, result.geocodedWaypoints.length);
     assertEquals(GeocodedWaypointStatus.OK, result.geocodedWaypoints[0].geocoderStatus);
-    assertEquals(AddressType.PREMISE, result.geocodedWaypoints[0].types[0]);
+    assertEquals(AddressType.STREET_ADDRESS, result.geocodedWaypoints[0].types[0]);
     assertEquals(GeocodedWaypointStatus.OK, result.geocodedWaypoints[1].geocoderStatus);
     assertEquals(AddressType.ROUTE, result.geocodedWaypoints[1].types[0]);
 
-  }
-
-  /**
-   * Test {@code local_icon} for Directions in Paris.
-   */
-  @Test
-  public void testLocalIconInParis() throws Exception {
-    DirectionsResult result = DirectionsApi.newRequest(context)
-        .origin("paris metro bibliotheque francois mitterrand")
-        .destination("paris metro pyramides")
-        .mode(TravelMode.TRANSIT)
-        .await();
-    assertNotNull(result);
-    assertEquals("//maps.gstatic.com/mapfiles/transit/iw2/6/fr-paris-metro.png",
-        result.routes[0].legs[0].steps[1].transitDetails.line.vehicle.localIcon);
   }
 
 }

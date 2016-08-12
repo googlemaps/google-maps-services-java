@@ -46,9 +46,9 @@ import javax.imageio.ImageIO;
 
 @Category(LargeTests.class)
 public class PlacesApiIntegrationTest extends KeyOnlyAuthenticatedTest {
-  public static final String GOOGLE_SYDNEY = "ChIJN1t_tDeuEmsRUsoyG83frY4";
-  public static final LatLng SYDNEY = new LatLng(-33.8650, 151.2094);
-  public static final long TWO_SECONDS = 2 * 1000;
+  private static final String GOOGLE_SYDNEY = "ChIJN1t_tDeuEmsRUsoyG83frY4";
+  private static final LatLng SYDNEY = new LatLng(-33.8650, 151.2094);
+  private static final long TWO_SECONDS = 2 * 1000;
 
   public PlacesApiIntegrationTest(GeoApiContext context) {
     this.context = context
@@ -70,7 +70,7 @@ public class PlacesApiIntegrationTest extends KeyOnlyAuthenticatedTest {
     assertNotNull(placeDetails.formattedAddress);
     assertEquals("5, 48 Pirrama Rd, Pyrmont NSW 2009, Australia", placeDetails.formattedAddress);
     assertNotNull(placeDetails.vicinity);
-    assertEquals("5 48 Pirrama Road, Pyrmont", placeDetails.vicinity);
+    assertEquals("5 48 Pirrama Rd, Pyrmont", placeDetails.vicinity);
 
     // Phone numbers
     assertNotNull(placeDetails.formattedPhoneNumber);
