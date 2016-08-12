@@ -41,7 +41,7 @@ import java.util.concurrent.TimeUnit;
 @Category(LargeTests.class)
 public class GeocodingApiTest extends AuthenticatedTest {
 
-  public static final double EPSILON = 0.000001;
+  private static final double EPSILON = 0.005;
 
   private GeoApiContext context;
 
@@ -169,7 +169,7 @@ public class GeocodingApiTest extends AuthenticatedTest {
         .await();
 
     assertNotNull(results);
-    assertEquals("Toledo, Toledo, Spain", results[0].formattedAddress);
+    assertEquals("Toledo, Spain", results[0].formattedAddress);
   }
 
   /**
@@ -183,8 +183,8 @@ public class GeocodingApiTest extends AuthenticatedTest {
         .components(ComponentFilter.country("ES")).await();
 
     assertNotNull(results);
-    assertEquals("Santa Cruz de Tenerife, Santa Cruz de Tenerife, Spain",
-        results[0].formattedAddress);
+    assertTrue(results[0].formattedAddress.contains("Santa Cruz de Tenerife"));
+    assertTrue(results[0].formattedAddress.contains("Spain"));
   }
 
   /**
