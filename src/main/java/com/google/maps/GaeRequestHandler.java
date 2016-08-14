@@ -41,7 +41,7 @@ public class GaeRequestHandler implements GeoApiContext.RequestHandler {
   private final URLFetchService client = URLFetchServiceFactory.getURLFetchService();
 
   @Override
-  public <T, R extends ApiResponse<T>> PendingResult<T> handle(String hostName, String url, String userAgent, Class<R> clazz, FieldNamingPolicy fieldNamingPolicy, long errorTimeout) {
+  public <T, R extends ApiResponse<T>> PendingResult<T> handle(String hostName, String url, String userAgent, Class<R> clazz, FieldNamingPolicy fieldNamingPolicy, long errorTimeout, boolean failFastForDailyLimit) {
     FetchOptions fetchOptions = FetchOptions.Builder.withDeadline(10);
     HTTPRequest req = null;
     try {

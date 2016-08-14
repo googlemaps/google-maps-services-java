@@ -47,7 +47,7 @@ public class OkHttpRequestHandler implements GeoApiContext.RequestHandler {
   }
 
   @Override
-  public <T, R extends ApiResponse<T>> PendingResult<T> handle(String hostName, String url, String userAgent, Class<R> clazz, FieldNamingPolicy fieldNamingPolicy, long errorTimeout) {
+  public <T, R extends ApiResponse<T>> PendingResult<T> handle(String hostName, String url, String userAgent, Class<R> clazz, FieldNamingPolicy fieldNamingPolicy, long errorTimeout, boolean failFastForDailyLimit) {
     Request req = new Request.Builder()
         .get()
         .header("User-Agent", userAgent)
@@ -55,7 +55,7 @@ public class OkHttpRequestHandler implements GeoApiContext.RequestHandler {
 
     LOG.log(Level.INFO, "Request: {0}", hostName + url);
 
-    return new OkHttpPendingResult<T, R>(req, client, clazz, fieldNamingPolicy, errorTimeout);
+    return new OkHttpPendingResult<T, R>(req, client, clazz, fieldNamingPolicy, errorTimeout, failFastForDailyLimit);
   }
 
   @Override
