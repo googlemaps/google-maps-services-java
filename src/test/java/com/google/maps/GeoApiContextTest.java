@@ -22,6 +22,7 @@ import com.google.maps.model.GeocodingResult;
 import com.google.mockwebserver.MockResponse;
 import com.google.mockwebserver.MockWebServer;
 import com.google.mockwebserver.RecordedRequest;
+
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
