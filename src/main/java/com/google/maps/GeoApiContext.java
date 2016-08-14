@@ -56,17 +56,11 @@ public class GeoApiContext {
   public interface RequestHandler {
     <T, R extends ApiResponse<T>> PendingResult<T> handle(String hostName, String url, String userAgent, Class<R> clazz,
                                                           FieldNamingPolicy fieldNamingPolicy, long errorTimeout, boolean failFastForDailyLimit);
-
     void setConnectTimeout(long timeout, TimeUnit unit);
-
     void setReadTimeout(long timeout, TimeUnit unit);
-
     void setWriteTimeout(long timeout, TimeUnit unit);
-
     void setQueriesPerSecond(int maxQps);
-
     void setQueriesPerSecond(int maxQps, int minimumInterval);
-
     void setProxy(Proxy proxy);
   }
 
@@ -83,9 +77,10 @@ public class GeoApiContext {
   /**
    * Construct a GeoApiContext with the specified strategy for handling requests.
    *
-   * @param requestHandler How to handle URL requests to the Google Maps APIs.
    * @see OkHttpRequestHandler
    * @see GaeRequestHandler
+   *
+   * @param requestHandler How to handle URL requests to the Google Maps APIs.
    */
   public GeoApiContext(RequestHandler requestHandler) {
     this.requestHandler = requestHandler;
@@ -93,7 +88,7 @@ public class GeoApiContext {
 
   <T, R extends ApiResponse<T>> PendingResult<T> get(ApiConfig config, Class<? extends R> clazz,
                                                      Map<String, String> params) {
-    if (channel != null && ! channel.isEmpty() && ! params.containsKey("channel")) {
+    if (channel != null && !channel.isEmpty() && !params.containsKey("channel")) {
       params.put("channel", channel);
     }
 
@@ -137,7 +132,7 @@ public class GeoApiContext {
     }
 
     // Channel can be supplied per-request or per-context. We prioritize it from the request, so if it's not provided there, provide it here
-    if (! channelSet && channel != null && ! channel.isEmpty()) {
+    if (!channelSet && channel != null && !channel.isEmpty()) {
       query.append("&channel=").append(channel);
     }
 
