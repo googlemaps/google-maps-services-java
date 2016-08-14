@@ -15,32 +15,12 @@
 
 package com.google.maps;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
-import com.google.maps.model.AddressComponentType;
-import com.google.maps.model.AddressType;
-import com.google.maps.model.AutocompletePrediction;
-import com.google.maps.model.ComponentFilter;
-import com.google.maps.model.LatLng;
+import com.google.maps.model.*;
 import com.google.maps.model.OpeningHours.Period;
 import com.google.maps.model.OpeningHours.Period.OpenClose.DayOfWeek;
-import com.google.maps.model.Photo;
-import com.google.maps.model.PlaceAutocompleteType;
-import com.google.maps.model.PlaceDetails;
 import com.google.maps.model.PlaceDetails.Review.AspectRating.RatingType;
-import com.google.maps.model.PlaceIdScope;
-import com.google.maps.model.PlaceType;
-import com.google.maps.model.PlacesSearchResponse;
-import com.google.maps.model.PlacesSearchResult;
-import com.google.maps.model.PriceLevel;
-import com.google.maps.model.RankBy;
 import com.google.mockwebserver.MockResponse;
 import com.google.mockwebserver.MockWebServer;
-
-
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.joda.time.LocalTime;
@@ -49,10 +29,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.InputStream;
 import java.net.URI;
 import java.util.List;
-import java.util.Scanner;
+
+import static com.google.maps.TestUtils.retrieveBody;
+import static org.junit.Assert.*;
 
 public class PlacesApiTest {
 
@@ -76,16 +57,6 @@ public class PlacesApiTest {
     queryAutocompleteWithPlaceIdResponseBody = retrieveBody("QueryAutocompleteResponseWithPlaceID.json");
     textSearchResponseBody = retrieveBody("TextSearchResponse.json");
     textSearchPizzaInNYCbody = retrieveBody("TextSearchPizzaInNYC.json");
-  }
-
-  private String retrieveBody(String filename) {
-    InputStream input = this.getClass().getResourceAsStream(filename);
-    Scanner s = new java.util.Scanner(input).useDelimiter("\\A");
-    String body = s.next();
-    if (body == null || body.length() == 0) {
-      throw new IllegalArgumentException("filename '" + filename + "' resulted in null or empty body");
-    }
-    return body;
   }
 
   private MockWebServer server;

@@ -149,7 +149,7 @@ public class GeoApiContext {
                                                                      FieldNamingPolicy fieldNamingPolicy, String hostName, String path,
                                                                      boolean canUseClientId, String encodedPath) {
     checkContext(canUseClientId);
-    if (! encodedPath.startsWith("&")) {
+    if (!encodedPath.startsWith("&")) {
       throw new IllegalArgumentException("encodedPath must start with &");
     }
 
@@ -157,33 +157,35 @@ public class GeoApiContext {
     if (canUseClientId && clientId != null) {
       url.append("?client=").append(clientId);
     } else {
-      url.append(encodedPath);
+      url.append("?key=").append(apiKey);
+    }
+    url.append(encodedPath);
 
-      if (canUseClientId && clientId != null) {
-        try {
-          String signature = urlSigner.getSignature(url.toString());
-          url.append("&signature=").append(signature);
-        } catch (Exception e) {
-          return new ExceptionResult<T>(e);
-        }
-      }
-
-      if (baseUrlOverride != null) {
-        hostName = baseUrlOverride;
+    if (canUseClientId && clientId != null) {
+      try {
+        String signature = urlSigner.getSignature(url.toString());
+        url.append("&signature=").append(signature);
+      } catch (Exception e) {
+        return new ExceptionResult<T>(e);
       }
     }
+
+    if (baseUrlOverride != null) {
+      hostName = baseUrlOverride;
+    }
+
       return requestHandler.handle(hostName, url.toString(), USER_AGENT, clazz, fieldNamingPolicy, errorTimeout, failFastForDailyLimit);
   }
 
   private void checkContext(boolean canUseClientId) {
     if (urlSigner == null && apiKey == null) {
       throw new IllegalStateException(
-                                         "Must provide either API key or Maps for Work credentials.");
-    } else if (! canUseClientId && apiKey == null) {
+          "Must provide either API key or Maps for Work credentials.");
+    } else if (!canUseClientId && apiKey == null) {
       throw new IllegalStateException(
-                                         "API does not support client ID & secret - you must provide a key");
+          "API does not support client ID & secret - you must provide a key");
     }
-    if (urlSigner == null && ! apiKey.startsWith("AIza")) {
+    if (urlSigner == null && !apiKey.startsWith("AIza")) {
       throw new IllegalStateException("Invalid API key.");
     }
   }
