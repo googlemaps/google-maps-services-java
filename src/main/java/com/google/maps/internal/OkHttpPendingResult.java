@@ -294,7 +294,7 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
     ByteArrayOutputStream buffer = new ByteArrayOutputStream();
     int bytesRead;
     byte[] data = new byte[8192];
-    while ((bytesRead = in.read(data, 0, data.length)) != - 1) {
+    while ((bytesRead = in.read(data, 0, data.length)) != -1) {
       buffer.write(data, 0, bytesRead);
     }
     buffer.flush();
