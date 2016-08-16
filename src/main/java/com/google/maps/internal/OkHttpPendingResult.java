@@ -24,10 +24,25 @@ import com.google.maps.PhotoRequest;
 import com.google.maps.errors.ApiException;
 import com.google.maps.errors.OverDailyLimitException;
 import com.google.maps.errors.OverQueryLimitException;
-import com.google.maps.model.*;
+import com.google.maps.model.AddressComponentType;
+import com.google.maps.model.AddressType;
+import com.google.maps.model.Distance;
+import com.google.maps.model.Duration;
+import com.google.maps.model.Fare;
+import com.google.maps.model.LatLng;
+import com.google.maps.model.LocationType;
 import com.google.maps.model.OpeningHours.Period.OpenClose.DayOfWeek;
+import com.google.maps.model.PhotoResult;
 import com.google.maps.model.PlaceDetails.Review.AspectRating.RatingType;
-import com.squareup.okhttp.*;
+import com.google.maps.model.PriceLevel;
+import com.google.maps.model.TravelMode;
+
+import com.squareup.okhttp.Call;
+import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
+
 import org.joda.time.DateTime;
 import org.joda.time.Instant;
 import org.joda.time.LocalTime;
@@ -205,9 +220,9 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
 
     // Places Photo API special case
     if (contentType != null &&
-            contentType.startsWith("image") &&
-            responseClass == PhotoRequest.Response.class &&
-            response.code() == 200) {
+        contentType.startsWith("image") &&
+        responseClass == PhotoRequest.Response.class &&
+        response.code() == 200) {
       // Photo API response is just a raw image byte array.
       PhotoResult result = new PhotoResult();
       result.contentType = contentType;
@@ -216,23 +231,23 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
     }
 
     Gson gson = new GsonBuilder()
-                    .registerTypeAdapter(DateTime.class, new DateTimeAdapter())
-                    .registerTypeAdapter(Distance.class, new DistanceAdapter())
-                    .registerTypeAdapter(Duration.class, new DurationAdapter())
-                    .registerTypeAdapter(Fare.class, new FareAdapter())
-                    .registerTypeAdapter(LatLng.class, new LatLngAdapter())
-                    .registerTypeAdapter(AddressComponentType.class,
-                        new SafeEnumAdapter<AddressComponentType>(AddressComponentType.UNKNOWN))
-                    .registerTypeAdapter(AddressType.class, new SafeEnumAdapter<AddressType>(AddressType.UNKNOWN))
-                    .registerTypeAdapter(TravelMode.class, new SafeEnumAdapter<TravelMode>(TravelMode.UNKNOWN))
-                    .registerTypeAdapter(LocationType.class, new SafeEnumAdapter<LocationType>(LocationType.UNKNOWN))
-                    .registerTypeAdapter(RatingType.class, new SafeEnumAdapter<RatingType>(RatingType.UNKNOWN))
-                    .registerTypeAdapter(DayOfWeek.class, new DayOfWeekAdaptor())
-                    .registerTypeAdapter(PriceLevel.class, new PriceLevelAdaptor())
-                    .registerTypeAdapter(Instant.class, new InstantAdapter())
-                    .registerTypeAdapter(LocalTime.class, new LocalTimeAdapter())
-                    .setFieldNamingPolicy(fieldNamingPolicy)
-                    .create();
+        .registerTypeAdapter(DateTime.class, new DateTimeAdapter())
+        .registerTypeAdapter(Distance.class, new DistanceAdapter())
+        .registerTypeAdapter(Duration.class, new DurationAdapter())
+        .registerTypeAdapter(Fare.class, new FareAdapter())
+        .registerTypeAdapter(LatLng.class, new LatLngAdapter())
+        .registerTypeAdapter(AddressComponentType.class,
+            new SafeEnumAdapter<AddressComponentType>(AddressComponentType.UNKNOWN))
+        .registerTypeAdapter(AddressType.class, new SafeEnumAdapter<AddressType>(AddressType.UNKNOWN))
+        .registerTypeAdapter(TravelMode.class, new SafeEnumAdapter<TravelMode>(TravelMode.UNKNOWN))
+        .registerTypeAdapter(LocationType.class, new SafeEnumAdapter<LocationType>(LocationType.UNKNOWN))
+        .registerTypeAdapter(RatingType.class, new SafeEnumAdapter<RatingType>(RatingType.UNKNOWN))
+        .registerTypeAdapter(DayOfWeek.class, new DayOfWeekAdaptor())
+        .registerTypeAdapter(PriceLevel.class, new PriceLevelAdaptor())
+        .registerTypeAdapter(Instant.class, new InstantAdapter())
+        .registerTypeAdapter(LocalTime.class, new LocalTimeAdapter())
+        .setFieldNamingPolicy(fieldNamingPolicy)
+        .create();
 
     // Attempt to de-serialize before checking the HTTP status code, as there may be JSON in the
     // body that we can use to provide a more descriptive exception.
@@ -240,7 +255,7 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
       resp = gson.fromJson(new String(bytes, "utf8"), responseClass);
     } catch (JsonSyntaxException e) {
       // Check HTTP status for a more suitable exception
-      if (! response.isSuccessful()) {
+      if (!response.isSuccessful()) {
         // Some of the APIs return 200 even when the API request fails, as long as the transport
         // mechanism succeeds. In these cases, INVALID_RESPONSE, etc are handled by the Gson
         // parsing.
