@@ -134,7 +134,7 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
       // 0.5 * (1.5 ^ i) represents an increased sleep time of 1.5x per iteration,
       // starting at 0.5s when i = 0. The retryCounter will be 1 for the 1st retry,
       // so subtract 1 here.
-      double delaySecs = 0.5 * Math.pow(1.5, retryCounter - 1);
+      double delaySecs = 0.5 * Math.pow(1.5, retryCounter -1);
 
       // Generate a jitter value between -delaySecs / 2 and +delaySecs / 2
       long delayMillis = (long) (delaySecs * (Math.random() + 0.5) * 1000);
