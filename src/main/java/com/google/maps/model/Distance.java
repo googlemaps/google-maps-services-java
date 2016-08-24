@@ -15,10 +15,12 @@
 
 package com.google.maps.model;
 
+import java.io.Serializable;
+
 /**
  * The distance component for Directions API results.
  */
-public class Distance {
+public class Distance implements Serializable {
 
   /**
    * This is the numeric distance, always in meters. This is intended to be used only in algorithmic

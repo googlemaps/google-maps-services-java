@@ -15,10 +15,12 @@
 
 package com.google.maps.model;
 
+import java.io.Serializable;
+
 /**
  * The north east and south west points that delineate the outer bounds of a map.
  */
-public class Bounds {
+public class Bounds implements Serializable {
   public LatLng northeast;
   public LatLng southwest;
 }

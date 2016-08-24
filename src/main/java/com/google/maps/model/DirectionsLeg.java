@@ -17,13 +17,15 @@ package com.google.maps.model;
 
 import org.joda.time.DateTime;
 
+import java.io.Serializable;
+
 /**
  * A component of a Directions API result.
  *
  * See <a href="https://developers.google.com/maps/documentation/directions/#Legs">the Legs
  * documentation</a> for more detail.
  */
-public class DirectionsLeg {
+public class DirectionsLeg implements Serializable {
 
   /**
    * {@code steps[]} contains an array of steps denoting information about each separate step of the

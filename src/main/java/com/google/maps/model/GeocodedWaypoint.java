@@ -15,13 +15,15 @@
 
 package com.google.maps.model;
 
+import java.io.Serializable;
+
 /**
  * Geocoded Waypoint represents a point in a Directions API response, either the origin, one of the
  * requested waypoints, or the destination. Please see
  * <a href="https://developers.google.com/maps/documentation/directions/intro#GeocodedWaypoints">
  *   Geocoded Waypoints</a> for more detail.
  */
-public class GeocodedWaypoint {
+public class GeocodedWaypoint implements Serializable {
   /**
    * {@code geocoderStatus} indicates the status code resulting from the geocoding operation.
    */

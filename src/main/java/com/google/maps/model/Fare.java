@@ -15,6 +15,7 @@
 
 package com.google.maps.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Currency;
 
@@ -24,7 +25,7 @@ import java.util.Currency;
  * See <a href="https://developers.google.com/maps/documentation/directions/#Routes">the Routes
  * Documentation</a> for more detail.
  */
-public class Fare {
+public class Fare implements Serializable {
 
   /**
    * {@code currency} contains the currency indicating the currency that the amount is expressed

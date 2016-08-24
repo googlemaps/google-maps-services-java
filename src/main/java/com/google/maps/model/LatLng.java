@@ -17,12 +17,13 @@ package com.google.maps.model;
 
 import com.google.maps.internal.StringJoin.UrlValue;
 
+import java.io.Serializable;
 import java.util.Locale;
 
 /**
  * A place on Earth, represented by a Latitude/Longitude pair.
  */
-public class LatLng implements UrlValue {
+public class LatLng implements UrlValue, Serializable {
 
   /**
    * The latitude of this location.
