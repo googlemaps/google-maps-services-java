@@ -59,6 +59,7 @@ public class RateLimitExecutorService implements ExecutorService, Runnable {
     setQueriesPerSecond(DEFAULT_QUERIES_PER_SECOND);
     Thread delayThread = new Thread(this);
     delayThread.setDaemon(true);
+    delayThread.setName("RateLimitExecutorDelayThread");
     delayThread.start();
   }
 
