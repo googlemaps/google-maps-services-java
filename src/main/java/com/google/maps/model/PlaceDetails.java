@@ -86,6 +86,11 @@ public class PlaceDetails {
    */
   public PlaceIdScope scope;
 
+  /**
+   * Whether the place has permanently closed.
+   */
+  public boolean permanentlyClosed;
+
   static public class AlternatePlaceIds {
     /**
      * placeId — The most likely reason for a place to have an alternative place ID is if your

@@ -58,10 +58,12 @@ public class PlacesApiTest {
 
   public static final String GOOGLE_SYDNEY = "ChIJN1t_tDeuEmsRUsoyG83frY4";
   public static final String QUAY_PLACE_ID = "ChIJ02qnq0KuEmsRHUJF4zo1x4I";
+  public static final String PERMANENTLY_CLOSED_PLACE_ID = "ChIJZQvy3jAbdkgR9avxegjoCe0";
   public static final String QUERY_AUTOCOMPLETE_INPUT = "pizza near par";
 
   private final GeoApiContext context = new GeoApiContext().setApiKey("AIzaFakeKey");
   private final String placeDetailResponseBody;
+  private final String placeDetailResponseBodyForPermanentlyClosedPlace;
   private final String quayResponseBody;
   private final String queryAutocompleteResponseBody;
   private final String queryAutocompleteWithPlaceIdResponseBody;
@@ -71,6 +73,7 @@ public class PlacesApiTest {
 
   public PlacesApiTest() {
     placeDetailResponseBody = retrieveBody("PlaceDetailsResponse.json");
+    placeDetailResponseBodyForPermanentlyClosedPlace = retrieveBody("PlaceDetailsResponseForPermanentlyClosedPlace.json");
     quayResponseBody = retrieveBody("PlaceDetailsQuay.json");
     queryAutocompleteResponseBody = retrieveBody("QueryAutocompleteResponse.json");
     queryAutocompleteWithPlaceIdResponseBody = retrieveBody("QueryAutocompleteResponseWithPlaceID.json");
@@ -281,6 +284,24 @@ public class PlacesApiTest {
     assertEquals(placeDetails.types[0], "establishment");
     assertNotNull(placeDetails.rating);
     assertEquals(placeDetails.rating, 4.4, 0.1);
+
+    // Permanently closed:
+    assertFalse(placeDetails.permanentlyClosed);
+  }
+
+  @Test
+  public void testPlaceDetailsLookupPermanentlyClosedPlace() throws Exception {
+    MockResponse response = new MockResponse();
+    response.setBody(placeDetailResponseBodyForPermanentlyClosedPlace);
+    server.enqueue(response);
+    server.play();
+    context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
+
+    PlaceDetails placeDetails = PlacesApi.placeDetails(context, PERMANENTLY_CLOSED_PLACE_ID).await();
+
+    assertNotNull(placeDetails);
+
+    assertTrue(placeDetails.permanentlyClosed);
   }
 
   @Test
