@@ -45,7 +45,12 @@ public class ApiException extends Exception {
     } else if ("NOT_FOUND".equals(status)) {
       return new NotFoundException(errorMessage);
     } else if ("OVER_QUERY_LIMIT".equals(status)) {
-      return new OverQueryLimitException(errorMessage);
+      //Ideally the service would be changed to give a different status
+      if(errorMessage != null && errorMessage.contains("daily")){
+        return new OverDailyLimitException(errorMessage);
+      } else {
+        return new OverQueryLimitException(errorMessage);
+      }
     } else if ("REQUEST_DENIED".equals(status)) {
       return new RequestDeniedException(errorMessage);
     } else if ("UNKNOWN_ERROR".equals(status)) {

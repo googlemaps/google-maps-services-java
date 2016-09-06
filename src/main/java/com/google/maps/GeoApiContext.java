@@ -42,6 +42,7 @@ public class GeoApiContext {
   private UrlSigner urlSigner;
   private String channel;
   private RequestHandler requestHandler;
+  private boolean failFastForDailyLimit;
 
 
   /**
@@ -53,7 +54,8 @@ public class GeoApiContext {
    * @see GaeRequestHandler
    */
   public interface RequestHandler {
-    <T, R extends ApiResponse<T>> PendingResult<T> handle(String hostName, String url, String userAgent, Class<R> clazz, FieldNamingPolicy fieldNamingPolicy, long errorTimeout);
+    <T, R extends ApiResponse<T>> PendingResult<T> handle(String hostName, String url, String userAgent, Class<R> clazz,
+                                                          FieldNamingPolicy fieldNamingPolicy, long errorTimeout, boolean failFastForDailyLimit);
     void setConnectTimeout(long timeout, TimeUnit unit);
     void setReadTimeout(long timeout, TimeUnit unit);
     void setWriteTimeout(long timeout, TimeUnit unit);
@@ -167,7 +169,7 @@ public class GeoApiContext {
       hostName = baseUrlOverride;
     }
 
-    return requestHandler.handle(hostName, url.toString(), USER_AGENT, clazz, fieldNamingPolicy, errorTimeout);
+      return requestHandler.handle(hostName, url.toString(), USER_AGENT, clazz, fieldNamingPolicy, errorTimeout, failFastForDailyLimit);
   }
 
   private void checkContext(boolean canUseClientId) {
@@ -272,6 +274,20 @@ public class GeoApiContext {
    */
   public GeoApiContext setQueryRateLimit(int maxQps, int minimumInterval) {
     requestHandler.setQueriesPerSecond(maxQps, minimumInterval);
+    return this;
+  }
+
+  /**
+   * Overrides the default behaviour of retrying all over limit errors,
+   * to instead only retry rate limit errors and not daily limit errors.
+   *
+   * @param value whether or not to fail fast for daily rate limit errors.
+   */
+  public GeoApiContext setFailFastForDailyLimit(boolean value) {
+    if (this.requestHandler instanceof GaeRequestHandler) {
+      throw new RuntimeException("Fail fast for daily limit is not supported by Google App Engine");
+    }
+    this.failFastForDailyLimit = value;
     return this;
   }
 

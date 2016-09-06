@@ -19,14 +19,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
-
+import com.google.maps.errors.OverDailyLimitException;
 import com.google.maps.internal.ApiConfig;
 import com.google.maps.internal.ApiResponse;
 import com.google.maps.model.GeocodingResult;
 import com.google.mockwebserver.MockResponse;
 import com.google.mockwebserver.MockWebServer;
 import com.google.mockwebserver.RecordedRequest;
-
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
@@ -35,6 +34,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
 
 @Category(MediumTests.class)
 public class GeoApiContextTest {
@@ -187,6 +192,34 @@ public class GeoApiContextTest {
     } catch (IOException ioe) {
       // Ensure the message matches the status line in the mock responses.
       assertEquals("Server Error: 500 Internal server error", ioe.getMessage());
+      return;
+    }
+    fail("Internal server error was expected but not observed.");
+  }
+
+  @Test
+  public void testFastFailForDailyLimit() throws Exception {
+    MockResponse errorResponse = new MockResponse();
+    errorResponse.setStatus("HTTP/1.1 400 Internal server error");
+    errorResponse.setBody(TestUtils.retrieveBody("OverDailyLimitResponse.json"));
+
+    // Enqueue some error responses.
+    // Although only one of them should be used
+    for (int i = 0; i < 10; i++) {
+      server.enqueue(errorResponse);
+    }
+    server.play();
+
+    // Wire the mock web server to the context
+    setMockBaseUrl();
+    context.setRetryTimeout(5, TimeUnit.SECONDS)
+    .setFailFastForDailyLimit(true);
+
+    try {
+      context.get(new ApiConfig("/"), GeocodingApi.Response.class, "k", "v").await();
+    } catch (OverDailyLimitException e) {
+      //Ensure that only one request was sent
+      assertThat(server.getRequestCount(), is(equalTo(1)));
       return;
     }
     fail("Internal server error was expected but not observed.");

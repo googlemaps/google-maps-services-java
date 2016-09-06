@@ -22,6 +22,7 @@ import com.google.gson.JsonSyntaxException;
 import com.google.maps.PendingResult;
 import com.google.maps.PhotoRequest;
 import com.google.maps.errors.ApiException;
+import com.google.maps.errors.OverDailyLimitException;
 import com.google.maps.errors.OverQueryLimitException;
 import com.google.maps.model.AddressComponentType;
 import com.google.maps.model.AddressType;
@@ -58,7 +59,7 @@ import java.util.logging.Logger;
 /**
  * A PendingResult backed by a HTTP call executed by OkHttp, a deserialization step using Gson, rate
  * limiting and a retry policy.
- *
+ * <p/>
  * <p>{@code T} is the type of the result of this pending result, and {@code R} is the type of the
  * request.
  */
@@ -74,24 +75,27 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
   private long errorTimeOut;
   private int retryCounter = 0;
   private long cumulativeSleepTime = 0;
+  private boolean failFastForDailyLimit;
 
   private static final Logger LOG = Logger.getLogger(OkHttpPendingResult.class.getName());
   private static final List<Integer> RETRY_ERROR_CODES = Arrays.asList(500, 503, 504);
 
   /**
-   * @param request           HTTP request to execute.
-   * @param client            The client used to execute the request.
-   * @param responseClass     Model class to unmarshal JSON body content.
-   * @param fieldNamingPolicy FieldNamingPolicy for unmarshaling JSON.
-   * @param errorTimeOut      Number of milliseconds to re-send erroring requests.
+   * @param request               HTTP request to execute.
+   * @param client                The client used to execute the request.
+   * @param responseClass         Model class to unmarshal JSON body content.
+   * @param fieldNamingPolicy     FieldNamingPolicy for unmarshaling JSON.
+   * @param errorTimeOut          Number of milliseconds to re-send erroring requests.
+   * @param failFastForDailyLimit Whether or not to fail fast on hitting the daily query limit
    */
   public OkHttpPendingResult(Request request, OkHttpClient client, Class<R> responseClass,
-                             FieldNamingPolicy fieldNamingPolicy, long errorTimeOut) {
+                             FieldNamingPolicy fieldNamingPolicy, long errorTimeOut, final boolean failFastForDailyLimit) {
     this.request = request;
     this.client = client;
     this.responseClass = responseClass;
     this.fieldNamingPolicy = fieldNamingPolicy;
     this.errorTimeOut = errorTimeOut;
+    this.failFastForDailyLimit = failFastForDailyLimit;
 
     this.call = client.newCall(request);
   }
@@ -130,7 +134,7 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
       // 0.5 * (1.5 ^ i) represents an increased sleep time of 1.5x per iteration,
       // starting at 0.5s when i = 0. The retryCounter will be 1 for the 1st retry,
       // so subtract 1 here.
-      double delaySecs = 0.5 * Math.pow(1.5, retryCounter - 1);
+      double delaySecs = 0.5 * Math.pow(1.5, retryCounter -1);
 
       // Generate a jitter value between -delaySecs / 2 and +delaySecs / 2
       long delayMillis = (long) (delaySecs * (Math.random() + 0.5) * 1000);
@@ -268,14 +272,21 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
       return resp.getResult();
     } else {
       ApiException e = resp.getError();
-      if (e instanceof OverQueryLimitException && cumulativeSleepTime < errorTimeOut) {
-        // Retry over_query_limit errors
+      if (isRetryableException(e)) {
         return request.retry();
       } else {
         // Throw anything else, including OQLs if we've spent too much time retrying
         throw e;
       }
     }
+  }
+
+  private boolean isRetryableException(final ApiException e) {
+    // Retry over_query_limit errors but not if it is the daily limit if we are failing fast
+    return ! (e instanceof OverDailyLimitException && failFastForDailyLimit)
+               && e instanceof OverQueryLimitException
+               && ! (e instanceof OverDailyLimitException)
+               && cumulativeSleepTime < errorTimeOut;
   }
 
   private byte[] getBytes(Response response) throws IOException {
