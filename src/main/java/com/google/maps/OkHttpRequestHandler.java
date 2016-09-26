@@ -74,22 +74,27 @@ public class OkHttpRequestHandler implements GeoApiContext.RequestHandler {
   public void setConnectTimeout(long timeout, TimeUnit unit) {
     client.setConnectTimeout(timeout, unit);
   }
+  
   @Override
   public void setReadTimeout(long timeout, TimeUnit unit) {
     client.setReadTimeout(timeout, unit);
   }
+  
   @Override
   public void setWriteTimeout(long timeout, TimeUnit unit) {
     client.setWriteTimeout(timeout, unit);
   }
+  
   @Override
   public void setQueriesPerSecond(int maxQps) {
     rateLimitExecutorService.setQueriesPerSecond(maxQps);
   }
+  
   @Override
   public void setQueriesPerSecond(int maxQps, int minimumInterval) {
     rateLimitExecutorService.setQueriesPerSecond(maxQps, minimumInterval);
   }
+  
   @Override
   public void setProxy(Proxy proxy) {
     client.setProxy(proxy);
