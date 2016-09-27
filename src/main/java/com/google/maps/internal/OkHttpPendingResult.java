@@ -46,9 +46,7 @@ import org.joda.time.DateTime;
 import org.joda.time.Instant;
 import org.joda.time.LocalTime;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -210,7 +208,7 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
       return request.retry();
     }
 
-    byte[] bytes = getBytes(response);
+    byte[] bytes = response.body().bytes();
     R resp;
     String contentType = response.header("Content-Type");
 
@@ -276,18 +274,6 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
         throw e;
       }
     }
-  }
-
-  private byte[] getBytes(Response response) throws IOException {
-    InputStream in = response.body().byteStream();
-    ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-    int bytesRead;
-    byte[] data = new byte[8192];
-    while ((bytesRead = in.read(data, 0, data.length)) != -1) {
-      buffer.write(data, 0, bytesRead);
-    }
-    buffer.flush();
-    return buffer.toByteArray();
   }
 
   private T retry() throws Exception {
