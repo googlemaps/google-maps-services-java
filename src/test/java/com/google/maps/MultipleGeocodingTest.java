@@ -67,9 +67,10 @@ public class MultipleGeocodingTest extends AuthenticatedTest {
             }
         }
 
-        assertFalse(resps.isEmpty());
-        assertTrue(errors.isEmpty());
-        assertNotNull(resps.get(0));
+        assertFalse("We must get responses", resps.isEmpty());
+        assertTrue("We cannot receive errors", errors.isEmpty());
+        assertNotNull("First result is not null", resps.get(0));
+        assertEquals("We have expected number of results", limit, resps.size());
         Set<GeocodingResult[]> all = new HashSet<GeocodingResult[]>(resps);
         for (GeocodingResult[] result : all) {
             checkSydneyResult(result);
@@ -81,8 +82,8 @@ public class MultipleGeocodingTest extends AuthenticatedTest {
         assertNotNull(results);
         assertNotNull(results[0].geometry);
         assertNotNull(results[0].geometry.location);
-        assertEquals(-33.8674869, results[0].geometry.location.lat, EPSILON);
-        assertEquals(151.2069902, results[0].geometry.location.lng, EPSILON);
+        assertEquals(-33.8688197, results[0].geometry.location.lat, EPSILON);
+        assertEquals(151.2092955, results[0].geometry.location.lng, EPSILON);
         assertEquals("ChIJP3Sa8ziYEmsRUKgyFmh9AQM", results[0].placeId);
         assertEquals(LocationType.APPROXIMATE, results[0].geometry.locationType);
     }
