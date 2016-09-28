@@ -44,12 +44,13 @@ public class DirectionsStep {
   /**
    * {@code distance} contains the distance covered by this step until the next step.
    */
-  @Deprecated
   public Distance distance;
 
   /**
-   * {@code maneuver} contains the maneuver required to move ahead. eg., turn-left
+   * {@code maneuver} contains the maneuver required to move ahead. eg., turn-left.
+   * Please note, this field is undocumented, and thus should not be relied upon.
    */
+  @Deprecated
   public String maneuver;
 
   /**
