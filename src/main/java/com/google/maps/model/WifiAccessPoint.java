@@ -46,6 +46,7 @@ public class WifiAccessPoint {
   * {@code macAddress}: (required) The MAC address of the WiFi node. Separators must be : (colon) and
   * hex digits must use uppercase.
   */
+  // TODO: add validation and test cases for malformed MAC Asdresses 
   public String macAddress;
   /**
   * {@code signalStrength}: The current signal strength measured in dBm.
