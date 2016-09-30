@@ -70,7 +70,7 @@ public class PlacesApiIntegrationTest extends KeyOnlyAuthenticatedTest {
     assertNotNull(placeDetails.formattedAddress);
     assertEquals("5, 48 Pirrama Rd, Pyrmont NSW 2009, Australia", placeDetails.formattedAddress);
     assertNotNull(placeDetails.vicinity);
-    assertEquals("5 48 Pirrama Rd, Pyrmont", placeDetails.vicinity);
+    assertEquals("5, 48 Pirrama Road, Pyrmont", placeDetails.vicinity);
 
     // Phone numbers
     assertNotNull(placeDetails.formattedPhoneNumber);

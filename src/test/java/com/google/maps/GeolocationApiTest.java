@@ -96,9 +96,9 @@ public class GeolocationApiTest extends KeyOnlyAuthenticatedTest {
 
     assertNotNull(result);
     assertNotNull(result.location);
-    assertEquals("accuracy", 150.0, result.accuracy, 0.00001);
-    assertEquals("lat", 37.3989885, result.location.lat, 0.00001);
-    assertEquals("lng", -122.0585196, result.location.lng, 0.00001);
+    assertEquals("accuracy", 150.0, result.accuracy, 0.001);
+    assertEquals("lat", 37.3989885, result.location.lat, 0.001);
+    assertEquals("lng", -122.0585196, result.location.lng, 0.001);
   }
   @Test
   public void testBasicGeolocation() throws Exception {
@@ -141,9 +141,9 @@ public class GeolocationApiTest extends KeyOnlyAuthenticatedTest {
 
     assertNotNull(result);
     assertNotNull(result.location);
-    assertEquals("accuracy", 150.0, result.accuracy, 0.00001);
-    assertEquals("lat", 37.3989885, result.location.lat, 0.00001);
-    assertEquals("lng", -122.0585196, result.location.lng, 0.00001);
+    assertEquals("accuracy", 150.0, result.accuracy, 0.001);
+    assertEquals("lat", 37.3989885, result.location.lat, 0.001);
+    assertEquals("lng", -122.0585196, result.location.lng, 0.001);
   }
   @Test
   public void testMaximumWifiGeolocation() throws Exception {
