@@ -65,6 +65,21 @@ public class ApiException extends Exception {
       return new RequestDeniedException(errorMessage);
     }
 
+    // Geolocation Errors
+    if("keyInvalid".equals(status)) {
+      return new AccessNotConfiguredException(errorMessage);
+    } else if("dailyLimitExceeded".equals(status)) {
+      return new OverDailyLimitException(errorMessage);
+    } else if("userRateLimitExceeded".equals(status)) {
+      return new OverQueryLimitException(errorMessage);
+    } else if("notFound".equals(status)) {
+      return new NotFoundException(errorMessage);
+    } else if("parseError".equals(status)) {
+      return new InvalidRequestException(errorMessage);
+    } else if("invalid".equals(status)) {
+      return new InvalidRequestException(errorMessage);
+    }
+
     // We've hit an unknown error. This is not a state we should hit,
     // but we don't want to crash a user's application if we introduce a new error.
     return new UnknownErrorException("An unexpected error occurred. "

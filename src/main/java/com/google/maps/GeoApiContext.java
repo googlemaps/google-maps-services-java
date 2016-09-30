@@ -16,10 +16,12 @@
 package com.google.maps;
 
 import com.google.gson.FieldNamingPolicy;
+import com.google.gson.Gson;
 import com.google.maps.internal.ApiConfig;
 import com.google.maps.internal.ApiResponse;
 import com.google.maps.internal.ExceptionResult;
 import com.google.maps.internal.UrlSigner;
+import com.google.maps.model.GeolocationPayload;
 
 import java.io.UnsupportedEncodingException;
 import java.net.Proxy;
@@ -54,6 +56,7 @@ public class GeoApiContext {
    */
   public interface RequestHandler {
     <T, R extends ApiResponse<T>> PendingResult<T> handle(String hostName, String url, String userAgent, Class<R> clazz, FieldNamingPolicy fieldNamingPolicy, long errorTimeout);
+    <T, R extends ApiResponse<T>> PendingResult<T> handlePost(String hostName, String url, String payload, String userAgent, Class<R> clazz, FieldNamingPolicy fieldNamingPolicy, long errorTimeout);
     void setConnectTimeout(long timeout, TimeUnit unit);
     void setReadTimeout(long timeout, TimeUnit unit);
     void setWriteTimeout(long timeout, TimeUnit unit);
@@ -136,6 +139,36 @@ public class GeoApiContext {
 
     return getWithPath(clazz, config.fieldNamingPolicy, config.hostName, config.path,
         config.supportsClientId, query.toString());
+  }
+
+  <T, R extends ApiResponse<T>> PendingResult<T> post(ApiConfig config,
+      Class<? extends R> clazz,
+      Map<String, String> params) {
+
+    checkContext(config.supportsClientId);
+
+    StringBuilder url = new StringBuilder(config.path);
+    if (config.supportsClientId && clientId != null) {
+      url.append("?client=").append(clientId);
+    } else {
+      url.append("?key=").append(apiKey);
+    }
+
+    if (config.supportsClientId && clientId != null) {
+      try {
+        String signature = urlSigner.getSignature(url.toString());
+        url.append("&signature=").append(signature);
+      } catch (Exception e) {
+        return new ExceptionResult<T>(e);
+      }
+    }
+
+    String hostName = config.hostName;
+    if (baseUrlOverride != null) {
+      hostName = baseUrlOverride;
+    }
+
+    return requestHandler.handlePost(hostName, url.toString(), params.get("_payload"), USER_AGENT, clazz, config.fieldNamingPolicy, errorTimeout);
   }
 
   private <T, R extends ApiResponse<T>> PendingResult<T> getWithPath(Class<R> clazz,
