@@ -83,45 +83,8 @@ public class GeoApiContextTest {
   @Test
   public void testErrorResponseRetries() throws Exception {
     // Set up mock responses
-    MockResponse errorResponse = new MockResponse();
-    errorResponse.setStatus("HTTP/1.1 500 Internal server error");
-    errorResponse.setBody("Uh-oh. Server Error.");
-    MockResponse goodResponse = new MockResponse();
-    goodResponse.setResponseCode(200);
-    goodResponse.setBody("{\n"
-        + "   \"results\" : [\n"
-        + "      {\n"
-        + "         \"address_components\" : [\n"
-        + "            {\n"
-        + "               \"long_name\" : \"1600\",\n"
-        + "               \"short_name\" : \"1600\",\n"
-        + "               \"types\" : [ \"street_number\" ]\n"
-        + "            }\n"
-        + "         ],\n"
-        + "         \"formatted_address\" : \"1600 Amphitheatre Parkway, Mountain View, "
-        +                                     "CA 94043, USA\",\n"
-        + "         \"geometry\" : {\n"
-        + "            \"location\" : {\n"
-        + "               \"lat\" : 37.4220033,\n"
-        + "               \"lng\" : -122.0839778\n"
-        + "            },\n"
-        + "            \"location_type\" : \"ROOFTOP\",\n"
-        + "            \"viewport\" : {\n"
-        + "               \"northeast\" : {\n"
-        + "                  \"lat\" : 37.4233522802915,\n"
-        + "                  \"lng\" : -122.0826288197085\n"
-        + "               },\n"
-        + "               \"southwest\" : {\n"
-        + "                  \"lat\" : 37.4206543197085,\n"
-        + "                  \"lng\" : -122.0853267802915\n"
-        + "               }\n"
-        + "            }\n"
-        + "         },\n"
-        + "         \"types\" : [ \"street_address\" ]\n"
-        + "      }\n"
-        + "   ],\n"
-        + "   \"status\" : \"OK\"\n"
-        + "}");
+    MockResponse errorResponse = createMockBadResponse();
+    MockResponse goodResponse = createMockGoodResponse();
 
     server.enqueue(errorResponse);
     server.enqueue(goodResponse);
@@ -132,12 +95,80 @@ public class GeoApiContextTest {
 
     // Execute
     GeocodingResult[] result = context.get(new ApiConfig("/"), GeocodingApi.Response.class,
-        "k", "v").await();
+            "k", "v").await();
     assertEquals(1, result.length);
     assertEquals("1600 Amphitheatre Parkway, Mountain View, CA 94043, USA",
-        result[0].formattedAddress);
+            result[0].formattedAddress);
 
     server.shutdown();
+  }
+
+  @Test(expected = IOException.class)
+  public void testSettingMaxRetries() throws Exception {
+    MockResponse errorResponse = createMockBadResponse();
+    MockResponse goodResponse = createMockGoodResponse();
+
+    // Set up the fake web server
+    server.enqueue(errorResponse);
+    server.enqueue(errorResponse);
+    server.enqueue(errorResponse);
+    server.enqueue(goodResponse);
+    server.play();
+    setMockBaseUrl();
+
+    // This should limit the number of retries, ensuring that the success response is NOT returned.
+    context.setMaxRetries(2);
+
+    context.get(new ApiConfig("/"), GeocodingApi.Response.class, "k", "v").await();
+  }
+
+  private MockResponse createMockGoodResponse() {
+    MockResponse response = new MockResponse();
+    response.setResponseCode(200);
+    response.setBody("{\n"
+            + "   \"results\" : [\n"
+            + "      {\n"
+            + "         \"address_components\" : [\n"
+            + "            {\n"
+            + "               \"long_name\" : \"1600\",\n"
+            + "               \"short_name\" : \"1600\",\n"
+            + "               \"types\" : [ \"street_number\" ]\n"
+            + "            }\n"
+            + "         ],\n"
+            + "         \"formatted_address\" : \"1600 Amphitheatre Parkway, Mountain View, "
+            +                                     "CA 94043, USA\",\n"
+            + "         \"geometry\" : {\n"
+            + "            \"location\" : {\n"
+            + "               \"lat\" : 37.4220033,\n"
+            + "               \"lng\" : -122.0839778\n"
+            + "            },\n"
+            + "            \"location_type\" : \"ROOFTOP\",\n"
+            + "            \"viewport\" : {\n"
+            + "               \"northeast\" : {\n"
+            + "                  \"lat\" : 37.4233522802915,\n"
+            + "                  \"lng\" : -122.0826288197085\n"
+            + "               },\n"
+            + "               \"southwest\" : {\n"
+            + "                  \"lat\" : 37.4206543197085,\n"
+            + "                  \"lng\" : -122.0853267802915\n"
+            + "               }\n"
+            + "            }\n"
+            + "         },\n"
+            + "         \"types\" : [ \"street_address\" ]\n"
+            + "      }\n"
+            + "   ],\n"
+            + "   \"status\" : \"OK\"\n"
+            + "}");
+
+    return response;
+  }
+
+  private MockResponse createMockBadResponse() {
+    MockResponse response = new MockResponse();
+    response.setStatus("HTTP/1.1 500 Internal server error");
+    response.setBody("Uh-oh. Server Error.");
+
+    return response;
   }
 
   @Test(expected = IOException.class)
@@ -160,7 +191,7 @@ public class GeoApiContextTest {
     setMockBaseUrl();
 
     // This should disable the retry, ensuring that the success response is NOT returned
-    context.setRetryTimeout(0, TimeUnit.MILLISECONDS);
+    context.disableRetries();
 
     // We should get the error response here, not the success response.
     context.get(new ApiConfig("/"), GeocodingApi.Response.class, "k", "v").await();

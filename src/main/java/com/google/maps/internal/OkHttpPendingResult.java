@@ -68,6 +68,7 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
   private final OkHttpClient client;
   private final Class<R> responseClass;
   private final FieldNamingPolicy fieldNamingPolicy;
+  private final Integer maxRetries;
 
   private Call call;
   private Callback<T> callback;
@@ -84,14 +85,16 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
    * @param responseClass     Model class to unmarshal JSON body content.
    * @param fieldNamingPolicy FieldNamingPolicy for unmarshaling JSON.
    * @param errorTimeOut      Number of milliseconds to re-send erroring requests.
+   * @param maxRetries        Number of times allowed to re-send erroring requests.
    */
   public OkHttpPendingResult(Request request, OkHttpClient client, Class<R> responseClass,
-                             FieldNamingPolicy fieldNamingPolicy, long errorTimeOut) {
+                             FieldNamingPolicy fieldNamingPolicy, long errorTimeOut, Integer maxRetries) {
     this.request = request;
     this.client = client;
     this.responseClass = responseClass;
     this.fieldNamingPolicy = fieldNamingPolicy;
     this.errorTimeOut = errorTimeOut;
+    this.maxRetries = maxRetries;
 
     this.call = client.newCall(request);
   }
@@ -204,7 +207,7 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
 
   @SuppressWarnings("unchecked")
   private T parseResponse(OkHttpPendingResult<T, R> request, Response response) throws Exception {
-    if (RETRY_ERROR_CODES.contains(response.code()) && cumulativeSleepTime < errorTimeOut) {
+    if (shouldRetry(response)) {
       // Retry is a blocking method, but that's OK. If we're here, we're either in an await()
       // call, which is blocking anyway, or we're handling a callback in a separate thread.
       return request.retry();
@@ -269,7 +272,7 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
       return resp.getResult();
     } else {
       ApiException e = resp.getError();
-      if (e instanceof OverQueryLimitException && cumulativeSleepTime < errorTimeOut) {
+      if (shouldRetry(e)) {
         // Retry over_query_limit errors
         return request.retry();
       } else {
@@ -284,5 +287,17 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
     LOG.info("Retrying request. Retry #" + retryCounter);
     this.call = client.newCall(request);
     return this.await();
+  }
+
+  private boolean shouldRetry(Response response) {
+    return RETRY_ERROR_CODES.contains(response.code())
+        && cumulativeSleepTime < errorTimeOut
+        && (maxRetries == null || retryCounter < maxRetries);
+  }
+
+  private boolean shouldRetry(ApiException exception) {
+    return exception instanceof OverQueryLimitException
+        && cumulativeSleepTime < errorTimeOut
+        && (maxRetries == null || retryCounter < maxRetries);
   }
 }

@@ -44,6 +44,7 @@ public class GeoApiContext {
   private UrlSigner urlSigner;
   private String channel;
   private RequestHandler requestHandler;
+  private Integer maxRetries;
 
 
   /**
@@ -55,8 +56,8 @@ public class GeoApiContext {
    * @see GaeRequestHandler
    */
   public interface RequestHandler {
-    <T, R extends ApiResponse<T>> PendingResult<T> handle(String hostName, String url, String userAgent, Class<R> clazz, FieldNamingPolicy fieldNamingPolicy, long errorTimeout);
-    <T, R extends ApiResponse<T>> PendingResult<T> handlePost(String hostName, String url, String payload, String userAgent, Class<R> clazz, FieldNamingPolicy fieldNamingPolicy, long errorTimeout);
+    <T, R extends ApiResponse<T>> PendingResult<T> handle(String hostName, String url, String userAgent, Class<R> clazz, FieldNamingPolicy fieldNamingPolicy, long errorTimeout, Integer maxRetries);
+    <T, R extends ApiResponse<T>> PendingResult<T> handlePost(String hostName, String url, String payload, String userAgent, Class<R> clazz, FieldNamingPolicy fieldNamingPolicy, long errorTimeout, Integer maxRetries);
     void setConnectTimeout(long timeout, TimeUnit unit);
     void setReadTimeout(long timeout, TimeUnit unit);
     void setWriteTimeout(long timeout, TimeUnit unit);
@@ -168,7 +169,7 @@ public class GeoApiContext {
       hostName = baseUrlOverride;
     }
 
-    return requestHandler.handlePost(hostName, url.toString(), params.get("_payload"), USER_AGENT, clazz, config.fieldNamingPolicy, errorTimeout);
+    return requestHandler.handlePost(hostName, url.toString(), params.get("_payload"), USER_AGENT, clazz, config.fieldNamingPolicy, errorTimeout, maxRetries);
   }
 
   private <T, R extends ApiResponse<T>> PendingResult<T> getWithPath(Class<R> clazz,
@@ -200,7 +201,7 @@ public class GeoApiContext {
       hostName = baseUrlOverride;
     }
 
-    return requestHandler.handle(hostName, url.toString(), USER_AGENT, clazz, fieldNamingPolicy, errorTimeout);
+    return requestHandler.handle(hostName, url.toString(), USER_AGENT, clazz, fieldNamingPolicy, errorTimeout, maxRetries);
   }
 
   private void checkContext(boolean canUseClientId) {
@@ -279,9 +280,31 @@ public class GeoApiContext {
   /**
    * Sets the cumulative time limit for which retry-able errors will be retried. Defaults to 60
    * seconds. Set to zero to retry requests forever.
+   *
+   * <p>This operates separately from the count-based {@link #setMaxRetries(Integer)}.
    */
   public GeoApiContext setRetryTimeout(long timeout, TimeUnit unit) {
     this.errorTimeout = unit.toMillis(timeout);
+    return this;
+  }
+
+  /**
+   * Sets the maximum number of times each retry-able errors will be retried. Set this to null to not have a max number.
+   * Set this to zero to disable retries.
+   *
+   * <p>This operates separately from the time-based {@link #setRetryTimeout(long, TimeUnit)}.
+   */
+  public GeoApiContext setMaxRetries(Integer maxRetries) {
+    this.maxRetries = maxRetries;
+    return this;
+  }
+
+  /**
+   * Disable retries completely.
+   */
+  public GeoApiContext disableRetries() {
+    setMaxRetries(0);
+    setRetryTimeout(0, TimeUnit.MILLISECONDS);
     return this;
   }
 

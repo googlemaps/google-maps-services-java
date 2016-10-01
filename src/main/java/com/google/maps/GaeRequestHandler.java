@@ -42,7 +42,7 @@ public class GaeRequestHandler implements GeoApiContext.RequestHandler {
   private final URLFetchService client = URLFetchServiceFactory.getURLFetchService();
 
   @Override
-  public <T, R extends ApiResponse<T>> PendingResult<T> handle(String hostName, String url, String userAgent, Class<R> clazz, FieldNamingPolicy fieldNamingPolicy, long errorTimeout) {
+  public <T, R extends ApiResponse<T>> PendingResult<T> handle(String hostName, String url, String userAgent, Class<R> clazz, FieldNamingPolicy fieldNamingPolicy, long errorTimeout, Integer maxRetries) {
     FetchOptions fetchOptions = FetchOptions.Builder.withDeadline(10);
     HTTPRequest req = null;
     try {
@@ -52,11 +52,11 @@ public class GaeRequestHandler implements GeoApiContext.RequestHandler {
       throw(new RuntimeException(e));
     }
 
-    return new GaePendingResult<T, R>(req, client, clazz, fieldNamingPolicy, errorTimeout);
+    return new GaePendingResult<T, R>(req, client, clazz, fieldNamingPolicy, errorTimeout, maxRetries);
   }
 
   @Override
-  public <T, R extends ApiResponse<T>> PendingResult<T> handlePost(String hostName, String url, String payload, String userAgent, Class<R> clazz, FieldNamingPolicy fieldNamingPolicy, long errorTimeout) {
+  public <T, R extends ApiResponse<T>> PendingResult<T> handlePost(String hostName, String url, String payload, String userAgent, Class<R> clazz, FieldNamingPolicy fieldNamingPolicy, long errorTimeout, Integer maxRetries) {
     FetchOptions fetchOptions = FetchOptions.Builder.withDeadline(10);
     HTTPRequest req = null;
     try {
@@ -68,7 +68,7 @@ public class GaeRequestHandler implements GeoApiContext.RequestHandler {
       throw(new RuntimeException(e));
     }
 
-    return new GaePendingResult<T, R>(req, client, clazz, fieldNamingPolicy, errorTimeout);
+    return new GaePendingResult<T, R>(req, client, clazz, fieldNamingPolicy, errorTimeout, maxRetries);
   }
 
 

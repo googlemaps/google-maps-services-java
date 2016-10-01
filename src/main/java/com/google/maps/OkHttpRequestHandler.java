@@ -50,7 +50,7 @@ public class OkHttpRequestHandler implements GeoApiContext.RequestHandler {
   }
 
   @Override
-  public <T, R extends ApiResponse<T>> PendingResult<T> handle(String hostName, String url, String userAgent, Class<R> clazz, FieldNamingPolicy fieldNamingPolicy, long errorTimeout) {
+  public <T, R extends ApiResponse<T>> PendingResult<T> handle(String hostName, String url, String userAgent, Class<R> clazz, FieldNamingPolicy fieldNamingPolicy, long errorTimeout, Integer maxRetries) {
     Request req = new Request.Builder()
         .get()
         .header("User-Agent", userAgent)
@@ -58,17 +58,17 @@ public class OkHttpRequestHandler implements GeoApiContext.RequestHandler {
 
     LOG.log(Level.INFO, "Request: {0}", hostName + url);
 
-    return new OkHttpPendingResult<T, R>(req, client, clazz, fieldNamingPolicy, errorTimeout);
+    return new OkHttpPendingResult<T, R>(req, client, clazz, fieldNamingPolicy, errorTimeout, maxRetries);
   }
   @Override
-  public <T, R extends ApiResponse<T>> PendingResult<T> handlePost(String hostName, String url, String payload, String userAgent, Class<R> clazz, FieldNamingPolicy fieldNamingPolicy, long errorTimeout) {
+  public <T, R extends ApiResponse<T>> PendingResult<T> handlePost(String hostName, String url, String payload, String userAgent, Class<R> clazz, FieldNamingPolicy fieldNamingPolicy, long errorTimeout, Integer maxRetries) {
     RequestBody body = RequestBody.create(JSON, payload);
     Request req = new Request.Builder()
         .post(body)
         .header("User-Agent", userAgent)
         .url(hostName + url).build();
 
-    return new OkHttpPendingResult<T, R>(req, client, clazz, fieldNamingPolicy, errorTimeout);
+    return new OkHttpPendingResult<T, R>(req, client, clazz, fieldNamingPolicy, errorTimeout, maxRetries);
   }
   @Override
   public void setConnectTimeout(long timeout, TimeUnit unit) {
