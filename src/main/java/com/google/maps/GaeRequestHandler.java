@@ -23,13 +23,14 @@ import com.google.appengine.api.urlfetch.URLFetchServiceFactory;
 import com.google.gson.FieldNamingPolicy;
 import com.google.maps.internal.ApiResponse;
 import com.google.maps.internal.GaePendingResult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.MalformedURLException;
 import java.net.Proxy;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 /**
  * A strategy for handling URL requests using Google App Engine's URL Fetch API.
@@ -37,17 +38,17 @@ import java.util.logging.Logger;
  * @see com.google.maps.GeoApiContext.RequestHandler
  */
 public class GaeRequestHandler implements GeoApiContext.RequestHandler {
-  private static final Logger LOG = Logger.getLogger(GaeRequestHandler.class.getName());
+  private static final Logger LOG = LoggerFactory.getLogger(GaeRequestHandler.class.getName());
   private final URLFetchService client = URLFetchServiceFactory.getURLFetchService();
 
   @Override
   public <T, R extends ApiResponse<T>> PendingResult<T> handle(String hostName, String url, String userAgent, Class<R> clazz, FieldNamingPolicy fieldNamingPolicy, long errorTimeout) {
     FetchOptions fetchOptions = FetchOptions.Builder.withDeadline(10);
-    HTTPRequest req = null;
+    HTTPRequest req;
     try {
       req = new HTTPRequest(new URL(hostName + url), HTTPMethod.POST, fetchOptions);
     } catch (MalformedURLException e) {
-      LOG.log(Level.SEVERE, String.format("Request: %s%s", hostName, url), e);
+      LOG.error("Request: {}{}", hostName, url, e);
       throw(new RuntimeException(e));
     }
 
