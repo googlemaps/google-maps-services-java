@@ -286,7 +286,7 @@ public class DirectionsApiTest extends AuthenticatedTest {
     assertNotNull(result.geocodedWaypoints);
     assertEquals(2, result.geocodedWaypoints.length);
     assertEquals(GeocodedWaypointStatus.OK, result.geocodedWaypoints[0].geocoderStatus);
-    assertEquals(AddressType.STREET_ADDRESS, result.geocodedWaypoints[0].types[0]);
+    assertEquals(AddressType.PREMISE, result.geocodedWaypoints[0].types[0]);
     assertEquals(GeocodedWaypointStatus.OK, result.geocodedWaypoints[1].geocoderStatus);
     assertEquals(AddressType.ROUTE, result.geocodedWaypoints[1].types[0]);
 

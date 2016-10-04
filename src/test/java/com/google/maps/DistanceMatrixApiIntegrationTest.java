@@ -70,7 +70,8 @@ public class DistanceMatrixApiIntegrationTest extends AuthenticatedTest {
     assertEquals(DistanceMatrixElementStatus.OK, matrix.rows[0].elements[0].status);
   }
 
-  @Test
+  // Commented out flaky test - brettmorgan@google.com
+  //@Test
   public void testNewRequestWithAllPossibleParams() throws Exception {
     String[] origins = new String[]{
         "Perth, Australia", "Sydney, Australia", "Melbourne, Australia",
