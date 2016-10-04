@@ -15,6 +15,9 @@
 
 package com.google.maps.internal;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -28,15 +31,14 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 /**
  * Rate Limit Policy for Google Maps Web Services APIs.
  */
 public class RateLimitExecutorService implements ExecutorService, Runnable {
 
-  private static final Logger LOG = Logger.getLogger(RateLimitExecutorService.class.getName());
+  private static final Logger LOG = LoggerFactory.getLogger(RateLimitExecutorService.class.getName());
   private static final int DEFAULT_QUERIES_PER_SECOND = 10;
   private static final int SECOND = 1000;
   private static final int HALF_SECOND = SECOND / 2;
@@ -72,8 +74,7 @@ public class RateLimitExecutorService implements ExecutorService, Runnable {
     this.queriesPerSecond = maxQps;
     this.minimumDelay = minimumInterval;
 
-    LOG.log(Level.INFO, "Configuring rate limit at QPS: " + maxQps + ", minimum delay "
-        + minimumInterval + "ms between requests");
+    LOG.info("Configuring rate limit at QPS: {} , minimum delay {} ms between requests",maxQps,minimumInterval);
   }
 
   /**
@@ -113,7 +114,7 @@ public class RateLimitExecutorService implements ExecutorService, Runnable {
         }
       }
     } catch (InterruptedException ie) {
-      LOG.log(Level.INFO, "Interrupted", ie);
+      LOG.info("Interrupted", ie);
     }
   }
 
