@@ -28,7 +28,6 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
 
 @Category(LargeTests.class)
 public class GeolocationApiTest extends KeyOnlyAuthenticatedTest {
@@ -251,8 +250,7 @@ public class GeolocationApiTest extends KeyOnlyAuthenticatedTest {
     assertEquals("lng", -122.07346549999998, result.location.lng, 0.00001);
   }
 
-  // commenting out flaky test - brettmorgan@google.com
-  //@Test
+  @Test
   public void testNoPayloadGeolocation0() throws Exception {
     GeolocationPayload payload = new GeolocationPayload.GeolocationPayloadBuilder()
         .createGeolocationPayload();
