@@ -80,8 +80,8 @@ public class DirectionsApiTest extends AuthenticatedTest {
   public void testTravelModeRoundTrip() throws Exception {
     DirectionsResult result = DirectionsApi.newRequest(context)
         .mode(TravelMode.BICYCLING)
-        .origin("Town Hall, Sydney")
-        .destination("Parramatta, NSW").await();
+        .origin("483 George St, Sydney NSW 2000, Australia")
+        .destination("182 Church St, Parramatta NSW 2150, Australia").await();
 
     assertNotNull(result.routes);
     assertNotNull(result.routes[0]);
@@ -93,8 +93,8 @@ public class DirectionsApiTest extends AuthenticatedTest {
     DateTime now = new DateTime();
     DirectionsResult result = DirectionsApi.newRequest(context)
         .mode(TravelMode.TRANSIT)
-        .origin("Town Hall, Sydney")
-        .destination("Parramatta, NSW")
+        .origin("483 George St, Sydney NSW 2000, Australia")
+        .destination("182 Church St, Parramatta NSW 2150, Australia")
         .departureTime(now)
         .await();
 
