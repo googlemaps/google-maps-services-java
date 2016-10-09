@@ -20,13 +20,13 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 
+import com.google.maps.errors.OverQueryLimitException;
 import com.google.maps.internal.ApiConfig;
 import com.google.maps.internal.ApiResponse;
 import com.google.maps.model.GeocodingResult;
 import com.google.mockwebserver.MockResponse;
 import com.google.mockwebserver.MockWebServer;
 import com.google.mockwebserver.RecordedRequest;
-
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
@@ -243,5 +243,33 @@ public class GeoApiContextTest {
     RecordedRequest request = server.takeRequest();
     String path = request.getPath();
     assertTrue(path.contains("a=1&a=2&a=3"));
+  }
+
+  @Test
+  public void testToggleIfExceptionIsAllowedToRetry() throws Exception {
+    // Enqueue some error responses, although only the first should be used because the response's exception is not
+    // allowed to be retried.
+    MockResponse overQueryLimitResponse = new MockResponse();
+    overQueryLimitResponse.setStatus("HTTP/1.1 400 Internal server error");
+    overQueryLimitResponse.setBody(TestUtils.retrieveBody("OverQueryLimitResponse.json"));
+    server.enqueue(overQueryLimitResponse);
+    server.enqueue(overQueryLimitResponse);
+    server.enqueue(overQueryLimitResponse);
+    server.play();
+
+    context.setRetryTimeout(1, TimeUnit.MILLISECONDS);
+    context.setMaxRetries(10);
+    context.toggleifExceptionIsAllowedToRetry(OverQueryLimitException.class, false);
+
+    setMockBaseUrl();
+
+    try {
+      context.get(new ApiConfig("/"), GeocodingApi.Response.class, "any-key", "any-value").await();
+    } catch (OverQueryLimitException e) {
+      assertEquals(1, server.getRequestCount());
+      return;
+    }
+
+    fail("OverQueryLimitException was expected but not observed.");
   }
 }

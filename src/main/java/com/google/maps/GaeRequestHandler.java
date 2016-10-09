@@ -23,6 +23,7 @@ import com.google.appengine.api.urlfetch.URLFetchService;
 import com.google.appengine.api.urlfetch.URLFetchServiceFactory;
 import com.google.gson.FieldNamingPolicy;
 import com.google.maps.internal.ApiResponse;
+import com.google.maps.internal.ExceptionsAllowedToRetry;
 import com.google.maps.internal.GaePendingResult;
 
 import java.net.MalformedURLException;
@@ -42,7 +43,10 @@ public class GaeRequestHandler implements GeoApiContext.RequestHandler {
   private final URLFetchService client = URLFetchServiceFactory.getURLFetchService();
 
   @Override
-  public <T, R extends ApiResponse<T>> PendingResult<T> handle(String hostName, String url, String userAgent, Class<R> clazz, FieldNamingPolicy fieldNamingPolicy, long errorTimeout, Integer maxRetries) {
+  public <T, R extends ApiResponse<T>> PendingResult<T> handle(String hostName, String url, String userAgent,
+                                                               Class<R> clazz, FieldNamingPolicy fieldNamingPolicy,
+                                                               long errorTimeout, Integer maxRetries,
+                                                               ExceptionsAllowedToRetry exceptionsAllowedToRetry) {
     FetchOptions fetchOptions = FetchOptions.Builder.withDeadline(10);
     HTTPRequest req = null;
     try {
@@ -52,11 +56,15 @@ public class GaeRequestHandler implements GeoApiContext.RequestHandler {
       throw(new RuntimeException(e));
     }
 
-    return new GaePendingResult<T, R>(req, client, clazz, fieldNamingPolicy, errorTimeout, maxRetries);
+    return new GaePendingResult<T, R>(req, client, clazz, fieldNamingPolicy, errorTimeout, maxRetries, exceptionsAllowedToRetry);
   }
 
   @Override
-  public <T, R extends ApiResponse<T>> PendingResult<T> handlePost(String hostName, String url, String payload, String userAgent, Class<R> clazz, FieldNamingPolicy fieldNamingPolicy, long errorTimeout, Integer maxRetries) {
+  public <T, R extends ApiResponse<T>> PendingResult<T> handlePost(String hostName, String url, String payload,
+                                                                   String userAgent, Class<R> clazz,
+                                                                   FieldNamingPolicy fieldNamingPolicy,
+                                                                   long errorTimeout, Integer maxRetries,
+                                                                   ExceptionsAllowedToRetry exceptionsAllowedToRetry) {
     FetchOptions fetchOptions = FetchOptions.Builder.withDeadline(10);
     HTTPRequest req = null;
     try {
@@ -68,7 +76,7 @@ public class GaeRequestHandler implements GeoApiContext.RequestHandler {
       throw(new RuntimeException(e));
     }
 
-    return new GaePendingResult<T, R>(req, client, clazz, fieldNamingPolicy, errorTimeout, maxRetries);
+    return new GaePendingResult<T, R>(req, client, clazz, fieldNamingPolicy, errorTimeout, maxRetries, exceptionsAllowedToRetry);
   }
 
 

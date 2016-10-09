@@ -66,6 +66,7 @@ public class GaePendingResult<T, R extends ApiResponse<T>>
   private final Class<R> responseClass;
   private final FieldNamingPolicy fieldNamingPolicy;
   private final Integer maxRetries;
+  private final ExceptionsAllowedToRetry exceptionsAllowedToRetry;
 
   private Callback<T> callback;
   private long errorTimeOut;
@@ -85,13 +86,15 @@ public class GaePendingResult<T, R extends ApiResponse<T>>
    * @param maxRetries        Number of times allowed to re-send erroring requests.
    */
   public GaePendingResult(HTTPRequest request, URLFetchService client, Class<R> responseClass,
-                          FieldNamingPolicy fieldNamingPolicy, long errorTimeOut, Integer maxRetries) {
+                          FieldNamingPolicy fieldNamingPolicy, long errorTimeOut, Integer maxRetries,
+                          ExceptionsAllowedToRetry exceptionsAllowedToRetry) {
     this.request = request;
     this.client = client;
     this.responseClass = responseClass;
     this.fieldNamingPolicy = fieldNamingPolicy;
     this.errorTimeOut = errorTimeOut;
     this.maxRetries = maxRetries;
+    this.exceptionsAllowedToRetry = exceptionsAllowedToRetry;
 
     this.call = client.fetchAsync(request);
   }
@@ -223,7 +226,7 @@ public class GaePendingResult<T, R extends ApiResponse<T>>
   }
 
   private boolean shouldRetry(ApiException exception) {
-    return exception instanceof OverQueryLimitException
+    return exceptionsAllowedToRetry.contains(exception.getClass())
         && cumulativeSleepTime < errorTimeOut
         && (maxRetries == null || retryCounter < maxRetries);
   }
