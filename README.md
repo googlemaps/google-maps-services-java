@@ -173,6 +173,13 @@ down requests, you can do that too, using `new GeoApiContext().setQueryRateLimit
 Automatically retry when intermittent failures occur. That is, when any of the retriable 5xx errors
 are returned from the API.
 
+To alter or disable automatic retries, see these methods in `GeoApiContext`:
+
+* `.disableRetries()`
+* `.setMaxRetries()`
+* `.setRetryTimeout()`
+* `.toggleifExceptionIsAllowedToRetry()`
+
 ### Client IDs
 
 Google Maps APIs Premium Plan customers can use their [client ID and secret][clientid] to authenticate,
