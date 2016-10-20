@@ -15,6 +15,8 @@
 
 package com.google.maps;
 
+import static com.google.maps.internal.StringJoin.join;
+
 import com.google.gson.FieldNamingPolicy;
 import com.google.maps.errors.ApiException;
 import com.google.maps.internal.ApiConfig;
@@ -118,6 +120,14 @@ public class NearbySearchRequest
    */
   public NearbySearchRequest type(PlaceType type) {
     return param("type", type);
+  }
+
+    /**
+     * type restricts the results to places matching the specified type.
+     * Provide support of multiples types.
+     */
+  public NearbySearchRequest type(PlaceType... types) {
+      return param("type", join('|', types));
   }
 
   @Override
