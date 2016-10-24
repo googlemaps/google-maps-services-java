@@ -582,6 +582,25 @@ public class PlacesApiTest {
     assertParamValue("next-page-token", "pagetoken", actualParams);
   }
 
+  @Test
+  public void testNearbySearchRequestWithMultipleType() throws Exception {
+    MockResponse response = new MockResponse();
+    response.setBody("");
+    server.enqueue(response);
+    server.play();
+    context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
+
+    LatLng location = new LatLng(10, 20);
+    PlacesApi.nearbySearchQuery(context, location)
+            .type(PlaceType.AIRPORT, PlaceType.BANK)
+            .awaitIgnoreError();
+
+    List<NameValuePair> actualParams =
+            parseQueryParamsFromRequestLine(server.takeRequest().getRequestLine());
+    assertParamValue(location.toUrlValue(), "location", actualParams);
+    assertParamValue(PlaceType.AIRPORT.toString()+"|"+PlaceType.BANK.toString(), "type", actualParams);
+  }
+
   @Test(expected = IllegalArgumentException.class)
   public void testNearbySearchRadiusAndRankbyDistance() throws Exception {
     MockResponse response = new MockResponse();
