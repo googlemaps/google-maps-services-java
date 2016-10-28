@@ -20,7 +20,7 @@ import org.joda.time.DateTime;
 /**
  * A component of a Directions API result.
  *
- * See <a href="https://developers.google.com/maps/documentation/directions/#Legs">the Legs
+ * See <a href="https://developers.google.com/maps/documentation/directions/intro#Legs">the Legs
  * documentation</a> for more detail.
  */
 public class DirectionsLeg {

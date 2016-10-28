@@ -20,7 +20,7 @@ package com.google.maps.model;
  * array. Even if the service returns no results (such as if the origin and/or destination doesn't
  * exist) it still returns an empty routes array.
  *
- * <p>Please see <a href="https://developers.google.com/maps/documentation/directions/#Routes">
+ * <p>Please see <a href="https://developers.google.com/maps/documentation/directions/intro#Routes">
  * Routes</a> for more detail.
  */
 public class DirectionsRoute {

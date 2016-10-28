@@ -18,7 +18,7 @@ package com.google.maps.model;
 /**
  * The vehicle types.
  *
- * <p>See <a href="https://developers.google.com/maps/documentation/directions/#VehicleType">
+ * <p>See <a href="https://developers.google.com/maps/documentation/directions/intro#VehicleType">
  * Vehicle Type</a> for more detail.
  */
 public enum VehicleType {

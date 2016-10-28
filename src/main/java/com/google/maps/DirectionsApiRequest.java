@@ -154,7 +154,7 @@ public class DirectionsApiRequest
    * which will be geocoded. Waypoints are only supported for driving, walking and bicycling
    * directions.
    *
-   * <p>For more information on waypoints, see <a href="https://developers.google.com/maps/documentation/directions/#Waypoints">
+   * <p>For more information on waypoints, see <a href="https://developers.google.com/maps/documentation/directions/intro#Waypoints">
    * Using Waypoints in Routes</a>.
    */
   public DirectionsApiRequest waypoints(String... waypoints) {
