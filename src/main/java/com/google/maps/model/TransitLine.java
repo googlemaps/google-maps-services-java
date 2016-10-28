@@ -18,7 +18,7 @@ package com.google.maps.model;
 /**
  * The transit line used in a step.
  *
- * <p>See <a href="https://developers.google.com/maps/documentation/directions/#TransitDetails">
+ * <p>See <a href="https://developers.google.com/maps/documentation/directions/intro#TransitDetails">
  * Transit details</a> for more detail.
  */
 public class TransitLine {

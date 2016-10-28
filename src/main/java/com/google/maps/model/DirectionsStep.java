@@ -25,7 +25,7 @@ package com.google.maps.model;
  * miles/40 minutes from this step.
  *
  * <p>When using the Directions API to search for transit directions, the steps array will include
- * additional <a href="https://developers.google.com/maps/documentation/directions/#TransitDetails">
+ * additional <a href="https://developers.google.com/maps/documentation/directions/intro#TransitDetails">
  * Transit Details</a> in the form of a {@code transitDetails} array. If the directions include
  * multiple modes of transportation, detailed directions will be provided for walking or driving
  * steps in a {@code steps} array. For example, a walking step will include directions from the
@@ -80,14 +80,14 @@ public class DirectionsStep {
   public EncodedPolyline polyline;
 
   /**
-   * {@code travelMode} is the travel mode of this step. See <a href="https://developers.google.com/maps/documentation/directions/#TravelModes">Travel
+   * {@code travelMode} is the travel mode of this step. See <a href="https://developers.google.com/maps/documentation/directions/intro#TravelModes">Travel
    * Modes</a> for more detail.
    */
   public TravelMode travelMode;
 
   /**
    * {@code transitDetails} contains transit specific information. This field is only returned with
-   * travel_mode is set to "transit". See <a href="https://developers.google.com/maps/documentation/directions/#TransitDetails">
+   * travel_mode is set to "transit". See <a href="https://developers.google.com/maps/documentation/directions/intro#TransitDetails">
    * Transit Details</a> for more detail.
    */
   public TransitDetails transitDetails;

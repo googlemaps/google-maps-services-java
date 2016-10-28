@@ -23,7 +23,7 @@ import java.util.Locale;
  * You may specify the transportation mode to use for calulating directions. Directions are
  * calculating as driving directions by default.
  *
- * @see <a href="https://developers.google.com/maps/documentation/directions/#TravelModes">
+ * @see <a href="https://developers.google.com/maps/documentation/directions/intro#TravelModes">
  * Directions API travel modes</a>
  * @see <a href="https://developers.google.com/maps/documentation/distancematrix/#RequestParameters">
  * Distance Matrix API travel modes</a>
