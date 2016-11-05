@@ -186,6 +186,11 @@ public enum AddressType implements UrlValue {
   TRANSIT_STATION("transit_station"),
 
   /**
+  * {@code LIGHT_RAIL_STATION} indicates the location of a light rail station.
+  */
+  LIGHT_RAIL_STATION("light_rail_station"),
+
+  /**
    * {@code CHURCH} indicates the location of a church.
    */
   CHURCH("church"),
