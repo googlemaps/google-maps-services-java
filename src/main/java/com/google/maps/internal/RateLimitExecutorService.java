@@ -22,10 +22,9 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.logging.Level;
@@ -44,9 +43,7 @@ public class RateLimitExecutorService implements ExecutorService, Runnable {
   // It's important we set Ok's second arg to threadFactory(.., true) to ensure the threads are
   // killed when the app exits. For synchronous requests this is ideal but it means any async
   // requests still pending after termination will be killed.
-  private final ExecutorService delegate = new ThreadPoolExecutor(0, Integer.MAX_VALUE, 60,
-      TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>(),
-      threadFactory("Rate Limited Dispatcher", true));
+  private final ExecutorService delegate = Executors.newWorkStealingPool();
 
   private final BlockingQueue<Runnable> queue = new LinkedBlockingQueue<Runnable>();
 
@@ -115,17 +112,6 @@ public class RateLimitExecutorService implements ExecutorService, Runnable {
     } catch (InterruptedException ie) {
       LOG.log(Level.INFO, "Interrupted", ie);
     }
-  }
-
-  private static ThreadFactory threadFactory(final String name, final boolean daemon) {
-    return new ThreadFactory() {
-      @Override
-      public Thread newThread(Runnable runnable) {
-        Thread result = new Thread(runnable, name);
-        result.setDaemon(daemon);
-        return result;
-      }
-    };
   }
 
   @Override
