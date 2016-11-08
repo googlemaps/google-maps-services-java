@@ -40,9 +40,6 @@ public class RateLimitExecutorService implements ExecutorService, Runnable {
   private static final int SECOND = 1000;
   private static final int HALF_SECOND = SECOND / 2;
 
-  // It's important we set Ok's second arg to threadFactory(.., true) to ensure the threads are
-  // killed when the app exits. For synchronous requests this is ideal but it means any async
-  // requests still pending after termination will be killed.
   private final ExecutorService delegate = Executors.newWorkStealingPool();
 
   private final BlockingQueue<Runnable> queue = new LinkedBlockingQueue<Runnable>();
