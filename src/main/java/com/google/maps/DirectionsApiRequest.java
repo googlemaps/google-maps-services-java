@@ -158,6 +158,7 @@ public class DirectionsApiRequest
    * Using Waypoints in Routes</a>.
    */
   public DirectionsApiRequest waypoints(String... waypoints) {
+    this.waypoints = waypoints;
     if (waypoints == null || waypoints.length == 0) {
       return this;
     } else if (waypoints.length == 1) {
