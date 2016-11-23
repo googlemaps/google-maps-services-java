@@ -168,6 +168,21 @@ public class DirectionsApiRequest
   }
 
   /**
+   * The list of waypoints as latitude,longitude locations.
+   */
+  public DirectionsApiRequest waypoints(LatLng... waypoints) {
+    if (waypoints == null) {
+      return this;
+    }
+    int length = waypoints.length;
+    String[] waypointStrings = new String[length];
+    for (int i = 0; i < length; i++) {
+      waypointStrings[i] = waypoints[i].toString();
+    }
+    return waypoints(waypointStrings);
+  }
+
+  /**
    * Allow the Directions service to optimize the provided route by rearranging the waypoints in a
    * more efficient order.
    */
