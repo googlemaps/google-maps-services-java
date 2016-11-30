@@ -92,8 +92,6 @@ public class EnumsTest {
       assertEquals(addressTypeLiteralPair.getValue(),
                    addressTypeLiteralPair.getKey().toCanonicalLiteral());
     }
-    assertEquals(addressTypeToLiteralMap.size() + 1, // 1 for unknown
-                 AddressType.values().length);
   }
 
   @Test

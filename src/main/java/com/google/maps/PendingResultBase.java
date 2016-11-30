@@ -127,4 +127,14 @@ abstract class PendingResultBase<T, A extends PendingResultBase<T, A, R>,
   public A channel(String channel) {
     return param("channel", channel);
   }
+
+  /**
+   * Custom parameter. For advanced usage only.
+   *
+   * Note: Using this escape hatch parameter pass though voids all warranties, only use in
+   * extreme circumstances.
+   */
+  public A custom(String parameter, String value) {
+    return param(parameter, value);
+  }
 }
