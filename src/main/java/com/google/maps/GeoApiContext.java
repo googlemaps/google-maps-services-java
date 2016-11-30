@@ -15,7 +15,6 @@
 
 package com.google.maps;
 
-import com.google.apphosting.api.search.DocumentPb;
 import com.google.gson.FieldNamingPolicy;
 import com.google.maps.internal.ApiConfig;
 import com.google.maps.internal.ApiResponse;

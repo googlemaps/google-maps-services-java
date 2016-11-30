@@ -28,8 +28,6 @@ import org.slf4j.LoggerFactory;
 import java.net.Proxy;
 import java.util.concurrent.TimeUnit;
 
-
-
 /**
  * A strategy for handling URL requests using OkHttp.
  *
