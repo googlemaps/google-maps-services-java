@@ -33,7 +33,6 @@ import java.net.Proxy;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
-
 /**
  * A strategy for handling URL requests using Google App Engine's URL Fetch API.
  *
