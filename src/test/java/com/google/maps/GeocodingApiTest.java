@@ -278,13 +278,17 @@ public class GeocodingApiTest extends AuthenticatedTest {
 
   /**
    * Testing custom parameter pass through.
+   *
+   * <p>See <a href="https://googlegeodevelopers.blogspot.com.au/2016/11/address-geocoding-in-google-maps-apis.html">
+   *     Address Geocoding in the Google Maps APIs</a> for the reasoning behind this usage. </p>
    */
+  @Test
   public void testCustomParameterPassThrough() throws Exception {
     GeocodingResult[] results = GeocodingApi.newRequest(context)
-            .latlng(new LatLng(46.8023388, 1.6551867))
+            .address("1600 Amphitheatre Parkway, Mountain View, CA")
             .custom("new_forward_geocoder","true")
             .await();
 
-    assertEquals("1 Rue Fernand Raynaud, 36000 Châteauroux, France", results[0].formattedAddress);
+    assertEquals("1600 Amphitheatre Pkwy, Mountain View, CA 94043, USA", results[0].formattedAddress);
   }
 }
