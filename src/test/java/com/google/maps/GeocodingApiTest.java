@@ -275,4 +275,16 @@ public class GeocodingApiTest extends AuthenticatedTest {
 
     assertEquals("1 Rue Fernand Raynaud, 36000 Châteauroux, France", results[0].formattedAddress);
   }
+
+  /**
+   * Testing custom parameter pass through.
+   */
+  public void testCustomParameterPassThrough() throws Exception {
+    GeocodingResult[] results = GeocodingApi.newRequest(context)
+            .latlng(new LatLng(46.8023388, 1.6551867))
+            .custom("new_forward_geocoder","true")
+            .await();
+
+    assertEquals("1 Rue Fernand Raynaud, 36000 Châteauroux, France", results[0].formattedAddress);
+  }
 }
