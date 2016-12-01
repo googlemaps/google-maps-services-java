@@ -47,14 +47,15 @@ import com.squareup.okhttp.Response;
 import org.joda.time.DateTime;
 import org.joda.time.Instant;
 import org.joda.time.LocalTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 /**
  * A PendingResult backed by a HTTP call executed by OkHttp, a deserialization step using Gson, rate
@@ -78,7 +79,7 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
   private long cumulativeSleepTime = 0;
   private ExceptionsAllowedToRetry exceptionsAllowedToRetry;
 
-  private static final Logger LOG = Logger.getLogger(OkHttpPendingResult.class.getName());
+  private static final Logger LOG = LoggerFactory.getLogger(OkHttpPendingResult.class.getName());
   private static final List<Integer> RETRY_ERROR_CODES = Arrays.asList(500, 503, 504);
 
   /**
@@ -143,7 +144,7 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
       // Generate a jitter value between -delaySecs / 2 and +delaySecs / 2
       long delayMillis = (long) (delaySecs * (Math.random() + 0.5) * 1000);
 
-      LOG.config(String.format("Sleeping between errors for %dms (retry #%d, already slept %dms)",
+      LOG.debug(String.format("Sleeping between errors for %dms (retry #%d, already slept %dms)",
           delayMillis, retryCounter, cumulativeSleepTime));
       cumulativeSleepTime += delayMillis;
       try {

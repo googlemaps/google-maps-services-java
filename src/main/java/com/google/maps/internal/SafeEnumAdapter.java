@@ -19,10 +19,11 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Locale;
-import java.util.logging.Logger;
 
 /**
  * A {@link com.google.gson.TypeAdapter} that maps case-insensitive values to an enum type. If the
@@ -33,7 +34,7 @@ import java.util.logging.Logger;
  */
 public class SafeEnumAdapter<E extends Enum<E>> extends TypeAdapter<E> {
 
-  private static final Logger LOG = Logger.getLogger(SafeEnumAdapter.class.getName());
+  private static final Logger LOG = LoggerFactory.getLogger(SafeEnumAdapter.class.getName());
 
   private final Class<E> clazz;
   private final E unknownValue;
@@ -63,7 +64,7 @@ public class SafeEnumAdapter<E extends Enum<E>> extends TypeAdapter<E> {
     try {
       return Enum.valueOf(clazz, value.toUpperCase(Locale.ENGLISH));
     } catch (IllegalArgumentException iae) {
-      LOG.warning(String.format("Unknown type for enum %s: '%s'", clazz.getName(), value));
+      LOG.warn("Unknown type for enum {}: '{}'", clazz.getName(), value);
       return unknownValue;
     }
   }

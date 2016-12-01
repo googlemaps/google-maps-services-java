@@ -44,13 +44,15 @@ import com.squareup.okhttp.Response;
 import org.joda.time.DateTime;
 import org.joda.time.Instant;
 import org.joda.time.LocalTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Future;
-import java.util.logging.Logger;
+
 
 /**
  * A PendingResult backed by a HTTP call executed by Google App Engine URL Fetch capability,
@@ -74,7 +76,7 @@ public class GaePendingResult<T, R extends ApiResponse<T>>
   private long cumulativeSleepTime = 0;
   private Future<HTTPResponse> call;
 
-  private static final Logger LOG = Logger.getLogger(GaePendingResult.class.getName());
+  private static final Logger LOG = LoggerFactory.getLogger(GaePendingResult.class.getName());
   private static final List<Integer> RETRY_ERROR_CODES = Arrays.asList(500, 503, 504);
 
   /**
@@ -214,7 +216,7 @@ public class GaePendingResult<T, R extends ApiResponse<T>>
 
   private T retry() throws Exception {
     retryCounter++;
-    LOG.info("Retrying request. Retry #" + retryCounter);
+    LOG.info("Retrying request. Retry #{}",retryCounter);
     this.call = client.fetchAsync(request);
     return this.await();
   }

@@ -26,17 +26,21 @@ import com.google.maps.internal.ExceptionsAllowedToRetry;
 import com.google.maps.internal.UrlSigner;
 import com.google.maps.model.GeolocationPayload;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.UnsupportedEncodingException;
 import java.net.Proxy;
 import java.net.URLEncoder;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
 
 /**
  * The entry point for making requests against the Google Geo APIs.
  */
 public class GeoApiContext {
+  private static final Logger LOG = LoggerFactory.getLogger(GeoApiContext.class);
+
   private static final String VERSION = "@VERSION@";  // Populated by the build script
   private static final String USER_AGENT = "GoogleGeoApiClientJava/" + VERSION;
   private static final int DEFAULT_BACKOFF_TIMEOUT_MILLIS = 60 * 1000; // 60s
@@ -78,7 +82,6 @@ public class GeoApiContext {
     void setProxy(Proxy proxy);
   }
 
-  private static final Logger LOG = Logger.getLogger(GeoApiContext.class.getName());
   private long errorTimeout = DEFAULT_BACKOFF_TIMEOUT_MILLIS;
 
   /**

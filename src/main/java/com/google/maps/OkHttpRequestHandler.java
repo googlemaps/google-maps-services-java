@@ -26,12 +26,11 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.net.Proxy;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-
-import java.util.logging.Logger;
-
 
 /**
  * A strategy for handling URL requests using OkHttp.
@@ -40,7 +39,6 @@ import java.util.logging.Logger;
  */
 public class OkHttpRequestHandler implements GeoApiContext.RequestHandler {
   private static final Logger LOG = Logger.getLogger(OkHttpRequestHandler.class.getName());
-  private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
   private final OkHttpClient client = new OkHttpClient();
   private final RateLimitExecutorService rateLimitExecutorService;
@@ -60,7 +58,7 @@ public class OkHttpRequestHandler implements GeoApiContext.RequestHandler {
         .header("User-Agent", userAgent)
         .url(hostName + url).build();
 
-    LOG.log(Level.INFO, "Request: {0}", hostName + url);
+    LOG.info("Request: {}", hostName + url);
 
     return new OkHttpPendingResult<T, R>(req, client, clazz, fieldNamingPolicy, errorTimeout, maxRetries, exceptionsAllowedToRetry);
   }
