@@ -23,8 +23,6 @@ import com.google.maps.GeolocationApi;
 import com.google.maps.PendingResult;
 import com.google.maps.PhotoRequest;
 import com.google.maps.errors.ApiException;
-import com.google.maps.errors.OverDailyLimitException;
-import com.google.maps.errors.OverQueryLimitException;
 import com.google.maps.model.AddressComponentType;
 import com.google.maps.model.AddressType;
 import com.google.maps.model.Distance;

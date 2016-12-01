@@ -16,7 +16,6 @@
 package com.google.maps;
 
 import com.google.gson.FieldNamingPolicy;
-import com.google.gson.Gson;
 import com.google.maps.errors.ApiException;
 import com.google.maps.errors.OverQueryLimitException;
 import com.google.maps.internal.ApiConfig;
@@ -24,7 +23,6 @@ import com.google.maps.internal.ApiResponse;
 import com.google.maps.internal.ExceptionResult;
 import com.google.maps.internal.ExceptionsAllowedToRetry;
 import com.google.maps.internal.UrlSigner;
-import com.google.maps.model.GeolocationPayload;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
