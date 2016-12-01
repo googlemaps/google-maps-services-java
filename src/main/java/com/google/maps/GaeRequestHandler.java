@@ -72,7 +72,7 @@ public class GaeRequestHandler implements GeoApiContext.RequestHandler {
       req.setHeader(new HTTPHeader("Content-Type", "application/json; charset=utf-8"));
       req.setPayload(payload.getBytes());
     } catch (MalformedURLException e) {
-      LOG.log(Level.SEVERE, String.format("Request: %s%s", hostName, url), e);
+      LOG.error("Request: {}{}", hostName, url, e);
       throw(new RuntimeException(e));
     }
 
