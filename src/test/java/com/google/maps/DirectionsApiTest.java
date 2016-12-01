@@ -28,9 +28,12 @@ import com.google.maps.model.TravelMode;
 import com.google.maps.model.Unit;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
+import org.joda.time.Instant;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import static org.hamcrest.CoreMatchers.not;
@@ -38,6 +41,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 @Category(LargeTests.class)
 public class DirectionsApiTest extends AuthenticatedTest {
@@ -307,6 +311,64 @@ public class DirectionsApiTest extends AuthenticatedTest {
     assertEquals(GeocodedWaypointStatus.OK, result.geocodedWaypoints[1].geocoderStatus);
     assertEquals(AddressType.ROUTE, result.geocodedWaypoints[1].types[0]);
 
+  }
+
+  /**
+   * Tests that calling optimizeWaypoints before waypoints works and results in reordered waypoints.
+   */
+  @Test
+  public void testOptimizeWaypointsCallOrder1() {
+    List<LatLng> waypoints = getOptimizationWaypoints();
+    DirectionsApiRequest request = DirectionsApi.newRequest(context)
+        .origin(waypoints.get(0))
+        .destination(waypoints.get(1))
+        .departureTime(Instant.now())
+        .optimizeWaypoints(true)
+        .waypoints(waypoints.subList(2, waypoints.size()).toArray(new LatLng[0]));
+    DirectionsResult result = request.awaitIgnoreError();
+    assertWaypointsOptimized(result);
+  }
+
+  /**
+   * Tests that calling optimizeWaypoints after waypoints works and results in reordered waypoints.
+   */
+  @Test
+  public void testOptimizeWaypointsCallOrder2() {
+    List<LatLng> waypoints = getOptimizationWaypoints();
+    DirectionsApiRequest request = DirectionsApi.newRequest(context)
+        .origin(waypoints.get(0))
+        .destination(waypoints.get(1))
+        .departureTime(Instant.now())
+        .waypoints(waypoints.subList(2, waypoints.size()).toArray(new LatLng[0]))
+        .optimizeWaypoints(true);
+    DirectionsResult result = request.awaitIgnoreError();
+    assertWaypointsOptimized(result);
+  }
+
+  private void assertWaypointsOptimized(DirectionsResult result) {
+    int[] waypointOrder = result.routes[0].waypointOrder;
+    assertNotNull(waypointOrder);
+    assertTrue(waypointOrder.length > 0);
+    for (int i = 0; i < waypointOrder.length; i++) {
+      if (i != waypointOrder[i]) {
+        return;
+      }
+    }
+    fail("Waypoints do not appear to have been reordered.");
+  }
+
+  /**
+   * Coordinates in Mexico City. Waypoints are out of order, so when optimized their order should change.
+   */
+  private List<LatLng> getOptimizationWaypoints() {
+    List<LatLng> waypoints = new ArrayList<LatLng>();
+    waypoints.add(new LatLng(19.431676,-99.133999));
+    waypoints.add(new LatLng(19.427915,-99.138939));
+    waypoints.add(new LatLng(19.435436,-99.139145));
+    waypoints.add(new LatLng(19.396436,-99.157176));
+    waypoints.add(new LatLng(19.427705,-99.198858));
+    waypoints.add(new LatLng(19.425869,-99.160716));
+    return waypoints;
   }
 
 }
