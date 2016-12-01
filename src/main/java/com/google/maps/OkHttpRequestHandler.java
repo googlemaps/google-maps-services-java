@@ -38,8 +38,8 @@ import java.util.concurrent.TimeUnit;
  * @see com.google.maps.GeoApiContext.RequestHandler
  */
 public class OkHttpRequestHandler implements GeoApiContext.RequestHandler {
-  private static final Logger LOG = Logger.getLogger(OkHttpRequestHandler.class.getName());
-
+  private static final Logger LOG = LoggerFactory.getLogger(OkHttpRequestHandler.class.getName());
+  private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
   private final OkHttpClient client = new OkHttpClient();
   private final RateLimitExecutorService rateLimitExecutorService;
 
