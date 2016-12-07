@@ -133,6 +133,12 @@ public enum AddressType implements UrlValue {
   POSTAL_CODE("postal_code"),
 
   /**
+   * {@code POSTAL_CODE_PREFIX} indicates a postal code prefix as used to address postal mail within
+   * the country.
+   */
+  POSTAL_CODE_PREFIX("postal_code_prefix"),
+
+  /**
    * {@code NATURAL_FEATURE} indicates a prominent natural feature.
    */
   NATURAL_FEATURE("natural_feature"),
