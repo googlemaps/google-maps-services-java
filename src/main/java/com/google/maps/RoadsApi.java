@@ -47,6 +47,11 @@ public class RoadsApi {
       .supportsClientId(false)
       .fieldNamingPolicy(FieldNamingPolicy.IDENTITY);
 
+  static final ApiConfig NEAREST_ROADS_API_CONFIG = new ApiConfig("/v1/nearestRoads")
+      .hostName(API_BASE_URL)
+      .supportsClientId(false)
+      .fieldNamingPolicy(FieldNamingPolicy.IDENTITY);
+
   private RoadsApi() {
   }
 
@@ -122,6 +127,17 @@ public class RoadsApi {
   public static PendingResult<SnappedSpeedLimitResponse> snappedSpeedLimits(GeoApiContext context,
                                                                             LatLng... path) {
     return context.get(SPEEDS_API_CONFIG, CombinedResponse.class, "path", join('|', path));
+  }
+
+  /**
+   * Takes up to 100 GPS points, and returns the closest road segment for each
+   * point. The points passed do not need to be part of a continuous path
+   *
+   * @param points The sequence of points to be aligned to nearest roads
+   */
+  public static PendingResult<SnappedPoint[]> nearestRoads(GeoApiContext context,
+                                                          LatLng... points) {
+    return context.get(NEAREST_ROADS_API_CONFIG, RoadsResponse.class, "points", join('|', points));
   }
 
   private static class RoadsResponse implements ApiResponse<SnappedPoint[]> {
