@@ -37,7 +37,7 @@ import com.google.maps.model.SpeedLimit;
 public class RoadsApi {
   static final String API_BASE_URL = "https://roads.googleapis.com";
 
-  static final ApiConfig ROADS_API_CONFIG = new ApiConfig("/v1/snapToRoads")
+  static final ApiConfig SNAP_TO_ROADS_API_CONFIG = new ApiConfig("/v1/snapToRoads")
       .hostName(API_BASE_URL)
       .supportsClientId(false)
       .fieldNamingPolicy(FieldNamingPolicy.IDENTITY);
@@ -56,7 +56,7 @@ public class RoadsApi {
    */
   public static PendingResult<SnappedPoint[]> snapToRoads(GeoApiContext context,
                                                           LatLng... path) {
-    return context.get(ROADS_API_CONFIG, RoadsResponse.class, "path", join('|', path));
+    return context.get(SNAP_TO_ROADS_API_CONFIG, RoadsResponse.class, "path", join('|', path));
   }
 
   /**
@@ -73,7 +73,7 @@ public class RoadsApi {
    */
   public static PendingResult<SnappedPoint[]> snapToRoads(GeoApiContext context,
                                                           boolean interpolate, LatLng... path) {
-    return context.get(ROADS_API_CONFIG, RoadsResponse.class,
+    return context.get(SNAP_TO_ROADS_API_CONFIG, RoadsResponse.class,
         "path", join('|', path),
         "interpolate", String.valueOf(interpolate));
   }
