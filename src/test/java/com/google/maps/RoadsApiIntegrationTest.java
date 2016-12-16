@@ -178,4 +178,33 @@ public class RoadsApiIntegrationTest extends KeyOnlyAuthenticatedTest {
     assertEquals(7, points.length);
     assertEquals(7, speeds.length);
   }
+
+  @Test
+  public void testNearestRoads() throws Exception {
+    SnappedPoint[] points = RoadsApi.nearestRoads(context,
+        new LatLng(-33.865382, 151.192861),
+        new LatLng(-33.865837, 151.193376),
+        new LatLng(-33.866745, 151.19373),
+        new LatLng(-33.867128, 151.19344),
+        new LatLng(-33.867547, 151.193676),
+        new LatLng(-33.867841, 151.194137),
+        new LatLng(-33.868224, 151.194116)).await();
+
+    assertNotNull(points);
+    assertEquals(14, points.length);
+    assertNotNull(points[0].location.lat);
+    assertNotNull(points[0].location.lng);
+    assertNotNull(points[0].placeId);
+  }
+
+  @Test
+  public void testNearestRoadsOneWay() throws Exception {
+    SnappedPoint[] points = RoadsApi.nearestRoads(context,
+        new LatLng(44.977547, -93.261239),
+        new LatLng(44.977489, -93.261907),
+        new LatLng(44.977812, -93.261864)).await();
+
+    assertNotNull(points);
+    assertEquals(3, points.length);
+  }
 }
