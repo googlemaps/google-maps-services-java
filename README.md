@@ -146,6 +146,8 @@ GeocodingResult[] results =  GeocodingApi.geocode(context,
 System.out.println(results[0].formattedAddress);
 ```
 
+In real world scenarios, it's important to instantiate `GeoApiContext` as a static variable or inside a singleton, since it must have only one instance alive, despite the number of calls to `GeocodingApi`. Instantiating `GeoApiContext` once per request could cause too many threads alive at JVM (see [here](https://github.com/googlemaps/google-maps-services-java/issues/126)).
+
 For more usage examples, check out [the tests](src/test/java/com/google/maps/).
 
 ## Features
