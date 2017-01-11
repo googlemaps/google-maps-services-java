@@ -34,7 +34,7 @@ public class ElevationApiIntegrationTest extends AuthenticatedTest {
 
   public static final double SYDNEY_ELEVATION = 19.11174774169922;
   public static final double SYDNEY_POINT_ELEVATION = 19.10829925537109;
-  public static final double MELBOURNE_ELEVATION = 9.253130912780762;
+  public static final double MELBOURNE_ELEVATION = 25.49982643127441;
   private static final double EPSILON = .00001;
   private static final LatLng SYDNEY = new LatLng(-33.867487, 151.206990);
   private static final LatLng MELBOURNE = new LatLng(-37.814107, 144.963280);

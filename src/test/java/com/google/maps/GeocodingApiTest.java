@@ -253,18 +253,6 @@ public class GeocodingApiTest extends AuthenticatedTest {
   }
 
   /**
-   * Testing partial match.
-   */
-  @Test
-  public void testPartialMatch() throws Exception {
-    GeocodingResult[] results = GeocodingApi.newRequest(context)
-        .address("Pirrama Pyrmont").await();
-
-    assertNotNull(results);
-    assertTrue(results[0].partialMatch);
-  }
-
-  /**
    * Testing UTF8 result parsing.
    */
   @Test
