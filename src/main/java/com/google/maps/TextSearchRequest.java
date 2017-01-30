@@ -36,7 +36,7 @@ public class TextSearchRequest
   static final ApiConfig API_CONFIG = new ApiConfig("/maps/api/place/textsearch/json")
       .fieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
 
-  protected TextSearchRequest(GeoApiContext context) {
+  public TextSearchRequest(GeoApiContext context) {
     super(context, API_CONFIG, Response.class);
   }
 
