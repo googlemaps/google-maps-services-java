@@ -75,12 +75,15 @@ abstract class PendingResultBase<T, A extends PendingResultBase<T, A, R>,
           "'await', 'awaitIgnoreError' or 'setCallback' was already called.");
     }
     validateRequest();
-    if(config.requestVerb == "GET") {
-      delegate = context.get(config, responseClass, params);
-    } else if (config.requestVerb == "POST") {
-      delegate = context.post(config, responseClass, params);
+    switch (config.requestVerb) {
+      case "GET":
+        return delegate = context.get(config, responseClass, params);
+      case "POST":
+        return delegate = context.post(config, responseClass, params);
+      default:
+        throw new IllegalStateException(
+            String.format("Unexpected request method '%s'", config.requestVerb));
     }
-    return delegate;
   }
 
   protected abstract void validateRequest();
