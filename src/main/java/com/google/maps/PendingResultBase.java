@@ -15,10 +15,12 @@
 
 package com.google.maps;
 
+import com.google.maps.errors.ApiException;
 import com.google.maps.internal.ApiConfig;
 import com.google.maps.internal.ApiResponse;
 import com.google.maps.internal.StringJoin.UrlValue;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -51,7 +53,7 @@ abstract class PendingResultBase<T, A extends PendingResultBase<T, A, R>,
   }
 
   @Override
-  public final T await() throws Exception {
+  public final T await() throws ApiException, InterruptedException, IOException {
     PendingResult<T> request = makeRequest();
     return request.await();
   }

@@ -115,7 +115,7 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
   private class QueuedResponse {
     private final OkHttpPendingResult<T, R> request;
     private final Response response;
-    private final Exception e;
+    private final IOException e;
 
     public QueuedResponse(OkHttpPendingResult<T, R> request, Response response) {
       this.request = request;
@@ -123,7 +123,7 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
       this.e = null;
     }
 
-    public QueuedResponse(OkHttpPendingResult<T, R> request, Exception e) {
+    public QueuedResponse(OkHttpPendingResult<T, R> request, IOException e) {
       this.request = request;
       this.response = null;
       this.e = e;
@@ -131,7 +131,7 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
   }
 
   @Override
-  public T await() throws Exception {
+  public T await() throws ApiException, IOException, InterruptedException {
     // Handle sleeping for retried requests
     if (retryCounter > 0) {
       // 0.5 * (1.5 ^ i) represents an increased sleep time of 1.5x per iteration,
@@ -210,7 +210,8 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
   }
 
   @SuppressWarnings("unchecked")
-  private T parseResponse(OkHttpPendingResult<T, R> request, Response response) throws Exception {
+  private T parseResponse(OkHttpPendingResult<T, R> request, Response response)
+      throws ApiException, InterruptedException, IOException {
     if (shouldRetry(response)) {
       // Retry is a blocking method, but that's OK. If we're here, we're either in an await()
       // call, which is blocking anyway, or we're handling a callback in a separate thread.
@@ -284,7 +285,7 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
     }
   }
 
-  private T retry() throws Exception {
+  private T retry() throws ApiException, InterruptedException, IOException {
     retryCounter++;
     LOG.info("Retrying request. Retry #" + retryCounter);
     this.call = client.newCall(request);
