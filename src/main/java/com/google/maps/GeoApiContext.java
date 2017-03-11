@@ -20,7 +20,6 @@ import com.google.maps.errors.ApiException;
 import com.google.maps.errors.OverQueryLimitException;
 import com.google.maps.internal.ApiConfig;
 import com.google.maps.internal.ApiResponse;
-import com.google.maps.internal.ExceptionResult;
 import com.google.maps.internal.ExceptionsAllowedToRetry;
 import com.google.maps.internal.UrlSigner;
 
@@ -117,7 +116,8 @@ public class GeoApiContext {
       try {
         query.append(URLEncoder.encode(param.getValue(), "UTF-8"));
       } catch (UnsupportedEncodingException e) {
-        return new ExceptionResult<T>(e);
+        // This should never happen. UTF-8 support is required for every Java implementation.
+        throw new IllegalStateException(e);
       }
     }
 
@@ -145,7 +145,8 @@ public class GeoApiContext {
       try {
         query.append(URLEncoder.encode(params[i], "UTF-8"));
       } catch (UnsupportedEncodingException e) {
-        return new ExceptionResult<T>(e);
+        // This should never happen. UTF-8 support is required for every Java implementation.
+        throw new IllegalStateException(e);
       }
     }
 
