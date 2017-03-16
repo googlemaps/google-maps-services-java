@@ -155,7 +155,7 @@ public class NearbySearchRequest
     }
   }
 
-  public class Response implements ApiResponse<PlacesSearchResponse> {
+  public static class Response implements ApiResponse<PlacesSearchResponse> {
 
     public String status;
     public String htmlAttributions[];
