@@ -43,17 +43,17 @@ repositories {
 }
 
 dependencies {
-    compile 'com.google.code.gson:gson:2.3.1'
+    compile 'com.google.code.gson:gson:2.8.0'
     compile 'com.squareup.okhttp:okhttp:2.7.5'
-    compile 'joda-time:joda-time:2.4'
-    compileOnly 'com.google.appengine:appengine-api-1.0-sdk:1.9.36'
-    compile 'org.slf4j:slf4j-api:1.7.21'
+    compile 'joda-time:joda-time:2.9.7'
+    compileOnly 'com.google.appengine:appengine-api-1.0-sdk:1.9.50'
+    compile 'org.slf4j:slf4j-api:1.7.25'
 
-    testCompile 'junit:junit:4.11'
-    testCompile 'org.mockito:mockito-core:1.9.5'
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-core:1.10.19'
     testCompile 'com.google.mockwebserver:mockwebserver:20130706'
-    testCompile 'org.apache.httpcomponents:httpclient:4.3.5'
-    testCompile 'org.slf4j:slf4j-simple:1.7.21'
+    testCompile 'org.apache.httpcomponents:httpclient:4.5.3'
+    testCompile 'org.slf4j:slf4j-simple:1.7.25'
 }
 
 task updateVersion(type: Copy) {
