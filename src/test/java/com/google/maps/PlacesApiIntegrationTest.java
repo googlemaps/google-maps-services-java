@@ -198,7 +198,6 @@ public class PlacesApiIntegrationTest extends KeyOnlyAuthenticatedTest {
     assertNotNull(response2);
     assertNotNull(response2.results);
     assertTrue(response2.results.length >= 15);
-    assertEquals(20, response2.results.length);
     assertNotNull(response2.nextPageToken);
 
   }
