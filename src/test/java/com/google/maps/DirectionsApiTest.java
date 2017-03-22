@@ -63,8 +63,8 @@ public class DirectionsApiTest extends AuthenticatedTest {
     assertNotNull(result.routes);
     assertNotNull(result.routes[0]);
     assertThat(result.routes[0].overviewPolyline.decodePath().size(), not(0));
-    assertEquals("Sydney NSW, Australia", result.routes[0].legs[0].startAddress);
-    assertEquals("Melbourne VIC, Australia", result.routes[0].legs[0].endAddress);
+    assertTrue(result.routes[0].legs[0].startAddress.startsWith("Sydney NSW"));
+    assertTrue(result.routes[0].legs[0].endAddress.startsWith("Melbourne VIC"));
   }
 
   @Test
@@ -84,13 +84,13 @@ public class DirectionsApiTest extends AuthenticatedTest {
   @Test
   public void testTravelModeRoundTrip() throws Exception {
     DirectionsResult result = DirectionsApi.newRequest(context)
-        .mode(TravelMode.BICYCLING)
+        .mode(TravelMode.WALKING)
         .origin("483 George St, Sydney NSW 2000, Australia")
         .destination("182 Church St, Parramatta NSW 2150, Australia").await();
 
     assertNotNull(result.routes);
     assertNotNull(result.routes[0]);
-    assertEquals(TravelMode.BICYCLING, result.routes[0].legs[0].steps[0].travelMode);
+    assertEquals(TravelMode.WALKING, result.routes[0].legs[0].steps[0].travelMode);
   }
 
   @Test
@@ -307,7 +307,6 @@ public class DirectionsApiTest extends AuthenticatedTest {
     assertNotNull(result.geocodedWaypoints);
     assertEquals(2, result.geocodedWaypoints.length);
     assertEquals(GeocodedWaypointStatus.OK, result.geocodedWaypoints[0].geocoderStatus);
-    assertEquals(AddressType.PREMISE, result.geocodedWaypoints[0].types[0]);
     assertEquals(GeocodedWaypointStatus.OK, result.geocodedWaypoints[1].geocoderStatus);
     assertEquals(AddressType.ROUTE, result.geocodedWaypoints[1].types[0]);
 

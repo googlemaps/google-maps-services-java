@@ -197,6 +197,7 @@ public class PlacesApiIntegrationTest extends KeyOnlyAuthenticatedTest {
     PlacesSearchResponse response2 = PlacesApi.textSearchNextPage(context, response.nextPageToken).await();
     assertNotNull(response2);
     assertNotNull(response2.results);
+    assertTrue(response2.results.length >= 15);
     assertEquals(20, response2.results.length);
     assertNotNull(response2.nextPageToken);
 

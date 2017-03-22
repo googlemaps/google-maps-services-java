@@ -191,7 +191,7 @@ public class RoadsApiIntegrationTest extends KeyOnlyAuthenticatedTest {
         new LatLng(-33.868224, 151.194116)).await();
 
     assertNotNull(points);
-    assertEquals(14, points.length);
+    assertTrue(points.length >= 10);
     assertNotNull(points[0].location.lat);
     assertNotNull(points[0].location.lng);
     assertNotNull(points[0].placeId);
