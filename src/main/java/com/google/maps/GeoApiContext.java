@@ -20,7 +20,6 @@ import com.google.maps.errors.ApiException;
 import com.google.maps.errors.OverQueryLimitException;
 import com.google.maps.internal.ApiConfig;
 import com.google.maps.internal.ApiResponse;
-import com.google.maps.internal.ExceptionResult;
 import com.google.maps.internal.ExceptionsAllowedToRetry;
 import com.google.maps.internal.UrlSigner;
 
@@ -30,6 +29,8 @@ import org.slf4j.LoggerFactory;
 import java.io.UnsupportedEncodingException;
 import java.net.Proxy;
 import java.net.URLEncoder;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -115,7 +116,8 @@ public class GeoApiContext {
       try {
         query.append(URLEncoder.encode(param.getValue(), "UTF-8"));
       } catch (UnsupportedEncodingException e) {
-        return new ExceptionResult<T>(e);
+        // This should never happen. UTF-8 support is required for every Java implementation.
+        throw new IllegalStateException(e);
       }
     }
 
@@ -143,7 +145,8 @@ public class GeoApiContext {
       try {
         query.append(URLEncoder.encode(params[i], "UTF-8"));
       } catch (UnsupportedEncodingException e) {
-        return new ExceptionResult<T>(e);
+        // This should never happen. UTF-8 support is required for every Java implementation.
+        throw new IllegalStateException(e);
       }
     }
 
@@ -170,12 +173,7 @@ public class GeoApiContext {
     }
 
     if (config.supportsClientId && clientId != null) {
-      try {
-        String signature = urlSigner.getSignature(url.toString());
-        url.append("&signature=").append(signature);
-      } catch (Exception e) {
-        return new ExceptionResult<T>(e);
-      }
+      url.append("&signature=").append(urlSigner.getSignature(url.toString()));
     }
 
     String hostName = config.hostName;
@@ -213,12 +211,7 @@ public class GeoApiContext {
     url.append(encodedPath);
 
     if (canUseClientId && clientId != null) {
-      try {
-        String signature = urlSigner.getSignature(url.toString());
-        url.append("&signature=").append(signature);
-      } catch (Exception e) {
-        return new ExceptionResult<T>(e);
-      }
+      url.append("&signature=").append(urlSigner.getSignature(url.toString()));
     }
 
     if (baseUrlOverride != null) {
@@ -258,7 +251,11 @@ public class GeoApiContext {
 
   public GeoApiContext setEnterpriseCredentials(String clientId, String cryptographicSecret) {
     this.clientId = clientId;
-    this.urlSigner = new UrlSigner(cryptographicSecret);
+    try {
+      this.urlSigner = new UrlSigner(cryptographicSecret);
+    } catch (NoSuchAlgorithmException | InvalidKeyException e) {
+      throw new IllegalStateException(e);
+    }
     return this;
   }
 

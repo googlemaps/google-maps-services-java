@@ -30,9 +30,10 @@ import okio.ByteString;
  * a client ID</a> for more detail on this protocol.
  */
 public class UrlSigner {
-  private final SecretKeySpec key;
+  private static final String ALGORITHM_HMAC_SHA1 = "HmacSHA1";
+  private final Mac mac;
 
-  public UrlSigner(final String keyString) {
+  public UrlSigner(final String keyString) throws NoSuchAlgorithmException, InvalidKeyException {
     // Convert from URL-safe base64 to regular base64.
     String base64 = keyString.replace('-', '+').replace('_', '/');
 
@@ -41,17 +42,16 @@ public class UrlSigner {
       // NOTE: don't log the exception, in case some of the private key leaks to an end-user.
       throw new IllegalArgumentException("Private key is invalid.");
     }
-    this.key = new SecretKeySpec(decodedKey.toByteArray(), "HmacSHA1");
+
+    // TODO(macd): add test
+    mac = Mac.getInstance(ALGORITHM_HMAC_SHA1);
+    mac.init(new SecretKeySpec(decodedKey.toByteArray(), ALGORITHM_HMAC_SHA1));
   }
 
   /**
    * Generate url safe HmacSHA1 of a path.
    */
-  public String getSignature(String path)
-      throws NoSuchAlgorithmException, InvalidKeyException {
-    // TODO(macd): add test
-    Mac mac = Mac.getInstance("HmacSHA1");
-    mac.init(key);
+  public String getSignature(String path) {
     byte[] digest = mac.doFinal(path.getBytes());
     return ByteString.of(digest).base64().replace('+', '-').replace('/', '_');
   }

@@ -15,10 +15,12 @@
 
 package com.google.maps;
 
+import com.google.maps.errors.ApiException;
 import com.google.maps.internal.ApiConfig;
 import com.google.maps.internal.ApiResponse;
 import com.google.maps.internal.StringJoin.UrlValue;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -51,7 +53,7 @@ abstract class PendingResultBase<T, A extends PendingResultBase<T, A, R>,
   }
 
   @Override
-  public final T await() throws Exception {
+  public final T await() throws ApiException, InterruptedException, IOException {
     PendingResult<T> request = makeRequest();
     return request.await();
   }
@@ -75,12 +77,15 @@ abstract class PendingResultBase<T, A extends PendingResultBase<T, A, R>,
           "'await', 'awaitIgnoreError' or 'setCallback' was already called.");
     }
     validateRequest();
-    if(config.requestVerb == "GET") {
-      delegate = context.get(config, responseClass, params);
-    } else if (config.requestVerb == "POST") {
-      delegate = context.post(config, responseClass, params);
+    switch (config.requestVerb) {
+      case "GET":
+        return delegate = context.get(config, responseClass, params);
+      case "POST":
+        return delegate = context.post(config, responseClass, params);
+      default:
+        throw new IllegalStateException(
+            String.format("Unexpected request method '%s'", config.requestVerb));
     }
-    return delegate;
   }
 
   protected abstract void validateRequest();

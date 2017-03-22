@@ -27,6 +27,7 @@ import com.google.maps.GeolocationApi;
 import com.google.maps.PendingResult;
 import com.google.maps.PhotoRequest;
 import com.google.maps.errors.ApiException;
+import com.google.maps.errors.UnknownErrorException;
 import com.google.maps.model.AddressComponentType;
 import com.google.maps.model.AddressType;
 import com.google.maps.model.Distance;
@@ -49,6 +50,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 
@@ -68,7 +70,6 @@ public class GaePendingResult<T, R extends ApiResponse<T>>
   private final Integer maxRetries;
   private final ExceptionsAllowedToRetry exceptionsAllowedToRetry;
 
-  private Callback<T> callback;
   private long errorTimeOut;
   private int retryCounter = 0;
   private long cumulativeSleepTime = 0;
@@ -105,12 +106,18 @@ public class GaePendingResult<T, R extends ApiResponse<T>>
   }
 
   @Override
-  public T await() throws Exception {
-    HTTPResponse response = call.get();
-    if (response != null) {
-      return parseResponse(this, response);
-    } else {
-      throw new Exception(response.getResponseCode() + " " + new String(response.getContent()));
+  public T await() throws ApiException, IOException, InterruptedException {
+    try {
+      return parseResponse(this, call.get());
+    } catch (ExecutionException e) {
+      if (e.getCause() instanceof IOException) {
+        throw (IOException) e.getCause();
+      } else {
+        // According to
+        // https://cloud.google.com/appengine/docs/standard/java/javadoc/com/google/appengine/api/urlfetch/URLFetchService
+        // all exceptions should be subclass of IOException so this should not happen.
+        throw new UnknownErrorException("Unexpected exception from " + e.getMessage());
+      }
     }
   }
 
@@ -130,7 +137,8 @@ public class GaePendingResult<T, R extends ApiResponse<T>>
 
 
   @SuppressWarnings("unchecked")
-  private T parseResponse(GaePendingResult<T, R> request, HTTPResponse response) throws Exception {
+  private T parseResponse(GaePendingResult<T, R> request, HTTPResponse response)
+      throws IOException, ApiException, InterruptedException {
     if (shouldRetry(response)) {
       // Retry is a blocking method, but that's OK. If we're here, we're either in an await()
       // call, which is blocking anyway, or we're handling a callback in a separate thread.
@@ -212,7 +220,7 @@ public class GaePendingResult<T, R extends ApiResponse<T>>
     }
   }
 
-  private T retry() throws Exception {
+  private T retry() throws IOException, ApiException, InterruptedException  {
     retryCounter++;
     LOG.info("Retrying request. Retry #{}",retryCounter);
     this.call = client.fetchAsync(request);
