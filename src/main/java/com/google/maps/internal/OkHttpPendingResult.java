@@ -22,6 +22,7 @@ import com.google.gson.JsonSyntaxException;
 import com.google.maps.GeolocationApi;
 import com.google.maps.PendingResult;
 import com.google.maps.PhotoRequest;
+import com.google.maps.StaticMapApi;
 import com.google.maps.errors.ApiException;
 import com.google.maps.model.AddressComponentType;
 import com.google.maps.model.AddressType;
@@ -34,8 +35,8 @@ import com.google.maps.model.OpeningHours.Period.OpenClose.DayOfWeek;
 import com.google.maps.model.PhotoResult;
 import com.google.maps.model.PlaceDetails.Review.AspectRating.RatingType;
 import com.google.maps.model.PriceLevel;
+import com.google.maps.model.StaticMapResult;
 import com.google.maps.model.TravelMode;
-
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.OkHttpClient;
@@ -58,249 +59,259 @@ import java.util.concurrent.BlockingQueue;
 /**
  * A PendingResult backed by a HTTP call executed by OkHttp, a deserialization step using Gson, rate
  * limiting and a retry policy.
- *
+ * <p>
  * <p>{@code T} is the type of the result of this pending result, and {@code R} is the type of the
  * request.
  */
 public class OkHttpPendingResult<T, R extends ApiResponse<T>>
-    implements PendingResult<T>, Callback {
-  private final Request request;
-  private final OkHttpClient client;
-  private final Class<R> responseClass;
-  private final FieldNamingPolicy fieldNamingPolicy;
-  private final Integer maxRetries;
+        implements PendingResult<T>, Callback {
+    private final Request request;
+    private final OkHttpClient client;
+    private final Class<R> responseClass;
+    private final FieldNamingPolicy fieldNamingPolicy;
+    private final Integer maxRetries;
 
-  private Call call;
-  private Callback<T> callback;
-  private long errorTimeOut;
-  private int retryCounter = 0;
-  private long cumulativeSleepTime = 0;
-  private ExceptionsAllowedToRetry exceptionsAllowedToRetry;
+    private Call call;
+    private Callback<T> callback;
+    private long errorTimeOut;
+    private int retryCounter = 0;
+    private long cumulativeSleepTime = 0;
+    private ExceptionsAllowedToRetry exceptionsAllowedToRetry;
 
-  private static final Logger LOG = LoggerFactory.getLogger(OkHttpPendingResult.class.getName());
-  private static final List<Integer> RETRY_ERROR_CODES = Arrays.asList(500, 503, 504);
+    private static final Logger LOG = LoggerFactory.getLogger(OkHttpPendingResult.class.getName());
+    private static final List<Integer> RETRY_ERROR_CODES = Arrays.asList(500, 503, 504);
 
-  /**
-   * @param request           HTTP request to execute.
-   * @param client            The client used to execute the request.
-   * @param responseClass     Model class to unmarshal JSON body content.
-   * @param fieldNamingPolicy FieldNamingPolicy for unmarshaling JSON.
-   * @param errorTimeOut      Number of milliseconds to re-send erroring requests.
-   * @param maxRetries        Number of times allowed to re-send erroring requests.
-   * @param exceptionsAllowedToRetry The exceptions to retry.
-   */
-  public OkHttpPendingResult(Request request, OkHttpClient client, Class<R> responseClass,
-                             FieldNamingPolicy fieldNamingPolicy, long errorTimeOut, Integer maxRetries,
-                             ExceptionsAllowedToRetry exceptionsAllowedToRetry) {
-    this.request = request;
-    this.client = client;
-    this.responseClass = responseClass;
-    this.fieldNamingPolicy = fieldNamingPolicy;
-    this.errorTimeOut = errorTimeOut;
-    this.maxRetries = maxRetries;
-    this.exceptionsAllowedToRetry = exceptionsAllowedToRetry;
+    /**
+     * @param request                  HTTP request to execute.
+     * @param client                   The client used to execute the request.
+     * @param responseClass            Model class to unmarshal JSON body content.
+     * @param fieldNamingPolicy        FieldNamingPolicy for unmarshaling JSON.
+     * @param errorTimeOut             Number of milliseconds to re-send erroring requests.
+     * @param maxRetries               Number of times allowed to re-send erroring requests.
+     * @param exceptionsAllowedToRetry The exceptions to retry.
+     */
+    public OkHttpPendingResult(Request request, OkHttpClient client, Class<R> responseClass,
+                               FieldNamingPolicy fieldNamingPolicy, long errorTimeOut, Integer maxRetries,
+                               ExceptionsAllowedToRetry exceptionsAllowedToRetry) {
+        this.request = request;
+        this.client = client;
+        this.responseClass = responseClass;
+        this.fieldNamingPolicy = fieldNamingPolicy;
+        this.errorTimeOut = errorTimeOut;
+        this.maxRetries = maxRetries;
+        this.exceptionsAllowedToRetry = exceptionsAllowedToRetry;
 
-    this.call = client.newCall(request);
-  }
-
-  @Override
-  public void setCallback(Callback<T> callback) {
-    this.callback = callback;
-    call.enqueue(this);
-  }
-
-  /**
-   * Preserve a request/response pair through an asynchronous callback.
-   */
-  private class QueuedResponse {
-    private final OkHttpPendingResult<T, R> request;
-    private final Response response;
-    private final IOException e;
-
-    public QueuedResponse(OkHttpPendingResult<T, R> request, Response response) {
-      this.request = request;
-      this.response = response;
-      this.e = null;
+        this.call = client.newCall(request);
     }
 
-    public QueuedResponse(OkHttpPendingResult<T, R> request, IOException e) {
-      this.request = request;
-      this.response = null;
-      this.e = e;
-    }
-  }
-
-  @Override
-  public T await() throws ApiException, IOException, InterruptedException {
-    // Handle sleeping for retried requests
-    if (retryCounter > 0) {
-      // 0.5 * (1.5 ^ i) represents an increased sleep time of 1.5x per iteration,
-      // starting at 0.5s when i = 0. The retryCounter will be 1 for the 1st retry,
-      // so subtract 1 here.
-      double delaySecs = 0.5 * Math.pow(1.5, retryCounter - 1);
-
-      // Generate a jitter value between -delaySecs / 2 and +delaySecs / 2
-      long delayMillis = (long) (delaySecs * (Math.random() + 0.5) * 1000);
-
-      LOG.debug(String.format("Sleeping between errors for %dms (retry #%d, already slept %dms)",
-          delayMillis, retryCounter, cumulativeSleepTime));
-      cumulativeSleepTime += delayMillis;
-      try {
-        Thread.sleep(delayMillis);
-      } catch (InterruptedException e) {
-        // No big deal if we don't sleep as long as intended.
-      }
+    @Override
+    public void setCallback(Callback<T> callback) {
+        this.callback = callback;
+        call.enqueue(this);
     }
 
-    final BlockingQueue<QueuedResponse> waiter = new ArrayBlockingQueue<QueuedResponse>(1);
-    final OkHttpPendingResult<T, R> parent = this;
+    /**
+     * Preserve a request/response pair through an asynchronous callback.
+     */
+    private class QueuedResponse {
+        private final OkHttpPendingResult<T, R> request;
+        private final Response response;
+        private final IOException e;
 
-    // This callback will be called on another thread, handled by the RateLimitExecutorService.
-    // Calling call.execute() directly would bypass the rate limiting.
-    call.enqueue(new com.squareup.okhttp.Callback() {
-      @Override
-      public void onFailure(Request request, IOException e) {
-        waiter.add(new QueuedResponse(parent, e));
-      }
+        public QueuedResponse(OkHttpPendingResult<T, R> request, Response response) {
+            this.request = request;
+            this.response = response;
+            this.e = null;
+        }
 
-      @Override
-      public void onResponse(Response response) throws IOException {
-        waiter.add(new QueuedResponse(parent, response));
-      }
-    });
-
-    QueuedResponse r = waiter.take();
-    if (r.response != null) {
-      return parseResponse(r.request, r.response);
-    } else {
-      throw r.e;
-    }
-  }
-
-  @Override
-  public T awaitIgnoreError() {
-    try {
-      return await();
-    } catch (Exception e) {
-      return null;
-    }
-  }
-
-  @Override
-  public void cancel() {
-    call.cancel();
-  }
-
-  @Override
-  public void onFailure(Request request, IOException ioe) {
-    if (callback != null) {
-      callback.onFailure(ioe);
-    }
-  }
-
-  @Override
-  public void onResponse(Response response) throws IOException {
-    if (callback != null) {
-      try {
-        callback.onResult(parseResponse(this, response));
-      } catch (Exception e) {
-        callback.onFailure(e);
-      }
-    }
-  }
-
-  @SuppressWarnings("unchecked")
-  private T parseResponse(OkHttpPendingResult<T, R> request, Response response)
-      throws ApiException, InterruptedException, IOException {
-    if (shouldRetry(response)) {
-      // Retry is a blocking method, but that's OK. If we're here, we're either in an await()
-      // call, which is blocking anyway, or we're handling a callback in a separate thread.
-      return request.retry();
+        public QueuedResponse(OkHttpPendingResult<T, R> request, IOException e) {
+            this.request = request;
+            this.response = null;
+            this.e = e;
+        }
     }
 
-    byte[] bytes = response.body().bytes();
-    R resp;
-    String contentType = response.header("Content-Type");
+    @Override
+    public T await() throws ApiException, IOException, InterruptedException {
+        // Handle sleeping for retried requests
+        if (retryCounter > 0) {
+            // 0.5 * (1.5 ^ i) represents an increased sleep time of 1.5x per iteration,
+            // starting at 0.5s when i = 0. The retryCounter will be 1 for the 1st retry,
+            // so subtract 1 here.
+            double delaySecs = 0.5 * Math.pow(1.5, retryCounter - 1);
 
-    // Places Photo API special case
-    if (contentType != null &&
-        contentType.startsWith("image") &&
-        responseClass == PhotoRequest.Response.class &&
-        response.code() == 200) {
-      // Photo API response is just a raw image byte array.
-      PhotoResult result = new PhotoResult();
-      result.contentType = contentType;
-      result.imageData = bytes;
-      return (T) result;
+            // Generate a jitter value between -delaySecs / 2 and +delaySecs / 2
+            long delayMillis = (long) (delaySecs * (Math.random() + 0.5) * 1000);
+
+            LOG.debug(String.format("Sleeping between errors for %dms (retry #%d, already slept %dms)",
+                    delayMillis, retryCounter, cumulativeSleepTime));
+            cumulativeSleepTime += delayMillis;
+            try {
+                Thread.sleep(delayMillis);
+            } catch (InterruptedException e) {
+                // No big deal if we don't sleep as long as intended.
+            }
+        }
+
+        final BlockingQueue<QueuedResponse> waiter = new ArrayBlockingQueue<QueuedResponse>(1);
+        final OkHttpPendingResult<T, R> parent = this;
+
+        // This callback will be called on another thread, handled by the RateLimitExecutorService.
+        // Calling call.execute() directly would bypass the rate limiting.
+        call.enqueue(new com.squareup.okhttp.Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+                waiter.add(new QueuedResponse(parent, e));
+            }
+
+            @Override
+            public void onResponse(Response response) throws IOException {
+                waiter.add(new QueuedResponse(parent, response));
+            }
+        });
+
+        QueuedResponse r = waiter.take();
+        if (r.response != null) {
+            return parseResponse(r.request, r.response);
+        } else {
+            throw r.e;
+        }
     }
 
-    Gson gson = new GsonBuilder()
-        .registerTypeAdapter(DateTime.class, new DateTimeAdapter())
-        .registerTypeAdapter(Distance.class, new DistanceAdapter())
-        .registerTypeAdapter(Duration.class, new DurationAdapter())
-        .registerTypeAdapter(Fare.class, new FareAdapter())
-        .registerTypeAdapter(LatLng.class, new LatLngAdapter())
-        .registerTypeAdapter(AddressComponentType.class,
-            new SafeEnumAdapter<AddressComponentType>(AddressComponentType.UNKNOWN))
-        .registerTypeAdapter(AddressType.class, new SafeEnumAdapter<AddressType>(AddressType.UNKNOWN))
-        .registerTypeAdapter(TravelMode.class, new SafeEnumAdapter<TravelMode>(TravelMode.UNKNOWN))
-        .registerTypeAdapter(LocationType.class, new SafeEnumAdapter<LocationType>(LocationType.UNKNOWN))
-        .registerTypeAdapter(RatingType.class, new SafeEnumAdapter<RatingType>(RatingType.UNKNOWN))
-        .registerTypeAdapter(DayOfWeek.class, new DayOfWeekAdaptor())
-        .registerTypeAdapter(PriceLevel.class, new PriceLevelAdaptor())
-        .registerTypeAdapter(Instant.class, new InstantAdapter())
-        .registerTypeAdapter(LocalTime.class, new LocalTimeAdapter())
-        .registerTypeAdapter(GeolocationApi.Response.class, new GeolocationResponseAdapter())
-        .setFieldNamingPolicy(fieldNamingPolicy)
-        .create();
-
-    // Attempt to de-serialize before checking the HTTP status code, as there may be JSON in the
-    // body that we can use to provide a more descriptive exception.
-    try {
-      resp = gson.fromJson(new String(bytes, "utf8"), responseClass);
-    } catch (JsonSyntaxException e) {
-      // Check HTTP status for a more suitable exception
-      if (!response.isSuccessful()) {
-        // Some of the APIs return 200 even when the API request fails, as long as the transport
-        // mechanism succeeds. In these cases, INVALID_RESPONSE, etc are handled by the Gson
-        // parsing.
-        throw new IOException(String.format("Server Error: %d %s", response.code(),
-            response.message()));
-      }
-
-      // Otherwise just cough up the syntax exception.
-      throw e;
+    @Override
+    public T awaitIgnoreError() {
+        try {
+            return await();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
-    if (resp.successful()) {
-      // Return successful responses
-      return resp.getResult();
-    } else {
-      ApiException e = resp.getError();
-      if (shouldRetry(e)) {
-        return request.retry();
-      } else {
-        throw e;
-      }
+    @Override
+    public void cancel() {
+        call.cancel();
     }
-  }
 
-  private T retry() throws ApiException, InterruptedException, IOException {
-    retryCounter++;
-    LOG.info("Retrying request. Retry #" + retryCounter);
-    this.call = client.newCall(request);
-    return this.await();
-  }
+    @Override
+    public void onFailure(Request request, IOException ioe) {
+        if (callback != null) {
+            callback.onFailure(ioe);
+        }
+    }
 
-  private boolean shouldRetry(Response response) {
-    return RETRY_ERROR_CODES.contains(response.code())
-        && cumulativeSleepTime < errorTimeOut
-        && (maxRetries == null || retryCounter < maxRetries);
-  }
+    @Override
+    public void onResponse(Response response) throws IOException {
+        if (callback != null) {
+            try {
+                callback.onResult(parseResponse(this, response));
+            } catch (Exception e) {
+                callback.onFailure(e);
+            }
+        }
+    }
 
-  private boolean shouldRetry(ApiException exception) {
-    return exceptionsAllowedToRetry.contains(exception.getClass())
-        && cumulativeSleepTime < errorTimeOut
-        && (maxRetries == null || retryCounter < maxRetries);
-  }
+    @SuppressWarnings("unchecked")
+    private T parseResponse(OkHttpPendingResult<T, R> request, Response response)
+            throws ApiException, InterruptedException, IOException {
+        if (shouldRetry(response)) {
+            // Retry is a blocking method, but that's OK. If we're here, we're either in an await()
+            // call, which is blocking anyway, or we're handling a callback in a separate thread.
+            return request.retry();
+        }
+
+        byte[] bytes = response.body().bytes();
+        R resp;
+        String contentType = response.header("Content-Type");
+
+        // Static Map API special case
+        if (contentType != null && contentType.startsWith("image") &&
+                StaticMapApi.Response.class.equals(responseClass) && response.code() == 200) {
+            // Static Map API response is just a raw image byte array.
+            StaticMapResult result = new StaticMapResult();
+            result.imageData = bytes;
+            result.contentType = contentType;
+            return (T) result;
+        }
+
+        // Places Photo API special case
+        if (contentType != null &&
+                contentType.startsWith("image") &&
+                responseClass == PhotoRequest.Response.class &&
+                response.code() == 200) {
+            // Photo API response is just a raw image byte array.
+            PhotoResult result = new PhotoResult();
+            result.contentType = contentType;
+            result.imageData = bytes;
+            return (T) result;
+        }
+
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(DateTime.class, new DateTimeAdapter())
+                .registerTypeAdapter(Distance.class, new DistanceAdapter())
+                .registerTypeAdapter(Duration.class, new DurationAdapter())
+                .registerTypeAdapter(Fare.class, new FareAdapter())
+                .registerTypeAdapter(LatLng.class, new LatLngAdapter())
+                .registerTypeAdapter(AddressComponentType.class,
+                        new SafeEnumAdapter<AddressComponentType>(AddressComponentType.UNKNOWN))
+                .registerTypeAdapter(AddressType.class, new SafeEnumAdapter<AddressType>(AddressType.UNKNOWN))
+                .registerTypeAdapter(TravelMode.class, new SafeEnumAdapter<TravelMode>(TravelMode.UNKNOWN))
+                .registerTypeAdapter(LocationType.class, new SafeEnumAdapter<LocationType>(LocationType.UNKNOWN))
+                .registerTypeAdapter(RatingType.class, new SafeEnumAdapter<RatingType>(RatingType.UNKNOWN))
+                .registerTypeAdapter(DayOfWeek.class, new DayOfWeekAdaptor())
+                .registerTypeAdapter(PriceLevel.class, new PriceLevelAdaptor())
+                .registerTypeAdapter(Instant.class, new InstantAdapter())
+                .registerTypeAdapter(LocalTime.class, new LocalTimeAdapter())
+                .registerTypeAdapter(GeolocationApi.Response.class, new GeolocationResponseAdapter())
+                .setFieldNamingPolicy(fieldNamingPolicy)
+                .create();
+
+        // Attempt to de-serialize before checking the HTTP status code, as there may be JSON in the
+        // body that we can use to provide a more descriptive exception.
+        try {
+            resp = gson.fromJson(new String(bytes, "utf8"), responseClass);
+        } catch (JsonSyntaxException e) {
+            // Check HTTP status for a more suitable exception
+            if (!response.isSuccessful()) {
+                // Some of the APIs return 200 even when the API request fails, as long as the transport
+                // mechanism succeeds. In these cases, INVALID_RESPONSE, etc are handled by the Gson
+                // parsing.
+                throw new IOException(String.format("Server Error: %d %s", response.code(),
+                        response.message()));
+            }
+
+            // Otherwise just cough up the syntax exception.
+            throw e;
+        }
+
+        if (resp.successful()) {
+            // Return successful responses
+            return resp.getResult();
+        } else {
+            ApiException e = resp.getError();
+            if (shouldRetry(e)) {
+                return request.retry();
+            } else {
+                throw e;
+            }
+        }
+    }
+
+    private T retry() throws ApiException, InterruptedException, IOException {
+        retryCounter++;
+        LOG.info("Retrying request. Retry #" + retryCounter);
+        this.call = client.newCall(request);
+        return this.await();
+    }
+
+    private boolean shouldRetry(Response response) {
+        return RETRY_ERROR_CODES.contains(response.code())
+                && cumulativeSleepTime < errorTimeOut
+                && (maxRetries == null || retryCounter < maxRetries);
+    }
+
+    private boolean shouldRetry(ApiException exception) {
+        return exceptionsAllowedToRetry.contains(exception.getClass())
+                && cumulativeSleepTime < errorTimeOut
+                && (maxRetries == null || retryCounter < maxRetries);
+    }
 }

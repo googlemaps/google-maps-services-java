@@ -41,4 +41,11 @@ public class StaticMapApiRequest extends PendingResultBase<StaticMapResult, Stat
         }
         return param("size", width + "x" + height);
     }
+
+    public StaticMapApiRequest scale(int scale) {
+        if (scale != 1 && scale != 2 && scale != 4) {
+            throw new IllegalArgumentException("Accepted values are 1, 2, and 4.");
+        }
+        return param("scale", String.valueOf(scale));
+    }
 }
