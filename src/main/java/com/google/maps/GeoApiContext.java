@@ -172,8 +172,9 @@ public class GeoApiContext {
       url.append("?key=").append(apiKey);
     }
 
-    if (config.supportsClientId && clientId != null) {
-      url.append("&signature=").append(urlSigner.getSignature(url.toString()));
+    if (config.supportsClientId && urlSigner != null) {
+      String signature = urlSigner.getSignature(url.toString());
+      url.append("&signature=").append(signature);
     }
 
     String hostName = config.hostName;
