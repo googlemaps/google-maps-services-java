@@ -210,8 +210,9 @@ public class GeoApiContext {
     }
     url.append(encodedPath);
 
-    if (canUseClientId && clientId != null) {
-      url.append("&signature=").append(urlSigner.getSignature(url.toString()));
+    if (canUseClientId && urlSigner != null) {
+      String signature = urlSigner.getSignature(url.toString());
+      url.append("&signature=").append(signature);
     }
 
     if (baseUrlOverride != null) {
