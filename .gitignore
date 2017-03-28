@@ -2,3 +2,7 @@ build/
 .gradle/
 *.iml
 .idea/
+
+myimage
+
+src/main/java/com/google/maps/Test.java
