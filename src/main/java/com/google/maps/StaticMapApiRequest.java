@@ -33,10 +33,10 @@ public class StaticMapApiRequest extends PendingResultBase<StaticMapResult, Stat
      * @param height Height (in pixels) of the map image.
      */
     public StaticMapApiRequest size(int width, int height) {
-        if (width < 0) {
+        if (width <= 0) {
             throw new IllegalArgumentException("Width must be greater than 0.");
         }
-        if (height < 0) {
+        if (height <= 0) {
             throw new IllegalArgumentException("Height must be greater than 0.");
         }
         return param("size", width + "x" + height);
