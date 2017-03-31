@@ -66,11 +66,15 @@ public class UrlSignerTest {
       executor.execute(new Runnable() {
         @Override
         public void run() {
-          if (!SIGNATURE.equals(urlSigner.getSignature(MESSAGE))) {
+          try {
+            if (!SIGNATURE.equals(urlSigner.getSignature(MESSAGE))) {
+              fails.add(true);
+            }
+          } catch(Exception e) {
             fails.add(true);
           }
         }
-	  });
+      });
     }
 
     executor.shutdown();
