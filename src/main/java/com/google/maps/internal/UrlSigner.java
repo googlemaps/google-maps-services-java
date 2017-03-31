@@ -52,7 +52,17 @@ public class UrlSigner {
    * Generate url safe HmacSHA1 of a path.
    */
   public String getSignature(String path) {
-    byte[] digest = mac.doFinal(path.getBytes());
+    byte[] digest = getMac().doFinal(path.getBytes());
     return ByteString.of(digest).base64().replace('+', '-').replace('/', '_');
   }
+
+  private Mac getMac() {
+    // Mac is not thread-safe. Requires a new clone for each signature.
+    try {
+      return (Mac) mac.clone();
+    } catch (CloneNotSupportedException e) {
+      throw new IllegalStateException(e);
+    }
+  }
+
 }
