@@ -16,11 +16,19 @@
 package com.google.maps.internal;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-import com.google.maps.SmallTests;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+
+import com.google.maps.SmallTests;
 
 import okio.ByteString;
 
@@ -44,6 +52,35 @@ public class UrlSignerTest {
   public void testUrlSigner() throws Exception {
     UrlSigner urlSigner = new UrlSigner(SIGNING_KEY);
     assertEquals(SIGNATURE, urlSigner.getSignature(MESSAGE));
+  }
+  
+  @Test
+  public void testMustSupportParallelSignatures() throws Exception {
+    int attempts = 100;
+    ExecutorService executor = Executors.newFixedThreadPool(attempts);
+
+    final UrlSigner urlSigner = new UrlSigner(SIGNING_KEY);
+    final List<Boolean> fails = Collections.synchronizedList(new ArrayList<Boolean>());
+
+    for (int i = 0; i < attempts; i++) {
+      executor.execute(new Runnable() {
+        @Override
+        public void run() {
+          try {
+            if (!SIGNATURE.equals(urlSigner.getSignature(MESSAGE))) {
+              fails.add(true);
+            }
+          } catch(Exception e) {
+            fails.add(true);
+          }
+        }
+      });
+    }
+
+    executor.shutdown();
+    executor.awaitTermination(20, TimeUnit.SECONDS);
+
+    assertTrue(fails.isEmpty());
   }
 
   // Helper code from http://stackoverflow.com/questions/140131/
