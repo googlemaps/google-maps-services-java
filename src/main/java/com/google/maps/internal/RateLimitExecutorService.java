@@ -27,6 +27,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -47,7 +48,7 @@ public class RateLimitExecutorService implements ExecutorService, Runnable {
   // killed when the app exits. For synchronous requests this is ideal but it means any async
   // requests still pending after termination will be killed.
   private final ExecutorService delegate = new ThreadPoolExecutor(Runtime.getRuntime().availableProcessors(), Integer.MAX_VALUE, 60,
-      TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>(),
+      TimeUnit.SECONDS, new SynchronousQueue<Runnable>(),
       threadFactory("Rate Limited Dispatcher", true));
 
   private final BlockingQueue<Runnable> queue = new LinkedBlockingQueue<Runnable>();
