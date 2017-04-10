@@ -42,10 +42,12 @@ public class OkHttpRequestHandler implements GeoApiContext.RequestHandler {
   private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
   private final OkHttpClient client = new OkHttpClient();
   private final RateLimitExecutorService rateLimitExecutorService;
+  private final Dispatcher dispatcher;
 
   public OkHttpRequestHandler() {
     rateLimitExecutorService = new RateLimitExecutorService();
-    client.setDispatcher(new Dispatcher(rateLimitExecutorService));
+    dispatcher = new Dispatcher(rateLimitExecutorService);
+    client.setDispatcher(dispatcher);
   }
 
   @Override
@@ -95,11 +97,15 @@ public class OkHttpRequestHandler implements GeoApiContext.RequestHandler {
 
   @Override
   public void setQueriesPerSecond(int maxQps) {
+    dispatcher.setMaxRequests(maxQps);
+    dispatcher.setMaxRequestsPerHost(maxQps);
     rateLimitExecutorService.setQueriesPerSecond(maxQps);
   }
 
   @Override
   public void setQueriesPerSecond(int maxQps, int minimumInterval) {
+    dispatcher.setMaxRequests(maxQps);
+    dispatcher.setMaxRequestsPerHost(maxQps);
     rateLimitExecutorService.setQueriesPerSecond(maxQps, minimumInterval);
   }
 
