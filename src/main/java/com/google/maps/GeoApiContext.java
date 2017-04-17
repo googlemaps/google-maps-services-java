@@ -241,7 +241,7 @@ public class GeoApiContext {
    *
    * @param baseUrl The URL to use, without a trailing slash, e.g. https://maps.googleapis.com
    */
-  GeoApiContext setBaseUrlForTesting(String baseUrl) {
+  public GeoApiContext setBaseUrlForTesting(String baseUrl) {
     baseUrlOverride = baseUrl;
     return this;
   }
