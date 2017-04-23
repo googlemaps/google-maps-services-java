@@ -40,6 +40,7 @@ import com.google.maps.model.PhotoResult;
 import com.google.maps.model.PlaceDetails.Review.AspectRating.RatingType;
 import com.google.maps.model.PriceLevel;
 import com.google.maps.model.TravelMode;
+import com.google.maps.model.EncodedPolyline;
 import org.joda.time.DateTime;
 import org.joda.time.Instant;
 import org.joda.time.LocalTime;
@@ -184,6 +185,7 @@ public class GaePendingResult<T, R extends ApiResponse<T>>
         .registerTypeAdapter(Instant.class, new InstantAdapter())
         .registerTypeAdapter(LocalTime.class, new LocalTimeAdapter())
         .registerTypeAdapter(GeolocationApi.Response.class, new GeolocationResponseAdapter())
+		.registerTypeAdapter(EncodedPolyline.class,new EncodedPolylineInstanceCreator(""))
         .setFieldNamingPolicy(fieldNamingPolicy)
         .create();
 
