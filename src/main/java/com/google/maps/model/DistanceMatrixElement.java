@@ -15,13 +15,15 @@
 
 package com.google.maps.model;
 
+import java.io.Serializable;
+
 /**
  * A single result corresponding to a origin/destination pair in a Distance Matrix response.
  *
  * <p>Be sure to check the status for each element, as a matrix response can have a mix of
  * successful and failed elements depending on the connectivity of the origin and destination.
  */
-public class DistanceMatrixElement {
+public class DistanceMatrixElement implements Serializable {
 
   /**
    * {@code status} indicates the status of the request for this origin/destination pair.

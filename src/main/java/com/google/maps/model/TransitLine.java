@@ -15,13 +15,15 @@
 
 package com.google.maps.model;
 
+import java.io.Serializable;
+
 /**
  * The transit line used in a step.
  *
  * <p>See <a href="https://developers.google.com/maps/documentation/directions/intro#TransitDetails">
  * Transit details</a> for more detail.
  */
-public class TransitLine {
+public class TransitLine implements Serializable {
 
   /**
    * {@code name} contains the full name of this transit line. eg. "7 Avenue Express".

@@ -17,6 +17,8 @@ package com.google.maps.model;
 
 import org.joda.time.DateTime;
 
+import java.io.Serializable;
+
 /**
  * Transit directions return additional information that is not relevant for other modes of
  * transportation. These additional properties are exposed through the {@code transit_details}
@@ -24,7 +26,7 @@ import org.joda.time.DateTime;
  * TransitDetails} object you can access additional information about the transit stop, transit line
  * and transit agency.
  */
-public class TransitDetails {
+public class TransitDetails implements Serializable {
 
   /**
    * {@code arrivalStop} contains information about the arrival stop/station for this part of the

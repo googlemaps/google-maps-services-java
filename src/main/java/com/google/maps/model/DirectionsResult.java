@@ -15,13 +15,15 @@
 
 package com.google.maps.model;
 
+import java.io.Serializable;
+
 /**
  * DirectionsResult represents a result from the Google Directions API Web Service.
  *
  * <p>Please see <a href="https://developers.google.com/maps/documentation/directions/intro">
  * Directions API</a> for more detail.</p>
  */
-public class DirectionsResult {
+public class DirectionsResult implements Serializable {
 
   /**
    * {@code geocodedWaypoints} contains an array with details about the geocoding of origin,

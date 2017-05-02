@@ -15,13 +15,15 @@
 
 package com.google.maps.model;
 
+import java.io.Serializable;
+
 /**
  * A complete result from a Distance Matrix API call.
  *
  * @see <a href="https://developers.google.com/maps/documentation/distancematrix/#DistanceMatrixResponses">
  * Distance Matrix Results</a>
  */
-public class DistanceMatrix {
+public class DistanceMatrix implements Serializable {
 
   /**
    * {@code originAddresses} contains an array of addresses as returned by the API from your

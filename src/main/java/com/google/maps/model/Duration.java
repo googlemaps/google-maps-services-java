@@ -15,10 +15,12 @@
 
 package com.google.maps.model;
 
+import java.io.Serializable;
+
 /**
  * The duration component for Directions API results.
  */
-public class Duration {
+public class Duration implements Serializable {
 
   /**
    * This is the numeric duration, in seconds. This is intended to be used only in algorithmic

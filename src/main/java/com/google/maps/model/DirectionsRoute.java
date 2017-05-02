@@ -15,6 +15,8 @@
 
 package com.google.maps.model;
 
+import java.io.Serializable;
+
 /**
  * A Directions API result. When the Directions API returns results, it places them within a routes
  * array. Even if the service returns no results (such as if the origin and/or destination doesn't
@@ -23,7 +25,7 @@ package com.google.maps.model;
  * <p>Please see <a href="https://developers.google.com/maps/documentation/directions/intro#Routes">
  * Routes</a> for more detail.
  */
-public class DirectionsRoute {
+public class DirectionsRoute implements Serializable {
   /**
    * {@code summary} contains a short textual description for the route, suitable for naming and
    * disambiguating the route from alternatives.

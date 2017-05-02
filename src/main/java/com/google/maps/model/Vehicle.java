@@ -15,13 +15,15 @@
 
 package com.google.maps.model;
 
+import java.io.Serializable;
+
 /**
  * The vehicle used on a line.
  *
  * <p>See <a href="https://developers.google.com/maps/documentation/directions/intro#TransitDetails">
  * Transit details</a> for more detail.
  */
-public class Vehicle {
+public class Vehicle implements Serializable {
 
   /**
    * {@code name} contains the name of the vehicle on this line. eg. "Subway."

@@ -15,13 +15,15 @@
 
 package com.google.maps.model;
 
+import java.io.Serializable;
+
 /**
  * The operator of a line.
  *
  * <p>See <a href="https://developers.google.com/maps/documentation/directions/intro#TransitDetails">
  * Transit details</a> for more detail.
  */
-public class TransitAgency {
+public class TransitAgency implements Serializable {
 
   /**
    * {@code name} contains the name of the transit agency.
