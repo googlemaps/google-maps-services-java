@@ -218,6 +218,11 @@ public enum AddressComponentType {
    * {@code TRANSIT_STATION} indicates the location of a transit station.
    */
   TRANSIT_STATION("transit_station"),
+  
+  /**
+   * {@code LIGHT_RAIL_STATION} indicates the location of a light rail station.
+   */
+  LIGHT_RAIL_STATION("light_rail_station"),
 
   /**
    * {@code WARD} indicates a specific type of Japanese locality, to facilitate distinction between multiple locality components within a Japanese address.
