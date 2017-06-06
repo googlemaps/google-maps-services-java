@@ -139,7 +139,7 @@ public class GeocodingApiTest extends AuthenticatedTest {
         .address("1600 Amphitheatre Parkway, Mountain View, CA").await();
 
     assertNotNull(results);
-    assertEquals("1600 Amphitheatre Pkwy, Mountain View, CA 94043, USA",
+    assertEquals("Google Bldg 41, 1600 Amphitheatre Pkwy, Mountain View, CA 94043, USA",
         results[0].formattedAddress);
   }
 
@@ -214,7 +214,7 @@ public class GeocodingApiTest extends AuthenticatedTest {
         ComponentFilter.country("Finland")).await();
 
     assertNotNull(results);
-    assertTrue(results[0].formattedAddress.startsWith("Annegatan"));
+    assertTrue(results[0].formattedAddress.equals("Annankatu, 00101 Helsinki, Finland"));
   }
 
   /**
@@ -276,6 +276,6 @@ public class GeocodingApiTest extends AuthenticatedTest {
             .custom("new_forward_geocoder","true")
             .await();
 
-    assertEquals("1600 Amphitheatre Pkwy, Mountain View, CA 94043, USA", results[0].formattedAddress);
+    assertEquals("Google Bldg 41, 1600 Amphitheatre Pkwy, Mountain View, CA 94043, USA", results[0].formattedAddress);
   }
 }

@@ -125,7 +125,6 @@ public class PlacesApiIntegrationTest extends KeyOnlyAuthenticatedTest {
       assertNotNull(review.authorUrl);
       assertNotNull(review.language);
       assertNotNull(review.rating);
-      assertNotNull(review.aspects);
       PlaceDetails.Review.AspectRating aspect = review.aspects[0];
       assertNotNull(aspect);
       assertNotNull(aspect.rating);
