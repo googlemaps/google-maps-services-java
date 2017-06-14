@@ -83,12 +83,25 @@ For even more information, see the guide to [API keys][apikey].
 
 You can add the library to your project via Maven or Gradle.
 
+**Note:** Since 0.1.18 there is now a dependency on SLF4J. You need to add one of the adaptor 
+dependencies that makes sense for your logging setup. In the configuration samples below we
+are integrating [slf4j-nop](https://search.maven.org/#artifactdetails%7Corg.slf4j%7Cslf4j-nop%7C1.7.25%7Cjar),
+but there are others like [slf4j-log4j12](https://search.maven.org/#artifactdetails%7Corg.slf4j%7Cslf4j-log4j12%7C1.7.25%7Cjar)
+and [slf4j-jdk14](https://search.maven.org/#artifactdetails%7Corg.slf4j%7Cslf4j-jdk14%7C1.7.25%7Cjar)
+that will make more sense in other configurations. This will stop a warning message being emitted
+when you start using `google-maps-services`.
+
 ### Maven
 ```xml
 <dependency>
     <groupId>com.google.maps</groupId>
     <artifactId>google-maps-services</artifactId>
     <version>(insert latest version)</version>
+</dependency>
+<dependency>
+    <groupId>org.slf4j</groupId>
+    <artifactId>slf4j-nop</artifactId>
+    <version>1.7.25</version>
 </dependency>
 ```
 
@@ -100,6 +113,7 @@ repositories {
 
 dependencies {
     compile 'com.google.maps:google-maps-services:(insert latest version)'
+    compile 'org.slf4j:slf4j-nop:1.7.25'
     ...
 }
 ```
