@@ -77,7 +77,7 @@ public class GeoApiContext {
     void setReadTimeout(long timeout, TimeUnit unit);
     void setWriteTimeout(long timeout, TimeUnit unit);
     void setQueriesPerSecond(int maxQps);
-    void setQueriesPerSecond(int maxQps, int minimumInterval);
+    @Deprecated void setQueriesPerSecond(int maxQps, int minimumInterval);
     void setProxy(Proxy proxy);
   }
 
@@ -348,7 +348,9 @@ public class GeoApiContext {
    * @param minimumInterval The minimum amount of time, in milliseconds, to pause between requests.
    *                        Note that this pause only occurs if the amount of time between requests
    *                        has not elapsed naturally.
+   * @deprecated Please use {@link #setQueryRateLimit(int)} instead.
    */
+  @Deprecated
   public GeoApiContext setQueryRateLimit(int maxQps, int minimumInterval) {
     requestHandler.setQueriesPerSecond(maxQps, minimumInterval);
     return this;

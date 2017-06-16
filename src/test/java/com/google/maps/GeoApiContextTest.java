@@ -42,7 +42,7 @@ public class GeoApiContextTest {
   private MockWebServer server = new MockWebServer();
   private GeoApiContext context = new GeoApiContext()
       .setApiKey("AIza...")
-      .setQueryRateLimit(500, 0);
+      .setQueryRateLimit(500);
 
   private void setMockBaseUrl() {
     context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());

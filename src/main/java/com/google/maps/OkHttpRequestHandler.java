@@ -102,11 +102,9 @@ public class OkHttpRequestHandler implements GeoApiContext.RequestHandler {
     rateLimitExecutorService.setQueriesPerSecond(maxQps);
   }
 
-  @Override
+  @Override @Deprecated
   public void setQueriesPerSecond(int maxQps, int minimumInterval) {
-    dispatcher.setMaxRequests(maxQps);
-    dispatcher.setMaxRequestsPerHost(maxQps);
-    rateLimitExecutorService.setQueriesPerSecond(maxQps, minimumInterval);
+    this.setQueriesPerSecond(maxQps);
   }
 
   @Override
