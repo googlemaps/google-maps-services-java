@@ -17,9 +17,9 @@ package com.google.maps.internal;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.google.common.util.concurrent.RateLimiter;
 
 import java.util.Collection;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
@@ -41,8 +41,6 @@ public class RateLimitExecutorService implements ExecutorService, Runnable {
 
   private static final Logger LOG = LoggerFactory.getLogger(RateLimitExecutorService.class.getName());
   private static final int DEFAULT_QUERIES_PER_SECOND = 10;
-  private static final int SECOND = 1000;
-  private static final int HALF_SECOND = SECOND / 2;
 
   // It's important we set Ok's second arg to threadFactory(.., true) to ensure the threads are
   // killed when the app exits. For synchronous requests this is ideal but it means any async
@@ -52,11 +50,7 @@ public class RateLimitExecutorService implements ExecutorService, Runnable {
       threadFactory("Rate Limited Dispatcher", true));
 
   private final BlockingQueue<Runnable> queue = new LinkedBlockingQueue<Runnable>();
-
-  private volatile int queriesPerSecond;
-  private volatile int minimumDelay;
-  private LinkedList<Long> sentTimes = new LinkedList<Long>();
-  private long lastSentTime = 0;
+  private final RateLimiter rateLimiter = RateLimiter.create(DEFAULT_QUERIES_PER_SECOND, 1, TimeUnit.SECONDS);
 
   public RateLimitExecutorService() {
     setQueriesPerSecond(DEFAULT_QUERIES_PER_SECOND);
@@ -67,15 +61,7 @@ public class RateLimitExecutorService implements ExecutorService, Runnable {
   }
 
   public void setQueriesPerSecond(int maxQps) {
-    this.queriesPerSecond = maxQps;
-    this.minimumDelay = HALF_SECOND / queriesPerSecond;
-  }
-
-  public void setQueriesPerSecond(int maxQps, int minimumInterval) {
-    this.queriesPerSecond = maxQps;
-    this.minimumDelay = minimumInterval;
-
-    LOG.info("Configuring rate limit at QPS: {} , minimum delay {} ms between requests",maxQps,minimumInterval);
+    this.rateLimiter.setRate(maxQps);
   }
 
   /**
@@ -85,34 +71,9 @@ public class RateLimitExecutorService implements ExecutorService, Runnable {
   public void run() {
     try {
       while (!delegate.isShutdown()) {
-        long now = System.currentTimeMillis();
-        long oneSecondAgo = now - SECOND;
-
+        this.rateLimiter.acquire();
         Runnable r = queue.take();
-
-        long requiredSeparationDelay = lastSentTime + minimumDelay - now;
-        if (requiredSeparationDelay > 0) {
-          Thread.sleep(requiredSeparationDelay);
-        }
-
-        // Purge any sent times older than a second
-        while (sentTimes.size() > 0 && sentTimes.peekFirst() < oneSecondAgo) {
-          sentTimes.pop();
-        }
-
-        long delay = 0;
-        if (sentTimes.size() > 0) {
-          delay = sentTimes.peekFirst() + SECOND - System.currentTimeMillis();
-        }
-
-        if (sentTimes.size() < queriesPerSecond || delay <= 0) {
-          delegate.execute(r);
-          lastSentTime = now;
-          sentTimes.add(lastSentTime);
-        } else {
-          queue.add(r);
-          Thread.sleep(delay);
-        }
+        r.run();
       }
     } catch (InterruptedException ie) {
       LOG.info("Interrupted", ie);
