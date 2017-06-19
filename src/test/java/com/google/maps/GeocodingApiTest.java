@@ -278,4 +278,26 @@ public class GeocodingApiTest extends AuthenticatedTest {
 
     assertEquals("Google Bldg 41, 1600 Amphitheatre Pkwy, Mountain View, CA 94043, USA", results[0].formattedAddress);
   }
+
+  /**
+   * Testing Kita Ward reverse geocode.
+   */
+  @Test
+  public void testReverseGeocodeWithKitaWard() throws Exception {
+    GeocodingResult[] results = GeocodingApi.newRequest(context)
+        .latlng(new LatLng(35.03937, 135.729243)).await();
+
+    assertNotNull(results);
+    assertEquals("Japan, 〒603-8361 Kyōto-fu, Kyōto-shi, Kita-ku, Kinkakujichō, １ 北山鹿苑寺金閣寺",
+        results[0].formattedAddress);
+    assertEquals("Kita Ward", results[3].addressComponents[0].shortName);
+    assertEquals("Kita Ward", results[3].addressComponents[0].longName);
+    assertEquals(AddressComponentType.LOCALITY,
+        results[3].addressComponents[0].types[0]);
+    assertEquals(AddressComponentType.POLITICAL,
+        results[3].addressComponents[0].types[1]);
+    assertEquals(AddressComponentType.WARD,
+        results[3].addressComponents[0].types[2]);
+  }
+
 }
