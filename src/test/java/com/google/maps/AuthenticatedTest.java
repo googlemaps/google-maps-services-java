@@ -35,6 +35,7 @@ import java.util.Collection;
  */
 @RunWith(Parameterized.class)
 @Ignore
+@Deprecated
 public class AuthenticatedTest {
   protected AuthenticatedTest() {
   }
