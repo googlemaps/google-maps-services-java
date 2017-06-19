@@ -147,7 +147,6 @@ public class EnumsTest {
     addressComponentTypeToLiteralMap.put(AddressComponentType.TRAIN_STATION, "train_station");
     addressComponentTypeToLiteralMap.put(AddressComponentType.SUBWAY_STATION, "subway_station");
     addressComponentTypeToLiteralMap.put(AddressComponentType.TRANSIT_STATION, "transit_station");
-    addressComponentTypeToLiteralMap.put(AddressComponentType.LIGHT_RAIL_STATION, "light_rail_station");
     addressComponentTypeToLiteralMap.put(AddressComponentType.ESTABLISHMENT, "establishment");
     addressComponentTypeToLiteralMap.put(AddressComponentType.POSTAL_TOWN, "postal_town");
     addressComponentTypeToLiteralMap.put(AddressComponentType.ROOM, "room");
