@@ -104,6 +104,10 @@ public class OkHttpRequestHandler implements GeoApiContext.RequestHandler {
 
   @Override @Deprecated
   public void setQueriesPerSecond(int maxQps, int minimumInterval) {
+    // Instead of using a minimumInterval between requests, we are using a warm up period
+    // on the RateLimiter in the rateLimitExecutorService to prevent flooding the back end
+    // with requests.
+    LOG.warn("OkHttpRequestHandler#setQueriesPerSecond(int,int) deprecated, ignoring minimumInterval");
     this.setQueriesPerSecond(maxQps);
   }
 
