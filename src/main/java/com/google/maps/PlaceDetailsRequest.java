@@ -49,7 +49,7 @@ public class PlaceDetailsRequest
     }
   }
 
-  static class Response implements ApiResponse<PlaceDetails> {
+  public static class Response implements ApiResponse<PlaceDetails> {
     public String status;
     public PlaceDetails result;
     public String[] htmlAttributions;
