@@ -95,6 +95,11 @@ public enum AddressComponentType {
   LOCALITY("locality"),
 
   /**
+   * {@code WARD} indicates a specific type of Japanese locality, to facilitate distinction between multiple locality components within a Japanese address.
+   */
+  WARD("ward"),
+
+  /**
    * {@code SUBLOCALITY} indicates a first-order civil entity below a locality. For some locations
    * may receive one of the additional types: sublocality_level_1 to sublocality_level_5. Each
    * sublocality level is a civil entity. Larger numbers indicate a smaller geographic area.
@@ -223,11 +228,6 @@ public enum AddressComponentType {
    * {@code LIGHT_RAIL_STATION} indicates the location of a light rail station.
    */
   LIGHT_RAIL_STATION("light_rail_station"),
-
-  /**
-   * {@code WARD} indicates a specific type of Japanese locality, to facilitate distinction between multiple locality components within a Japanese address.
-   */
-  WARD("ward"),
 
   /**
    * Indicates an unknown address component type returned by the server. The Java Client for Google

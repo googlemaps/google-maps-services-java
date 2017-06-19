@@ -300,4 +300,35 @@ public class GeocodingApiTest extends AuthenticatedTest {
         results[3].addressComponents[0].types[2]);
   }
 
+  /**
+   * Testing supported Address Types for Geocoding.
+   */
+  @Test
+  public void testSupportedAddressTypesFood() throws Exception {
+    GeocodingResult[] results = GeocodingApi.newRequest(context)
+        .address("Noah's Marketplace, 21800 W Eleven Mile Rd").await();
+
+    assertNotNull(results);
+    assertEquals(AddressType.ESTABLISHMENT, results[0].types[0]);
+    assertEquals(AddressType.FOOD, results[0].types[1]);
+    assertEquals(AddressType.GROCERY_OR_SUPERMARKET, results[0].types[2]);
+    assertEquals(AddressType.POINT_OF_INTEREST, results[0].types[3]);
+    assertEquals(AddressType.STORE, results[0].types[4]);
+  }
+
+  /**
+   * Testing supported Address Types for Geocoding - Synagogue.
+   */
+  @Test
+  public void testSupportedAddressTypesSynagogue() throws Exception {
+    GeocodingResult[] results = GeocodingApi.newRequest(context)
+        .address("Ahavas Olam, 15620 W. Ten Mile Road").await();
+
+    assertNotNull(results);
+    assertEquals(AddressType.ESTABLISHMENT, results[0].types[0]);
+    assertEquals(AddressType.PLACE_OF_WORSHIP, results[0].types[1]);
+    assertEquals(AddressType.POINT_OF_INTEREST, results[0].types[2]);
+    assertEquals(AddressType.SYNAGOGUE, results[0].types[3]);
+  }
+
 }

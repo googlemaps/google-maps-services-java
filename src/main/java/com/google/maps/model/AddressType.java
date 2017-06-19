@@ -19,7 +19,7 @@ import com.google.maps.internal.StringJoin.UrlValue;
 
 /**
  * The Address types. Please see
- * <a href="https://developers.google.com/maps/documentation/geocoding/#Types">Address
+ * <a href="https://developers.google.com/maps/documentation/geocoding/intro#Types">Address
  * Types</a> for more detail.
  * Some addresses contain additional place categories. Please see
  * <a href="https://developers.google.com/places/documentation/supported_types">Places</a>
@@ -97,6 +97,14 @@ public enum AddressType implements UrlValue {
    * {@code LOCALITY} indicates an incorporated city or town political entity.
    */
   LOCALITY("locality"),
+
+  /**
+   * {@code WARD} indicates a specific type of Japanese locality, to facilitate distinction between
+   * multiple locality components within a Japanese address.
+   */
+  WARD("ward"),
+
+
 
   /**
    * {@code SUBLOCALITY} indicates a first-order civil entity below a locality. For some locations
@@ -217,16 +225,105 @@ public enum AddressType implements UrlValue {
   PLACE_OF_WORSHIP("place_of_worship"),
 
   /**
-   * {@code WARD} indicates a specific type of Japanese locality, to facilitate distinction between
-   * multiple locality components within a Japanese address.
-   */
-  WARD("ward"),
-
-  /**
    * {@code POSTAL_TOWN} indicates a grouping of geographic areas, such as locality and sublocality,
    * used for mailing addresses in some countries.
    */
   POSTAL_TOWN("postal_town"),
+
+  /**
+   * {@code SYNAGOGUE} is currently not a documented return type.
+   */
+  SYNAGOGUE("synagogue"),
+
+  /**
+   * {@code FOOD} is currently not a documented return type.
+   */
+  FOOD("food"),
+
+  /**
+   * {@code GROCERY_OR_SUPERMARKET} is currently not a documented return type.
+   */
+  GROCERY_OR_SUPERMARKET("grocery_or_supermarket"),
+
+  /**
+   * {@code STORE} is currently not a documented return type.
+   */
+  STORE("store"),
+
+  /**
+   * {@code LAWYER} is currently not a documented return type.
+   */
+  LAWYER("lawyer"),
+
+  /**
+   * {@code HEALTH} is currently not a documented return type.
+   */
+  HEALTH("health"),
+
+  /**
+   * {@code INSURANCE_AGENCY} is currently not a documented return type.
+   */
+  INSURANCE_AGENCY("insurance_agency"),
+
+  /**
+   * {@code GAS_STATION} is currently not a documented return type.
+   */
+  GAS_STATION("gas_station"),
+
+  /**
+   * {@code CAR_DEALER} is currently not a documented return type.
+   */
+  CAR_DEALER("car_dealer"),
+
+  /**
+   * {@code CAR_REPAIR} is currently not a documented return type.
+   */
+  CAR_REPAIR("car_repair"),
+
+  /**
+   * {@code MEAL_TAKEAWAY} is currently not a documented return type.
+   */
+  MEAL_TAKEAWAY("meal_takeaway"),
+
+  /**
+   * {@code FURNITURE_STORE} is currently not a documented return type.
+   */
+  FURNITURE_STORE("furniture_store"),
+
+  /**
+   * {@code HOME_GOODS_STORE} is currently not a documented return type.
+   */
+  HOME_GOODS_STORE("home_goods_store"),
+
+  /**
+   * {@code SHOPPING_MALL} is currently not a documented return type.
+   */
+  SHOPPING_MALL("shopping_mall"),
+
+  /**
+   * {@code GYM} is currently not a documented return type.
+   */
+  GYM("gym"),
+
+  /**
+   * {@code ACCOUNTING} is currently not a documented return type.
+   */
+  ACCOUNTING("accounting"),
+
+  /**
+   * {@code MOVING_COMPANY} is currently not a documented return type.
+   */
+  MOVING_COMPANY("moving_company"),
+
+  /**
+   * {@code LODGING} is currently not a documented return type.
+   */
+  LODGING("lodging"),
+
+  /**
+   * {@code STORAGE} is currently not a documented return type.
+   */
+  STORAGE("storage"),
 
   /**
    * Indicates an unknown address type returned by the server. The Java Client for Google Maps
