@@ -104,7 +104,7 @@ public class GaeRequestHandler implements GeoApiContext.RequestHandler {
     throw new RuntimeException("setQueriesPerSecond not implemented for Google App Engine");
   }
 
-  @Override
+  @Override @Deprecated
   public void setQueriesPerSecond(int maxQps, int minimumInterval) {
     // TODO: Investigate if GAE URL Fetch Service supports setting qps
     throw new RuntimeException("setQueriesPerSecond not implemented for Google App Engine");
