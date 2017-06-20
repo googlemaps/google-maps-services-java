@@ -445,10 +445,10 @@ public class DirectionsApiTest {
   }
 
   /**
-   * Tests that calling optimizeWaypoints works in either order.
+   * Tests that calling {@code optimizeWaypoints(true)} works in either order.
    */
   @Test
-  public void testOptimizeWaypoints() throws Exception {
+  public void testOptimizeWaypointsBeforeWaypoints() throws Exception {
     List<LatLng> waypoints = getOptimizationWaypoints();
     LocalTestServerContext sc = new LocalTestServerContext("{\"routes\": [{}],\"status\": \"OK\"}");
     LatLng origin = waypoints.get(0);
@@ -472,10 +472,10 @@ public class DirectionsApiTest {
   }
 
   /**
-   * Tests that calling optimizeWaypoints works in either order.
+   * Tests that calling {@code optimizeWaypoints(true)} works in either order.
    */
   @Test
-  public void testOptimizeWaypointsAlternateCallOrder() throws Exception {
+  public void testOptimizeWaypointsAfterWaypoints() throws Exception {
     List<LatLng> waypoints = getOptimizationWaypoints();
     LocalTestServerContext sc = new LocalTestServerContext("{\"routes\": [{}],\"status\": \"OK\"}");
     LatLng origin = waypoints.get(0);
@@ -499,7 +499,7 @@ public class DirectionsApiTest {
   }
 
   /**
-   * Coordinates in Mexico City. Waypoints are out of order, so when optimized their order should change.
+   * Coordinates in Mexico City.
    */
   private List<LatLng> getOptimizationWaypoints() {
     List<LatLng> waypoints = new ArrayList<LatLng>();
