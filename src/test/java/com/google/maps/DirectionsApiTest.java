@@ -131,6 +131,60 @@ public class DirectionsApiTest {
     sc.assertParamValue("Melbourne", "destination");
   }
 
+  @Test
+  public void testResponseTimesArePopulatedCorrectly() throws Exception {
+    LocalTestServerContext sc = new LocalTestServerContext("\n"
+        + "{\n"
+        + "   \"routes\" : [\n"
+        + "      {\n"
+        + "         \"legs\" : [\n"
+        + "            {\n"
+        + "               \"arrival_time\" : {\n"
+        + "                  \"text\" : \"1:54pm\",\n"
+        + "                  \"time_zone\" : \"Australia/Sydney\",\n"
+        + "                  \"value\" : 1497930863\n"
+        + "               },\n"
+        + "               \"departure_time\" : {\n"
+        + "                  \"text\" : \"1:21pm\",\n"
+        + "                  \"time_zone\" : \"Australia/Sydney\",\n"
+        + "                  \"value\" : 1497928860\n"
+        + "               },\n"
+        + "               \"distance\" : {\n"
+        + "                  \"text\" : \"24.8 km\",\n"
+        + "                  \"value\" : 24785\n"
+        + "               },\n"
+        + "               \"duration\" : {\n"
+        + "                  \"text\" : \"33 mins\",\n"
+        + "                  \"value\" : 2003\n"
+        + "               },\n"
+        + "               \"end_address\" : \"182 Church St, Parramatta NSW 2150, Australia\",\n"
+        + "               \"start_address\" : \"483 George St, Sydney NSW 2000, Australia\"\n"
+        + "            }\n"
+        + "         ],\n"
+        + "         \"overview_polyline\" : {\n"
+        + "            \"points\" : \"b}vmEir{y[APbAHpAJjDh@Z?^Cp@Mj@Uf@]fAeAv@wAz@cAt@i@x@c@`Bk@t@SnCUpAPb@@zB\\\\v@LvDh@`BZtBf@nC`AbCtAd@VM^EJ`@V~AlAbDnD~EbHr@zAl@x@r@jApAdBx@|@p@n@|C~BnBzA|FdFdAjAjBdCjAnB~A|CZt@lAxChBnFv@zCZdBf@jDd@hCXnAfBtHZtAn@pCz@fDhBhGb@bB`@tB\\\\rBjAnFh@zD\\\\tDHvF@hJMrDE|DSbDWbBy@`DqAnDoBrDi@dA_@z@s@|Bc@bByBjIeA~DShAUlBM`BEbDDtCVxE`@bFf@pFD|CO`DW~BaAfFa@fB[|BY`DCpBD~BRrCj@pGNtBFjBE~CU|Da@nEc@xDe@zBoAnFcAzEsAzFg@lBm@rCiA~E}AdGgAhD}@bDg@dCUjBa@bDMpDM`GChACvABz@ClACdAItBQjCYfCStA]`BaB|GqBbIUt@s@`Dw@nDg@lBqAfFu@lDu@bDiBnH]jAy@bCs@fB{AhDgAdCc@hAuBrFm@hA}DxF}B~Dy@tA_BzBwBrCcBxBkAbBy@pAq@pAk@jAs@lB[bA_@dB{@jEc@bCS|AcA`Ji@hD_AxISnA_@~Ae@zAi@tA_ApBu@pAgAvAcAfAaB|Ae@f@eBvAo@n@e@j@}@~@y@xAo@tA}@jBi@x@}@fA}A~As@~@{@rAkC|EaJvPe@|@_@z@u@pBuAxDu@`C}@`Eo@nCoAhGsB`Ka@|BQxAOfBIzAEhB?lBDfBFzAPpBf@`GThFJpD?bBKpDSjEGlAYhCgAjFYzBw@lHOvBO`DIpDExD?nCFxIRnEf@xDv@pFLjBDl@DlEEjGKvLO|OBhACdBEvBMdCO|AO~@Kn@c@pB_@pAs@pBe@rAc@~@i@z@_AvAoA~AwAxAgA|@oBpAeC|Ao@XaAj@gAd@}@j@gC~AoHrEkGzD}JjG}JlGsEbD{@n@oB`BaC`CeBhBeAdAqEtE_BfBmEzEyGnHqAvAuCvCqBrBsBlB}DbEuBhCmClD{B`Du@fAkAvBcArBgB~Cc@~@[l@o@`AsC~EqBxD_GvKeBzCsAjCiDtGgA`CaCrEg@x@S^w@v@iBtAgAr@w@^sClAaAXqAb@{Bn@sATo@LQB}ALaDHoBEC??@a@AqBIgAMwE{@sASm@C{CI_A@eCVw@PsAb@m@`@_Aj@mBrAsBlB]^kA`Bg@bAUj@OK\\\\dAYl@[p@Un@Gb@EZI@a@BG?KEEGSNi@Vy@NW?S@\"\n"
+        + "         }\n"
+        + "      }\n"
+        + "   ],\n"
+        + "   \"status\" : \"OK\"\n"
+        + "}");
+    DirectionsResult result = DirectionsApi.newRequest(sc.context)
+        .mode(TravelMode.TRANSIT)
+        .origin("483 George St, Sydney NSW 2000, Australia")
+        .destination("182 Church St, Parramatta NSW 2150, Australia")
+        .await();
+
+    assertEquals(1, result.routes.length);
+    assertEquals(1, result.routes[0].legs.length);
+    DateTimeFormatter fmt = DateTimeFormat.forPattern("h:mm a");
+    assertEquals("1:54 pm", fmt.print(result.routes[0].legs[0].arrivalTime).toLowerCase());
+    assertEquals("1:21 pm", fmt.print(result.routes[0].legs[0].departureTime).toLowerCase());
+
+    sc.assertParamValue(TravelMode.TRANSIT.toUrlValue(), "mode");
+    sc.assertParamValue("483 George St, Sydney NSW 2000, Australia", "origin");
+    sc.assertParamValue("182 Church St, Parramatta NSW 2150, Australia", "destination");
+  }
+
   /**
    * A simple query from Toronto to Montreal.
    *
@@ -338,60 +392,6 @@ public class DirectionsApiTest {
     assertNotNull(result.routes[0]);
 
     sc.assertParamValue(TravelMode.WALKING.toUrlValue(), "mode");
-    sc.assertParamValue("483 George St, Sydney NSW 2000, Australia", "origin");
-    sc.assertParamValue("182 Church St, Parramatta NSW 2150, Australia", "destination");
-  }
-
-  @Test
-  public void testResponseTimesArePopulatedCorrectly() throws Exception {
-    LocalTestServerContext sc = new LocalTestServerContext("\n"
-        + "{\n"
-        + "   \"routes\" : [\n"
-        + "      {\n"
-        + "         \"legs\" : [\n"
-        + "            {\n"
-        + "               \"arrival_time\" : {\n"
-        + "                  \"text\" : \"1:54pm\",\n"
-        + "                  \"time_zone\" : \"Australia/Sydney\",\n"
-        + "                  \"value\" : 1497930863\n"
-        + "               },\n"
-        + "               \"departure_time\" : {\n"
-        + "                  \"text\" : \"1:21pm\",\n"
-        + "                  \"time_zone\" : \"Australia/Sydney\",\n"
-        + "                  \"value\" : 1497928860\n"
-        + "               },\n"
-        + "               \"distance\" : {\n"
-        + "                  \"text\" : \"24.8 km\",\n"
-        + "                  \"value\" : 24785\n"
-        + "               },\n"
-        + "               \"duration\" : {\n"
-        + "                  \"text\" : \"33 mins\",\n"
-        + "                  \"value\" : 2003\n"
-        + "               },\n"
-        + "               \"end_address\" : \"182 Church St, Parramatta NSW 2150, Australia\",\n"
-        + "               \"start_address\" : \"483 George St, Sydney NSW 2000, Australia\"\n"
-        + "            }\n"
-        + "         ],\n"
-        + "         \"overview_polyline\" : {\n"
-        + "            \"points\" : \"b}vmEir{y[APbAHpAJjDh@Z?^Cp@Mj@Uf@]fAeAv@wAz@cAt@i@x@c@`Bk@t@SnCUpAPb@@zB\\\\v@LvDh@`BZtBf@nC`AbCtAd@VM^EJ`@V~AlAbDnD~EbHr@zAl@x@r@jApAdBx@|@p@n@|C~BnBzA|FdFdAjAjBdCjAnB~A|CZt@lAxChBnFv@zCZdBf@jDd@hCXnAfBtHZtAn@pCz@fDhBhGb@bB`@tB\\\\rBjAnFh@zD\\\\tDHvF@hJMrDE|DSbDWbBy@`DqAnDoBrDi@dA_@z@s@|Bc@bByBjIeA~DShAUlBM`BEbDDtCVxE`@bFf@pFD|CO`DW~BaAfFa@fB[|BY`DCpBD~BRrCj@pGNtBFjBE~CU|Da@nEc@xDe@zBoAnFcAzEsAzFg@lBm@rCiA~E}AdGgAhD}@bDg@dCUjBa@bDMpDM`GChACvABz@ClACdAItBQjCYfCStA]`BaB|GqBbIUt@s@`Dw@nDg@lBqAfFu@lDu@bDiBnH]jAy@bCs@fB{AhDgAdCc@hAuBrFm@hA}DxF}B~Dy@tA_BzBwBrCcBxBkAbBy@pAq@pAk@jAs@lB[bA_@dB{@jEc@bCS|AcA`Ji@hD_AxISnA_@~Ae@zAi@tA_ApBu@pAgAvAcAfAaB|Ae@f@eBvAo@n@e@j@}@~@y@xAo@tA}@jBi@x@}@fA}A~As@~@{@rAkC|EaJvPe@|@_@z@u@pBuAxDu@`C}@`Eo@nCoAhGsB`Ka@|BQxAOfBIzAEhB?lBDfBFzAPpBf@`GThFJpD?bBKpDSjEGlAYhCgAjFYzBw@lHOvBO`DIpDExD?nCFxIRnEf@xDv@pFLjBDl@DlEEjGKvLO|OBhACdBEvBMdCO|AO~@Kn@c@pB_@pAs@pBe@rAc@~@i@z@_AvAoA~AwAxAgA|@oBpAeC|Ao@XaAj@gAd@}@j@gC~AoHrEkGzD}JjG}JlGsEbD{@n@oB`BaC`CeBhBeAdAqEtE_BfBmEzEyGnHqAvAuCvCqBrBsBlB}DbEuBhCmClD{B`Du@fAkAvBcArBgB~Cc@~@[l@o@`AsC~EqBxD_GvKeBzCsAjCiDtGgA`CaCrEg@x@S^w@v@iBtAgAr@w@^sClAaAXqAb@{Bn@sATo@LQB}ALaDHoBEC??@a@AqBIgAMwE{@sASm@C{CI_A@eCVw@PsAb@m@`@_Aj@mBrAsBlB]^kA`Bg@bAUj@OK\\\\dAYl@[p@Un@Gb@EZI@a@BG?KEEGSNi@Vy@NW?S@\"\n"
-        + "         }\n"
-        + "      }\n"
-        + "   ],\n"
-        + "   \"status\" : \"OK\"\n"
-        + "}");
-    DirectionsResult result = DirectionsApi.newRequest(sc.context)
-        .mode(TravelMode.TRANSIT)
-        .origin("483 George St, Sydney NSW 2000, Australia")
-        .destination("182 Church St, Parramatta NSW 2150, Australia")
-        .await();
-
-    assertEquals(1, result.routes.length);
-    assertEquals(1, result.routes[0].legs.length);
-    DateTimeFormatter fmt = DateTimeFormat.forPattern("h:mm a");
-    assertEquals("1:54 pm", fmt.print(result.routes[0].legs[0].arrivalTime).toLowerCase());
-    assertEquals("1:21 pm", fmt.print(result.routes[0].legs[0].departureTime).toLowerCase());
-
-    sc.assertParamValue(TravelMode.TRANSIT.toUrlValue(), "mode");
     sc.assertParamValue("483 George St, Sydney NSW 2000, Australia", "origin");
     sc.assertParamValue("182 Church St, Parramatta NSW 2150, Australia", "destination");
   }
