@@ -21,43 +21,30 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import com.google.maps.errors.ZeroResultsException;
-import com.google.maps.model.GeocodingResult;
 import com.google.maps.model.LatLng;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
 import java.util.Date;
 import java.util.TimeZone;
-import java.util.concurrent.TimeUnit;
 
-@Category(LargeTests.class)
-public class TimeZoneApiTest extends AuthenticatedTest {
-
-  private GeoApiContext context;
-
-  private LatLng sydney;
-
-  public TimeZoneApiTest(GeoApiContext context) {
-    this.context = context.setQueryRateLimit(3)
-        .setConnectTimeout(1, TimeUnit.SECONDS)
-        .setReadTimeout(1, TimeUnit.SECONDS)
-        .setWriteTimeout(1, TimeUnit.SECONDS);
-  }
-
-  @Before
-  public void setUp() throws Exception {
-    if (sydney == null) {
-      GeocodingResult[] results = GeocodingApi.geocode(context, "Sydney").await();
-      sydney = results[0].geometry.location;
-    }
-  }
-
+@Category(MediumTests.class)
+public class TimeZoneApiTest {
 
   @Test
   public void testGetTimeZone() throws Exception {
-    TimeZone tz = TimeZoneApi.getTimeZone(context, sydney).await();
+    LocalTestServerContext sc = new LocalTestServerContext("\n"
+        + "{\n"
+        + "   \"dstOffset\" : 0,\n"
+        + "   \"rawOffset\" : 36000,\n"
+        + "   \"status\" : \"OK\",\n"
+        + "   \"timeZoneId\" : \"Australia/Sydney\",\n"
+        + "   \"timeZoneName\" : \"Australian Eastern Standard Time\"\n"
+        + "}\n");
+    LatLng sydney = new LatLng(-33.8688, 151.2093);
+    TimeZone tz = TimeZoneApi.getTimeZone(sc.context, sydney).await();
+
     assertNotNull(tz);
     assertEquals(TimeZone.getTimeZone("Australia/Sydney"), tz);
 
@@ -67,13 +54,25 @@ public class TimeZoneApiTest extends AuthenticatedTest {
     assertEquals(3600000, tz.getDSTSavings());
 
     assertTrue(tz.inDaylightTime(new Date(1388494800000L)));
+
+    sc.assertParamValue(sydney.toUrlValue(), "location");
   }
 
   @Test(expected = ZeroResultsException.class)
   public void testNoResult() throws Exception {
-    TimeZone resp = TimeZoneApi.getTimeZone(context, new LatLng(0, 0)).awaitIgnoreError();
+    LocalTestServerContext sc = new LocalTestServerContext("\n"
+        + "{\n"
+        + "   \"status\" : \"ZERO_RESULTS\"\n"
+        + "}\n");
+    TimeZone resp = TimeZoneApi.getTimeZone(sc.context, new LatLng(0, 0)).awaitIgnoreError();
     assertNull(resp);
 
-    TimeZoneApi.getTimeZone(context, new LatLng(0, 0)).await();
+    sc.assertParamValue("0.00000000,0.00000000", "location");
+
+    LocalTestServerContext sc2 = new LocalTestServerContext("\n"
+        + "{\n"
+        + "   \"status\" : \"ZERO_RESULTS\"\n"
+        + "}\n");
+    TimeZoneApi.getTimeZone(sc2.context, new LatLng(0, 0)).await();
   }
 }
