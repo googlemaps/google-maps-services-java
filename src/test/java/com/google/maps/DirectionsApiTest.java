@@ -26,95 +26,28 @@ import com.google.maps.model.TransitMode;
 import com.google.maps.model.TransitRoutingPreference;
 import com.google.maps.model.TravelMode;
 import com.google.maps.model.Unit;
-import com.google.mockwebserver.MockResponse;
-import com.google.mockwebserver.MockWebServer;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.utils.URLEncodedUtils;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 import org.joda.time.Instant;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
-import java.net.URI;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 @Category(MediumTests.class)
 public class DirectionsApiTest {
 
-  private static class ServerContext {
-    private final MockWebServer server;
-    public final GeoApiContext context;
-    private List<NameValuePair> params = null;
-
-    ServerContext(MockWebServer server, GeoApiContext context) {
-      this.server = server;
-      this.context = context;
-    }
-
-    private List<NameValuePair> parseQueryParamsFromRequestLine(String requestLine)
-        throws URISyntaxException {
-      // Extract the URL part from the HTTP request line
-      String[] chunks = requestLine.split("\\s");
-      String url = chunks[1];
-
-      return URLEncodedUtils.parse(new URI(url), Charset.forName("UTF-8"));
-    }
-
-    private List<NameValuePair> actualParams() throws InterruptedException, URISyntaxException {
-      return parseQueryParamsFromRequestLine(server.takeRequest().getRequestLine());
-    }
-
-    void assertParamValue(String expectedValue, String paramName)
-        throws URISyntaxException, InterruptedException {
-      if (this.params == null) {
-        this.params = this.actualParams();
-      }
-      boolean paramFound = false;
-      for (NameValuePair pair : params) {
-        if (pair.getName().equals(paramName)) {
-          paramFound = true;
-          assertEquals(expectedValue, pair.getValue());
-        }
-      }
-      assertTrue(paramFound);
-    }
-
-    @Override
-    protected void finalize() throws Throwable {
-      server.shutdown();
-    }
-  }
-
-  private ServerContext createServerContext(String responseBody) throws IOException {
-    GeoApiContext context = new GeoApiContext().setApiKey("AIzaFakeKey");
-    MockResponse response = new MockResponse();
-    response.setBody(responseBody);
-    MockWebServer server = new MockWebServer();
-    server.enqueue(response);
-    server.play();
-    context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
-
-    return new ServerContext(server, context);
-  }
-
   @Test
   public void testGetDirections() throws Exception {
-    ServerContext sc = createServerContext(
+    LocalTestServerContext sc = new LocalTestServerContext(
         "{\n" +
         "    \"geocoded_waypoints\": [{\n" +
         "            \"geocoder_status\": \"OK\",\n" +
@@ -164,7 +97,7 @@ public class DirectionsApiTest {
 
   @Test
   public void testBuilder() throws Exception {
-    ServerContext sc = createServerContext("{\n" +
+    LocalTestServerContext sc = new LocalTestServerContext("{\n" +
         "    \"routes\": [{\n" +
         "        \"legs\": [{\n" +
         "            \"end_address\": \"Melbourne VIC, Australia\",\n" +
@@ -205,7 +138,7 @@ public class DirectionsApiTest {
    */
   @Test
   public void testTorontoToMontreal() throws Exception {
-    ServerContext sc = createServerContext("{\"routes\": [{}],\"status\": \"OK\"}");
+    LocalTestServerContext sc = new LocalTestServerContext("{\"routes\": [{}],\"status\": \"OK\"}");
     DirectionsResult result = DirectionsApi.newRequest(sc.context)
         .origin("Toronto")
         .destination("Montreal").await();
@@ -221,7 +154,7 @@ public class DirectionsApiTest {
    */
   @Test
   public void testTorontoToMontrealByBicycleAvoidingHighways() throws Exception {
-    ServerContext sc = createServerContext("{\"routes\": [{}],\"status\": \"OK\"}");
+    LocalTestServerContext sc = new LocalTestServerContext("{\"routes\": [{}],\"status\": \"OK\"}");
     DirectionsResult result = DirectionsApi.newRequest(sc.context)
         .origin("Toronto")
         .destination("Montreal")
@@ -242,7 +175,7 @@ public class DirectionsApiTest {
    */
   @Test
   public void testBrooklynToQueensByTransit() throws Exception {
-    ServerContext sc = createServerContext("{\"routes\": [{}],\"status\": \"OK\"}");
+    LocalTestServerContext sc = new LocalTestServerContext("{\"routes\": [{}],\"status\": \"OK\"}");
     DirectionsResult result = DirectionsApi.newRequest(sc.context)
         .origin("Brooklyn")
         .destination("Queens")
@@ -261,7 +194,7 @@ public class DirectionsApiTest {
    */
   @Test
   public void testBostonToConcordViaCharlestownAndLexignton() throws Exception {
-    ServerContext sc = createServerContext("{\"routes\": [{}],\"status\": \"OK\"}");
+    LocalTestServerContext sc = new LocalTestServerContext("{\"routes\": [{}],\"status\": \"OK\"}");
     DirectionsResult result = DirectionsApi.newRequest(sc.context)
         .origin("Boston,MA")
         .destination("Concord,MA")
@@ -280,7 +213,7 @@ public class DirectionsApiTest {
    */
   @Test
   public void testBostonToConcordViaCharlestownAndLexigntonLatLng() throws Exception {
-    ServerContext sc = createServerContext("{\"routes\": [{}],\"status\": \"OK\"}");
+    LocalTestServerContext sc = new LocalTestServerContext("{\"routes\": [{}],\"status\": \"OK\"}");
     DirectionsResult result = DirectionsApi.newRequest(sc.context)
         .origin("Boston,MA")
         .destination("Concord,MA")
@@ -299,7 +232,7 @@ public class DirectionsApiTest {
    */
   @Test
   public void testToledoToMadridInSpain() throws Exception {
-    ServerContext sc = createServerContext("{\"routes\": [{}],\"status\": \"OK\"}");
+    LocalTestServerContext sc = new LocalTestServerContext("{\"routes\": [{}],\"status\": \"OK\"}");
     DirectionsResult result = DirectionsApi.newRequest(sc.context)
         .origin("Toledo")
         .destination("Madrid")
@@ -316,7 +249,7 @@ public class DirectionsApiTest {
    */
   @Test
   public void testLanguageParameter() throws Exception {
-    ServerContext sc = createServerContext("{\"routes\": [{}],\"status\": \"OK\"}");
+    LocalTestServerContext sc = new LocalTestServerContext("{\"routes\": [{}],\"status\": \"OK\"}");
     DirectionsResult result = DirectionsApi.newRequest(sc.context)
         .origin("Toledo")
         .destination("Madrid")
@@ -335,7 +268,7 @@ public class DirectionsApiTest {
    */
   @Test
   public void testTrafficModel() throws Exception {
-    ServerContext sc = createServerContext("{\"routes\": [{}],\"status\": \"OK\"}");
+    LocalTestServerContext sc = new LocalTestServerContext("{\"routes\": [{}],\"status\": \"OK\"}");
     DirectionsResult result = DirectionsApi.newRequest(sc.context)
         .origin("48 Pirrama Road, Pyrmont NSW 2009")
         .destination("182 Church St, Parramatta NSW 2150")
@@ -355,7 +288,7 @@ public class DirectionsApiTest {
    */
   @Test
   public void testTransitWithoutSpecifyingTime() throws Exception {
-    ServerContext sc = createServerContext("{\"routes\": [{}],\"status\": \"OK\"}");
+    LocalTestServerContext sc = new LocalTestServerContext("{\"routes\": [{}],\"status\": \"OK\"}");
     DirectionsApi.newRequest(sc.context)
         .origin("Fisherman's Wharf, San Francisco")
         .destination("Union Square, San Francisco")
@@ -372,7 +305,7 @@ public class DirectionsApiTest {
    */
   @Test
   public void testTransitParams() throws Exception {
-    ServerContext sc = createServerContext("{\"routes\": [{}],\"status\": \"OK\"}");
+    LocalTestServerContext sc = new LocalTestServerContext("{\"routes\": [{}],\"status\": \"OK\"}");
     DirectionsResult result = DirectionsApi.newRequest(sc.context)
         .origin("Fisherman's Wharf, San Francisco")
         .destination("Union Square, San Francisco")
@@ -391,7 +324,7 @@ public class DirectionsApiTest {
 
   @Test
   public void testTravelModeWalking() throws Exception {
-    ServerContext sc = createServerContext("{\n" +
+    LocalTestServerContext sc = new LocalTestServerContext("{\n" +
         "    \"routes\": [{\n" +
         "    }],\n" +
         "    \"status\": \"OK\"\n" +
@@ -411,7 +344,7 @@ public class DirectionsApiTest {
 
   @Test
   public void testResponseTimesArePopulatedCorrectly() throws Exception {
-    ServerContext sc = createServerContext("\n"
+    LocalTestServerContext sc = new LocalTestServerContext("\n"
         + "{\n"
         + "   \"routes\" : [\n"
         + "      {\n"
@@ -465,7 +398,7 @@ public class DirectionsApiTest {
 
   @Test(expected = NotFoundException.class)
   public void testNotFound() throws Exception {
-    ServerContext sc = createServerContext("{\n"
+    LocalTestServerContext sc = new LocalTestServerContext("{\n"
         + "   \"geocoded_waypoints\" : [\n"
         + "      {\n"
         + "         \"geocoder_status\" : \"ZERO_RESULTS\"\n"
@@ -485,7 +418,7 @@ public class DirectionsApiTest {
    */
   @Test
   public void testGeocodedWaypoints() throws Exception {
-    ServerContext sc = createServerContext("{"
+    LocalTestServerContext sc = new LocalTestServerContext("{"
         + "   \"geocoded_waypoints\" : [\n"
         + "      {\n"
         + "         \"geocoder_status\" : \"OK\"\n"
@@ -517,7 +450,7 @@ public class DirectionsApiTest {
   @Test
   public void testOptimizeWaypoints() throws Exception {
     List<LatLng> waypoints = getOptimizationWaypoints();
-    ServerContext sc = createServerContext("{\"routes\": [{}],\"status\": \"OK\"}");
+    LocalTestServerContext sc = new LocalTestServerContext("{\"routes\": [{}],\"status\": \"OK\"}");
     LatLng origin = waypoints.get(0);
     LatLng destination = waypoints.get(1);
     DirectionsApi.newRequest(sc.context)
@@ -544,7 +477,7 @@ public class DirectionsApiTest {
   @Test
   public void testOptimizeWaypointsAlternateCallOrder() throws Exception {
     List<LatLng> waypoints = getOptimizationWaypoints();
-    ServerContext sc = createServerContext("{\"routes\": [{}],\"status\": \"OK\"}");
+    LocalTestServerContext sc = new LocalTestServerContext("{\"routes\": [{}],\"status\": \"OK\"}");
     LatLng origin = waypoints.get(0);
     LatLng destination = waypoints.get(1);
     DirectionsApi.newRequest(sc.context)
@@ -578,6 +511,5 @@ public class DirectionsApiTest {
     waypoints.add(new LatLng(19.425869,-99.160716));
     return waypoints;
   }
-
 
 }
