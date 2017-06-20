@@ -55,6 +55,7 @@ dependencies {
     testCompile 'com.google.mockwebserver:mockwebserver:20130706'
     testCompile 'org.apache.httpcomponents:httpclient:4.5.3'
     testCompile 'org.slf4j:slf4j-simple:1.7.25'
+    testCompile 'commons-lang:commons-lang:2.6'
 }
 
 task updateVersion(type: Copy) {
