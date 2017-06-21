@@ -126,8 +126,7 @@ public class RoadsApiIntegrationTest extends KeyOnlyAuthenticatedTest {
     }
   }
 
-  // commenting out flaky test - brettmorgan@google.com
-  //@Test
+  @Test
   public void testSpeedLimitsWithPlaceIds() throws Exception {
     SpeedLimit[] speeds = RoadsApi.speedLimits(context,
         "ChIJOXE4GDauEmsRbeangKX--a0",
