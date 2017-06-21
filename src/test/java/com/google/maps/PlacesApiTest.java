@@ -36,31 +36,22 @@ import com.google.maps.model.PlacesSearchResponse;
 import com.google.maps.model.PlacesSearchResult;
 import com.google.maps.model.PriceLevel;
 import com.google.maps.model.RankBy;
-import com.google.mockwebserver.MockResponse;
-import com.google.mockwebserver.MockWebServer;
 
-
-import org.apache.http.NameValuePair;
-import org.apache.http.client.utils.URLEncodedUtils;
 import org.joda.time.LocalTime;
 import org.joda.time.format.DateTimeFormat;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.net.URI;
-import java.util.List;
 
 import static com.google.maps.TestUtils.retrieveBody;
 
 public class PlacesApiTest {
 
-  public static final String GOOGLE_SYDNEY = "ChIJN1t_tDeuEmsRUsoyG83frY4";
-  public static final String QUAY_PLACE_ID = "ChIJ02qnq0KuEmsRHUJF4zo1x4I";
-  public static final String PERMANENTLY_CLOSED_PLACE_ID = "ChIJZQvy3jAbdkgR9avxegjoCe0";
-  public static final String QUERY_AUTOCOMPLETE_INPUT = "pizza near par";
+  private static final String GOOGLE_SYDNEY = "ChIJN1t_tDeuEmsRUsoyG83frY4";
+  private static final String QUAY_PLACE_ID = "ChIJ02qnq0KuEmsRHUJF4zo1x4I";
+  private static final String PERMANENTLY_CLOSED_PLACE_ID = "ChIJZQvy3jAbdkgR9avxegjoCe0";
+  private static final String QUERY_AUTOCOMPLETE_INPUT = "pizza near par";
 
-  private final GeoApiContext context = new GeoApiContext().setApiKey("AIzaFakeKey");
   private final String placeDetailResponseBody;
   private final String placeDetailResponseBodyForPermanentlyClosedPlace;
   private final String quayResponseBody;
@@ -80,43 +71,18 @@ public class PlacesApiTest {
     textSearchPizzaInNYCbody = retrieveBody("TextSearchPizzaInNYC.json");
   }
 
-  private MockWebServer server;
-
-  @Before
-  public void setup() {
-    server = new MockWebServer();
-  }
-
-  @After
-  public void teardown() throws Exception {
-    server.shutdown();
-  }
-
   @Test
   public void testPlaceDetailsRequest() throws Exception {
-    MockResponse response = new MockResponse();
-    response.setBody("");
-    server.enqueue(response);
-    server.play();
-    context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
+    LocalTestServerContext sc = new LocalTestServerContext("{\"status\" : \"OK\"}");
+    PlacesApi.placeDetails(sc.context, GOOGLE_SYDNEY).await();
 
-    PlacesApi.placeDetails(context, GOOGLE_SYDNEY).awaitIgnoreError();
-
-    List<NameValuePair> actualParams =
-        parseQueryParamsFromRequestLine(server.takeRequest().getRequestLine());
-    assertParamValue(GOOGLE_SYDNEY, "placeid", actualParams);
+    sc.assertParamValue(GOOGLE_SYDNEY, "placeid");
   }
 
   @Test
   public void testPlaceDetailsLookupGoogleSydney() throws Exception {
-
-    MockResponse response = new MockResponse();
-    response.setBody(placeDetailResponseBody);
-    server.enqueue(response);
-    server.play();
-    context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
-
-    PlaceDetails placeDetails = PlacesApi.placeDetails(context, GOOGLE_SYDNEY).await();
+    LocalTestServerContext sc = new LocalTestServerContext(placeDetailResponseBody);
+    PlaceDetails placeDetails = PlacesApi.placeDetails(sc.context, GOOGLE_SYDNEY).await();
 
     assertNotNull(placeDetails);
 
@@ -280,29 +246,19 @@ public class PlacesApiTest {
 
   @Test
   public void testPlaceDetailsLookupPermanentlyClosedPlace() throws Exception {
-    MockResponse response = new MockResponse();
-    response.setBody(placeDetailResponseBodyForPermanentlyClosedPlace);
-    server.enqueue(response);
-    server.play();
-    context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
-
-    PlaceDetails placeDetails = PlacesApi.placeDetails(context, PERMANENTLY_CLOSED_PLACE_ID).await();
-
+    LocalTestServerContext sc = new LocalTestServerContext(
+        placeDetailResponseBodyForPermanentlyClosedPlace);
+    PlaceDetails placeDetails = PlacesApi
+        .placeDetails(sc.context, PERMANENTLY_CLOSED_PLACE_ID)
+        .await();
     assertNotNull(placeDetails);
-
     assertTrue(placeDetails.permanentlyClosed);
   }
 
   @Test
   public void testPlaceDetailsLookupQuay() throws Exception {
-
-    MockResponse response = new MockResponse();
-    response.setBody(quayResponseBody);
-    server.enqueue(response);
-    server.play();
-    context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
-
-    PlaceDetails placeDetails = PlacesApi.placeDetails(context, QUAY_PLACE_ID).await();
+    LocalTestServerContext sc = new LocalTestServerContext(quayResponseBody);
+    PlaceDetails placeDetails = PlacesApi.placeDetails(sc.context, QUAY_PLACE_ID).await();
     assertNotNull(placeDetails);
     assertNotNull(placeDetails.priceLevel);
     assertEquals(PriceLevel.VERY_EXPENSIVE, placeDetails.priceLevel);
@@ -319,38 +275,26 @@ public class PlacesApiTest {
 
   @Test
   public void testQueryAutocompleteRequest() throws Exception {
-    MockResponse response = new MockResponse();
-    response.setBody("");
-    server.enqueue(response);
-    server.play();
-    context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
-
+    LocalTestServerContext sc = new LocalTestServerContext("{\"status\" : \"OK\"}");
     LatLng location = new LatLng(10, 20);
-    PlacesApi.queryAutocomplete(context, QUERY_AUTOCOMPLETE_INPUT)
+    PlacesApi.queryAutocomplete(sc.context, QUERY_AUTOCOMPLETE_INPUT)
         .offset(10)
         .location(location)
         .radius(5000)
         .language("en")
-        .awaitIgnoreError();
+        .await();
 
-    List<NameValuePair> actualParams =
-        parseQueryParamsFromRequestLine(server.takeRequest().getRequestLine());
-    assertParamValue(QUERY_AUTOCOMPLETE_INPUT, "input", actualParams);
-    assertParamValue("10", "offset", actualParams);
-    assertParamValue(location.toUrlValue(), "location", actualParams);
-    assertParamValue("5000", "radius", actualParams);
-    assertParamValue("en", "language", actualParams);
+    sc.assertParamValue(QUERY_AUTOCOMPLETE_INPUT, "input");
+    sc.assertParamValue("10", "offset");
+    sc.assertParamValue(location.toUrlValue(), "location");
+    sc.assertParamValue("5000", "radius");
+    sc.assertParamValue("en", "language");
   }
 
   @Test
   public void testQueryAutocompletePizzaNearPar() throws Exception {
-    MockResponse response = new MockResponse();
-    response.setBody(queryAutocompleteResponseBody);
-    server.enqueue(response);
-    server.play();
-    context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
-
-    AutocompletePrediction[] predictions = PlacesApi.queryAutocomplete(context, QUERY_AUTOCOMPLETE_INPUT).await();
+    LocalTestServerContext sc = new LocalTestServerContext(queryAutocompleteResponseBody);
+    AutocompletePrediction[] predictions = PlacesApi.queryAutocomplete(sc.context, QUERY_AUTOCOMPLETE_INPUT).await();
 
     assertNotNull(predictions);
     assertEquals(predictions.length, 5);
@@ -375,13 +319,8 @@ public class PlacesApiTest {
 
   @Test
   public void testQueryAutocompleteWithPlaceId() throws Exception {
-    MockResponse response = new MockResponse();
-    response.setBody(queryAutocompleteWithPlaceIdResponseBody);
-    server.enqueue(response);
-    server.play();
-    context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
-
-    AutocompletePrediction[] predictions = PlacesApi.queryAutocomplete(context, QUERY_AUTOCOMPLETE_INPUT).await();
+    LocalTestServerContext sc = new LocalTestServerContext(queryAutocompleteWithPlaceIdResponseBody);
+    AutocompletePrediction[] predictions = PlacesApi.queryAutocomplete(sc.context, QUERY_AUTOCOMPLETE_INPUT).await();
 
     assertNotNull(predictions);
     assertEquals(predictions.length, 1);
@@ -408,14 +347,9 @@ public class PlacesApiTest {
 
   @Test
   public void testTextSearchRequest() throws Exception {
-    MockResponse response = new MockResponse();
-    response.setBody("");
-    server.enqueue(response);
-    server.play();
-    context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
-
+    LocalTestServerContext sc = new LocalTestServerContext("{\"status\" : \"OK\"}");
     LatLng location = new LatLng(10, 20);
-    PlacesApi.textSearchQuery(context, "Google Sydney")
+    PlacesApi.textSearchQuery(sc.context, "Google Sydney")
         .location(location)
         .radius(3000)
         .minPrice(PriceLevel.INEXPENSIVE)
@@ -424,43 +358,32 @@ public class PlacesApiTest {
         .openNow(true)
         .rankby(RankBy.DISTANCE)
         .type(PlaceType.AIRPORT)
-        .awaitIgnoreError();
+        .await();
 
-    List<NameValuePair> actualParams = parseQueryParamsFromRequestLine(server.takeRequest().getRequestLine());
-    assertParamValue("Google Sydney", "query", actualParams);
-    assertParamValue(location.toUrlValue(), "location", actualParams);
-    assertParamValue(String.valueOf(3000), "radius", actualParams);
-    assertParamValue(String.valueOf(1), "minprice", actualParams);
-    assertParamValue(String.valueOf(4), "maxprice", actualParams);
-    assertParamValue("name", "name", actualParams);
-    assertParamValue("true", "opennow", actualParams);
-    assertParamValue(RankBy.DISTANCE.toString(), "rankby", actualParams);
-    assertParamValue(PlaceType.AIRPORT.toString(), "type", actualParams);
+    sc.assertParamValue("Google Sydney", "query");
+    sc.assertParamValue(location.toUrlValue(), "location");
+    sc.assertParamValue(String.valueOf(3000), "radius");
+    sc.assertParamValue(String.valueOf(1), "minprice");
+    sc.assertParamValue(String.valueOf(4), "maxprice");
+    sc.assertParamValue("name", "name");
+    sc.assertParamValue("true", "opennow");
+    sc.assertParamValue(RankBy.DISTANCE.toString(), "rankby");
+    sc.assertParamValue(PlaceType.AIRPORT.toString(), "type");
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void testTextSearchLocationWithoutRadius() throws Exception {
-    MockResponse response = new MockResponse();
-    response.setBody("");
-    server.enqueue(response);
-    server.play();
-    context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
-
+    LocalTestServerContext sc = new LocalTestServerContext("{\"status\" : \"OK\"}");
     LatLng location = new LatLng(10, 20);
-    PlacesApi.textSearchQuery(context, "query")
+    PlacesApi.textSearchQuery(sc.context, "query")
         .location(location)
         .await();
   }
 
   @Test
   public void testTextSearchResponse() throws Exception {
-    MockResponse response = new MockResponse();
-    response.setBody(textSearchResponseBody);
-    server.enqueue(response);
-    server.play();
-    context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
-
-    PlacesSearchResponse results = PlacesApi.textSearchQuery(context, "Google Sydney").await();
+    LocalTestServerContext sc = new LocalTestServerContext(textSearchResponseBody);
+    PlacesSearchResponse results = PlacesApi.textSearchQuery(sc.context, "Google Sydney").await();
 
     assertNotNull(results);
     assertNotNull(results.results);
@@ -506,13 +429,8 @@ public class PlacesApiTest {
 
   @Test
   public void testTextSearchNYC() throws Exception {
-    MockResponse response = new MockResponse();
-    response.setBody(textSearchPizzaInNYCbody);
-    server.enqueue(response);
-    server.play();
-    context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
-
-    PlacesSearchResponse results = PlacesApi.textSearchQuery(context, "Pizza in New York").await();
+    LocalTestServerContext sc = new LocalTestServerContext(textSearchPizzaInNYCbody);
+    PlacesSearchResponse results = PlacesApi.textSearchQuery(sc.context, "Pizza in New York").await();
     assertNotNull(results.nextPageToken);
     assertEquals("CuQB1wAAANI17eHXt1HpqbLjkj7T5Ti69DEAClo02Qampg7Q6W_O_krFbge7hnTtDR7oVF3asex" +
         "HcGnUtR1ZKjroYd4BTCXxSGPi9LEkjJ0P_zVE7byjEBcHvkdxB6nCHKHAgVNGqe0ZHuwSYKlr3C1-" +
@@ -523,37 +441,26 @@ public class PlacesApiTest {
 
   @Test
   public void testPhotoRequest() throws Exception {
-    MockResponse response = new MockResponse();
-    response.setBody("");
-    server.enqueue(response);
-    server.play();
-    context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
-
+    LocalTestServerContext sc = new LocalTestServerContext("");
     final String photoReference = "Photo Reference";
     final int width = 200;
     final int height = 100;
 
-    PlacesApi.photo(context, photoReference)
+    PlacesApi.photo(sc.context, photoReference)
         .maxWidth(width)
         .maxHeight(height)
         .awaitIgnoreError();
 
-    List<NameValuePair> actualParams = parseQueryParamsFromRequestLine(server.takeRequest().getRequestLine());
-    assertParamValue(photoReference, "photoreference", actualParams);
-    assertParamValue(String.valueOf(width), "maxwidth", actualParams);
-    assertParamValue(String.valueOf(height), "maxheight", actualParams);
+    sc.assertParamValue(photoReference, "photoreference");
+    sc.assertParamValue(String.valueOf(width), "maxwidth");
+    sc.assertParamValue(String.valueOf(height), "maxheight");
   }
 
   @Test
   public void testNearbySearchRequest() throws Exception {
-    MockResponse response = new MockResponse();
-    response.setBody("");
-    server.enqueue(response);
-    server.play();
-    context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
-
+    LocalTestServerContext sc = new LocalTestServerContext("{\"status\" : \"OK\"}");
     LatLng location = new LatLng(10, 20);
-    PlacesApi.nearbySearchQuery(context, location)
+    PlacesApi.nearbySearchQuery(sc.context, location)
         .radius(5000)
         .rankby(RankBy.PROMINENCE)
         .keyword("keyword")
@@ -564,52 +471,38 @@ public class PlacesApiTest {
         .openNow(true)
         .type(PlaceType.AIRPORT)
         .pageToken("next-page-token")
-        .awaitIgnoreError();
+        .await();
 
-    List<NameValuePair> actualParams =
-        parseQueryParamsFromRequestLine(server.takeRequest().getRequestLine());
-    assertParamValue(location.toUrlValue(), "location", actualParams);
-    assertParamValue("5000", "radius", actualParams);
-    assertParamValue(RankBy.PROMINENCE.toString(), "rankby", actualParams);
-    assertParamValue("keyword", "keyword", actualParams);
-    assertParamValue("en", "language", actualParams);
-    assertParamValue(PriceLevel.INEXPENSIVE.toString(), "minprice", actualParams);
-    assertParamValue(PriceLevel.EXPENSIVE.toString(), "maxprice", actualParams);
-    assertParamValue("name", "name", actualParams);
-    assertParamValue("true", "opennow", actualParams);
-    assertParamValue(PlaceType.AIRPORT.toString(), "type", actualParams);
-    assertParamValue("next-page-token", "pagetoken", actualParams);
+    sc.assertParamValue(location.toUrlValue(), "location");
+    sc.assertParamValue("5000", "radius");
+    sc.assertParamValue(RankBy.PROMINENCE.toString(), "rankby");
+    sc.assertParamValue("keyword", "keyword");
+    sc.assertParamValue("en", "language");
+    sc.assertParamValue(PriceLevel.INEXPENSIVE.toString(), "minprice");
+    sc.assertParamValue(PriceLevel.EXPENSIVE.toString(), "maxprice");
+    sc.assertParamValue("name", "name");
+    sc.assertParamValue("true", "opennow");
+    sc.assertParamValue(PlaceType.AIRPORT.toString(), "type");
+    sc.assertParamValue("next-page-token", "pagetoken");
   }
 
   @Test
   public void testNearbySearchRequestWithMultipleType() throws Exception {
-    MockResponse response = new MockResponse();
-    response.setBody("");
-    server.enqueue(response);
-    server.play();
-    context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
-
+    LocalTestServerContext sc = new LocalTestServerContext("{\"status\" : \"OK\"}");
     LatLng location = new LatLng(10, 20);
-    PlacesApi.nearbySearchQuery(context, location)
+    PlacesApi.nearbySearchQuery(sc.context, location)
             .type(PlaceType.AIRPORT, PlaceType.BANK)
-            .awaitIgnoreError();
+            .await();
 
-    List<NameValuePair> actualParams =
-            parseQueryParamsFromRequestLine(server.takeRequest().getRequestLine());
-    assertParamValue(location.toUrlValue(), "location", actualParams);
-    assertParamValue(PlaceType.AIRPORT.toString()+"|"+PlaceType.BANK.toString(), "type", actualParams);
+    sc.assertParamValue(location.toUrlValue(), "location");
+    sc.assertParamValue(PlaceType.AIRPORT.toString()+"|"+PlaceType.BANK.toString(), "type");
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void testNearbySearchRadiusAndRankbyDistance() throws Exception {
-    MockResponse response = new MockResponse();
-    response.setBody("");
-    server.enqueue(response);
-    server.play();
-    context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
-
+    LocalTestServerContext sc = new LocalTestServerContext("");
     LatLng location = new LatLng(10, 20);
-    PlacesApi.nearbySearchQuery(context, location)
+    PlacesApi.nearbySearchQuery(sc.context, location)
         .radius(5000)
         .rankby(RankBy.DISTANCE)
         .await();
@@ -617,28 +510,18 @@ public class PlacesApiTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void testNearbySearchRankbyDistanceWithoutKeywordNameOrType() throws Exception {
-    MockResponse response = new MockResponse();
-    response.setBody("");
-    server.enqueue(response);
-    server.play();
-    context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
-
+    LocalTestServerContext sc = new LocalTestServerContext("");
     LatLng location = new LatLng(10, 20);
-    PlacesApi.nearbySearchQuery(context, location)
+    PlacesApi.nearbySearchQuery(sc.context, location)
         .rankby(RankBy.DISTANCE)
         .await();
   }
 
   @Test
   public void testRadarSearchRequest() throws Exception {
-    MockResponse response = new MockResponse();
-    response.setBody("");
-    server.enqueue(response);
-    server.play();
-    context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
-
+    LocalTestServerContext sc = new LocalTestServerContext("{\"status\" : \"OK\"}");
     LatLng location = new LatLng(10, 20);
-    PlacesApi.radarSearchQuery(context, location, 5000)
+    PlacesApi.radarSearchQuery(sc.context, location, 5000)
         .keyword("keyword")
         .language("en")
         .minPrice(PriceLevel.INEXPENSIVE)
@@ -646,81 +529,45 @@ public class PlacesApiTest {
         .name("name")
         .openNow(true)
         .type(PlaceType.AIRPORT)
-        .awaitIgnoreError();
+        .await();
 
-    List<NameValuePair> actualParams =
-        parseQueryParamsFromRequestLine(server.takeRequest().getRequestLine());
-    assertParamValue(location.toUrlValue(), "location", actualParams);
-    assertParamValue("5000", "radius", actualParams);
-    assertParamValue("keyword", "keyword", actualParams);
-    assertParamValue("en", "language", actualParams);
-    assertParamValue(PriceLevel.INEXPENSIVE.toString(), "minprice", actualParams);
-    assertParamValue(PriceLevel.EXPENSIVE.toString(), "maxprice", actualParams);
-    assertParamValue("name", "name", actualParams);
-    assertParamValue("true", "opennow", actualParams);
-    assertParamValue(PlaceType.AIRPORT.toString(), "type", actualParams);
+    sc.assertParamValue(location.toUrlValue(), "location");
+    sc.assertParamValue("5000", "radius");
+    sc.assertParamValue("keyword", "keyword");
+    sc.assertParamValue("en", "language");
+    sc.assertParamValue(PriceLevel.INEXPENSIVE.toString(), "minprice");
+    sc.assertParamValue(PriceLevel.EXPENSIVE.toString(), "maxprice");
+    sc.assertParamValue("name", "name");
+    sc.assertParamValue("true", "opennow");
+    sc.assertParamValue(PlaceType.AIRPORT.toString(), "type");
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void testRadarSearchLocationWithoutKeywordNameOrType() throws Exception {
-    MockResponse response = new MockResponse();
-    response.setBody("");
-    server.enqueue(response);
-    server.play();
-    context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
-
+    LocalTestServerContext sc = new LocalTestServerContext("");
     LatLng location = new LatLng(10, 20);
-    PlacesApi.radarSearchQuery(context, location, 5000)
+    PlacesApi.radarSearchQuery(sc.context, location, 5000)
         .await();
   }
 
   @Test
   public void testPlaceAutocompleteRequest() throws Exception {
-    MockResponse response = new MockResponse();
-    response.setBody("");
-    server.enqueue(response);
-    server.play();
-    context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
-
+    LocalTestServerContext sc = new LocalTestServerContext("{\"status\" : \"OK\"}");
     LatLng location = new LatLng(10, 20);
-    PlacesApi.placeAutocomplete(context, "Sydney Town Hall")
+    PlacesApi.placeAutocomplete(sc.context, "Sydney Town Hall")
         .offset(4)
         .location(location)
         .radius(5000)
         .type(PlaceAutocompleteType.ESTABLISHMENT)
         .components(ComponentFilter.country("AU"))
-        .awaitIgnoreError();
+        .await();
 
-    List<NameValuePair> actualParams =
-        parseQueryParamsFromRequestLine(server.takeRequest().getRequestLine());
-    assertParamValue("Sydney Town Hall", "input", actualParams);
-    assertParamValue(Integer.toString(4), "offset", actualParams);
-    assertParamValue(location.toUrlValue(), "location", actualParams);
-    assertParamValue("5000", "radius", actualParams);
-    assertParamValue(PlaceAutocompleteType.ESTABLISHMENT.toString(), "types", actualParams);
-    assertParamValue(ComponentFilter.country("AU").toString(), "components", actualParams);
-  }
-
-  // TODO(brettmorgan): find a home for these utility methods
-
-  private List<NameValuePair> parseQueryParamsFromRequestLine(String requestLine) throws Exception {
-    // Extract the URL part from the HTTP request line
-    String[] chunks = requestLine.split("\\s");
-    String url = chunks[1];
-
-    return URLEncodedUtils.parse(new URI(url), "UTF-8");
-  }
-
-  private void assertParamValue(String expectedValue, String paramName, List<NameValuePair> params)
-      throws Exception {
-    boolean paramFound = false;
-    for (NameValuePair pair : params) {
-      if (pair.getName().equals(paramName)) {
-        paramFound = true;
-        assertEquals(expectedValue, pair.getValue());
-      }
-    }
-    assertTrue(paramFound);
+    sc.assertParamValue("Sydney Town Hall", "input");
+    sc.assertParamValue(Integer.toString(4), "offset");
+    sc.assertParamValue(location.toUrlValue(), "location");
+    sc.assertParamValue("5000", "radius");
+    sc.assertParamValue(PlaceAutocompleteType.ESTABLISHMENT.toString(), "types");
+    sc.assertParamValue(ComponentFilter.country("AU").toString(), "components");
   }
 
 }
