@@ -15,11 +15,6 @@
 
 package com.google.maps;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
 import com.google.maps.model.AddressComponentType;
 import com.google.maps.model.AutocompletePrediction;
 import com.google.maps.model.ComponentFilter;
@@ -43,7 +38,12 @@ import org.junit.Test;
 
 import java.net.URI;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static com.google.maps.TestUtils.retrieveBody;
+
 
 public class PlacesApiTest {
 

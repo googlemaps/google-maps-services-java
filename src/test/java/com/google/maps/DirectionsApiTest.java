@@ -41,37 +41,25 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
+import static com.google.maps.TestUtils.retrieveBody;
+
 
 @Category(MediumTests.class)
 public class DirectionsApiTest {
 
+  private final String getDirectionsResponse;
+  private final String builderResponse;
+  private final String responseTimesArePopulatedCorrectly;
+
+  public DirectionsApiTest() {
+    getDirectionsResponse = retrieveBody("GetDirectionsResponse.json");
+    builderResponse = retrieveBody("DirectionsApiBuilderResponse.json");
+    responseTimesArePopulatedCorrectly = retrieveBody("ResponseTimesArePopulatedCorrectly.json");
+  }
+
   @Test
   public void testGetDirections() throws Exception {
-    LocalTestServerContext sc = new LocalTestServerContext(
-        "{\n" +
-        "    \"geocoded_waypoints\": [{\n" +
-        "            \"geocoder_status\": \"OK\",\n" +
-        "            \"place_id\": \"ChIJP3Sa8ziYEmsRUKgyFmh9AQM\",\n" +
-        "            \"types\": [\"colloquial_area\", \"locality\", \"political\"]\n" +
-        "        },\n" +
-        "        {\n" +
-        "            \"geocoder_status\": \"OK\",\n" +
-        "            \"place_id\": \"ChIJ90260rVG1moRkM2MIXVWBAQ\",\n" +
-        "            \"types\": [\"colloquial_area\", \"locality\", \"political\"]\n" +
-        "        }\n" +
-        "    ],\n" +
-        "    \"routes\": [{\n" +
-        "        \"legs\": [{\n" +
-        "            \"end_address\": \"Melbourne VIC, Australia\",\n" +
-        "            \"start_address\": \"Sydney NSW, Australia\"\n" +
-        "        }],\n" +
-        "        \"overview_polyline\": {\n" +
-        "            \"points\": \"f`vmE{`|y[gIqq@daAZxtEtYr~AwLztA~jCxAb{Ey_@djFpZxsQjh@ztJqv@tpJvnAryCzmA~_@ruCraC|fErxDfnC|RvlAd|B~`DvuD|oEroApsEvfChfCvUnzGpzHthFpeDz_GnzExaDriG~{E~`FhfF~vCbhBh_B~xAl}Dpx@tuElpAz|HxxEpcMbbD|a@jmBviBp`GfkFlpD~iAt|BjuCfyAbbC`JphGxzApuE|~@hdFh|CptDzhEp_HrnCleJna@fnFzYznIkw@ffDnOnvIhnEfiC`W|kLhhAlbKrqBbgCbMxeDie@b|MzpApyHbj@ryHoLriHaqAlgGczBv`IlHdtEiO`aGtwAvuFjhCxeHdFvqCbrAluJakAnoJgyB|uDrAh`G{tBd_E_rA~dEa\\\\noGth@trGnvA|sEvmDrmCbPnwB_hApxClRbhEqu@xsGmNh_GxyA~sLLbcT|~AnoD~pCtwBd_CliExaAjxEbuD|lIbnEgQl_E~{D`m@`mClvDbr@thDtCnwA|xArgDhPjlC|uDbiA~`FfpCfbDhOvzHzm@`pE|rDziHzHj{GnqDj`AteBh|CrjDtnD`}Fb}GtxCprJ|nAvr@xlDgmA~dBoq@nqBzi@x|DreCnuAj|BloDldChoEtpEdsCr`AhzBl_B~iEbXveBj}AxkIt~L`uC|}CjXd}Cp~C|rJlc@|zBdtAnvAdfCoDrmCfgB`xC~}A~oAn_ElhCpVnuB|gFv`CjoAnrDd}AfzC~qDpEbsGb~@zdBzAb`Nj{FhFvzEtqAhiFprBnnGzfHfoBdqB`u@xuAcVlyCqi@ziHgqBvaE{NzbHhvBx~IfiA|_AflCtoDjjBnyAxaA~eDrYl_IxiA|_MhbDz~CjkJlhGt`H~sFpuDkKflD~F`hCvfChlBtvI~q@b}Dn{Ff}D`{AxsCt_@zpFjsChqJvkAptGl}AxcAbcCrxA`mDvuIn~@zdFii@ngDjxCfdJpA`sGx~Hn~WlpGxkGf|EjyHbtBpxBv~AbHd|@pzCmTrxFxpB~dEvxEhxKv_DjaPtzB~lHngF~}G|jEf_ExgBlpAznC`dE`UfpErSzqAbmBha@|`DtsA~sIoLpvBljApwCfLjsHttBjrFd`@lbDx_AffJhEpdBnb@~cAxjBrtD~p@`sD}S~fDtxC~rEd`Cd`GlwAxhFztBfiJf[tkBytAf_@qcCbdBouAvkC`DzpDdw@vmByM~WjvJmCnuBpfAdzA~eDxAbHoeEbgBmjAxiEq_@jtCqzB~l@aS\"\n" +
-        "        },\n" +
-        "        \"summary\": \"M31 and National Highway M31\"\n" +
-        "    }],\n" +
-        "    \"status\": \"OK\"\n" +
-        "}");
+    LocalTestServerContext sc = new LocalTestServerContext(getDirectionsResponse);
 
     DirectionsResult result = DirectionsApi.getDirections(sc.context, "Sydney, AU",
         "Melbourne, AU")
@@ -97,19 +85,7 @@ public class DirectionsApiTest {
 
   @Test
   public void testBuilder() throws Exception {
-    LocalTestServerContext sc = new LocalTestServerContext("{\n" +
-        "    \"routes\": [{\n" +
-        "        \"legs\": [{\n" +
-        "            \"end_address\": \"Melbourne VIC, Australia\",\n" +
-        "            \"start_address\": \"Sydney NSW, Australia\"\n" +
-        "        }],\n" +
-        "        \"overview_polyline\": {\n" +
-        "            \"points\": \"f`vmE{`|y[gIqq@daAZxtEtYr~AwLztA~jCxAb{Ey_@djFpZxsQjh@ztJqv@tpJvnAryCzmA~_@ruCraC|fErxDfnC|RvlAd|B~`DvuD|oEroApsEvfChfCvUnzGpzHthFpeDz_GnzExaDriG~{E~`FhfF~vCbhBh_B~xAl}Dpx@tuElpAz|HxxEpcMbbD|a@jmBviBp`GfkFlpD~iAt|BjuCfyAbbC`JphGxzApuE|~@hdFh|CptDzhEp_HrnCleJna@fnFzYznIkw@ffDnOnvIhnEfiC`W|kLhhAlbKrqBbgCbMxeDie@b|MzpApyHbj@ryHoLriHaqAlgGczBv`IlHdtEiO`aGtwAvuFjhCxeHdFvqCbrAluJakAnoJgyB|uDrAh`G{tBd_E_rA~dEa\\\\noGth@trGnvA|sEvmDrmCbPnwB_hApxClRbhEqu@xsGmNh_GxyA~sLLbcT|~AnoD~pCtwBd_CliExaAjxEbuD|lIbnEgQl_E~{D`m@`mClvDbr@thDtCnwA|xArgDhPjlC|uDbiA~`FfpCfbDhOvzHzm@`pE|rDziHzHj{GnqDj`AteBh|CrjDtnD`}Fb}GtxCprJ|nAvr@xlDgmA~dBoq@nqBzi@x|DreCnuAj|BloDldChoEtpEdsCr`AhzBl_B~iEbXveBj}AxkIt~L`uC|}CjXd}Cp~C|rJlc@|zBdtAnvAdfCoDrmCfgB`xC~}A~oAn_ElhCpVnuB|gFv`CjoAnrDd}AfzC~qDpEbsGb~@zdBzAb`Nj{FhFvzEtqAhiFprBnnGzfHfoBdqB`u@xuAcVlyCqi@ziHgqBvaE{NzbHhvBx~IfiA|_AflCtoDjjBnyAxaA~eDrYl_IxiA|_MhbDz~CjkJlhGt`H~sFpuDkKflD~F`hCvfChlBtvI~q@b}Dn{Ff}D`{AxsCt_@zpFjsChqJvkAptGl}AxcAbcCrxA`mDvuIn~@zdFii@ngDjxCfdJpA`sGx~Hn~WlpGxkGf|EjyHbtBpxBv~AbHd|@pzCmTrxFxpB~dEvxEhxKv_DjaPtzB~lHngF~}G|jEf_ExgBlpAznC`dE`UfpErSzqAbmBha@|`DtsA~sIoLpvBljApwCfLjsHttBjrFd`@lbDx_AffJhEpdBnb@~cAxjBrtD~p@`sD}S~fDtxC~rEd`Cd`GlwAxhFztBfiJf[tkBytAf_@qcCbdBouAvkC`DzpDdw@vmByM~WjvJmCnuBpfAdzA~eDxAbHoeEbgBmjAxiEq_@jtCqzB~l@aS\"\n" +
-        "        },\n" +
-        "        \"summary\": \"M31 and National Highway M31\"\n" +
-        "    }],\n" +
-        "    \"status\": \"OK\"\n" +
-        "}");
+    LocalTestServerContext sc = new LocalTestServerContext(builderResponse);
     DirectionsResult result = DirectionsApi.newRequest(sc.context)
         .mode(TravelMode.BICYCLING)
         .avoid(DirectionsApi.RouteRestriction.HIGHWAYS, DirectionsApi.RouteRestriction.TOLLS, DirectionsApi.RouteRestriction.FERRIES)
@@ -133,41 +109,7 @@ public class DirectionsApiTest {
 
   @Test
   public void testResponseTimesArePopulatedCorrectly() throws Exception {
-    LocalTestServerContext sc = new LocalTestServerContext("\n"
-        + "{\n"
-        + "   \"routes\" : [\n"
-        + "      {\n"
-        + "         \"legs\" : [\n"
-        + "            {\n"
-        + "               \"arrival_time\" : {\n"
-        + "                  \"text\" : \"1:54pm\",\n"
-        + "                  \"time_zone\" : \"Australia/Sydney\",\n"
-        + "                  \"value\" : 1497930863\n"
-        + "               },\n"
-        + "               \"departure_time\" : {\n"
-        + "                  \"text\" : \"1:21pm\",\n"
-        + "                  \"time_zone\" : \"Australia/Sydney\",\n"
-        + "                  \"value\" : 1497928860\n"
-        + "               },\n"
-        + "               \"distance\" : {\n"
-        + "                  \"text\" : \"24.8 km\",\n"
-        + "                  \"value\" : 24785\n"
-        + "               },\n"
-        + "               \"duration\" : {\n"
-        + "                  \"text\" : \"33 mins\",\n"
-        + "                  \"value\" : 2003\n"
-        + "               },\n"
-        + "               \"end_address\" : \"182 Church St, Parramatta NSW 2150, Australia\",\n"
-        + "               \"start_address\" : \"483 George St, Sydney NSW 2000, Australia\"\n"
-        + "            }\n"
-        + "         ],\n"
-        + "         \"overview_polyline\" : {\n"
-        + "            \"points\" : \"b}vmEir{y[APbAHpAJjDh@Z?^Cp@Mj@Uf@]fAeAv@wAz@cAt@i@x@c@`Bk@t@SnCUpAPb@@zB\\\\v@LvDh@`BZtBf@nC`AbCtAd@VM^EJ`@V~AlAbDnD~EbHr@zAl@x@r@jApAdBx@|@p@n@|C~BnBzA|FdFdAjAjBdCjAnB~A|CZt@lAxChBnFv@zCZdBf@jDd@hCXnAfBtHZtAn@pCz@fDhBhGb@bB`@tB\\\\rBjAnFh@zD\\\\tDHvF@hJMrDE|DSbDWbBy@`DqAnDoBrDi@dA_@z@s@|Bc@bByBjIeA~DShAUlBM`BEbDDtCVxE`@bFf@pFD|CO`DW~BaAfFa@fB[|BY`DCpBD~BRrCj@pGNtBFjBE~CU|Da@nEc@xDe@zBoAnFcAzEsAzFg@lBm@rCiA~E}AdGgAhD}@bDg@dCUjBa@bDMpDM`GChACvABz@ClACdAItBQjCYfCStA]`BaB|GqBbIUt@s@`Dw@nDg@lBqAfFu@lDu@bDiBnH]jAy@bCs@fB{AhDgAdCc@hAuBrFm@hA}DxF}B~Dy@tA_BzBwBrCcBxBkAbBy@pAq@pAk@jAs@lB[bA_@dB{@jEc@bCS|AcA`Ji@hD_AxISnA_@~Ae@zAi@tA_ApBu@pAgAvAcAfAaB|Ae@f@eBvAo@n@e@j@}@~@y@xAo@tA}@jBi@x@}@fA}A~As@~@{@rAkC|EaJvPe@|@_@z@u@pBuAxDu@`C}@`Eo@nCoAhGsB`Ka@|BQxAOfBIzAEhB?lBDfBFzAPpBf@`GThFJpD?bBKpDSjEGlAYhCgAjFYzBw@lHOvBO`DIpDExD?nCFxIRnEf@xDv@pFLjBDl@DlEEjGKvLO|OBhACdBEvBMdCO|AO~@Kn@c@pB_@pAs@pBe@rAc@~@i@z@_AvAoA~AwAxAgA|@oBpAeC|Ao@XaAj@gAd@}@j@gC~AoHrEkGzD}JjG}JlGsEbD{@n@oB`BaC`CeBhBeAdAqEtE_BfBmEzEyGnHqAvAuCvCqBrBsBlB}DbEuBhCmClD{B`Du@fAkAvBcArBgB~Cc@~@[l@o@`AsC~EqBxD_GvKeBzCsAjCiDtGgA`CaCrEg@x@S^w@v@iBtAgAr@w@^sClAaAXqAb@{Bn@sATo@LQB}ALaDHoBEC??@a@AqBIgAMwE{@sASm@C{CI_A@eCVw@PsAb@m@`@_Aj@mBrAsBlB]^kA`Bg@bAUj@OK\\\\dAYl@[p@Un@Gb@EZI@a@BG?KEEGSNi@Vy@NW?S@\"\n"
-        + "         }\n"
-        + "      }\n"
-        + "   ],\n"
-        + "   \"status\" : \"OK\"\n"
-        + "}");
+    LocalTestServerContext sc = new LocalTestServerContext(responseTimesArePopulatedCorrectly);
     DirectionsResult result = DirectionsApi.newRequest(sc.context)
         .mode(TravelMode.TRANSIT)
         .origin("483 George St, Sydney NSW 2000, Australia")
@@ -378,11 +320,7 @@ public class DirectionsApiTest {
 
   @Test
   public void testTravelModeWalking() throws Exception {
-    LocalTestServerContext sc = new LocalTestServerContext("{\n" +
-        "    \"routes\": [{\n" +
-        "    }],\n" +
-        "    \"status\": \"OK\"\n" +
-        "}");
+    LocalTestServerContext sc = new LocalTestServerContext("{\"routes\": [{}],\"status\": \"OK\"}");
     DirectionsResult result = DirectionsApi.newRequest(sc.context)
         .mode(TravelMode.WALKING)
         .origin("483 George St, Sydney NSW 2000, Australia")
