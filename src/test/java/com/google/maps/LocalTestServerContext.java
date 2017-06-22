@@ -20,6 +20,7 @@ import static org.junit.Assert.assertTrue;
 
 import com.google.mockwebserver.MockResponse;
 import com.google.mockwebserver.MockWebServer;
+import com.google.mockwebserver.RecordedRequest;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -27,14 +28,16 @@ import java.nio.charset.Charset;
 import java.util.List;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
+import org.json.JSONObject;
 
 /**
  * Local test mock server for unit tests.
  */
-public class LocalTestServerContext {
+public class LocalTestServerContext implements AutoCloseable {
 
   private final MockWebServer server;
   public final GeoApiContext context;
+  private RecordedRequest request = null;
   private List<NameValuePair> params = null;
 
   LocalTestServerContext(String responseBody) throws IOException {
@@ -56,8 +59,24 @@ public class LocalTestServerContext {
     return URLEncodedUtils.parse(new URI(url), Charset.forName("UTF-8"));
   }
 
+  private void takeRequest() throws InterruptedException {
+    if (this.request == null)
+      this.request = server.takeRequest();
+  }
+
+  public JSONObject requestBody() throws InterruptedException {
+    this.takeRequest();
+    return new JSONObject(new String(request.getBody(), Charset.forName("UTF8")));
+  }
+
   private List<NameValuePair> actualParams() throws InterruptedException, URISyntaxException {
-    return parseQueryParamsFromRequestLine(server.takeRequest().getRequestLine());
+    this.takeRequest();
+    return parseQueryParamsFromRequestLine(request.getRequestLine());
+  }
+
+  public String path() throws InterruptedException {
+    this.takeRequest();
+    return request.getPath().split("\\?")[0];
   }
 
   void assertParamValue(String expectedValue, String paramName)
@@ -76,7 +95,11 @@ public class LocalTestServerContext {
   }
 
   @Override
-  protected void finalize() throws Throwable {
-    server.shutdown();
+  public void close() {
+    try {
+      server.shutdown();
+    } catch (IOException e) {
+      System.err.println("Failed to close server: "+e);
+    }
   }
 }

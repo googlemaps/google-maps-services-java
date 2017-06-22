@@ -67,35 +67,35 @@ public class ElevationApiTest {
 
   @Test(expected = InvalidRequestException.class)
   public void testGetByPointThrowsInvalidRequestExceptionFromResponse() throws Exception {
-    // Queue up an invalid response
-    LocalTestServerContext sc = new LocalTestServerContext(""
+    try(LocalTestServerContext sc = new LocalTestServerContext(""
         + "{\n"
         + "   \"routes\" : [],\n"
         + "   \"status\" : \"INVALID_REQUEST\"\n"
-        + "}");
+        + "}")) {
 
-    // This should throw the InvalidRequestException
-    ElevationApi.getByPoint(sc.context, new LatLng(0, 0)).await();
+      // This should throw the InvalidRequestException
+      ElevationApi.getByPoint(sc.context, new LatLng(0, 0)).await();
+    }
   }
 
   @Test(expected = RequestDeniedException.class)
   public void testGetByPointsThrowsRequestDeniedExceptionFromResponse() throws Exception {
-    // Queue up an invalid response
-    LocalTestServerContext sc = new LocalTestServerContext(""
+    try(LocalTestServerContext sc = new LocalTestServerContext(""
         + "{\n"
         + "   \"routes\" : [],\n"
         + "   \"status\" : \"REQUEST_DENIED\",\n"
         + "   \"errorMessage\" : \"Can't do the thing\"\n"
-        + "}");
+        + "}")) {
 
-    // This should throw the RequestDeniedException
-    ElevationApi.getByPoints(sc.context,
-        new EncodedPolyline(Collections.singletonList(new LatLng(0, 0)))).await();
+      // This should throw the RequestDeniedException
+      ElevationApi.getByPoints(sc.context,
+          new EncodedPolyline(Collections.singletonList(new LatLng(0, 0)))).await();
+    }
   }
 
   @Test
   public void testGetPoint() throws Exception {
-    LocalTestServerContext sc = new LocalTestServerContext(""
+    try(LocalTestServerContext sc = new LocalTestServerContext(""
         + "{\n"
         + "   \"results\" : [\n"
         + "      {\n"
@@ -108,18 +108,19 @@ public class ElevationApiTest {
         + "      }\n"
         + "   ],\n"
         + "   \"status\" : \"OK\"\n"
-        + "}\n");
-    ElevationResult result = ElevationApi.getByPoint(sc.context, SYDNEY).await();
+        + "}\n")) {
+      ElevationResult result = ElevationApi.getByPoint(sc.context, SYDNEY).await();
 
-    assertNotNull(result);
-    assertEquals(SYDNEY_POINT_ELEVATION, result.elevation, EPSILON);
+      assertNotNull(result);
+      assertEquals(SYDNEY_POINT_ELEVATION, result.elevation, EPSILON);
 
-    sc.assertParamValue(SYDNEY.toUrlValue(), "locations");
+      sc.assertParamValue(SYDNEY.toUrlValue(), "locations");
+    }
   }
 
   @Test
   public void testGetPoints() throws Exception {
-    LocalTestServerContext sc = new LocalTestServerContext(""
+    try(LocalTestServerContext sc = new LocalTestServerContext(""
         + "{\n"
         + "   \"results\" : [\n"
         + "      {\n"
@@ -140,20 +141,21 @@ public class ElevationApiTest {
         + "      }\n"
         + "   ],\n"
         + "   \"status\" : \"OK\"\n"
-        + "}\n");
-    ElevationResult[] results = ElevationApi.getByPoints(sc.context, SYDNEY, MELBOURNE).await();
+        + "}\n")) {
+      ElevationResult[] results = ElevationApi.getByPoints(sc.context, SYDNEY, MELBOURNE).await();
 
-    assertNotNull(results);
-    assertEquals(2, results.length);
-    assertEquals(SYDNEY_ELEVATION, results[0].elevation, EPSILON);
-    assertEquals(MELBOURNE_ELEVATION, results[1].elevation, EPSILON);
+      assertNotNull(results);
+      assertEquals(2, results.length);
+      assertEquals(SYDNEY_ELEVATION, results[0].elevation, EPSILON);
+      assertEquals(MELBOURNE_ELEVATION, results[1].elevation, EPSILON);
 
-    sc.assertParamValue("enc:xvumEur{y[jyaWdnbe@", "locations");
+      sc.assertParamValue("enc:xvumEur{y[jyaWdnbe@", "locations");
+    }
   }
 
   @Test
   public void testGetPath() throws Exception {
-    LocalTestServerContext sc = new LocalTestServerContext(""
+    try(LocalTestServerContext sc = new LocalTestServerContext(""
         + "{\n"
         + "   \"results\" : [\n"
         + "      {\n"
@@ -238,32 +240,33 @@ public class ElevationApiTest {
         + "      }\n"
         + "   ],\n"
         + "   \"status\" : \"OK\"\n"
-        + "}\n");
-    ElevationResult[] results = ElevationApi.getByPath(sc.context, 10, SYDNEY, MELBOURNE).await();
+        + "}\n")) {
+      ElevationResult[] results = ElevationApi.getByPath(sc.context, 10, SYDNEY, MELBOURNE).await();
 
-    assertNotNull(results);
-    assertEquals(10, results.length);
-    assertEquals(SYDNEY_ELEVATION, results[0].elevation, EPSILON);
-    assertEquals(MELBOURNE_ELEVATION, results[9].elevation, EPSILON);
+      assertNotNull(results);
+      assertEquals(10, results.length);
+      assertEquals(SYDNEY_ELEVATION, results[0].elevation, EPSILON);
+      assertEquals(MELBOURNE_ELEVATION, results[9].elevation, EPSILON);
 
-    sc.assertParamValue("10", "samples");
-    sc.assertParamValue("enc:xvumEur{y[jyaWdnbe@", "path");
+      sc.assertParamValue("10", "samples");
+      sc.assertParamValue("enc:xvumEur{y[jyaWdnbe@", "path");
+    }
   }
 
   @Test
   public void testDirectionsAlongPath() throws Exception {
-    LocalTestServerContext sc = new LocalTestServerContext(directionsAlongPath);
-    ElevationResult[] elevation = ElevationApi.getByPath(sc.context, 100, SYD_MELB_ROUTE).await();
-    assertEquals(100, elevation.length);
+    try(LocalTestServerContext sc = new LocalTestServerContext(directionsAlongPath)) {
+      ElevationResult[] elevation = ElevationApi.getByPath(sc.context, 100, SYD_MELB_ROUTE).await();
+      assertEquals(100, elevation.length);
 
-    List<LatLng> overviewPolylinePath = SYD_MELB_ROUTE.decodePath();
-    LatLng lastDirectionsPoint = overviewPolylinePath.get(overviewPolylinePath.size() - 1);
-    LatLng lastElevationPoint = elevation[elevation.length - 1].location;
+      List<LatLng> overviewPolylinePath = SYD_MELB_ROUTE.decodePath();
+      LatLng lastDirectionsPoint = overviewPolylinePath.get(overviewPolylinePath.size() - 1);
+      LatLng lastElevationPoint = elevation[elevation.length - 1].location;
 
-    LatLngAssert.assertEquals(lastDirectionsPoint, lastElevationPoint, EPSILON);
+      LatLngAssert.assertEquals(lastDirectionsPoint, lastElevationPoint, EPSILON);
 
-    sc.assertParamValue("100", "samples");
-    sc.assertParamValue("enc:" + SYD_MELB_ROUTE.getEncodedPath(), "path");
+      sc.assertParamValue("100", "samples");
+      sc.assertParamValue("enc:" + SYD_MELB_ROUTE.getEncodedPath(), "path");
+    }
   }
-
 }

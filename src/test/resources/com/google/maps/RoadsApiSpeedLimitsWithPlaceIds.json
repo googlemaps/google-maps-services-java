@@ -1,0 +1,19 @@
+{
+  "speedLimits": [
+    {
+      "placeId": "ChIJrfDjZYoE9YgRLpb3bOhcPno",
+      "speedLimit": 16.09344,
+      "units": "KPH"
+    },
+    {
+      "placeId": "ChIJyU-E2mEE9YgRftyNXxcfQYw",
+      "speedLimit": 40.2336,
+      "units": "KPH"
+    },
+    {
+      "placeId": "ChIJc0BrC2EE9YgR71DvaFzNgrA",
+      "speedLimit": 40.2336,
+      "units": "KPH"
+    }
+  ]
+}

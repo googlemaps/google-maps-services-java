@@ -15,11 +15,10 @@
 
 package com.google.maps;
 
-import static org.hamcrest.CoreMatchers.either;
-import static org.hamcrest.CoreMatchers.is;
+import static com.google.maps.TestUtils.retrieveBody;
+import static com.google.maps.internal.StringJoin.join;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import com.google.maps.model.LatLng;
@@ -30,180 +29,153 @@ import com.google.maps.model.SpeedLimit;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
-import java.util.concurrent.TimeUnit;
-
 @Category(LargeTests.class)
-public class RoadsApiIntegrationTest extends KeyOnlyAuthenticatedTest {
-  private GeoApiContext context;
+public class RoadsApiIntegrationTest {
 
-  public RoadsApiIntegrationTest(GeoApiContext context) {
-    this.context = context
-        .setConnectTimeout(2, TimeUnit.SECONDS)
-        .setReadTimeout(2, TimeUnit.SECONDS)
-        .setWriteTimeout(2, TimeUnit.SECONDS);
+  private final String snapToRoadResponse;
+  private final String speedLimitsResponse;
+  private final String speedLimitsUSAResponse;
+  private final String speedLimitsWithPlaceIdsResponse;
+  private final String snappedSpeedLimitResponse;
+  private final String nearestRoadsResponse;
+
+  public RoadsApiIntegrationTest() {
+    snapToRoadResponse = retrieveBody("RoadsApiSnapToRoadResponse.json");
+    speedLimitsResponse = retrieveBody("RoadsApiSpeedLimitsResponse.json");
+    speedLimitsUSAResponse = retrieveBody("RoadsApiSpeedLimitsUSAResponse.json");
+    speedLimitsWithPlaceIdsResponse = retrieveBody("RoadsApiSpeedLimitsWithPlaceIds.json");
+    snappedSpeedLimitResponse = retrieveBody("RoadsApiSnappedSpeedLimitResponse.json");
+    nearestRoadsResponse = retrieveBody("RoadsApiNearestRoadsResponse.json");
   }
 
   @Test
   public void testSnapToRoad() throws Exception {
-    SnappedPoint[] points = RoadsApi.snapToRoads(context,
-        false,
+    LocalTestServerContext sc = new LocalTestServerContext(snapToRoadResponse);
+    LatLng[] path = new LatLng[]{
         new LatLng(-33.865382, 151.192861),
         new LatLng(-33.865837, 151.193376),
         new LatLng(-33.866745, 151.19373),
         new LatLng(-33.867128, 151.19344),
         new LatLng(-33.867547, 151.193676),
         new LatLng(-33.867841, 151.194137),
-        new LatLng(-33.868224, 151.194116)).await();
+        new LatLng(-33.868224, 151.194116)};
+    SnappedPoint[] points = RoadsApi.snapToRoads(sc.context, false, path).await();
 
-    assertNotNull(points);
+    sc.assertParamValue(join('|', path), "path");
+    sc.assertParamValue("false", "interpolate");
     assertEquals(7, points.length);
-    assertNotNull(points[0].location.lat);
-    assertNotNull(points[0].location.lng);
-    assertNotNull(points[0].placeId);
-  }
-
-  @Test
-  public void testSnapToRoadProvidesOriginalIndexWithInterpolation() throws Exception {
-    SnappedPoint[] points = RoadsApi.snapToRoads(context,
-        false,
-        new LatLng(-33.865382, 151.192861),
-        new LatLng(-33.865837, 151.193376),
-        new LatLng(-33.866745, 151.19373),
-        new LatLng(-33.867128, 151.19344),
-        new LatLng(-33.867547, 151.193676),
-        new LatLng(-33.867841, 151.194137),
-        new LatLng(-33.868224, 151.194116)).await();
-
-    int currentIndex = 0;
-    // Interpolated points need to have an incrementing originalIndex, or -1.
-    for (SnappedPoint point : points) {
-      assertThat(point.originalIndex, either(is(-1)).or(is(currentIndex)));
-      if (point.originalIndex != -1) {
-        currentIndex++;
-      }
-    }
-
-    assertEquals(7, currentIndex);  // 7 latlngs, but we ++ after each, so index=7
+    assertEquals(-33.865233402568428, points[0].location.lat, 0.0001);
+    assertEquals(151.19288612197704, points[0].location.lng, 0.0001);
+    assertEquals("ChIJjXkMCDauEmsRp5xab4Ske6k", points[0].placeId);
   }
 
   @Test
   public void testSpeedLimitsWithLatLngs() throws Exception {
-    SpeedLimit[] speeds = RoadsApi.speedLimits(context,
-        new LatLng(-33.865382, 151.192861),
-        new LatLng(-33.865837, 151.193376),
-        new LatLng(-33.866745, 151.19373),
-        new LatLng(-33.867128, 151.19344),
-        new LatLng(-33.867547, 151.193676),
-        new LatLng(-33.867841, 151.194137),
-        new LatLng(-33.868224, 151.194116)).await();
+    try(LocalTestServerContext sc = new LocalTestServerContext(speedLimitsResponse)) {
+      LatLng[] path = new LatLng[]{
+          new LatLng(-33.865382, 151.192861),
+          new LatLng(-33.865837, 151.193376),
+          new LatLng(-33.866745, 151.19373),
+          new LatLng(-33.867128, 151.19344),
+          new LatLng(-33.867547, 151.193676),
+          new LatLng(-33.867841, 151.194137),
+          new LatLng(-33.868224, 151.194116)};
+      SpeedLimit[] speeds = RoadsApi.speedLimits(sc.context, path).await();
 
-    assertNotNull(speeds);
-    assertEquals(7, speeds.length);
+      assertEquals("/v1/speedLimits", sc.path());
+      sc.assertParamValue(join('|', path), "path");
+      assertEquals(7, speeds.length);
 
-    for (SpeedLimit speed : speeds) {
-      assertNotNull(speed.placeId);
-      assertTrue(speed.speedLimit > 0);
+      for (SpeedLimit speed : speeds) {
+        assertNotNull(speed.placeId);
+        assertEquals(40.0, speed.speedLimit, 0.001);
+      }
     }
   }
 
   @Test
   public void testSpeedLimitsWithUsaLatLngs() throws Exception {
-    SpeedLimit[] speeds = RoadsApi.speedLimits(context,
-        new LatLng(33.777489, -84.397805),
-        new LatLng(33.777550, -84.395700),
-        new LatLng(33.776900, -84.393110),
-        new LatLng(33.776860, -84.389550),
-        new LatLng(33.775491, -84.388797),
-        new LatLng(33.773250, -84.388840),
-        new LatLng(33.771991, -84.388840)).await();
+    try(LocalTestServerContext sc = new LocalTestServerContext(speedLimitsUSAResponse)) {
+      LatLng[] path = new LatLng[]{
+          new LatLng(33.777489, -84.397805),
+          new LatLng(33.777550, -84.395700),
+          new LatLng(33.776900, -84.393110),
+          new LatLng(33.776860, -84.389550),
+          new LatLng(33.775491, -84.388797),
+          new LatLng(33.773250, -84.388840),
+          new LatLng(33.771991, -84.388840)};
+      SpeedLimit[] speeds = RoadsApi.speedLimits(sc.context, path).await();
 
-    assertNotNull(speeds);
-    assertEquals(7, speeds.length);
+      assertEquals("/v1/speedLimits", sc.path());
+      sc.assertParamValue(join('|', path), "path");
+      assertEquals(7, speeds.length);
 
-    for (SpeedLimit speed : speeds) {
-      assertNotNull(speed.placeId);
-      assertTrue(speed.speedLimit > 0);
+      for (SpeedLimit speed : speeds) {
+        assertNotNull(speed.placeId);
+        assertTrue(speed.speedLimit > 0);
+      }
     }
   }
 
   @Test
   public void testSpeedLimitsWithPlaceIds() throws Exception {
-    SpeedLimit[] speeds = RoadsApi.speedLimits(context,
-        "ChIJOXE4GDauEmsRbeangKX--a0",
-        "ChIJOXE4GDauEmsRbeangKX--a0",
-        "ChIJua_ZPTauEmsRwK6LHmdHDH4").await();
+    try(LocalTestServerContext sc = new LocalTestServerContext(speedLimitsWithPlaceIdsResponse)) {
+      String[] placeIds = new String[]{
+          "ChIJrfDjZYoE9YgRLpb3bOhcPno",
+          "ChIJyU-E2mEE9YgRftyNXxcfQYw",
+          "ChIJc0BrC2EE9YgR71DvaFzNgrA"
+      };
+      SpeedLimit[] speeds = RoadsApi.speedLimits(sc.context, placeIds).await();
 
-    assertNotNull(speeds);
-    assertEquals(3, speeds.length);
-    assertEquals("ChIJua_ZPTauEmsRwK6LHmdHDH4", speeds[2].placeId);
+      assertEquals("/v1/speedLimits", sc.path());
+      assertEquals(3, speeds.length);
+      assertEquals("ChIJc0BrC2EE9YgR71DvaFzNgrA", speeds[2].placeId);
 
-    for (SpeedLimit speed : speeds) {
-      assertTrue(speed.speedLimit > 0);
+      for (SpeedLimit speed : speeds) {
+        assertTrue(speed.speedLimit > 0);
+      }
     }
   }
 
   @Test
   public void testSnappedSpeedLimitRequest() throws Exception {
-    SnappedSpeedLimitResponse response = RoadsApi.snappedSpeedLimits(context,
-        new LatLng(-33.865382, 151.192861),
-        new LatLng(-33.865837, 151.193376),
-        new LatLng(-33.866745, 151.19373),
-        new LatLng(-33.867128, 151.19344),
-        new LatLng(-33.867547, 151.193676),
-        new LatLng(-33.867841, 151.194137),
-        new LatLng(-33.868224, 151.194116)).await();
+    try(LocalTestServerContext sc = new LocalTestServerContext(snappedSpeedLimitResponse)) {
+      LatLng[] path = new LatLng[]{
+          new LatLng(-33.865382, 151.192861),
+          new LatLng(-33.865837, 151.193376),
+          new LatLng(-33.866745, 151.19373),
+          new LatLng(-33.867128, 151.19344),
+          new LatLng(-33.867547, 151.193676),
+          new LatLng(-33.867841, 151.194137),
+          new LatLng(-33.868224, 151.194116)};
+      SnappedSpeedLimitResponse response = RoadsApi.snappedSpeedLimits(sc.context, path).await();
 
-    SnappedPoint[] points = response.snappedPoints;
-    SpeedLimit[] speeds = response.speedLimits;
-
-    assertEquals(7, points.length);
-    assertEquals(7, speeds.length);
-  }
-
-  @Test
-  public void testSnappedSpeedLimitRequestUsa() throws Exception {
-    SnappedSpeedLimitResponse response = RoadsApi.snappedSpeedLimits(context,
-        new LatLng(33.777489, -84.397805),
-        new LatLng(33.777550, -84.395700),
-        new LatLng(33.776900, -84.393110),
-        new LatLng(33.776860, -84.389550),
-        new LatLng(33.775491, -84.388797),
-        new LatLng(33.773250, -84.388840),
-        new LatLng(33.771991, -84.388840)).await();
-
-    SnappedPoint[] points = response.snappedPoints;
-    SpeedLimit[] speeds = response.speedLimits;
-
-    assertEquals(7, points.length);
-    assertEquals(7, speeds.length);
+      assertEquals("/v1/speedLimits", sc.path());
+      sc.assertParamValue(join('|', path), "path");
+      assertEquals(path.length, response.snappedPoints.length);
+      assertEquals(path.length, response.speedLimits.length);
+    }
   }
 
   @Test
   public void testNearestRoads() throws Exception {
-    SnappedPoint[] points = RoadsApi.nearestRoads(context,
-        new LatLng(-33.865382, 151.192861),
-        new LatLng(-33.865837, 151.193376),
-        new LatLng(-33.866745, 151.19373),
-        new LatLng(-33.867128, 151.19344),
-        new LatLng(-33.867547, 151.193676),
-        new LatLng(-33.867841, 151.194137),
-        new LatLng(-33.868224, 151.194116)).await();
+    try(LocalTestServerContext sc = new LocalTestServerContext(nearestRoadsResponse)) {
+      LatLng[] path = new LatLng[]{
+          new LatLng(-33.865382, 151.192861),
+          new LatLng(-33.865837, 151.193376),
+          new LatLng(-33.866745, 151.19373),
+          new LatLng(-33.867128, 151.19344),
+          new LatLng(-33.867547, 151.193676),
+          new LatLng(-33.867841, 151.194137),
+          new LatLng(-33.868224, 151.194116)};
+      SnappedPoint[] points = RoadsApi.nearestRoads(sc.context, path).await();
 
-    assertNotNull(points);
-    assertTrue(points.length >= 10);
-    assertNotNull(points[0].location.lat);
-    assertNotNull(points[0].location.lng);
-    assertNotNull(points[0].placeId);
-  }
-
-  @Test
-  public void testNearestRoadsOneWay() throws Exception {
-    SnappedPoint[] points = RoadsApi.nearestRoads(context,
-        new LatLng(44.977547, -93.261239),
-        new LatLng(44.977489, -93.261907),
-        new LatLng(44.977812, -93.261864)).await();
-
-    assertNotNull(points);
-    assertEquals(3, points.length);
+      assertEquals("/v1/nearestRoads", sc.path());
+      sc.assertParamValue(join('|', path), "points");
+      assertEquals(13, points.length);
+      assertEquals(-33.865436156120467, points[0].location.lat, 0.0001);
+      assertEquals(151.1930101572747, points[0].location.lng, 0.0001);
+      assertEquals("ChIJ0XXACjauEmsRUduC5Wd9ARM", points[0].placeId);
+    }
   }
 }

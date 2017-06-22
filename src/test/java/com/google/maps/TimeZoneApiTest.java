@@ -34,45 +34,47 @@ public class TimeZoneApiTest {
 
   @Test
   public void testGetTimeZone() throws Exception {
-    LocalTestServerContext sc = new LocalTestServerContext("\n"
+    try(LocalTestServerContext sc = new LocalTestServerContext("\n"
         + "{\n"
         + "   \"dstOffset\" : 0,\n"
         + "   \"rawOffset\" : 36000,\n"
         + "   \"status\" : \"OK\",\n"
         + "   \"timeZoneId\" : \"Australia/Sydney\",\n"
         + "   \"timeZoneName\" : \"Australian Eastern Standard Time\"\n"
-        + "}\n");
-    LatLng sydney = new LatLng(-33.8688, 151.2093);
-    TimeZone tz = TimeZoneApi.getTimeZone(sc.context, sydney).await();
+        + "}\n")) {
+      LatLng sydney = new LatLng(-33.8688, 151.2093);
+      TimeZone tz = TimeZoneApi.getTimeZone(sc.context, sydney).await();
 
-    assertNotNull(tz);
-    assertEquals(TimeZone.getTimeZone("Australia/Sydney"), tz);
+      assertNotNull(tz);
+      assertEquals(TimeZone.getTimeZone("Australia/Sydney"), tz);
 
-    // GMT+10
-    assertEquals(36000000, tz.getRawOffset());
-    // DST is +1h
-    assertEquals(3600000, tz.getDSTSavings());
+      // GMT+10
+      assertEquals(36000000, tz.getRawOffset());
+      // DST is +1h
+      assertEquals(3600000, tz.getDSTSavings());
 
-    assertTrue(tz.inDaylightTime(new Date(1388494800000L)));
+      assertTrue(tz.inDaylightTime(new Date(1388494800000L)));
 
-    sc.assertParamValue(sydney.toUrlValue(), "location");
+      sc.assertParamValue(sydney.toUrlValue(), "location");
+    }
   }
 
   @Test(expected = ZeroResultsException.class)
   public void testNoResult() throws Exception {
-    LocalTestServerContext sc = new LocalTestServerContext("\n"
+    try(LocalTestServerContext sc = new LocalTestServerContext("\n"
         + "{\n"
         + "   \"status\" : \"ZERO_RESULTS\"\n"
-        + "}\n");
-    TimeZone resp = TimeZoneApi.getTimeZone(sc.context, new LatLng(0, 0)).awaitIgnoreError();
-    assertNull(resp);
+        + "}\n")) {
+      TimeZone resp = TimeZoneApi.getTimeZone(sc.context, new LatLng(0, 0)).awaitIgnoreError();
+      assertNull(resp);
 
-    sc.assertParamValue("0.00000000,0.00000000", "location");
+      sc.assertParamValue("0.00000000,0.00000000", "location");
 
-    LocalTestServerContext sc2 = new LocalTestServerContext("\n"
-        + "{\n"
-        + "   \"status\" : \"ZERO_RESULTS\"\n"
-        + "}\n");
-    TimeZoneApi.getTimeZone(sc2.context, new LatLng(0, 0)).await();
+      LocalTestServerContext sc2 = new LocalTestServerContext("\n"
+          + "{\n"
+          + "   \"status\" : \"ZERO_RESULTS\"\n"
+          + "}\n");
+      TimeZoneApi.getTimeZone(sc2.context, new LatLng(0, 0)).await();
+    }
   }
 }
