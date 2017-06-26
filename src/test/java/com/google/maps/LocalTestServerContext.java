@@ -42,12 +42,15 @@ public class LocalTestServerContext implements AutoCloseable {
 
   LocalTestServerContext(String responseBody) throws IOException {
     this.server = new MockWebServer();
-    this.context = new GeoApiContext().setApiKey("AIzaFakeKey");
     MockResponse response = new MockResponse();
     response.setBody(responseBody);
     server.enqueue(response);
     server.play();
-    context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
+
+    this.context = new GeoApiContext.Builder()
+        .apiKey("AIzaFakeKey")
+        .baseUrlForTesting("http://127.0.0.1:" + server.getPort())
+        .build();
   }
 
   private List<NameValuePair> parseQueryParamsFromRequestLine(String requestLine)
