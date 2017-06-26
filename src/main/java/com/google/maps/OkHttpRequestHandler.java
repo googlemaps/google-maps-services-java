@@ -16,15 +16,20 @@
 package com.google.maps;
 
 import com.google.gson.FieldNamingPolicy;
+import com.google.maps.GeoApiContext.RequestHandler;
 import com.google.maps.internal.ApiResponse;
 import com.google.maps.internal.ExceptionsAllowedToRetry;
 import com.google.maps.internal.OkHttpPendingResult;
 import com.google.maps.internal.RateLimitExecutorService;
-import com.squareup.okhttp.Dispatcher;
-import com.squareup.okhttp.MediaType;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.RequestBody;
+
+import okhttp3.Dispatcher;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.net.Proxy;
 import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
@@ -38,14 +43,10 @@ import org.slf4j.LoggerFactory;
 public class OkHttpRequestHandler implements GeoApiContext.RequestHandler {
   private static final Logger LOG = LoggerFactory.getLogger(OkHttpRequestHandler.class.getName());
   private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-  private final OkHttpClient client = new OkHttpClient();
-  private final RateLimitExecutorService rateLimitExecutorService;
-  private final Dispatcher dispatcher;
+  private final OkHttpClient client;
 
-  public OkHttpRequestHandler() {
-    rateLimitExecutorService = new RateLimitExecutorService();
-    dispatcher = new Dispatcher(rateLimitExecutorService);
-    client.setDispatcher(dispatcher);
+  /* package */ OkHttpRequestHandler(OkHttpClient client) {
+    this.client = client;
   }
 
   @Override
@@ -79,52 +80,63 @@ public class OkHttpRequestHandler implements GeoApiContext.RequestHandler {
       Integer maxRetries,
       ExceptionsAllowedToRetry exceptionsAllowedToRetry) {
     RequestBody body = RequestBody.create(JSON, payload);
-    Request req =
-        new Request.Builder()
-            .post(body)
-            .header("User-Agent", userAgent)
-            .url(hostName + url)
-            .build();
+    Request req = new Request.Builder()
+        .post(body)
+        .header("User-Agent", userAgent)
+        .url(hostName + url).build();
 
-    return new OkHttpPendingResult<T, R>(
-        req, client, clazz, fieldNamingPolicy, errorTimeout, maxRetries, exceptionsAllowedToRetry);
+    LOG.info("Request: {}", hostName + url);
+    LOG.info("Body: {}", body);
+
+    return new OkHttpPendingResult<T, R>(req, client, clazz, fieldNamingPolicy, errorTimeout, maxRetries, exceptionsAllowedToRetry);
   }
 
-  @Override
-  public void setConnectTimeout(long timeout, TimeUnit unit) {
-    client.setConnectTimeout(timeout, unit);
-  }
+  /**
+   *  Builder strategy for constructing {@code OkHTTPRequestHandler}.
+   */
+  public static class Builder implements GeoApiContext.RequestHandler.Builder {
+    private final OkHttpClient.Builder builder;
+    private final RateLimitExecutorService rateLimitExecutorService;
+    private final Dispatcher dispatcher;
 
-  @Override
-  public void setReadTimeout(long timeout, TimeUnit unit) {
-    client.setReadTimeout(timeout, unit);
-  }
+    public Builder() {
+      builder = new OkHttpClient.Builder();
+      rateLimitExecutorService = new RateLimitExecutorService();
+      dispatcher = new Dispatcher(rateLimitExecutorService);
+      builder.dispatcher(dispatcher);
+    }
 
-  @Override
-  public void setWriteTimeout(long timeout, TimeUnit unit) {
-    client.setWriteTimeout(timeout, unit);
-  }
+    @Override
+    public void connectTimeout(long timeout, TimeUnit unit) {
+      builder.connectTimeout(timeout, unit);
+    }
 
-  @Override
-  public void setQueriesPerSecond(int maxQps) {
-    dispatcher.setMaxRequests(maxQps);
-    dispatcher.setMaxRequestsPerHost(maxQps);
-    rateLimitExecutorService.setQueriesPerSecond(maxQps);
-  }
+    @Override
+    public void readTimeout(long timeout, TimeUnit unit) {
+      builder.readTimeout(timeout, unit);
+    }
 
-  @Override
-  @Deprecated
-  public void setQueriesPerSecond(int maxQps, int minimumInterval) {
-    // Instead of using a minimumInterval between requests, we are using a warm up period
-    // on the RateLimiter in the rateLimitExecutorService to prevent flooding the back end
-    // with requests.
-    LOG.warn(
-        "OkHttpRequestHandler#setQueriesPerSecond(int,int) deprecated, ignoring minimumInterval");
-    this.setQueriesPerSecond(maxQps);
-  }
+    @Override
+    public void writeTimeout(long timeout, TimeUnit unit) {
+      builder.writeTimeout(timeout, unit);
+    }
 
-  @Override
-  public void setProxy(Proxy proxy) {
-    client.setProxy(proxy);
+    @Override
+    public void queriesPerSecond(int maxQps) {
+      dispatcher.setMaxRequests(maxQps);
+      dispatcher.setMaxRequestsPerHost(maxQps);
+      rateLimitExecutorService.setQueriesPerSecond(maxQps);
+    }
+
+    @Override
+    public void proxy(Proxy proxy) {
+      builder.proxy(proxy);
+    }
+
+    @Override
+    public RequestHandler build() {
+      OkHttpClient client = builder.build();
+      return new OkHttpRequestHandler(client);
+    }
   }
 }

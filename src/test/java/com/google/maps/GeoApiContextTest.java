@@ -27,6 +27,11 @@ import com.google.maps.model.GeocodingResult;
 import com.google.mockwebserver.MockResponse;
 import com.google.mockwebserver.MockWebServer;
 import com.google.mockwebserver.RecordedRequest;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.experimental.categories.Category;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -38,11 +43,28 @@ import org.junit.experimental.categories.Category;
 @Category(MediumTests.class)
 public class GeoApiContextTest {
 
-  private MockWebServer server = new MockWebServer();
-  private GeoApiContext context = new GeoApiContext().setApiKey("AIza...").setQueryRateLimit(500);
+  private MockWebServer server;
+  private GeoApiContext.Builder builder;
+
+  @Before
+  public void Setup() {
+    server = new MockWebServer();
+    builder = new GeoApiContext.Builder()
+        .apiKey("AIza...")
+        .queryRateLimit(500);
+  }
+
+  @After
+  public void Teardown() {
+    try {
+      server.shutdown();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
 
   private void setMockBaseUrl() {
-    context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
+    builder.baseUrlForTesting("http://127.0.0.1:" + server.getPort());
   }
 
   @Test
@@ -59,7 +81,7 @@ public class GeoApiContextTest {
     setMockBaseUrl();
 
     // Build & execute the request using our context
-    context.get(new ApiConfig(path), fakeResponse.getClass(), params).awaitIgnoreError();
+    builder.build().get(new ApiConfig(path), fakeResponse.getClass(), params).awaitIgnoreError();
 
     // Read the headers
     server.shutdown();
@@ -92,8 +114,8 @@ public class GeoApiContextTest {
     setMockBaseUrl();
 
     // Execute
-    GeocodingResult[] result =
-        context.get(new ApiConfig("/"), GeocodingApi.Response.class, "k", "v").await();
+    GeocodingResult[] result = builder.build().get(new ApiConfig("/"), GeocodingApi.Response.class,
+            "k", "v").await();
     assertEquals(1, result.length);
     assertEquals(
         "1600 Amphitheatre Parkway, Mountain View, CA 94043, USA", result[0].formattedAddress);
@@ -115,9 +137,9 @@ public class GeoApiContextTest {
     setMockBaseUrl();
 
     // This should limit the number of retries, ensuring that the success response is NOT returned.
-    context.setMaxRetries(2);
+    builder.maxRetries(2);
 
-    context.get(new ApiConfig("/"), GeocodingApi.Response.class, "k", "v").await();
+    builder.build().get(new ApiConfig("/"), GeocodingApi.Response.class, "k", "v").await();
   }
 
   private MockResponse createMockGoodResponse() {
@@ -188,10 +210,10 @@ public class GeoApiContextTest {
     setMockBaseUrl();
 
     // This should disable the retry, ensuring that the success response is NOT returned
-    context.disableRetries();
+    builder.disableRetries();
 
     // We should get the error response here, not the success response.
-    context.get(new ApiConfig("/"), GeocodingApi.Response.class, "k", "v").await();
+    builder.build().get(new ApiConfig("/"), GeocodingApi.Response.class, "k", "v").await();
   }
 
   @Test
@@ -208,10 +230,10 @@ public class GeoApiContextTest {
 
     // Wire the mock web server to the context
     setMockBaseUrl();
-    context.setRetryTimeout(5, TimeUnit.SECONDS);
+    builder.retryTimeout(5, TimeUnit.SECONDS);
 
     try {
-      context.get(new ApiConfig("/"), GeocodingApi.Response.class, "k", "v").await();
+      builder.build().get(new ApiConfig("/"), GeocodingApi.Response.class, "k", "v").await();
     } catch (IOException ioe) {
       // Ensure the message matches the status line in the mock responses.
       assertEquals("Server Error: 500 Internal server error", ioe.getMessage());
@@ -233,9 +255,8 @@ public class GeoApiContextTest {
     server.play();
 
     setMockBaseUrl();
-    context
-        .get(new ApiConfig("/"), GeocodingApi.Response.class, "a", "1", "a", "2", "a", "3")
-        .awaitIgnoreError();
+    builder.build().get(new ApiConfig("/"), GeocodingApi.Response.class,
+        "a", "1", "a", "2", "a", "3").awaitIgnoreError();
 
     server.shutdown();
     RecordedRequest request = server.takeRequest();
@@ -255,14 +276,14 @@ public class GeoApiContextTest {
     server.enqueue(overQueryLimitResponse);
     server.play();
 
-    context.setRetryTimeout(1, TimeUnit.MILLISECONDS);
-    context.setMaxRetries(10);
-    context.toggleifExceptionIsAllowedToRetry(OverQueryLimitException.class, false);
+    builder.retryTimeout(1, TimeUnit.MILLISECONDS);
+    builder.maxRetries(10);
+    builder.toggleifExceptionIsAllowedToRetry(OverQueryLimitException.class, false);
 
     setMockBaseUrl();
 
     try {
-      context.get(new ApiConfig("/"), GeocodingApi.Response.class, "any-key", "any-value").await();
+      builder.build().get(new ApiConfig("/"), GeocodingApi.Response.class, "any-key", "any-value").await();
     } catch (OverQueryLimitException e) {
       assertEquals(1, server.getRequestCount());
       return;
