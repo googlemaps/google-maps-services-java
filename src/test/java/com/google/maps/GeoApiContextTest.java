@@ -37,6 +37,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
@@ -49,9 +51,7 @@ public class GeoApiContextTest {
   @Before
   public void Setup() {
     server = new MockWebServer();
-    builder = new GeoApiContext.Builder()
-        .apiKey("AIza...")
-        .queryRateLimit(500);
+    builder = new GeoApiContext.Builder().apiKey("AIza...").queryRateLimit(500);
   }
 
   @After
@@ -114,8 +114,8 @@ public class GeoApiContextTest {
     setMockBaseUrl();
 
     // Execute
-    GeocodingResult[] result = builder.build().get(new ApiConfig("/"), GeocodingApi.Response.class,
-            "k", "v").await();
+    GeocodingResult[] result =
+        builder.build().get(new ApiConfig("/"), GeocodingApi.Response.class, "k", "v").await();
     assertEquals(1, result.length);
     assertEquals(
         "1600 Amphitheatre Parkway, Mountain View, CA 94043, USA", result[0].formattedAddress);
@@ -255,8 +255,10 @@ public class GeoApiContextTest {
     server.play();
 
     setMockBaseUrl();
-    builder.build().get(new ApiConfig("/"), GeocodingApi.Response.class,
-        "a", "1", "a", "2", "a", "3").awaitIgnoreError();
+    builder
+        .build()
+        .get(new ApiConfig("/"), GeocodingApi.Response.class, "a", "1", "a", "2", "a", "3")
+        .awaitIgnoreError();
 
     server.shutdown();
     RecordedRequest request = server.takeRequest();
@@ -283,7 +285,10 @@ public class GeoApiContextTest {
     setMockBaseUrl();
 
     try {
-      builder.build().get(new ApiConfig("/"), GeocodingApi.Response.class, "any-key", "any-value").await();
+      builder
+          .build()
+          .get(new ApiConfig("/"), GeocodingApi.Response.class, "any-key", "any-value")
+          .await();
     } catch (OverQueryLimitException e) {
       assertEquals(1, server.getRequestCount());
       return;
