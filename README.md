@@ -197,7 +197,7 @@ based strategy.
 
 Never sleep between requests again! By default, requests are sent at the expected rate limits for
 each web service, typically 10 queries per second for free users. If you want to speed up or slow
-down requests, you can do that too, using `new GeoApiContext().setQueryRateLimit(qps)`.
+down requests, you can do that too, using `new GeoApiContext.Builder().queryRateLimit(qps).build()`.
 
 ### Retry on Failure
 
