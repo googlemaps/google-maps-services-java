@@ -141,10 +141,11 @@ https://developers.google.com/maps/.
 This example uses the [Geocoding API] with an API key:
 
 ```java
-GeoApiContext context = new GeoApiContext().setApiKey("AIza...");
+GeoApiContext context = new GeoApiContext.Builder().apiKey("AIza...").build();
 GeocodingResult[] results =  GeocodingApi.geocode(context,
     "1600 Amphitheatre Parkway Mountain View, CA 94043").await();
-System.out.println(results[0].formattedAddress);
+Gson gson = new GsonBuilder().setPrettyPrinting().create();
+System.out.println(gson.toJson(results[0].addressComponents));
 ```
 
 Below is the same example, using client ID and client secret (digital signature)
@@ -156,7 +157,7 @@ documentation for the API you're using. For example, see the guide for the
 [Directions API][directions-client-id].
 
 ```java
-GeoApiContext context = new GeoApiContext().setEnterpriseCredentials(clientID, clientSecret);
+GeoApiContext context = new GeoApiContext.Builder().enterpriseCredentials(clientID, clientSecret).build();
 GeocodingResult[] results =  GeocodingApi.geocode(context,
     "1600 Amphitheatre Parkway Mountain View, CA 94043").await();
 System.out.println(results[0].formattedAddress);
@@ -170,10 +171,13 @@ For more usage examples, check out [the tests](src/test/java/com/google/maps/).
 
 ### Google App Engine Support
 
-You can use this client library on Google App Engine with a single line code change.
+You can use this client library on Google App Engine with a single code change.
 
 ```java
-GeoApiContext context = new GeoApiContext(new GaeRequestHandler()).setApiKey(API_KEY);
+GeoApiContext context = new GeoApiContext.Builder()
+    .requestHandlerBuilder(new GaeRequestHandler.Builder())
+    .apiKey("AIza...")
+    .build();
 ```
 
 The `new GaeRequestHandler()` argument to the `GeoApiContext` constructor tells the
@@ -194,8 +198,8 @@ are returned from the API.
 To alter or disable automatic retries, see these methods in `GeoApiContext`:
 
 * `.disableRetries()`
-* `.setMaxRetries()`
-* `.setRetryTimeout()`
+* `.maxRetries()`
+* `.retryTimeout()`
 * `.toggleifExceptionIsAllowedToRetry()`
 
 ### Client IDs
