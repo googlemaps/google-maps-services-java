@@ -36,6 +36,9 @@ public class LatLng implements UrlValue {
 
   /**
    * Construct a location with a latitude longitude pair.
+   *
+   * @param lat The latitude of this location.
+   * @param lng The longitude of this location.
    */
   public LatLng(double lat, double lng) {
     this.lat = lat;

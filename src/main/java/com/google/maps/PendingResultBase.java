@@ -117,6 +117,7 @@ abstract class PendingResultBase<T, A extends PendingResultBase<T, A, R>,
    * @param language The language code, e.g. "en-AU" or "es"
    * @see <a href="https://developers.google.com/maps/faq#languagesupport">List of supported domain
    * languages</a>
+   * @return Returns the request for call chaining.
    */
   public final A language(String language) {
     return param("language", language);
@@ -128,6 +129,7 @@ abstract class PendingResultBase<T, A extends PendingResultBase<T, A, R>,
    * https://developers.google.com/maps/documentation/business/clientside/quota
    *
    * @param channel String to pass with the request for analytics
+   * @return Returns the request for call chaining.
    */
   public A channel(String channel) {
     return param("channel", channel);
@@ -136,8 +138,9 @@ abstract class PendingResultBase<T, A extends PendingResultBase<T, A, R>,
   /**
    * Custom parameter. For advanced usage only.
    *
-   * Note: Using this escape hatch parameter pass though voids all warranties, only use in
-   * extreme circumstances.
+   * @param parameter The name of the custom parameter.
+   * @param value The value of the custom parameter.
+   * @return Returns the request for call chaining.
    */
   public A custom(String parameter, String value) {
     return param(parameter, value);
