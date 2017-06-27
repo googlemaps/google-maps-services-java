@@ -160,7 +160,8 @@ documentation for the API you're using. For example, see the guide for the
 GeoApiContext context = new GeoApiContext.Builder().enterpriseCredentials(clientID, clientSecret).build();
 GeocodingResult[] results =  GeocodingApi.geocode(context,
     "1600 Amphitheatre Parkway Mountain View, CA 94043").await();
-System.out.println(results[0].formattedAddress);
+Gson gson = new GsonBuilder().setPrettyPrinting().create();
+System.out.println(gson.toJson(results[0].addressComponents));
 ```
 
 In real world scenarios, it's important to instantiate `GeoApiContext` as a static variable or inside a singleton, since it must have only one instance alive, despite the number of calls to `GeocodingApi`. Instantiating `GeoApiContext` once per request could cause too many threads alive at JVM (see [here](https://github.com/googlemaps/google-maps-services-java/issues/126)).
