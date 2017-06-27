@@ -142,9 +142,7 @@ https://developers.google.com/maps/.
 This example uses the [Geocoding API] with an API key:
 
 ```java
-GeoApiContext context = new GeoApiContext.Builder()
-    .apiKey("AIza...")
-    .build();
+GeoApiContext context = new GeoApiContext.Builder().apiKey("AIza...").build();
 GeocodingResult[] results =  GeocodingApi.geocode(context,
     "1600 Amphitheatre Parkway Mountain View, CA 94043").await();
 Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -160,9 +158,7 @@ documentation for the API you're using. For example, see the guide for the
 [Directions API][directions-client-id].
 
 ```java
-GeoApiContext context = new GeoApiContext.Builder()
-    .enterpriseCredentials(clientID, clientSecret)
-    .build();
+GeoApiContext context = new GeoApiContext.Builder().enterpriseCredentials(clientID, clientSecret).build();
 GeocodingResult[] results =  GeocodingApi.geocode(context,
     "1600 Amphitheatre Parkway Mountain View, CA 94043").await();
 Gson gson = new GsonBuilder().setPrettyPrinting().create();
