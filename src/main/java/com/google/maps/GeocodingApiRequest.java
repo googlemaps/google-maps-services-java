@@ -55,6 +55,9 @@ public class GeocodingApiRequest
 
   /**
    * Create a forward geocode for {@code address}.
+   *
+   * @param address The address to geocode.
+   * @return Returns this {@code GeocodingApiRequest} for call chaining.
    */
   public GeocodingApiRequest address(String address) {
     return param("address", address);
@@ -62,6 +65,9 @@ public class GeocodingApiRequest
 
   /**
    * Create a forward geocode for {@code placeId}.
+   *
+   * @param placeId The Place ID to geocode.
+   * @return Returns this {@code GeocodingApiRequest} for call chaining.
    */
   public GeocodingApiRequest place(String placeId) {
     return param("place_id", placeId);
@@ -69,6 +75,9 @@ public class GeocodingApiRequest
 
   /**
    * Create a reverse geocode for {@code latlng}.
+   *
+   * @param latlng The location to reverse geocode.
+   * @return Returns this {@code GeocodingApiRequest} for call chaining.
    */
   public GeocodingApiRequest latlng(LatLng latlng) {
     return param("latlng", latlng);
@@ -80,6 +89,10 @@ public class GeocodingApiRequest
    *
    * <p>For more information see <a href="https://developers.google.com/maps/documentation/geocoding/?hl=pl#Viewports">Viewports
    * documentation</a>.
+   *
+   * @param southWestBound The South West bound of the bounding box.
+   * @param northEastBound The North East bound of the bounding box.
+   * @return Returns this {@code GeocodingApiRequest} for call chaining.
    */
   public GeocodingApiRequest bounds(LatLng southWestBound, LatLng northEastBound) {
     return param("bounds", join('|', southWestBound, northEastBound));
@@ -91,6 +104,9 @@ public class GeocodingApiRequest
    *
    * <p>For more information see <a href="https://developers.google.com/maps/documentation/geocoding/?hl=pl#RegionCodes">
    * Region Codes</a>.
+   *
+   * @param region The region code to influence results.
+   * @return Returns this {@code GeocodingApiRequest} for call chaining.
    */
   public GeocodingApiRequest region(String region) {
     return param("region", region);
@@ -102,6 +118,9 @@ public class GeocodingApiRequest
    *
    * <p>For more information see <a href="https://developers.google.com/maps/documentation/geocoding/?hl=pl#ComponentFiltering">
    * Component Filtering</a>.
+   *
+   * @param filters Component filters to apply to the request.
+   * @return Returns this {@code GeocodingApiRequest} for call chaining.
    */
   public GeocodingApiRequest components(ComponentFilter... filters) {
     return param("components", join('|', filters));
@@ -110,6 +129,9 @@ public class GeocodingApiRequest
   /**
    * Set the result type. Specifying a type will restrict the results to this type. If multiple
    * types are specified, the API will return all addresses that match any of the types.
+   *
+   * @param resultTypes The result types to restrict to.
+   * @return Returns this {@code GeocodingApiRequest} for call chaining.
    */
   public GeocodingApiRequest resultType(AddressType... resultTypes) {
     return param("result_type", join('|', resultTypes));
@@ -118,6 +140,9 @@ public class GeocodingApiRequest
   /**
    * Set the location type. Specifying a type will restrict the results to this type. If multiple
    * types are specified, the API will return all addresses that match any of the types.
+   *
+   * @param locationTypes The location types to restrict to.
+   * @return Returns this {@code GeocodingApiRequest} for call chaining.
    */
   public GeocodingApiRequest locationType(LocationType... locationTypes) {
     return param("location_type", join('|', locationTypes));

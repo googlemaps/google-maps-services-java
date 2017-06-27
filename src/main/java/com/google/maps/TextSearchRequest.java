@@ -42,6 +42,9 @@ public class TextSearchRequest
 
   /**
    * query is the text string on which to search, for example: "restaurant".
+   *
+   * @param query The query string to search for.
+   * @return Returns this {@code TextSearchRequest} for call chaining.
    */
   public TextSearchRequest query(String query) {
     return param("query", query);
@@ -49,6 +52,9 @@ public class TextSearchRequest
 
   /**
    * location is the latitude/longitude around which to retrieve place information.
+   *
+   * @param location The location of the center of the search.
+   * @return Returns this {@code TextSearchRequest} for call chaining.
    */
   public TextSearchRequest location(LatLng location) {
     return param("location", location);
@@ -56,6 +62,9 @@ public class TextSearchRequest
 
   /**
    * radius defines the distance (in meters) within which to bias place results.
+   *
+   * @param radius The radius of the search bias.
+   * @return Returns this {@code TextSearchRequest} for call chaining.
    */
   public TextSearchRequest radius(int radius) {
     if (radius > 50000) {
@@ -66,6 +75,9 @@ public class TextSearchRequest
 
   /**
    * minPrice restricts to places that are at least this price level.
+   *
+   * @param priceLevel The minimum price level to restrict results with.
+   * @return Returns this {@code TextSearchRequest} for call chaining.
    */
   public TextSearchRequest minPrice(PriceLevel priceLevel) {
     return param("minprice", priceLevel);
@@ -73,6 +85,9 @@ public class TextSearchRequest
 
   /**
    * maxPrice restricts to places that are at most this price level.
+   *
+   * @param priceLevel The maximum price leve to restrict results with.
+   * @return Returns this {@code TextSearchRequest} for call chaining.
    */
   public TextSearchRequest maxPrice(PriceLevel priceLevel) {
     return param("maxprice", priceLevel);
@@ -81,6 +96,9 @@ public class TextSearchRequest
   /**
    * name is one or more terms to be matched against the names of places, separated with a space
    * character.
+   *
+   * @param name The name to search for.
+   * @return Returns this {@code TextSearchRequest} for call chaining.
    */
   public TextSearchRequest name(String name) {
     return param("name", name);
@@ -88,15 +106,21 @@ public class TextSearchRequest
 
   /**
    * openNow returns only those places that are open for business at the time the query is sent.
+   *
+   * @param openNow Whether to restrict this search to open places.
+   * @return Returns this {@code TextSearchRequest} for call chaining.
    */
   public TextSearchRequest openNow(boolean openNow) {
     return param("opennow", String.valueOf(openNow));
   }
 
   /**
-   * pageToken returns the next 20 results from a previously run search. Setting a pageToken
-   * parameter will execute a search with the same parameters used previously — all parameters other
+   * nextPageToken returns the next 20 results from a previously run search. Setting nextPageToken
+   * will execute a search with the same parameters used previously — all parameters other
    * than pageToken will be ignored.
+   *
+   * @param nextPageToken A {@code pageToken} from a prior result.
+   * @return Returns this {@code TextSearchRequest} for call chaining.
    */
   public TextSearchRequest pageToken(String nextPageToken) {
     return param("pagetoken", nextPageToken);
@@ -104,6 +128,9 @@ public class TextSearchRequest
 
   /**
    * rankby specifies the order in which results are listed.
+   *
+   * @param ranking The rank by method.
+   * @return Returns this {@code TextSearchRequest} for call chaining.
    */
   public TextSearchRequest rankby(RankBy ranking) {
     return param("rankby", ranking);
@@ -111,6 +138,9 @@ public class TextSearchRequest
 
   /**
    * type restricts the results to places matching the specified type.
+   *
+   * @param type The type of place to restrict the results with.
+   * @return Returns this {@code TextSearchRequest} for call chaining.
    */
   public TextSearchRequest type(PlaceType type) {
     return param("type", type);
@@ -164,5 +194,4 @@ public class TextSearchRequest
       return ApiException.from(status, errorMessage);
     }
   }
-
 }

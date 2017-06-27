@@ -26,8 +26,7 @@ import com.google.maps.model.LatLng;
  * you can use to place markers or position the map. Reverse geocoding is the process of
  * converting geographic coordinates into a human-readable address.
  *
- * @see <a href="https://developers.google.com/maps/documentation/geocoding/">Geocoding
- * documentation</a>.
+ * @see <a href="https://developers.google.com/maps/documentation/geocoding/">Geocoding documentation</a>
  */
 public class GeocodingApi {
   private GeocodingApi() {
@@ -35,6 +34,9 @@ public class GeocodingApi {
 
   /**
    * create a new Geocoding API request.
+   *
+   * @param context The {@link GeoApiContext} to make requests through.
+   * @return Returns the request, ready to run.
    */
   public static GeocodingApiRequest newRequest(GeoApiContext context) {
     return new GeocodingApiRequest(context);
@@ -42,6 +44,10 @@ public class GeocodingApi {
 
   /**
    * Request the latitude and longitude of an {@code address}.
+   *
+   * @param context The {@link GeoApiContext} to make requests through.
+   * @param address The address to geocode.
+   * @return Returns the request, ready to run.
    */
   public static GeocodingApiRequest geocode(GeoApiContext context, String address) {
     GeocodingApiRequest request = new GeocodingApiRequest(context);
@@ -51,6 +57,10 @@ public class GeocodingApi {
 
   /**
    * Request the street address of a {@code location}.
+   *
+   * @param context The {@link GeoApiContext} to make requests through.
+   * @param location The location to reverse geocode.
+   * @return Returns the request, ready to run.
    */
   public static GeocodingApiRequest reverseGeocode(GeoApiContext context, LatLng location) {
     GeocodingApiRequest request = new GeocodingApiRequest(context);
@@ -81,5 +91,4 @@ public class GeocodingApi {
       return ApiException.from(status, errorMessage);
     }
   }
-
 }

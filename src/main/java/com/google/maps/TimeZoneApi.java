@@ -36,6 +36,10 @@ public class TimeZoneApi {
 
   /**
    * Retrieve the {@link java.util.TimeZone} for the given location.
+   *
+   * @param context The {@link GeoApiContext} to make requests through.
+   * @param location The location for which to retrieve a time zone.
+   * @return Returns the time zone as a {@link PendingResult}.
    */
   public static PendingResult<TimeZone> getTimeZone(GeoApiContext context, LatLng location) {
     return context.get(API_CONFIG, Response.class,
