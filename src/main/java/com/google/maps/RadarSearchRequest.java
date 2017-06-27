@@ -37,7 +37,12 @@ public class RadarSearchRequest
     super(context, API_CONFIG, Response.class);
   }
 
-  /** location is the latitude/longitude around which to retrieve place information. */
+  /**
+   * location is the latitude/longitude around which to retrieve place information.
+   *
+   * @param location The location around which to search.
+   * @return Returns this {@code RadarSearchRequest} for call chaining.
+   */
   public RadarSearchRequest location(LatLng location) {
     return param("location", location);
   }
@@ -46,6 +51,9 @@ public class RadarSearchRequest
    * radius defines the distance (in meters) within which to return place results. The maximum
    * allowed radius is 50,000 meters. Note that radius must not be included if rankby=DISTANCE is
    * specified.
+   *
+   * @param distance The radius distance to restrict results.
+   * @return Returns this {@code RadarSearchRequest} for call chaining.
    */
   public RadarSearchRequest radius(int distance) {
     if (distance > 50000) {
@@ -58,17 +66,30 @@ public class RadarSearchRequest
    * keyword is a term to be matched against all content that Google has indexed for this place,
    * including but not limited to name, type, and address, as well as customer reviews and other
    * third-party content.
+   *
+   * @param keyword The keyword to search for.
+   * @return Returns this {@code RadarSearchRequest} for call chaining.
    */
   public RadarSearchRequest keyword(String keyword) {
     return param("keyword", keyword);
   }
 
-  /** minPrice restricts to places that are at least this price level. */
+  /**
+   * minPrice restricts to places that are at least this price level.
+   *
+   * @param priceLevel The minimum price level to restrict results with.
+   * @return Returns this {@code RadarSearchRequest} for call chaining.
+   */
   public RadarSearchRequest minPrice(PriceLevel priceLevel) {
     return param("minprice", priceLevel);
   }
 
-  /** maxPrice restricts to places that are at most this price level. */
+  /**
+   * maxPrice restricts to places that are at most this price level.
+   *
+   * @param priceLevel The maximum price level to restrict results with.
+   * @return Returns this {@code RadarSearchRequest} for call chaining.
+   */
   public RadarSearchRequest maxPrice(PriceLevel priceLevel) {
     return param("maxprice", priceLevel);
   }
@@ -76,17 +97,30 @@ public class RadarSearchRequest
   /**
    * name is one or more terms to be matched against the names of places, separated with a space
    * character.
+   *
+   * @param name The name to restrict results with.
+   * @return Returns this {@code RadarSearchRequest} for call chaining.
    */
   public RadarSearchRequest name(String name) {
     return param("name", name);
   }
 
-  /** openNow returns only those places that are open for business at the time the query is sent. */
+  /**
+   * openNow returns only those places that are open for business at the time the query is sent.
+   *
+   * @param openNow Whether to restrict to results that are open now.
+   * @return Returns this {@code RadarSearchRequest} for call chaining.
+   */
   public RadarSearchRequest openNow(boolean openNow) {
     return param("opennow", String.valueOf(openNow));
   }
 
-  /** type restricts the results to places matching the specified type. */
+  /**
+   * type restricts the results to places matching the specified type.
+   *
+   * @param type The Place Type to restrict results to.
+   * @return Returns this {@code RadarSearchRequest} for call chaining.
+   */
   public RadarSearchRequest type(PlaceType type) {
     return param("type", type);
   }

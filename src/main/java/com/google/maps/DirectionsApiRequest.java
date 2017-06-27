@@ -61,6 +61,9 @@ public class DirectionsApiRequest
    * you pass an address as a string, the Directions service will geocode the string and convert it
    * to a latitude/longitude coordinate to calculate directions. If you pass coordinates, ensure
    * that no space exists between the latitude and longitude values.
+   *
+   * @param origin The starting location for the Directions request.
+   * @return Returns this {@code DirectionsApiRequest} for call chaining.
    */
   public DirectionsApiRequest origin(String origin) {
     return param("origin", origin);
@@ -71,17 +74,30 @@ public class DirectionsApiRequest
    * you pass an address as a string, the Directions service will geocode the string and convert it
    * to a latitude/longitude coordinate to calculate directions. If you pass coordinates, ensure
    * that no space exists between the latitude and longitude values.
+   *
+   * @param destination The ending location for the Directions request.
+   * @return Returns this {@code DirectionsApiRequest} for call chaining.
    */
   public DirectionsApiRequest destination(String destination) {
     return param("destination", destination);
   }
 
-  /** The origin, as a latitude,longitude location. */
+  /**
+   * The origin, as a latitude,longitude location.
+   *
+   * @param origin The starting location for the Directions request.
+   * @return Returns this {@code DirectionsApiRequest} for call chaining.
+   */
   public DirectionsApiRequest origin(LatLng origin) {
     return origin(origin.toString());
   }
 
-  /** The destination, as a latitude,longitude location. */
+  /**
+   * The destination, as a latitude,longitude location.
+   *
+   * @param destination The ending location for the Directions request.
+   * @return Returns this {@code DirectionsApiRequest} for call chaining.
+   */
   public DirectionsApiRequest destination(LatLng destination) {
     return destination(destination.toString());
   }
@@ -92,6 +108,7 @@ public class DirectionsApiRequest
    * either a {@code departureTime} or an {@code arrivalTime}.
    *
    * @param mode The travel mode to request directions for.
+   * @return Returns this {@code DirectionsApiRequest} for call chaining.
    */
   public DirectionsApiRequest mode(TravelMode mode) {
     return param("mode", mode);
@@ -101,19 +118,26 @@ public class DirectionsApiRequest
    * Indicates that the calculated route(s) should avoid the indicated features.
    *
    * @param restrictions one or more of {@link DirectionsApi.RouteRestriction#TOLLS}, {@link
-   *     DirectionsApi.RouteRestriction#HIGHWAYS}, {@link DirectionsApi.RouteRestriction#FERRIES}
+   *                     DirectionsApi.RouteRestriction#HIGHWAYS}, {@link DirectionsApi.RouteRestriction#FERRIES}
+   * @return Returns this {@code DirectionsApiRequest} for call chaining.
    */
   public DirectionsApiRequest avoid(DirectionsApi.RouteRestriction... restrictions) {
     return param("avoid", join('|', restrictions));
   }
 
-  /** Specifies the unit system to use when displaying results. */
+  /**
+   * Specifies the unit system to use when displaying results.
+   *
+   * @param units The preferred units for displaying distances.
+   * @return Returns this {@code DirectionsApiRequest} for call chaining.
+   */
   public DirectionsApiRequest units(Unit units) {
     return param("units", units);
   }
 
   /**
    * @param region The region code, specified as a ccTLD ("top-level domain") two-character value.
+   * @return Returns this {@code DirectionsApiRequest} for call chaining.
    */
   public DirectionsApiRequest region(String region) {
     return param("region", region);
@@ -123,6 +147,7 @@ public class DirectionsApiRequest
    * Set the arrival time for a Transit directions request.
    *
    * @param time The arrival time to calculate directions for.
+   * @return Returns this {@code DirectionsApiRequest} for call chaining.
    */
   public DirectionsApiRequest arrivalTime(ReadableInstant time) {
     return param("arrival_time", Long.toString(time.getMillis() / 1000L));
@@ -134,6 +159,7 @@ public class DirectionsApiRequest
    * departure time must be specified.
    *
    * @param time The departure time to calculate directions for.
+   * @return Returns this {@code DirectionsApiRequest} for call chaining.
    */
   public DirectionsApiRequest departureTime(ReadableInstant time) {
     return param("departure_time", Long.toString(time.getMillis() / 1000L));
@@ -145,9 +171,17 @@ public class DirectionsApiRequest
    * which will be geocoded. Waypoints are only supported for driving, walking and bicycling
    * directions.
    *
+<<<<<<< HEAD
    * <p>For more information on waypoints, see <a
    * href="https://developers.google.com/maps/documentation/directions/intro#Waypoints">Using
    * Waypoints in Routes</a>.
+=======
+   * <p>For more information on waypoints, see <a href="https://developers.google.com/maps/documentation/directions/intro#Waypoints">
+   * Using Waypoints in Routes</a>.
+   *
+   * @param waypoints The waypoints to add to this directions request.
+   * @return Returns this {@code DirectionsApiRequest} for call chaining.
+>>>>>>> Adding Javadoc
    */
   public DirectionsApiRequest waypoints(String... waypoints) {
     this.waypoints = waypoints;
@@ -160,7 +194,12 @@ public class DirectionsApiRequest
     }
   }
 
-  /** The list of waypoints as latitude,longitude locations. */
+  /**
+   * The list of waypoints as latitude,longitude locations.
+   *
+   * @param waypoints The waypoints to add to this directions request.
+   * @return Returns this {@code DirectionsApiRequest} for call chaining.
+   */
   public DirectionsApiRequest waypoints(LatLng... waypoints) {
     if (waypoints == null) {
       return this;
@@ -176,6 +215,9 @@ public class DirectionsApiRequest
   /**
    * Allow the Directions service to optimize the provided route by rearranging the waypoints in a
    * more efficient order.
+   *
+   * @param optimize Whether to optimize waypoints.
+   * @return Returns this {@code DirectionsApiRequest} for call chaining.
    */
   public DirectionsApiRequest optimizeWaypoints(boolean optimize) {
     optimizeWaypoints = optimize;
@@ -190,6 +232,9 @@ public class DirectionsApiRequest
    * If set to true, specifies that the Directions service may provide more than one route
    * alternative in the response. Note that providing route alternatives may increase the response
    * time from the server.
+   *
+   * @param alternateRoutes whether to return alternate routes.
+   * @return Returns this {@code DirectionsApiRequest} for call chaining.
    */
   public DirectionsApiRequest alternatives(boolean alternateRoutes) {
     if (alternateRoutes) {
@@ -202,6 +247,9 @@ public class DirectionsApiRequest
   /**
    * Specifies one or more preferred modes of transit. This parameter may only be specified for
    * requests where the mode is transit.
+   *
+   * @param transitModes The preferred transit modes.
+   * @return Returns this {@code DirectionsApiRequest} for call chaining.
    */
   public DirectionsApiRequest transitMode(TransitMode... transitModes) {
     return param("transit_mode", join('|', transitModes));
@@ -210,6 +258,9 @@ public class DirectionsApiRequest
   /**
    * Specifies preferences for transit requests. Using this parameter, you can bias the options
    * returned, rather than accepting the default best route chosen by the API.
+   *
+   * @param pref The transit routing preferences for this request.
+   * @return Returns this {@code DirectionsApiRequest} for call chaining.
    */
   public DirectionsApiRequest transitRoutingPreference(TransitRoutingPreference pref) {
     return param("transit_routing_preference", pref);
@@ -218,6 +269,9 @@ public class DirectionsApiRequest
   /**
    * Specifies the traffic model to use when requesting future driving directions. Once set, you
    * must specify a departure time.
+   *
+   * @param trafficModel The traffic model for estimating driving time.
+   * @return Returns this {@code DirectionsApiRequest} for call chaining.
    */
   public DirectionsApiRequest trafficModel(TrafficModel trafficModel) {
     return param("traffic_model", trafficModel);
