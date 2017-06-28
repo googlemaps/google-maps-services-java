@@ -30,9 +30,7 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.json.JSONObject;
 
-/**
- * Local test mock server for unit tests.
- */
+/** Local test mock server for unit tests. */
 public class LocalTestServerContext implements AutoCloseable {
 
   private final MockWebServer server;
@@ -60,8 +58,7 @@ public class LocalTestServerContext implements AutoCloseable {
   }
 
   private void takeRequest() throws InterruptedException {
-    if (this.request == null)
-      this.request = server.takeRequest();
+    if (this.request == null) this.request = server.takeRequest();
   }
 
   public JSONObject requestBody() throws InterruptedException {
@@ -99,7 +96,7 @@ public class LocalTestServerContext implements AutoCloseable {
     try {
       server.shutdown();
     } catch (IOException e) {
-      System.err.println("Failed to close server: "+e);
+      System.err.println("Failed to close server: " + e);
     }
   }
 }

@@ -25,7 +25,6 @@ import com.google.maps.model.CellTower;
 import com.google.maps.model.GeolocationPayload;
 import com.google.maps.model.GeolocationResult;
 import com.google.maps.model.WifiAccessPoint;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Test;
@@ -54,36 +53,40 @@ public class GeolocationApiTest {
 
   @Test
   public void testDocSampleGeolocation() throws Exception {
-    try(LocalTestServerContext sc = new LocalTestServerContext(geolocationDocSample)) {
-      GeolocationResult result = GeolocationApi.newRequest(sc.context)
-          .ConsiderIp(false)
-          .HomeMobileCountryCode(310)
-          .HomeMobileNetworkCode(260)
-          .RadioType("gsm")
-          .Carrier("T-Mobile")
-          .AddCellTower(new CellTower.CellTowerBuilder()
-              .CellId(39627456)
-              .LocationAreaCode(40495)
-              .MobileCountryCode(310)
-              .MobileNetworkCode(260)
-              .Age(0)
-              .SignalStrength(-95)
-              .createCellTower())
-          .AddWifiAccessPoint(new WifiAccessPoint.WifiAccessPointBuilder()
-              .MacAddress("01:23:45:67:89:AB")
-              .SignalStrength(-65)
-              .SignalToNoiseRatio(8)
-              .Channel(8)
-              .Age(0)
-              .createWifiAccessPoint())
-          .AddWifiAccessPoint(new WifiAccessPoint.WifiAccessPointBuilder()
-              .MacAddress("01:23:45:67:89:AC")
-              .SignalStrength(4)
-              .SignalToNoiseRatio(4)
-              .Age(0)
-              .createWifiAccessPoint())
-          .CreatePayload()
-          .await();
+    try (LocalTestServerContext sc = new LocalTestServerContext(geolocationDocSample)) {
+      GeolocationResult result =
+          GeolocationApi.newRequest(sc.context)
+              .ConsiderIp(false)
+              .HomeMobileCountryCode(310)
+              .HomeMobileNetworkCode(260)
+              .RadioType("gsm")
+              .Carrier("T-Mobile")
+              .AddCellTower(
+                  new CellTower.CellTowerBuilder()
+                      .CellId(39627456)
+                      .LocationAreaCode(40495)
+                      .MobileCountryCode(310)
+                      .MobileNetworkCode(260)
+                      .Age(0)
+                      .SignalStrength(-95)
+                      .createCellTower())
+              .AddWifiAccessPoint(
+                  new WifiAccessPoint.WifiAccessPointBuilder()
+                      .MacAddress("01:23:45:67:89:AB")
+                      .SignalStrength(-65)
+                      .SignalToNoiseRatio(8)
+                      .Channel(8)
+                      .Age(0)
+                      .createWifiAccessPoint())
+              .AddWifiAccessPoint(
+                  new WifiAccessPoint.WifiAccessPointBuilder()
+                      .MacAddress("01:23:45:67:89:AC")
+                      .SignalStrength(4)
+                      .SignalToNoiseRatio(4)
+                      .Age(0)
+                      .createWifiAccessPoint())
+              .CreatePayload()
+              .await();
 
       JSONObject body = sc.requestBody();
       assertEquals(false, body.get("considerIp"));
@@ -99,17 +102,20 @@ public class GeolocationApiTest {
 
   @Test
   public void testMinimumWifiGeolocation() throws Exception {
-    try(LocalTestServerContext sc = new LocalTestServerContext(geolocationMinimumWifi)) {
-      GeolocationResult result = GeolocationApi.newRequest(sc.context)
-          .ConsiderIp(false)
-          .AddWifiAccessPoint(new WifiAccessPoint.WifiAccessPointBuilder()
-              .MacAddress("94:b4:0f:ff:6b:11")
-              .createWifiAccessPoint())
-          .AddWifiAccessPoint(new WifiAccessPoint.WifiAccessPointBuilder()
-              .MacAddress("94:b4:0f:ff:6b:10")
-              .createWifiAccessPoint())
-          .CreatePayload()
-          .await();
+    try (LocalTestServerContext sc = new LocalTestServerContext(geolocationMinimumWifi)) {
+      GeolocationResult result =
+          GeolocationApi.newRequest(sc.context)
+              .ConsiderIp(false)
+              .AddWifiAccessPoint(
+                  new WifiAccessPoint.WifiAccessPointBuilder()
+                      .MacAddress("94:b4:0f:ff:6b:11")
+                      .createWifiAccessPoint())
+              .AddWifiAccessPoint(
+                  new WifiAccessPoint.WifiAccessPointBuilder()
+                      .MacAddress("94:b4:0f:ff:6b:10")
+                      .createWifiAccessPoint())
+              .CreatePayload()
+              .await();
 
       JSONObject body = sc.requestBody();
       assertEquals(false, body.get("considerIp"));
@@ -124,21 +130,24 @@ public class GeolocationApiTest {
 
   @Test
   public void testBasicGeolocation() throws Exception {
-    try(LocalTestServerContext sc = new LocalTestServerContext(geolocationBasic)) {
-      GeolocationResult result = GeolocationApi.newRequest(sc.context)
-          .ConsiderIp(false)
-          .AddWifiAccessPoint(new WifiAccessPoint.WifiAccessPointBuilder()
-              .MacAddress("92:68:c3:f8:76:47")
-              .SignalStrength(-42)
-              .SignalToNoiseRatio(68)
-              .createWifiAccessPoint())
-          .AddWifiAccessPoint(new WifiAccessPoint.WifiAccessPointBuilder()
-              .MacAddress("94:b4:0f:ff:6b:11")
-              .SignalStrength(-55)
-              .SignalToNoiseRatio(55)
-              .createWifiAccessPoint())
-          .CreatePayload()
-          .await();
+    try (LocalTestServerContext sc = new LocalTestServerContext(geolocationBasic)) {
+      GeolocationResult result =
+          GeolocationApi.newRequest(sc.context)
+              .ConsiderIp(false)
+              .AddWifiAccessPoint(
+                  new WifiAccessPoint.WifiAccessPointBuilder()
+                      .MacAddress("92:68:c3:f8:76:47")
+                      .SignalStrength(-42)
+                      .SignalToNoiseRatio(68)
+                      .createWifiAccessPoint())
+              .AddWifiAccessPoint(
+                  new WifiAccessPoint.WifiAccessPointBuilder()
+                      .MacAddress("94:b4:0f:ff:6b:11")
+                      .SignalStrength(-55)
+                      .SignalToNoiseRatio(55)
+                      .createWifiAccessPoint())
+              .CreatePayload()
+              .await();
 
       JSONObject body = sc.requestBody();
       assertEquals(false, body.get("considerIp"));
@@ -159,20 +168,23 @@ public class GeolocationApiTest {
 
   @Test
   public void testAlternateWifiSetterGeolocation() throws Exception {
-    try(LocalTestServerContext sc = new LocalTestServerContext(geolocationBasic)) {
+    try (LocalTestServerContext sc = new LocalTestServerContext(geolocationBasic)) {
       WifiAccessPoint[] wifiAccessPoints = new WifiAccessPoint[2];
-      wifiAccessPoints[0] = new WifiAccessPoint.WifiAccessPointBuilder()
-          .MacAddress("94:b4:0f:ff:6b:11")
-          .createWifiAccessPoint();
-      wifiAccessPoints[1] = new WifiAccessPoint.WifiAccessPointBuilder()
-          .MacAddress("94:b4:0f:ff:6b:10")
-          .createWifiAccessPoint();
+      wifiAccessPoints[0] =
+          new WifiAccessPoint.WifiAccessPointBuilder()
+              .MacAddress("94:b4:0f:ff:6b:11")
+              .createWifiAccessPoint();
+      wifiAccessPoints[1] =
+          new WifiAccessPoint.WifiAccessPointBuilder()
+              .MacAddress("94:b4:0f:ff:6b:10")
+              .createWifiAccessPoint();
 
-      GeolocationResult result = GeolocationApi.newRequest(sc.context)
-          .ConsiderIp(false)
-          .WifiAccessPoints(wifiAccessPoints)
-          .CreatePayload()
-          .await();
+      GeolocationResult result =
+          GeolocationApi.newRequest(sc.context)
+              .ConsiderIp(false)
+              .WifiAccessPoints(wifiAccessPoints)
+              .CreatePayload()
+              .await();
 
       JSONObject body = sc.requestBody();
       assertEquals(false, body.get("considerIp"));
@@ -189,29 +201,32 @@ public class GeolocationApiTest {
 
   @Test
   public void testMaximumWifiGeolocation() throws Exception {
-    try(LocalTestServerContext sc = new LocalTestServerContext(geolocationMaximumWifi)) {
-      GeolocationResult result = GeolocationApi.newRequest(sc.context)
-          .ConsiderIp(false)
-          .HomeMobileCountryCode(310)
-          .HomeMobileNetworkCode(410)
-          .RadioType("gsm")
-          .Carrier("Vodafone")
-          .AddWifiAccessPoint(new WifiAccessPoint.WifiAccessPointBuilder()
-              .MacAddress("94:b4:0f:ff:88:31")
-              .SignalStrength(-61)
-              .SignalToNoiseRatio(49)
-              .Channel(40)
-              .Age(0)
-              .createWifiAccessPoint())
-          .AddWifiAccessPoint(new WifiAccessPoint.WifiAccessPointBuilder()
-              .MacAddress("94:b4:0f:ff:88:30")
-              .SignalStrength(-64)
-              .SignalToNoiseRatio(46)
-              .Channel(40)
-              .Age(0)
-              .createWifiAccessPoint())
-          .CreatePayload()
-          .await();
+    try (LocalTestServerContext sc = new LocalTestServerContext(geolocationMaximumWifi)) {
+      GeolocationResult result =
+          GeolocationApi.newRequest(sc.context)
+              .ConsiderIp(false)
+              .HomeMobileCountryCode(310)
+              .HomeMobileNetworkCode(410)
+              .RadioType("gsm")
+              .Carrier("Vodafone")
+              .AddWifiAccessPoint(
+                  new WifiAccessPoint.WifiAccessPointBuilder()
+                      .MacAddress("94:b4:0f:ff:88:31")
+                      .SignalStrength(-61)
+                      .SignalToNoiseRatio(49)
+                      .Channel(40)
+                      .Age(0)
+                      .createWifiAccessPoint())
+              .AddWifiAccessPoint(
+                  new WifiAccessPoint.WifiAccessPointBuilder()
+                      .MacAddress("94:b4:0f:ff:88:30")
+                      .SignalStrength(-64)
+                      .SignalToNoiseRatio(46)
+                      .Channel(40)
+                      .Age(0)
+                      .createWifiAccessPoint())
+              .CreatePayload()
+              .await();
 
       JSONObject body = sc.requestBody();
       assertEquals(false, body.get("considerIp"));
@@ -240,17 +255,19 @@ public class GeolocationApiTest {
 
   @Test
   public void testMinimumCellTowerGeolocation() throws Exception {
-    try(LocalTestServerContext sc = new LocalTestServerContext(geolocationMinimumCellTower)) {
-      GeolocationResult result = GeolocationApi.newRequest(sc.context)
-          .ConsiderIp(false)
-          .AddCellTower(new CellTower.CellTowerBuilder()
-              .CellId(39627456)
-              .LocationAreaCode(40495)
-              .MobileCountryCode(310)
-              .MobileNetworkCode(260)
-              .createCellTower())
-          .CreatePayload()
-          .await();
+    try (LocalTestServerContext sc = new LocalTestServerContext(geolocationMinimumCellTower)) {
+      GeolocationResult result =
+          GeolocationApi.newRequest(sc.context)
+              .ConsiderIp(false)
+              .AddCellTower(
+                  new CellTower.CellTowerBuilder()
+                      .CellId(39627456)
+                      .LocationAreaCode(40495)
+                      .MobileCountryCode(310)
+                      .MobileNetworkCode(260)
+                      .createCellTower())
+              .CreatePayload()
+              .await();
 
       JSONObject body = sc.requestBody();
       assertEquals(false, body.get("considerIp"));
@@ -267,16 +284,19 @@ public class GeolocationApiTest {
 
   @Test
   public void testAlternatePayloadBuilderGeolocation() throws Exception {
-    try(LocalTestServerContext sc = new LocalTestServerContext(geolocationAlternatePayloadBuilder)) {
-      GeolocationPayload payload = new GeolocationPayload.GeolocationPayloadBuilder()
-          .ConsiderIp(false)
-          .AddCellTower(new CellTower.CellTowerBuilder()
-              .CellId(39627456)
-              .LocationAreaCode(40495)
-              .MobileCountryCode(310)
-              .MobileNetworkCode(260)
-              .createCellTower())
-          .createGeolocationPayload();
+    try (LocalTestServerContext sc =
+        new LocalTestServerContext(geolocationAlternatePayloadBuilder)) {
+      GeolocationPayload payload =
+          new GeolocationPayload.GeolocationPayloadBuilder()
+              .ConsiderIp(false)
+              .AddCellTower(
+                  new CellTower.CellTowerBuilder()
+                      .CellId(39627456)
+                      .LocationAreaCode(40495)
+                      .MobileCountryCode(310)
+                      .MobileNetworkCode(260)
+                      .createCellTower())
+              .createGeolocationPayload();
 
       GeolocationResult result = GeolocationApi.geolocate(sc.context, payload).await();
       JSONObject body = sc.requestBody();
@@ -294,24 +314,26 @@ public class GeolocationApiTest {
 
   @Test
   public void testMaximumCellTowerGeolocation() throws Exception {
-    try(LocalTestServerContext sc = new LocalTestServerContext(geolocationMaximumCellTower)) {
-      GeolocationResult result = GeolocationApi.newRequest(sc.context)
-          .ConsiderIp(false)
-          .HomeMobileCountryCode(310)
-          .HomeMobileNetworkCode(260)
-          .RadioType("gsm")
-          .Carrier("Vodafone")
-          .AddCellTower(new CellTower.CellTowerBuilder()
-              .CellId(39627456)
-              .LocationAreaCode(40495)
-              .MobileCountryCode(310)
-              .MobileNetworkCode(260)
-              .Age(0)
-              .SignalStrength(-103)
-              .TimingAdvance(15)
-              .createCellTower())
-          .CreatePayload()
-          .await();
+    try (LocalTestServerContext sc = new LocalTestServerContext(geolocationMaximumCellTower)) {
+      GeolocationResult result =
+          GeolocationApi.newRequest(sc.context)
+              .ConsiderIp(false)
+              .HomeMobileCountryCode(310)
+              .HomeMobileNetworkCode(260)
+              .RadioType("gsm")
+              .Carrier("Vodafone")
+              .AddCellTower(
+                  new CellTower.CellTowerBuilder()
+                      .CellId(39627456)
+                      .LocationAreaCode(40495)
+                      .MobileCountryCode(310)
+                      .MobileNetworkCode(260)
+                      .Age(0)
+                      .SignalStrength(-103)
+                      .TimingAdvance(15)
+                      .createCellTower())
+              .CreatePayload()
+              .await();
 
       JSONObject body = sc.requestBody();
       assertEquals(false, body.get("considerIp"));
@@ -335,9 +357,9 @@ public class GeolocationApiTest {
 
   @Test
   public void testNoPayloadGeolocation0() throws Exception {
-    try(LocalTestServerContext sc = new LocalTestServerContext(geolocationBasic)) {
-      GeolocationPayload payload = new GeolocationPayload.GeolocationPayloadBuilder()
-          .createGeolocationPayload();
+    try (LocalTestServerContext sc = new LocalTestServerContext(geolocationBasic)) {
+      GeolocationPayload payload =
+          new GeolocationPayload.GeolocationPayloadBuilder().createGeolocationPayload();
 
       GeolocationResult result = GeolocationApi.geolocate(sc.context, payload).await();
       assertNotNull(result);
@@ -347,10 +369,8 @@ public class GeolocationApiTest {
 
   @Test
   public void testNoPayloadGeolocation1() throws Exception {
-    try(LocalTestServerContext sc = new LocalTestServerContext(geolocationBasic)) {
-      GeolocationResult result = GeolocationApi.newRequest(sc.context)
-          .CreatePayload()
-          .await();
+    try (LocalTestServerContext sc = new LocalTestServerContext(geolocationBasic)) {
+      GeolocationResult result = GeolocationApi.newRequest(sc.context).CreatePayload().await();
 
       assertNotNull(result);
       assertNotNull(result.location);
@@ -359,45 +379,43 @@ public class GeolocationApiTest {
 
   @Test(expected = NotFoundException.class)
   public void testNotFoundGeolocation() throws Exception {
-    try(LocalTestServerContext sc = new LocalTestServerContext(""
-        + "{\n"
-        + " \"error\": {\n"
-        + "  \"errors\": [\n"
-        + "   {\n"
-        + "    \"domain\": \"geolocation\",\n"
-        + "    \"reason\": \"notFound\""
-        + "   }\n"
-        + "  ],\n"
-        + "  \"code\": 404\n"
-        + " }\n"
-        + "}")) {
-      GeolocationApi.newRequest(sc.context)
-          .ConsiderIp(false)
-          .CreatePayload()
-          .await();
+    try (LocalTestServerContext sc =
+        new LocalTestServerContext(
+            ""
+                + "{\n"
+                + " \"error\": {\n"
+                + "  \"errors\": [\n"
+                + "   {\n"
+                + "    \"domain\": \"geolocation\",\n"
+                + "    \"reason\": \"notFound\""
+                + "   }\n"
+                + "  ],\n"
+                + "  \"code\": 404\n"
+                + " }\n"
+                + "}")) {
+      GeolocationApi.newRequest(sc.context).ConsiderIp(false).CreatePayload().await();
     }
   }
 
   @Test(expected = InvalidRequestException.class)
   public void testInvalidArgumentGeolocation() throws Exception {
-    try(LocalTestServerContext sc = new LocalTestServerContext(""
-        + "{\n"
-        + " \"error\": {\n"
-        + "  \"errors\": [\n"
-        + "   {\n"
-        + "    \"domain\": \"global\",\n"
-        + "    \"reason\": \"parseError\",\n"
-        + "    \"message\": \"Parse Error\"\n"
-        + "   }\n"
-        + "  ],\n"
-        + "  \"code\": 400,\n"
-        + "  \"message\": \"Parse Error\"\n"
-        + " }\n"
-        + "}")) {
-      GeolocationApi.newRequest(sc.context)
-          .HomeMobileCountryCode(-310)
-          .CreatePayload()
-          .await();
+    try (LocalTestServerContext sc =
+        new LocalTestServerContext(
+            ""
+                + "{\n"
+                + " \"error\": {\n"
+                + "  \"errors\": [\n"
+                + "   {\n"
+                + "    \"domain\": \"global\",\n"
+                + "    \"reason\": \"parseError\",\n"
+                + "    \"message\": \"Parse Error\"\n"
+                + "   }\n"
+                + "  ],\n"
+                + "  \"code\": 400,\n"
+                + "  \"message\": \"Parse Error\"\n"
+                + " }\n"
+                + "}")) {
+      GeolocationApi.newRequest(sc.context).HomeMobileCountryCode(-310).CreatePayload().await();
     }
   }
 }

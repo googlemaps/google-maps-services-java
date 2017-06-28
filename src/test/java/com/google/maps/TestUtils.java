@@ -24,7 +24,8 @@ public class TestUtils {
     Scanner s = new java.util.Scanner(input).useDelimiter("\\A");
     String body = s.next();
     if (body == null || body.length() == 0) {
-      throw new IllegalArgumentException("filename '" + filename + "' resulted in null or empty body");
+      throw new IllegalArgumentException(
+          "filename '" + filename + "' resulted in null or empty body");
     }
     return body;
   }

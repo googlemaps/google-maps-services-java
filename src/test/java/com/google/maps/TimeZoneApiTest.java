@@ -22,26 +22,26 @@ import static org.junit.Assert.assertTrue;
 
 import com.google.maps.errors.ZeroResultsException;
 import com.google.maps.model.LatLng;
-
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
-
 import java.util.Date;
 import java.util.TimeZone;
+import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 @Category(MediumTests.class)
 public class TimeZoneApiTest {
 
   @Test
   public void testGetTimeZone() throws Exception {
-    try(LocalTestServerContext sc = new LocalTestServerContext("\n"
-        + "{\n"
-        + "   \"dstOffset\" : 0,\n"
-        + "   \"rawOffset\" : 36000,\n"
-        + "   \"status\" : \"OK\",\n"
-        + "   \"timeZoneId\" : \"Australia/Sydney\",\n"
-        + "   \"timeZoneName\" : \"Australian Eastern Standard Time\"\n"
-        + "}\n")) {
+    try (LocalTestServerContext sc =
+        new LocalTestServerContext(
+            "\n"
+                + "{\n"
+                + "   \"dstOffset\" : 0,\n"
+                + "   \"rawOffset\" : 36000,\n"
+                + "   \"status\" : \"OK\",\n"
+                + "   \"timeZoneId\" : \"Australia/Sydney\",\n"
+                + "   \"timeZoneName\" : \"Australian Eastern Standard Time\"\n"
+                + "}\n")) {
       LatLng sydney = new LatLng(-33.8688, 151.2093);
       TimeZone tz = TimeZoneApi.getTimeZone(sc.context, sydney).await();
 
@@ -61,19 +61,15 @@ public class TimeZoneApiTest {
 
   @Test(expected = ZeroResultsException.class)
   public void testNoResult() throws Exception {
-    try(LocalTestServerContext sc = new LocalTestServerContext("\n"
-        + "{\n"
-        + "   \"status\" : \"ZERO_RESULTS\"\n"
-        + "}\n")) {
+    try (LocalTestServerContext sc =
+        new LocalTestServerContext("\n" + "{\n" + "   \"status\" : \"ZERO_RESULTS\"\n" + "}\n")) {
       TimeZone resp = TimeZoneApi.getTimeZone(sc.context, new LatLng(0, 0)).awaitIgnoreError();
       assertNull(resp);
 
       sc.assertParamValue("0.00000000,0.00000000", "location");
 
-      LocalTestServerContext sc2 = new LocalTestServerContext("\n"
-          + "{\n"
-          + "   \"status\" : \"ZERO_RESULTS\"\n"
-          + "}\n");
+      LocalTestServerContext sc2 =
+          new LocalTestServerContext("\n" + "{\n" + "   \"status\" : \"ZERO_RESULTS\"\n" + "}\n");
       TimeZoneApi.getTimeZone(sc2.context, new LatLng(0, 0)).await();
     }
   }
