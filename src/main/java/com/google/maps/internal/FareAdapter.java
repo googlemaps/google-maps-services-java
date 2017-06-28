@@ -20,14 +20,11 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
 import com.google.maps.model.Fare;
-
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Currency;
 
-/**
- * This class handles conversion from JSON to {@link com.google.maps.model.Fare}.
- */
+/** This class handles conversion from JSON to {@link com.google.maps.model.Fare}. */
 public class FareAdapter extends TypeAdapter<Fare> {
 
   /**
@@ -64,9 +61,7 @@ public class FareAdapter extends TypeAdapter<Fare> {
     return fare;
   }
 
-  /**
-   * This method is not implemented.
-   */
+  /** This method is not implemented. */
   @Override
   public void write(JsonWriter out, Fare value) throws IOException {
     throw new UnsupportedOperationException("Unimplemented method");

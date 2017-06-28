@@ -22,15 +22,12 @@ import com.google.maps.model.GeolocationPayload.GeolocationPayloadBuilder;
 import com.google.maps.model.GeolocationResult;
 import com.google.maps.model.WifiAccessPoint;
 
-/**
- * Request for the Geolocation API.
- */
+/** Request for the Geolocation API. */
 public class GeolocationApiRequest
-    extends PendingResultBase<GeolocationResult, GeolocationApiRequest, GeolocationApi.Response>{
+    extends PendingResultBase<GeolocationResult, GeolocationApiRequest, GeolocationApi.Response> {
 
   private GeolocationPayload payload = null;
   private GeolocationPayloadBuilder builder = null;
-
 
   GeolocationApiRequest(GeoApiContext context) {
     super(context, GeolocationApi.GEOLOCATION_API_CONFIG, GeolocationApi.Response.class);
@@ -39,66 +36,66 @@ public class GeolocationApiRequest
 
   @Override
   protected void validateRequest() {
-    if(this.payload.considerIp != null
+    if (this.payload.considerIp != null
         && this.payload.considerIp == false
         && this.payload.wifiAccessPoints != null
         && this.payload.wifiAccessPoints.length < 2) {
       throw new IllegalArgumentException("Request must contain two or more 'Wifi Access Points'");
     }
   }
-  public GeolocationApiRequest HomeMobileCountryCode(int newHomeMobileCountryCode)
-  {
+
+  public GeolocationApiRequest HomeMobileCountryCode(int newHomeMobileCountryCode) {
     this.builder.HomeMobileCountryCode(newHomeMobileCountryCode);
     return this;
   }
-  public GeolocationApiRequest HomeMobileNetworkCode(int newHomeMobileNetworkCode)
-  {
+
+  public GeolocationApiRequest HomeMobileNetworkCode(int newHomeMobileNetworkCode) {
     this.builder.HomeMobileNetworkCode(newHomeMobileNetworkCode);
     return this;
   }
-  public GeolocationApiRequest RadioType(String newRadioType)
-  {
+
+  public GeolocationApiRequest RadioType(String newRadioType) {
     this.builder.RadioType(newRadioType);
     return this;
   }
-  public GeolocationApiRequest Carrier(String newCarrier)
-  {
+
+  public GeolocationApiRequest Carrier(String newCarrier) {
     this.builder.Carrier(newCarrier);
     return this;
   }
-  public GeolocationApiRequest ConsiderIp(boolean newConsiderIp)
-  {
+
+  public GeolocationApiRequest ConsiderIp(boolean newConsiderIp) {
     this.builder.ConsiderIp(newConsiderIp);
     return this;
   }
-  public GeolocationApiRequest CellTowers(CellTower[] newCellTowers)
-  {
+
+  public GeolocationApiRequest CellTowers(CellTower[] newCellTowers) {
     this.builder.CellTowers(newCellTowers);
     return this;
   }
-  public GeolocationApiRequest AddCellTower(CellTower newCellTower)
-  {
+
+  public GeolocationApiRequest AddCellTower(CellTower newCellTower) {
     this.builder.AddCellTower(newCellTower);
     return this;
   }
-  public GeolocationApiRequest WifiAccessPoints(WifiAccessPoint[] newWifiAccessPoints)
-  {
+
+  public GeolocationApiRequest WifiAccessPoints(WifiAccessPoint[] newWifiAccessPoints) {
     this.builder.WifiAccessPoints(newWifiAccessPoints);
     return this;
   }
-  public GeolocationApiRequest AddWifiAccessPoint(WifiAccessPoint newWifiAccessPoint)
-  {
+
+  public GeolocationApiRequest AddWifiAccessPoint(WifiAccessPoint newWifiAccessPoint) {
     this.builder.AddWifiAccessPoint(newWifiAccessPoint);
     return this;
   }
-  public GeolocationApiRequest Payload(GeolocationPayload payload)
-  {
+
+  public GeolocationApiRequest Payload(GeolocationPayload payload) {
     this.payload = payload;
     return this;
   }
-  public GeolocationApiRequest CreatePayload()
-  {
-    if(this.payload == null) {
+
+  public GeolocationApiRequest CreatePayload() {
+    if (this.payload == null) {
       // if the payload has not been set, create it
       this.payload = this.builder.createGeolocationPayload();
     } else {

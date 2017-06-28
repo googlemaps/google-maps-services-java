@@ -20,7 +20,7 @@ import org.joda.time.DateTime;
 /**
  * A component of a Directions API result.
  *
- * See <a href="https://developers.google.com/maps/documentation/directions/intro#Legs">the Legs
+ * <p>See <a href="https://developers.google.com/maps/documentation/directions/intro#Legs">the Legs
  * documentation</a> for more detail.
  */
 public class DirectionsLeg {
@@ -31,26 +31,23 @@ public class DirectionsLeg {
    */
   public DirectionsStep[] steps;
 
-  /**
-   * {@code distance} indicates the total distance covered by this leg.
-   */
+  /** {@code distance} indicates the total distance covered by this leg. */
   public Distance distance;
 
-  /**
-   * {@code duration} indicates the total duration of this leg
-   */
+  /** {@code duration} indicates the total duration of this leg */
   public Duration duration;
 
   /**
    * {@code durationInTraffic} indicates the total duration of this leg, taking into account current
    * traffic conditions. The duration in traffic will only be returned if all of the following are
    * true:
+   *
    * <ol>
    *   <li>The directions request includes a departureTime parameter set to a value within a few
-   *       minutes of the current time.</li>
-   *   <li>The request includes a valid Maps for Work client and signature parameter.</li>
-   *   <li>Traffic conditions are available for the requested route.</li>
-   *   <li>The directions request does not include stopover waypoints.</li>
+   *       minutes of the current time.
+   *   <li>The request includes a valid Maps for Work client and signature parameter.
+   *   <li>Traffic conditions are available for the requested route.
+   *   <li>The directions request does not include stopover waypoints.
    * </ol>
    */
   public Duration durationInTraffic;
@@ -66,7 +63,6 @@ public class DirectionsLeg {
    * is only available for transit directions.
    */
   public DateTime departureTime;
-
 
   /**
    * {@code startLocation} contains the latitude/longitude coordinates of the origin of this leg.
@@ -96,5 +92,4 @@ public class DirectionsLeg {
    * the end location of this leg.
    */
   public String endAddress;
-
 }

@@ -17,9 +17,7 @@ package com.google.maps.internal;
 
 import com.google.gson.FieldNamingPolicy;
 
-/**
- * API configuration builder. Defines fields that are variable per-API.
- */
+/** API configuration builder. Defines fields that are variable per-API. */
 public class ApiConfig {
   public String path;
   public FieldNamingPolicy fieldNamingPolicy = FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES;

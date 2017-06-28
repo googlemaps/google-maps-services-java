@@ -24,8 +24,9 @@ import com.google.maps.internal.StringJoin;
  * Google Geocoding API can return address results restricted to a specific area. The restriction is
  * specified using the components filter.
  *
- * <p>Please see <a href="https://developers.google.com/maps/documentation/geocoding/#ComponentFiltering">
- * Component Filtering</a> for more detail.
+ * <p>Please see <a
+ * href="https://developers.google.com/maps/documentation/geocoding/#ComponentFiltering">Component
+ * Filtering</a> for more detail.
  */
 public class ComponentFilter implements StringJoin.UrlValue {
   public final String component;

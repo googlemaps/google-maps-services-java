@@ -15,9 +15,7 @@
 
 package com.google.maps.model;
 
-/**
- * The duration component for Directions API results.
- */
+/** The duration component for Directions API results. */
 public class Duration {
 
   /**
@@ -26,9 +24,7 @@ public class Duration {
    */
   public long inSeconds;
 
-  /**
-   * This is the human friendly duration. Use this for display purposes.
-   */
+  /** This is the human friendly duration. Use this for display purposes. */
   public String humanReadable;
 
   @Override
@@ -36,4 +32,3 @@ public class Duration {
     return humanReadable;
   }
 }
-

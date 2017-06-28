@@ -23,14 +23,17 @@ import com.google.maps.model.AutocompletePrediction;
 import com.google.maps.model.LatLng;
 
 /**
- * A <a href="https://developers.google.com/places/web-service/query#query_autocomplete_requests">Query
+ * A <a
+ * href="https://developers.google.com/places/web-service/query#query_autocomplete_requests">Query
  * Autocomplete</a> request.
  */
 public class QueryAutocompleteRequest
-    extends PendingResultBase<AutocompletePrediction[], QueryAutocompleteRequest, QueryAutocompleteRequest.Response> {
+    extends PendingResultBase<
+        AutocompletePrediction[], QueryAutocompleteRequest, QueryAutocompleteRequest.Response> {
 
-  static final ApiConfig API_CONFIG = new ApiConfig("/maps/api/place/queryautocomplete/json")
-      .fieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
+  static final ApiConfig API_CONFIG =
+      new ApiConfig("/maps/api/place/queryautocomplete/json")
+          .fieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
 
   protected QueryAutocompleteRequest(GeoApiContext context) {
     super(context, API_CONFIG, Response.class);
@@ -59,7 +62,7 @@ public class QueryAutocompleteRequest
    * predictions. For example, if the input is 'Googl' and the completion point is 3, the service
    * will match on 'Goo'. The offset should generally be set to the position of the text caret. If
    * no offset is supplied, the service will use the entire term.
-  *
+   *
    * @param offset The character offset to search from.
    * @return Returns this {@code QueryAutocompleteRequest} for call chaining.
    */

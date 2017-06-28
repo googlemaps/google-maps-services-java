@@ -21,7 +21,8 @@ import com.google.maps.internal.ApiResponse;
 import com.google.maps.internal.ExceptionsAllowedToRetry;
 import com.google.maps.internal.OkHttpPendingResult;
 import com.google.maps.internal.RateLimitExecutorService;
-
+import java.net.Proxy;
+import java.util.concurrent.TimeUnit;
 import okhttp3.Dispatcher;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -29,9 +30,6 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.net.Proxy;
-import java.util.concurrent.TimeUnit;
 
 /**
  * A strategy for handling URL requests using OkHttp.
@@ -48,41 +46,51 @@ public class OkHttpRequestHandler implements GeoApiContext.RequestHandler {
   }
 
   @Override
-  public <T, R extends ApiResponse<T>> PendingResult<T> handle(String hostName, String url, String userAgent,
-                                                               Class<R> clazz, FieldNamingPolicy fieldNamingPolicy,
-                                                               long errorTimeout, Integer maxRetries,
-                                                               ExceptionsAllowedToRetry exceptionsAllowedToRetry) {
-    Request req = new Request.Builder()
-        .get()
-        .header("User-Agent", userAgent)
-        .url(hostName + url).build();
+  public <T, R extends ApiResponse<T>> PendingResult<T> handle(
+      String hostName,
+      String url,
+      String userAgent,
+      Class<R> clazz,
+      FieldNamingPolicy fieldNamingPolicy,
+      long errorTimeout,
+      Integer maxRetries,
+      ExceptionsAllowedToRetry exceptionsAllowedToRetry) {
+    Request req =
+        new Request.Builder().get().header("User-Agent", userAgent).url(hostName + url).build();
 
     LOG.info("Request: {}", hostName + url);
 
-    return new OkHttpPendingResult<T, R>(req, client, clazz, fieldNamingPolicy, errorTimeout, maxRetries, exceptionsAllowedToRetry);
+    return new OkHttpPendingResult<T, R>(
+        req, client, clazz, fieldNamingPolicy, errorTimeout, maxRetries, exceptionsAllowedToRetry);
   }
 
   @Override
-  public <T, R extends ApiResponse<T>> PendingResult<T> handlePost(String hostName, String url, String payload,
-                                                                   String userAgent, Class<R> clazz,
-                                                                   FieldNamingPolicy fieldNamingPolicy,
-                                                                   long errorTimeout, Integer maxRetries,
-                                                                   ExceptionsAllowedToRetry exceptionsAllowedToRetry) {
+  public <T, R extends ApiResponse<T>> PendingResult<T> handlePost(
+      String hostName,
+      String url,
+      String payload,
+      String userAgent,
+      Class<R> clazz,
+      FieldNamingPolicy fieldNamingPolicy,
+      long errorTimeout,
+      Integer maxRetries,
+      ExceptionsAllowedToRetry exceptionsAllowedToRetry) {
     RequestBody body = RequestBody.create(JSON, payload);
-    Request req = new Request.Builder()
-        .post(body)
-        .header("User-Agent", userAgent)
-        .url(hostName + url).build();
+    Request req =
+        new Request.Builder()
+            .post(body)
+            .header("User-Agent", userAgent)
+            .url(hostName + url)
+            .build();
 
     LOG.info("Request: {}", hostName + url);
     LOG.info("Body: {}", body);
 
-    return new OkHttpPendingResult<T, R>(req, client, clazz, fieldNamingPolicy, errorTimeout, maxRetries, exceptionsAllowedToRetry);
+    return new OkHttpPendingResult<T, R>(
+        req, client, clazz, fieldNamingPolicy, errorTimeout, maxRetries, exceptionsAllowedToRetry);
   }
 
-  /**
-   *  Builder strategy for constructing {@code OkHTTPRequestHandler}.
-   */
+  /** Builder strategy for constructing {@code OkHTTPRequestHandler}. */
   public static class Builder implements GeoApiContext.RequestHandler.Builder {
     private final OkHttpClient.Builder builder;
     private final RateLimitExecutorService rateLimitExecutorService;
@@ -128,5 +136,4 @@ public class OkHttpRequestHandler implements GeoApiContext.RequestHandler {
       return new OkHttpRequestHandler(client);
     }
   }
-
 }

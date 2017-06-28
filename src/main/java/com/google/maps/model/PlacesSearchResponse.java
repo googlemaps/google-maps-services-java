@@ -18,14 +18,13 @@ package com.google.maps.model;
 /**
  * The response from a Places Search request.
  *
- * <p>Please see <a href="https://developers.google.com/places/web-service/search#PlaceSearchResponses">Places
- * Search Response</a> for more detail.</p>
+ * <p>Please see <a
+ * href="https://developers.google.com/places/web-service/search#PlaceSearchResponses">Places Search
+ * Response</a> for more detail.
  */
 public class PlacesSearchResponse {
 
-  /**
-   * The list of Search Results.
-   */
+  /** The list of Search Results. */
   public PlacesSearchResult results[];
 
   /**
@@ -40,8 +39,7 @@ public class PlacesSearchResponse {
    * returned is 60.
    *
    * <p>Note: There is a short delay between when this response is issued, and when nextPageToken
-   * will become valid to execute.</p>
+   * will become valid to execute.
    */
   public String nextPageToken;
-
 }

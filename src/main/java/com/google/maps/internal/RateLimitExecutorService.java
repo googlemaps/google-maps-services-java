@@ -15,10 +15,7 @@
 
 package com.google.maps.internal;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import com.google.common.util.concurrent.RateLimiter;
-
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
@@ -32,25 +29,31 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-
-/**
- * Rate Limit Policy for Google Maps Web Services APIs.
- */
+/** Rate Limit Policy for Google Maps Web Services APIs. */
 public class RateLimitExecutorService implements ExecutorService, Runnable {
 
-  private static final Logger LOG = LoggerFactory.getLogger(RateLimitExecutorService.class.getName());
+  private static final Logger LOG =
+      LoggerFactory.getLogger(RateLimitExecutorService.class.getName());
   private static final int DEFAULT_QUERIES_PER_SECOND = 10;
 
   // It's important we set Ok's second arg to threadFactory(.., true) to ensure the threads are
   // killed when the app exits. For synchronous requests this is ideal but it means any async
   // requests still pending after termination will be killed.
-  private final ExecutorService delegate = new ThreadPoolExecutor(Runtime.getRuntime().availableProcessors(), Integer.MAX_VALUE, 60,
-      TimeUnit.SECONDS, new SynchronousQueue<Runnable>(),
-      threadFactory("Rate Limited Dispatcher", true));
+  private final ExecutorService delegate =
+      new ThreadPoolExecutor(
+          Runtime.getRuntime().availableProcessors(),
+          Integer.MAX_VALUE,
+          60,
+          TimeUnit.SECONDS,
+          new SynchronousQueue<Runnable>(),
+          threadFactory("Rate Limited Dispatcher", true));
 
   private final BlockingQueue<Runnable> queue = new LinkedBlockingQueue<Runnable>();
-  private final RateLimiter rateLimiter = RateLimiter.create(DEFAULT_QUERIES_PER_SECOND, 1, TimeUnit.SECONDS);
+  private final RateLimiter rateLimiter =
+      RateLimiter.create(DEFAULT_QUERIES_PER_SECOND, 1, TimeUnit.SECONDS);
 
   public RateLimitExecutorService() {
     setQueriesPerSecond(DEFAULT_QUERIES_PER_SECOND);
@@ -64,9 +67,7 @@ public class RateLimitExecutorService implements ExecutorService, Runnable {
     this.rateLimiter.setRate(maxQps);
   }
 
-  /**
-   * Main loop.
-   */
+  /** Main loop. */
   @Override
   public void run() {
     try {
@@ -145,14 +146,15 @@ public class RateLimitExecutorService implements ExecutorService, Runnable {
   }
 
   @Override
-  public <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> callables, long l,
-                                       TimeUnit timeUnit) throws InterruptedException {
+  public <T> List<Future<T>> invokeAll(
+      Collection<? extends Callable<T>> callables, long l, TimeUnit timeUnit)
+      throws InterruptedException {
     return delegate.invokeAll(callables, l, timeUnit);
   }
 
   @Override
-  public <T> T invokeAny(Collection<? extends Callable<T>> callables) throws InterruptedException,
-      ExecutionException {
+  public <T> T invokeAny(Collection<? extends Callable<T>> callables)
+      throws InterruptedException, ExecutionException {
     return delegate.invokeAny(callables);
   }
 
@@ -161,5 +163,4 @@ public class RateLimitExecutorService implements ExecutorService, Runnable {
       throws InterruptedException, ExecutionException, TimeoutException {
     return delegate.invokeAny(callables, l, timeUnit);
   }
-
 }

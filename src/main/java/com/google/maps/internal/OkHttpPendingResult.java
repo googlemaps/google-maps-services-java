@@ -35,7 +35,11 @@ import com.google.maps.model.PhotoResult;
 import com.google.maps.model.PlaceDetails.Review.AspectRating.RatingType;
 import com.google.maps.model.PriceLevel;
 import com.google.maps.model.TravelMode;
-
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -46,13 +50,6 @@ import org.joda.time.Instant;
 import org.joda.time.LocalTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
-
 
 /**
  * A PendingResult backed by a HTTP call executed by OkHttp, a deserialization step using Gson, rate
@@ -80,17 +77,22 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
   private static final List<Integer> RETRY_ERROR_CODES = Arrays.asList(500, 503, 504);
 
   /**
-   * @param request           HTTP request to execute.
-   * @param client            The client used to execute the request.
-   * @param responseClass     Model class to unmarshal JSON body content.
+   * @param request HTTP request to execute.
+   * @param client The client used to execute the request.
+   * @param responseClass Model class to unmarshal JSON body content.
    * @param fieldNamingPolicy FieldNamingPolicy for unmarshaling JSON.
-   * @param errorTimeOut      Number of milliseconds to re-send erroring requests.
-   * @param maxRetries        Number of times allowed to re-send erroring requests.
+   * @param errorTimeOut Number of milliseconds to re-send erroring requests.
+   * @param maxRetries Number of times allowed to re-send erroring requests.
    * @param exceptionsAllowedToRetry The exceptions to retry.
    */
-  public OkHttpPendingResult(Request request, OkHttpClient client, Class<R> responseClass,
-                             FieldNamingPolicy fieldNamingPolicy, long errorTimeOut, Integer maxRetries,
-                             ExceptionsAllowedToRetry exceptionsAllowedToRetry) {
+  public OkHttpPendingResult(
+      Request request,
+      OkHttpClient client,
+      Class<R> responseClass,
+      FieldNamingPolicy fieldNamingPolicy,
+      long errorTimeOut,
+      Integer maxRetries,
+      ExceptionsAllowedToRetry exceptionsAllowedToRetry) {
     this.request = request;
     this.client = client;
     this.responseClass = responseClass;
@@ -108,9 +110,7 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
     call.enqueue(this);
   }
 
-  /**
-   * Preserve a request/response pair through an asynchronous callback.
-   */
+  /** Preserve a request/response pair through an asynchronous callback. */
   private class QueuedResponse {
     private final OkHttpPendingResult<T, R> request;
     private final Response response;
@@ -141,8 +141,10 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
       // Generate a jitter value between -delaySecs / 2 and +delaySecs / 2
       long delayMillis = (long) (delaySecs * (Math.random() + 0.5) * 1000);
 
-      LOG.debug(String.format("Sleeping between errors for %dms (retry #%d, already slept %dms)",
-          delayMillis, retryCounter, cumulativeSleepTime));
+      LOG.debug(
+          String.format(
+              "Sleeping between errors for %dms (retry #%d, already slept %dms)",
+              delayMillis, retryCounter, cumulativeSleepTime));
       cumulativeSleepTime += delayMillis;
       try {
         Thread.sleep(delayMillis);
@@ -156,17 +158,18 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
 
     // This callback will be called on another thread, handled by the RateLimitExecutorService.
     // Calling call.execute() directly would bypass the rate limiting.
-    call.enqueue(new okhttp3.Callback() {
-      @Override
-      public void onFailure(Call call, IOException e) {
-        waiter.add(new QueuedResponse(parent, e));
-      }
+    call.enqueue(
+        new okhttp3.Callback() {
+          @Override
+          public void onFailure(Call call, IOException e) {
+            waiter.add(new QueuedResponse(parent, e));
+          }
 
-      @Override
-      public void onResponse(Call call, Response response) throws IOException {
-        waiter.add(new QueuedResponse(parent, response));
-      }
-    });
+          @Override
+          public void onResponse(Call call, Response response) throws IOException {
+            waiter.add(new QueuedResponse(parent, response));
+          }
+        });
 
     QueuedResponse r = waiter.take();
     if (r.response != null) {
@@ -222,10 +225,10 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
     String contentType = response.header("Content-Type");
 
     // Places Photo API special case
-    if (contentType != null &&
-        contentType.startsWith("image") &&
-        responseClass == PhotoRequest.Response.class &&
-        response.code() == 200) {
+    if (contentType != null
+        && contentType.startsWith("image")
+        && responseClass == PhotoRequest.Response.class
+        && response.code() == 200) {
       // Photo API response is just a raw image byte array.
       PhotoResult result = new PhotoResult();
       result.contentType = contentType;
@@ -233,25 +236,31 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
       return (T) result;
     }
 
-    Gson gson = new GsonBuilder()
-        .registerTypeAdapter(DateTime.class, new DateTimeAdapter())
-        .registerTypeAdapter(Distance.class, new DistanceAdapter())
-        .registerTypeAdapter(Duration.class, new DurationAdapter())
-        .registerTypeAdapter(Fare.class, new FareAdapter())
-        .registerTypeAdapter(LatLng.class, new LatLngAdapter())
-        .registerTypeAdapter(AddressComponentType.class,
-            new SafeEnumAdapter<AddressComponentType>(AddressComponentType.UNKNOWN))
-        .registerTypeAdapter(AddressType.class, new SafeEnumAdapter<AddressType>(AddressType.UNKNOWN))
-        .registerTypeAdapter(TravelMode.class, new SafeEnumAdapter<TravelMode>(TravelMode.UNKNOWN))
-        .registerTypeAdapter(LocationType.class, new SafeEnumAdapter<LocationType>(LocationType.UNKNOWN))
-        .registerTypeAdapter(RatingType.class, new SafeEnumAdapter<RatingType>(RatingType.UNKNOWN))
-        .registerTypeAdapter(DayOfWeek.class, new DayOfWeekAdaptor())
-        .registerTypeAdapter(PriceLevel.class, new PriceLevelAdaptor())
-        .registerTypeAdapter(Instant.class, new InstantAdapter())
-        .registerTypeAdapter(LocalTime.class, new LocalTimeAdapter())
-        .registerTypeAdapter(GeolocationApi.Response.class, new GeolocationResponseAdapter())
-        .setFieldNamingPolicy(fieldNamingPolicy)
-        .create();
+    Gson gson =
+        new GsonBuilder()
+            .registerTypeAdapter(DateTime.class, new DateTimeAdapter())
+            .registerTypeAdapter(Distance.class, new DistanceAdapter())
+            .registerTypeAdapter(Duration.class, new DurationAdapter())
+            .registerTypeAdapter(Fare.class, new FareAdapter())
+            .registerTypeAdapter(LatLng.class, new LatLngAdapter())
+            .registerTypeAdapter(
+                AddressComponentType.class,
+                new SafeEnumAdapter<AddressComponentType>(AddressComponentType.UNKNOWN))
+            .registerTypeAdapter(
+                AddressType.class, new SafeEnumAdapter<AddressType>(AddressType.UNKNOWN))
+            .registerTypeAdapter(
+                TravelMode.class, new SafeEnumAdapter<TravelMode>(TravelMode.UNKNOWN))
+            .registerTypeAdapter(
+                LocationType.class, new SafeEnumAdapter<LocationType>(LocationType.UNKNOWN))
+            .registerTypeAdapter(
+                RatingType.class, new SafeEnumAdapter<RatingType>(RatingType.UNKNOWN))
+            .registerTypeAdapter(DayOfWeek.class, new DayOfWeekAdaptor())
+            .registerTypeAdapter(PriceLevel.class, new PriceLevelAdaptor())
+            .registerTypeAdapter(Instant.class, new InstantAdapter())
+            .registerTypeAdapter(LocalTime.class, new LocalTimeAdapter())
+            .registerTypeAdapter(GeolocationApi.Response.class, new GeolocationResponseAdapter())
+            .setFieldNamingPolicy(fieldNamingPolicy)
+            .create();
 
     // Attempt to de-serialize before checking the HTTP status code, as there may be JSON in the
     // body that we can use to provide a more descriptive exception.
@@ -263,8 +272,8 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
         // Some of the APIs return 200 even when the API request fails, as long as the transport
         // mechanism succeeds. In these cases, INVALID_RESPONSE, etc are handled by the Gson
         // parsing.
-        throw new IOException(String.format("Server Error: %d %s", response.code(),
-            response.message()));
+        throw new IOException(
+            String.format("Server Error: %d %s", response.code(), response.message()));
       }
 
       // Otherwise just cough up the syntax exception.

@@ -20,19 +20,19 @@ import com.google.maps.errors.ApiException;
 import com.google.maps.internal.ApiConfig;
 import com.google.maps.internal.ApiResponse;
 import com.google.maps.model.LatLng;
-
 import java.util.TimeZone;
 
 /**
- * <p>The Google Time Zone API provides a simple interface to request the time zone for a location
- * on the earth. <p>See <a href="https://developers.google.com/maps/documentation/timezone/">documentation</a>.
+ * The Google Time Zone API provides a simple interface to request the time zone for a location on
+ * the earth.
+ *
+ * <p>See <a href="https://developers.google.com/maps/documentation/timezone/">documentation</a>.
  */
 public class TimeZoneApi {
-  private static final ApiConfig API_CONFIG = new ApiConfig("/maps/api/timezone/json")
-      .fieldNamingPolicy(FieldNamingPolicy.IDENTITY);
+  private static final ApiConfig API_CONFIG =
+      new ApiConfig("/maps/api/timezone/json").fieldNamingPolicy(FieldNamingPolicy.IDENTITY);
 
-  private TimeZoneApi() {
-  }
+  private TimeZoneApi() {}
 
   /**
    * Retrieve the {@link java.util.TimeZone} for the given location.
@@ -42,11 +42,15 @@ public class TimeZoneApi {
    * @return Returns the time zone as a {@link PendingResult}.
    */
   public static PendingResult<TimeZone> getTimeZone(GeoApiContext context, LatLng location) {
-    return context.get(API_CONFIG, Response.class,
-        "location", location.toString(),
+    return context.get(
+        API_CONFIG,
+        Response.class,
+        "location",
+        location.toString(),
         // Java has its own lookup for time -> DST, so we really only need to fetch the TZ id.
         // "timestamp" is, in effect, ignored.
-        "timestamp", "0");
+        "timestamp",
+        "0");
   }
 
   private static class Response implements ApiResponse<TimeZone> {

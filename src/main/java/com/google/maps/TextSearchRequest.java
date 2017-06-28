@@ -33,8 +33,9 @@ import com.google.maps.model.RankBy;
 public class TextSearchRequest
     extends PendingResultBase<PlacesSearchResponse, TextSearchRequest, TextSearchRequest.Response> {
 
-  static final ApiConfig API_CONFIG = new ApiConfig("/maps/api/place/textsearch/json")
-      .fieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
+  static final ApiConfig API_CONFIG =
+      new ApiConfig("/maps/api/place/textsearch/json")
+          .fieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
 
   public TextSearchRequest(GeoApiContext context) {
     super(context, API_CONFIG, Response.class);
@@ -116,8 +117,8 @@ public class TextSearchRequest
 
   /**
    * nextPageToken returns the next 20 results from a previously run search. Setting nextPageToken
-   * will execute a search with the same parameters used previously — all parameters other
-   * than pageToken will be ignored.
+   * will execute a search with the same parameters used previously — all parameters other than
+   * pageToken will be ignored.
    *
    * @param nextPageToken A {@code pageToken} from a prior result.
    * @return Returns this {@code TextSearchRequest} for call chaining.

@@ -32,12 +32,13 @@ import com.google.maps.model.RankBy;
  * A <a href="https://developers.google.com/places/web-service/search#PlaceSearchRequests">Nearby
  * Search</a> request.
  */
-
 public class NearbySearchRequest
-    extends PendingResultBase<PlacesSearchResponse, NearbySearchRequest, NearbySearchRequest.Response> {
+    extends PendingResultBase<
+        PlacesSearchResponse, NearbySearchRequest, NearbySearchRequest.Response> {
 
-  static final ApiConfig API_CONFIG = new ApiConfig("/maps/api/place/nearbysearch/json")
-      .fieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
+  static final ApiConfig API_CONFIG =
+      new ApiConfig("/maps/api/place/nearbysearch/json")
+          .fieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
 
   /**
    * Constructor for {@code NearbySearchRequest}.
@@ -138,8 +139,8 @@ public class NearbySearchRequest
 
   /**
    * nextPageToken returns the next 20 results from a previously run search. Setting nextPageToken
-   * will execute a search with the same parameters used previously — all parameters other
-   * than pageToken will be ignored.
+   * will execute a search with the same parameters used previously — all parameters other than
+   * pageToken will be ignored.
    *
    * @param nextPageToken The page token from a previous result.
    * @return Returns this {@code NearbyApiRequest} for call chaining.
@@ -159,14 +160,14 @@ public class NearbySearchRequest
   }
 
   /**
-   * type restricts the results to places matching the specified type.
-   * Provide support of multiples types.
+   * type restricts the results to places matching the specified type. Provide support of multiples
+   * types.
    *
    * @param types The {@link PlaceType}s to restrict results to.
    * @return Returns this {@code NearbyApiRequest} for call chaining.
    */
   public NearbySearchRequest type(PlaceType... types) {
-      return param("type", join('|', types));
+    return param("type", join('|', types));
   }
 
   @Override
@@ -178,19 +179,20 @@ public class NearbySearchRequest
     }
 
     // radius must not be included if rankby=distance
-    if (params().containsKey("rankby") &&
-        params().get("rankby").equals(RankBy.DISTANCE.toString()) &&
-        params().containsKey("radius")) {
+    if (params().containsKey("rankby")
+        && params().get("rankby").equals(RankBy.DISTANCE.toString())
+        && params().containsKey("radius")) {
       throw new IllegalArgumentException("Request must not contain radius with rankby=distance");
     }
 
     // If rankby=distance is specified, then one or more of keyword, name, or type is required.
-    if (params().containsKey("rankby") &&
-        params().get("rankby").equals(RankBy.DISTANCE.toString()) &&
-        !params().containsKey("keyword") &&
-        !params().containsKey("name") &&
-        !params().containsKey("type")) {
-      throw new IllegalArgumentException("With rankby=distance is specified, then one or more of keyword, name, or type is required");
+    if (params().containsKey("rankby")
+        && params().get("rankby").equals(RankBy.DISTANCE.toString())
+        && !params().containsKey("keyword")
+        && !params().containsKey("name")
+        && !params().containsKey("type")) {
+      throw new IllegalArgumentException(
+          "With rankby=distance is specified, then one or more of keyword, name, or type is required");
     }
   }
 

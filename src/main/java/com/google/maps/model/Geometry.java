@@ -15,9 +15,7 @@
 
 package com.google.maps.model;
 
-/**
- * The Geometry of a Geocoding Result.
- */
+/** The Geometry of a Geocoding Result. */
 public class Geometry {
   /**
    * {@code bounds} (optionally returned) stores the bounding box which can fully contain the
@@ -33,9 +31,7 @@ public class Geometry {
    */
   public LatLng location;
 
-  /**
-   * The level of certainty of this geocoding result.
-   */
+  /** The level of certainty of this geocoding result. */
   public LocationType locationType;
 
   /**

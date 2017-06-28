@@ -17,17 +17,16 @@ package com.google.maps.internal;
 
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
-
 import okio.ByteString;
 
 /**
  * Utility class for supporting Maps for Work Digital signatures.
  *
- * <p>See <a href="https://developers.google.com/maps/documentation/directions/get-api-key#client-id">Using
- * a client ID</a> for more detail on this protocol.
+ * <p>See <a
+ * href="https://developers.google.com/maps/documentation/directions/get-api-key#client-id">Using a
+ * client ID</a> for more detail on this protocol.
  */
 public class UrlSigner {
   private static final String ALGORITHM_HMAC_SHA1 = "HmacSHA1";
@@ -48,9 +47,7 @@ public class UrlSigner {
     mac.init(new SecretKeySpec(decodedKey.toByteArray(), ALGORITHM_HMAC_SHA1));
   }
 
-  /**
-   * Generate url safe HmacSHA1 of a path.
-   */
+  /** Generate url safe HmacSHA1 of a path. */
   public String getSignature(String path) {
     byte[] digest = getMac().doFinal(path.getBytes());
     return ByteString.of(digest).base64().replace('+', '-').replace('/', '_');
@@ -64,5 +61,4 @@ public class UrlSigner {
       throw new IllegalStateException(e);
     }
   }
-
 }

@@ -16,7 +16,6 @@
 package com.google.maps;
 
 import com.google.maps.errors.ApiException;
-
 import java.io.IOException;
 
 /**
@@ -39,7 +38,8 @@ public interface PendingResult<T> {
    *
    * @return The result.
    * @throws ApiException Thrown if the API Returned result is an error.
-   * @throws InterruptedException Thrown when a thread is waiting, sleeping, or otherwise occupied, and the thread is interrupted.
+   * @throws InterruptedException Thrown when a thread is waiting, sleeping, or otherwise occupied,
+   *     and the thread is interrupted.
    * @throws IOException Thrown when an I/O exception of some sort has occurred.
    */
   T await() throws ApiException, InterruptedException, IOException;
@@ -52,14 +52,10 @@ public interface PendingResult<T> {
    */
   T awaitIgnoreError();
 
-  /**
-   * Attempt to cancel the request.
-   */
+  /** Attempt to cancel the request. */
   void cancel();
 
-  /**
-   * The callback interface the API client code needs to implement to handle API results.
-   */
+  /** The callback interface the API client code needs to implement to handle API results. */
   interface Callback<T> {
 
     /**

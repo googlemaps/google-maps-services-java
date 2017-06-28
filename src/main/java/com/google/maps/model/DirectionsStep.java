@@ -25,13 +25,14 @@ package com.google.maps.model;
  * miles/40 minutes from this step.
  *
  * <p>When using the Directions API to search for transit directions, the steps array will include
- * additional <a href="https://developers.google.com/maps/documentation/directions/intro#TransitDetails">
- * Transit Details</a> in the form of a {@code transitDetails} array. If the directions include
- * multiple modes of transportation, detailed directions will be provided for walking or driving
- * steps in a {@code steps} array. For example, a walking step will include directions from the
- * start and end locations: "Walk to Innes Ave &amp; Fitch St". That step will include detailed
- * walking directions for that route in the {@code steps} array, such as: "Head north-west", "Turn
- * left onto Arelious Walker", and "Turn left onto Innes Ave".
+ * additional <a
+ * href="https://developers.google.com/maps/documentation/directions/intro#TransitDetails">Transit
+ * Details</a> in the form of a {@code transitDetails} array. If the directions include multiple
+ * modes of transportation, detailed directions will be provided for walking or driving steps in a
+ * {@code steps} array. For example, a walking step will include directions from the start and end
+ * locations: "Walk to Innes Ave &amp; Fitch St". That step will include detailed walking directions
+ * for that route in the {@code steps} array, such as: "Head north-west", "Turn left onto Arelious
+ * Walker", and "Turn left onto Innes Ave".
  */
 public class DirectionsStep {
 
@@ -41,31 +42,24 @@ public class DirectionsStep {
    */
   public String htmlInstructions;
 
-  /**
-   * {@code distance} contains the distance covered by this step until the next step.
-   */
+  /** {@code distance} contains the distance covered by this step until the next step. */
   public Distance distance;
 
   /**
-   * {@code maneuver} contains the maneuver required to move ahead. eg., turn-left.
-   * Please note, this field is undocumented, and thus should not be relied upon.
+   * {@code maneuver} contains the maneuver required to move ahead. eg., turn-left. Please note,
+   * this field is undocumented, and thus should not be relied upon.
    */
-  @Deprecated
-  public String maneuver;
+  @Deprecated public String maneuver;
 
   /**
    * {@code duration} contains the typical time required to perform the step, until the next step.
    */
   public Duration duration;
 
-  /**
-   * {@code startLocation} contains the location of the starting point of this step.
-   */
+  /** {@code startLocation} contains the location of the starting point of this step. */
   public LatLng startLocation;
 
-  /**
-   * {@code endLocation} contains the location of the last point of this step.
-   */
+  /** {@code endLocation} contains the location of the last point of this step. */
   public LatLng endLocation;
 
   /**
@@ -74,21 +68,21 @@ public class DirectionsStep {
    */
   public DirectionsStep[] steps;
 
-  /**
-   * {@code polyline} is the path of this step.
-   */
+  /** {@code polyline} is the path of this step. */
   public EncodedPolyline polyline;
 
   /**
-   * {@code travelMode} is the travel mode of this step. See <a href="https://developers.google.com/maps/documentation/directions/intro#TravelModes">Travel
+   * {@code travelMode} is the travel mode of this step. See <a
+   * href="https://developers.google.com/maps/documentation/directions/intro#TravelModes">Travel
    * Modes</a> for more detail.
    */
   public TravelMode travelMode;
 
   /**
    * {@code transitDetails} contains transit specific information. This field is only returned with
-   * travel_mode is set to "transit". See <a href="https://developers.google.com/maps/documentation/directions/intro#TransitDetails">
-   * Transit Details</a> for more detail.
+   * travel_mode is set to "transit". See <a
+   * href="https://developers.google.com/maps/documentation/directions/intro#TransitDetails">Transit
+   * Details</a> for more detail.
    */
   public TransitDetails transitDetails;
 }

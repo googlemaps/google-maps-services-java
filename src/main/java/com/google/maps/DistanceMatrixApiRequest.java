@@ -21,17 +21,14 @@ import com.google.maps.DirectionsApi.RouteRestriction;
 import com.google.maps.DistanceMatrixApi.Response;
 import com.google.maps.model.DistanceMatrix;
 import com.google.maps.model.LatLng;
+import com.google.maps.model.TrafficModel;
 import com.google.maps.model.TransitMode;
 import com.google.maps.model.TransitRoutingPreference;
 import com.google.maps.model.TravelMode;
 import com.google.maps.model.Unit;
-import com.google.maps.model.TrafficModel;
-
 import org.joda.time.ReadableInstant;
 
-/**
- * A request to the Distance Matrix API.
- */
+/** A request to the Distance Matrix API. */
 public class DistanceMatrixApiRequest
     extends PendingResultBase<DistanceMatrix, DistanceMatrixApiRequest, Response> {
 
@@ -75,7 +72,6 @@ public class DistanceMatrixApiRequest
     return param("origins", join('|', points));
   }
 
-
   /**
    * One or more addresses to which to calculate distance and time. The service will geocode the
    * string and convert it to a latitude/longitude coordinate to calculate directions.
@@ -100,10 +96,10 @@ public class DistanceMatrixApiRequest
   /**
    * Specifies the mode of transport to use when calculating directions.
    *
-   * <p>Note that Distance Matrix requests only support {@link TravelMode#DRIVING},
-   * {@link TravelMode#WALKING} and {@link TravelMode#BICYCLING}.
-
-   * @param mode  One of the travel modes supported by the Distance Matrix API.
+   * <p>Note that Distance Matrix requests only support {@link TravelMode#DRIVING}, {@link
+   * TravelMode#WALKING} and {@link TravelMode#BICYCLING}.
+   *
+   * @param mode One of the travel modes supported by the Distance Matrix API.
    * @return Returns this {@code DistanceMatrixApiRequest} for call chaining.
    */
   public DistanceMatrixApiRequest mode(TravelMode mode) {
@@ -113,15 +109,15 @@ public class DistanceMatrixApiRequest
         || TravelMode.TRANSIT.equals(mode)) {
       return param("mode", mode);
     }
-    throw new IllegalArgumentException("Distance Matrix API travel modes must be Driving, "
-        + "Transit, Walking or Bicycling");
+    throw new IllegalArgumentException(
+        "Distance Matrix API travel modes must be Driving, " + "Transit, Walking or Bicycling");
   }
 
   /**
    * Introduces restrictions to the route. Only one restriction can be specified.
    *
    * @param restriction One of {@link RouteRestriction#TOLLS}, {@link RouteRestriction#FERRIES} or
-   *                    {@link RouteRestriction#HIGHWAYS}.
+   *     {@link RouteRestriction#HIGHWAYS}.
    * @return Returns this {@code DistanceMatrixApiRequest} for call chaining.
    */
   public DistanceMatrixApiRequest avoid(RouteRestriction restriction) {
@@ -134,7 +130,7 @@ public class DistanceMatrixApiRequest
    *
    * @param unit One of {@link Unit#METRIC}, {@link Unit#IMPERIAL}.
    * @see <a href="https://developers.google.com/maps/documentation/distancematrix/#unit_systems">
-   * Unit systems in the Distance Matrix API</a>
+   *     Unit systems in the Distance Matrix API</a>
    * @return Returns this {@code DistanceMatrixApiRequest} for call chaining.
    */
   public DistanceMatrixApiRequest units(Unit unit) {
@@ -144,12 +140,15 @@ public class DistanceMatrixApiRequest
   /**
    * Specifies the desired time of departure.
    *
-   * <p>The departure time may be specified in two cases: <ul><li>For requests where the travel mode
-   * is transit: You can optionally specify one of departure_time or arrival_time. If neither time
-   * is specified, the departure_time defaults to now (that is, the departure time defaults to the
-   * current time).</li> <li>For requests where the travel mode is driving: Google Maps API for Work
-   * customers can specify the departure_time to receive trip duration considering current traffic
-   * conditions. The departure_time must be set to within a few minutes of the current time.</li>
+   * <p>The departure time may be specified in two cases:
+   *
+   * <ul>
+   *   <li>For requests where the travel mode is transit: You can optionally specify one of
+   *       departure_time or arrival_time. If neither time is specified, the departure_time defaults
+   *       to now (that is, the departure time defaults to the current time).
+   *   <li>For requests where the travel mode is driving: Google Maps API for Work customers can
+   *       specify the departure_time to receive trip duration considering current traffic
+   *       conditions. The departure_time must be set to within a few minutes of the current time.
    * </ul>
    *
    * <p>Setting the parameter to null will remove it from the API request.
@@ -162,9 +161,8 @@ public class DistanceMatrixApiRequest
   }
 
   /**
-   * Specifies the assumptions to use when calculating time in traffic.  This
-   * parameter may only be specified when the travel mode is driving and
-   * the request includes a departure_time.
+   * Specifies the assumptions to use when calculating time in traffic. This parameter may only be
+   * specified when the travel mode is driving and the request includes a departure_time.
    *
    * @param trafficModel The traffic model to use in estimating time in traffic.
    * @return Returns this {@code DistanceMatrixApiRequest} for call chaining.

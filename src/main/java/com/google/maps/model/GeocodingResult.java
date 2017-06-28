@@ -15,14 +15,10 @@
 
 package com.google.maps.model;
 
-/**
- * Result from a Geocoding API call.
- */
+/** Result from a Geocoding API call. */
 public class GeocodingResult {
 
-  /**
-   * {@code addressComponents} is an array containing the separate address components.
-   */
+  /** {@code addressComponents} is an array containing the separate address components. */
   public AddressComponent[] addressComponents;
 
   /**
@@ -42,9 +38,7 @@ public class GeocodingResult {
    */
   public String[] postcodeLocalities;
 
-  /**
-   * {@code geometry} contains location information.
-   */
+  /** {@code geometry} contains location information. */
   public Geometry geometry;
 
   /**
@@ -69,8 +63,6 @@ public class GeocodingResult {
    */
   public boolean partialMatch;
 
-  /**
-   * {@code placeId} is a unique identifier for a place.
-   */
+  /** {@code placeId} is a unique identifier for a place. */
   public String placeId;
 }

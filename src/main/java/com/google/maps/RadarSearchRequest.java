@@ -26,10 +26,12 @@ import com.google.maps.model.PlacesSearchResult;
 import com.google.maps.model.PriceLevel;
 
 public class RadarSearchRequest
-    extends PendingResultBase<PlacesSearchResponse, RadarSearchRequest, RadarSearchRequest.Response> {
+    extends PendingResultBase<
+        PlacesSearchResponse, RadarSearchRequest, RadarSearchRequest.Response> {
 
-  static final ApiConfig API_CONFIG = new ApiConfig("/maps/api/place/radarsearch/json")
-      .fieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
+  static final ApiConfig API_CONFIG =
+      new ApiConfig("/maps/api/place/radarsearch/json")
+          .fieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
 
   protected RadarSearchRequest(GeoApiContext context) {
     super(context, API_CONFIG, Response.class);
@@ -123,12 +125,11 @@ public class RadarSearchRequest
     return param("type", type);
   }
 
-
   @Override
   protected void validateRequest() {
-    if (!params().containsKey("keyword") &&
-        !params().containsKey("name") &&
-        !params().containsKey("type")) {
+    if (!params().containsKey("keyword")
+        && !params().containsKey("name")
+        && !params().containsKey("type")) {
       throw new IllegalArgumentException("Request must contain 'keyword', 'name' or 'type'.");
     }
   }
