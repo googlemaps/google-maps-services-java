@@ -27,22 +27,19 @@ import com.google.maps.model.GeocodingResult;
 import com.google.mockwebserver.MockResponse;
 import com.google.mockwebserver.MockWebServer;
 import com.google.mockwebserver.RecordedRequest;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 @Category(MediumTests.class)
 public class GeoApiContextTest {
 
   private MockWebServer server = new MockWebServer();
-  private GeoApiContext context = new GeoApiContext()
-      .setApiKey("AIza...")
-      .setQueryRateLimit(500);
+  private GeoApiContext context = new GeoApiContext().setApiKey("AIza...").setQueryRateLimit(500);
 
   private void setMockBaseUrl() {
     context.setBaseUrlForTesting("http://127.0.0.1:" + server.getPort());
@@ -72,7 +69,8 @@ public class GeoApiContextTest {
     for (String header : headers) {
       if (header.startsWith("User-Agent: ")) {
         headerFound = true;
-        assertTrue("User agent not in correct format",
+        assertTrue(
+            "User agent not in correct format",
             header.matches("User-Agent: GoogleGeoApiClientJava/[^\\s]+"));
       }
     }
@@ -94,11 +92,11 @@ public class GeoApiContextTest {
     setMockBaseUrl();
 
     // Execute
-    GeocodingResult[] result = context.get(new ApiConfig("/"), GeocodingApi.Response.class,
-            "k", "v").await();
+    GeocodingResult[] result =
+        context.get(new ApiConfig("/"), GeocodingApi.Response.class, "k", "v").await();
     assertEquals(1, result.length);
-    assertEquals("1600 Amphitheatre Parkway, Mountain View, CA 94043, USA",
-            result[0].formattedAddress);
+    assertEquals(
+        "1600 Amphitheatre Parkway, Mountain View, CA 94043, USA", result[0].formattedAddress);
 
     server.shutdown();
   }
@@ -125,7 +123,8 @@ public class GeoApiContextTest {
   private MockResponse createMockGoodResponse() {
     MockResponse response = new MockResponse();
     response.setResponseCode(200);
-    response.setBody("{\n"
+    response.setBody(
+        "{\n"
             + "   \"results\" : [\n"
             + "      {\n"
             + "         \"address_components\" : [\n"
@@ -136,7 +135,7 @@ public class GeoApiContextTest {
             + "            }\n"
             + "         ],\n"
             + "         \"formatted_address\" : \"1600 Amphitheatre Parkway, Mountain View, "
-            +                                     "CA 94043, USA\",\n"
+            + "CA 94043, USA\",\n"
             + "         \"geometry\" : {\n"
             + "            \"location\" : {\n"
             + "               \"lat\" : 37.4220033,\n"
@@ -181,10 +180,8 @@ public class GeoApiContextTest {
 
     MockResponse goodResponse = new MockResponse();
     goodResponse.setResponseCode(200);
-    goodResponse.setBody("{\n"
-        + "   \"results\" : [],\n"
-        + "   \"status\" : \"ZERO_RESULTS\"\n"
-        + "}");
+    goodResponse.setBody(
+        "{\n" + "   \"results\" : [],\n" + "   \"status\" : \"ZERO_RESULTS\"\n" + "}");
     server.enqueue(goodResponse);
 
     server.play();
@@ -236,8 +233,9 @@ public class GeoApiContextTest {
     server.play();
 
     setMockBaseUrl();
-    context.get(new ApiConfig("/"), GeocodingApi.Response.class,
-        "a", "1", "a", "2", "a", "3").awaitIgnoreError();
+    context
+        .get(new ApiConfig("/"), GeocodingApi.Response.class, "a", "1", "a", "2", "a", "3")
+        .awaitIgnoreError();
 
     server.shutdown();
     RecordedRequest request = server.takeRequest();

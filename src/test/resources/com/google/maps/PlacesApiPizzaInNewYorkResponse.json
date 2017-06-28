@@ -1,0 +1,891 @@
+{
+  "html_attributions" : [],
+  "next_page_token" : "CvQB6AAAAPQLwX6KjvGbOw81Y7aYVhXRlHR8M60aCRXFDM9eyflac4BjE5MaNxTj_1T429x3H2kzBd-ztTFXCSu1CPh3kY44Gu0gmL-xfnArnPE9-BgfqXTpgzGPZNeCltB7m341y4LnU-NE2omFPoDWIrOPIyHnyi05Qol9eP2wKW7XPUhMlHvyl9MeVgZ8COBZKvCdENHbhBD1MN1lWlada6A9GPFj06cCp1aqRGW6v98-IHcIcM9RcfMcS4dLAFm6TsgLq4tpeU6E1kSzhrvDiLMBXdJYFlI0qJmytd2wS3vD0t3zKgU6Im_mY-IJL7AwAqhugBIQ8k0X_n6TnacL9BExELBaixoUo8nPOwWm0Nx02haufF2dY0VL-tg",
+  "results" : [
+    {
+      "formatted_address" : "7 Carmine St, New York, NY 10014, United States",
+      "geometry" : {
+        "location" : {
+          "lat" : 40.7305876,
+          "lng" : -74.00214099999999
+        },
+        "viewport" : {
+          "northeast" : {
+            "lat" : 40.7318833302915,
+            "lng" : -74.00074326970849
+          },
+          "southwest" : {
+            "lat" : 40.7291853697085,
+            "lng" : -74.0034412302915
+          }
+        }
+      },
+      "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/restaurant-71.png",
+      "id" : "0ed4fa342e8c59111d07d80b81f5c08cd6b84934",
+      "name" : "Joe's Pizza",
+      "opening_hours" : {
+        "open_now" : true,
+        "weekday_text" : []
+      },
+      "photos" : [
+        {
+          "height" : 2448,
+          "html_attributions" : [
+            "\u003ca href=\"https://maps.google.com/maps/contrib/100036634431043786774/photos\"\u003eMonica Varona\u003c/a\u003e"
+          ],
+          "photo_reference" : "CmRaAAAAFVwHvmdXmVLu9X5a8BurRHXw0UJtCJpYN2r6nwsitA8YWO5cDi6bSIfyMp86Fz7sM5vNzt-6AKiZLnXAkIUoITJEd2upKBzhYCKfXk5TG6DV6y7PJRBIOSSLbqyDHK7KEhCsdukld67xDiEUhCc88RVJGhRi5MxQiazMISVyrRqYcOXdxgL7qw",
+          "width" : 3264
+        }
+      ],
+      "place_id" : "ChIJ8Q2WSpJZwokRQz-bYYgEskM",
+      "price_level" : 1,
+      "rating" : 4.4,
+      "reference" : "CmRRAAAAYIhqgr3lfaJ7P5OZ-Ke19aDGoao616vTuW1V9rANXqwAZjSVGmbQ6B5lRCYo3WHSMW9uPy-tG2idOUJSoBz21SWnOMM4FFIDyTb-_QH7U-9MCSmet2gJEe1U63pNcvYSEhDjkjjWOARnMCXMxVkvyhxRGhTeTU1KTxA5DISFzsVzoyxuTS9ZtA",
+      "types" : [
+        "meal_delivery",
+        "meal_takeaway",
+        "restaurant",
+        "food",
+        "point_of_interest",
+        "establishment"
+      ]
+    },
+    {
+      "formatted_address" : "60 Greenpoint Ave, Brooklyn, NY 11222, United States",
+      "geometry" : {
+        "location" : {
+          "lat" : 40.7296543,
+          "lng" : -73.95859829999999
+        },
+        "viewport" : {
+          "northeast" : {
+            "lat" : 40.7310615302915,
+            "lng" : -73.95725891970849
+          },
+          "southwest" : {
+            "lat" : 40.7283635697085,
+            "lng" : -73.9599568802915
+          }
+        }
+      },
+      "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/restaurant-71.png",
+      "id" : "d30990c93215d02648e78b3b0bdb00e373539903",
+      "name" : "Paulie Gee's",
+      "opening_hours" : {
+        "open_now" : false,
+        "weekday_text" : []
+      },
+      "photos" : [
+        {
+          "height" : 427,
+          "html_attributions" : [
+            "\u003ca href=\"https://maps.google.com/maps/contrib/107146711858841264424/photos\"\u003ePaulie Gee&#39;s\u003c/a\u003e"
+          ],
+          "photo_reference" : "CmRaAAAAZZcAbgFWXdKXx31eTZVcDHWoFu58FhdwsUtRuDAhtE_7P1TsX30g6VNkGseA0aCunGzBOLCrX0QNE_qXq-eTGn5N0ST-st7-e8NHh6S2MPv8Y3RzEWobmY3QLsOA29hHEhDdoAL5Ma3q6xkfbgmiZ8c5GhT7G5nz0IWjyZqOUpr9LbZ7FdG1Rw",
+          "width" : 640
+        }
+      ],
+      "place_id" : "ChIJuc8AM0BZwokRtpm2S66ltsE",
+      "price_level" : 2,
+      "rating" : 4.5,
+      "reference" : "CmRSAAAA_a-ewscVFb7KoMh8MZs6L_n6C1sPRjanOqEpNM0GAd4ZcnGoez1txSCNLQEMEA1KtinW-DtzoCU-7m3GUoa7Nop9NtIh5yy8qSq0lporUqOSZvAGlJSHhEuhKDIAVRInEhD20ymW2l34EL5EFmJYJcYjGhRQvWcGQv8D8bxiM9ydb6tN2lp4qw",
+      "types" : [ "restaurant", "food", "point_of_interest", "establishment" ]
+    },
+    {
+      "formatted_address" : "575 Henry St, Brooklyn, NY 11231, United States",
+      "geometry" : {
+        "location" : {
+          "lat" : 40.6818053,
+          "lng" : -74.00029259999999
+        },
+        "viewport" : {
+          "northeast" : {
+            "lat" : 40.6831822802915,
+            "lng" : -73.99904686970851
+          },
+          "southwest" : {
+            "lat" : 40.6804843197085,
+            "lng" : -74.00174483029151
+          }
+        }
+      },
+      "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/restaurant-71.png",
+      "id" : "bfa17bb2a401684b663bffce96754b388c8b0a38",
+      "name" : "Lucali",
+      "opening_hours" : {
+        "open_now" : false,
+        "weekday_text" : []
+      },
+      "photos" : [
+        {
+          "height" : 1365,
+          "html_attributions" : [
+            "\u003ca href=\"https://maps.google.com/maps/contrib/104111246635874032234/photos\"\u003eZAGAT\u003c/a\u003e"
+          ],
+          "photo_reference" : "CmRaAAAAYppym7d1r_trS7IKMKUFWzjlbB3YVgOn1JGbMMxnzDihPjRG3_UprLQYaUAzYqTq10qIhofOoURW_4tKDHIegiRge6SwuV2BjBT4GqM-ysUmIc8qrD5ul1K7BBsd0VhyEhB5ocBHhWi6FUhSOpKaGmSYGhQ_U8ME8VOywO7HlOLP5XOLzz3tCQ",
+          "width" : 2048
+        }
+      ],
+      "place_id" : "ChIJ395CMVlawokRt2oLH_8zmvI",
+      "price_level" : 2,
+      "rating" : 4.6,
+      "reference" : "CmRSAAAAElJbjjMU9aXlpNhXBtRIr8HOZtjSOCNrBwbQi1vrN42NdZaoiyYJ-rJB3dkY8rhVIcTkMLhtsqFcMNlfi9Rz0tkVugAmC1inGStCD7Gbzh0XWpokngczj2VkCjgjzuf0EhColfEtv4U-9cC7VYf9fZiTGhRie0XLLFCY2Gt0OPQOLL947i5iJQ",
+      "types" : [ "restaurant", "food", "point_of_interest", "establishment" ]
+    },
+    {
+      "formatted_address" : "298 Atlantic Ave, Brooklyn, NY 11201, United States",
+      "geometry" : {
+        "location" : {
+          "lat" : 40.6883065,
+          "lng" : -73.9889778
+        },
+        "viewport" : {
+          "northeast" : {
+            "lat" : 40.68974968029148,
+            "lng" : -73.9875655197085
+          },
+          "southwest" : {
+            "lat" : 40.68705171970849,
+            "lng" : -73.9902634802915
+          }
+        }
+      },
+      "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/restaurant-71.png",
+      "id" : "5da5ce5a2ee9bae83c5cd1c49ab0e917b0f0e8ab",
+      "name" : "Sottocasa Pizzeria - Brooklyn",
+      "opening_hours" : {
+        "open_now" : false,
+        "weekday_text" : []
+      },
+      "photos" : [
+        {
+          "height" : 2322,
+          "html_attributions" : [
+            "\u003ca href=\"https://maps.google.com/maps/contrib/107207602668522843168/photos\"\u003eKris Gamache\u003c/a\u003e"
+          ],
+          "photo_reference" : "CmRaAAAArYdDroIHcNAdulIlOVi7fz-WSH2UYzBevk4NurBm2726MpN04QFXVH6bfJESMtf9HKrojiuFxdXAF4_flaFiZpYDIK5pFh2RH7M1Yxfc31iHI0gwzVMX1kNiKzvChwY7EhC4Fkf3GtB5tbxXxCfOZaGfGhRyG_Ky9VbiLxVNbJUsZUYPnwvaAg",
+          "width" : 4128
+        }
+      ],
+      "place_id" : "ChIJjy3QdU5awokRPUY7-kf_A_0",
+      "price_level" : 2,
+      "rating" : 4.5,
+      "reference" : "CmRSAAAASyM_fqeaJvHQiLQrHz4BmPI9O6wILy-TrQWhJnXr3pwTmjSC3gX-YBwy-WWTQQBVa6DADOGL3ij-0TmrPRMwTS_ULFlQQefUwK7BfqcKi_9Gfko7XnZAO-XA65Ky5S2REhBxIlwjD5AD4oZADxdxo3xPGhTMMCiYG25LuOI1hF9DKUH7CJhRlg",
+      "types" : [
+        "meal_delivery",
+        "restaurant",
+        "food",
+        "point_of_interest",
+        "establishment"
+      ]
+    },
+    {
+      "formatted_address" : "33 Havemeyer St, Brooklyn, NY 11211, United States",
+      "geometry" : {
+        "location" : {
+          "lat" : 40.7156134,
+          "lng" : -73.9534061
+        },
+        "viewport" : {
+          "northeast" : {
+            "lat" : 40.7170117302915,
+            "lng" : -73.95213716970849
+          },
+          "southwest" : {
+            "lat" : 40.7143137697085,
+            "lng" : -73.9548351302915
+          }
+        }
+      },
+      "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/restaurant-71.png",
+      "id" : "c1cad2fa8702d02e533fd9ddd73fdce8c464e248",
+      "name" : "Best Pizza",
+      "opening_hours" : {
+        "open_now" : false,
+        "weekday_text" : []
+      },
+      "photos" : [
+        {
+          "height" : 375,
+          "html_attributions" : [
+            "\u003ca href=\"https://maps.google.com/maps/contrib/108936034325857950491/photos\"\u003eBest Pizza\u003c/a\u003e"
+          ],
+          "photo_reference" : "CmRaAAAAxVs6dTuBmFJ_3hA_MqVlwz1-glMWFCkevugVU4KeNfAN6yK-YuR4G9CeRYz2VmVXRomhkl5CJ7bRdfpyZZJwreuz7jtN4HXqU45SsW0hXOgwJ3xcz2bC5SNtlMfHOb9jEhCM78kHcML8hlx7GXTcsn-NGhS8zKpxp0gG3NfMtsq6K0vAV-Gdrw",
+          "width" : 376
+        }
+      ],
+      "place_id" : "ChIJzWhpTVlZwokRRyrw-O4FIxI",
+      "price_level" : 1,
+      "rating" : 4.3,
+      "reference" : "CmRRAAAAJjpg0ufqSoy8psHMRIb2mO_Le0tyStw2s8gSKDd62wdVUJbS48np8gOpZyhhYd4ZTA-DZsuEBI9sKP78f8hgoiNeexHh5MINWVkCspPxKYEDRmIv_trZp6kWLp4yLjH_EhCzzaTHkDZEsqgoJo7gmY18GhSInelWOJSQ5Mzr4iSeHVEmOBZHFA",
+      "types" : [ "restaurant", "food", "point_of_interest", "establishment" ]
+    },
+    {
+      "formatted_address" : "261 Moore St, Brooklyn, NY 11206, United States",
+      "geometry" : {
+        "location" : {
+          "lat" : 40.7050766,
+          "lng" : -73.9335923
+        },
+        "viewport" : {
+          "northeast" : {
+            "lat" : 40.7063404302915,
+            "lng" : -73.9322154697085
+          },
+          "southwest" : {
+            "lat" : 40.7036424697085,
+            "lng" : -73.93491343029152
+          }
+        }
+      },
+      "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/restaurant-71.png",
+      "id" : "3346c75baf04f2affe179999522b012c9a4f96b5",
+      "name" : "Roberta's",
+      "opening_hours" : {
+        "open_now" : false,
+        "weekday_text" : []
+      },
+      "photos" : [
+        {
+          "height" : 1944,
+          "html_attributions" : [
+            "\u003ca href=\"https://maps.google.com/maps/contrib/111529711728905843636/photos\"\u003eKathy Ho\u003c/a\u003e"
+          ],
+          "photo_reference" : "CmRaAAAA5uYQfwnr_3CMIJbKB-pSKJeewX0RjmUgIzw3wmgNvJ7uwLMaNSGBsqwZWWVFV7bqrD35itqfMPbG8WZbsnAvSL3Ub7OhaoRn1_BtuTI4fk8rwWd4BaUPsJGptcgxFUYXEhCXZNKXNFbLHarGfhvfYr32GhSUtUjgbBWMYIaoj2hSbwpxFdQeJg",
+          "width" : 2592
+        }
+      ],
+      "place_id" : "ChIJ87Mc5wBcwokRAj4JNcwppaE",
+      "price_level" : 2,
+      "rating" : 4.4,
+      "reference" : "CmRSAAAAGRagGzT_V32h2VD58yUSMB1PVxRRK7YN83EkWu2HLUSUbCe9EcRRnJzSI8huWMXzsoNZC5nJlhpgmYEZtemtK72SC6IOKERzPXFG2JUryLmKWUDFq9uCEAcHSUTbvE0pEhBd_KFP0ly8rXN-QRNV66ySGhQqf1ZPa-iBij_2gKSbkrF0p87qTQ",
+      "types" : [
+        "bakery",
+        "restaurant",
+        "food",
+        "store",
+        "point_of_interest",
+        "establishment"
+      ]
+    },
+    {
+      "formatted_address" : "1424 Avenue J, Brooklyn, NY 11230, United States",
+      "geometry" : {
+        "location" : {
+          "lat" : 40.6250156,
+          "lng" : -73.9615451
+        },
+        "viewport" : {
+          "northeast" : {
+            "lat" : 40.6264367802915,
+            "lng" : -73.96013816970849
+          },
+          "southwest" : {
+            "lat" : 40.6237388197085,
+            "lng" : -73.96283613029149
+          }
+        }
+      },
+      "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/restaurant-71.png",
+      "id" : "3aa44fa0defb16c1da0b12f4a78aab526d9eb6c9",
+      "name" : "Di Fara Pizza",
+      "opening_hours" : {
+        "open_now" : false,
+        "weekday_text" : []
+      },
+      "photos" : [
+        {
+          "height" : 640,
+          "html_attributions" : [
+            "\u003ca href=\"https://maps.google.com/maps/contrib/108433417989960518643/photos\"\u003eFeiona Chen\u003c/a\u003e"
+          ],
+          "photo_reference" : "CmRaAAAAeA8qh3IKfDWyBKLuoqeT5YqZuJXUeRYb7kpwlP_kBwQH8c6xXj4H3awbQ8JYG8AniomIJMLCVia7Y7yS77sWVwT9GRroM7Nzs-xPMG8fmiAoGbb1iW4iovcQwPAknnzQEhD1o2xweQuPclU-ZEt4N1GsGhRCOiD51M5tSL0CnUk3TcgHFIMJEQ",
+          "width" : 852
+        }
+      ],
+      "place_id" : "ChIJM2mGRMhEwokRv1Fy6oFJ570",
+      "price_level" : 2,
+      "rating" : 4.2,
+      "reference" : "CmRSAAAA5TJhAjYX1RprwCj4DSBOe8ijKOyw1wqOxKBQU4HdaRGomJbZuP-Kff8ufEBe9F2a3y2KVzbY_gU_ZiEeXPKqiAR2o1GWs7n56SAnNDgZMBcHbp-378Evwe5j5fB29o-IEhD2hl1alGI27KcFnkh9U4ULGhT7gB9SJ714F2eJL1EPkC7H-6ycwA",
+      "types" : [
+        "meal_takeaway",
+        "restaurant",
+        "food",
+        "point_of_interest",
+        "establishment"
+      ]
+    },
+    {
+      "formatted_address" : "413 8th Ave, New York, NY 10001, United States",
+      "geometry" : {
+        "location" : {
+          "lat" : 40.75018499999999,
+          "lng" : -73.99527999999999
+        },
+        "viewport" : {
+          "northeast" : {
+            "lat" : 40.7514759802915,
+            "lng" : -73.99379466970849
+          },
+          "southwest" : {
+            "lat" : 40.7487780197085,
+            "lng" : -73.9964926302915
+          }
+        }
+      },
+      "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/restaurant-71.png",
+      "id" : "5ed03945fe2d1238dba9bb50ac5a2d19f5062f4f",
+      "name" : "NY Pizza Suprema",
+      "opening_hours" : {
+        "open_now" : false,
+        "weekday_text" : []
+      },
+      "photos" : [
+        {
+          "height" : 562,
+          "html_attributions" : [
+            "\u003ca href=\"https://maps.google.com/maps/contrib/100709142566631664321/photos\"\u003eNY Pizza Suprema\u003c/a\u003e"
+          ],
+          "photo_reference" : "CmRaAAAArxilUn4-bD39-_Siu6KfPsrBwoZbMssy1l9EYEnaea5opbPd--y4Wd2Vi10DywLC7PGpIsC48fT5TauhkSQBqXKhRktOVKBUl9BvYamVTcOsNqcGzresA9Fl6PVEmvrWEhDnJAYXEq-FCPaMhg6CTDpkGhSFbGA2XZOY8qRxD9I3eHS_xa0MaQ",
+          "width" : 1000
+        }
+      ],
+      "place_id" : "ChIJsS_-2rFZwokRWYvlpNNbjmg",
+      "price_level" : 2,
+      "rating" : 4.4,
+      "reference" : "CmRRAAAAotpdUZSkN2CMcDAYSZ_CJl_XrdzolvsKqMFYRmnRDDZ6jQS7XDdIIeIEjHt3WqvyO4xCdiSPOWAKPxO6fHLQbTwVucpUIolQ0RT2ayrWOuMmhAHvwQjnvueXHNoSZpjmEhAmk53ZlK7c5cuU40ttrIB6GhTFlJxP9zBC0d0Pdd2XldbLh632dQ",
+      "types" : [ "restaurant", "food", "point_of_interest", "establishment" ]
+    },
+    {
+      "formatted_address" : "27 Prince St A, New York, NY 10012, United States",
+      "geometry" : {
+        "location" : {
+          "lat" : 40.723084,
+          "lng" : -73.994528
+        },
+        "viewport" : {
+          "northeast" : {
+            "lat" : 40.7243418802915,
+            "lng" : -73.99323316970849
+          },
+          "southwest" : {
+            "lat" : 40.7216439197085,
+            "lng" : -73.99593113029151
+          }
+        }
+      },
+      "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/restaurant-71.png",
+      "id" : "d7333da0ecaf45403c9b41008d7565e61a756946",
+      "name" : "Prince Street Pizza",
+      "opening_hours" : {
+        "open_now" : false,
+        "weekday_text" : []
+      },
+      "photos" : [
+        {
+          "height" : 928,
+          "html_attributions" : [
+            "\u003ca href=\"https://maps.google.com/maps/contrib/101075367388701077847/photos\"\u003eKata Crea\u003c/a\u003e"
+          ],
+          "photo_reference" : "CmRaAAAAW3CyLF9Z0O-N0yfifyr_YkLDaqDX2d_BIRY0P92XGAZen3ESZQ6i0fgYAvbHDm2eWQeBJOz940IEw9geSiDi7s6qHmtToix5SoQmNuAoKsYBrdb9k4PYlUZ5UrC6oo2FEhAWn6e65s4CXc6Ri3YuCVs6GhQZXkWnF1UzqKKU8HsbKBy2F2Ei2w",
+          "width" : 1264
+        }
+      ],
+      "place_id" : "ChIJ6xvs94VZwokRnT1D2lX2OTw",
+      "rating" : 4.6,
+      "reference" : "CmRRAAAAscqOdiOWNFFsqFNPyGrvFJZCUzySDD1MJ2UKEfv-jl9V_7mWPluGoPfNTo71QGWSeCNGx7tse1C8oVZoLGYYS1RygE5XqxXbGVt5R5cHGtDCv8ZPbvOEtAlTNlL0STI3EhDMtaFZAzi9PDkBn9zE2imOGhSbuDRT5VcoOZ03ysfcdCrgKMTtKQ",
+      "types" : [ "restaurant", "food", "point_of_interest", "establishment" ]
+    },
+    {
+      "formatted_address" : "69 7th Ave S, New York, NY 10014, United States",
+      "geometry" : {
+        "location" : {
+          "lat" : 40.73218879999999,
+          "lng" : -74.0033937
+        },
+        "viewport" : {
+          "northeast" : {
+            "lat" : 40.73357833029149,
+            "lng" : -74.0021448197085
+          },
+          "southwest" : {
+            "lat" : 40.73088036970849,
+            "lng" : -74.00484278029151
+          }
+        }
+      },
+      "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/restaurant-71.png",
+      "id" : "7e3f519a691dea53fde5703d169ee2fa6abeda4a",
+      "name" : "Bleecker Street Pizza",
+      "opening_hours" : {
+        "open_now" : true,
+        "weekday_text" : []
+      },
+      "photos" : [
+        {
+          "height" : 3024,
+          "html_attributions" : [
+            "\u003ca href=\"https://maps.google.com/maps/contrib/107861206092985225681/photos\"\u003eChris Gonz\u003c/a\u003e"
+          ],
+          "photo_reference" : "CmRaAAAAKTSw0fAvLNrXl2g9ZlXFvznF8qAVNPxY6PAxW0APDmCJnevSLvW1gwF72p_XPbx3v7iT4B3CgoGD-NzrRuLHqURqyP40F2Jg9khLkGdhOezgPEzRJ97MpkpzxlC7uHkDEhD2nZKP_JazShnqaHBsZQ1sGhSuZou1byXn3uoV11mZ-X0JV9oFTw",
+          "width" : 4032
+        }
+      ],
+      "place_id" : "ChIJrXXKn5NZwokR78g0ipCnY60",
+      "price_level" : 1,
+      "rating" : 4.2,
+      "reference" : "CmRSAAAAp2SFj3sL13HTi11nSTFr410PzoCg4JPxxOxxPIPSb8sBBQXBHHZM5LTfMn6cFd3nDKRE8Q4F9GE7L03YTUMBgf3XyIWbwREhgfAivGj3sLGypwG4QRm48vIgsBSODkMZEhDotPwRmoDlSmAvbYa977T-GhRbOzan6tU9JPvKIZFjGhiqA31ubg",
+      "types" : [
+        "meal_delivery",
+        "meal_takeaway",
+        "restaurant",
+        "food",
+        "point_of_interest",
+        "establishment"
+      ]
+    },
+    {
+      "formatted_address" : "278 Bleecker St, New York, NY 10014, United States",
+      "geometry" : {
+        "location" : {
+          "lat" : 40.7316187,
+          "lng" : -74.00344679999999
+        },
+        "viewport" : {
+          "northeast" : {
+            "lat" : 40.73299928029149,
+            "lng" : -74.0020021697085
+          },
+          "southwest" : {
+            "lat" : 40.7303013197085,
+            "lng" : -74.00470013029151
+          }
+        }
+      },
+      "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/restaurant-71.png",
+      "id" : "4e321140541ea1ec775cddbaa104f977e955e858",
+      "name" : "John's of Bleecker St.",
+      "opening_hours" : {
+        "open_now" : false,
+        "weekday_text" : []
+      },
+      "photos" : [
+        {
+          "height" : 960,
+          "html_attributions" : [
+            "\u003ca href=\"https://maps.google.com/maps/contrib/109748343324805422333/photos\"\u003eJohn&#39;s of Bleecker St.\u003c/a\u003e"
+          ],
+          "photo_reference" : "CmRaAAAAwhbvA3jytZocQC4340f4E3W0ALFLYbtEH4AdWnGyXj_3C-g_DQ2OU6ahEeapUBWuQoO7r09W3pqW41iAG01X0OqgWSavXTsWPYfL9A9gW2G7ad3puvmj3SxDVRWzrl_8EhDZz38-mGj2uAnC51mpZ8Q2GhRRDndjxbESN5EXCWARik5-2Ve6KQ",
+          "width" : 1280
+        }
+      ],
+      "place_id" : "ChIJuW43oZNZwokRdE5tLzpuykE",
+      "price_level" : 2,
+      "rating" : 4.3,
+      "reference" : "CmRRAAAAM-aMf1jvMLwS67HkzKV09iCmQKP0Bu74kckSzc3OXCtN-sFPOVa-xNqRzYU5JO0BxmQChqTjCmHDZI0PWXLd2vZqcVJU5Qr3MIUPCW0QlracdozhyfZMJrydjlawnjl_EhCSdXFUcCr0Uz6DW1pCygYOGhRGxGgvdtLZwEUHMEVbCV0MyEVGDQ",
+      "types" : [
+        "meal_takeaway",
+        "restaurant",
+        "food",
+        "point_of_interest",
+        "establishment"
+      ]
+    },
+    {
+      "formatted_address" : "376 Classon Ave, Brooklyn, NY 11238, United States",
+      "geometry" : {
+        "location" : {
+          "lat" : 40.6875171,
+          "lng" : -73.9600013
+        },
+        "viewport" : {
+          "northeast" : {
+            "lat" : 40.6888816802915,
+            "lng" : -73.9585224697085
+          },
+          "southwest" : {
+            "lat" : 40.6861837197085,
+            "lng" : -73.96122043029152
+          }
+        }
+      },
+      "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/restaurant-71.png",
+      "id" : "253dc3bab17a12464af83615d7f93df6b11761ca",
+      "name" : "Speedy Romeo",
+      "opening_hours" : {
+        "open_now" : false,
+        "weekday_text" : []
+      },
+      "photos" : [
+        {
+          "height" : 360,
+          "html_attributions" : [
+            "\u003ca href=\"https://maps.google.com/maps/contrib/100259178945970644281/photos\"\u003eSpeedy Romeo\u003c/a\u003e"
+          ],
+          "photo_reference" : "CmRaAAAA45jcuA5XlClnR3nP7_woc-imwVqcP6XGAcF3XdVqVIQLyUgGyhyDmARVsKSDxDXXbDDGpE8EbtVuW_oP91sXKGD0STrBHAZL2lZSSgmnu4h0dcfBsyB897cCom4Q17wUEhCdIPL2CwY2zkNcz5-5UrQ3GhSpWR3lNzsjCLWg8tcsJd_9k6OAwA",
+          "width" : 360
+        }
+      ],
+      "place_id" : "ChIJOTob_r1bwokRtUoNNbcmw_g",
+      "price_level" : 2,
+      "rating" : 4.4,
+      "reference" : "CmRSAAAAMGAXc8cjUn6764SijlfN4Dp1D_iDVwHTQXpwpulS-tk_o4lAREAOH5y4ekv_nAoofZ6nVb3fcvCnJ6mKvxbZiBANuzzsfA31TLdHRUTGi9bCXbWL8aFrTPKTtJr8u4gbEhCAJlZosVslwdwVrR6QacLlGhQzNzdmIhp0lQy6ycXit2oV0nz2kw",
+      "types" : [ "restaurant", "food", "point_of_interest", "establishment" ]
+    },
+    {
+      "formatted_address" : "231 W 46th St, New York, NY 10036, United States",
+      "geometry" : {
+        "location" : {
+          "lat" : 40.75946800000001,
+          "lng" : -73.98677099999999
+        },
+        "viewport" : {
+          "northeast" : {
+            "lat" : 40.7607614302915,
+            "lng" : -73.9854879197085
+          },
+          "southwest" : {
+            "lat" : 40.7580634697085,
+            "lng" : -73.98818588029151
+          }
+        }
+      },
+      "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/restaurant-71.png",
+      "id" : "f846f7d4dfd546c188f700c627e955ce1c633714",
+      "name" : "Patzeria Perfect Pizza Pasta & Grill",
+      "opening_hours" : {
+        "open_now" : false,
+        "weekday_text" : []
+      },
+      "photos" : [
+        {
+          "height" : 2268,
+          "html_attributions" : [
+            "\u003ca href=\"https://maps.google.com/maps/contrib/105498547919624383340/photos\"\u003eDinh N.\u003c/a\u003e"
+          ],
+          "photo_reference" : "CmRZAAAAYZ-bxYOM9qQYtGfBw8dbzvIbKmBAiSv8SmAZDZDldOpbQ1WNTbyPk-yQklVdXbO9_zVNYt0lx1tZEuIu-JzAIRG86t3WH12Y4Z7IprbHT8O5iqtpkyk9gc_A27Y5arLVEhCszI1Mv2AlhiRU5_NECuxDGhRwYXN9cXYu3NHen9vV0yUwcx-0Eg",
+          "width" : 4032
+        }
+      ],
+      "place_id" : "ChIJIcJCN1RYwokRHQzLh_iGQwI",
+      "price_level" : 2,
+      "rating" : 4.2,
+      "reference" : "CmRRAAAAXQOnmfSP-smtVuoI8ha_MpIUh7Y_xQ4vO87suhLMSHafrmKDGke_JHPa9s8H-mBdWLHwgjU1aVHUC5NBOOJv0WY4ffde-q8KCGIeWFNEBflnIKc4swtoAsNhe_Js_QkSEhBpGodm7r-X-xNYtKcv-CNhGhQZpNIB2t-BzVlNCajJrq5nccWxQw",
+      "types" : [
+        "meal_delivery",
+        "meal_takeaway",
+        "restaurant",
+        "food",
+        "point_of_interest",
+        "establishment"
+      ]
+    },
+    {
+      "formatted_address" : "309 W 50th St, New York, NY 10019, United States",
+      "geometry" : {
+        "location" : {
+          "lat" : 40.7627178,
+          "lng" : -73.98670760000002
+        },
+        "viewport" : {
+          "northeast" : {
+            "lat" : 40.7639866802915,
+            "lng" : -73.9853812197085
+          },
+          "southwest" : {
+            "lat" : 40.7612887197085,
+            "lng" : -73.98807918029151
+          }
+        }
+      },
+      "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/restaurant-71.png",
+      "id" : "29b4e15386fffcea6d01bc0ad6dd6fd475e4bef7",
+      "name" : "Don Antonio",
+      "opening_hours" : {
+        "open_now" : false,
+        "weekday_text" : []
+      },
+      "photos" : [
+        {
+          "height" : 3200,
+          "html_attributions" : [
+            "\u003ca href=\"https://maps.google.com/maps/contrib/104111246635874032234/photos\"\u003eZAGAT\u003c/a\u003e"
+          ],
+          "photo_reference" : "CmRaAAAAz3ou1VcNwHR1MmXGqdHUimgIqX9_uvRPPvOpOeW5YWCUJrJubVPg0yi0HM2HDxMmsvMltAgGzB9KBCzLM4ecOQc_K4d6oIaE79Dm6lspBys0CsgCBbpI1IhH6w76k9hnEhDg5dm8xS8yBv6P5wDaipchGhRmcYXI24Nip1mMuVzrn0pIWPxIUQ",
+          "width" : 4800
+        }
+      ],
+      "place_id" : "ChIJN_hR41ZYwokRB8wicROs-eY",
+      "price_level" : 2,
+      "rating" : 4.4,
+      "reference" : "CmRSAAAAtL2brKuUbJbdOTnhS96Ksnqd4i3dYMuL8UCVm0wilDIJg8GaEpceg-CSM-JvDEDoWD-8gA2-NPmfRPdofwg2Yei71-Qvhy6rxrkgtBgUohC_VYiNeiQDGSLdNEGv40ZpEhCIp-s_MYf1x-YPMh3jfBm7GhQRhK8vb6F3h1Dof5LjQT_1x8Ppxg",
+      "types" : [
+        "meal_takeaway",
+        "restaurant",
+        "food",
+        "point_of_interest",
+        "establishment"
+      ]
+    },
+    {
+      "formatted_address" : "348 Flatbush Ave, Brooklyn, NY 11217, United States",
+      "geometry" : {
+        "location" : {
+          "lat" : 40.6760157,
+          "lng" : -73.97180779999999
+        },
+        "viewport" : {
+          "northeast" : {
+            "lat" : 40.6773959802915,
+            "lng" : -73.97038446970848
+          },
+          "southwest" : {
+            "lat" : 40.6746980197085,
+            "lng" : -73.9730824302915
+          }
+        }
+      },
+      "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/restaurant-71.png",
+      "id" : "4db7233be20cdcdf9c167533f9fc1d377e3054c9",
+      "name" : "Franny's",
+      "opening_hours" : {
+        "open_now" : false,
+        "weekday_text" : []
+      },
+      "photos" : [
+        {
+          "height" : 1365,
+          "html_attributions" : [
+            "\u003ca href=\"https://maps.google.com/maps/contrib/104111246635874032234/photos\"\u003eZAGAT\u003c/a\u003e"
+          ],
+          "photo_reference" : "CmRaAAAAbYamEQbQ_Y1eOvDkuwffy8CHeAeY23YZ9zki5uU7QPsgAmxL56Hoy0N2GukW97IZ3_2VIs9c7JpBBDgsybtEqvMq53bvSLaSsV7rTFasGm7y3yG-gYOZXb-3dZUlQbEdEhD56KQQQkiJost8T--cUVDcGhQIv45ddG_wcN_lfChytkAvVBZM9w",
+          "width" : 2048
+        }
+      ],
+      "place_id" : "ChIJFfWdcahbwokRn3GElHMDJog",
+      "price_level" : 2,
+      "rating" : 4.2,
+      "reference" : "CmRSAAAAtrT2Ome-gB0wH9cc7pKr-N75w7-syKweXv7ueSUB5n6_knUiqjb0YKQu4kM11ndmGB6yaiHNCOGkVfNZIChe5v5DOqLlDViaSdPHq_oqOYkbJZCXRz_s6NVaYJFnelNKEhDuk5ubRqYx0Fqxl-X4NgtMGhTUVkOH7MTG4BYqUE48Gc05rgIsyQ",
+      "types" : [ "bar", "restaurant", "food", "point_of_interest", "establishment" ]
+    },
+    {
+      "formatted_address" : "1524 Neptune Ave, Brooklyn, NY 11224, United States",
+      "geometry" : {
+        "location" : {
+          "lat" : 40.57891729999999,
+          "lng" : -73.9838232
+        },
+        "viewport" : {
+          "northeast" : {
+            "lat" : 40.5803495802915,
+            "lng" : -73.98248746970849
+          },
+          "southwest" : {
+            "lat" : 40.5776516197085,
+            "lng" : -73.98518543029151
+          }
+        }
+      },
+      "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/restaurant-71.png",
+      "id" : "8f216ade74f50c055d6c5325bb92ce572ff13cce",
+      "name" : "Totonno Pizzeria Napolitano",
+      "opening_hours" : {
+        "open_now" : false,
+        "weekday_text" : []
+      },
+      "photos" : [
+        {
+          "height" : 2610,
+          "html_attributions" : [
+            "\u003ca href=\"https://maps.google.com/maps/contrib/107459595472833821290/photos\"\u003eKurayami Tenshi\u003c/a\u003e"
+          ],
+          "photo_reference" : "CmRaAAAA19DR-60US4oW_I1eyWMieK-1ORuHlLHw2wE1TPLdfTAemPo8mWiEo3lo2sFWvwkB6ikUQc2t9QNNvggtGlReyep_t77N3M7wCX26TPr3hyrp08DXRQ8NxZUhdoslbgafEhD5jB4wQxzUTP7ChYcDuq8ZGhTGNNxy_GP3DVDQ6JYcUrM-ZvdhrA",
+          "width" : 4640
+        }
+      ],
+      "place_id" : "ChIJDb9hOrVFwokRkpRqzb71OdM",
+      "price_level" : 2,
+      "rating" : 4,
+      "reference" : "CmRSAAAAffDD35N6OaCcbq6cAbcCE9NQjqFIDwMxn7fQIYnIx0j0DIjVJoflUrbvVFds6ZHy4FY5PgYhyLxu4TfATs_QYOSNwMv8aUut3Xp51UWtaRl8tUN4naFjqMcnTdfHUltuEhAL7YGfPlWiRVshe9kg4JV6GhTSxvxNrLJH1GYeW-cEiaxjWd0KEw",
+      "types" : [ "restaurant", "food", "point_of_interest", "establishment" ]
+    },
+    {
+      "formatted_address" : "19 Old Fulton St, Brooklyn, NY 11201, United States",
+      "geometry" : {
+        "location" : {
+          "lat" : 40.7027325,
+          "lng" : -73.9934349
+        },
+        "viewport" : {
+          "northeast" : {
+            "lat" : 40.70400428029149,
+            "lng" : -73.99215921970848
+          },
+          "southwest" : {
+            "lat" : 40.70130631970849,
+            "lng" : -73.99485718029149
+          }
+        }
+      },
+      "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/restaurant-71.png",
+      "id" : "6d3c95038625442207d3f34fe5dce925fb06b934",
+      "name" : "Juliana's",
+      "opening_hours" : {
+        "open_now" : false,
+        "weekday_text" : []
+      },
+      "photos" : [
+        {
+          "height" : 867,
+          "html_attributions" : [
+            "\u003ca href=\"https://maps.google.com/maps/contrib/115599262880008137921/photos\"\u003eJuliana&#39;s\u003c/a\u003e"
+          ],
+          "photo_reference" : "CmRaAAAAeeP-EUsinJGsgqzWjJme5GX6v4oTdy6AeFSUEPXHCDyd59-8JT_DfcgJeN3_pFEyKGih8paGMDthYGn1zV1Bf5VIN3upQ0o8t8IYPFgwiTEJ2WUqWpMQuAmj2kENRNkbEhAluit1H8qddAsKClZdJTtdGhS1l1_G78RqUKrLBoAJqervfHXn4g",
+          "width" : 859
+        }
+      ],
+      "place_id" : "ChIJAQr5tjBawokRBBESUv8Tw5I",
+      "price_level" : 2,
+      "rating" : 4.6,
+      "reference" : "CmRSAAAAJ3P1qCky_cgKJKCFmYoKcO6BXfuf04dhwgCt_jEhfc5wFZcEnQ7TAogn7XZ4IJC3D2dDV-__Y26pN5YRgnRcq4T8fRXC92z-T4ACdRZ6m-Fl22rgKIWS5HrKU3RMZtLtEhAc-tdE3XbqWLdMmS4TnGHgGhToUSF9iygO_iiNNC2Q7uhj8i-bLg",
+      "types" : [ "restaurant", "food", "point_of_interest", "establishment" ]
+    },
+    {
+      "formatted_address" : "32 Spring St, New York, NY 10012, United States",
+      "geometry" : {
+        "location" : {
+          "lat" : 40.72157,
+          "lng" : -73.9956368
+        },
+        "viewport" : {
+          "northeast" : {
+            "lat" : 40.7229268802915,
+            "lng" : -73.99421571970849
+          },
+          "southwest" : {
+            "lat" : 40.7202289197085,
+            "lng" : -73.9969136802915
+          }
+        }
+      },
+      "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/restaurant-71.png",
+      "id" : "73973bd1fac905f102ee1afe536594dc42bca5ff",
+      "name" : "Lombardi's",
+      "opening_hours" : {
+        "open_now" : false,
+        "weekday_text" : []
+      },
+      "photos" : [
+        {
+          "height" : 2160,
+          "html_attributions" : [
+            "\u003ca href=\"https://maps.google.com/maps/contrib/107603344490074518603/photos\"\u003eManuel Vilanova\u003c/a\u003e"
+          ],
+          "photo_reference" : "CmRaAAAAT-o9bC0KU4X8DVPdfGpeNnSaNM21vvuNC3VqXS9jvJo6Ze8w-e25X1zBUySbj4hHmNDrz9qTeVTEvQwpr8pcmBPUPUcujPDdhm1kzWKuiQYk4s9UWN_YD4ENVGb27G28EhCeQrNekiTQF0gO9OTM5T39GhTPV-zqhNN1Ohx3Msfp5jqJRnvGGg",
+          "width" : 3840
+        }
+      ],
+      "place_id" : "ChIJp-cWE4pZwokRmUI8_BIF8dg",
+      "price_level" : 2,
+      "rating" : 4,
+      "reference" : "CmRSAAAAXPVFBIK2bB8urFYN17bcfWGFMTleh5JcQcUW2f2Mwc9P25OGoblq8kWgcNFdPpSVO0mDT1ECvetsNaf70feTtlMd4izJb1oL4hrHfGxq0rtnx4pHEnu3BJUIuceZIXYwEhAkNFjJSM0vzIS9I07wXNXVGhTtSDre2-AiemL9cISxtu1m1hr2kw",
+      "types" : [
+        "meal_takeaway",
+        "restaurant",
+        "food",
+        "point_of_interest",
+        "establishment"
+      ]
+    },
+    {
+      "formatted_address" : "349 E 12th St # A, New York, NY 10003, United States",
+      "geometry" : {
+        "location" : {
+          "lat" : 40.7303588,
+          "lng" : -73.98382769999999
+        },
+        "viewport" : {
+          "northeast" : {
+            "lat" : 40.7316292802915,
+            "lng" : -73.98256491970849
+          },
+          "southwest" : {
+            "lat" : 40.7289313197085,
+            "lng" : -73.9852628802915
+          }
+        }
+      },
+      "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/restaurant-71.png",
+      "id" : "f1b210347c98e6c19a7c60c81688685724d12159",
+      "name" : "Motorino",
+      "opening_hours" : {
+        "open_now" : false,
+        "weekday_text" : []
+      },
+      "photos" : [
+        {
+          "height" : 3024,
+          "html_attributions" : [
+            "\u003ca href=\"https://maps.google.com/maps/contrib/113572404967976805132/photos\"\u003eFelipe Barbosa\u003c/a\u003e"
+          ],
+          "photo_reference" : "CmRaAAAAe_Mcl46kMx0EvwcV8ari2El_f5GCwGa0Etpsk98e_1EnseFPqKqLxc551Ff_RbCQuJyp8HQdvcuBMt80mZ2bwXhhXbstm3j-09CJU-Gc6aV_1EtGr39e2wzd6ATIjs1qEhA7uA0DftG9tmU5uLyZ2492GhSU6hn5H8zzNhLIxJIBUn5pTD0JiA",
+          "width" : 3398
+        }
+      ],
+      "place_id" : "ChIJT_Db4p1ZwokRr5qgbjIqrs4",
+      "price_level" : 2,
+      "rating" : 4.3,
+      "reference" : "CmRSAAAAAmfgfCwbweiWZIC09ZUd_TCy-x2vDJinCcpdYZs8Z0JRa3I-FNo-TvezdVFVxehsEgpG9rGwgAShpQrWGe7lDSJvw3L50ZNlTBBxVLlNgAxU62xc8iyhkw92WAJp4C_wEhAE58w6K-_w5eAFSMjiZKaaGhR5auEONCOO_q-bHl-Z9NMD1RQl1w",
+      "types" : [ "restaurant", "food", "point_of_interest", "establishment" ]
+    },
+    {
+      "formatted_address" : "943 1st Avenue, New York, NY 10022, United States",
+      "geometry" : {
+        "location" : {
+          "lat" : 40.7551327,
+          "lng" : -73.9655185
+        },
+        "viewport" : {
+          "northeast" : {
+            "lat" : 40.7564371302915,
+            "lng" : -73.9640611697085
+          },
+          "southwest" : {
+            "lat" : 40.7537391697085,
+            "lng" : -73.96675913029151
+          }
+        }
+      },
+      "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png",
+      "id" : "7329c2ba42f553fb6a838793d8ea5e7beeb9c3c0",
+      "name" : "Domino's Pizza",
+      "opening_hours" : {
+        "open_now" : true,
+        "weekday_text" : []
+      },
+      "photos" : [
+        {
+          "height" : 3024,
+          "html_attributions" : [
+            "\u003ca href=\"https://maps.google.com/maps/contrib/116692611687391915231/photos\"\u003eDomino&#39;s Pizza\u003c/a\u003e"
+          ],
+          "photo_reference" : "CmRaAAAAwlOISx663qoK6cDLZNZxDmLeynjspSBrfXramujJHfCEN2aY0bWI8OF5RQd8n1_LY7-Fz8Jn577NrjHsI3WG9A4xertK8DRnp4Z0wsj7FzmNYQgRAS2uV5jd6HcPZ-CFEhADnx-NmZ0TmpoTiAXUkfejGhSzBgS_oXbrQHugrAF3lAs2yae54g",
+          "width" : 3024
+        }
+      ],
+      "place_id" : "ChIJKwxI1eNYwokRm3xaHqGXSLc",
+      "price_level" : 1,
+      "rating" : 3.7,
+      "reference" : "CmRSAAAAL2NztWtoZbo2J8W-Po1KLZAdMVv-1RrPa1fRObJ8nnSeAcAt2H14JKNrBvdsax0VFKI-EaZdTF5N0uroC_yXNK74txOKFSjbntarZ5JJBM0QD80qMMwO4mzPX2rLTGi5EhBAKMS5ZyyFboX8jpzDdpWeGhT7lG1AKa0-3D1lARbwi9AYuIy6Qg",
+      "types" : [
+        "meal_delivery",
+        "meal_takeaway",
+        "restaurant",
+        "food",
+        "point_of_interest",
+        "establishment"
+      ]
+    }
+  ],
+  "status" : "OK"
+}
