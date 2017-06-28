@@ -35,23 +35,16 @@ import com.google.maps.model.PhotoResult;
 import com.google.maps.model.PlaceDetails.Review.AspectRating.RatingType;
 import com.google.maps.model.PriceLevel;
 import com.google.maps.model.TravelMode;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-import org.joda.time.DateTime;
-import org.joda.time.Instant;
-import org.joda.time.LocalTime;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import org.joda.time.DateTime;
 import org.joda.time.Instant;
 import org.joda.time.LocalTime;
@@ -165,17 +158,18 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
 
     // This callback will be called on another thread, handled by the RateLimitExecutorService.
     // Calling call.execute() directly would bypass the rate limiting.
-    call.enqueue(new okhttp3.Callback() {
-      @Override
-      public void onFailure(Call call, IOException e) {
-        waiter.add(new QueuedResponse(parent, e));
-      }
+    call.enqueue(
+        new okhttp3.Callback() {
+          @Override
+          public void onFailure(Call call, IOException e) {
+            waiter.add(new QueuedResponse(parent, e));
+          }
 
-      @Override
-      public void onResponse(Call call, Response response) throws IOException {
-        waiter.add(new QueuedResponse(parent, response));
-      }
-    });
+          @Override
+          public void onResponse(Call call, Response response) throws IOException {
+            waiter.add(new QueuedResponse(parent, response));
+          }
+        });
 
     QueuedResponse r = waiter.take();
     if (r.response != null) {

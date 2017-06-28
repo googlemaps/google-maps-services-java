@@ -118,7 +118,7 @@ public class DirectionsApiRequest
    * Indicates that the calculated route(s) should avoid the indicated features.
    *
    * @param restrictions one or more of {@link DirectionsApi.RouteRestriction#TOLLS}, {@link
-   *                     DirectionsApi.RouteRestriction#HIGHWAYS}, {@link DirectionsApi.RouteRestriction#FERRIES}
+   *     DirectionsApi.RouteRestriction#HIGHWAYS}, {@link DirectionsApi.RouteRestriction#FERRIES}
    * @return Returns this {@code DirectionsApiRequest} for call chaining.
    */
   public DirectionsApiRequest avoid(DirectionsApi.RouteRestriction... restrictions) {
@@ -171,8 +171,9 @@ public class DirectionsApiRequest
    * which will be geocoded. Waypoints are only supported for driving, walking and bicycling
    * directions.
    *
-   * <p>For more information on waypoints, see <a href="https://developers.google.com/maps/documentation/directions/intro#Waypoints">
-   * Using Waypoints in Routes</a>.
+   * <p>For more information on waypoints, see <a
+   * href="https://developers.google.com/maps/documentation/directions/intro#Waypoints">Using
+   * Waypoints in Routes</a>.
    *
    * @param waypoints The waypoints to add to this directions request.
    * @return Returns this {@code DirectionsApiRequest} for call chaining.

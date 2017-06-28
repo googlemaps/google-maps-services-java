@@ -50,7 +50,8 @@ public class ElevationApi {
   }
 
   /**
-   * See <a href="https://developers.google.com/maps/documentation/elevation/#Paths">documentation</a>.
+   * See <a
+   * href="https://developers.google.com/maps/documentation/elevation/#Paths">documentation</a>.
    *
    * @param context The {@link GeoApiContext} to make requests through.
    * @param samples The number of samples to retrieve heights along {@code path}.
@@ -69,7 +70,8 @@ public class ElevationApi {
   }
 
   /**
-   * See <a href="https://developers.google.com/maps/documentation/elevation/#Paths">documentation</a>.
+   * See <a
+   * href="https://developers.google.com/maps/documentation/elevation/#Paths">documentation</a>.
    *
    * @param context The {@link GeoApiContext} to make requests through.
    * @param samples The number of samples to retrieve heights along {@code encodedPolyline}.

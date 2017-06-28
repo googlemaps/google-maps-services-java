@@ -21,17 +21,13 @@ import com.google.maps.internal.ApiResponse;
 import com.google.maps.internal.ExceptionsAllowedToRetry;
 import com.google.maps.internal.OkHttpPendingResult;
 import com.google.maps.internal.RateLimitExecutorService;
-
+import java.net.Proxy;
+import java.util.concurrent.TimeUnit;
 import okhttp3.Dispatcher;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.net.Proxy;
-import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -80,20 +76,21 @@ public class OkHttpRequestHandler implements GeoApiContext.RequestHandler {
       Integer maxRetries,
       ExceptionsAllowedToRetry exceptionsAllowedToRetry) {
     RequestBody body = RequestBody.create(JSON, payload);
-    Request req = new Request.Builder()
-        .post(body)
-        .header("User-Agent", userAgent)
-        .url(hostName + url).build();
+    Request req =
+        new Request.Builder()
+            .post(body)
+            .header("User-Agent", userAgent)
+            .url(hostName + url)
+            .build();
 
     LOG.info("Request: {}", hostName + url);
     LOG.info("Body: {}", body);
 
-    return new OkHttpPendingResult<T, R>(req, client, clazz, fieldNamingPolicy, errorTimeout, maxRetries, exceptionsAllowedToRetry);
+    return new OkHttpPendingResult<T, R>(
+        req, client, clazz, fieldNamingPolicy, errorTimeout, maxRetries, exceptionsAllowedToRetry);
   }
 
-  /**
-   *  Builder strategy for constructing {@code OkHTTPRequestHandler}.
-   */
+  /** Builder strategy for constructing {@code OkHTTPRequestHandler}. */
   public static class Builder implements GeoApiContext.RequestHandler.Builder {
     private final OkHttpClient.Builder builder;
     private final RateLimitExecutorService rateLimitExecutorService;

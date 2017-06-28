@@ -35,7 +35,7 @@ import org.slf4j.LoggerFactory;
 /**
  * The entry point for making requests against the Google Geo APIs.
  *
- * Construct this object by using the enclosed {@link GeoApiContext.Builder}.
+ * <p>Construct this object by using the enclosed {@link GeoApiContext.Builder}.
  */
 public class GeoApiContext {
 
@@ -54,7 +54,8 @@ public class GeoApiContext {
   private final UrlSigner urlSigner;
 
   /* package */
-  GeoApiContext(RequestHandler requestHandler,
+  GeoApiContext(
+      RequestHandler requestHandler,
       String apiKey,
       String baseUrlOverride,
       String channel,
@@ -84,16 +85,24 @@ public class GeoApiContext {
    */
   public interface RequestHandler {
 
-    <T, R extends ApiResponse<T>> PendingResult<T> handle(String hostName, String url,
-        String userAgent, Class<R> clazz,
-        FieldNamingPolicy fieldNamingPolicy, long errorTimeout,
+    <T, R extends ApiResponse<T>> PendingResult<T> handle(
+        String hostName,
+        String url,
+        String userAgent,
+        Class<R> clazz,
+        FieldNamingPolicy fieldNamingPolicy,
+        long errorTimeout,
         Integer maxRetries,
         ExceptionsAllowedToRetry exceptionsAllowedToRetry);
 
-    <T, R extends ApiResponse<T>> PendingResult<T> handlePost(String hostName, String url,
+    <T, R extends ApiResponse<T>> PendingResult<T> handlePost(
+        String hostName,
+        String url,
         String payload,
-        String userAgent, Class<R> clazz,
-        FieldNamingPolicy fieldNamingPolicy, long errorTimeout,
+        String userAgent,
+        Class<R> clazz,
+        FieldNamingPolicy fieldNamingPolicy,
+        long errorTimeout,
         Integer maxRetries,
         ExceptionsAllowedToRetry exceptionsAllowedToRetry);
 
@@ -111,12 +120,10 @@ public class GeoApiContext {
 
       RequestHandler build();
     }
-
   }
 
-
-  <T, R extends ApiResponse<T>> PendingResult<T> get(ApiConfig config, Class<? extends R> clazz,
-      Map<String, String> params) {
+  <T, R extends ApiResponse<T>> PendingResult<T> get(
+      ApiConfig config, Class<? extends R> clazz, Map<String, String> params) {
     if (channel != null && !channel.isEmpty() && !params.containsKey("channel")) {
       params.put("channel", channel);
     }
@@ -142,8 +149,8 @@ public class GeoApiContext {
         query.toString());
   }
 
-  <T, R extends ApiResponse<T>> PendingResult<T> get(ApiConfig config, Class<? extends R> clazz,
-      String... params) {
+  <T, R extends ApiResponse<T>> PendingResult<T> get(
+      ApiConfig config, Class<? extends R> clazz, String... params) {
     if (params.length % 2 != 0) {
       throw new IllegalArgumentException("Params must be matching key/value pairs.");
     }
@@ -213,13 +220,16 @@ public class GeoApiContext {
         config.fieldNamingPolicy,
         errorTimeout,
         maxRetries,
-        exceptionsAllowedToRetry
-    );
+        exceptionsAllowedToRetry);
   }
 
-  private <T, R extends ApiResponse<T>> PendingResult<T> getWithPath(Class<R> clazz,
-      FieldNamingPolicy fieldNamingPolicy, String hostName, String path,
-      boolean canUseClientId, String encodedPath) {
+  private <T, R extends ApiResponse<T>> PendingResult<T> getWithPath(
+      Class<R> clazz,
+      FieldNamingPolicy fieldNamingPolicy,
+      String hostName,
+      String path,
+      boolean canUseClientId,
+      String encodedPath) {
     checkContext(canUseClientId);
     if (!encodedPath.startsWith("&")) {
       throw new IllegalArgumentException("encodedPath must start with &");
@@ -242,9 +252,15 @@ public class GeoApiContext {
       hostName = baseUrlOverride;
     }
 
-    return requestHandler
-        .handle(hostName, url.toString(), USER_AGENT, clazz, fieldNamingPolicy, errorTimeout,
-            maxRetries, exceptionsAllowedToRetry);
+    return requestHandler.handle(
+        hostName,
+        url.toString(),
+        USER_AGENT,
+        clazz,
+        fieldNamingPolicy,
+        errorTimeout,
+        maxRetries,
+        exceptionsAllowedToRetry);
   }
 
   private void checkContext(boolean canUseClientId) {
@@ -259,9 +275,7 @@ public class GeoApiContext {
     }
   }
 
-  /**
-   * This is the Builder for {@code GeoApiContext}.
-   */
+  /** This is the Builder for {@code GeoApiContext}. */
   public static class Builder {
 
     private RequestHandler.Builder builder;
@@ -275,9 +289,7 @@ public class GeoApiContext {
     private Integer maxRetries;
     private UrlSigner urlSigner;
 
-    /**
-     * Builder pattern for the enclosing {@code GeoApiContext}.
-     */
+    /** Builder pattern for the enclosing {@code GeoApiContext}. */
     public Builder() {
       requestHandlerBuilder(new OkHttpRequestHandler.Builder());
     }
@@ -291,7 +303,6 @@ public class GeoApiContext {
      * @see OkHttpRequestHandler
      * @see GaeRequestHandler
      */
-
     public Builder requestHandlerBuilder(RequestHandler.Builder builder) {
       this.builder = builder;
       this.exceptionsAllowedToRetry.add(OverQueryLimitException.class);
@@ -304,7 +315,6 @@ public class GeoApiContext {
      * @param baseUrl The URL to use, without a trailing slash, e.g. https://maps.googleapis.com
      * @return Returns this builder for call chaining.
      */
-
     Builder baseUrlForTesting(String baseUrl) {
       baseUrlOverride = baseUrl;
       return this;
@@ -316,7 +326,6 @@ public class GeoApiContext {
      * @param apiKey The API Key to use.
      * @return Returns this builder for call chaining.
      */
-
     public Builder apiKey(String apiKey) {
       this.apiKey = apiKey;
       return this;
@@ -329,7 +338,6 @@ public class GeoApiContext {
      * @param cryptographicSecret The Secret to use.
      * @return Returns this builder for call chaining.
      */
-
     public Builder enterpriseCredentials(String clientId, String cryptographicSecret) {
       this.clientId = clientId;
       try {
@@ -341,13 +349,12 @@ public class GeoApiContext {
     }
 
     /**
-     * Sets the default channel for requests (can be overridden by requests).  Only useful for
-     * Google Maps for Work clients.
+     * Sets the default channel for requests (can be overridden by requests). Only useful for Google
+     * Maps for Work clients.
      *
      * @param channel The channel to use for analytics
      * @return Returns this builder for call chaining.
      */
-
     public Builder channel(String channel) {
       this.channel = channel;
       return this;
@@ -357,12 +364,10 @@ public class GeoApiContext {
      * Sets the default connect timeout for new connections. A value of 0 means no timeout.
      *
      * @see java.net.URLConnection#setConnectTimeout(int)
-     *
      * @param timeout The connect timeout period in {@code unit}s.
      * @param unit The connect timeout time unit.
      * @return Returns this builder for call chaining.
      */
-
     public Builder connectTimeout(long timeout, TimeUnit unit) {
       builder.connectTimeout(timeout, unit);
       return this;
@@ -372,12 +377,10 @@ public class GeoApiContext {
      * Sets the default read timeout for new connections. A value of 0 means no timeout.
      *
      * @see java.net.URLConnection#setReadTimeout(int)
-     *
      * @param timeout The read timeout period in {@code unit}s.
      * @param unit The read timeout time unit.
      * @return Returns this builder for call chaining.
      */
-
     public Builder readTimeout(long timeout, TimeUnit unit) {
       builder.readTimeout(timeout, unit);
       return this;
@@ -390,7 +393,6 @@ public class GeoApiContext {
      * @param unit The write timeout time unit.
      * @return Returns this builder for call chaining.
      */
-
     public Builder writeTimeout(long timeout, TimeUnit unit) {
       builder.writeTimeout(timeout, unit);
       return this;
@@ -406,7 +408,6 @@ public class GeoApiContext {
      * @param unit The retry timeout time unit.
      * @return Returns this builder for call chaining.
      */
-
     public Builder retryTimeout(long timeout, TimeUnit unit) {
       this.errorTimeout = unit.toMillis(timeout);
       return this;
@@ -421,7 +422,6 @@ public class GeoApiContext {
      * @param maxRetries The maximum number of times to retry.
      * @return Returns this builder for call chaining.
      */
-
     public Builder maxRetries(Integer maxRetries) {
       this.maxRetries = maxRetries;
       return this;
@@ -432,7 +432,6 @@ public class GeoApiContext {
      *
      * @return Returns this builder for call chaining.
      */
-
     public Builder disableRetries() {
       maxRetries(0);
       retryTimeout(0, TimeUnit.MILLISECONDS);
@@ -447,7 +446,6 @@ public class GeoApiContext {
      * @param maxQps The maximum queries per second.
      * @return Returns this builder for call chaining.
      */
-
     public Builder queryRateLimit(int maxQps) {
       builder.queriesPerSecond(maxQps);
       return this;
@@ -460,9 +458,8 @@ public class GeoApiContext {
      * @param allowedToRetry Whether to allow or deny re-trying {@code exception}.
      * @return Returns this builder for call chaining.
      */
-
-    public Builder toggleifExceptionIsAllowedToRetry(Class<? extends ApiException> exception,
-        boolean allowedToRetry) {
+    public Builder toggleifExceptionIsAllowedToRetry(
+        Class<? extends ApiException> exception, boolean allowedToRetry) {
       if (allowedToRetry) {
         exceptionsAllowedToRetry.add(exception);
       } else {
@@ -477,7 +474,6 @@ public class GeoApiContext {
      * @param proxy The proxy to be used by the underlying HTTP client.
      * @return Returns this builder for call chaining.
      */
-
     public Builder proxy(Proxy proxy) {
       builder.proxy(proxy == null ? Proxy.NO_PROXY : proxy);
       return this;
@@ -488,9 +484,9 @@ public class GeoApiContext {
      *
      * @return Returns the built {@code GeoApiContext}.
      */
-
     public GeoApiContext build() {
-      return new GeoApiContext(builder.build(),
+      return new GeoApiContext(
+          builder.build(),
           apiKey,
           baseUrlOverride,
           channel,

@@ -31,7 +31,6 @@ import com.google.maps.model.PlaceAutocompleteType;
  * href="https://developers.google.com/places/web-service/autocomplete#place_autocomplete_requests">Place
  * Autocomplete</a> request.
  */
-
 public class PlaceAutocompleteRequest
     extends PendingResultBase<
         AutocompletePrediction[], PlaceAutocompleteRequest, PlaceAutocompleteRequest.Response> {

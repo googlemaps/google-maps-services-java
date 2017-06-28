@@ -32,7 +32,6 @@ import com.google.maps.model.RankBy;
  * A <a href="https://developers.google.com/places/web-service/search#PlaceSearchRequests">Nearby
  * Search</a> request.
  */
-
 public class NearbySearchRequest
     extends PendingResultBase<
         PlacesSearchResponse, NearbySearchRequest, NearbySearchRequest.Response> {
@@ -140,8 +139,8 @@ public class NearbySearchRequest
 
   /**
    * nextPageToken returns the next 20 results from a previously run search. Setting nextPageToken
-   * will execute a search with the same parameters used previously — all parameters other
-   * than pageToken will be ignored.
+   * will execute a search with the same parameters used previously — all parameters other than
+   * pageToken will be ignored.
    *
    * @param nextPageToken The page token from a previous result.
    * @return Returns this {@code NearbyApiRequest} for call chaining.
@@ -161,8 +160,8 @@ public class NearbySearchRequest
   }
 
   /**
-   * type restricts the results to places matching the specified type.
-   * Provide support of multiples types.
+   * type restricts the results to places matching the specified type. Provide support of multiples
+   * types.
    *
    * @param types The {@link PlaceType}s to restrict results to.
    * @return Returns this {@code NearbyApiRequest} for call chaining.

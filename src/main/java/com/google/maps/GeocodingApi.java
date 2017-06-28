@@ -26,7 +26,8 @@ import com.google.maps.model.LatLng;
  * can use to place markers or position the map. Reverse geocoding is the process of converting
  * geographic coordinates into a human-readable address.
  *
- * @see <a href="https://developers.google.com/maps/documentation/geocoding/">Geocoding documentation</a>
+ * @see <a href="https://developers.google.com/maps/documentation/geocoding/">Geocoding
+ *     documentation</a>
  */
 public class GeocodingApi {
   private GeocodingApi() {}

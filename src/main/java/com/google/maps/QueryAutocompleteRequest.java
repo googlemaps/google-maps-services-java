@@ -62,7 +62,7 @@ public class QueryAutocompleteRequest
    * predictions. For example, if the input is 'Googl' and the completion point is 3, the service
    * will match on 'Goo'. The offset should generally be set to the position of the text caret. If
    * no offset is supplied, the service will use the entire term.
-  *
+   *
    * @param offset The character offset to search from.
    * @return Returns this {@code QueryAutocompleteRequest} for call chaining.
    */

@@ -114,7 +114,7 @@ abstract class PendingResultBase<T, A extends PendingResultBase<T, A, R>, R exte
    *
    * @param language The language code, e.g. "en-AU" or "es"
    * @see <a href="https://developers.google.com/maps/faq#languagesupport">List of supported domain
-   * languages</a>
+   *     languages</a>
    * @return Returns the request for call chaining.
    */
   public final A language(String language) {

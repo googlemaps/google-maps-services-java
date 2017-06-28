@@ -34,7 +34,6 @@ import com.google.maps.model.SpeedLimit;
  * <p>See also: <a href="https://developers.google.com/maps/documentation/roads">Roads API
  * documentation</a>.
  */
-
 public class RoadsApi {
   static final String API_BASE_URL = "https://roads.googleapis.com";
 
@@ -78,10 +77,10 @@ public class RoadsApi {
    *
    * @param context The {@link GeoApiContext} to make requests through.
    * @param interpolate Whether to interpolate a path to include all points forming the full
-   *                    road-geometry. When true, additional interpolated points will also be
-   *                    returned, resulting in a path that smoothly follows the geometry of the
-   *                    road, even around corners and through tunnels.
-   * @param path        The path to be snapped.
+   *     road-geometry. When true, additional interpolated points will also be returned, resulting
+   *     in a path that smoothly follows the geometry of the road, even around corners and through
+   *     tunnels.
+   * @param path The path to be snapped.
    * @return Returns the snapped points as a {@link PendingResult}.
    */
   public static PendingResult<SnappedPoint[]> snapToRoads(
@@ -122,8 +121,8 @@ public class RoadsApi {
    *
    * @param context The {@link GeoApiContext} to make requests through.
    * @param placeIds The Place ID of the road segment. Place IDs are returned by the {@link
-   *                 #snapToRoads(GeoApiContext, com.google.maps.model.LatLng...)} method. You can
-   *                 pass up to 100 placeIds with each request.
+   *     #snapToRoads(GeoApiContext, com.google.maps.model.LatLng...)} method. You can pass up to
+   *     100 placeIds with each request.
    * @return Returns the speed limits as a {@link PendingResult}.
    */
   public static PendingResult<SpeedLimit[]> speedLimits(GeoApiContext context, String... placeIds) {

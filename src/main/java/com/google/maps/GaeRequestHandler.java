@@ -93,9 +93,7 @@ public class GaeRequestHandler implements GeoApiContext.RequestHandler {
         req, client, clazz, fieldNamingPolicy, errorTimeout, maxRetries, exceptionsAllowedToRetry);
   }
 
-  /**
-   *  Builder strategy for constructing {@code GaeRequestHandler}.
-   */
+  /** Builder strategy for constructing {@code GaeRequestHandler}. */
   public static class Builder implements GeoApiContext.RequestHandler.Builder {
 
     @Override

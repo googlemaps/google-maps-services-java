@@ -104,8 +104,9 @@ public class GeocodingApiRequest
    * Set the region code, specified as a ccTLD ("top-level domain") two-character value. This
    * parameter will only influence, not fully restrict, results from the geocoder.
    *
-   * <p>For more information see <a href="https://developers.google.com/maps/documentation/geocoding/?hl=pl#RegionCodes">
-   * Region Codes</a>.
+   * <p>For more information see <a
+   * href="https://developers.google.com/maps/documentation/geocoding/?hl=pl#RegionCodes">Region
+   * Codes</a>.
    *
    * @param region The region code to influence results.
    * @return Returns this {@code GeocodingApiRequest} for call chaining.

@@ -38,7 +38,8 @@ public interface PendingResult<T> {
    *
    * @return The result.
    * @throws ApiException Thrown if the API Returned result is an error.
-   * @throws InterruptedException Thrown when a thread is waiting, sleeping, or otherwise occupied, and the thread is interrupted.
+   * @throws InterruptedException Thrown when a thread is waiting, sleeping, or otherwise occupied,
+   *     and the thread is interrupted.
    * @throws IOException Thrown when an I/O exception of some sort has occurred.
    */
   T await() throws ApiException, InterruptedException, IOException;
