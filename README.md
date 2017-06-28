@@ -246,10 +246,7 @@ req.setCallback(new PendingResult.Callback<GeocodingResult[]>() {
     $ ./gradlew jar
 
     # Run the tests
-    $ API_KEY=AIza.... ./gradlew test
-
-    # Run the tests with enterprise credentials.
-    $ CLIENT_ID=... CLIENT_SECRET=... ./gradlew test
+    $ ./gradlew test
 
     # Generate documentation
     $ ./gradlew javadoc

@@ -15,46 +15,45 @@
 
 package com.google.maps.internal;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import com.google.maps.MediumTests;
-
+import java.util.AbstractMap;
+import java.util.Date;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.AbstractMap;
-import java.util.Date;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.TimeUnit;
-
-
 @Category(MediumTests.class)
 public class RateLimitExecutorServiceTest {
 
-  private static final Logger LOG = LoggerFactory.getLogger(RateLimitExecutorServiceTest.class.getName());
+  private static final Logger LOG =
+      LoggerFactory.getLogger(RateLimitExecutorServiceTest.class.getName());
 
   @Test
   public void testRateLimitDoesNotExceedSuppliedQps() throws Exception {
     int qps = 10;
     RateLimitExecutorService service = new RateLimitExecutorService();
     service.setQueriesPerSecond(qps);
-    final ConcurrentHashMap<Integer, Integer> executedTimestamps = new ConcurrentHashMap<Integer, Integer>();
+    final ConcurrentHashMap<Integer, Integer> executedTimestamps =
+        new ConcurrentHashMap<Integer, Integer>();
 
     for (int i = 0; i < 100; i++) {
-      Runnable emptyTask = new Runnable() {
-        @Override
-        public void run() {
-          int nearestSecond = (int) (new Date().getTime() / 1000);
-          if (executedTimestamps.containsKey(nearestSecond)) {
-            executedTimestamps.put(nearestSecond, executedTimestamps.get(nearestSecond) + 1);
-          } else {
-            executedTimestamps.put(nearestSecond, 1);
-          }
-        }
-      };
+      Runnable emptyTask =
+          new Runnable() {
+            @Override
+            public void run() {
+              int nearestSecond = (int) (new Date().getTime() / 1000);
+              if (executedTimestamps.containsKey(nearestSecond)) {
+                executedTimestamps.put(nearestSecond, executedTimestamps.get(nearestSecond) + 1);
+              } else {
+                executedTimestamps.put(nearestSecond, 1);
+              }
+            }
+          };
       service.execute(emptyTask);
     }
 
@@ -70,9 +69,11 @@ public class RateLimitExecutorServiceTest {
     for (Integer timestamp : executedTimestamps.keySet()) {
       Integer actualQps = executedTimestamps.get(timestamp);
       // Logging QPS here to detect if a previous iteration had qps-1 and this is qps+1.
-      LOG.info(String.format("Timestamp(%d) logged %d queries (target of %d qps)",
-          timestamp, actualQps, qps));
-      assertTrue(String.format("Expected <= %d queries in a second, got %d.", qps, actualQps),
+      LOG.info(
+          String.format(
+              "Timestamp(%d) logged %d queries (target of %d qps)", timestamp, actualQps, qps));
+      assertTrue(
+          String.format("Expected <= %d queries in a second, got %d.", qps, actualQps),
           actualQps <= qps);
     }
     // Check that we executed every request

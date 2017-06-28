@@ -1,0 +1,13 @@
+{
+    "routes": [{
+        "legs": [{
+            "end_address": "Melbourne VIC, Australia",
+            "start_address": "Sydney NSW, Australia"
+        }],
+        "overview_polyline": {
+            "points": "f`vmE{`|y[gIqq@daAZxtEtYr~AwLztA~jCxAb{Ey_@djFpZxsQjh@ztJqv@tpJvnAryCzmA~_@ruCraC|fErxDfnC|RvlAd|B~`DvuD|oEroApsEvfChfCvUnzGpzHthFpeDz_GnzExaDriG~{E~`FhfF~vCbhBh_B~xAl}Dpx@tuElpAz|HxxEpcMbbD|a@jmBviBp`GfkFlpD~iAt|BjuCfyAbbC`JphGxzApuE|~@hdFh|CptDzhEp_HrnCleJna@fnFzYznIkw@ffDnOnvIhnEfiC`W|kLhhAlbKrqBbgCbMxeDie@b|MzpApyHbj@ryHoLriHaqAlgGczBv`IlHdtEiO`aGtwAvuFjhCxeHdFvqCbrAluJakAnoJgyB|uDrAh`G{tBd_E_rA~dEa\\\\noGth@trGnvA|sEvmDrmCbPnwB_hApxClRbhEqu@xsGmNh_GxyA~sLLbcT|~AnoD~pCtwBd_CliExaAjxEbuD|lIbnEgQl_E~{D`m@`mClvDbr@thDtCnwA|xArgDhPjlC|uDbiA~`FfpCfbDhOvzHzm@`pE|rDziHzHj{GnqDj`AteBh|CrjDtnD`}Fb}GtxCprJ|nAvr@xlDgmA~dBoq@nqBzi@x|DreCnuAj|BloDldChoEtpEdsCr`AhzBl_B~iEbXveBj}AxkIt~L`uC|}CjXd}Cp~C|rJlc@|zBdtAnvAdfCoDrmCfgB`xC~}A~oAn_ElhCpVnuB|gFv`CjoAnrDd}AfzC~qDpEbsGb~@zdBzAb`Nj{FhFvzEtqAhiFprBnnGzfHfoBdqB`u@xuAcVlyCqi@ziHgqBvaE{NzbHhvBx~IfiA|_AflCtoDjjBnyAxaA~eDrYl_IxiA|_MhbDz~CjkJlhGt`H~sFpuDkKflD~F`hCvfChlBtvI~q@b}Dn{Ff}D`{AxsCt_@zpFjsChqJvkAptGl}AxcAbcCrxA`mDvuIn~@zdFii@ngDjxCfdJpA`sGx~Hn~WlpGxkGf|EjyHbtBpxBv~AbHd|@pzCmTrxFxpB~dEvxEhxKv_DjaPtzB~lHngF~}G|jEf_ExgBlpAznC`dE`UfpErSzqAbmBha@|`DtsA~sIoLpvBljApwCfLjsHttBjrFd`@lbDx_AffJhEpdBnb@~cAxjBrtD~p@`sD}S~fDtxC~rEd`Cd`GlwAxhFztBfiJf[tkBytAf_@qcCbdBouAvkC`DzpDdw@vmByM~WjvJmCnuBpfAdzA~eDxAbHoeEbgBmjAxiEq_@jtCqzB~l@aS"
+        },
+        "summary": "M31 and National Highway M31"
+    }],
+    "status": "OK"
+}

@@ -1,0 +1,54 @@
+{
+   "results" : [
+      {
+         "address_components" : [
+            {
+               "long_name" : "Sydney",
+               "short_name" : "Sydney",
+               "types" : [ "colloquial_area", "locality", "political" ]
+            },
+            {
+               "long_name" : "New South Wales",
+               "short_name" : "NSW",
+               "types" : [ "administrative_area_level_1", "political" ]
+            },
+            {
+               "long_name" : "Australia",
+               "short_name" : "AU",
+               "types" : [ "country", "political" ]
+            }
+         ],
+         "formatted_address" : "Sydney NSW, Australia",
+         "geometry" : {
+            "bounds" : {
+               "northeast" : {
+                  "lat" : -33.5781409,
+                  "lng" : 151.3430209
+               },
+               "southwest" : {
+                  "lat" : -34.118347,
+                  "lng" : 150.5209286
+               }
+            },
+            "location" : {
+               "lat" : -33.8688197,
+               "lng" : 151.2092955
+            },
+            "location_type" : "APPROXIMATE",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : -33.5782519,
+                  "lng" : 151.3429976
+               },
+               "southwest" : {
+                  "lat" : -34.118328,
+                  "lng" : 150.5209286
+               }
+            }
+         },
+         "place_id" : "ChIJP3Sa8ziYEmsRUKgyFmh9AQM",
+         "types" : [ "colloquial_area", "locality", "political" ]
+      }
+   ],
+   "status" : "OK"
+}
