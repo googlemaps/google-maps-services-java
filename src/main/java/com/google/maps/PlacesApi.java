@@ -93,7 +93,7 @@ public class PlacesApi {
    * Search or Nearby Search.
    *
    * @deprecated This functionality is deprecated and will stop working on June 30, 2018.
-   * @see <a href="https://maps-apis.googleblog.com/2017/06/announcing-deprecation-of-place-add.html">Removing Place Add, Delete & Radar Search features</a>
+   * @see <a href="https://maps-apis.googleblog.com/2017/06/announcing-deprecation-of-place-add.html">Removing Place Add, Delete &amp; Radar Search features</a>
    * @param context  The context on which to make Geo API requests.
    * @param location The location around which to retrieve place information.
    * @param radius   The distance in meters within which to return place results.
