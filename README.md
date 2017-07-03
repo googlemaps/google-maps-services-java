@@ -123,7 +123,7 @@ You can find the latest version at the top of this README or by searching
 
 ## Developer Documentation
 
-View the [javadoc](https://googlemaps.github.io/google-maps-services-java/v0.1.18/javadoc).
+View the [javadoc](https://googlemaps.github.io/google-maps-services-java/v0.1.21/javadoc/).
 
 Additional documentation for the included web services is available at
 https://developers.google.com/maps/.
