@@ -19,13 +19,14 @@ package com.google.maps.model;
  * DirectionsResult represents a result from the Google Directions API Web Service.
  *
  * <p>Please see <a href="https://developers.google.com/maps/documentation/directions/intro">
- * Directions API</a> for more detail.</p>
+ * Directions API</a> for more detail.
  */
 public class DirectionsResult {
 
   /**
    * {@code geocodedWaypoints} contains an array with details about the geocoding of origin,
-   * destination and waypoints. See <a href="https://developers.google.com/maps/documentation/directions/intro#GeocodedWaypoints">
+   * destination and waypoints. See <a
+   * href="https://developers.google.com/maps/documentation/directions/intro#GeocodedWaypoints">
    * Geocoded Waypoints</a> for more detail.
    */
   public GeocodedWaypoint geocodedWaypoints[];

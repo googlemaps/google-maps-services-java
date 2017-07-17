@@ -18,24 +18,29 @@ package com.google.maps.model;
 import org.joda.time.LocalTime;
 
 /**
- * Opening hours for a Place Details result. Please see <a href="https://developers.google.com/places/web-service/details#PlaceDetailsResults">Place
- * Details Results</a> for more details.
+ * Opening hours for a Place Details result. Please see <a
+ * href="https://developers.google.com/places/web-service/details#PlaceDetailsResults">Place Details
+ * Results</a> for more details.
  */
 public class OpeningHours {
   /**
    * openNow is a boolean value indicating if the place is open at the current time.
    *
-   * <p>Note: this field will be null if it isn't present in the response.</p>
+   * <p>Note: this field will be null if it isn't present in the response.
    */
   public Boolean openNow;
 
-  /**
-   * Period models the opening hours for a Place for a single day.
-   */
-  static public class Period {
-    static public class OpenClose {
+  /** Period models the opening hours for a Place for a single day. */
+  public static class Period {
+    public static class OpenClose {
       public enum DayOfWeek {
-        SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY,
+        SUNDAY,
+        MONDAY,
+        TUESDAY,
+        WEDNESDAY,
+        THURSDAY,
+        FRIDAY,
+        SATURDAY,
 
         /**
          * Indicates an unknown day of week type returned by the server. The Java Client for Google
@@ -44,25 +49,17 @@ public class OpeningHours {
         UNKNOWN
       }
 
-      /**
-       * Day that this Open/Close pair is for.
-       */
+      /** Day that this Open/Close pair is for. */
       public Period.OpenClose.DayOfWeek day;
 
-      /**
-       * Time that this Open or Close happens at.
-       */
+      /** Time that this Open or Close happens at. */
       public LocalTime time;
     }
 
-    /**
-     * When the Place opens.
-     */
+    /** When the Place opens. */
     public Period.OpenClose open;
 
-    /**
-     * When the Place closes.
-     */
+    /** When the Place closes. */
     public Period.OpenClose close;
   }
 
@@ -81,7 +78,7 @@ public class OpeningHours {
   /**
    * permanentlyClosed indicates that the place has permanently shut down.
    *
-   * <p>Note: this field will be null if it isn't present in the response.</p>
+   * <p>Note: this field will be null if it isn't present in the response.
    */
   public Boolean permanentlyClosed;
 }

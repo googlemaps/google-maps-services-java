@@ -26,9 +26,9 @@ import java.io.IOException;
 /**
  * This class handles conversion from JSON to {@link PriceLevel}.
  *
- * <p>Please see
- * <a href="https://google-gson.googlecode.com/svn/trunk/gson/docs/javadocs/com/google/gson/TypeAdapter.html">GSON Type
- * Adapter</a> for more detail.
+ * <p>Please see <a
+ * href="https://google-gson.googlecode.com/svn/trunk/gson/docs/javadocs/com/google/gson/TypeAdapter.html">GSON
+ * Type Adapter</a> for more detail.
  */
 public class PriceLevelAdaptor extends TypeAdapter<PriceLevel> {
 
@@ -59,12 +59,9 @@ public class PriceLevelAdaptor extends TypeAdapter<PriceLevel> {
     return PriceLevel.UNKNOWN;
   }
 
-  /**
-   * This method is not implemented.
-   */
+  /** This method is not implemented. */
   @Override
   public void write(JsonWriter writer, PriceLevel value) throws IOException {
     throw new UnsupportedOperationException("Unimplemented method");
   }
-
 }

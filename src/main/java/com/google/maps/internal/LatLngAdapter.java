@@ -23,9 +23,7 @@ import com.google.maps.model.LatLng;
 
 import java.io.IOException;
 
-/**
- * Handle conversion from varying types of latitude and longitude representations.
- */
+/** Handle conversion from varying types of latitude and longitude representations. */
 public class LatLngAdapter extends TypeAdapter<LatLng> {
   /**
    * Reads in a JSON object and try to create a LatLng in one of the following formats.
@@ -72,9 +70,7 @@ public class LatLngAdapter extends TypeAdapter<LatLng> {
     }
   }
 
-  /**
-   * Not supported.
-   */
+  /** Not supported. */
   @Override
   public void write(JsonWriter out, LatLng value) throws IOException {
     throw new UnsupportedOperationException("Unimplemented method.");

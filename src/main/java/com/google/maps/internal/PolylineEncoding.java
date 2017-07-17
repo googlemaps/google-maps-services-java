@@ -28,9 +28,7 @@ import java.util.List;
  * detailed description of this format.
  */
 public class PolylineEncoding {
-  /**
-   * Decodes an encoded path string into a sequence of LatLngs.
-   */
+  /** Decodes an encoded path string into a sequence of LatLngs. */
   public static List<LatLng> decode(final String encodedPath) {
 
     int len = encodedPath.length();
@@ -66,9 +64,7 @@ public class PolylineEncoding {
     return path;
   }
 
-  /**
-   * Encodes a sequence of LatLngs into an encoded path string.
-   */
+  /** Encodes a sequence of LatLngs into an encoded path string. */
   public static String encode(final List<LatLng> path) {
     long lastLat = 0;
     long lastLng = 0;
@@ -100,9 +96,7 @@ public class PolylineEncoding {
     result.append(Character.toChars((int) (v + 63)));
   }
 
-  /**
-   * Encodes an array of LatLngs into an encoded path string.
-   */
+  /** Encodes an array of LatLngs into an encoded path string. */
   public static String encode(LatLng[] path) {
     return encode(Arrays.asList(path));
   }

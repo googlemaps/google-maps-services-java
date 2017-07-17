@@ -15,20 +15,21 @@
 
 package com.google.maps;
 
-import static com.google.maps.TestUtils.retrieveBody;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
 import com.google.maps.errors.InvalidRequestException;
 import com.google.maps.errors.RequestDeniedException;
 import com.google.maps.model.ElevationResult;
 import com.google.maps.model.EncodedPolyline;
 import com.google.maps.model.LatLng;
 import com.google.maps.model.LatLngAssert;
-import java.util.Collections;
-import java.util.List;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+
+import java.util.Collections;
+import java.util.List;
+
+import static com.google.maps.TestUtils.retrieveBody;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 @Category(MediumTests.class)
 public class ElevationApiTest {

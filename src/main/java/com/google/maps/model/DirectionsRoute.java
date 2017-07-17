@@ -50,9 +50,7 @@ public class DirectionsRoute {
    */
   public EncodedPolyline overviewPolyline;
 
-  /**
-   * {@code bounds} contains the viewport bounding box of the overview_polyline.
-   */
+  /** {@code bounds} contains the viewport bounding box of the overview_polyline. */
   public Bounds bounds;
 
   /**

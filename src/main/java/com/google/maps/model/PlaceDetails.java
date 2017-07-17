@@ -24,29 +24,21 @@ import java.net.URL;
  * comprehensive information about the indicated place such as its complete address, phone number,
  * user rating and reviews.
  *
- * See <a href="https://developers.google.com/places/web-service/details#PlaceDetailsResults"> Place
- * Details Results</a> for more detail.
+ * <p>See <a href="https://developers.google.com/places/web-service/details#PlaceDetailsResults">
+ * Place Details Results</a> for more detail.
  */
 public class PlaceDetails {
 
-  /**
-   * addressComponents is a list of separate address components used to compose a given address.
-   */
+  /** addressComponents is a list of separate address components used to compose a given address. */
   public AddressComponent[] addressComponents;
 
-  /**
-   * formattedAddress is a string containing the human-readable address of this place.
-   */
+  /** formattedAddress is a string containing the human-readable address of this place. */
   public String formattedAddress;
 
-  /**
-   * formattedPhoneNumber contains the place's phone number in its local format.
-   */
+  /** formattedPhoneNumber contains the place's phone number in its local format. */
   public String formattedPhoneNumber;
 
-  /**
-   * geometry is the location of the Place.
-   */
+  /** geometry is the location of the Place. */
   public Geometry geometry;
 
   /**
@@ -61,37 +53,25 @@ public class PlaceDetails {
    */
   public String internationalPhoneNumber;
 
-  /**
-   * name contains the human-readable name for the returned result.
-   */
+  /** name contains the human-readable name for the returned result. */
   public String name;
 
-  /**
-   * The opening hours for the place.
-   */
+  /** The opening hours for the place. */
   public OpeningHours openingHours;
 
-  /**
-   * photos is a list of photo objects, each containing a reference to an image.
-   */
+  /** photos is a list of photo objects, each containing a reference to an image. */
   public Photo[] photos;
 
-  /**
-   * placeId is a textual identifier that uniquely identifies a place.
-   */
+  /** placeId is a textual identifier that uniquely identifies a place. */
   public String placeId;
 
-  /**
-   * scope: Indicates the scope of the placeId.
-   */
+  /** scope: Indicates the scope of the placeId. */
   public PlaceIdScope scope;
 
-  /**
-   * Whether the place has permanently closed.
-   */
+  /** Whether the place has permanently closed. */
   public boolean permanentlyClosed;
 
-  static public class AlternatePlaceIds {
+  public static class AlternatePlaceIds {
     /**
      * placeId — The most likely reason for a place to have an alternative place ID is if your
      * application adds a place and receives an application-scoped place ID, then later receives a
@@ -118,15 +98,20 @@ public class PlaceDetails {
    */
   public PriceLevel priceLevel;
 
-  /**
-   * rating contains the place's rating, from 1.0 to 5.0, based on aggregated user reviews.
-   */
+  /** rating contains the place's rating, from 1.0 to 5.0, based on aggregated user reviews. */
   public float rating;
 
-  static public class Review {
-    static public class AspectRating {
+  public static class Review {
+    public static class AspectRating {
       public enum RatingType {
-        APPEAL, ATMOSPHERE, DECOR, FACILITIES, FOOD, OVERALL, QUALITY, SERVICE,
+        APPEAL,
+        ATMOSPHERE,
+        DECOR,
+        FACILITIES,
+        FOOD,
+        OVERALL,
+        QUALITY,
+        SERVICE,
 
         /**
          * Indicates an unknown rating type returned by the server. The Java Client for Google Maps
@@ -135,14 +120,10 @@ public class PlaceDetails {
         UNKNOWN
       }
 
-      /**
-       * type is the name of the aspect that is being rated.
-       */
+      /** type is the name of the aspect that is being rated. */
       public RatingType type;
 
-      /**
-       * rating is the user's rating for this particular aspect, from 0 to 3.
-       */
+      /** rating is the user's rating for this particular aspect, from 0 to 3. */
       public int rating;
     }
 
@@ -150,8 +131,9 @@ public class PlaceDetails {
      * aspects contains a collection of AspectRating objects, each of which provides a rating of a
      * single attribute of the establishment.
      *
-     * <p>Note: this is a <a href="https://developers.google.com/places/web-service/details#PremiumData">Premium
-     * Data</a> field available to the Google Places API for Work customers.</p>
+     * <p>Note: this is a <a
+     * href="https://developers.google.com/places/web-service/details#PremiumData">Premium Data</a>
+     * field available to the Google Places API for Work customers.
      */
     public AspectRating[] aspects;
 
@@ -161,19 +143,14 @@ public class PlaceDetails {
      */
     public String authorName;
 
-    /**
-     * authorUrl the URL to the users Google+ profile, if available.
-     */
+    /** authorUrl the URL to the users Google+ profile, if available. */
     public URL authorUrl;
 
-    /**
-     * language an IETF language code indicating the language used in the user's review.
-     */
+    /** language an IETF language code indicating the language used in the user's review. */
     public String language;
 
     /**
-     * rating the user's overall rating for this place. This is a whole number, ranging from 1 to
-     * 5.
+     * rating the user's overall rating for this place. This is a whole number, ranging from 1 to 5.
      */
     public int rating;
 
@@ -183,9 +160,7 @@ public class PlaceDetails {
      */
     public String text;
 
-    /**
-     * time is the time that the review was submitted, as seconds since epoch.
-     */
+    /** time is the time that the review was submitted, as seconds since epoch. */
     public Instant time;
   }
 
@@ -196,9 +171,7 @@ public class PlaceDetails {
    */
   public Review[] reviews;
 
-  /**
-   * types contains an array of feature types describing the given result.
-   */
+  /** types contains an array of feature types describing the given result. */
   public String[] types;
 
   /**
@@ -209,9 +182,7 @@ public class PlaceDetails {
    */
   public URL url;
 
-  /**
-   * utcOffset contains the number of minutes this place’s current timezone is offset from UTC.
-   */
+  /** utcOffset contains the number of minutes this place’s current timezone is offset from UTC. */
   public int utcOffset;
 
   /**
@@ -220,9 +191,7 @@ public class PlaceDetails {
    */
   public String vicinity;
 
-  /**
-   * website lists the authoritative website for this place, such as a business' homepage.
-   */
+  /** website lists the authoritative website for this place, such as a business' homepage. */
   public URL website;
 
   /**
@@ -230,6 +199,4 @@ public class PlaceDetails {
    * to the user.
    */
   public String[] htmlAttributions;
-
 }
-

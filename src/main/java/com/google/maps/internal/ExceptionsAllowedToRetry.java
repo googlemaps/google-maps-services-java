@@ -19,7 +19,7 @@ import com.google.maps.errors.ApiException;
 
 import java.util.HashSet;
 
-final public class ExceptionsAllowedToRetry extends HashSet<Class<? extends ApiException>> {
+public final class ExceptionsAllowedToRetry extends HashSet<Class<? extends ApiException>> {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder().append("ExceptionsAllowedToRetry[");

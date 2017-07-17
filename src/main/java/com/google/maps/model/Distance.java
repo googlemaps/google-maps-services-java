@@ -15,9 +15,7 @@
 
 package com.google.maps.model;
 
-/**
- * The distance component for Directions API results.
- */
+/** The distance component for Directions API results. */
 public class Distance {
 
   /**
@@ -37,4 +35,3 @@ public class Distance {
     return humanReadable;
   }
 }
-

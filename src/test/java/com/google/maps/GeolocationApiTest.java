@@ -15,10 +15,6 @@
 
 package com.google.maps;
 
-import static com.google.maps.TestUtils.retrieveBody;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
 import com.google.maps.errors.InvalidRequestException;
 import com.google.maps.errors.NotFoundException;
 import com.google.maps.model.CellTower;
@@ -29,6 +25,10 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+
+import static com.google.maps.TestUtils.retrieveBody;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 @Category(LargeTests.class)
 public class GeolocationApiTest {

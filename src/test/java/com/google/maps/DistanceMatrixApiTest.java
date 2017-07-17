@@ -15,9 +15,6 @@
 
 package com.google.maps;
 
-import static com.google.maps.TestUtils.retrieveBody;
-import static org.junit.Assert.assertEquals;
-
 import com.google.maps.DirectionsApi.RouteRestriction;
 import com.google.maps.model.DistanceMatrix;
 import com.google.maps.model.DistanceMatrixElementStatus;
@@ -29,6 +26,9 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+
+import static com.google.maps.TestUtils.retrieveBody;
+import static org.junit.Assert.assertEquals;
 
 @Category(MediumTests.class)
 public class DistanceMatrixApiTest {

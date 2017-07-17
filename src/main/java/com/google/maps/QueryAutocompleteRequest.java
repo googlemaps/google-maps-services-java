@@ -23,14 +23,17 @@ import com.google.maps.model.AutocompletePrediction;
 import com.google.maps.model.LatLng;
 
 /**
- * A <a href="https://developers.google.com/places/web-service/query#query_autocomplete_requests">Query
+ * A <a
+ * href="https://developers.google.com/places/web-service/query#query_autocomplete_requests">Query
  * Autocomplete</a> request.
  */
 public class QueryAutocompleteRequest
-    extends PendingResultBase<AutocompletePrediction[], QueryAutocompleteRequest, QueryAutocompleteRequest.Response> {
+    extends PendingResultBase<
+        AutocompletePrediction[], QueryAutocompleteRequest, QueryAutocompleteRequest.Response> {
 
-  static final ApiConfig API_CONFIG = new ApiConfig("/maps/api/place/queryautocomplete/json")
-      .fieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
+  static final ApiConfig API_CONFIG =
+      new ApiConfig("/maps/api/place/queryautocomplete/json")
+          .fieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
 
   protected QueryAutocompleteRequest(GeoApiContext context) {
     super(context, API_CONFIG, Response.class);
@@ -61,9 +64,7 @@ public class QueryAutocompleteRequest
     return param("offset", String.valueOf(offset));
   }
 
-  /**
-   * location is the point around which you wish to retrieve place information.
-   */
+  /** location is the point around which you wish to retrieve place information. */
   public QueryAutocompleteRequest location(LatLng location) {
     return param("location", location);
   }

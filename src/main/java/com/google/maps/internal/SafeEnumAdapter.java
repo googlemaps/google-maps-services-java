@@ -39,9 +39,7 @@ public class SafeEnumAdapter<E extends Enum<E>> extends TypeAdapter<E> {
   private final Class<E> clazz;
   private final E unknownValue;
 
-  /**
-   * @param unknownValue the value to return if the value cannot be found.
-   */
+  /** @param unknownValue the value to return if the value cannot be found. */
   public SafeEnumAdapter(E unknownValue) {
     if (unknownValue == null) throw new IllegalArgumentException();
 

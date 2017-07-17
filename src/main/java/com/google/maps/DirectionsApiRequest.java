@@ -15,8 +15,6 @@
 
 package com.google.maps;
 
-import static com.google.maps.internal.StringJoin.join;
-
 import com.google.maps.model.DirectionsResult;
 import com.google.maps.model.LatLng;
 import com.google.maps.model.TrafficModel;
@@ -24,12 +22,11 @@ import com.google.maps.model.TransitMode;
 import com.google.maps.model.TransitRoutingPreference;
 import com.google.maps.model.TravelMode;
 import com.google.maps.model.Unit;
-
 import org.joda.time.ReadableInstant;
 
-/**
- * Request for the Directions API.
- */
+import static com.google.maps.internal.StringJoin.join;
+
+/** Request for the Directions API. */
 public class DirectionsApiRequest
     extends PendingResultBase<DirectionsResult, DirectionsApiRequest, DirectionsApi.Response> {
 
@@ -54,8 +51,8 @@ public class DirectionsApiRequest
           "Transit request must not contain both a departureTime and an arrivalTime");
     }
     if (params().containsKey("traffic_model") && !params().containsKey("departure_time")) {
-      throw new IllegalArgumentException("Specifying a traffic model requires that departure time"
-          + " be provided.");
+      throw new IllegalArgumentException(
+          "Specifying a traffic model requires that departure time" + " be provided.");
     }
   }
 
@@ -79,16 +76,12 @@ public class DirectionsApiRequest
     return param("destination", destination);
   }
 
-  /**
-   * The origin, as a latitude,longitude location.
-   */
+  /** The origin, as a latitude,longitude location. */
   public DirectionsApiRequest origin(LatLng origin) {
     return origin(origin.toString());
   }
 
-  /**
-   * The destination, as a latitude,longitude location.
-   */
+  /** The destination, as a latitude,longitude location. */
   public DirectionsApiRequest destination(LatLng destination) {
     return destination(destination.toString());
   }
@@ -108,15 +101,13 @@ public class DirectionsApiRequest
    * Indicates that the calculated route(s) should avoid the indicated features.
    *
    * @param restrictions one or more of {@link DirectionsApi.RouteRestriction#TOLLS}, {@link
-   *                     DirectionsApi.RouteRestriction#HIGHWAYS}, {@link DirectionsApi.RouteRestriction#FERRIES}
+   *     DirectionsApi.RouteRestriction#HIGHWAYS}, {@link DirectionsApi.RouteRestriction#FERRIES}
    */
   public DirectionsApiRequest avoid(DirectionsApi.RouteRestriction... restrictions) {
     return param("avoid", join('|', restrictions));
   }
 
-  /**
-   * Specifies the unit system to use when displaying results.
-   */
+  /** Specifies the unit system to use when displaying results. */
   public DirectionsApiRequest units(Unit units) {
     return param("units", units);
   }
@@ -154,8 +145,9 @@ public class DirectionsApiRequest
    * which will be geocoded. Waypoints are only supported for driving, walking and bicycling
    * directions.
    *
-   * <p>For more information on waypoints, see <a href="https://developers.google.com/maps/documentation/directions/intro#Waypoints">
-   * Using Waypoints in Routes</a>.
+   * <p>For more information on waypoints, see <a
+   * href="https://developers.google.com/maps/documentation/directions/intro#Waypoints">Using
+   * Waypoints in Routes</a>.
    */
   public DirectionsApiRequest waypoints(String... waypoints) {
     this.waypoints = waypoints;
@@ -168,9 +160,7 @@ public class DirectionsApiRequest
     }
   }
 
-  /**
-   * The list of waypoints as latitude,longitude locations.
-   */
+  /** The list of waypoints as latitude,longitude locations. */
   public DirectionsApiRequest waypoints(LatLng... waypoints) {
     if (waypoints == null) {
       return this;
@@ -232,5 +222,4 @@ public class DirectionsApiRequest
   public DirectionsApiRequest trafficModel(TrafficModel trafficModel) {
     return param("traffic_model", trafficModel);
   }
-
 }

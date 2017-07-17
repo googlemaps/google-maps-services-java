@@ -15,17 +15,18 @@
 
 package com.google.maps;
 
+import com.google.maps.errors.ZeroResultsException;
+import com.google.maps.model.LatLng;
+import org.junit.Test;
+import org.junit.experimental.categories.Category;
+
+import java.util.Date;
+import java.util.TimeZone;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-
-import com.google.maps.errors.ZeroResultsException;
-import com.google.maps.model.LatLng;
-import java.util.Date;
-import java.util.TimeZone;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
 
 @Category(MediumTests.class)
 public class TimeZoneApiTest {

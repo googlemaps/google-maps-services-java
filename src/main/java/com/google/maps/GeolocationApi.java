@@ -38,38 +38,38 @@ public class GeolocationApi {
   private static final String API_BASE_URL = "https://www.googleapis.com";
   private static final Logger LOG = Logger.getLogger(GeolocationApi.class.getName());
 
-   static final ApiConfig GEOLOCATION_API_CONFIG = new ApiConfig("/geolocation/v1/geolocate")
-       .hostName(API_BASE_URL)
-       .supportsClientId(false)
-       .fieldNamingPolicy(FieldNamingPolicy.IDENTITY)
-       .requestVerb("POST");
+  static final ApiConfig GEOLOCATION_API_CONFIG =
+      new ApiConfig("/geolocation/v1/geolocate")
+          .hostName(API_BASE_URL)
+          .supportsClientId(false)
+          .fieldNamingPolicy(FieldNamingPolicy.IDENTITY)
+          .requestVerb("POST");
 
-  private GeolocationApi () {
-  }
+  private GeolocationApi() {}
 
-  public static PendingResult<GeolocationResult> geolocate(GeoApiContext context, GeolocationPayload payload) {
-    return new GeolocationApiRequest(context)
-        .Payload(payload)
-        .CreatePayload();
+  public static PendingResult<GeolocationResult> geolocate(
+      GeoApiContext context, GeolocationPayload payload) {
+    return new GeolocationApiRequest(context).Payload(payload).CreatePayload();
   }
 
   public static GeolocationApiRequest newRequest(GeoApiContext context) {
     return new GeolocationApiRequest(context);
   }
 
-   public static class Response implements ApiResponse<GeolocationResult> {
-     public int code = 200;
-     public String message = "OK";
-     public double accuracy = -1.0;
-     public LatLng location = null;
-     public String domain = null;
-     public String reason = null;
-     public String debugInfo = null;
+  public static class Response implements ApiResponse<GeolocationResult> {
+    public int code = 200;
+    public String message = "OK";
+    public double accuracy = -1.0;
+    public LatLng location = null;
+    public String domain = null;
+    public String reason = null;
+    public String debugInfo = null;
 
     @Override
     public boolean successful() {
       return code == 200;
     }
+
     @Override
     public GeolocationResult getResult() {
       GeolocationResult result = new GeolocationResult();
@@ -77,6 +77,7 @@ public class GeolocationApi {
       result.location = location;
       return result;
     }
+
     @Override
     public ApiException getError() {
       if (successful()) {

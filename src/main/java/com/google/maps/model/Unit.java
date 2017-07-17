@@ -19,11 +19,10 @@ import com.google.maps.internal.StringJoin.UrlValue;
 
 import java.util.Locale;
 
-/**
- * Units of measurement.
- */
+/** Units of measurement. */
 public enum Unit implements UrlValue {
-  METRIC, IMPERIAL;
+  METRIC,
+  IMPERIAL;
 
   @Override
   public String toString() {

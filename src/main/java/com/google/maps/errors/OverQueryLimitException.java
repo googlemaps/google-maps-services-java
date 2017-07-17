@@ -15,9 +15,7 @@
 
 package com.google.maps.errors;
 
-/**
- * Indicates that the requesting account has exceeded short-term quota.
- */
+/** Indicates that the requesting account has exceeded short-term quota. */
 public class OverQueryLimitException extends ApiException {
 
   private static final long serialVersionUID = -6888513535435397042L;

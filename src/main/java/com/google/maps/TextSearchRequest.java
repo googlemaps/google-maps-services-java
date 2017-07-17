@@ -33,30 +33,25 @@ import com.google.maps.model.RankBy;
 public class TextSearchRequest
     extends PendingResultBase<PlacesSearchResponse, TextSearchRequest, TextSearchRequest.Response> {
 
-  static final ApiConfig API_CONFIG = new ApiConfig("/maps/api/place/textsearch/json")
-      .fieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
+  static final ApiConfig API_CONFIG =
+      new ApiConfig("/maps/api/place/textsearch/json")
+          .fieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
 
   public TextSearchRequest(GeoApiContext context) {
     super(context, API_CONFIG, Response.class);
   }
 
-  /**
-   * query is the text string on which to search, for example: "restaurant".
-   */
+  /** query is the text string on which to search, for example: "restaurant". */
   public TextSearchRequest query(String query) {
     return param("query", query);
   }
 
-  /**
-   * location is the latitude/longitude around which to retrieve place information.
-   */
+  /** location is the latitude/longitude around which to retrieve place information. */
   public TextSearchRequest location(LatLng location) {
     return param("location", location);
   }
 
-  /**
-   * radius defines the distance (in meters) within which to bias place results.
-   */
+  /** radius defines the distance (in meters) within which to bias place results. */
   public TextSearchRequest radius(int radius) {
     if (radius > 50000) {
       throw new IllegalArgumentException("The maximum allowed radius is 50,000 meters.");
@@ -64,16 +59,12 @@ public class TextSearchRequest
     return param("radius", String.valueOf(radius));
   }
 
-  /**
-   * minPrice restricts to places that are at least this price level.
-   */
+  /** minPrice restricts to places that are at least this price level. */
   public TextSearchRequest minPrice(PriceLevel priceLevel) {
     return param("minprice", priceLevel);
   }
 
-  /**
-   * maxPrice restricts to places that are at most this price level.
-   */
+  /** maxPrice restricts to places that are at most this price level. */
   public TextSearchRequest maxPrice(PriceLevel priceLevel) {
     return param("maxprice", priceLevel);
   }
@@ -86,9 +77,7 @@ public class TextSearchRequest
     return param("name", name);
   }
 
-  /**
-   * openNow returns only those places that are open for business at the time the query is sent.
-   */
+  /** openNow returns only those places that are open for business at the time the query is sent. */
   public TextSearchRequest openNow(boolean openNow) {
     return param("opennow", String.valueOf(openNow));
   }
@@ -102,16 +91,12 @@ public class TextSearchRequest
     return param("pagetoken", nextPageToken);
   }
 
-  /**
-   * rankby specifies the order in which results are listed.
-   */
+  /** rankby specifies the order in which results are listed. */
   public TextSearchRequest rankby(RankBy ranking) {
     return param("rankby", ranking);
   }
 
-  /**
-   * type restricts the results to places matching the specified type.
-   */
+  /** type restricts the results to places matching the specified type. */
   public TextSearchRequest type(PlaceType type) {
     return param("type", type);
   }
@@ -164,5 +149,4 @@ public class TextSearchRequest
       return ApiException.from(status, errorMessage);
     }
   }
-
 }

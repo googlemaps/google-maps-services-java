@@ -31,8 +31,7 @@ import java.util.Map;
  * <p>{@code T} is the class of the result, {@code A} is the actual base class of this abstract
  * class, and R is the type of the request.
  */
-abstract class PendingResultBase<T, A extends PendingResultBase<T, A, R>,
-    R extends ApiResponse<T>>
+abstract class PendingResultBase<T, A extends PendingResultBase<T, A, R>, R extends ApiResponse<T>>
     implements PendingResult<T> {
 
   private final GeoApiContext context;
@@ -94,7 +93,7 @@ abstract class PendingResultBase<T, A extends PendingResultBase<T, A, R>,
     params.put(key, val);
 
     @SuppressWarnings("unchecked") // safe by specification - A is the actual class of this instance
-        A result = (A) this;
+    A result = (A) this;
     return result;
   }
 
@@ -102,7 +101,7 @@ abstract class PendingResultBase<T, A extends PendingResultBase<T, A, R>,
     params.put(key, val.toUrlValue());
 
     @SuppressWarnings("unchecked") // safe by specification - A is the actual class of this instance
-        A result = (A) this;
+    A result = (A) this;
     return result;
   }
 
@@ -116,14 +115,14 @@ abstract class PendingResultBase<T, A extends PendingResultBase<T, A, R>,
    *
    * @param language The language code, e.g. "en-AU" or "es"
    * @see <a href="https://developers.google.com/maps/faq#languagesupport">List of supported domain
-   * languages</a>
+   *     languages</a>
    */
   public final A language(String language) {
     return param("language", language);
   }
 
   /**
-   * A channel to pass with the request.  channel is used by Google Maps API for Work users to be
+   * A channel to pass with the request. channel is used by Google Maps API for Work users to be
    * able to track usage across different applications with the same clientID. See:
    * https://developers.google.com/maps/documentation/business/clientside/quota
    *
@@ -136,7 +135,7 @@ abstract class PendingResultBase<T, A extends PendingResultBase<T, A, R>,
   /**
    * Custom parameter. For advanced usage only.
    *
-   * Note: Using this escape hatch parameter pass though voids all warranties, only use in
+   * <p>Note: Using this escape hatch parameter pass though voids all warranties, only use in
    * extreme circumstances.
    */
   public A custom(String parameter, String value) {

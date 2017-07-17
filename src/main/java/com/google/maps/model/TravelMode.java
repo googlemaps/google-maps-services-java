@@ -24,12 +24,16 @@ import java.util.Locale;
  * calculating as driving directions by default.
  *
  * @see <a href="https://developers.google.com/maps/documentation/directions/intro#TravelModes">
- * Directions API travel modes</a>
- * @see <a href="https://developers.google.com/maps/documentation/distancematrix/#RequestParameters">
- * Distance Matrix API travel modes</a>
+ *     Directions API travel modes</a>
+ * @see <a
+ *     href="https://developers.google.com/maps/documentation/distancematrix/#RequestParameters">
+ *     Distance Matrix API travel modes</a>
  */
 public enum TravelMode implements UrlValue {
-  DRIVING, WALKING, BICYCLING, TRANSIT,
+  DRIVING,
+  WALKING,
+  BICYCLING,
+  TRANSIT,
 
   /**
    * Indicates an unknown travel mode returned by the server. The Java Client for Google Maps

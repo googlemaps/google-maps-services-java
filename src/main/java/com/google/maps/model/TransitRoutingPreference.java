@@ -4,11 +4,10 @@ import com.google.maps.internal.StringJoin.UrlValue;
 
 import java.util.Locale;
 
-/**
- * Indicate user preference when requesting transit directions.
- */
+/** Indicate user preference when requesting transit directions. */
 public enum TransitRoutingPreference implements UrlValue {
-  LESS_WALKING, FEWER_TRANSFERS;
+  LESS_WALKING,
+  FEWER_TRANSFERS;
 
   @Override
   public String toString() {

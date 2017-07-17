@@ -1,128 +1,145 @@
 {
-  "html_attributions" : [],
-  "results" : [
+  "html_attributions": [],
+  "results": [
     {
-      "address_components" : [
+      "address_components": [
         {
-          "long_name" : "5",
-          "short_name" : "5",
-          "types" : [ "floor" ]
+          "long_name": "5",
+          "short_name": "5",
+          "types": [
+            "floor"
+          ]
         },
         {
-          "long_name" : "48",
-          "short_name" : "48",
-          "types" : [ "street_number" ]
+          "long_name": "48",
+          "short_name": "48",
+          "types": [
+            "street_number"
+          ]
         },
         {
-          "long_name" : "Pirrama Road",
-          "short_name" : "Pirrama Rd",
-          "types" : [ "route" ]
+          "long_name": "Pirrama Road",
+          "short_name": "Pirrama Rd",
+          "types": [
+            "route"
+          ]
         },
         {
-          "long_name" : "Pyrmont",
-          "short_name" : "Pyrmont",
-          "types" : [ "locality", "political" ]
+          "long_name": "Pyrmont",
+          "short_name": "Pyrmont",
+          "types": [
+            "locality",
+            "political"
+          ]
         },
         {
-          "long_name" : "New South Wales",
-          "short_name" : "NSW",
-          "types" : [ "administrative_area_level_1", "political" ]
+          "long_name": "New South Wales",
+          "short_name": "NSW",
+          "types": [
+            "administrative_area_level_1",
+            "political"
+          ]
         },
         {
-          "long_name" : "Australia",
-          "short_name" : "AU",
-          "types" : [ "country", "political" ]
+          "long_name": "Australia",
+          "short_name": "AU",
+          "types": [
+            "country",
+            "political"
+          ]
         },
         {
-          "long_name" : "2009",
-          "short_name" : "2009",
-          "types" : [ "postal_code" ]
+          "long_name": "2009",
+          "short_name": "2009",
+          "types": [
+            "postal_code"
+          ]
         }
       ],
-      "chain_name" : "Google",
-      "feature_id" : {
-        "cell_id" : 7715420665913760567,
-        "fprint" : 10281119596374313554
+      "chain_name": "Google",
+      "feature_id": {
+        "cell_id": 7715420665913760567,
+        "fprint": 10281119596374313554
       },
-      "formatted_address" : "5, 48 Pirrama Rd, Pyrmont NSW 2009, Australia",
-      "formatted_phone_number" : "(02) 9374 4000",
-      "geometry" : {
-        "location" : {
-          "lat" : -33.866651,
-          "lng" : 151.195827
+      "formatted_address": "5, 48 Pirrama Rd, Pyrmont NSW 2009, Australia",
+      "formatted_phone_number": "(02) 9374 4000",
+      "geometry": {
+        "location": {
+          "lat": -33.866651,
+          "lng": 151.195827
         },
-        "viewport" : {
-          "northeast" : {
-            "lat" : -33.8653881697085,
-            "lng" : 151.1969739802915
+        "viewport": {
+          "northeast": {
+            "lat": -33.8653881697085,
+            "lng": 151.1969739802915
           },
-          "southwest" : {
-            "lat" : -33.86808613029149,
-            "lng" : 151.1942760197085
+          "southwest": {
+            "lat": -33.86808613029149,
+            "lng": 151.1942760197085
           }
         }
       },
-      "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png",
-      "id" : "4f89212bf76dde31f092cfc14d7506555d85b5c7",
-      "international_phone_number" : "+61 2 9374 4000",
-      "name" : "Google",
-      "opening_hours" : {
-        "minutes_until_closed" : 224,
-        "minutes_until_open" : 1184,
-        "open_now" : true,
-        "periods" : [
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png",
+      "id": "4f89212bf76dde31f092cfc14d7506555d85b5c7",
+      "international_phone_number": "+61 2 9374 4000",
+      "name": "Google",
+      "opening_hours": {
+        "minutes_until_closed": 224,
+        "minutes_until_open": 1184,
+        "open_now": true,
+        "periods": [
           {
-            "close" : {
-              "day" : 1,
-              "time" : "1800"
+            "close": {
+              "day": 1,
+              "time": "1800"
             },
-            "open" : {
-              "day" : 1,
-              "time" : "1000"
+            "open": {
+              "day": 1,
+              "time": "1000"
             }
           },
           {
-            "close" : {
-              "day" : 2,
-              "time" : "1800"
+            "close": {
+              "day": 2,
+              "time": "1800"
             },
-            "open" : {
-              "day" : 2,
-              "time" : "1000"
+            "open": {
+              "day": 2,
+              "time": "1000"
             }
           },
           {
-            "close" : {
-              "day" : 3,
-              "time" : "1800"
+            "close": {
+              "day": 3,
+              "time": "1800"
             },
-            "open" : {
-              "day" : 3,
-              "time" : "1000"
+            "open": {
+              "day": 3,
+              "time": "1000"
             }
           },
           {
-            "close" : {
-              "day" : 4,
-              "time" : "1800"
+            "close": {
+              "day": 4,
+              "time": "1800"
             },
-            "open" : {
-              "day" : 4,
-              "time" : "1000"
+            "open": {
+              "day": 4,
+              "time": "1000"
             }
           },
           {
-            "close" : {
-              "day" : 5,
-              "time" : "1800"
+            "close": {
+              "day": 5,
+              "time": "1800"
             },
-            "open" : {
-              "day" : 5,
-              "time" : "1000"
+            "open": {
+              "day": 5,
+              "time": "1000"
             }
           }
         ],
-        "weekday_text" : [
+        "weekday_text": [
           "Monday: 10:00 AM – 6:00 PM",
           "Tuesday: 10:00 AM – 6:00 PM",
           "Wednesday: 10:00 AM – 6:00 PM",
@@ -132,26 +149,29 @@
           "Sunday: Closed"
         ]
       },
-      "photos" : [
+      "photos": [
         {
-          "height" : 1365,
-          "html_attributions" : [
+          "height": 1365,
+          "html_attributions": [
             "\u003ca href=\"https://maps.google.com/maps/contrib/105932078588305868215/photos\"\u003eMaksym Kozlenko\u003c/a\u003e"
           ],
-          "photo_reference" : "CmRaAAAAVhDev3bZzED0zPM3AqQYbvF3-DmRKHKUTtggxKX2qbjnTe1nAWCXqs0yuKxPHwK3ATHq1azZH3XkSV-rvbO5g_3jOoTVEhTB02qCrc2_Zp5Yj5h7BRwlYbYFlrRRW2BqEhBMtjEJlxR1NoJwe8V2qzh2GhR21oKlYLhjoAlVbftM7MpiG_Ei4Q",
-          "view_in_maps_url" : "https://www.google.com/maps/place//data=!3m4!1e2!3m2!1sAF1QipP1U4aCd84U_h3g8MEpgv8pq9jhCZwabhBoaSrJ!2e10!4m2!3m1!1s0x6b12ae37b47f5b37:0x8eaddfcd1b32ca52",
-          "width" : 2048
+          "photo_reference": "CmRaAAAAVhDev3bZzED0zPM3AqQYbvF3-DmRKHKUTtggxKX2qbjnTe1nAWCXqs0yuKxPHwK3ATHq1azZH3XkSV-rvbO5g_3jOoTVEhTB02qCrc2_Zp5Yj5h7BRwlYbYFlrRRW2BqEhBMtjEJlxR1NoJwe8V2qzh2GhR21oKlYLhjoAlVbftM7MpiG_Ei4Q",
+          "view_in_maps_url": "https://www.google.com/maps/place//data=!3m4!1e2!3m2!1sAF1QipP1U4aCd84U_h3g8MEpgv8pq9jhCZwabhBoaSrJ!2e10!4m2!3m1!1s0x6b12ae37b47f5b37:0x8eaddfcd1b32ca52",
+          "width": 2048
         }
       ],
-      "place_id" : "ChIJN1t_tDeuEmsRUsoyG83frY4",
-      "rating" : 4.4,
-      "reference" : "CmRSAAAAgav01cd5HQpE48Sj7mw3F3KCMA7pgz8edJr8DqMCeWshYTweSCVNKzG_6luuFgRn3-4NdujKjd0qIWiaxBHtOZFSyfSORyedfrC8A3l0EFR83ym6pDkmt5uhRpxWlmdtEhDAz7WEjybb7jTZo5iA_jQzGhQW4L7Z5U-VE5HmMXqy71j9itz3Cg",
-      "types" : [ "point_of_interest", "establishment" ],
-      "url" : "https://maps.google.com/?cid=10281119596374313554",
-      "user_ratings_total" : 458,
-      "vicinity" : "5, 48 Pirrama Road, Pyrmont",
-      "website" : "https://www.google.com.au/about/careers/locations/sydney/"
+      "place_id": "ChIJN1t_tDeuEmsRUsoyG83frY4",
+      "rating": 4.4,
+      "reference": "CmRSAAAAgav01cd5HQpE48Sj7mw3F3KCMA7pgz8edJr8DqMCeWshYTweSCVNKzG_6luuFgRn3-4NdujKjd0qIWiaxBHtOZFSyfSORyedfrC8A3l0EFR83ym6pDkmt5uhRpxWlmdtEhDAz7WEjybb7jTZo5iA_jQzGhQW4L7Z5U-VE5HmMXqy71j9itz3Cg",
+      "types": [
+        "point_of_interest",
+        "establishment"
+      ],
+      "url": "https://maps.google.com/?cid=10281119596374313554",
+      "user_ratings_total": 458,
+      "vicinity": "5, 48 Pirrama Road, Pyrmont",
+      "website": "https://www.google.com.au/about/careers/locations/sydney/"
     }
   ],
-  "status" : "OK"
+  "status": "OK"
 }

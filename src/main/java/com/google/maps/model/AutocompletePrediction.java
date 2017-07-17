@@ -19,26 +19,23 @@ package com.google.maps.model;
  * AutocompletePrediction represents a single Autocomplete result returned from the Google Places
  * API Web Service.
  *
- * <p>Please see <a href="https://developers.google.com/places/web-service/query#query_autocomplete_responses">
- * Query Autocomplete Responses</a> for more detail.</p>
+ * <p>Please see <a
+ * href="https://developers.google.com/places/web-service/query#query_autocomplete_responses">Query
+ * Autocomplete Responses</a> for more detail.
  */
 public class AutocompletePrediction {
 
-  /**
-   * Description of the matched prediction.
-   */
+  /** Description of the matched prediction. */
   public String description;
 
-  /**
-   * The Place ID of the place.
-   */
+  /** The Place ID of the place. */
   public String placeId;
 
   /**
    * types is an array indicating the type of the address component.
    *
    * <p>Please see <a href="https://developers.google.com/places/supported_types">supported
-   * types</a> for a list of types that can be returned.</p>
+   * types</a> for a list of types that can be returned.
    */
   public String types[];
 
@@ -56,14 +53,10 @@ public class AutocompletePrediction {
    */
   public static class MatchedSubstring {
 
-    /**
-     * length describes the length of the matched substring.
-     */
+    /** length describes the length of the matched substring. */
     public int length;
 
-    /**
-     * offset defines the start position of the matched substring.
-     */
+    /** offset defines the start position of the matched substring. */
     public int offset;
   }
 
@@ -81,10 +74,7 @@ public class AutocompletePrediction {
      */
     public int offset;
 
-    /**
-     * The text of the matched term.
-     */
+    /** The text of the matched term. */
     public String value;
   }
-
 }

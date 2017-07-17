@@ -18,20 +18,21 @@ package com.google.maps.model;
 /**
  * Geolocation Results
  *
- * A successful geolocation request will return a result defining a location and radius.
+ * <p>A successful geolocation request will return a result defining a location and radius.
  *
- * <p>Please see <a href="https://developers.google.com/maps/documentation/geolocation/intro#responses">Geolocation results</a> for more detail.
+ * <p>Please see <a
+ * href="https://developers.google.com/maps/documentation/geolocation/intro#responses">Geolocation
+ * results</a> for more detail.
  */
-
 public class GeolocationResult {
   /**
-   * {@code location}: The user’s estimated latitude and longitude, in degrees. Contains one lat and one lng
-   * subfield.
+   * {@code location}: The user’s estimated latitude and longitude, in degrees. Contains one lat and
+   * one lng subfield.
    */
   public LatLng location;
   /**
-   * {@code accuracy}: The accuracy of the estimated location, in meters. This represents the radius of a
-   * circle around the given {@code location}.
+   * {@code accuracy}: The accuracy of the estimated location, in meters. This represents the radius
+   * of a circle around the given {@code location}.
    */
   public double accuracy;
 }

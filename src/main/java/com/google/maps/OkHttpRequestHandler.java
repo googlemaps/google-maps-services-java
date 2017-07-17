@@ -25,7 +25,6 @@ import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,33 +50,45 @@ public class OkHttpRequestHandler implements GeoApiContext.RequestHandler {
   }
 
   @Override
-  public <T, R extends ApiResponse<T>> PendingResult<T> handle(String hostName, String url, String userAgent,
-                                                               Class<R> clazz, FieldNamingPolicy fieldNamingPolicy,
-                                                               long errorTimeout, Integer maxRetries,
-                                                               ExceptionsAllowedToRetry exceptionsAllowedToRetry) {
-    Request req = new Request.Builder()
-        .get()
-        .header("User-Agent", userAgent)
-        .url(hostName + url).build();
+  public <T, R extends ApiResponse<T>> PendingResult<T> handle(
+      String hostName,
+      String url,
+      String userAgent,
+      Class<R> clazz,
+      FieldNamingPolicy fieldNamingPolicy,
+      long errorTimeout,
+      Integer maxRetries,
+      ExceptionsAllowedToRetry exceptionsAllowedToRetry) {
+    Request req =
+        new Request.Builder().get().header("User-Agent", userAgent).url(hostName + url).build();
 
     LOG.info("Request: {}", hostName + url);
 
-    return new OkHttpPendingResult<T, R>(req, client, clazz, fieldNamingPolicy, errorTimeout, maxRetries, exceptionsAllowedToRetry);
+    return new OkHttpPendingResult<T, R>(
+        req, client, clazz, fieldNamingPolicy, errorTimeout, maxRetries, exceptionsAllowedToRetry);
   }
 
   @Override
-  public <T, R extends ApiResponse<T>> PendingResult<T> handlePost(String hostName, String url, String payload,
-                                                                   String userAgent, Class<R> clazz,
-                                                                   FieldNamingPolicy fieldNamingPolicy,
-                                                                   long errorTimeout, Integer maxRetries,
-                                                                   ExceptionsAllowedToRetry exceptionsAllowedToRetry) {
+  public <T, R extends ApiResponse<T>> PendingResult<T> handlePost(
+      String hostName,
+      String url,
+      String payload,
+      String userAgent,
+      Class<R> clazz,
+      FieldNamingPolicy fieldNamingPolicy,
+      long errorTimeout,
+      Integer maxRetries,
+      ExceptionsAllowedToRetry exceptionsAllowedToRetry) {
     RequestBody body = RequestBody.create(JSON, payload);
-    Request req = new Request.Builder()
-        .post(body)
-        .header("User-Agent", userAgent)
-        .url(hostName + url).build();
+    Request req =
+        new Request.Builder()
+            .post(body)
+            .header("User-Agent", userAgent)
+            .url(hostName + url)
+            .build();
 
-    return new OkHttpPendingResult<T, R>(req, client, clazz, fieldNamingPolicy, errorTimeout, maxRetries, exceptionsAllowedToRetry);
+    return new OkHttpPendingResult<T, R>(
+        req, client, clazz, fieldNamingPolicy, errorTimeout, maxRetries, exceptionsAllowedToRetry);
   }
 
   @Override
@@ -102,12 +113,14 @@ public class OkHttpRequestHandler implements GeoApiContext.RequestHandler {
     rateLimitExecutorService.setQueriesPerSecond(maxQps);
   }
 
-  @Override @Deprecated
+  @Override
+  @Deprecated
   public void setQueriesPerSecond(int maxQps, int minimumInterval) {
     // Instead of using a minimumInterval between requests, we are using a warm up period
     // on the RateLimiter in the rateLimitExecutorService to prevent flooding the back end
     // with requests.
-    LOG.warn("OkHttpRequestHandler#setQueriesPerSecond(int,int) deprecated, ignoring minimumInterval");
+    LOG.warn(
+        "OkHttpRequestHandler#setQueriesPerSecond(int,int) deprecated, ignoring minimumInterval");
     this.setQueriesPerSecond(maxQps);
   }
 
@@ -115,5 +128,4 @@ public class OkHttpRequestHandler implements GeoApiContext.RequestHandler {
   public void setProxy(Proxy proxy) {
     client.setProxy(proxy);
   }
-
 }
