@@ -52,7 +52,7 @@ public class DirectionsApiRequest
     }
     if (params().containsKey("traffic_model") && !params().containsKey("departure_time")) {
       throw new IllegalArgumentException(
-          "Specifying a traffic model requires that departure time" + " be provided.");
+          "Specifying a traffic model requires that departure time be provided.");
     }
   }
 

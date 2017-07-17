@@ -110,7 +110,7 @@ public class DistanceMatrixApiRequest
       return param("mode", mode);
     }
     throw new IllegalArgumentException(
-        "Distance Matrix API travel modes must be Driving, " + "Transit, Walking or Bicycling");
+        "Distance Matrix API travel modes must be Driving, Transit, Walking or Bicycling");
   }
 
   /**
