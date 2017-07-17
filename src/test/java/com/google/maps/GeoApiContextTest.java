@@ -280,7 +280,7 @@ public class GeoApiContextTest {
 
     builder.retryTimeout(1, TimeUnit.MILLISECONDS);
     builder.maxRetries(10);
-    builder.toggleifExceptionIsAllowedToRetry(OverQueryLimitException.class, false);
+    builder.setIfExceptionIsAllowedToRetry(OverQueryLimitException.class, false);
 
     setMockBaseUrl();
 
