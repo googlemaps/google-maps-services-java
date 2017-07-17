@@ -92,7 +92,9 @@ public class PlacesApi {
    * Perform a radar search for up to 200 places, but with less detail than is returned from Text
    * Search or Nearby Search.
    *
-   * @param context The context on which to make Geo API requests.
+   * @deprecated This functionality is deprecated and will stop working on June 30, 2018.
+   * @see <a href="https://maps-apis.googleblog.com/2017/06/announcing-deprecation-of-place-add.html">Removing Place Add, Delete &amp; Radar Search features</a>
+   * @param context  The context on which to make Geo API requests.
    * @param location The location around which to retrieve place information.
    * @param radius The distance in meters within which to return place results.
    * @return Returns a RadarSearchRequest that can be configured and executed.

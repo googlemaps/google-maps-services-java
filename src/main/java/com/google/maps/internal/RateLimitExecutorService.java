@@ -74,7 +74,7 @@ public class RateLimitExecutorService implements ExecutorService, Runnable {
       while (!delegate.isShutdown()) {
         this.rateLimiter.acquire();
         Runnable r = queue.take();
-        r.run();
+        delegate.execute(r);
       }
     } catch (InterruptedException ie) {
       LOG.info("Interrupted", ie);
