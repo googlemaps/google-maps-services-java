@@ -209,7 +209,7 @@ To alter or disable automatic retries, see these methods in `GeoApiContext`:
 * `.disableRetries()`
 * `.maxRetries()`
 * `.retryTimeout()`
-* `.toggleifExceptionIsAllowedToRetry()`
+* `.setIfExceptionIsAllowedToRetry()`
 
 ### Client IDs
 
