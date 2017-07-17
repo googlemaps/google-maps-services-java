@@ -456,7 +456,7 @@ public class GeoApiContext {
      * @param allowedToRetry Whether to allow or deny re-trying {@code exception}.
      * @return Returns this builder for call chaining.
      */
-    public Builder toggleifExceptionIsAllowedToRetry(
+    public Builder setIfExceptionIsAllowedToRetry(
         Class<? extends ApiException> exception, boolean allowedToRetry) {
       if (allowedToRetry) {
         exceptionsAllowedToRetry.add(exception);
