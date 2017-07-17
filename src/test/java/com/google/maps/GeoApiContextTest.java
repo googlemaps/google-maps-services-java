@@ -203,7 +203,7 @@ public class GeoApiContextTest {
     MockResponse goodResponse = new MockResponse();
     goodResponse.setResponseCode(200);
     goodResponse.setBody(
-        "{\n" + "   \"results\" : [],\n" + "   \"status\" : \"ZERO_RESULTS\"\n" + "}");
+        "{\n   \"results\" : [],\n   \"status\" : \"ZERO_RESULTS\"\n}");
     server.enqueue(goodResponse);
 
     server.play();

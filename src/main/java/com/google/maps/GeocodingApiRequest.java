@@ -41,7 +41,7 @@ public class GeocodingApiRequest
         && params().containsKey("address")
         && params().containsKey("place_id")) {
       throw new IllegalArgumentException(
-          "Request must contain only one of 'address', 'latlng' " + "or 'place_id'.");
+          "Request must contain only one of 'address', 'latlng' or 'place_id'.");
     }
 
     // Must contain at least one of place_id, address, latlng, and components;
