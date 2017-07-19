@@ -27,11 +27,6 @@ import com.google.maps.model.GeocodingResult;
 import com.google.mockwebserver.MockResponse;
 import com.google.mockwebserver.MockWebServer;
 import com.google.mockwebserver.RecordedRequest;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -202,8 +197,7 @@ public class GeoApiContextTest {
 
     MockResponse goodResponse = new MockResponse();
     goodResponse.setResponseCode(200);
-    goodResponse.setBody(
-        "{\n   \"results\" : [],\n   \"status\" : \"ZERO_RESULTS\"\n}");
+    goodResponse.setBody("{\n   \"results\" : [],\n   \"status\" : \"ZERO_RESULTS\"\n}");
     server.enqueue(goodResponse);
 
     server.play();
