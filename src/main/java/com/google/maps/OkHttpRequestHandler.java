@@ -25,11 +25,10 @@ import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.net.Proxy;
 import java.util.concurrent.TimeUnit;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A strategy for handling URL requests using OkHttp.

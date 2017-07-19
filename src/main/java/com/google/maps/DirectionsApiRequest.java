@@ -15,6 +15,8 @@
 
 package com.google.maps;
 
+import static com.google.maps.internal.StringJoin.join;
+
 import com.google.maps.model.DirectionsResult;
 import com.google.maps.model.LatLng;
 import com.google.maps.model.TrafficModel;
@@ -23,8 +25,6 @@ import com.google.maps.model.TransitRoutingPreference;
 import com.google.maps.model.TravelMode;
 import com.google.maps.model.Unit;
 import org.joda.time.ReadableInstant;
-
-import static com.google.maps.internal.StringJoin.join;
 
 /** Request for the Directions API. */
 public class DirectionsApiRequest

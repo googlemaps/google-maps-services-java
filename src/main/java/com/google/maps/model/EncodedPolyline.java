@@ -16,7 +16,6 @@
 package com.google.maps.model;
 
 import com.google.maps.internal.PolylineEncoding;
-
 import java.util.List;
 
 /**

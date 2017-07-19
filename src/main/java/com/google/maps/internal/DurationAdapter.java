@@ -21,7 +21,6 @@ import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
 import com.google.maps.model.Distance;
 import com.google.maps.model.Duration;
-
 import java.io.IOException;
 
 /**

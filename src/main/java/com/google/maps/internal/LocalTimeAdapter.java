@@ -19,11 +19,10 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
 import org.joda.time.LocalTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-
-import java.io.IOException;
 
 /** This class handles conversion from JSON to {@link LocalTime}. */
 public class LocalTimeAdapter extends TypeAdapter<LocalTime> {

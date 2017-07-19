@@ -20,7 +20,6 @@ import com.google.maps.errors.ApiException;
 import com.google.maps.internal.ApiConfig;
 import com.google.maps.internal.ApiResponse;
 import com.google.maps.model.LatLng;
-
 import java.util.TimeZone;
 
 /**

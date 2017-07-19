@@ -22,7 +22,6 @@ import com.google.maps.internal.ApiResponse;
 import com.google.maps.model.GeolocationPayload;
 import com.google.maps.model.GeolocationResult;
 import com.google.maps.model.LatLng;
-
 import java.util.logging.Logger;
 
 /*

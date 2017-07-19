@@ -15,20 +15,19 @@
 
 package com.google.maps.internal;
 
-import com.google.maps.SmallTests;
-import okio.ByteString;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
+import com.google.maps.SmallTests;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import okio.ByteString;
+import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 /** Test case for {@link UrlSigner}. */
 @Category(SmallTests.class)

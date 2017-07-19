@@ -19,9 +19,8 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
-import org.joda.time.Instant;
-
 import java.io.IOException;
+import org.joda.time.Instant;
 
 /** This class handles conversion from JSON to {@link Instant}. */
 public class InstantAdapter extends TypeAdapter<Instant> {

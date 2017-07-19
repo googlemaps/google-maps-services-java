@@ -1,7 +1,6 @@
 package com.google.maps.model;
 
 import com.google.maps.internal.StringJoin.UrlValue;
-
 import java.util.Locale;
 
 /** Indicate user preference when requesting transit directions. */

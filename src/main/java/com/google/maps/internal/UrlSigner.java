@@ -15,12 +15,11 @@
 
 package com.google.maps.internal;
 
-import okio.ByteString;
-
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+import okio.ByteString;
 
 /**
  * Utility class for supporting Maps for Work Digital signatures.

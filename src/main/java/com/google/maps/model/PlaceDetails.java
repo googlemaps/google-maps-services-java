@@ -15,9 +15,8 @@
 
 package com.google.maps.model;
 
-import org.joda.time.Instant;
-
 import java.net.URL;
+import org.joda.time.Instant;
 
 /**
  * PlaceDetails is the result of a Place Details request. A Place Details request returns more

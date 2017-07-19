@@ -16,7 +16,6 @@
 package com.google.maps.internal;
 
 import com.google.maps.errors.ApiException;
-
 import java.util.HashSet;
 
 public final class ExceptionsAllowedToRetry extends HashSet<Class<? extends ApiException>> {

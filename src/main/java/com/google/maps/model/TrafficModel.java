@@ -16,7 +16,6 @@
 package com.google.maps.model;
 
 import com.google.maps.internal.StringJoin.UrlValue;
-
 import java.util.Locale;
 
 /** Specifies traffic prediction model when request future directions. */

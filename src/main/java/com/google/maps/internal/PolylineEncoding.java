@@ -16,7 +16,6 @@
 package com.google.maps.internal;
 
 import com.google.maps.model.LatLng;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

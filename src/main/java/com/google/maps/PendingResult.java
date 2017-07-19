@@ -16,7 +16,6 @@
 package com.google.maps;
 
 import com.google.maps.errors.ApiException;
-
 import java.io.IOException;
 
 /**

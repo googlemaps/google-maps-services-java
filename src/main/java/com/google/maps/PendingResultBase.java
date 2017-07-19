@@ -19,7 +19,6 @@ import com.google.maps.errors.ApiException;
 import com.google.maps.internal.ApiConfig;
 import com.google.maps.internal.ApiResponse;
 import com.google.maps.internal.StringJoin.UrlValue;
-
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;

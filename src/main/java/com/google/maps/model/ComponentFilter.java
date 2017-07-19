@@ -15,9 +15,9 @@
 
 package com.google.maps.model;
 
-import com.google.maps.internal.StringJoin;
-
 import static com.google.maps.internal.StringJoin.join;
+
+import com.google.maps.internal.StringJoin;
 
 /**
  * This class represents a component filter for a geocode request. In a geocoding response, the
