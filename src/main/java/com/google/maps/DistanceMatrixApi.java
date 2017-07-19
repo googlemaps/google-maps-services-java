@@ -37,20 +37,19 @@ import com.google.maps.model.DistanceMatrixRow;
  * a map. Use of the service in an application that doesn't display a Google map is prohibited.
  *
  * @see <a href="https://developers.google.com/maps/documentation/distancematrix/">Distance Matrix
- * Documentation</a>
+ *     Documentation</a>
  */
 public class DistanceMatrixApi {
   static final ApiConfig API_CONFIG = new ApiConfig("/maps/api/distancematrix/json");
 
-  private DistanceMatrixApi() {
-  }
+  private DistanceMatrixApi() {}
 
   public static DistanceMatrixApiRequest newRequest(GeoApiContext context) {
     return new DistanceMatrixApiRequest(context);
   }
 
-  public static DistanceMatrixApiRequest getDistanceMatrix(GeoApiContext context, String[] origins,
-                                                           String[] destinations) {
+  public static DistanceMatrixApiRequest getDistanceMatrix(
+      GeoApiContext context, String[] origins, String[] destinations) {
     return newRequest(context).origins(origins).destinations(destinations);
   }
 
@@ -79,6 +78,4 @@ public class DistanceMatrixApi {
       return new DistanceMatrix(originAddresses, destinationAddresses, rows);
     }
   }
-
-
 }

@@ -27,14 +27,17 @@ import com.google.maps.model.LatLng;
 import com.google.maps.model.PlaceAutocompleteType;
 
 /**
- * A <a href="https://developers.google.com/places/web-service/autocomplete#place_autocomplete_requests">Place
+ * A <a
+ * href="https://developers.google.com/places/web-service/autocomplete#place_autocomplete_requests">Place
  * Autocomplete</a> request.
  */
 public class PlaceAutocompleteRequest
-    extends PendingResultBase<AutocompletePrediction[], PlaceAutocompleteRequest, PlaceAutocompleteRequest.Response> {
+    extends PendingResultBase<
+        AutocompletePrediction[], PlaceAutocompleteRequest, PlaceAutocompleteRequest.Response> {
 
-  static final ApiConfig API_CONFIG = new ApiConfig("/maps/api/place/autocomplete/json")
-      .fieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
+  static final ApiConfig API_CONFIG =
+      new ApiConfig("/maps/api/place/autocomplete/json")
+          .fieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
 
   protected PlaceAutocompleteRequest(GeoApiContext context) {
     super(context, API_CONFIG, Response.class);
@@ -58,9 +61,7 @@ public class PlaceAutocompleteRequest
     return param("offset", String.valueOf(offset));
   }
 
-  /**
-   * location is the point around which you wish to retrieve place information.
-   */
+  /** location is the point around which you wish to retrieve place information. */
   public PlaceAutocompleteRequest location(LatLng location) {
     return param("location", location);
   }
@@ -74,9 +75,7 @@ public class PlaceAutocompleteRequest
     return param("radius", String.valueOf(radius));
   }
 
-  /**
-   * type restricts the results to places matching the specified type.
-   */
+  /** type restricts the results to places matching the specified type. */
   public PlaceAutocompleteRequest type(PlaceAutocompleteType type) {
     return param("types", type);
   }

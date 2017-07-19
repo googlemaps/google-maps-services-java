@@ -18,8 +18,9 @@ package com.google.maps.model;
 /**
  * A complete result from a Distance Matrix API call.
  *
- * @see <a href="https://developers.google.com/maps/documentation/distancematrix/#DistanceMatrixResponses">
- * Distance Matrix Results</a>
+ * @see <a
+ *     href="https://developers.google.com/maps/documentation/distancematrix/#DistanceMatrixResponses">
+ *     Distance Matrix Results</a>
  */
 public class DistanceMatrix {
 
@@ -42,8 +43,8 @@ public class DistanceMatrix {
    */
   public final DistanceMatrixRow[] rows;
 
-  public DistanceMatrix(String[] originAddresses, String[] destinationAddresses,
-                        DistanceMatrixRow[] rows) {
+  public DistanceMatrix(
+      String[] originAddresses, String[] destinationAddresses, DistanceMatrixRow[] rows) {
     this.originAddresses = originAddresses;
     this.destinationAddresses = destinationAddresses;
     this.rows = rows;

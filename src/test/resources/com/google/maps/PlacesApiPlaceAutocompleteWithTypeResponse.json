@@ -1,205 +1,227 @@
 {
-  "predictions" : [
+  "predictions": [
     {
-      "description" : "Porirua, Wellington, New Zealand",
-      "id" : "1a7c8cd36ed90e5a1324499d3174723473b27320",
-      "maps_api.places.PredictionInternal.extension" : {
-        "score" : 1.082201957702637
+      "description": "Porirua, Wellington, New Zealand",
+      "id": "1a7c8cd36ed90e5a1324499d3174723473b27320",
+      "maps_api.places.PredictionInternal.extension": {
+        "score": 1.082201957702637
       },
-      "matched_substrings" : [
+      "matched_substrings": [
         {
-          "length" : 2,
-          "offset" : 0
+          "length": 2,
+          "offset": 0
         }
       ],
-      "place_id" : "ChIJjzUPKJxWP20RFJmiQ2HvAAU",
-      "reference" : "CkQ4AAAACGwZ9m7SlpMGolWWYVlyngDZZu-5BDLN1a6-kqEvr8NYwQEuQMWbAlIL9vBau9BibODXQwRZMRZ6VTAyVRSHExIQOx9vy77Fb_tdmoYB48rLKxoU69-wQlCenJG6Wzdezl2F6GeNOdg",
-      "structured_formatting" : {
-        "main_text" : "Porirua",
-        "main_text_matched_substrings" : [
+      "place_id": "ChIJjzUPKJxWP20RFJmiQ2HvAAU",
+      "reference": "CkQ4AAAACGwZ9m7SlpMGolWWYVlyngDZZu-5BDLN1a6-kqEvr8NYwQEuQMWbAlIL9vBau9BibODXQwRZMRZ6VTAyVRSHExIQOx9vy77Fb_tdmoYB48rLKxoU69-wQlCenJG6Wzdezl2F6GeNOdg",
+      "structured_formatting": {
+        "main_text": "Porirua",
+        "main_text_matched_substrings": [
           {
-            "length" : 2,
-            "offset" : 0
+            "length": 2,
+            "offset": 0
           }
         ],
-        "secondary_text" : "Wellington, New Zealand"
+        "secondary_text": "Wellington, New Zealand"
       },
-      "terms" : [
+      "terms": [
         {
-          "offset" : 0,
-          "value" : "Porirua"
+          "offset": 0,
+          "value": "Porirua"
         },
         {
-          "offset" : 9,
-          "value" : "Wellington"
+          "offset": 9,
+          "value": "Wellington"
         },
         {
-          "offset" : 21,
-          "value" : "New Zealand"
+          "offset": 21,
+          "value": "New Zealand"
         }
       ],
-      "types" : [ "locality", "political", "geocode" ]
+      "types": [
+        "locality",
+        "political",
+        "geocode"
+      ]
     },
     {
-      "description" : "Ponsonby, Auckland, New Zealand",
-      "id" : "eae007b4ec42dc79e88f4ed0beb1eb3083bb4157",
-      "maps_api.places.PredictionInternal.extension" : {
-        "score" : 1.082027912139893
+      "description": "Ponsonby, Auckland, New Zealand",
+      "id": "eae007b4ec42dc79e88f4ed0beb1eb3083bb4157",
+      "maps_api.places.PredictionInternal.extension": {
+        "score": 1.082027912139893
       },
-      "matched_substrings" : [
+      "matched_substrings": [
         {
-          "length" : 2,
-          "offset" : 0
+          "length": 2,
+          "offset": 0
         }
       ],
-      "place_id" : "ChIJ3abyGptHDW0REPmiQ2HvAAU",
-      "reference" : "CkQ3AAAALW2Bg1iU4XVvz1E1qmibSUXYXFDuZye85hAHSnksMcZ2qK7n5eN6fcsR6wBl_tzb0GpbQ7GFzgWUOuhHuvpchhIQPSsuJ4wHUUrMtUyXr6hZoRoUnelZpuTUmDo1QXw2xTnc8p9uDOI",
-      "structured_formatting" : {
-        "main_text" : "Ponsonby",
-        "main_text_matched_substrings" : [
+      "place_id": "ChIJ3abyGptHDW0REPmiQ2HvAAU",
+      "reference": "CkQ3AAAALW2Bg1iU4XVvz1E1qmibSUXYXFDuZye85hAHSnksMcZ2qK7n5eN6fcsR6wBl_tzb0GpbQ7GFzgWUOuhHuvpchhIQPSsuJ4wHUUrMtUyXr6hZoRoUnelZpuTUmDo1QXw2xTnc8p9uDOI",
+      "structured_formatting": {
+        "main_text": "Ponsonby",
+        "main_text_matched_substrings": [
           {
-            "length" : 2,
-            "offset" : 0
+            "length": 2,
+            "offset": 0
           }
         ],
-        "secondary_text" : "Auckland, New Zealand"
+        "secondary_text": "Auckland, New Zealand"
       },
-      "terms" : [
+      "terms": [
         {
-          "offset" : 0,
-          "value" : "Ponsonby"
+          "offset": 0,
+          "value": "Ponsonby"
         },
         {
-          "offset" : 10,
-          "value" : "Auckland"
+          "offset": 10,
+          "value": "Auckland"
         },
         {
-          "offset" : 20,
-          "value" : "New Zealand"
+          "offset": 20,
+          "value": "New Zealand"
         }
       ],
-      "types" : [ "sublocality_level_1", "sublocality", "political", "geocode" ]
+      "types": [
+        "sublocality_level_1",
+        "sublocality",
+        "political",
+        "geocode"
+      ]
     },
     {
-      "description" : "Point Chevalier, Auckland, New Zealand",
-      "id" : "4467d6c4268e1a1379972d4e6eb4966b75a56261",
-      "maps_api.places.PredictionInternal.extension" : {
-        "score" : 1.059834480285645
+      "description": "Point Chevalier, Auckland, New Zealand",
+      "id": "4467d6c4268e1a1379972d4e6eb4966b75a56261",
+      "maps_api.places.PredictionInternal.extension": {
+        "score": 1.059834480285645
       },
-      "matched_substrings" : [
+      "matched_substrings": [
         {
-          "length" : 2,
-          "offset" : 0
+          "length": 2,
+          "offset": 0
         }
       ],
-      "place_id" : "ChIJjc78cz9HDW0RgPiiQ2HvAAU",
-      "reference" : "CkQ-AAAAEQTkKwXdwqiWXhNeUYeJzkBwp8-Mqf9mSEEjZFUFtqZ5wjDvAgW5BKp-2DT3R7WjFWST8jtbw58v_wq5UNe-EBIQDY_RKKyfMbDkCwp9JIDscRoUopRGy656chf-zORGnShCG0TW4Po",
-      "structured_formatting" : {
-        "main_text" : "Point Chevalier",
-        "main_text_matched_substrings" : [
+      "place_id": "ChIJjc78cz9HDW0RgPiiQ2HvAAU",
+      "reference": "CkQ-AAAAEQTkKwXdwqiWXhNeUYeJzkBwp8-Mqf9mSEEjZFUFtqZ5wjDvAgW5BKp-2DT3R7WjFWST8jtbw58v_wq5UNe-EBIQDY_RKKyfMbDkCwp9JIDscRoUopRGy656chf-zORGnShCG0TW4Po",
+      "structured_formatting": {
+        "main_text": "Point Chevalier",
+        "main_text_matched_substrings": [
           {
-            "length" : 2,
-            "offset" : 0
+            "length": 2,
+            "offset": 0
           }
         ],
-        "secondary_text" : "Auckland, New Zealand"
+        "secondary_text": "Auckland, New Zealand"
       },
-      "terms" : [
+      "terms": [
         {
-          "offset" : 0,
-          "value" : "Point Chevalier"
+          "offset": 0,
+          "value": "Point Chevalier"
         },
         {
-          "offset" : 17,
-          "value" : "Auckland"
+          "offset": 17,
+          "value": "Auckland"
         },
         {
-          "offset" : 27,
-          "value" : "New Zealand"
+          "offset": 27,
+          "value": "New Zealand"
         }
       ],
-      "types" : [ "sublocality_level_1", "sublocality", "political", "geocode" ]
+      "types": [
+        "sublocality_level_1",
+        "sublocality",
+        "political",
+        "geocode"
+      ]
     },
     {
-      "description" : "Pokeno, Auckland, New Zealand",
-      "id" : "735c290e5c206baf0c8d57d2e706d109ba36a3fd",
-      "maps_api.places.PredictionInternal.extension" : {
-        "score" : 1.043946743011475
+      "description": "Pokeno, Auckland, New Zealand",
+      "id": "735c290e5c206baf0c8d57d2e706d109ba36a3fd",
+      "maps_api.places.PredictionInternal.extension": {
+        "score": 1.043946743011475
       },
-      "matched_substrings" : [
+      "matched_substrings": [
         {
-          "length" : 2,
-          "offset" : 0
+          "length": 2,
+          "offset": 0
         }
       ],
-      "place_id" : "ChIJJXKXwf9UbW0R0PiiQ2HvAAU",
-      "reference" : "CkQ1AAAADxdYCFs4YhlsaFGjEqBnKhDOcNuATbpqHe3hURtoAV2IO2RpxGU61-45ix_9tJqIgLKmojr47YUZcJbC_FpIMRIQAbWg9de_RRf0BLsJpQg_ohoUWO3zYEoQZvCq-oXD2GyqmYI46Ws",
-      "structured_formatting" : {
-        "main_text" : "Pokeno",
-        "main_text_matched_substrings" : [
+      "place_id": "ChIJJXKXwf9UbW0R0PiiQ2HvAAU",
+      "reference": "CkQ1AAAADxdYCFs4YhlsaFGjEqBnKhDOcNuATbpqHe3hURtoAV2IO2RpxGU61-45ix_9tJqIgLKmojr47YUZcJbC_FpIMRIQAbWg9de_RRf0BLsJpQg_ohoUWO3zYEoQZvCq-oXD2GyqmYI46Ws",
+      "structured_formatting": {
+        "main_text": "Pokeno",
+        "main_text_matched_substrings": [
           {
-            "length" : 2,
-            "offset" : 0
+            "length": 2,
+            "offset": 0
           }
         ],
-        "secondary_text" : "Auckland, New Zealand"
+        "secondary_text": "Auckland, New Zealand"
       },
-      "terms" : [
+      "terms": [
         {
-          "offset" : 0,
-          "value" : "Pokeno"
+          "offset": 0,
+          "value": "Pokeno"
         },
         {
-          "offset" : 8,
-          "value" : "Auckland"
+          "offset": 8,
+          "value": "Auckland"
         },
         {
-          "offset" : 18,
-          "value" : "New Zealand"
+          "offset": 18,
+          "value": "New Zealand"
         }
       ],
-      "types" : [ "locality", "political", "geocode" ]
+      "types": [
+        "locality",
+        "political",
+        "geocode"
+      ]
     },
     {
-      "description" : "Port Waikato, Auckland, New Zealand",
-      "id" : "13630c4fef638458c730927bed376d3b1ec8c0b1",
-      "maps_api.places.PredictionInternal.extension" : {
-        "score" : 1.033524036407471
+      "description": "Port Waikato, Auckland, New Zealand",
+      "id": "13630c4fef638458c730927bed376d3b1ec8c0b1",
+      "maps_api.places.PredictionInternal.extension": {
+        "score": 1.033524036407471
       },
-      "matched_substrings" : [
+      "matched_substrings": [
         {
-          "length" : 2,
-          "offset" : 0
+          "length": 2,
+          "offset": 0
         }
       ],
-      "place_id" : "ChIJC_rFNWOwEm0RAPqiQ2HvAAU",
-      "reference" : "CkQ7AAAAsPlhv7cc13JyjekZSe62NysqqWUkA5vQVfGlLZhgyeq3vR474fD9lzHDH_VE-GgR3pwtAutUNJqt4Fu6WCrlJhIQgyBj3ua5oJIl3QTfluWbzRoUjYbPkjfkaW_HTT5aJwEolOAdo4E",
-      "structured_formatting" : {
-        "main_text" : "Port Waikato",
-        "main_text_matched_substrings" : [
+      "place_id": "ChIJC_rFNWOwEm0RAPqiQ2HvAAU",
+      "reference": "CkQ7AAAAsPlhv7cc13JyjekZSe62NysqqWUkA5vQVfGlLZhgyeq3vR474fD9lzHDH_VE-GgR3pwtAutUNJqt4Fu6WCrlJhIQgyBj3ua5oJIl3QTfluWbzRoUjYbPkjfkaW_HTT5aJwEolOAdo4E",
+      "structured_formatting": {
+        "main_text": "Port Waikato",
+        "main_text_matched_substrings": [
           {
-            "length" : 2,
-            "offset" : 0
+            "length": 2,
+            "offset": 0
           }
         ],
-        "secondary_text" : "Auckland, New Zealand"
+        "secondary_text": "Auckland, New Zealand"
       },
-      "terms" : [
+      "terms": [
         {
-          "offset" : 0,
-          "value" : "Port Waikato"
+          "offset": 0,
+          "value": "Port Waikato"
         },
         {
-          "offset" : 14,
-          "value" : "Auckland"
+          "offset": 14,
+          "value": "Auckland"
         },
         {
-          "offset" : 24,
-          "value" : "New Zealand"
+          "offset": 24,
+          "value": "New Zealand"
         }
       ],
-      "types" : [ "locality", "political", "geocode" ]
+      "types": [
+        "locality",
+        "political",
+        "geocode"
+      ]
     }
   ],
-  "status" : "OK"
+  "status": "OK"
 }

@@ -33,18 +33,18 @@ import com.google.maps.model.RankBy;
  * Search</a> request.
  */
 public class NearbySearchRequest
-    extends PendingResultBase<PlacesSearchResponse, NearbySearchRequest, NearbySearchRequest.Response> {
+    extends PendingResultBase<
+        PlacesSearchResponse, NearbySearchRequest, NearbySearchRequest.Response> {
 
-  static final ApiConfig API_CONFIG = new ApiConfig("/maps/api/place/nearbysearch/json")
-      .fieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
+  static final ApiConfig API_CONFIG =
+      new ApiConfig("/maps/api/place/nearbysearch/json")
+          .fieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
 
   public NearbySearchRequest(GeoApiContext context) {
     super(context, API_CONFIG, Response.class);
   }
 
-  /**
-   * location is the latitude/longitude around which to retrieve place information.
-   */
+  /** location is the latitude/longitude around which to retrieve place information. */
   public NearbySearchRequest location(LatLng location) {
     return param("location", location);
   }
@@ -61,9 +61,7 @@ public class NearbySearchRequest
     return param("radius", String.valueOf(distance));
   }
 
-  /**
-   * rankby specifies the order in which results are listed.
-   */
+  /** rankby specifies the order in which results are listed. */
   public NearbySearchRequest rankby(RankBy ranking) {
     return param("rankby", ranking);
   }
@@ -77,16 +75,12 @@ public class NearbySearchRequest
     return param("keyword", keyword);
   }
 
-  /**
-   * minPrice restricts to places that are at least this price level.
-   */
+  /** minPrice restricts to places that are at least this price level. */
   public NearbySearchRequest minPrice(PriceLevel priceLevel) {
     return param("minprice", priceLevel);
   }
 
-  /**
-   * maxPrice restricts to places that are at most this price level.
-   */
+  /** maxPrice restricts to places that are at most this price level. */
   public NearbySearchRequest maxPrice(PriceLevel priceLevel) {
     return param("maxprice", priceLevel);
   }
@@ -99,9 +93,7 @@ public class NearbySearchRequest
     return param("name", name);
   }
 
-  /**
-   * openNow returns only those places that are open for business at the time the query is sent.
-   */
+  /** openNow returns only those places that are open for business at the time the query is sent. */
   public NearbySearchRequest openNow(boolean openNow) {
     return param("opennow", String.valueOf(openNow));
   }
@@ -115,19 +107,17 @@ public class NearbySearchRequest
     return param("pagetoken", nextPageToken);
   }
 
-  /**
-   * type restricts the results to places matching the specified type.
-   */
+  /** type restricts the results to places matching the specified type. */
   public NearbySearchRequest type(PlaceType type) {
     return param("type", type);
   }
 
-    /**
-     * type restricts the results to places matching the specified type.
-     * Provide support of multiples types.
-     */
+  /**
+   * type restricts the results to places matching the specified type. Provide support of multiples
+   * types.
+   */
   public NearbySearchRequest type(PlaceType... types) {
-      return param("type", join('|', types));
+    return param("type", join('|', types));
   }
 
   @Override
@@ -139,19 +129,20 @@ public class NearbySearchRequest
     }
 
     // radius must not be included if rankby=distance
-    if (params().containsKey("rankby") &&
-        params().get("rankby").equals(RankBy.DISTANCE.toString()) &&
-        params().containsKey("radius")) {
+    if (params().containsKey("rankby")
+        && params().get("rankby").equals(RankBy.DISTANCE.toString())
+        && params().containsKey("radius")) {
       throw new IllegalArgumentException("Request must not contain radius with rankby=distance");
     }
 
     // If rankby=distance is specified, then one or more of keyword, name, or type is required.
-    if (params().containsKey("rankby") &&
-        params().get("rankby").equals(RankBy.DISTANCE.toString()) &&
-        !params().containsKey("keyword") &&
-        !params().containsKey("name") &&
-        !params().containsKey("type")) {
-      throw new IllegalArgumentException("With rankby=distance is specified, then one or more of keyword, name, or type is required");
+    if (params().containsKey("rankby")
+        && params().get("rankby").equals(RankBy.DISTANCE.toString())
+        && !params().containsKey("keyword")
+        && !params().containsKey("name")
+        && !params().containsKey("type")) {
+      throw new IllegalArgumentException(
+          "With rankby=distance is specified, then one or more of keyword, name, or type is required");
     }
   }
 

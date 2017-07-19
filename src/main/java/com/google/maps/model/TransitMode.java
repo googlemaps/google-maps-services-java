@@ -16,18 +16,16 @@
 package com.google.maps.model;
 
 import com.google.maps.internal.StringJoin.UrlValue;
-
 import java.util.Locale;
 
-/**
- * You may specify transit mode when requesting transit directions or distances.
- */
+/** You may specify transit mode when requesting transit directions or distances. */
 public enum TransitMode implements UrlValue {
-  BUS, SUBWAY, TRAIN, TRAM,
+  BUS,
+  SUBWAY,
+  TRAIN,
+  TRAM,
 
-  /**
-   * Indicates preferred travel by train, tram, light rail and subway.
-   */
+  /** Indicates preferred travel by train, tram, light rail and subway. */
   RAIL;
 
   @Override

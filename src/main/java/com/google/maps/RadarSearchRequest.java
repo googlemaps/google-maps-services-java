@@ -26,18 +26,18 @@ import com.google.maps.model.PlacesSearchResult;
 import com.google.maps.model.PriceLevel;
 
 public class RadarSearchRequest
-    extends PendingResultBase<PlacesSearchResponse, RadarSearchRequest, RadarSearchRequest.Response> {
+    extends PendingResultBase<
+        PlacesSearchResponse, RadarSearchRequest, RadarSearchRequest.Response> {
 
-  static final ApiConfig API_CONFIG = new ApiConfig("/maps/api/place/radarsearch/json")
-      .fieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
+  static final ApiConfig API_CONFIG =
+      new ApiConfig("/maps/api/place/radarsearch/json")
+          .fieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
 
   protected RadarSearchRequest(GeoApiContext context) {
     super(context, API_CONFIG, Response.class);
   }
 
-  /**
-   * location is the latitude/longitude around which to retrieve place information.
-   */
+  /** location is the latitude/longitude around which to retrieve place information. */
   public RadarSearchRequest location(LatLng location) {
     return param("location", location);
   }
@@ -63,16 +63,12 @@ public class RadarSearchRequest
     return param("keyword", keyword);
   }
 
-  /**
-   * minPrice restricts to places that are at least this price level.
-   */
+  /** minPrice restricts to places that are at least this price level. */
   public RadarSearchRequest minPrice(PriceLevel priceLevel) {
     return param("minprice", priceLevel);
   }
 
-  /**
-   * maxPrice restricts to places that are at most this price level.
-   */
+  /** maxPrice restricts to places that are at most this price level. */
   public RadarSearchRequest maxPrice(PriceLevel priceLevel) {
     return param("maxprice", priceLevel);
   }
@@ -85,26 +81,21 @@ public class RadarSearchRequest
     return param("name", name);
   }
 
-  /**
-   * openNow returns only those places that are open for business at the time the query is sent.
-   */
+  /** openNow returns only those places that are open for business at the time the query is sent. */
   public RadarSearchRequest openNow(boolean openNow) {
     return param("opennow", String.valueOf(openNow));
   }
 
-  /**
-   * type restricts the results to places matching the specified type.
-   */
+  /** type restricts the results to places matching the specified type. */
   public RadarSearchRequest type(PlaceType type) {
     return param("type", type);
   }
 
-
   @Override
   protected void validateRequest() {
-    if (!params().containsKey("keyword") &&
-        !params().containsKey("name") &&
-        !params().containsKey("type")) {
+    if (!params().containsKey("keyword")
+        && !params().containsKey("name")
+        && !params().containsKey("type")) {
       throw new IllegalArgumentException("Request must contain 'keyword', 'name' or 'type'.");
     }
   }

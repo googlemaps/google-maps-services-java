@@ -26,31 +26,29 @@ public class DistanceMatrixElement {
   /**
    * {@code status} indicates the status of the request for this origin/destination pair.
    *
-   * Will be one of {@link com.google.maps.model.DistanceMatrixElementStatus}.
+   * <p>Will be one of {@link com.google.maps.model.DistanceMatrixElementStatus}.
    */
   public DistanceMatrixElementStatus status;
 
-  /**
-   * {@code duration} indicates the total duration of this leg
-   */
+  /** {@code duration} indicates the total duration of this leg */
   public Duration duration;
 
   /**
-   * {@code durationInTraffic} indicates the length of time to travel this route,
-   * based on current and historical traffic conditions.  The duration in traffic
-   * will only be returned if all of the following are true:
+   * {@code durationInTraffic} indicates the length of time to travel this route, based on current
+   * and historical traffic conditions. The duration in traffic will only be returned if all of the
+   * following are true:
+   *
    * <ol>
-   *   <li>The request includes a departureTime parameter.</li>
-   *   <li>The request includes a valid API key, or a valid Google Maps APIs Premium Plan client ID and signature.</li>
-   *   <li>Traffic conditions are available for the requested route.</li>
-   *   <li>The mode parameter is set to driving.</li>
+   *   <li>The request includes a departureTime parameter.
+   *   <li>The request includes a valid API key, or a valid Google Maps APIs Premium Plan client ID
+   *       and signature.
+   *   <li>Traffic conditions are available for the requested route.
+   *   <li>The mode parameter is set to driving.
    * </ol>
    */
   public Duration durationInTraffic;
 
-  /**
-   * {@code distance} indicates the total distance covered by this leg.
-   */
+  /** {@code distance} indicates the total distance covered by this leg. */
   public Distance distance;
 
   /**

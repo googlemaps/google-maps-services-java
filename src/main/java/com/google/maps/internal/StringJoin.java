@@ -15,9 +15,7 @@
 
 package com.google.maps.internal;
 
-/**
- * Utility class to join strings.
- */
+/** Utility class to join strings. */
 public class StringJoin {
 
   /**
@@ -25,14 +23,11 @@ public class StringJoin {
    * string joinable.
    */
   public interface UrlValue {
-    /**
-     * @return the object, represented as a URL value (not URL encoded).
-     */
+    /** @return the object, represented as a URL value (not URL encoded). */
     String toUrlValue();
   }
 
-  private StringJoin() {
-  }
+  private StringJoin() {}
 
   public static String join(char delim, String... parts) {
     StringBuilder result = new StringBuilder();

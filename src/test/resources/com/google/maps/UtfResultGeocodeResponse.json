@@ -1,314 +1,394 @@
 {
-   "results" : [
-      {
-         "address_components" : [
-            {
-               "long_name" : "1",
-               "short_name" : "1",
-               "types" : [ "street_number" ]
-            },
-            {
-               "long_name" : "Rue Fernand Raynaud",
-               "short_name" : "Rue Fernand Raynaud",
-               "types" : [ "route" ]
-            },
-            {
-               "long_name" : "Châteauroux",
-               "short_name" : "Châteauroux",
-               "types" : [ "locality", "political" ]
-            },
-            {
-               "long_name" : "Indre",
-               "short_name" : "Indre",
-               "types" : [ "administrative_area_level_2", "political" ]
-            },
-            {
-               "long_name" : "Centre-Val de Loire",
-               "short_name" : "Centre-Val de Loire",
-               "types" : [ "administrative_area_level_1", "political" ]
-            },
-            {
-               "long_name" : "France",
-               "short_name" : "FR",
-               "types" : [ "country", "political" ]
-            },
-            {
-               "long_name" : "36000",
-               "short_name" : "36000",
-               "types" : [ "postal_code" ]
-            }
-         ],
-         "formatted_address" : "1 Rue Fernand Raynaud, 36000 Châteauroux, France",
-         "geometry" : {
-            "location" : {
-               "lat" : 46.8024498,
-               "lng" : 1.6551494
-            },
-            "location_type" : "ROOFTOP",
-            "viewport" : {
-               "northeast" : {
-                  "lat" : 46.8037987802915,
-                  "lng" : 1.656498380291502
-               },
-               "southwest" : {
-                  "lat" : 46.8011008197085,
-                  "lng" : 1.653800419708498
-               }
-            }
-         },
-         "place_id" : "ChIJaTxVlWSg-0cR0flO9_azzKY",
-         "types" : [ "street_address" ]
+  "results": [
+    {
+      "address_components": [
+        {
+          "long_name": "1",
+          "short_name": "1",
+          "types": [
+            "street_number"
+          ]
+        },
+        {
+          "long_name": "Rue Fernand Raynaud",
+          "short_name": "Rue Fernand Raynaud",
+          "types": [
+            "route"
+          ]
+        },
+        {
+          "long_name": "Châteauroux",
+          "short_name": "Châteauroux",
+          "types": [
+            "locality",
+            "political"
+          ]
+        },
+        {
+          "long_name": "Indre",
+          "short_name": "Indre",
+          "types": [
+            "administrative_area_level_2",
+            "political"
+          ]
+        },
+        {
+          "long_name": "Centre-Val de Loire",
+          "short_name": "Centre-Val de Loire",
+          "types": [
+            "administrative_area_level_1",
+            "political"
+          ]
+        },
+        {
+          "long_name": "France",
+          "short_name": "FR",
+          "types": [
+            "country",
+            "political"
+          ]
+        },
+        {
+          "long_name": "36000",
+          "short_name": "36000",
+          "types": [
+            "postal_code"
+          ]
+        }
+      ],
+      "formatted_address": "1 Rue Fernand Raynaud, 36000 Châteauroux, France",
+      "geometry": {
+        "location": {
+          "lat": 46.8024498,
+          "lng": 1.6551494
+        },
+        "location_type": "ROOFTOP",
+        "viewport": {
+          "northeast": {
+            "lat": 46.8037987802915,
+            "lng": 1.656498380291502
+          },
+          "southwest": {
+            "lat": 46.8011008197085,
+            "lng": 1.653800419708498
+          }
+        }
       },
-      {
-         "address_components" : [
-            {
-               "long_name" : "Châteauroux",
-               "short_name" : "Châteauroux",
-               "types" : [ "locality", "political" ]
-            },
-            {
-               "long_name" : "Indre",
-               "short_name" : "Indre",
-               "types" : [ "administrative_area_level_2", "political" ]
-            },
-            {
-               "long_name" : "Centre-Val de Loire",
-               "short_name" : "Centre-Val de Loire",
-               "types" : [ "administrative_area_level_1", "political" ]
-            },
-            {
-               "long_name" : "France",
-               "short_name" : "FR",
-               "types" : [ "country", "political" ]
-            },
-            {
-               "long_name" : "36000",
-               "short_name" : "36000",
-               "types" : [ "postal_code" ]
-            }
-         ],
-         "formatted_address" : "36000 Châteauroux, France",
-         "geometry" : {
-            "bounds" : {
-               "northeast" : {
-                  "lat" : 46.8297319,
-                  "lng" : 1.742437
-               },
-               "southwest" : {
-                  "lat" : 46.774839,
-                  "lng" : 1.6381469
-               }
-            },
-            "location" : {
-               "lat" : 46.811434,
-               "lng" : 1.686779
-            },
-            "location_type" : "APPROXIMATE",
-            "viewport" : {
-               "northeast" : {
-                  "lat" : 46.8297319,
-                  "lng" : 1.742437
-               },
-               "southwest" : {
-                  "lat" : 46.774839,
-                  "lng" : 1.6381469
-               }
-            }
-         },
-         "place_id" : "ChIJzXfzo6ug-0cR99Yrx4WBLhk",
-         "types" : [ "locality", "political" ]
+      "place_id": "ChIJaTxVlWSg-0cR0flO9_azzKY",
+      "types": [
+        "street_address"
+      ]
+    },
+    {
+      "address_components": [
+        {
+          "long_name": "Châteauroux",
+          "short_name": "Châteauroux",
+          "types": [
+            "locality",
+            "political"
+          ]
+        },
+        {
+          "long_name": "Indre",
+          "short_name": "Indre",
+          "types": [
+            "administrative_area_level_2",
+            "political"
+          ]
+        },
+        {
+          "long_name": "Centre-Val de Loire",
+          "short_name": "Centre-Val de Loire",
+          "types": [
+            "administrative_area_level_1",
+            "political"
+          ]
+        },
+        {
+          "long_name": "France",
+          "short_name": "FR",
+          "types": [
+            "country",
+            "political"
+          ]
+        },
+        {
+          "long_name": "36000",
+          "short_name": "36000",
+          "types": [
+            "postal_code"
+          ]
+        }
+      ],
+      "formatted_address": "36000 Châteauroux, France",
+      "geometry": {
+        "bounds": {
+          "northeast": {
+            "lat": 46.8297319,
+            "lng": 1.742437
+          },
+          "southwest": {
+            "lat": 46.774839,
+            "lng": 1.6381469
+          }
+        },
+        "location": {
+          "lat": 46.811434,
+          "lng": 1.686779
+        },
+        "location_type": "APPROXIMATE",
+        "viewport": {
+          "northeast": {
+            "lat": 46.8297319,
+            "lng": 1.742437
+          },
+          "southwest": {
+            "lat": 46.774839,
+            "lng": 1.6381469
+          }
+        }
       },
-      {
-         "address_components" : [
-            {
-               "long_name" : "36000",
-               "short_name" : "36000",
-               "types" : [ "postal_code" ]
-            },
-            {
-               "long_name" : "Châteauroux",
-               "short_name" : "Châteauroux",
-               "types" : [ "locality", "political" ]
-            },
-            {
-               "long_name" : "Indre",
-               "short_name" : "Indre",
-               "types" : [ "administrative_area_level_2", "political" ]
-            },
-            {
-               "long_name" : "Centre-Val de Loire",
-               "short_name" : "Centre-Val de Loire",
-               "types" : [ "administrative_area_level_1", "political" ]
-            },
-            {
-               "long_name" : "France",
-               "short_name" : "FR",
-               "types" : [ "country", "political" ]
-            }
-         ],
-         "formatted_address" : "36000 Châteauroux, France",
-         "geometry" : {
-            "bounds" : {
-               "northeast" : {
-                  "lat" : 46.8298083,
-                  "lng" : 1.7424276
-               },
-               "southwest" : {
-                  "lat" : 46.7748461,
-                  "lng" : 1.6382288
-               }
-            },
-            "location" : {
-               "lat" : 46.8031198,
-               "lng" : 1.6926546
-            },
-            "location_type" : "APPROXIMATE",
-            "viewport" : {
-               "northeast" : {
-                  "lat" : 46.8298083,
-                  "lng" : 1.7424276
-               },
-               "southwest" : {
-                  "lat" : 46.7748461,
-                  "lng" : 1.6382288
-               }
-            }
-         },
-         "place_id" : "ChIJMcZg2bqg-0cRUPwJiNrIDRw",
-         "types" : [ "postal_code" ]
+      "place_id": "ChIJzXfzo6ug-0cR99Yrx4WBLhk",
+      "types": [
+        "locality",
+        "political"
+      ]
+    },
+    {
+      "address_components": [
+        {
+          "long_name": "36000",
+          "short_name": "36000",
+          "types": [
+            "postal_code"
+          ]
+        },
+        {
+          "long_name": "Châteauroux",
+          "short_name": "Châteauroux",
+          "types": [
+            "locality",
+            "political"
+          ]
+        },
+        {
+          "long_name": "Indre",
+          "short_name": "Indre",
+          "types": [
+            "administrative_area_level_2",
+            "political"
+          ]
+        },
+        {
+          "long_name": "Centre-Val de Loire",
+          "short_name": "Centre-Val de Loire",
+          "types": [
+            "administrative_area_level_1",
+            "political"
+          ]
+        },
+        {
+          "long_name": "France",
+          "short_name": "FR",
+          "types": [
+            "country",
+            "political"
+          ]
+        }
+      ],
+      "formatted_address": "36000 Châteauroux, France",
+      "geometry": {
+        "bounds": {
+          "northeast": {
+            "lat": 46.8298083,
+            "lng": 1.7424276
+          },
+          "southwest": {
+            "lat": 46.7748461,
+            "lng": 1.6382288
+          }
+        },
+        "location": {
+          "lat": 46.8031198,
+          "lng": 1.6926546
+        },
+        "location_type": "APPROXIMATE",
+        "viewport": {
+          "northeast": {
+            "lat": 46.8298083,
+            "lng": 1.7424276
+          },
+          "southwest": {
+            "lat": 46.7748461,
+            "lng": 1.6382288
+          }
+        }
       },
-      {
-         "address_components" : [
-            {
-               "long_name" : "Indre",
-               "short_name" : "Indre",
-               "types" : [ "administrative_area_level_2", "political" ]
-            },
-            {
-               "long_name" : "Centre-Val de Loire",
-               "short_name" : "Centre-Val de Loire",
-               "types" : [ "administrative_area_level_1", "political" ]
-            },
-            {
-               "long_name" : "France",
-               "short_name" : "FR",
-               "types" : [ "country", "political" ]
-            }
-         ],
-         "formatted_address" : "Indre, France",
-         "geometry" : {
-            "bounds" : {
-               "northeast" : {
-                  "lat" : 47.277465,
-                  "lng" : 2.204572
-               },
-               "southwest" : {
-                  "lat" : 46.3469059,
-                  "lng" : 0.8674139
-               }
-            },
-            "location" : {
-               "lat" : 46.6613966,
-               "lng" : 1.4482662
-            },
-            "location_type" : "APPROXIMATE",
-            "viewport" : {
-               "northeast" : {
-                  "lat" : 47.277465,
-                  "lng" : 2.204572
-               },
-               "southwest" : {
-                  "lat" : 46.3469059,
-                  "lng" : 0.8674139
-               }
-            }
-         },
-         "place_id" : "ChIJUfVaUf6d-0cRwCczBdfIDQM",
-         "types" : [ "administrative_area_level_2", "political" ]
+      "place_id": "ChIJMcZg2bqg-0cRUPwJiNrIDRw",
+      "types": [
+        "postal_code"
+      ]
+    },
+    {
+      "address_components": [
+        {
+          "long_name": "Indre",
+          "short_name": "Indre",
+          "types": [
+            "administrative_area_level_2",
+            "political"
+          ]
+        },
+        {
+          "long_name": "Centre-Val de Loire",
+          "short_name": "Centre-Val de Loire",
+          "types": [
+            "administrative_area_level_1",
+            "political"
+          ]
+        },
+        {
+          "long_name": "France",
+          "short_name": "FR",
+          "types": [
+            "country",
+            "political"
+          ]
+        }
+      ],
+      "formatted_address": "Indre, France",
+      "geometry": {
+        "bounds": {
+          "northeast": {
+            "lat": 47.277465,
+            "lng": 2.204572
+          },
+          "southwest": {
+            "lat": 46.3469059,
+            "lng": 0.8674139
+          }
+        },
+        "location": {
+          "lat": 46.6613966,
+          "lng": 1.4482662
+        },
+        "location_type": "APPROXIMATE",
+        "viewport": {
+          "northeast": {
+            "lat": 47.277465,
+            "lng": 2.204572
+          },
+          "southwest": {
+            "lat": 46.3469059,
+            "lng": 0.8674139
+          }
+        }
       },
-      {
-         "address_components" : [
-            {
-               "long_name" : "Centre-Val de Loire",
-               "short_name" : "Centre-Val de Loire",
-               "types" : [ "administrative_area_level_1", "political" ]
-            },
-            {
-               "long_name" : "France",
-               "short_name" : "FR",
-               "types" : [ "country", "political" ]
-            }
-         ],
-         "formatted_address" : "Centre-Val de Loire, France",
-         "geometry" : {
-            "bounds" : {
-               "northeast" : {
-                  "lat" : 48.941029,
-                  "lng" : 3.1284099
-               },
-               "southwest" : {
-                  "lat" : 46.3469059,
-                  "lng" : 0.0527369
-               }
-            },
-            "location" : {
-               "lat" : 47.7515686,
-               "lng" : 1.6750631
-            },
-            "location_type" : "APPROXIMATE",
-            "viewport" : {
-               "northeast" : {
-                  "lat" : 48.941029,
-                  "lng" : 3.1284099
-               },
-               "southwest" : {
-                  "lat" : 46.3469059,
-                  "lng" : 0.0527369
-               }
-            }
-         },
-         "place_id" : "ChIJiV0INnu55EcRMCUzBdfIDQE",
-         "types" : [ "administrative_area_level_1", "political" ]
+      "place_id": "ChIJUfVaUf6d-0cRwCczBdfIDQM",
+      "types": [
+        "administrative_area_level_2",
+        "political"
+      ]
+    },
+    {
+      "address_components": [
+        {
+          "long_name": "Centre-Val de Loire",
+          "short_name": "Centre-Val de Loire",
+          "types": [
+            "administrative_area_level_1",
+            "political"
+          ]
+        },
+        {
+          "long_name": "France",
+          "short_name": "FR",
+          "types": [
+            "country",
+            "political"
+          ]
+        }
+      ],
+      "formatted_address": "Centre-Val de Loire, France",
+      "geometry": {
+        "bounds": {
+          "northeast": {
+            "lat": 48.941029,
+            "lng": 3.1284099
+          },
+          "southwest": {
+            "lat": 46.3469059,
+            "lng": 0.0527369
+          }
+        },
+        "location": {
+          "lat": 47.7515686,
+          "lng": 1.6750631
+        },
+        "location_type": "APPROXIMATE",
+        "viewport": {
+          "northeast": {
+            "lat": 48.941029,
+            "lng": 3.1284099
+          },
+          "southwest": {
+            "lat": 46.3469059,
+            "lng": 0.0527369
+          }
+        }
       },
-      {
-         "address_components" : [
-            {
-               "long_name" : "France",
-               "short_name" : "FR",
-               "types" : [ "country", "political" ]
-            }
-         ],
-         "formatted_address" : "France",
-         "geometry" : {
-            "bounds" : {
-               "northeast" : {
-                  "lat" : 51.1241999,
-                  "lng" : 9.6624999
-               },
-               "southwest" : {
-                  "lat" : 41.3253001,
-                  "lng" : -5.5591
-               }
-            },
-            "location" : {
-               "lat" : 46.227638,
-               "lng" : 2.213749
-            },
-            "location_type" : "APPROXIMATE",
-            "viewport" : {
-               "northeast" : {
-                  "lat" : 51.0891628,
-                  "lng" : 9.5597934
-               },
-               "southwest" : {
-                  "lat" : 41.342778,
-                  "lng" : -5.1422579
-               }
-            }
-         },
-         "place_id" : "ChIJMVd4MymgVA0R99lHx5Y__Ws",
-         "types" : [ "country", "political" ]
-      }
-   ],
-   "status" : "OK"
+      "place_id": "ChIJiV0INnu55EcRMCUzBdfIDQE",
+      "types": [
+        "administrative_area_level_1",
+        "political"
+      ]
+    },
+    {
+      "address_components": [
+        {
+          "long_name": "France",
+          "short_name": "FR",
+          "types": [
+            "country",
+            "political"
+          ]
+        }
+      ],
+      "formatted_address": "France",
+      "geometry": {
+        "bounds": {
+          "northeast": {
+            "lat": 51.1241999,
+            "lng": 9.6624999
+          },
+          "southwest": {
+            "lat": 41.3253001,
+            "lng": -5.5591
+          }
+        },
+        "location": {
+          "lat": 46.227638,
+          "lng": 2.213749
+        },
+        "location_type": "APPROXIMATE",
+        "viewport": {
+          "northeast": {
+            "lat": 51.0891628,
+            "lng": 9.5597934
+          },
+          "southwest": {
+            "lat": 41.342778,
+            "lng": -5.1422579
+          }
+        }
+      },
+      "place_id": "ChIJMVd4MymgVA0R99lHx5Y__Ws",
+      "types": [
+        "country",
+        "political"
+      ]
+    }
+  ],
+  "status": "OK"
 }

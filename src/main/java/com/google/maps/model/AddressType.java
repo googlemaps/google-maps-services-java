@@ -18,27 +18,20 @@ package com.google.maps.model;
 import com.google.maps.internal.StringJoin.UrlValue;
 
 /**
- * The Address types. Please see
- * <a href="https://developers.google.com/maps/documentation/geocoding/intro#Types">Address
- * Types</a> for more detail.
- * Some addresses contain additional place categories. Please see
- * <a href="https://developers.google.com/places/documentation/supported_types">Places</a>
+ * The Address types. Please see <a
+ * href="https://developers.google.com/maps/documentation/geocoding/intro#Types">Address Types</a>
+ * for more detail. Some addresses contain additional place categories. Please see <a
+ * href="https://developers.google.com/places/documentation/supported_types">Places</a>
  */
 public enum AddressType implements UrlValue {
 
-  /**
-   * {@code STREET_ADDRESS} indicates a precise street address.
-   */
+  /** {@code STREET_ADDRESS} indicates a precise street address. */
   STREET_ADDRESS("street_address"),
 
-  /**
-   * {@code ROUTE} indicates a named route (such as "US 101").
-   */
+  /** {@code ROUTE} indicates a named route (such as "US 101"). */
   ROUTE("route"),
 
-  /**
-   * {@code INTERSECTION} indicates a major intersection, usually of two major roads.
-   */
+  /** {@code INTERSECTION} indicates a major intersection, usually of two major roads. */
   INTERSECTION("intersection"),
 
   /**
@@ -88,14 +81,10 @@ public enum AddressType implements UrlValue {
    */
   ADMINISTRATIVE_AREA_LEVEL_5("administrative_area_level_5"),
 
-  /**
-   * {@code COLLOQUIAL_AREA} indicates a commonly-used alternative name for the entity.
-   */
+  /** {@code COLLOQUIAL_AREA} indicates a commonly-used alternative name for the entity. */
   COLLOQUIAL_AREA("colloquial_area"),
 
-  /**
-   * {@code LOCALITY} indicates an incorporated city or town political entity.
-   */
+  /** {@code LOCALITY} indicates an incorporated city or town political entity. */
   LOCALITY("locality"),
 
   /**
@@ -103,8 +92,6 @@ public enum AddressType implements UrlValue {
    * multiple locality components within a Japanese address.
    */
   WARD("ward"),
-
-
 
   /**
    * {@code SUBLOCALITY} indicates a first-order civil entity below a locality. For some locations
@@ -118,9 +105,7 @@ public enum AddressType implements UrlValue {
   SUBLOCALITY_LEVEL_4("sublocality_level_4"),
   SUBLOCALITY_LEVEL_5("sublocality_level_5"),
 
-  /**
-   * {@code NEIGHBORHOOD} indicates a named neighborhood.
-   */
+  /** {@code NEIGHBORHOOD} indicates a named neighborhood. */
   NEIGHBORHOOD("neighborhood"),
 
   /**
@@ -146,25 +131,16 @@ public enum AddressType implements UrlValue {
    */
   POSTAL_CODE_PREFIX("postal_code_prefix"),
 
-  /**
-   * {@code NATURAL_FEATURE} indicates a prominent natural feature.
-   */
+  /** {@code NATURAL_FEATURE} indicates a prominent natural feature. */
   NATURAL_FEATURE("natural_feature"),
 
-  /**
-   * {@code AIRPORT} indicates an airport.
-   */
+  /** {@code AIRPORT} indicates an airport. */
   AIRPORT("airport"),
 
-
-  /**
-   * {@code UNIVERSITY} indicates a university.
-   */
+  /** {@code UNIVERSITY} indicates a university. */
   UNIVERSITY("university"),
 
-  /**
-   * {@code PARK} indicates a named park.
-   */
+  /** {@code PARK} indicates a named park. */
   PARK("park"),
 
   /**
@@ -174,54 +150,34 @@ public enum AddressType implements UrlValue {
    */
   POINT_OF_INTEREST("point_of_interest"),
 
-  /**
-   * {@code ESTABLISHMENT} typically indicates a place that has not yet been categorized.
-   */
+  /** {@code ESTABLISHMENT} typically indicates a place that has not yet been categorized. */
   ESTABLISHMENT("establishment"),
 
-  /**
-   * {@code BUS_STATION} indicates the location of a bus stop.
-   */
+  /** {@code BUS_STATION} indicates the location of a bus stop. */
   BUS_STATION("bus_station"),
 
-  /**
-   * {@code TRAIN_STATION} indicates the location of a train station.
-   */
+  /** {@code TRAIN_STATION} indicates the location of a train station. */
   TRAIN_STATION("train_station"),
 
-  /**
-   * {@code SUBWAY_STATION} indicates the location of a subway station.
-   */
+  /** {@code SUBWAY_STATION} indicates the location of a subway station. */
   SUBWAY_STATION("subway_station"),
 
-  /**
-   * {@code TRANSIT_STATION} indicates the location of a transit station.
-   */
+  /** {@code TRANSIT_STATION} indicates the location of a transit station. */
   TRANSIT_STATION("transit_station"),
 
-  /**
-   * {@code LIGHT_RAIL_STATION} indicates the location of a light rail station.
-   */
+  /** {@code LIGHT_RAIL_STATION} indicates the location of a light rail station. */
   LIGHT_RAIL_STATION("light_rail_station"),
 
-  /**
-   * {@code CHURCH} indicates the location of a church.
-   */
+  /** {@code CHURCH} indicates the location of a church. */
   CHURCH("church"),
 
-  /**
-   * {@code FINANCE} indicates the location of a finance institute.
-   */
+  /** {@code FINANCE} indicates the location of a finance institute. */
   FINANCE("finance"),
 
-  /**
-   * {@code POST_OFFICE} indicates the location of a post office.
-   */
+  /** {@code POST_OFFICE} indicates the location of a post office. */
   POST_OFFICE("post_office"),
 
-  /**
-   * {@code PLACE_OF_WORSHIP} indicates the location of a place of worship.
-   */
+  /** {@code PLACE_OF_WORSHIP} indicates the location of a place of worship. */
   PLACE_OF_WORSHIP("place_of_worship"),
 
   /**
@@ -230,99 +186,61 @@ public enum AddressType implements UrlValue {
    */
   POSTAL_TOWN("postal_town"),
 
-  /**
-   * {@code SYNAGOGUE} is currently not a documented return type.
-   */
+  /** {@code SYNAGOGUE} is currently not a documented return type. */
   SYNAGOGUE("synagogue"),
 
-  /**
-   * {@code FOOD} is currently not a documented return type.
-   */
+  /** {@code FOOD} is currently not a documented return type. */
   FOOD("food"),
 
-  /**
-   * {@code GROCERY_OR_SUPERMARKET} is currently not a documented return type.
-   */
+  /** {@code GROCERY_OR_SUPERMARKET} is currently not a documented return type. */
   GROCERY_OR_SUPERMARKET("grocery_or_supermarket"),
 
-  /**
-   * {@code STORE} is currently not a documented return type.
-   */
+  /** {@code STORE} is currently not a documented return type. */
   STORE("store"),
 
-  /**
-   * {@code LAWYER} is currently not a documented return type.
-   */
+  /** {@code LAWYER} is currently not a documented return type. */
   LAWYER("lawyer"),
 
-  /**
-   * {@code HEALTH} is currently not a documented return type.
-   */
+  /** {@code HEALTH} is currently not a documented return type. */
   HEALTH("health"),
 
-  /**
-   * {@code INSURANCE_AGENCY} is currently not a documented return type.
-   */
+  /** {@code INSURANCE_AGENCY} is currently not a documented return type. */
   INSURANCE_AGENCY("insurance_agency"),
 
-  /**
-   * {@code GAS_STATION} is currently not a documented return type.
-   */
+  /** {@code GAS_STATION} is currently not a documented return type. */
   GAS_STATION("gas_station"),
 
-  /**
-   * {@code CAR_DEALER} is currently not a documented return type.
-   */
+  /** {@code CAR_DEALER} is currently not a documented return type. */
   CAR_DEALER("car_dealer"),
 
-  /**
-   * {@code CAR_REPAIR} is currently not a documented return type.
-   */
+  /** {@code CAR_REPAIR} is currently not a documented return type. */
   CAR_REPAIR("car_repair"),
 
-  /**
-   * {@code MEAL_TAKEAWAY} is currently not a documented return type.
-   */
+  /** {@code MEAL_TAKEAWAY} is currently not a documented return type. */
   MEAL_TAKEAWAY("meal_takeaway"),
 
-  /**
-   * {@code FURNITURE_STORE} is currently not a documented return type.
-   */
+  /** {@code FURNITURE_STORE} is currently not a documented return type. */
   FURNITURE_STORE("furniture_store"),
 
-  /**
-   * {@code HOME_GOODS_STORE} is currently not a documented return type.
-   */
+  /** {@code HOME_GOODS_STORE} is currently not a documented return type. */
   HOME_GOODS_STORE("home_goods_store"),
 
-  /**
-   * {@code SHOPPING_MALL} is currently not a documented return type.
-   */
+  /** {@code SHOPPING_MALL} is currently not a documented return type. */
   SHOPPING_MALL("shopping_mall"),
 
-  /**
-   * {@code GYM} is currently not a documented return type.
-   */
+  /** {@code GYM} is currently not a documented return type. */
   GYM("gym"),
 
-  /**
-   * {@code ACCOUNTING} is currently not a documented return type.
-   */
+  /** {@code ACCOUNTING} is currently not a documented return type. */
   ACCOUNTING("accounting"),
 
-  /**
-   * {@code MOVING_COMPANY} is currently not a documented return type.
-   */
+  /** {@code MOVING_COMPANY} is currently not a documented return type. */
   MOVING_COMPANY("moving_company"),
 
-  /**
-   * {@code LODGING} is currently not a documented return type.
-   */
+  /** {@code LODGING} is currently not a documented return type. */
   LODGING("lodging"),
 
-  /**
-   * {@code STORAGE} is currently not a documented return type.
-   */
+  /** {@code STORAGE} is currently not a documented return type. */
   STORAGE("storage"),
 
   /**
@@ -353,6 +271,4 @@ public enum AddressType implements UrlValue {
     }
     return addressType;
   }
-
 }
-

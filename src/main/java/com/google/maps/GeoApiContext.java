@@ -22,10 +22,6 @@ import com.google.maps.internal.ApiConfig;
 import com.google.maps.internal.ApiResponse;
 import com.google.maps.internal.ExceptionsAllowedToRetry;
 import com.google.maps.internal.UrlSigner;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.UnsupportedEncodingException;
 import java.net.Proxy;
 import java.net.URLEncoder;
@@ -33,14 +29,14 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-/**
- * The entry point for making requests against the Google Geo APIs.
- */
+/** The entry point for making requests against the Google Geo APIs. */
 public class GeoApiContext {
   private static final Logger LOG = LoggerFactory.getLogger(GeoApiContext.class);
 
-  private static final String VERSION = "@VERSION@";  // Populated by the build script
+  private static final String VERSION = "@VERSION@"; // Populated by the build script
   private static final String USER_AGENT = "GoogleGeoApiClientJava/" + VERSION;
   private static final int DEFAULT_BACKOFF_TIMEOUT_MILLIS = 60 * 1000; // 60s
 
@@ -55,37 +51,51 @@ public class GeoApiContext {
 
   /**
    * RequestHandler is the service provider interface that enables requests to be handled via
-   * switchable back ends. There are supplied implementations of this interface for both
-   * OkHttp and Google App Engine's URL Fetch API.
+   * switchable back ends. There are supplied implementations of this interface for both OkHttp and
+   * Google App Engine's URL Fetch API.
    *
    * @see OkHttpRequestHandler
    * @see GaeRequestHandler
    */
   public interface RequestHandler {
-    <T, R extends ApiResponse<T>> PendingResult<T> handle(String hostName, String url, String userAgent, Class<R> clazz,
-                                                          FieldNamingPolicy fieldNamingPolicy, long errorTimeout,
-                                                          Integer maxRetries,
-                                                          ExceptionsAllowedToRetry exceptionsAllowedToRetry);
+    <T, R extends ApiResponse<T>> PendingResult<T> handle(
+        String hostName,
+        String url,
+        String userAgent,
+        Class<R> clazz,
+        FieldNamingPolicy fieldNamingPolicy,
+        long errorTimeout,
+        Integer maxRetries,
+        ExceptionsAllowedToRetry exceptionsAllowedToRetry);
 
-    <T, R extends ApiResponse<T>> PendingResult<T> handlePost(String hostName, String url, String payload,
-                                                              String userAgent, Class<R> clazz,
-                                                              FieldNamingPolicy fieldNamingPolicy, long errorTimeout,
-                                                              Integer maxRetries,
-                                                              ExceptionsAllowedToRetry exceptionsAllowedToRetry);
+    <T, R extends ApiResponse<T>> PendingResult<T> handlePost(
+        String hostName,
+        String url,
+        String payload,
+        String userAgent,
+        Class<R> clazz,
+        FieldNamingPolicy fieldNamingPolicy,
+        long errorTimeout,
+        Integer maxRetries,
+        ExceptionsAllowedToRetry exceptionsAllowedToRetry);
 
     void setConnectTimeout(long timeout, TimeUnit unit);
+
     void setReadTimeout(long timeout, TimeUnit unit);
+
     void setWriteTimeout(long timeout, TimeUnit unit);
+
     void setQueriesPerSecond(int maxQps);
-    @Deprecated void setQueriesPerSecond(int maxQps, int minimumInterval);
+
+    @Deprecated
+    void setQueriesPerSecond(int maxQps, int minimumInterval);
+
     void setProxy(Proxy proxy);
   }
 
   private long errorTimeout = DEFAULT_BACKOFF_TIMEOUT_MILLIS;
 
-  /**
-   * Construct a GeoApiContext with OkHttp.
-   */
+  /** Construct a GeoApiContext with OkHttp. */
   public GeoApiContext() {
     this(new OkHttpRequestHandler());
   }
@@ -95,7 +105,6 @@ public class GeoApiContext {
    *
    * @see OkHttpRequestHandler
    * @see GaeRequestHandler
-   *
    * @param requestHandler How to handle URL requests to the Google Maps APIs.
    */
   public GeoApiContext(RequestHandler requestHandler) {
@@ -103,8 +112,8 @@ public class GeoApiContext {
     this.exceptionsAllowedToRetry.add(OverQueryLimitException.class);
   }
 
-  <T, R extends ApiResponse<T>> PendingResult<T> get(ApiConfig config, Class<? extends R> clazz,
-                                                     Map<String, String> params) {
+  <T, R extends ApiResponse<T>> PendingResult<T> get(
+      ApiConfig config, Class<? extends R> clazz, Map<String, String> params) {
     if (channel != null && !channel.isEmpty() && !params.containsKey("channel")) {
       params.put("channel", channel);
     }
@@ -121,12 +130,17 @@ public class GeoApiContext {
       }
     }
 
-    return getWithPath(clazz, config.fieldNamingPolicy, config.hostName, config.path,
-        config.supportsClientId, query.toString());
+    return getWithPath(
+        clazz,
+        config.fieldNamingPolicy,
+        config.hostName,
+        config.path,
+        config.supportsClientId,
+        query.toString());
   }
 
-  <T, R extends ApiResponse<T>> PendingResult<T> get(ApiConfig config, Class<? extends R> clazz,
-                                                     String... params) {
+  <T, R extends ApiResponse<T>> PendingResult<T> get(
+      ApiConfig config, Class<? extends R> clazz, String... params) {
     if (params.length % 2 != 0) {
       throw new IllegalArgumentException("Params must be matching key/value pairs.");
     }
@@ -155,13 +169,17 @@ public class GeoApiContext {
       query.append("&channel=").append(channel);
     }
 
-    return getWithPath(clazz, config.fieldNamingPolicy, config.hostName, config.path,
-        config.supportsClientId, query.toString());
+    return getWithPath(
+        clazz,
+        config.fieldNamingPolicy,
+        config.hostName,
+        config.path,
+        config.supportsClientId,
+        query.toString());
   }
 
-  <T, R extends ApiResponse<T>> PendingResult<T> post(ApiConfig config,
-      Class<? extends R> clazz,
-      Map<String, String> params) {
+  <T, R extends ApiResponse<T>> PendingResult<T> post(
+      ApiConfig config, Class<? extends R> clazz, Map<String, String> params) {
 
     checkContext(config.supportsClientId);
 
@@ -183,21 +201,24 @@ public class GeoApiContext {
     }
 
     return requestHandler.handlePost(
-      hostName,
-      url.toString(),
-      params.get("_payload"),
-      USER_AGENT,
-      clazz,
-      config.fieldNamingPolicy,
-      errorTimeout,
-      maxRetries,
-      exceptionsAllowedToRetry
-    );
+        hostName,
+        url.toString(),
+        params.get("_payload"),
+        USER_AGENT,
+        clazz,
+        config.fieldNamingPolicy,
+        errorTimeout,
+        maxRetries,
+        exceptionsAllowedToRetry);
   }
 
-  private <T, R extends ApiResponse<T>> PendingResult<T> getWithPath(Class<R> clazz,
-                                                                     FieldNamingPolicy fieldNamingPolicy, String hostName, String path,
-                                                                     boolean canUseClientId, String encodedPath) {
+  private <T, R extends ApiResponse<T>> PendingResult<T> getWithPath(
+      Class<R> clazz,
+      FieldNamingPolicy fieldNamingPolicy,
+      String hostName,
+      String path,
+      boolean canUseClientId,
+      String encodedPath) {
     checkContext(canUseClientId);
     if (!encodedPath.startsWith("&")) {
       throw new IllegalArgumentException("encodedPath must start with &");
@@ -220,13 +241,20 @@ public class GeoApiContext {
       hostName = baseUrlOverride;
     }
 
-    return requestHandler.handle(hostName, url.toString(), USER_AGENT, clazz, fieldNamingPolicy, errorTimeout, maxRetries, exceptionsAllowedToRetry);
+    return requestHandler.handle(
+        hostName,
+        url.toString(),
+        USER_AGENT,
+        clazz,
+        fieldNamingPolicy,
+        errorTimeout,
+        maxRetries,
+        exceptionsAllowedToRetry);
   }
 
   private void checkContext(boolean canUseClientId) {
     if (urlSigner == null && apiKey == null) {
-      throw new IllegalStateException(
-          "Must provide either API key or Maps for Work credentials.");
+      throw new IllegalStateException("Must provide either API key or Maps for Work credentials.");
     } else if (!canUseClientId && apiKey == null) {
       throw new IllegalStateException(
           "API does not support client ID & secret - you must provide a key");
@@ -262,7 +290,7 @@ public class GeoApiContext {
   }
 
   /**
-   * Sets the default channel for requests (can be overridden by requests).  Only useful for Google
+   * Sets the default channel for requests (can be overridden by requests). Only useful for Google
    * Maps for Work clients.
    *
    * @param channel The channel to use for analytics
@@ -292,9 +320,7 @@ public class GeoApiContext {
     return this;
   }
 
-  /**
-   * Sets the default write timeout for new connections. A value of 0 means no timeout.
-   */
+  /** Sets the default write timeout for new connections. A value of 0 means no timeout. */
   public GeoApiContext setWriteTimeout(long timeout, TimeUnit unit) {
     requestHandler.setWriteTimeout(timeout, unit);
     return this;
@@ -312,8 +338,8 @@ public class GeoApiContext {
   }
 
   /**
-   * Sets the maximum number of times each retry-able errors will be retried. Set this to null to not have a max number.
-   * Set this to zero to disable retries.
+   * Sets the maximum number of times each retry-able errors will be retried. Set this to null to
+   * not have a max number. Set this to zero to disable retries.
    *
    * <p>This operates separately from the time-based {@link #setRetryTimeout(long, TimeUnit)}.
    */
@@ -322,9 +348,7 @@ public class GeoApiContext {
     return this;
   }
 
-  /**
-   * Disable retries completely.
-   */
+  /** Disable retries completely. */
   public GeoApiContext disableRetries() {
     setMaxRetries(0);
     setRetryTimeout(0, TimeUnit.MILLISECONDS);
@@ -344,10 +368,10 @@ public class GeoApiContext {
   /**
    * Sets the rate at which queries are executed.
    *
-   * @param maxQps          The maximum number of queries to execute per second.
+   * @param maxQps The maximum number of queries to execute per second.
    * @param minimumInterval The minimum amount of time, in milliseconds, to pause between requests.
-   *                        Note that this pause only occurs if the amount of time between requests
-   *                        has not elapsed naturally.
+   *     Note that this pause only occurs if the amount of time between requests has not elapsed
+   *     naturally.
    * @deprecated Please use {@link #setQueryRateLimit(int)} instead.
    */
   @Deprecated
@@ -356,10 +380,9 @@ public class GeoApiContext {
     return this;
   }
 
-  /**
-   * Allows specific API exceptions to be retried or not retried.
-   */
-  public GeoApiContext toggleifExceptionIsAllowedToRetry(Class<? extends ApiException> exception, boolean allowedToRetry) {
+  /** Allows specific API exceptions to be retried or not retried. */
+  public GeoApiContext toggleifExceptionIsAllowedToRetry(
+      Class<? extends ApiException> exception, boolean allowedToRetry) {
     if (allowedToRetry) {
       exceptionsAllowedToRetry.add(exception);
     } else {

@@ -16,7 +16,6 @@
 package com.google.maps;
 
 import com.google.maps.errors.ApiException;
-
 import java.io.IOException;
 
 /**
@@ -47,24 +46,16 @@ public interface PendingResult<T> {
    */
   T awaitIgnoreError();
 
-  /**
-   * Attempt to cancel the request.
-   */
+  /** Attempt to cancel the request. */
   void cancel();
 
-  /**
-   * The callback interface the API client code needs to implement to handle API results.
-   */
+  /** The callback interface the API client code needs to implement to handle API results. */
   interface Callback<T> {
 
-    /**
-     * Called when the request was successfully completed.
-     */
+    /** Called when the request was successfully completed. */
     void onResult(T result);
 
-    /**
-     * Called when there was an error performing the request.
-     */
+    /** Called when there was an error performing the request. */
     void onFailure(Throwable e);
   }
 }

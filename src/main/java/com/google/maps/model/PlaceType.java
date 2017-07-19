@@ -22,7 +22,6 @@ import com.google.maps.internal.StringJoin;
  * type.
  */
 public enum PlaceType implements StringJoin.UrlValue {
-
   ACCOUNTING("accounting"),
   AIRPORT("airport"),
   AMUSEMENT_PARK("amusement_park"),

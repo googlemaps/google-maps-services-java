@@ -15,13 +15,9 @@
 
 package com.google.maps.model;
 
-/**
- * A point that has been snapped to a road by the Roads API.
- */
+/** A point that has been snapped to a road by the Roads API. */
 public class SnappedPoint {
-  /**
-   * {@code location} contains a latitude and longitude value representing the snapped location.
-   */
+  /** {@code location} contains a latitude and longitude value representing the snapped location. */
   public LatLng location;
 
   /**
