@@ -39,8 +39,7 @@ public class DurationAdapter extends TypeAdapter<Duration> {
    *
    * <pre>
    * {
-   *   "value": 207,
-       "text": "0.1 mi"
+   *   "value": 207, "text": "0.1 mi"
    * }
    * </pre>
    */
