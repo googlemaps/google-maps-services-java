@@ -19,7 +19,6 @@ import com.google.maps.errors.ApiException;
 import com.google.maps.internal.ApiConfig;
 import com.google.maps.internal.ApiResponse;
 import com.google.maps.internal.StringJoin.UrlValue;
-
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
@@ -31,8 +30,7 @@ import java.util.Map;
  * <p>{@code T} is the class of the result, {@code A} is the actual base class of this abstract
  * class, and R is the type of the request.
  */
-abstract class PendingResultBase<T, A extends PendingResultBase<T, A, R>,
-    R extends ApiResponse<T>>
+abstract class PendingResultBase<T, A extends PendingResultBase<T, A, R>, R extends ApiResponse<T>>
     implements PendingResult<T> {
 
   private final GeoApiContext context;
@@ -94,7 +92,7 @@ abstract class PendingResultBase<T, A extends PendingResultBase<T, A, R>,
     params.put(key, val);
 
     @SuppressWarnings("unchecked") // safe by specification - A is the actual class of this instance
-        A result = (A) this;
+    A result = (A) this;
     return result;
   }
 
@@ -102,7 +100,7 @@ abstract class PendingResultBase<T, A extends PendingResultBase<T, A, R>,
     params.put(key, val.toUrlValue());
 
     @SuppressWarnings("unchecked") // safe by specification - A is the actual class of this instance
-        A result = (A) this;
+    A result = (A) this;
     return result;
   }
 
@@ -116,18 +114,20 @@ abstract class PendingResultBase<T, A extends PendingResultBase<T, A, R>,
    *
    * @param language The language code, e.g. "en-AU" or "es"
    * @see <a href="https://developers.google.com/maps/faq#languagesupport">List of supported domain
-   * languages</a>
+   *     languages</a>
+   * @return Returns the request for call chaining.
    */
   public final A language(String language) {
     return param("language", language);
   }
 
   /**
-   * A channel to pass with the request.  channel is used by Google Maps API for Work users to be
+   * A channel to pass with the request. channel is used by Google Maps API for Work users to be
    * able to track usage across different applications with the same clientID. See:
    * https://developers.google.com/maps/documentation/business/clientside/quota
    *
    * @param channel String to pass with the request for analytics
+   * @return Returns the request for call chaining.
    */
   public A channel(String channel) {
     return param("channel", channel);
@@ -136,8 +136,9 @@ abstract class PendingResultBase<T, A extends PendingResultBase<T, A, R>,
   /**
    * Custom parameter. For advanced usage only.
    *
-   * Note: Using this escape hatch parameter pass though voids all warranties, only use in
-   * extreme circumstances.
+   * @param parameter The name of the custom parameter.
+   * @param value The value of the custom parameter.
+   * @return Returns the request for call chaining.
    */
   public A custom(String parameter, String value) {
     return param(parameter, value);

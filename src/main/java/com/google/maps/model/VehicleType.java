@@ -23,59 +23,37 @@ package com.google.maps.model;
  */
 public enum VehicleType {
 
-  /**
-   * Rail.
-   */
+  /** Rail. */
   RAIL,
 
-  /**
-   * Light rail transit.
-   */
+  /** Light rail transit. */
   METRO_RAIL,
 
-  /**
-   * Underground light rail.
-   */
+  /** Underground light rail. */
   SUBWAY,
 
-  /**
-   * Above ground light rail.
-   */
+  /** Above ground light rail. */
   TRAM,
 
-  /**
-   * Monorail.
-   */
+  /** Monorail. */
   MONORAIL,
 
-  /**
-   * Heavy rail.
-   */
+  /** Heavy rail. */
   HEAVY_RAIL,
 
-  /**
-   * Commuter rail.
-   */
+  /** Commuter rail. */
   COMMUTER_TRAIN,
 
-  /**
-   * High speed train.
-   */
+  /** High speed train. */
   HIGH_SPEED_TRAIN,
 
-  /**
-   * Bus.
-   */
+  /** Bus. */
   BUS,
 
-  /**
-   * Intercity bus.
-   */
+  /** Intercity bus. */
   INTERCITY_BUS,
 
-  /**
-   * Trolleybus.
-   */
+  /** Trolleybus. */
   TROLLEYBUS,
 
   /**
@@ -84,9 +62,7 @@ public enum VehicleType {
    */
   SHARE_TAXI,
 
-  /**
-   * Ferry.
-   */
+  /** Ferry. */
   FERRY,
 
   /**
@@ -95,9 +71,7 @@ public enum VehicleType {
    */
   CABLE_CAR,
 
-  /**
-   * An aerial cable car.
-   */
+  /** An aerial cable car. */
   GONDOLA_LIFT,
 
   /**
@@ -106,8 +80,6 @@ public enum VehicleType {
    */
   FUNICULAR,
 
-  /**
-   * All other vehicles will return this type.
-   */
+  /** All other vehicles will return this type. */
   OTHER
 }

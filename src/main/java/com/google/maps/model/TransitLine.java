@@ -18,14 +18,13 @@ package com.google.maps.model;
 /**
  * The transit line used in a step.
  *
- * <p>See <a href="https://developers.google.com/maps/documentation/directions/intro#TransitDetails">
- * Transit details</a> for more detail.
+ * <p>See <a
+ * href="https://developers.google.com/maps/documentation/directions/intro#TransitDetails">Transit
+ * details</a> for more detail.
  */
 public class TransitLine {
 
-  /**
-   * {@code name} contains the full name of this transit line. eg. "7 Avenue Express".
-   */
+  /** {@code name} contains the full name of this transit line. eg. "7 Avenue Express". */
   public String name;
 
   /**
@@ -46,14 +45,10 @@ public class TransitLine {
    */
   public TransitAgency[] agencies;
 
-  /**
-   * {@code url} contains the URL for this transit line as provided by the transit agency.
-   */
+  /** {@code url} contains the URL for this transit line as provided by the transit agency. */
   public String url;
 
-  /**
-   * {@code icon} contains the URL for the icon associated with this line.
-   */
+  /** {@code icon} contains the URL for the icon associated with this line. */
   public String icon;
 
   /**
@@ -62,8 +57,6 @@ public class TransitLine {
    */
   public String textColor;
 
-  /**
-   * {@code vehicle} contains the type of vehicle used on this line.
-   */
+  /** {@code vehicle} contains the type of vehicle used on this line. */
   public Vehicle vehicle;
 }

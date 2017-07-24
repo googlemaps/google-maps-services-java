@@ -1,34 +1,34 @@
 {
-   "routes" : [
-      {
-         "legs" : [
-            {
-               "arrival_time" : {
-                  "text" : "1:54pm",
-                  "time_zone" : "Australia/Sydney",
-                  "value" : 1497930863
-               },
-               "departure_time" : {
-                  "text" : "1:21pm",
-                  "time_zone" : "Australia/Sydney",
-                  "value" : 1497928860
-               },
-               "distance" : {
-                  "text" : "24.8 km",
-                  "value" : 24785
-               },
-               "duration" : {
-                  "text" : "33 mins",
-                  "value" : 2003
-               },
-               "end_address" : "182 Church St, Parramatta NSW 2150, Australia",
-               "start_address" : "483 George St, Sydney NSW 2000, Australia"
-            }
-         ],
-         "overview_polyline" : {
-            "points" : "b}vmEir{y[APbAHpAJjDh@Z?^Cp@Mj@Uf@]fAeAv@wAz@cAt@i@x@c@`Bk@t@SnCUpAPb@@zB\\\\v@LvDh@`BZtBf@nC`AbCtAd@VM^EJ`@V~AlAbDnD~EbHr@zAl@x@r@jApAdBx@|@p@n@|C~BnBzA|FdFdAjAjBdCjAnB~A|CZt@lAxChBnFv@zCZdBf@jDd@hCXnAfBtHZtAn@pCz@fDhBhGb@bB`@tB\\\\rBjAnFh@zD\\\\tDHvF@hJMrDE|DSbDWbBy@`DqAnDoBrDi@dA_@z@s@|Bc@bByBjIeA~DShAUlBM`BEbDDtCVxE`@bFf@pFD|CO`DW~BaAfFa@fB[|BY`DCpBD~BRrCj@pGNtBFjBE~CU|Da@nEc@xDe@zBoAnFcAzEsAzFg@lBm@rCiA~E}AdGgAhD}@bDg@dCUjBa@bDMpDM`GChACvABz@ClACdAItBQjCYfCStA]`BaB|GqBbIUt@s@`Dw@nDg@lBqAfFu@lDu@bDiBnH]jAy@bCs@fB{AhDgAdCc@hAuBrFm@hA}DxF}B~Dy@tA_BzBwBrCcBxBkAbBy@pAq@pAk@jAs@lB[bA_@dB{@jEc@bCS|AcA`Ji@hD_AxISnA_@~Ae@zAi@tA_ApBu@pAgAvAcAfAaB|Ae@f@eBvAo@n@e@j@}@~@y@xAo@tA}@jBi@x@}@fA}A~As@~@{@rAkC|EaJvPe@|@_@z@u@pBuAxDu@`C}@`Eo@nCoAhGsB`Ka@|BQxAOfBIzAEhB?lBDfBFzAPpBf@`GThFJpD?bBKpDSjEGlAYhCgAjFYzBw@lHOvBO`DIpDExD?nCFxIRnEf@xDv@pFLjBDl@DlEEjGKvLO|OBhACdBEvBMdCO|AO~@Kn@c@pB_@pAs@pBe@rAc@~@i@z@_AvAoA~AwAxAgA|@oBpAeC|Ao@XaAj@gAd@}@j@gC~AoHrEkGzD}JjG}JlGsEbD{@n@oB`BaC`CeBhBeAdAqEtE_BfBmEzEyGnHqAvAuCvCqBrBsBlB}DbEuBhCmClD{B`Du@fAkAvBcArBgB~Cc@~@[l@o@`AsC~EqBxD_GvKeBzCsAjCiDtGgA`CaCrEg@x@S^w@v@iBtAgAr@w@^sClAaAXqAb@{Bn@sATo@LQB}ALaDHoBEC??@a@AqBIgAMwE{@sASm@C{CI_A@eCVw@PsAb@m@`@_Aj@mBrAsBlB]^kA`Bg@bAUj@OK\\\\dAYl@[p@Un@Gb@EZI@a@BG?KEEGSNi@Vy@NW?S@"
-         }
+  "routes": [
+    {
+      "legs": [
+        {
+          "arrival_time": {
+            "text": "1:54pm",
+            "time_zone": "Australia/Sydney",
+            "value": 1497930863
+          },
+          "departure_time": {
+            "text": "1:21pm",
+            "time_zone": "Australia/Sydney",
+            "value": 1497928860
+          },
+          "distance": {
+            "text": "24.8 km",
+            "value": 24785
+          },
+          "duration": {
+            "text": "33 mins",
+            "value": 2003
+          },
+          "end_address": "182 Church St, Parramatta NSW 2150, Australia",
+          "start_address": "483 George St, Sydney NSW 2000, Australia"
+        }
+      ],
+      "overview_polyline": {
+        "points": "b}vmEir{y[APbAHpAJjDh@Z?^Cp@Mj@Uf@]fAeAv@wAz@cAt@i@x@c@`Bk@t@SnCUpAPb@@zB\\\\v@LvDh@`BZtBf@nC`AbCtAd@VM^EJ`@V~AlAbDnD~EbHr@zAl@x@r@jApAdBx@|@p@n@|C~BnBzA|FdFdAjAjBdCjAnB~A|CZt@lAxChBnFv@zCZdBf@jDd@hCXnAfBtHZtAn@pCz@fDhBhGb@bB`@tB\\\\rBjAnFh@zD\\\\tDHvF@hJMrDE|DSbDWbBy@`DqAnDoBrDi@dA_@z@s@|Bc@bByBjIeA~DShAUlBM`BEbDDtCVxE`@bFf@pFD|CO`DW~BaAfFa@fB[|BY`DCpBD~BRrCj@pGNtBFjBE~CU|Da@nEc@xDe@zBoAnFcAzEsAzFg@lBm@rCiA~E}AdGgAhD}@bDg@dCUjBa@bDMpDM`GChACvABz@ClACdAItBQjCYfCStA]`BaB|GqBbIUt@s@`Dw@nDg@lBqAfFu@lDu@bDiBnH]jAy@bCs@fB{AhDgAdCc@hAuBrFm@hA}DxF}B~Dy@tA_BzBwBrCcBxBkAbBy@pAq@pAk@jAs@lB[bA_@dB{@jEc@bCS|AcA`Ji@hD_AxISnA_@~Ae@zAi@tA_ApBu@pAgAvAcAfAaB|Ae@f@eBvAo@n@e@j@}@~@y@xAo@tA}@jBi@x@}@fA}A~As@~@{@rAkC|EaJvPe@|@_@z@u@pBuAxDu@`C}@`Eo@nCoAhGsB`Ka@|BQxAOfBIzAEhB?lBDfBFzAPpBf@`GThFJpD?bBKpDSjEGlAYhCgAjFYzBw@lHOvBO`DIpDExD?nCFxIRnEf@xDv@pFLjBDl@DlEEjGKvLO|OBhACdBEvBMdCO|AO~@Kn@c@pB_@pAs@pBe@rAc@~@i@z@_AvAoA~AwAxAgA|@oBpAeC|Ao@XaAj@gAd@}@j@gC~AoHrEkGzD}JjG}JlGsEbD{@n@oB`BaC`CeBhBeAdAqEtE_BfBmEzEyGnHqAvAuCvCqBrBsBlB}DbEuBhCmClD{B`Du@fAkAvBcArBgB~Cc@~@[l@o@`AsC~EqBxD_GvKeBzCsAjCiDtGgA`CaCrEg@x@S^w@v@iBtAgAr@w@^sClAaAXqAb@{Bn@sATo@LQB}ALaDHoBEC??@a@AqBIgAMwE{@sASm@C{CI_A@eCVw@PsAb@m@`@_Aj@mBrAsBlB]^kA`Bg@bAUj@OK\\\\dAYl@[p@Un@Gb@EZI@a@BG?KEEGSNi@Vy@NW?S@"
       }
-   ],
-   "status" : "OK"
+    }
+  ],
+  "status": "OK"
 }

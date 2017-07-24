@@ -30,21 +30,20 @@ import com.google.maps.model.GeocodedWaypoint;
  * text strings (e.g. "Chicago, IL" or "Darwin, NT, Australia") or as latitude/longitude
  * coordinates. The Directions API can return multi-part directions using a series of waypoints.
  *
- * <p>See <a href="https://developers.google.com/maps/documentation/directions/intro">documentation</a>.
+ * <p>See <a
+ * href="https://developers.google.com/maps/documentation/directions/intro">documentation</a>.
  */
 public class DirectionsApi {
   static final ApiConfig API_CONFIG = new ApiConfig("/maps/api/directions/json");
 
-  private DirectionsApi() {
-  }
+  private DirectionsApi() {}
 
   public static DirectionsApiRequest newRequest(GeoApiContext context) {
     return new DirectionsApiRequest(context);
   }
 
-  public static DirectionsApiRequest getDirections(GeoApiContext context,
-                                                   String origin,
-                                                   String destination) {
+  public static DirectionsApiRequest getDirections(
+      GeoApiContext context, String origin, String destination) {
     return new DirectionsApiRequest(context).origin(origin).destination(destination);
   }
 
@@ -78,28 +77,23 @@ public class DirectionsApi {
 
   /**
    * Directions may be calculated that adhere to certain restrictions. This is configured by calling
-   * {@link com.google.maps.DirectionsApiRequest#avoid} or {@link com.google.maps.DistanceMatrixApiRequest#avoid}.
+   * {@link com.google.maps.DirectionsApiRequest#avoid} or {@link
+   * com.google.maps.DistanceMatrixApiRequest#avoid}.
    *
    * @see <a href="https://developers.google.com/maps/documentation/directions/intro#Restrictions">
-   * Restrictions in the Directions API</a>
+   *     Restrictions in the Directions API</a>
    * @see <a href="https://developers.google.com/maps/documentation/distancematrix/#Restrictions">
-   * Restrictions in the Distance Matrix API</a>
+   *     Restrictions in the Distance Matrix API</a>
    */
   public enum RouteRestriction implements UrlValue {
 
-    /**
-     * {@code TOLLS} indicates that the calculated route should avoid toll roads/bridges.
-     */
+    /** {@code TOLLS} indicates that the calculated route should avoid toll roads/bridges. */
     TOLLS("tolls"),
 
-    /**
-     * {@code HIGHWAYS} indicates that the calculated route should avoid highways.
-     */
+    /** {@code HIGHWAYS} indicates that the calculated route should avoid highways. */
     HIGHWAYS("highways"),
 
-    /**
-     * {@code FERRIES} indicates that the calculated route should avoid ferries.
-     */
+    /** {@code FERRIES} indicates that the calculated route should avoid ferries. */
     FERRIES("ferries");
 
     private final String restriction;

@@ -67,7 +67,7 @@ public class ElevationApiTest {
   public void testGetByPointThrowsInvalidRequestExceptionFromResponse() throws Exception {
     try (LocalTestServerContext sc =
         new LocalTestServerContext(
-            "" + "{\n" + "   \"routes\" : [],\n" + "   \"status\" : \"INVALID_REQUEST\"\n" + "}")) {
+            "{\n   \"routes\" : [],\n   \"status\" : \"INVALID_REQUEST\"\n}")) {
 
       // This should throw the InvalidRequestException
       ElevationApi.getByPoint(sc.context, new LatLng(0, 0)).await();

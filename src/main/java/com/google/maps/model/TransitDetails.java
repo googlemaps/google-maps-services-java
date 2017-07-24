@@ -38,14 +38,10 @@ public class TransitDetails {
    */
   public StopDetails departureStop;
 
-  /**
-   * {@code arrivalTime} contains the arrival time for this leg of the journey.
-   */
+  /** {@code arrivalTime} contains the arrival time for this leg of the journey. */
   public DateTime arrivalTime;
 
-  /**
-   * {@code departureTime} contains the departure time for this leg of the journey.
-   */
+  /** {@code departureTime} contains the departure time for this leg of the journey. */
   public DateTime departureTime;
 
   /**
@@ -68,8 +64,6 @@ public class TransitDetails {
    */
   public int numStops;
 
-  /**
-   * {@code line} contains information about the transit line used in this step.
-   */
+  /** {@code line} contains information about the transit line used in this step. */
   public TransitLine line;
 }

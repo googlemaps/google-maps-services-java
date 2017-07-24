@@ -18,9 +18,9 @@ package com.google.maps.model;
 import com.google.maps.internal.StringJoin.UrlValue;
 
 /**
- * Location types for a reverse geocoding request. Please see
- * <a href="https://developers.google.com/maps/documentation/geocoding/#ReverseGeocoding">for
- * more detail</a>.
+ * Location types for a reverse geocoding request. Please see <a
+ * href="https://developers.google.com/maps/documentation/geocoding/#ReverseGeocoding">for more
+ * detail</a>.
  */
 public enum LocationType implements UrlValue {
   /**
@@ -43,9 +43,7 @@ public enum LocationType implements UrlValue {
    */
   GEOMETRIC_CENTER,
 
-  /**
-   * {@code APPROXIMATE} restricts the results to those that are characterized as approximate.
-   */
+  /** {@code APPROXIMATE} restricts the results to those that are characterized as approximate. */
   APPROXIMATE,
 
   /**

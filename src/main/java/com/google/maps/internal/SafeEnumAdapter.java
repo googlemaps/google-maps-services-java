@@ -19,11 +19,10 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.util.Locale;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A {@link com.google.gson.TypeAdapter} that maps case-insensitive values to an enum type. If the
@@ -39,9 +38,7 @@ public class SafeEnumAdapter<E extends Enum<E>> extends TypeAdapter<E> {
   private final Class<E> clazz;
   private final E unknownValue;
 
-  /**
-   * @param unknownValue the value to return if the value cannot be found.
-   */
+  /** @param unknownValue the value to return if the value cannot be found. */
   public SafeEnumAdapter(E unknownValue) {
     if (unknownValue == null) throw new IllegalArgumentException();
 

@@ -24,13 +24,20 @@ import com.google.maps.internal.StringJoin;
  * Google Geocoding API can return address results restricted to a specific area. The restriction is
  * specified using the components filter.
  *
- * <p>Please see <a href="https://developers.google.com/maps/documentation/geocoding/#ComponentFiltering">
- * Component Filtering</a> for more detail.
+ * <p>Please see <a
+ * href="https://developers.google.com/maps/documentation/geocoding/#ComponentFiltering">Component
+ * Filtering</a> for more detail.
  */
 public class ComponentFilter implements StringJoin.UrlValue {
   public final String component;
   public final String value;
 
+  /**
+   * Construct a component filter.
+   *
+   * @param component The component to filter.
+   * @param value The value of the filter.
+   */
   ComponentFilter(String component, String value) {
     this.component = component;
     this.value = value;
@@ -48,6 +55,9 @@ public class ComponentFilter implements StringJoin.UrlValue {
 
   /**
    * {@code route} matches long or short name of a route.
+   *
+   * @param route The name of the route to filter on.
+   * @return Returns a {@link ComponentFilter}.
    */
   public static ComponentFilter route(String route) {
     return new ComponentFilter("route", route);
@@ -55,6 +65,9 @@ public class ComponentFilter implements StringJoin.UrlValue {
 
   /**
    * {@code locality} matches against both locality and sublocality types.
+   *
+   * @param locality The locality to filter on.
+   * @return Returns a {@link ComponentFilter}.
    */
   public static ComponentFilter locality(String locality) {
     return new ComponentFilter("locality", locality);
@@ -62,6 +75,9 @@ public class ComponentFilter implements StringJoin.UrlValue {
 
   /**
    * {@code administrativeArea} matches all the administrative area levels.
+   *
+   * @param administrativeArea The administrative area to filter on.
+   * @return Returns a {@link ComponentFilter}.
    */
   public static ComponentFilter administrativeArea(String administrativeArea) {
     return new ComponentFilter("administrative_area", administrativeArea);
@@ -69,6 +85,9 @@ public class ComponentFilter implements StringJoin.UrlValue {
 
   /**
    * {@code postalCode} matches postal code and postal code prefix.
+   *
+   * @param postalCode The postal code to filter on.
+   * @return Returns a {@link ComponentFilter}.
    */
   public static ComponentFilter postalCode(String postalCode) {
     return new ComponentFilter("postal_code", postalCode);
@@ -76,6 +95,9 @@ public class ComponentFilter implements StringJoin.UrlValue {
 
   /**
    * {@code country} matches a country name or a two letter ISO 3166-1 country code.
+   *
+   * @param country The country to filter on.
+   * @return Returns a {@link ComponentFilter}.
    */
   public static ComponentFilter country(String country) {
     return new ComponentFilter("country", country);

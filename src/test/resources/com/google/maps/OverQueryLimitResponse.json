@@ -1,4 +1,4 @@
 {
-  "error_message" : "Please wait.",
-  "status" : "OVER_QUERY_LIMIT"
+  "error_message": "Please wait.",
+  "status": "OVER_QUERY_LIMIT"
 }

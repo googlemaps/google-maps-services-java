@@ -28,8 +28,9 @@ import com.google.maps.model.PlaceDetails;
 public class PlaceDetailsRequest
     extends PendingResultBase<PlaceDetails, PlaceDetailsRequest, PlaceDetailsRequest.Response> {
 
-  static final ApiConfig API_CONFIG = new ApiConfig("/maps/api/place/details/json")
-      .fieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
+  static final ApiConfig API_CONFIG =
+      new ApiConfig("/maps/api/place/details/json")
+          .fieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
 
   public PlaceDetailsRequest(GeoApiContext context) {
     super(context, API_CONFIG, Response.class);
@@ -37,6 +38,9 @@ public class PlaceDetailsRequest
 
   /**
    * Get the Place Details for the specified Place ID. Required.
+   *
+   * @param placeId The Place ID to retrieve details for.
+   * @return Returns this {@code PlaceDetailsRequest} for call chaining.
    */
   public PlaceDetailsRequest placeId(String placeId) {
     return param("placeid", placeId);
@@ -76,5 +80,4 @@ public class PlaceDetailsRequest
       return ApiException.from(status, errorMessage);
     }
   }
-
 }

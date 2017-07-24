@@ -1,41 +1,45 @@
 {
-  "html_attributions" : [],
-  "results" : [
+  "html_attributions": [],
+  "results": [
     {
-      "formatted_address" : "Kita Ward, Kyoto, Kyoto Prefecture, Japan",
-      "geometry" : {
-        "location" : {
-          "lat" : 35.041053,
-          "lng" : 135.7539826
+      "formatted_address": "Kita Ward, Kyoto, Kyoto Prefecture, Japan",
+      "geometry": {
+        "location": {
+          "lat": 35.041053,
+          "lng": 135.7539826
         },
-        "viewport" : {
-          "northeast" : {
-            "lat" : 35.1714945,
-            "lng" : 135.7728535
+        "viewport": {
+          "northeast": {
+            "lat": 35.1714945,
+            "lng": 135.7728535
           },
-          "southwest" : {
-            "lat" : 35.0222614,
-            "lng" : 135.6471605
+          "southwest": {
+            "lat": 35.0222614,
+            "lng": 135.6471605
           }
         }
       },
-      "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/geocode-71.png",
-      "id" : "4e06ba9fcbf74a0da71957b8ca78b0cd25ddc09d",
-      "name" : "Kita Ward",
-      "photos" : [
+      "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/geocode-71.png",
+      "id": "4e06ba9fcbf74a0da71957b8ca78b0cd25ddc09d",
+      "name": "Kita Ward",
+      "photos": [
         {
-          "height" : 1151,
-          "html_attributions" : [
+          "height": 1151,
+          "html_attributions": [
             "\u003ca href=\"https://maps.google.com/maps/contrib/117368444055293763041/photos\"\u003e李宗仁\u003c/a\u003e"
           ],
-          "photo_reference" : "CmRaAAAACE2XYCQBTPkWNbK47AeXSaNWfHKkwZOF3HCiXo7PEcRkfC5MVBxhF625JzsR5g6EHKWO2dUY69Onaw8FwE3oLZGl3K5Mxkp8YV7sTyi-JcdAtnIIZNmK2TDFVjsKPHO-EhBdXuDlIrLdlttc4Mq2FmRFGhRdYz6pANpp-UGfzqve7pVW0zwS6g",
-          "width" : 2048
+          "photo_reference": "CmRaAAAACE2XYCQBTPkWNbK47AeXSaNWfHKkwZOF3HCiXo7PEcRkfC5MVBxhF625JzsR5g6EHKWO2dUY69Onaw8FwE3oLZGl3K5Mxkp8YV7sTyi-JcdAtnIIZNmK2TDFVjsKPHO-EhBdXuDlIrLdlttc4Mq2FmRFGhRdYz6pANpp-UGfzqve7pVW0zwS6g",
+          "width": 2048
         }
       ],
-      "place_id" : "ChIJHSR_jiupAWARcQjngz-_Cxk",
-      "reference" : "CmRbAAAAbjP4m3huGPaypYNsSBIvcovO89q8VMXCKgwhridIYah5ykN0kn-9vzuEYu2N-kYKdiQnHSMrOAEcATQ9iJ66kQdrp1ax5CVPwYMb4pFhzh1ggP8hN3uCVn1xtJd1cDZqEhDhPn7oZxPH4u5JTBC5MelRGhQgll-Wp595aQRT7M9fggvV9RINhQ",
-      "types" : [ "ward", "locality", "political" ]
+      "place_id": "ChIJHSR_jiupAWARcQjngz-_Cxk",
+      "reference": "CmRbAAAAbjP4m3huGPaypYNsSBIvcovO89q8VMXCKgwhridIYah5ykN0kn-9vzuEYu2N-kYKdiQnHSMrOAEcATQ9iJ66kQdrp1ax5CVPwYMb4pFhzh1ggP8hN3uCVn1xtJd1cDZqEhDhPn7oZxPH4u5JTBC5MelRGhQgll-Wp595aQRT7M9fggvV9RINhQ",
+      "types": [
+        "ward",
+        "locality",
+        "political"
+      ]
     }
   ],
-  "status" : "OK"
+  "status": "OK"
 }

@@ -19,19 +19,13 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
-
+import java.io.IOException;
 import org.joda.time.Instant;
 
-import java.io.IOException;
-
-/**
- * This class handles conversion from JSON to {@link Instant}.
- */
+/** This class handles conversion from JSON to {@link Instant}. */
 public class InstantAdapter extends TypeAdapter<Instant> {
 
-  /**
-   * Read a time from the Places API and convert to a {@link Instant}
-   */
+  /** Read a time from the Places API and convert to a {@link Instant} */
   @Override
   public Instant read(JsonReader reader) throws IOException {
     if (reader.peek() == JsonToken.NULL) {
@@ -47,12 +41,9 @@ public class InstantAdapter extends TypeAdapter<Instant> {
     throw new UnsupportedOperationException("Unsupported format");
   }
 
-  /**
-   * This method is not implemented.
-   */
+  /** This method is not implemented. */
   @Override
   public void write(JsonWriter out, Instant value) throws IOException {
     throw new UnsupportedOperationException("Unimplemented method");
   }
-
 }

@@ -16,25 +16,19 @@
 package com.google.maps.model;
 
 /**
- * The Adress Component types. Please see
- * <a href="https://developers.google.com/maps/documentation/geocoding/#Types">Address Component
+ * The Adress Component types. Please see <a
+ * href="https://developers.google.com/maps/documentation/geocoding/#Types">Address Component
  * Types</a> for more detail.
  */
 public enum AddressComponentType {
 
-  /**
-   * {@code STREET_ADDRESS} indicates a precise street address.
-   */
+  /** {@code STREET_ADDRESS} indicates a precise street address. */
   STREET_ADDRESS("street_address"),
 
-  /**
-   * {@code ROUTE} indicates a named route (such as "US 101").
-   */
+  /** {@code ROUTE} indicates a named route (such as "US 101"). */
   ROUTE("route"),
 
-  /**
-   * {@code INTERSECTION} indicates a major intersection, usually of two major roads.
-   */
+  /** {@code INTERSECTION} indicates a major intersection, usually of two major roads. */
   INTERSECTION("intersection"),
 
   /**
@@ -84,18 +78,15 @@ public enum AddressComponentType {
    */
   ADMINISTRATIVE_AREA_LEVEL_5("administrative_area_level_5"),
 
-  /**
-   * {@code COLLOQUIAL_AREA} indicates a commonly-used alternative name for the entity.
-   */
+  /** {@code COLLOQUIAL_AREA} indicates a commonly-used alternative name for the entity. */
   COLLOQUIAL_AREA("colloquial_area"),
 
-  /**
-   * {@code LOCALITY} indicates an incorporated city or town political entity.
-   */
+  /** {@code LOCALITY} indicates an incorporated city or town political entity. */
   LOCALITY("locality"),
 
   /**
-   * {@code WARD} indicates a specific type of Japanese locality, to facilitate distinction between multiple locality components within a Japanese address.
+   * {@code WARD} indicates a specific type of Japanese locality, to facilitate distinction between
+   * multiple locality components within a Japanese address.
    */
   WARD("ward"),
 
@@ -111,10 +102,7 @@ public enum AddressComponentType {
   SUBLOCALITY_LEVEL_4("sublocality_level_4"),
   SUBLOCALITY_LEVEL_5("sublocality_level_5"),
 
-
-  /**
-   * {@code NEIGHBORHOOD} indicates a named neighborhood.
-   */
+  /** {@code NEIGHBORHOOD} indicates a named neighborhood. */
   NEIGHBORHOOD("neighborhood"),
 
   /**
@@ -146,19 +134,13 @@ public enum AddressComponentType {
    */
   POSTAL_CODE_SUFFIX("postal_code_suffix"),
 
-  /**
-   * {@code NATURAL_FEATURE} indicates a prominent natural feature.
-   */
+  /** {@code NATURAL_FEATURE} indicates a prominent natural feature. */
   NATURAL_FEATURE("natural_feature"),
 
-  /**
-   * {@code AIRPORT} indicates an airport.
-   */
+  /** {@code AIRPORT} indicates an airport. */
   AIRPORT("airport"),
 
-  /**
-   * {@code PARK} indicates a named park.
-   */
+  /** {@code PARK} indicates a named park. */
   PARK("park"),
 
   /**
@@ -168,24 +150,16 @@ public enum AddressComponentType {
    */
   POINT_OF_INTEREST("point_of_interest"),
 
-  /**
-   * {@code FLOOR} indicates the floor of a building address.
-   */
+  /** {@code FLOOR} indicates the floor of a building address. */
   FLOOR("floor"),
 
-  /**
-   * {@code ESTABLISHMENT} typically indicates a place that has not yet been categorized.
-   */
+  /** {@code ESTABLISHMENT} typically indicates a place that has not yet been categorized. */
   ESTABLISHMENT("establishment"),
 
-  /**
-   * {@code PARKING} indicates a parking lot or parking structure.
-   */
+  /** {@code PARKING} indicates a parking lot or parking structure. */
   PARKING("parking"),
 
-  /**
-   * {@code POST_BOX} indicates a specific postal box.
-   */
+  /** {@code POST_BOX} indicates a specific postal box. */
   POST_BOX("post_box"),
 
   /**
@@ -194,39 +168,25 @@ public enum AddressComponentType {
    */
   POSTAL_TOWN("postal_town"),
 
-  /**
-   * {@code ROOM} indicates the room of a building address.
-   */
+  /** {@code ROOM} indicates the room of a building address. */
   ROOM("room"),
 
-  /**
-   * {@code STREET_NUMBER} indicates the precise street number.
-   */
+  /** {@code STREET_NUMBER} indicates the precise street number. */
   STREET_NUMBER("street_number"),
 
-  /**
-   * {@code BUS_STATION} indicates the location of a bus stop.
-   */
+  /** {@code BUS_STATION} indicates the location of a bus stop. */
   BUS_STATION("bus_station"),
 
-  /**
-   * {@code TRAIN_STATION} indicates the location of a train station.
-   */
+  /** {@code TRAIN_STATION} indicates the location of a train station. */
   TRAIN_STATION("train_station"),
 
-  /**
-   * {@code SUBWAY_STATION} indicates the location of a subway station.
-   */
+  /** {@code SUBWAY_STATION} indicates the location of a subway station. */
   SUBWAY_STATION("subway_station"),
 
-  /**
-   * {@code TRANSIT_STATION} indicates the location of a transit station.
-   */
+  /** {@code TRANSIT_STATION} indicates the location of a transit station. */
   TRANSIT_STATION("transit_station"),
-  
-  /**
-   * {@code LIGHT_RAIL_STATION} indicates the location of a light rail station.
-   */
+
+  /** {@code LIGHT_RAIL_STATION} indicates the location of a light rail station. */
   LIGHT_RAIL_STATION("light_rail_station"),
 
   /**
@@ -249,6 +209,4 @@ public enum AddressComponentType {
   public String toCanonicalLiteral() {
     return toString();
   }
-
 }
-

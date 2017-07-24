@@ -18,14 +18,13 @@ package com.google.maps.model;
 /**
  * The vehicle used on a line.
  *
- * <p>See <a href="https://developers.google.com/maps/documentation/directions/intro#TransitDetails">
- * Transit details</a> for more detail.
+ * <p>See <a
+ * href="https://developers.google.com/maps/documentation/directions/intro#TransitDetails">Transit
+ * details</a> for more detail.
  */
 public class Vehicle {
 
-  /**
-   * {@code name} contains the name of the vehicle on this line. eg. "Subway."
-   */
+  /** {@code name} contains the name of the vehicle on this line. eg. "Subway." */
   public String name;
 
   /**
@@ -35,13 +34,9 @@ public class Vehicle {
    */
   public VehicleType type;
 
-  /**
-   * {@code icon} contains the URL for an icon associated with this vehicle type.
-   */
+  /** {@code icon} contains the URL for an icon associated with this vehicle type. */
   public String icon;
 
-  /**
-   * {@code localIcon} contains the URL for an icon based on the local transport signage.
-   */
+  /** {@code localIcon} contains the URL for an icon based on the local transport signage. */
   public String localIcon;
 }

@@ -15,9 +15,7 @@
 
 package com.google.maps.model;
 
-/**
- * A speed limit result from the Roads API.
- */
+/** A speed limit result from the Roads API. */
 public class SpeedLimit {
   /**
    * {@code placeId} is a unique identifier for a place. All placeIds returned by the Roads API will
@@ -32,9 +30,7 @@ public class SpeedLimit {
    */
   public double speedLimit;
 
-  /**
-   * Returns the speed limit in miles per hour (MPH).
-   */
+  /** @return Returns the speed limit in miles per hour (MPH). */
   public long speedLimitMph() {
     return Math.round(speedLimit * 0.621371);
   }

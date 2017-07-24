@@ -32,6 +32,7 @@ import com.google.maps.model.AddressComponentType;
 import com.google.maps.model.AddressType;
 import com.google.maps.model.Distance;
 import com.google.maps.model.Duration;
+import com.google.maps.model.EncodedPolyline;
 import com.google.maps.model.Fare;
 import com.google.maps.model.LatLng;
 import com.google.maps.model.LocationType;
@@ -40,30 +41,26 @@ import com.google.maps.model.PhotoResult;
 import com.google.maps.model.PlaceDetails.Review.AspectRating.RatingType;
 import com.google.maps.model.PriceLevel;
 import com.google.maps.model.TravelMode;
-import com.google.maps.model.EncodedPolyline;
-import org.joda.time.DateTime;
-import org.joda.time.Instant;
-import org.joda.time.LocalTime;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
-
+import org.joda.time.DateTime;
+import org.joda.time.Instant;
+import org.joda.time.LocalTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * A PendingResult backed by a HTTP call executed by Google App Engine URL Fetch capability,
- * a deserialization step using Gson, and a retry policy.
+ * A PendingResult backed by a HTTP call executed by Google App Engine URL Fetch capability, a
+ * deserialization step using Gson, and a retry policy.
  *
  * <p>{@code T} is the type of the result of this pending result, and {@code R} is the type of the
  * request.
  */
-public class GaePendingResult<T, R extends ApiResponse<T>>
-    implements PendingResult<T> {
+public class GaePendingResult<T, R extends ApiResponse<T>> implements PendingResult<T> {
   private final HTTPRequest request;
   private final URLFetchService client;
   private final Class<R> responseClass;
@@ -80,16 +77,21 @@ public class GaePendingResult<T, R extends ApiResponse<T>>
   private static final List<Integer> RETRY_ERROR_CODES = Arrays.asList(500, 503, 504);
 
   /**
-   * @param request           HTTP request to execute.
-   * @param client            The client used to execute the request.
-   * @param responseClass     Model class to unmarshal JSON body content.
+   * @param request HTTP request to execute.
+   * @param client The client used to execute the request.
+   * @param responseClass Model class to unmarshal JSON body content.
    * @param fieldNamingPolicy FieldNamingPolicy for unmarshaling JSON.
-   * @param errorTimeOut      Number of milliseconds to re-send erroring requests.
-   * @param maxRetries        Number of times allowed to re-send erroring requests.
+   * @param errorTimeOut Number of milliseconds to re-send erroring requests.
+   * @param maxRetries Number of times allowed to re-send erroring requests.
    */
-  public GaePendingResult(HTTPRequest request, URLFetchService client, Class<R> responseClass,
-                          FieldNamingPolicy fieldNamingPolicy, long errorTimeOut, Integer maxRetries,
-                          ExceptionsAllowedToRetry exceptionsAllowedToRetry) {
+  public GaePendingResult(
+      HTTPRequest request,
+      URLFetchService client,
+      Class<R> responseClass,
+      FieldNamingPolicy fieldNamingPolicy,
+      long errorTimeOut,
+      Integer maxRetries,
+      ExceptionsAllowedToRetry exceptionsAllowedToRetry) {
     this.request = request;
     this.client = client;
     this.responseClass = responseClass;
@@ -136,7 +138,6 @@ public class GaePendingResult<T, R extends ApiResponse<T>>
     call.cancel(true);
   }
 
-
   @SuppressWarnings("unchecked")
   private T parseResponse(GaePendingResult<T, R> request, HTTPResponse response)
       throws IOException, ApiException, InterruptedException {
@@ -157,10 +158,10 @@ public class GaePendingResult<T, R extends ApiResponse<T>>
     }
 
     // Places Photo API special case
-    if (contentType != null &&
-        contentType.startsWith("image") &&
-        responseClass == PhotoRequest.Response.class &&
-        response.getResponseCode() == 200) {
+    if (contentType != null
+        && contentType.startsWith("image")
+        && responseClass == PhotoRequest.Response.class
+        && response.getResponseCode() == 200) {
       // Photo API response is just a raw image byte array.
       PhotoResult result = new PhotoResult();
       result.contentType = contentType;
@@ -168,26 +169,32 @@ public class GaePendingResult<T, R extends ApiResponse<T>>
       return (T) result;
     }
 
-    Gson gson = new GsonBuilder()
-        .registerTypeAdapter(DateTime.class, new DateTimeAdapter())
-        .registerTypeAdapter(Distance.class, new DistanceAdapter())
-        .registerTypeAdapter(Duration.class, new DurationAdapter())
-        .registerTypeAdapter(Fare.class, new FareAdapter())
-        .registerTypeAdapter(LatLng.class, new LatLngAdapter())
-        .registerTypeAdapter(AddressComponentType.class,
-            new SafeEnumAdapter<AddressComponentType>(AddressComponentType.UNKNOWN))
-        .registerTypeAdapter(AddressType.class, new SafeEnumAdapter<AddressType>(AddressType.UNKNOWN))
-        .registerTypeAdapter(TravelMode.class, new SafeEnumAdapter<TravelMode>(TravelMode.UNKNOWN))
-        .registerTypeAdapter(LocationType.class, new SafeEnumAdapter<LocationType>(LocationType.UNKNOWN))
-        .registerTypeAdapter(RatingType.class, new SafeEnumAdapter<RatingType>(RatingType.UNKNOWN))
-        .registerTypeAdapter(DayOfWeek.class, new DayOfWeekAdaptor())
-        .registerTypeAdapter(PriceLevel.class, new PriceLevelAdaptor())
-        .registerTypeAdapter(Instant.class, new InstantAdapter())
-        .registerTypeAdapter(LocalTime.class, new LocalTimeAdapter())
-        .registerTypeAdapter(GeolocationApi.Response.class, new GeolocationResponseAdapter())
-		.registerTypeAdapter(EncodedPolyline.class,new EncodedPolylineInstanceCreator(""))
-        .setFieldNamingPolicy(fieldNamingPolicy)
-        .create();
+    Gson gson =
+        new GsonBuilder()
+            .registerTypeAdapter(DateTime.class, new DateTimeAdapter())
+            .registerTypeAdapter(Distance.class, new DistanceAdapter())
+            .registerTypeAdapter(Duration.class, new DurationAdapter())
+            .registerTypeAdapter(Fare.class, new FareAdapter())
+            .registerTypeAdapter(LatLng.class, new LatLngAdapter())
+            .registerTypeAdapter(
+                AddressComponentType.class,
+                new SafeEnumAdapter<AddressComponentType>(AddressComponentType.UNKNOWN))
+            .registerTypeAdapter(
+                AddressType.class, new SafeEnumAdapter<AddressType>(AddressType.UNKNOWN))
+            .registerTypeAdapter(
+                TravelMode.class, new SafeEnumAdapter<TravelMode>(TravelMode.UNKNOWN))
+            .registerTypeAdapter(
+                LocationType.class, new SafeEnumAdapter<LocationType>(LocationType.UNKNOWN))
+            .registerTypeAdapter(
+                RatingType.class, new SafeEnumAdapter<RatingType>(RatingType.UNKNOWN))
+            .registerTypeAdapter(DayOfWeek.class, new DayOfWeekAdaptor())
+            .registerTypeAdapter(PriceLevel.class, new PriceLevelAdaptor())
+            .registerTypeAdapter(Instant.class, new InstantAdapter())
+            .registerTypeAdapter(LocalTime.class, new LocalTimeAdapter())
+            .registerTypeAdapter(GeolocationApi.Response.class, new GeolocationResponseAdapter())
+            .registerTypeAdapter(EncodedPolyline.class, new EncodedPolylineInstanceCreator(""))
+            .setFieldNamingPolicy(fieldNamingPolicy)
+            .create();
 
     // Attempt to de-serialize before checking the HTTP status code, as there may be JSON in the
     // body that we can use to provide a more descriptive exception.
@@ -199,8 +206,11 @@ public class GaePendingResult<T, R extends ApiResponse<T>>
         // Some of the APIs return 200 even when the API request fails, as long as the transport
         // mechanism succeeds. In these cases, INVALID_RESPONSE, etc are handled by the Gson
         // parsing.
-        throw new IOException(String.format("Server Error: %d %s", response.getResponseCode(),
-            new String(response.getContent(), Charset.defaultCharset())));
+        throw new IOException(
+            String.format(
+                "Server Error: %d %s",
+                response.getResponseCode(),
+                new String(response.getContent(), Charset.defaultCharset())));
       }
 
       // Otherwise just cough up the syntax exception.
@@ -222,9 +232,9 @@ public class GaePendingResult<T, R extends ApiResponse<T>>
     }
   }
 
-  private T retry() throws IOException, ApiException, InterruptedException  {
+  private T retry() throws IOException, ApiException, InterruptedException {
     retryCounter++;
-    LOG.info("Retrying request. Retry #{}",retryCounter);
+    LOG.info("Retrying request. Retry #{}", retryCounter);
     this.call = client.fetchAsync(request);
     return this.await();
   }

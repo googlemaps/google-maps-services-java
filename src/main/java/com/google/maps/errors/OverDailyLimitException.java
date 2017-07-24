@@ -15,9 +15,7 @@
 
 package com.google.maps.errors;
 
-/**
- * Indicates that the requesting account has exceeded daily quota.
- */
+/** Indicates that the requesting account has exceeded daily quota. */
 public class OverDailyLimitException extends ApiException {
 
   public OverDailyLimitException(String errorMessage) {

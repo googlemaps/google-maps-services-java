@@ -21,12 +21,10 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 import com.google.maps.SmallTests;
-
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
-
 import java.util.HashMap;
 import java.util.Map;
+import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 @Category(SmallTests.class)
 public class EnumsTest {
@@ -37,7 +35,6 @@ public class EnumsTest {
     assertCannotGetUrlValue(AddressType.UNKNOWN);
     assertCannotGetUrlValue(LocationType.UNKNOWN);
     assertCannotGetUrlValue(TravelMode.UNKNOWN);
-
   }
 
   @Test
@@ -48,16 +45,16 @@ public class EnumsTest {
     addressTypeToLiteralMap.put(AddressType.INTERSECTION, "intersection");
     addressTypeToLiteralMap.put(AddressType.POLITICAL, "political");
     addressTypeToLiteralMap.put(AddressType.COUNTRY, "country");
-    addressTypeToLiteralMap.put(AddressType.ADMINISTRATIVE_AREA_LEVEL_1,
-                                "administrative_area_level_1");
-    addressTypeToLiteralMap.put(AddressType.ADMINISTRATIVE_AREA_LEVEL_2,
-                                "administrative_area_level_2");
-    addressTypeToLiteralMap.put(AddressType.ADMINISTRATIVE_AREA_LEVEL_3,
-                                "administrative_area_level_3");
-    addressTypeToLiteralMap.put(AddressType.ADMINISTRATIVE_AREA_LEVEL_4,
-                                "administrative_area_level_4");
-    addressTypeToLiteralMap.put(AddressType.ADMINISTRATIVE_AREA_LEVEL_5,
-                                "administrative_area_level_5");
+    addressTypeToLiteralMap.put(
+        AddressType.ADMINISTRATIVE_AREA_LEVEL_1, "administrative_area_level_1");
+    addressTypeToLiteralMap.put(
+        AddressType.ADMINISTRATIVE_AREA_LEVEL_2, "administrative_area_level_2");
+    addressTypeToLiteralMap.put(
+        AddressType.ADMINISTRATIVE_AREA_LEVEL_3, "administrative_area_level_3");
+    addressTypeToLiteralMap.put(
+        AddressType.ADMINISTRATIVE_AREA_LEVEL_4, "administrative_area_level_4");
+    addressTypeToLiteralMap.put(
+        AddressType.ADMINISTRATIVE_AREA_LEVEL_5, "administrative_area_level_5");
     addressTypeToLiteralMap.put(AddressType.COLLOQUIAL_AREA, "colloquial_area");
     addressTypeToLiteralMap.put(AddressType.LOCALITY, "locality");
     addressTypeToLiteralMap.put(AddressType.WARD, "ward");
@@ -89,8 +86,8 @@ public class EnumsTest {
 
     for (Map.Entry<AddressType, String> addressTypeLiteralPair :
         addressTypeToLiteralMap.entrySet()) {
-      assertEquals(addressTypeLiteralPair.getValue(),
-                   addressTypeLiteralPair.getKey().toCanonicalLiteral());
+      assertEquals(
+          addressTypeLiteralPair.getValue(), addressTypeLiteralPair.getKey().toCanonicalLiteral());
     }
   }
 
@@ -103,51 +100,52 @@ public class EnumsTest {
     addressComponentTypeToLiteralMap.put(AddressComponentType.INTERSECTION, "intersection");
     addressComponentTypeToLiteralMap.put(AddressComponentType.POLITICAL, "political");
     addressComponentTypeToLiteralMap.put(AddressComponentType.COUNTRY, "country");
-    addressComponentTypeToLiteralMap.put(AddressComponentType.ADMINISTRATIVE_AREA_LEVEL_1,
-                                "administrative_area_level_1");
-    addressComponentTypeToLiteralMap.put(AddressComponentType.ADMINISTRATIVE_AREA_LEVEL_2,
-                                "administrative_area_level_2");
-    addressComponentTypeToLiteralMap.put(AddressComponentType.ADMINISTRATIVE_AREA_LEVEL_3,
-                                "administrative_area_level_3");
-    addressComponentTypeToLiteralMap.put(AddressComponentType.ADMINISTRATIVE_AREA_LEVEL_4,
-                                "administrative_area_level_4");
-    addressComponentTypeToLiteralMap.put(AddressComponentType.ADMINISTRATIVE_AREA_LEVEL_5,
-                                "administrative_area_level_5");
+    addressComponentTypeToLiteralMap.put(
+        AddressComponentType.ADMINISTRATIVE_AREA_LEVEL_1, "administrative_area_level_1");
+    addressComponentTypeToLiteralMap.put(
+        AddressComponentType.ADMINISTRATIVE_AREA_LEVEL_2, "administrative_area_level_2");
+    addressComponentTypeToLiteralMap.put(
+        AddressComponentType.ADMINISTRATIVE_AREA_LEVEL_3, "administrative_area_level_3");
+    addressComponentTypeToLiteralMap.put(
+        AddressComponentType.ADMINISTRATIVE_AREA_LEVEL_4, "administrative_area_level_4");
+    addressComponentTypeToLiteralMap.put(
+        AddressComponentType.ADMINISTRATIVE_AREA_LEVEL_5, "administrative_area_level_5");
     addressComponentTypeToLiteralMap.put(AddressComponentType.COLLOQUIAL_AREA, "colloquial_area");
     addressComponentTypeToLiteralMap.put(AddressComponentType.LOCALITY, "locality");
     addressComponentTypeToLiteralMap.put(AddressComponentType.WARD, "ward");
     addressComponentTypeToLiteralMap.put(AddressComponentType.SUBLOCALITY, "sublocality");
-    addressComponentTypeToLiteralMap.put(AddressComponentType.SUBLOCALITY_LEVEL_1,
-                                         "sublocality_level_1");
-    addressComponentTypeToLiteralMap.put(AddressComponentType.SUBLOCALITY_LEVEL_2,
-                                         "sublocality_level_2");
-    addressComponentTypeToLiteralMap.put(AddressComponentType.SUBLOCALITY_LEVEL_3,
-                                         "sublocality_level_3");
-    addressComponentTypeToLiteralMap.put(AddressComponentType.SUBLOCALITY_LEVEL_4,
-                                         "sublocality_level_4");
-    addressComponentTypeToLiteralMap.put(AddressComponentType.SUBLOCALITY_LEVEL_5,
-                                         "sublocality_level_5");
+    addressComponentTypeToLiteralMap.put(
+        AddressComponentType.SUBLOCALITY_LEVEL_1, "sublocality_level_1");
+    addressComponentTypeToLiteralMap.put(
+        AddressComponentType.SUBLOCALITY_LEVEL_2, "sublocality_level_2");
+    addressComponentTypeToLiteralMap.put(
+        AddressComponentType.SUBLOCALITY_LEVEL_3, "sublocality_level_3");
+    addressComponentTypeToLiteralMap.put(
+        AddressComponentType.SUBLOCALITY_LEVEL_4, "sublocality_level_4");
+    addressComponentTypeToLiteralMap.put(
+        AddressComponentType.SUBLOCALITY_LEVEL_5, "sublocality_level_5");
     addressComponentTypeToLiteralMap.put(AddressComponentType.NEIGHBORHOOD, "neighborhood");
     addressComponentTypeToLiteralMap.put(AddressComponentType.PREMISE, "premise");
     addressComponentTypeToLiteralMap.put(AddressComponentType.SUBPREMISE, "subpremise");
     addressComponentTypeToLiteralMap.put(AddressComponentType.POSTAL_CODE, "postal_code");
     addressComponentTypeToLiteralMap.put(AddressComponentType.POST_BOX, "post_box");
-    addressComponentTypeToLiteralMap.put(AddressComponentType.POSTAL_CODE_PREFIX,
-                                         "postal_code_prefix");
-    addressComponentTypeToLiteralMap.put(AddressComponentType.POSTAL_CODE_SUFFIX,
-                                         "postal_code_suffix");
+    addressComponentTypeToLiteralMap.put(
+        AddressComponentType.POSTAL_CODE_PREFIX, "postal_code_prefix");
+    addressComponentTypeToLiteralMap.put(
+        AddressComponentType.POSTAL_CODE_SUFFIX, "postal_code_suffix");
     addressComponentTypeToLiteralMap.put(AddressComponentType.NATURAL_FEATURE, "natural_feature");
     addressComponentTypeToLiteralMap.put(AddressComponentType.AIRPORT, "airport");
     addressComponentTypeToLiteralMap.put(AddressComponentType.PARK, "park");
     addressComponentTypeToLiteralMap.put(AddressComponentType.FLOOR, "floor");
     addressComponentTypeToLiteralMap.put(AddressComponentType.PARKING, "parking");
-    addressComponentTypeToLiteralMap.put(AddressComponentType.POINT_OF_INTEREST,
-                                         "point_of_interest");
+    addressComponentTypeToLiteralMap.put(
+        AddressComponentType.POINT_OF_INTEREST, "point_of_interest");
     addressComponentTypeToLiteralMap.put(AddressComponentType.BUS_STATION, "bus_station");
     addressComponentTypeToLiteralMap.put(AddressComponentType.TRAIN_STATION, "train_station");
     addressComponentTypeToLiteralMap.put(AddressComponentType.SUBWAY_STATION, "subway_station");
     addressComponentTypeToLiteralMap.put(AddressComponentType.TRANSIT_STATION, "transit_station");
-    addressComponentTypeToLiteralMap.put(AddressComponentType.LIGHT_RAIL_STATION, "light_rail_station");
+    addressComponentTypeToLiteralMap.put(
+        AddressComponentType.LIGHT_RAIL_STATION, "light_rail_station");
     addressComponentTypeToLiteralMap.put(AddressComponentType.ESTABLISHMENT, "establishment");
     addressComponentTypeToLiteralMap.put(AddressComponentType.POSTAL_TOWN, "postal_town");
     addressComponentTypeToLiteralMap.put(AddressComponentType.ROOM, "room");
@@ -155,11 +153,13 @@ public class EnumsTest {
 
     for (Map.Entry<AddressComponentType, String> AddressComponentTypeLiteralPair :
         addressComponentTypeToLiteralMap.entrySet()) {
-      assertEquals(AddressComponentTypeLiteralPair.getValue(),
-                   AddressComponentTypeLiteralPair.getKey().toCanonicalLiteral());
+      assertEquals(
+          AddressComponentTypeLiteralPair.getValue(),
+          AddressComponentTypeLiteralPair.getKey().toCanonicalLiteral());
     }
-    assertEquals(addressComponentTypeToLiteralMap.size() + 1, // 1 for unknown
-                 AddressComponentType.values().length);
+    assertEquals(
+        addressComponentTypeToLiteralMap.size() + 1, // 1 for unknown
+        AddressComponentType.values().length);
   }
 
   private static <T extends UrlValue> void assertCannotGetUrlValue(T unknown) {

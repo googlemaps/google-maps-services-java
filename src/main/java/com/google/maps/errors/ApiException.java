@@ -30,7 +30,7 @@ public class ApiException extends Exception {
    * Construct the appropriate ApiException from the response. If the response was successful, this
    * method will return null.
    *
-   * @param status       The status field returned from the API
+   * @param status The status field returned from the API
    * @param errorMessage The error message returned from the API
    * @return The appropriate ApiException based on the status or null if no error occurred.
    */
@@ -45,7 +45,8 @@ public class ApiException extends Exception {
     } else if ("NOT_FOUND".equals(status)) {
       return new NotFoundException(errorMessage);
     } else if ("OVER_QUERY_LIMIT".equals(status)) {
-      if ("You have exceeded your daily request quota for this API.".equalsIgnoreCase(errorMessage)) {
+      if ("You have exceeded your daily request quota for this API."
+          .equalsIgnoreCase(errorMessage)) {
         return new OverDailyLimitException(errorMessage);
       }
       return new OverQueryLimitException(errorMessage);
@@ -69,24 +70,23 @@ public class ApiException extends Exception {
     }
 
     // Geolocation Errors
-    if("keyInvalid".equals(status)) {
+    if ("keyInvalid".equals(status)) {
       return new AccessNotConfiguredException(errorMessage);
-    } else if("dailyLimitExceeded".equals(status)) {
+    } else if ("dailyLimitExceeded".equals(status)) {
       return new OverDailyLimitException(errorMessage);
-    } else if("userRateLimitExceeded".equals(status)) {
+    } else if ("userRateLimitExceeded".equals(status)) {
       return new OverQueryLimitException(errorMessage);
-    } else if("notFound".equals(status)) {
+    } else if ("notFound".equals(status)) {
       return new NotFoundException(errorMessage);
-    } else if("parseError".equals(status)) {
+    } else if ("parseError".equals(status)) {
       return new InvalidRequestException(errorMessage);
-    } else if("invalid".equals(status)) {
+    } else if ("invalid".equals(status)) {
       return new InvalidRequestException(errorMessage);
     }
 
     // We've hit an unknown error. This is not a state we should hit,
     // but we don't want to crash a user's application if we introduce a new error.
-    return new UnknownErrorException("An unexpected error occurred. "
-        + "Status: " + status + ", "
-        + "Message: " + errorMessage);
+    return new UnknownErrorException(
+        "An unexpected error occurred. Status: " + status + ", Message: " + errorMessage);
   }
 }
