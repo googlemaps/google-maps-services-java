@@ -426,7 +426,7 @@ public class GeoApiContext {
     }
 
     /**
-     * Disable retries completely.
+     * Disable retries completely, by setting max retries to 0 and retry timeout to 0.
      *
      * @return Returns this builder for call chaining.
      */
