@@ -60,6 +60,10 @@ public class RoadsApi {
   /**
    * Takes up to 100 GPS points collected along a route, and returns a similar set of data with the
    * points snapped to the most likely roads the vehicle was traveling along.
+   *
+   * @param context The {@link GeoApiContext} to make requests through.
+   * @param path The collected GPS points as a path.
+   * @return Returns the snapped points as a {@link PendingResult}.
    */
   public static PendingResult<SnappedPoint[]> snapToRoads(GeoApiContext context, LatLng... path) {
     return context.get(SNAP_TO_ROADS_API_CONFIG, RoadsResponse.class, "path", join('|', path));
@@ -71,11 +75,13 @@ public class RoadsApi {
    * request that the points be interpolated, resulting in a path that smoothly follows the geometry
    * of the road.
    *
+   * @param context The {@link GeoApiContext} to make requests through.
    * @param interpolate Whether to interpolate a path to include all points forming the full
    *     road-geometry. When true, additional interpolated points will also be returned, resulting
    *     in a path that smoothly follows the geometry of the road, even around corners and through
    *     tunnels.
    * @param path The path to be snapped.
+   * @return Returns the snapped points as a {@link PendingResult}.
    */
   public static PendingResult<SnappedPoint[]> snapToRoads(
       GeoApiContext context, boolean interpolate, LatLng... path) {
@@ -96,6 +102,10 @@ public class RoadsApi {
    * guaranteed. Speed limit data provided is not real-time, and may be estimated, inaccurate,
    * incomplete, and/or outdated. Inaccuracies in our data may be reported through the <a
    * href="http://www.google.com/mapmaker">Google Map Maker</a> service.
+   *
+   * @param context The {@link GeoApiContext} to make requests through.
+   * @param path The collected GPS points as a path.
+   * @return Returns the speed limits as a {@link PendingResult}.
    */
   public static PendingResult<SpeedLimit[]> speedLimits(GeoApiContext context, LatLng... path) {
     return context.get(SPEEDS_API_CONFIG, SpeedsResponse.class, "path", join('|', path));
@@ -109,9 +119,11 @@ public class RoadsApi {
    * incomplete, and/or outdated. Inaccuracies in our data may be reported through the <a
    * href="http://www.google.com/mapmaker">Google Map Maker</a> service.
    *
+   * @param context The {@link GeoApiContext} to make requests through.
    * @param placeIds The Place ID of the road segment. Place IDs are returned by the {@link
    *     #snapToRoads(GeoApiContext, com.google.maps.model.LatLng...)} method. You can pass up to
    *     100 placeIds with each request.
+   * @return Returns the speed limits as a {@link PendingResult}.
    */
   public static PendingResult<SpeedLimit[]> speedLimits(GeoApiContext context, String... placeIds) {
     String[] placeParams = new String[2 * placeIds.length];
@@ -127,6 +139,10 @@ public class RoadsApi {
   /**
    * Returns the result of snapping the provided points to roads and retrieving the speed limits.
    * This is useful for interactive applications where you need to
+   *
+   * @param context The {@link GeoApiContext} to make requests through.
+   * @param path The collected GPS points as a path.
+   * @return Returns the snapped points and speed limits as a {@link PendingResult}.
    */
   public static PendingResult<SnappedSpeedLimitResponse> snappedSpeedLimits(
       GeoApiContext context, LatLng... path) {
@@ -137,7 +153,9 @@ public class RoadsApi {
    * Takes up to 100 GPS points, and returns the closest road segment for each point. The points
    * passed do not need to be part of a continuous path
    *
+   * @param context The {@link GeoApiContext} to make requests through.
    * @param points The sequence of points to be aligned to nearest roads
+   * @return Returns the snapped points as a {@link PendingResult}.
    */
   public static PendingResult<SnappedPoint[]> nearestRoads(
       GeoApiContext context, LatLng... points) {

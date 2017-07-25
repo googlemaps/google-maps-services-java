@@ -29,25 +29,49 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-/** The entry point for making requests against the Google Geo APIs. */
+/**
+ * The entry point for making requests against the Google Geo APIs.
+ *
+ * <p>Construct this object by using the enclosed {@link GeoApiContext.Builder}.
+ */
 public class GeoApiContext {
-  private static final Logger LOG = LoggerFactory.getLogger(GeoApiContext.class);
 
   private static final String VERSION = "@VERSION@"; // Populated by the build script
   private static final String USER_AGENT = "GoogleGeoApiClientJava/" + VERSION;
   private static final int DEFAULT_BACKOFF_TIMEOUT_MILLIS = 60 * 1000; // 60s
 
-  private String baseUrlOverride;
-  private String apiKey;
-  private String clientId;
-  private UrlSigner urlSigner;
-  private String channel;
-  private RequestHandler requestHandler;
-  private Integer maxRetries;
-  private ExceptionsAllowedToRetry exceptionsAllowedToRetry = new ExceptionsAllowedToRetry();
+  private final RequestHandler requestHandler;
+  private final String apiKey;
+  private final String baseUrlOverride;
+  private final String channel;
+  private final String clientId;
+  private final long errorTimeout;
+  private final ExceptionsAllowedToRetry exceptionsAllowedToRetry;
+  private final Integer maxRetries;
+  private final UrlSigner urlSigner;
+
+  /* package */
+  GeoApiContext(
+      RequestHandler requestHandler,
+      String apiKey,
+      String baseUrlOverride,
+      String channel,
+      String clientId,
+      long errorTimeout,
+      ExceptionsAllowedToRetry exceptionsAllowedToRetry,
+      Integer maxRetries,
+      UrlSigner urlSigner) {
+    this.requestHandler = requestHandler;
+    this.apiKey = apiKey;
+    this.baseUrlOverride = baseUrlOverride;
+    this.channel = channel;
+    this.clientId = clientId;
+    this.errorTimeout = errorTimeout;
+    this.exceptionsAllowedToRetry = exceptionsAllowedToRetry;
+    this.maxRetries = maxRetries;
+    this.urlSigner = urlSigner;
+  }
 
   /**
    * RequestHandler is the service provider interface that enables requests to be handled via
@@ -58,6 +82,7 @@ public class GeoApiContext {
    * @see GaeRequestHandler
    */
   public interface RequestHandler {
+
     <T, R extends ApiResponse<T>> PendingResult<T> handle(
         String hostName,
         String url,
@@ -79,37 +104,20 @@ public class GeoApiContext {
         Integer maxRetries,
         ExceptionsAllowedToRetry exceptionsAllowedToRetry);
 
-    void setConnectTimeout(long timeout, TimeUnit unit);
+    interface Builder {
 
-    void setReadTimeout(long timeout, TimeUnit unit);
+      void connectTimeout(long timeout, TimeUnit unit);
 
-    void setWriteTimeout(long timeout, TimeUnit unit);
+      void readTimeout(long timeout, TimeUnit unit);
 
-    void setQueriesPerSecond(int maxQps);
+      void writeTimeout(long timeout, TimeUnit unit);
 
-    @Deprecated
-    void setQueriesPerSecond(int maxQps, int minimumInterval);
+      void queriesPerSecond(int maxQps);
 
-    void setProxy(Proxy proxy);
-  }
+      void proxy(Proxy proxy);
 
-  private long errorTimeout = DEFAULT_BACKOFF_TIMEOUT_MILLIS;
-
-  /** Construct a GeoApiContext with OkHttp. */
-  public GeoApiContext() {
-    this(new OkHttpRequestHandler());
-  }
-
-  /**
-   * Construct a GeoApiContext with the specified strategy for handling requests.
-   *
-   * @see OkHttpRequestHandler
-   * @see GaeRequestHandler
-   * @param requestHandler How to handle URL requests to the Google Maps APIs.
-   */
-  public GeoApiContext(RequestHandler requestHandler) {
-    this.requestHandler = requestHandler;
-    this.exceptionsAllowedToRetry.add(OverQueryLimitException.class);
+      RequestHandler build();
+    }
   }
 
   <T, R extends ApiResponse<T>> PendingResult<T> get(
@@ -164,7 +172,8 @@ public class GeoApiContext {
       }
     }
 
-    // Channel can be supplied per-request or per-context. We prioritize it from the request, so if it's not provided there, provide it here
+    // Channel can be supplied per-request or per-context. We prioritize it from the request,
+    // so if it's not provided there, provide it here
     if (!channelSet && channel != null && !channel.isEmpty()) {
       query.append("&channel=").append(channel);
     }
@@ -264,140 +273,226 @@ public class GeoApiContext {
     }
   }
 
-  /**
-   * Override the base URL of the API endpoint. Useful only for testing.
-   *
-   * @param baseUrl The URL to use, without a trailing slash, e.g. https://maps.googleapis.com
-   */
-  GeoApiContext setBaseUrlForTesting(String baseUrl) {
-    baseUrlOverride = baseUrl;
-    return this;
-  }
+  /** This is the Builder for {@code GeoApiContext}. */
+  public static class Builder {
 
-  public GeoApiContext setApiKey(String apiKey) {
-    this.apiKey = apiKey;
-    return this;
-  }
+    private RequestHandler.Builder builder;
 
-  public GeoApiContext setEnterpriseCredentials(String clientId, String cryptographicSecret) {
-    this.clientId = clientId;
-    try {
-      this.urlSigner = new UrlSigner(cryptographicSecret);
-    } catch (NoSuchAlgorithmException | InvalidKeyException e) {
-      throw new IllegalStateException(e);
+    private String apiKey;
+    private String baseUrlOverride;
+    private String channel;
+    private String clientId;
+    private long errorTimeout = DEFAULT_BACKOFF_TIMEOUT_MILLIS;
+    private ExceptionsAllowedToRetry exceptionsAllowedToRetry = new ExceptionsAllowedToRetry();
+    private Integer maxRetries;
+    private UrlSigner urlSigner;
+
+    /** Builder pattern for the enclosing {@code GeoApiContext}. */
+    public Builder() {
+      requestHandlerBuilder(new OkHttpRequestHandler.Builder());
     }
-    return this;
-  }
 
-  /**
-   * Sets the default channel for requests (can be overridden by requests). Only useful for Google
-   * Maps for Work clients.
-   *
-   * @param channel The channel to use for analytics
-   */
-  public GeoApiContext setChannel(String channel) {
-    this.channel = channel;
-    return this;
-  }
-
-  /**
-   * Sets the default connect timeout for new connections. A value of 0 means no timeout.
-   *
-   * @see java.net.URLConnection#setConnectTimeout(int)
-   */
-  public GeoApiContext setConnectTimeout(long timeout, TimeUnit unit) {
-    requestHandler.setConnectTimeout(timeout, unit);
-    return this;
-  }
-
-  /**
-   * Sets the default read timeout for new connections. A value of 0 means no timeout.
-   *
-   * @see java.net.URLConnection#setReadTimeout(int)
-   */
-  public GeoApiContext setReadTimeout(long timeout, TimeUnit unit) {
-    requestHandler.setReadTimeout(timeout, unit);
-    return this;
-  }
-
-  /** Sets the default write timeout for new connections. A value of 0 means no timeout. */
-  public GeoApiContext setWriteTimeout(long timeout, TimeUnit unit) {
-    requestHandler.setWriteTimeout(timeout, unit);
-    return this;
-  }
-
-  /**
-   * Sets the cumulative time limit for which retry-able errors will be retried. Defaults to 60
-   * seconds. Set to zero to retry requests forever.
-   *
-   * <p>This operates separately from the count-based {@link #setMaxRetries(Integer)}.
-   */
-  public GeoApiContext setRetryTimeout(long timeout, TimeUnit unit) {
-    this.errorTimeout = unit.toMillis(timeout);
-    return this;
-  }
-
-  /**
-   * Sets the maximum number of times each retry-able errors will be retried. Set this to null to
-   * not have a max number. Set this to zero to disable retries.
-   *
-   * <p>This operates separately from the time-based {@link #setRetryTimeout(long, TimeUnit)}.
-   */
-  public GeoApiContext setMaxRetries(Integer maxRetries) {
-    this.maxRetries = maxRetries;
-    return this;
-  }
-
-  /** Disable retries completely. */
-  public GeoApiContext disableRetries() {
-    setMaxRetries(0);
-    setRetryTimeout(0, TimeUnit.MILLISECONDS);
-    return this;
-  }
-
-  /**
-   * Sets the maximum number of queries that will be executed during a 1 second interval. The
-   * default is 10. A minimum interval between requests will also be enforced, set to 1/(2 * {@code
-   * maxQps}).
-   */
-  public GeoApiContext setQueryRateLimit(int maxQps) {
-    requestHandler.setQueriesPerSecond(maxQps);
-    return this;
-  }
-
-  /**
-   * Sets the rate at which queries are executed.
-   *
-   * @param maxQps The maximum number of queries to execute per second.
-   * @param minimumInterval The minimum amount of time, in milliseconds, to pause between requests.
-   *     Note that this pause only occurs if the amount of time between requests has not elapsed
-   *     naturally.
-   * @deprecated Please use {@link #setQueryRateLimit(int)} instead.
-   */
-  @Deprecated
-  public GeoApiContext setQueryRateLimit(int maxQps, int minimumInterval) {
-    requestHandler.setQueriesPerSecond(maxQps, minimumInterval);
-    return this;
-  }
-
-  /** Allows specific API exceptions to be retried or not retried. */
-  public GeoApiContext toggleifExceptionIsAllowedToRetry(
-      Class<? extends ApiException> exception, boolean allowedToRetry) {
-    if (allowedToRetry) {
-      exceptionsAllowedToRetry.add(exception);
-    } else {
-      exceptionsAllowedToRetry.remove(exception);
+    /**
+     * Change the RequestHandler.Builder strategy to change between the {@code OkHttpRequestHandler}
+     * and the {@code OkHttpRequestHandler}.
+     *
+     * @param builder The {@code RequestHandler.Builder} to use for {@link #build()}
+     * @return Returns this builder for call chaining.
+     * @see OkHttpRequestHandler
+     * @see GaeRequestHandler
+     */
+    public Builder requestHandlerBuilder(RequestHandler.Builder builder) {
+      this.builder = builder;
+      this.exceptionsAllowedToRetry.add(OverQueryLimitException.class);
+      return this;
     }
-    return this;
-  }
 
-  /**
-   * Sets the proxy for new connections.
-   *
-   * @param proxy The proxy to be used by the underlying HTTP client.
-   */
-  public GeoApiContext setProxy(Proxy proxy) {
-    requestHandler.setProxy(proxy == null ? Proxy.NO_PROXY : proxy);
-    return this;
+    /**
+     * Override the base URL of the API endpoint. Useful only for testing.
+     *
+     * @param baseUrl The URL to use, without a trailing slash, e.g. https://maps.googleapis.com
+     * @return Returns this builder for call chaining.
+     */
+    Builder baseUrlForTesting(String baseUrl) {
+      baseUrlOverride = baseUrl;
+      return this;
+    }
+
+    /**
+     * Set the API Key to use for authorizing requests.
+     *
+     * @param apiKey The API Key to use.
+     * @return Returns this builder for call chaining.
+     */
+    public Builder apiKey(String apiKey) {
+      this.apiKey = apiKey;
+      return this;
+    }
+
+    /**
+     * Set the ClientID / Secret pair to use for authorizing requests.
+     *
+     * @param clientId The Client ID to use.
+     * @param cryptographicSecret The Secret to use.
+     * @return Returns this builder for call chaining.
+     */
+    public Builder enterpriseCredentials(String clientId, String cryptographicSecret) {
+      this.clientId = clientId;
+      try {
+        this.urlSigner = new UrlSigner(cryptographicSecret);
+      } catch (NoSuchAlgorithmException | InvalidKeyException e) {
+        throw new IllegalStateException(e);
+      }
+      return this;
+    }
+
+    /**
+     * Sets the default channel for requests (can be overridden by requests). Only useful for Google
+     * Maps for Work clients.
+     *
+     * @param channel The channel to use for analytics
+     * @return Returns this builder for call chaining.
+     */
+    public Builder channel(String channel) {
+      this.channel = channel;
+      return this;
+    }
+
+    /**
+     * Sets the default connect timeout for new connections. A value of 0 means no timeout.
+     *
+     * @see java.net.URLConnection#setConnectTimeout(int)
+     * @param timeout The connect timeout period in {@code unit}s.
+     * @param unit The connect timeout time unit.
+     * @return Returns this builder for call chaining.
+     */
+    public Builder connectTimeout(long timeout, TimeUnit unit) {
+      builder.connectTimeout(timeout, unit);
+      return this;
+    }
+
+    /**
+     * Sets the default read timeout for new connections. A value of 0 means no timeout.
+     *
+     * @see java.net.URLConnection#setReadTimeout(int)
+     * @param timeout The read timeout period in {@code unit}s.
+     * @param unit The read timeout time unit.
+     * @return Returns this builder for call chaining.
+     */
+    public Builder readTimeout(long timeout, TimeUnit unit) {
+      builder.readTimeout(timeout, unit);
+      return this;
+    }
+
+    /**
+     * Sets the default write timeout for new connections. A value of 0 means no timeout.
+     *
+     * @param timeout The write timeout period in {@code unit}s.
+     * @param unit The write timeout time unit.
+     * @return Returns this builder for call chaining.
+     */
+    public Builder writeTimeout(long timeout, TimeUnit unit) {
+      builder.writeTimeout(timeout, unit);
+      return this;
+    }
+
+    /**
+     * Sets the cumulative time limit for which retry-able errors will be retried. Defaults to 60
+     * seconds. Set to zero to retry requests forever.
+     *
+     * <p>This operates separately from the count-based {@link #maxRetries(Integer)}.
+     *
+     * @param timeout The retry timeout period in {@code unit}s.
+     * @param unit The retry timeout time unit.
+     * @return Returns this builder for call chaining.
+     */
+    public Builder retryTimeout(long timeout, TimeUnit unit) {
+      this.errorTimeout = unit.toMillis(timeout);
+      return this;
+    }
+
+    /**
+     * Sets the maximum number of times each retry-able errors will be retried. Set this to null to
+     * not have a max number. Set this to zero to disable retries.
+     *
+     * <p>This operates separately from the time-based {@link #retryTimeout(long, TimeUnit)}.
+     *
+     * @param maxRetries The maximum number of times to retry.
+     * @return Returns this builder for call chaining.
+     */
+    public Builder maxRetries(Integer maxRetries) {
+      this.maxRetries = maxRetries;
+      return this;
+    }
+
+    /**
+     * Disable retries completely, by setting max retries to 0 and retry timeout to 0.
+     *
+     * @return Returns this builder for call chaining.
+     */
+    public Builder disableRetries() {
+      maxRetries(0);
+      retryTimeout(0, TimeUnit.MILLISECONDS);
+      return this;
+    }
+
+    /**
+     * Sets the maximum number of queries that will be executed during a 1 second interval. The
+     * default is 10. A minimum interval between requests will also be enforced, set to 1/(2 *
+     * {@code maxQps}).
+     *
+     * @param maxQps The maximum queries per second.
+     * @return Returns this builder for call chaining.
+     */
+    public Builder queryRateLimit(int maxQps) {
+      builder.queriesPerSecond(maxQps);
+      return this;
+    }
+
+    /**
+     * Allows specific API exceptions to be retried or not retried.
+     *
+     * @param exception The {@code ApiException} to allow or deny being re-tried.
+     * @param allowedToRetry Whether to allow or deny re-trying {@code exception}.
+     * @return Returns this builder for call chaining.
+     */
+    public Builder setIfExceptionIsAllowedToRetry(
+        Class<? extends ApiException> exception, boolean allowedToRetry) {
+      if (allowedToRetry) {
+        exceptionsAllowedToRetry.add(exception);
+      } else {
+        exceptionsAllowedToRetry.remove(exception);
+      }
+      return this;
+    }
+
+    /**
+     * Sets the proxy for new connections.
+     *
+     * @param proxy The proxy to be used by the underlying HTTP client.
+     * @return Returns this builder for call chaining.
+     */
+    public Builder proxy(Proxy proxy) {
+      builder.proxy(proxy == null ? Proxy.NO_PROXY : proxy);
+      return this;
+    }
+
+    /**
+     * Convert this builder into a {@code GeoApiContext}.
+     *
+     * @return Returns the built {@code GeoApiContext}.
+     */
+    public GeoApiContext build() {
+      return new GeoApiContext(
+          builder.build(),
+          apiKey,
+          baseUrlOverride,
+          channel,
+          clientId,
+          errorTimeout,
+          exceptionsAllowedToRetry,
+          maxRetries,
+          urlSigner);
+    }
   }
 }

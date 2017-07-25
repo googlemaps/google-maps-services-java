@@ -56,6 +56,7 @@ public class DistanceMatrixApiRequest
    * string and convert it to a latitude/longitude coordinate to calculate directions.
    *
    * @param origins String to geocode and use as an origin point (e.g. "New York, NY")
+   * @return Returns this {@code DistanceMatrixApiRequest} for call chaining.
    */
   public DistanceMatrixApiRequest origins(String... origins) {
     return param("origins", join('|', origins));
@@ -65,6 +66,7 @@ public class DistanceMatrixApiRequest
    * One or more latitude/longitude values from which to calculate distance and time.
    *
    * @param points The origin points.
+   * @return Returns this {@code DistanceMatrixApiRequest} for call chaining.
    */
   public DistanceMatrixApiRequest origins(LatLng... points) {
     return param("origins", join('|', points));
@@ -75,6 +77,7 @@ public class DistanceMatrixApiRequest
    * string and convert it to a latitude/longitude coordinate to calculate directions.
    *
    * @param destinations String to geocode and use as a destination point (e.g. "New Jersey, NY")
+   * @return Returns this {@code DistanceMatrixApiRequest} for call chaining.
    */
   public DistanceMatrixApiRequest destinations(String... destinations) {
     return param("destinations", join('|', destinations));
@@ -84,6 +87,7 @@ public class DistanceMatrixApiRequest
    * One or more latitude/longitude values to which to calculate distance and time.
    *
    * @param points The destination points.
+   * @return Returns this {@code DistanceMatrixApiRequest} for call chaining.
    */
   public DistanceMatrixApiRequest destinations(LatLng... points) {
     return param("destinations", join('|', points));
@@ -96,6 +100,7 @@ public class DistanceMatrixApiRequest
    * TravelMode#WALKING} and {@link TravelMode#BICYCLING}.
    *
    * @param mode One of the travel modes supported by the Distance Matrix API.
+   * @return Returns this {@code DistanceMatrixApiRequest} for call chaining.
    */
   public DistanceMatrixApiRequest mode(TravelMode mode) {
     if (TravelMode.DRIVING.equals(mode)
@@ -105,7 +110,7 @@ public class DistanceMatrixApiRequest
       return param("mode", mode);
     }
     throw new IllegalArgumentException(
-        "Distance Matrix API travel modes must be Driving, " + "Transit, Walking or Bicycling");
+        "Distance Matrix API travel modes must be Driving, Transit, Walking or Bicycling");
   }
 
   /**
@@ -113,6 +118,7 @@ public class DistanceMatrixApiRequest
    *
    * @param restriction One of {@link RouteRestriction#TOLLS}, {@link RouteRestriction#FERRIES} or
    *     {@link RouteRestriction#HIGHWAYS}.
+   * @return Returns this {@code DistanceMatrixApiRequest} for call chaining.
    */
   public DistanceMatrixApiRequest avoid(RouteRestriction restriction) {
     return param("avoid", restriction);
@@ -125,6 +131,7 @@ public class DistanceMatrixApiRequest
    * @param unit One of {@link Unit#METRIC}, {@link Unit#IMPERIAL}.
    * @see <a href="https://developers.google.com/maps/documentation/distancematrix/#unit_systems">
    *     Unit systems in the Distance Matrix API</a>
+   * @return Returns this {@code DistanceMatrixApiRequest} for call chaining.
    */
   public DistanceMatrixApiRequest units(Unit unit) {
     return param("units", unit);
@@ -147,6 +154,7 @@ public class DistanceMatrixApiRequest
    * <p>Setting the parameter to null will remove it from the API request.
    *
    * @param departureTime The time of departure.
+   * @return Returns this {@code DistanceMatrixApiRequest} for call chaining.
    */
   public DistanceMatrixApiRequest departureTime(ReadableInstant departureTime) {
     return param("departure_time", Long.toString(departureTime.getMillis() / 1000L));
@@ -155,6 +163,9 @@ public class DistanceMatrixApiRequest
   /**
    * Specifies the assumptions to use when calculating time in traffic. This parameter may only be
    * specified when the travel mode is driving and the request includes a departure_time.
+   *
+   * @param trafficModel The traffic model to use in estimating time in traffic.
+   * @return Returns this {@code DistanceMatrixApiRequest} for call chaining.
    */
   public DistanceMatrixApiRequest trafficModel(TrafficModel trafficModel) {
     return param("traffic_model", trafficModel);
@@ -163,6 +174,9 @@ public class DistanceMatrixApiRequest
   /**
    * Specifies the desired time of arrival for transit requests. You can specify either
    * departure_time or arrival_time, but not both.
+   *
+   * @param arrivalTime The preferred arrival time.
+   * @return Returns this {@code DistanceMatrixApiRequest} for call chaining.
    */
   public DistanceMatrixApiRequest arrivalTime(ReadableInstant arrivalTime) {
     return param("arrival_time", Long.toString(arrivalTime.getMillis() / 1000L));
@@ -171,6 +185,9 @@ public class DistanceMatrixApiRequest
   /**
    * Specifies one or more preferred modes of transit. This parameter may only be specified for
    * requests where the mode is transit.
+   *
+   * @param transitModes The preferred transit modes.
+   * @return Returns this {@code DistanceMatrixApiRequest} for call chaining.
    */
   public DistanceMatrixApiRequest transitModes(TransitMode... transitModes) {
     return param("transit_mode", join('|', transitModes));
@@ -179,6 +196,9 @@ public class DistanceMatrixApiRequest
   /**
    * Specifies preferences for transit requests. Using this parameter, you can bias the options
    * returned, rather than accepting the default best route chosen by the API.
+   *
+   * @param pref The transit routing preference for this distance matrix.
+   * @return Returns this {@code DistanceMatrixApiRequest} for call chaining.
    */
   public DistanceMatrixApiRequest transitRoutingPreference(TransitRoutingPreference pref) {
     return param("transit_routing_preference", pref);

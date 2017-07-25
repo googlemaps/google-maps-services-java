@@ -30,7 +30,7 @@ public class SpeedLimit {
    */
   public double speedLimit;
 
-  /** Returns the speed limit in miles per hour (MPH). */
+  /** @return Returns the speed limit in miles per hour (MPH). */
   public long speedLimitMph() {
     return Math.round(speedLimit * 0.621371);
   }

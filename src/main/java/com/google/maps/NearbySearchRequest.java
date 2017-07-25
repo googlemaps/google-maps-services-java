@@ -40,11 +40,21 @@ public class NearbySearchRequest
       new ApiConfig("/maps/api/place/nearbysearch/json")
           .fieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
 
+  /**
+   * Constructor for {@code NearbySearchRequest}.
+   *
+   * @param context The {@code GeoApiContext} to make requests through.
+   */
   public NearbySearchRequest(GeoApiContext context) {
     super(context, API_CONFIG, Response.class);
   }
 
-  /** location is the latitude/longitude around which to retrieve place information. */
+  /**
+   * location is the latitude/longitude around which to retrieve place information.
+   *
+   * @param location The location to use as the center of the Nearby Search.
+   * @return Returns this {@code NearbyApiRequest} for call chaining.
+   */
   public NearbySearchRequest location(LatLng location) {
     return param("location", location);
   }
@@ -53,6 +63,9 @@ public class NearbySearchRequest
    * radius defines the distance (in meters) within which to return place results. The maximum
    * allowed radius is 50,000 meters. Note that radius must not be included if rankby=DISTANCE is
    * specified.
+   *
+   * @param distance The distance in meters around the {@link #location(LatLng)} to search.
+   * @return Returns this {@code NearbyApiRequest} for call chaining.
    */
   public NearbySearchRequest radius(int distance) {
     if (distance > 50000) {
@@ -61,7 +74,12 @@ public class NearbySearchRequest
     return param("radius", String.valueOf(distance));
   }
 
-  /** rankby specifies the order in which results are listed. */
+  /**
+   * rankby specifies the order in which results are listed.
+   *
+   * @param ranking The rank by method.
+   * @return Returns this {@code NearbyApiRequest} for call chaining.
+   */
   public NearbySearchRequest rankby(RankBy ranking) {
     return param("rankby", ranking);
   }
@@ -70,17 +88,30 @@ public class NearbySearchRequest
    * keyword is a term to be matched against all content that Google has indexed for this place,
    * including but not limited to name, type, and address, as well as customer reviews and other
    * third-party content.
+   *
+   * @param keyword The keyword to search for.
+   * @return Returns this {@code NearbyApiRequest} for call chaining.
    */
   public NearbySearchRequest keyword(String keyword) {
     return param("keyword", keyword);
   }
 
-  /** minPrice restricts to places that are at least this price level. */
+  /**
+   * minPrice restricts to places that are at least this price level.
+   *
+   * @param priceLevel The price level to set as minimum.
+   * @return Returns this {@code NearbyApiRequest} for call chaining.
+   */
   public NearbySearchRequest minPrice(PriceLevel priceLevel) {
     return param("minprice", priceLevel);
   }
 
-  /** maxPrice restricts to places that are at most this price level. */
+  /**
+   * maxPrice restricts to places that are at most this price level.
+   *
+   * @param priceLevel The price level to set as maximum.
+   * @return Returns this {@code NearbyApiRequest} for call chaining.
+   */
   public NearbySearchRequest maxPrice(PriceLevel priceLevel) {
     return param("maxprice", priceLevel);
   }
@@ -88,26 +119,42 @@ public class NearbySearchRequest
   /**
    * name is one or more terms to be matched against the names of places, separated with a space
    * character.
+   *
+   * @param name Search for Places with this name.
+   * @return Returns this {@code NearbyApiRequest} for call chaining.
    */
   public NearbySearchRequest name(String name) {
     return param("name", name);
   }
 
-  /** openNow returns only those places that are open for business at the time the query is sent. */
+  /**
+   * openNow returns only those places that are open for business at the time the query is sent.
+   *
+   * @param openNow Whether to restrict to places that are open.
+   * @return Returns this {@code NearbyApiRequest} for call chaining.
+   */
   public NearbySearchRequest openNow(boolean openNow) {
     return param("opennow", String.valueOf(openNow));
   }
 
   /**
-   * pageToken returns the next 20 results from a previously run search. Setting a pageToken
-   * parameter will execute a search with the same parameters used previously — all parameters other
-   * than pageToken will be ignored.
+   * nextPageToken returns the next 20 results from a previously run search. Setting nextPageToken
+   * will execute a search with the same parameters used previously — all parameters other than
+   * pageToken will be ignored.
+   *
+   * @param nextPageToken The page token from a previous result.
+   * @return Returns this {@code NearbyApiRequest} for call chaining.
    */
   public NearbySearchRequest pageToken(String nextPageToken) {
     return param("pagetoken", nextPageToken);
   }
 
-  /** type restricts the results to places matching the specified type. */
+  /**
+   * type restricts the results to places matching the specified type.
+   *
+   * @param type The {@link PlaceType} to restrict results to.
+   * @return Returns this {@code NearbyApiRequest} for call chaining.
+   */
   public NearbySearchRequest type(PlaceType type) {
     return param("type", type);
   }
@@ -115,6 +162,9 @@ public class NearbySearchRequest
   /**
    * type restricts the results to places matching the specified type. Provide support of multiples
    * types.
+   *
+   * @param types The {@link PlaceType}s to restrict results to.
+   * @return Returns this {@code NearbyApiRequest} for call chaining.
    */
   public NearbySearchRequest type(PlaceType... types) {
     return param("type", join('|', types));

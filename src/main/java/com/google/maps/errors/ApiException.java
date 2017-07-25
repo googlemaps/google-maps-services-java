@@ -87,6 +87,6 @@ public class ApiException extends Exception {
     // We've hit an unknown error. This is not a state we should hit,
     // but we don't want to crash a user's application if we introduce a new error.
     return new UnknownErrorException(
-        "An unexpected error occurred. " + "Status: " + status + ", " + "Message: " + errorMessage);
+        "An unexpected error occurred. Status: " + status + ", Message: " + errorMessage);
   }
 }

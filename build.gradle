@@ -47,10 +47,10 @@ repositories {
 }
 
 dependencies {
-    compile 'com.google.code.gson:gson:2.8.0'
-    compile 'com.squareup.okhttp:okhttp:2.7.5'
-    compile 'joda-time:joda-time:2.9.7'
-    compileOnly 'com.google.appengine:appengine-api-1.0-sdk:1.9.50'
+    compile 'com.google.code.gson:gson:2.8.1'
+    compile 'com.squareup.okhttp3:okhttp:3.8.1'
+    compile 'joda-time:joda-time:2.9.9'
+    compileOnly 'com.google.appengine:appengine-api-1.0-sdk:1.9.54'
     compile 'org.slf4j:slf4j-api:1.7.25'
     compile 'com.google.guava:guava:22.0'
 

@@ -83,10 +83,12 @@ For even more information, see the guide to [API keys][apikey].
 
 You can add the library to your project via Maven or Gradle.
 
-**Note:** Since 0.1.18 there is now a dependency on SLF4J. You need to add one of the adaptor 
-dependencies that makes sense for your logging setup. In the configuration samples below we
-are integrating [slf4j-nop](https://search.maven.org/#artifactdetails%7Corg.slf4j%7Cslf4j-nop%7C1.7.25%7Cjar),
-but there are others like [slf4j-log4j12](https://search.maven.org/#artifactdetails%7Corg.slf4j%7Cslf4j-log4j12%7C1.7.25%7Cjar)
+**Note:** Since 0.1.18 there is now a dependency on [SLF4J](https://www.slf4j.org/). You need to add
+one of the adaptor dependencies that makes sense for your logging setup. In the configuration 
+samples below we are integrating 
+[slf4j-nop](https://search.maven.org/#artifactdetails%7Corg.slf4j%7Cslf4j-nop%7C1.7.25%7Cjar),
+but there are others like 
+[slf4j-log4j12](https://search.maven.org/#artifactdetails%7Corg.slf4j%7Cslf4j-log4j12%7C1.7.25%7Cjar)
 and [slf4j-jdk14](https://search.maven.org/#artifactdetails%7Corg.slf4j%7Cslf4j-jdk14%7C1.7.25%7Cjar)
 that will make more sense in other configurations. This will stop a warning message being emitted
 when you start using `google-maps-services`.
@@ -114,7 +116,6 @@ repositories {
 dependencies {
     compile 'com.google.maps:google-maps-services:(insert latest version)'
     compile 'org.slf4j:slf4j-nop:1.7.25'
-    ...
 }
 ```
 
@@ -141,10 +142,13 @@ https://developers.google.com/maps/.
 This example uses the [Geocoding API] with an API key:
 
 ```java
-GeoApiContext context = new GeoApiContext().setApiKey("AIza...");
+GeoApiContext context = new GeoApiContext.Builder()
+    .apiKey("AIza...")
+    .build();
 GeocodingResult[] results =  GeocodingApi.geocode(context,
     "1600 Amphitheatre Parkway Mountain View, CA 94043").await();
-System.out.println(results[0].formattedAddress);
+Gson gson = new GsonBuilder().setPrettyPrinting().create();
+System.out.println(gson.toJson(results[0].addressComponents));
 ```
 
 Below is the same example, using client ID and client secret (digital signature)
@@ -156,13 +160,18 @@ documentation for the API you're using. For example, see the guide for the
 [Directions API][directions-client-id].
 
 ```java
-GeoApiContext context = new GeoApiContext().setEnterpriseCredentials(clientID, clientSecret);
+GeoApiContext context = new GeoApiContext.Builder()
+    .enterpriseCredentials(clientID, clientSecret)
+    .build();
 GeocodingResult[] results =  GeocodingApi.geocode(context,
     "1600 Amphitheatre Parkway Mountain View, CA 94043").await();
-System.out.println(results[0].formattedAddress);
+Gson gson = new GsonBuilder().setPrettyPrinting().create();
+System.out.println(gson.toJson(results[0].addressComponents));
 ```
 
-In real world scenarios, it's important to instantiate `GeoApiContext` as a static variable or inside a singleton, since it must have only one instance alive, despite the number of calls to `GeocodingApi`. Instantiating `GeoApiContext` once per request could cause too many threads alive at JVM (see [here](https://github.com/googlemaps/google-maps-services-java/issues/126)).
+The `GeoApiContext` is designed to be a [Singleton](https://en.wikipedia.org/wiki/Singleton_pattern)
+in your application. Please instantiate one on application startup, and continue to use it for the
+life of your application. This will enable proper QPS enforcement across all of your requests.
 
 For more usage examples, check out [the tests](src/test/java/com/google/maps/).
 
@@ -170,21 +179,25 @@ For more usage examples, check out [the tests](src/test/java/com/google/maps/).
 
 ### Google App Engine Support
 
-You can use this client library on Google App Engine with a single line code change.
+You can use this client library on Google App Engine with a single code change.
 
 ```java
-GeoApiContext context = new GeoApiContext(new GaeRequestHandler()).setApiKey(API_KEY);
+GeoApiContext context = new GeoApiContext.Builder()
+    .requestHandlerBuilder(new GaeRequestHandler.Builder())
+    .apiKey("AIza...")
+    .build();
 ```
 
-The `new GaeRequestHandler()` argument to the `GeoApiContext` constructor tells the
-Java Client for Google Maps Services to utilise the apropriate calls for making HTTP
-requests from Google App Engine, instead of the default OkHttp based strategy.
+The `new GaeRequestHandler.Builder()` argument to `GeoApiContext.Builder`'s `requestHandlerBuilder`
+tells the Java Client for Google Maps Services to utilise the appropriate calls for making HTTP
+requests from Google App Engine, instead of the default [OkHttp3](https://square.github.io/okhttp/)
+based strategy.
 
 ### Rate Limiting
 
 Never sleep between requests again! By default, requests are sent at the expected rate limits for
 each web service, typically 10 queries per second for free users. If you want to speed up or slow
-down requests, you can do that too, using `new GeoApiContext().setQueryRateLimit(qps)`.
+down requests, you can do that too, using `new GeoApiContext.Builder().queryRateLimit(qps).build()`.
 
 ### Retry on Failure
 
@@ -194,14 +207,14 @@ are returned from the API.
 To alter or disable automatic retries, see these methods in `GeoApiContext`:
 
 * `.disableRetries()`
-* `.setMaxRetries()`
-* `.setRetryTimeout()`
-* `.toggleifExceptionIsAllowedToRetry()`
+* `.maxRetries()`
+* `.retryTimeout()`
+* `.setIfExceptionIsAllowedToRetry()`
 
 ### Client IDs
 
-Google Maps APIs Premium Plan customers can use their [client ID and secret][clientid] to authenticate,
-instead of an API key.
+Google Maps APIs Premium Plan customers can use their [client ID and secret][clientid] to
+authenticate, instead of an API key.
 
 ### POJOs
 
