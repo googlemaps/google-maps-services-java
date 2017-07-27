@@ -319,7 +319,7 @@ public class GeocodingApiTest {
 
   /**
    * Geocode with region biasing: <a
-   * href="https://maps.googleapis.com/maps/api/geocode/json?address=Toledo&region=es>Geocode for
+   * href="https://maps.googleapis.com/maps/api/geocode/json?address=Toledo&region=es">Geocode for
    * Toledo in Spain</a>.
    */
   @Test
