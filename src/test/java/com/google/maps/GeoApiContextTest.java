@@ -24,14 +24,15 @@ import com.google.maps.errors.OverQueryLimitException;
 import com.google.maps.internal.ApiConfig;
 import com.google.maps.internal.ApiResponse;
 import com.google.maps.model.GeocodingResult;
-import com.google.mockwebserver.MockResponse;
-import com.google.mockwebserver.MockWebServer;
-import com.google.mockwebserver.RecordedRequest;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import okhttp3.mockwebserver.MockResponse;
+import okhttp3.mockwebserver.MockWebServer;
+import okhttp3.mockwebserver.RecordedRequest;
+import okhttp3.Headers;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -72,7 +73,7 @@ public class GeoApiContextTest {
 
     // Set up the fake web server
     server.enqueue(new MockResponse());
-    server.play();
+    server.start();
     setMockBaseUrl();
 
     // Build & execute the request using our context
@@ -81,14 +82,15 @@ public class GeoApiContextTest {
     // Read the headers
     server.shutdown();
     RecordedRequest request = server.takeRequest();
-    List<String> headers = request.getHeaders();
+    Headers headers = request.getHeaders();
     boolean headerFound = false;
-    for (String header : headers) {
-      if (header.startsWith("User-Agent: ")) {
+    for (String headerName : headers.names()) {
+      if (headerName.equals("User-Agent")) {
         headerFound = true;
+        String headerValue = headers.get(headerName);
         assertTrue(
             "User agent not in correct format",
-            header.matches("User-Agent: GoogleGeoApiClientJava/[^\\s]+"));
+            headerValue.matches("GoogleGeoApiClientJava/[^\\s]+"));
       }
     }
 
@@ -103,7 +105,7 @@ public class GeoApiContextTest {
 
     server.enqueue(errorResponse);
     server.enqueue(goodResponse);
-    server.play();
+    server.start();
 
     // Build the context under test
     setMockBaseUrl();
@@ -128,7 +130,7 @@ public class GeoApiContextTest {
     server.enqueue(errorResponse);
     server.enqueue(errorResponse);
     server.enqueue(goodResponse);
-    server.play();
+    server.start();
     setMockBaseUrl();
 
     // This should limit the number of retries, ensuring that the success response is NOT returned.
@@ -200,7 +202,7 @@ public class GeoApiContextTest {
     goodResponse.setBody("{\n   \"results\" : [],\n   \"status\" : \"ZERO_RESULTS\"\n}");
     server.enqueue(goodResponse);
 
-    server.play();
+    server.start();
     setMockBaseUrl();
 
     // This should disable the retry, ensuring that the success response is NOT returned
@@ -220,7 +222,7 @@ public class GeoApiContextTest {
     for (int i = 0; i < 10; i++) {
       server.enqueue(errorResponse);
     }
-    server.play();
+    server.start();
 
     // Wire the mock web server to the context
     setMockBaseUrl();
@@ -246,7 +248,7 @@ public class GeoApiContextTest {
     response.setBody("{}");
 
     server.enqueue(response);
-    server.play();
+    server.start();
 
     setMockBaseUrl();
     builder
@@ -270,7 +272,7 @@ public class GeoApiContextTest {
     server.enqueue(overQueryLimitResponse);
     server.enqueue(overQueryLimitResponse);
     server.enqueue(overQueryLimitResponse);
-    server.play();
+    server.start();
 
     builder.retryTimeout(1, TimeUnit.MILLISECONDS);
     builder.maxRetries(10);
