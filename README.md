@@ -84,7 +84,7 @@ For even more information, see the guide to [API keys][apikey].
 You can add the library to your project via Maven or Gradle.
 
 **Note:** Since 0.1.18 there is now a dependency on [SLF4J](https://www.slf4j.org/). You need to add
-one of the adaptor dependencies that makes sense for your logging setup. In the configuration 
+one of the adapter dependencies that makes sense for your logging setup. In the configuration 
 samples below we are integrating 
 [slf4j-nop](https://search.maven.org/#artifactdetails%7Corg.slf4j%7Cslf4j-nop%7C1.7.25%7Cjar),
 but there are others like 

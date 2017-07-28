@@ -8,3 +8,4 @@
 .project
 .classpath
 .vscode/
+/.nb-gradle/

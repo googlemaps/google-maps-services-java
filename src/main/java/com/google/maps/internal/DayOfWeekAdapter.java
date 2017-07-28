@@ -19,48 +19,52 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
-import com.google.maps.model.PriceLevel;
+import com.google.maps.model.OpeningHours.Period.OpenClose.DayOfWeek;
 import java.io.IOException;
 
 /**
- * This class handles conversion from JSON to {@link PriceLevel}.
+ * This class handles conversion from JSON to {@link DayOfWeek}.
  *
  * <p>Please see <a
  * href="https://google-gson.googlecode.com/svn/trunk/gson/docs/javadocs/com/google/gson/TypeAdapter.html">GSON
  * Type Adapter</a> for more detail.
  */
-public class PriceLevelAdaptor extends TypeAdapter<PriceLevel> {
+public class DayOfWeekAdapter extends TypeAdapter<DayOfWeek> {
 
   @Override
-  public PriceLevel read(JsonReader reader) throws IOException {
+  public DayOfWeek read(JsonReader reader) throws IOException {
     if (reader.peek() == JsonToken.NULL) {
       reader.nextNull();
       return null;
     }
 
     if (reader.peek() == JsonToken.NUMBER) {
-      int priceLevel = reader.nextInt();
+      int day = reader.nextInt();
 
-      switch (priceLevel) {
+      switch (day) {
         case 0:
-          return PriceLevel.FREE;
+          return DayOfWeek.SUNDAY;
         case 1:
-          return PriceLevel.INEXPENSIVE;
+          return DayOfWeek.MONDAY;
         case 2:
-          return PriceLevel.MODERATE;
+          return DayOfWeek.TUESDAY;
         case 3:
-          return PriceLevel.EXPENSIVE;
+          return DayOfWeek.WEDNESDAY;
         case 4:
-          return PriceLevel.VERY_EXPENSIVE;
+          return DayOfWeek.THURSDAY;
+        case 5:
+          return DayOfWeek.FRIDAY;
+        case 6:
+          return DayOfWeek.SATURDAY;
       }
     }
 
-    return PriceLevel.UNKNOWN;
+    return DayOfWeek.UNKNOWN;
   }
 
   /** This method is not implemented. */
   @Override
-  public void write(JsonWriter writer, PriceLevel value) throws IOException {
+  public void write(JsonWriter writer, DayOfWeek value) throws IOException {
     throw new UnsupportedOperationException("Unimplemented method");
   }
 }
