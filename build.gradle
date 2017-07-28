@@ -70,6 +70,14 @@ task updateVersion(type: Copy) {
 compileJava.source = "build/filtered/src/main/java"
 compileJava.dependsOn updateVersion
 
+compileJava {
+    options.compilerArgs << "-Xlint:deprecation"
+}
+
+compileTestJava {
+    options.compilerArgs << "-Xlint:deprecation"
+}
+
 // Propagate API Key system properties to test tasks
 tasks.withType(Test) {
     systemProperty 'api.key', System.getProperty('api.key')
