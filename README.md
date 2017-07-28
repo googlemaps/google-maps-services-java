@@ -265,14 +265,16 @@ req.setCallback(new PendingResult.Callback<GeocodingResult[]>() {
     $ ./gradlew javadoc
 
     # Publish documentation
+    $ git checkout $VERSION
     $ ./gradlew javadoc
     $ git checkout gh-pages
-    $ rm -rf javadoc
     $ mkdir $VERSION
     $ mv build/docs/javadoc $VERSION
     $ git add $VERSION/javadoc
+    $ rm latest
+    $ ln -s $VERSION latest
     $ git add latest
-    $ git commit
+    $ git commit -m "Javadoc for $VERSION"
     $ git push origin gh-pages
 
 [apikey]: https://developers.google.com/maps/faq#keysystem
