@@ -581,6 +581,7 @@ public class PlacesApiTest {
   }
 
   @Test
+  @SuppressWarnings("deprecation") // radarSearchQuery still supported until 6/30/2018
   public void testRadarSearchRequest() throws Exception {
     try (LocalTestServerContext sc = new LocalTestServerContext("{\"status\" : \"OK\"}")) {
       LatLng location = new LatLng(10, 20);
@@ -607,6 +608,7 @@ public class PlacesApiTest {
   }
 
   @Test(expected = IllegalArgumentException.class)
+  @SuppressWarnings("deprecation") // radarSearchQuery still supported until 6/30/2018
   public void testRadarSearchLocationWithoutKeywordNameOrType() throws Exception {
     try (LocalTestServerContext sc = new LocalTestServerContext("")) {
       LatLng location = new LatLng(10, 20);
@@ -746,6 +748,7 @@ public class PlacesApiTest {
   }
 
   @Test
+  @SuppressWarnings("deprecation") // radarSearchQuery still supported until 6/30/2018
   public void testRadarSearchRequestByKeyword() throws Exception {
     try (LocalTestServerContext sc =
         new LocalTestServerContext(placesApiRadarSearchRequestByKeyword)) {
@@ -761,6 +764,7 @@ public class PlacesApiTest {
   }
 
   @Test
+  @SuppressWarnings("deprecation") // radarSearchQuery still supported until 6/30/2018
   public void testRadarSearchRequestByName() throws Exception {
     try (LocalTestServerContext sc =
         new LocalTestServerContext(placesApiRadarSearchRequestByName)) {
@@ -779,6 +783,7 @@ public class PlacesApiTest {
   }
 
   @Test
+  @SuppressWarnings("deprecation") // radarSearchQuery still supported until 6/30/2018
   public void testRadarSearchRequestByType() throws Exception {
     try (LocalTestServerContext sc =
         new LocalTestServerContext(placesApiRadarSearchRequestByType)) {
