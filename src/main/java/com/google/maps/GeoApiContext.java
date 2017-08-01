@@ -291,6 +291,10 @@ public class GeoApiContext {
     public Builder() {
       requestHandlerBuilder(new OkHttpRequestHandler.Builder());
     }
+    
+    public Builder(RequestHandler.Builder builder) {
+      requestHandlerBuilder(builder);
+    }
 
     /**
      * Change the RequestHandler.Builder strategy to change between the {@code OkHttpRequestHandler}
