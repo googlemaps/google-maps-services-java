@@ -18,14 +18,15 @@ package com.google.maps;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import com.google.mockwebserver.MockResponse;
-import com.google.mockwebserver.MockWebServer;
-import com.google.mockwebserver.RecordedRequest;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.util.List;
+import okhttp3.mockwebserver.MockResponse;
+import okhttp3.mockwebserver.MockWebServer;
+import okhttp3.mockwebserver.RecordedRequest;
+import okio.Buffer;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.json.JSONObject;
@@ -43,7 +44,7 @@ public class LocalTestServerContext implements AutoCloseable {
     MockResponse response = new MockResponse();
     response.setBody(responseBody);
     server.enqueue(response);
-    server.play();
+    server.start();
 
     this.context =
         new GeoApiContext.Builder()
@@ -67,7 +68,8 @@ public class LocalTestServerContext implements AutoCloseable {
 
   public JSONObject requestBody() throws InterruptedException {
     this.takeRequest();
-    return new JSONObject(new String(request.getBody(), Charset.forName("UTF8")));
+    
+    return new JSONObject(request.getBody().readUtf8());
   }
 
   private List<NameValuePair> actualParams() throws InterruptedException, URISyntaxException {
