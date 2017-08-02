@@ -26,7 +26,6 @@ import java.util.List;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.RecordedRequest;
-import okio.Buffer;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.json.JSONObject;
@@ -68,7 +67,7 @@ public class LocalTestServerContext implements AutoCloseable {
 
   public JSONObject requestBody() throws InterruptedException {
     this.takeRequest();
-    
+
     return new JSONObject(request.getBody().readUtf8());
   }
 
