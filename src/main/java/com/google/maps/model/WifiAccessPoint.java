@@ -16,10 +16,10 @@
 package com.google.maps.model;
 
 /**
- * WiFi access point objects
+ * WiFi access point objects.
  *
- * <p>The request body's wifiAccessPoints array must contain two or more WiFi access point objects.
- * {@code macAddress} is required; all other fields are optional.
+ * <p>The request body's {@code wifiAccessPoints} array must contain two or more WiFi access point
+ * objects. {@code macAddress} is required; all other fields are optional.
  *
  * <p>Please see <a
  * href="https://developers.google.com/maps/documentation/geolocation/intro#wifi_access_point_object">

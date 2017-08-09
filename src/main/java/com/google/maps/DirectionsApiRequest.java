@@ -83,7 +83,7 @@ public class DirectionsApiRequest
   }
 
   /**
-   * The origin, as a latitude,longitude location.
+   * The origin, as a latitude/longitude location.
    *
    * @param origin The starting location for the Directions request.
    * @return Returns this {@code DirectionsApiRequest} for call chaining.
@@ -93,7 +93,7 @@ public class DirectionsApiRequest
   }
 
   /**
-   * The destination, as a latitude,longitude location.
+   * The destination, as a latitude/longitude location.
    *
    * @param destination The ending location for the Directions request.
    * @return Returns this {@code DirectionsApiRequest} for call chaining.

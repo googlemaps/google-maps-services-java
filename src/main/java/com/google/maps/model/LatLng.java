@@ -18,7 +18,7 @@ package com.google.maps.model;
 import com.google.maps.internal.StringJoin.UrlValue;
 import java.util.Locale;
 
-/** A place on Earth, represented by a Latitude/Longitude pair. */
+/** A place on Earth, represented by a latitude/longitude pair. */
 public class LatLng implements UrlValue {
 
   /** The latitude of this location. */
@@ -28,7 +28,7 @@ public class LatLng implements UrlValue {
   public double lng;
 
   /**
-   * Construct a location with a latitude longitude pair.
+   * Construct a location with a latitude/longitude pair.
    *
    * @param lat The latitude of this location.
    * @param lng The longitude of this location.

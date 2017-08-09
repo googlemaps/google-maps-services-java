@@ -116,9 +116,9 @@ public class TextSearchRequest
   }
 
   /**
-   * nextPageToken returns the next 20 results from a previously run search. Setting nextPageToken
-   * will execute a search with the same parameters used previously — all parameters other than
-   * pageToken will be ignored.
+   * pageToken returns the next 20 results from a previously run search. Setting pageToken will
+   * execute a search with the same parameters used previously — all parameters other than pageToken
+   * will be ignored.
    *
    * @param nextPageToken A {@code pageToken} from a prior result.
    * @return Returns this {@code TextSearchRequest} for call chaining.

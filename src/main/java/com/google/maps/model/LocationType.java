@@ -19,8 +19,8 @@ import com.google.maps.internal.StringJoin.UrlValue;
 
 /**
  * Location types for a reverse geocoding request. Please see <a
- * href="https://developers.google.com/maps/documentation/geocoding/#ReverseGeocoding">for more
- * detail</a>.
+ * href="https://developers.google.com/maps/documentation/geocoding/start#reverse">Reverse
+ * Geocoding</a> for more detail.
  */
 public enum LocationType implements UrlValue {
   /**

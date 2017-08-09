@@ -24,9 +24,8 @@ import java.util.Locale;
  *
  * @see <a href="https://developers.google.com/maps/documentation/directions/intro#TravelModes">
  *     Directions API travel modes</a>
- * @see <a
- *     href="https://developers.google.com/maps/documentation/distancematrix/#RequestParameters">
- *     Distance Matrix API travel modes</a>
+ * @see <a href="https://developers.google.com/maps/documentation/distance-matrix/intro">Distance
+ *     Matrix API Intro</a>
  */
 public enum TravelMode implements UrlValue {
   DRIVING,

@@ -18,8 +18,8 @@ package com.google.maps.model;
 import java.net.URL;
 
 /**
- * PlaceSearchResult represents a single result in the search results return from the Google Places
- * API Web Service.
+ * PlacesSearchResult represents a single result in the search results returned from the Google
+ * Places API Web Service.
  *
  * <p>Please see <a
  * href="https://developers.google.com/places/web-service/search#PlaceSearchResults">Place Search
@@ -60,7 +60,7 @@ public class PlacesSearchResult {
   /** types contains an array of feature types describing the given result. */
   public String types[];
 
-  /** openingHours may contain whether the place is open now or not. */
+  /** openingHours may contain information on when the place is open. */
   public OpeningHours openingHours;
 
   /** photos is an array of photo objects, each containing a reference to an image. */

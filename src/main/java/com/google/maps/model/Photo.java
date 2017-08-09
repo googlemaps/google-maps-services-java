@@ -18,8 +18,8 @@ package com.google.maps.model;
 /**
  * This describes a photo available with a Search Result.
  *
- * <p>Please see <a href="https://developers.google.com/places/web-service/photos">Photos</a> for
- * more details.
+ * <p>Please see <a href="https://developers.google.com/places/web-service/photos">Place Photos</a>
+ * for more details.
  */
 public class Photo {
   /** photoReference is used to identify the photo when you perform a Photo request. */

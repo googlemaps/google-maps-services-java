@@ -16,7 +16,7 @@
 package com.google.maps.model;
 
 /**
- * Cell tower objects
+ * A cell tower object.
  *
  * <p>The Geolocation API request body's cellTowers array contains zero or more cell tower objects.
  *
@@ -45,33 +45,33 @@ public class CellTower {
     this.timingAdvance = _timingAdvance;
   }
   /**
-   * {@code cellId} (required): Unique identifier of the cell. On GSM, this is the Cell ID (CID);
-   * CDMA networks use the Base Station ID (BID). WCDMA networks use the UTRAN/GERAN Cell Identity
-   * (UC-Id), which is a 32-bit value concatenating the Radio Network Controller (RNC) and Cell ID.
-   * Specifying only the 16-bit Cell ID value in WCDMA networks may return inaccurate results.
+   * Unique identifier of the cell (required). On GSM, this is the Cell ID (CID); CDMA networks use
+   * the Base Station ID (BID). WCDMA networks use the UTRAN/GERAN Cell Identity (UC-Id), which is a
+   * 32-bit value concatenating the Radio Network Controller (RNC) and Cell ID. Specifying only the
+   * 16-bit Cell ID value in WCDMA networks may return inaccurate results.
    */
   public Integer cellId = null;
   /**
-   * {@code locationAreaCode} (required): The Location Area Code (LAC) for GSM and WCDMAnetworks.
-   * The Network ID (NID) for CDMA networks.
+   * The Location Area Code (LAC) for GSM and WCDMAnetworks or The Network ID (NID) for CDMA
+   * networks (required).
    */
   public Integer locationAreaCode = null;
-  /** {@code mobileCountryCode} (required): The cell tower's Mobile Country Code (MCC). */
+  /** The cell tower's Mobile Country Code (MCC) (required). */
   public Integer mobileCountryCode = null;
   /**
-   * {@code mobileNetworkCode} (required): The cell tower's Mobile Network Code. This is the MNC for
-   * GSM and WCDMA; CDMA uses the System ID (SID).
+   * The cell tower's Mobile Network Code (required). This is the MNC for GSM and WCDMA; CDMA uses
+   * the System ID (SID).
    */
   public Integer mobileNetworkCode = null;
   /* The following optional fields are not currently used, but may be included if values are available. */
   /**
-   * {@code age}: The number of milliseconds since this cell was primary. If age is 0, the cellId
-   * represents a current measurement.
+   * The number of milliseconds since this cell was primary. If age is 0, the cellId represents a
+   * current measurement.
    */
   public Integer age = null;
-  /** {@code signalStrength}: Radio signal strength measured in dBm. */
+  /** Radio signal strength measured in dBm. */
   public Integer signalStrength = null;
-  /** {@code timingAdvance}: The timing advance value. */
+  /** The timing advance value. */
   public Integer timingAdvance = null;
 
   public static class CellTowerBuilder {

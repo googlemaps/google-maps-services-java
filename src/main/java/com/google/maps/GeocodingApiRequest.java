@@ -86,11 +86,11 @@ public class GeocodingApiRequest
 
   /**
    * Set the bounding box of the viewport within which to bias geocode results more prominently.
-   * This parameter will only influence, not fully restrict, results from the geocoder. (
+   * This parameter will only influence, not fully restrict, results from the geocoder.
    *
    * <p>For more information see <a
-   * href="https://developers.google.com/maps/documentation/geocoding/?hl=pl#Viewports">Viewports
-   * documentation</a>.
+   * href="https://developers.google.com/maps/documentation/geocoding/intro?hl=pl#Viewports">
+   * Viewport Biasing</a>.
    *
    * @param southWestBound The South West bound of the bounding box.
    * @param northEastBound The North East bound of the bounding box.
@@ -105,8 +105,8 @@ public class GeocodingApiRequest
    * parameter will only influence, not fully restrict, results from the geocoder.
    *
    * <p>For more information see <a
-   * href="https://developers.google.com/maps/documentation/geocoding/?hl=pl#RegionCodes">Region
-   * Codes</a>.
+   * href="https://developers.google.com/maps/documentation/geocoding/intro?hl=pl#RegionCodes">Region
+   * Biasing</a>.
    *
    * @param region The region code to influence results.
    * @return Returns this {@code GeocodingApiRequest} for call chaining.
@@ -120,7 +120,7 @@ public class GeocodingApiRequest
    * fully restrict the results from the geocoder.
    *
    * <p>For more information see <a
-   * href="https://developers.google.com/maps/documentation/geocoding/?hl=pl#ComponentFiltering">
+   * href="https://developers.google.com/maps/documentation/geocoding/intro?hl=pl#ComponentFiltering">
    * Component Filtering</a>.
    *
    * @param filters Component filters to apply to the request.

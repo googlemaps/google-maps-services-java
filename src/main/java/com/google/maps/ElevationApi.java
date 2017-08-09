@@ -26,11 +26,12 @@ import com.google.maps.model.EncodedPolyline;
 import com.google.maps.model.LatLng;
 
 /**
- * The Google Elevation API provides you a simple interface to query locations on the earth for
+ * The Google Elevation API provides a simple interface to query locations on the earth for
  * elevation data. Additionally, you may request sampled elevation data along paths, allowing you to
  * calculate elevation changes along routes.
  *
- * <p>See <a href="https://developers.google.com/maps/documentation/elevation/">documentation</a>.
+ * <p>See <a href="https://developers.google.com/maps/documentation/elevation/start">the Google Maps
+ * Elevation API documentation</a>.
  */
 public class ElevationApi {
   private static final ApiConfig API_CONFIG = new ApiConfig("/maps/api/elevation/json");
@@ -38,7 +39,7 @@ public class ElevationApi {
   private ElevationApi() {}
 
   /**
-   * Get a set of elevations for a list of points.
+   * Get a list of elevations for a list of points.
    *
    * @param context The {@link GeoApiContext} to make requests through.
    * @param points The points to retrieve elevations for.
@@ -50,8 +51,8 @@ public class ElevationApi {
   }
 
   /**
-   * See <a
-   * href="https://developers.google.com/maps/documentation/elevation/#Paths">documentation</a>.
+   * See <a href="https://developers.google.com/maps/documentation/elevation/intro#Paths">
+   * documentation</a>.
    *
    * @param context The {@link GeoApiContext} to make requests through.
    * @param samples The number of samples to retrieve heights along {@code path}.
@@ -70,8 +71,8 @@ public class ElevationApi {
   }
 
   /**
-   * See <a
-   * href="https://developers.google.com/maps/documentation/elevation/#Paths">documentation</a>.
+   * See <a href="https://developers.google.com/maps/documentation/elevation/intro#Paths">
+   * documentation</a>.
    *
    * @param context The {@link GeoApiContext} to make requests through.
    * @param samples The number of samples to retrieve heights along {@code encodedPolyline}.

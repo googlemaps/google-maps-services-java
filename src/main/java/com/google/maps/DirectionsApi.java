@@ -30,8 +30,8 @@ import com.google.maps.model.GeocodedWaypoint;
  * text strings (e.g. "Chicago, IL" or "Darwin, NT, Australia") or as latitude/longitude
  * coordinates. The Directions API can return multi-part directions using a series of waypoints.
  *
- * <p>See <a
- * href="https://developers.google.com/maps/documentation/directions/intro">documentation</a>.
+ * <p>See <a href="https://developers.google.com/maps/documentation/directions/intro">the Directions
+ * API Developer's Guide</a> for more information.
  */
 public class DirectionsApi {
   static final ApiConfig API_CONFIG = new ApiConfig("/maps/api/directions/json");
@@ -82,8 +82,9 @@ public class DirectionsApi {
    *
    * @see <a href="https://developers.google.com/maps/documentation/directions/intro#Restrictions">
    *     Restrictions in the Directions API</a>
-   * @see <a href="https://developers.google.com/maps/documentation/distancematrix/#Restrictions">
-   *     Restrictions in the Distance Matrix API</a>
+   * @see <a
+   *     href="https://developers.google.com/maps/documentation/distance-matrix/intro#RequestParameters">
+   *     Distance Matrix API Request Parameters</a>
    */
   public enum RouteRestriction implements UrlValue {
 

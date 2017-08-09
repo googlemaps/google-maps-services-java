@@ -17,7 +17,7 @@ package com.google.maps.model;
 
 /** A point that has been snapped to a road by the Roads API. */
 public class SnappedPoint {
-  /** {@code location} contains a latitude and longitude value representing the snapped location. */
+  /** {@code location} contains a latitude/longitude value representing the snapped location. */
   public LatLng location;
 
   /**
@@ -28,7 +28,7 @@ public class SnappedPoint {
    * from 0, so a point with an originalIndex of 4 will be the snapped value of the 5th lat/lng
    * passed to the path parameter.
    *
-   * <p>A point that was not on the original path, or when interpolate=false will have an
+   * <p>A point that was not on the original path, or when interpolate=false, will have an
    * originalIndex of -1.
    */
   public int originalIndex = -1;

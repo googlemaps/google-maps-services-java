@@ -298,7 +298,7 @@ public class GeoApiContext {
 
     /**
      * Change the RequestHandler.Builder strategy to change between the {@code OkHttpRequestHandler}
-     * and the {@code OkHttpRequestHandler}.
+     * and the {@code GaeRequestHandler}.
      *
      * @param builder The {@code RequestHandler.Builder} to use for {@link #build()}
      * @return Returns this builder for call chaining.
@@ -334,7 +334,7 @@ public class GeoApiContext {
     }
 
     /**
-     * Set the ClientID / Secret pair to use for authorizing requests.
+     * Set the ClientID/Secret pair to use for authorizing requests.
      *
      * @param clientId The Client ID to use.
      * @param cryptographicSecret The Secret to use.

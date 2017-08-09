@@ -100,8 +100,9 @@ public class RoadsApi {
    *
    * <p>Note: The accuracy of speed limit data returned by the Google Maps Roads API cannot be
    * guaranteed. Speed limit data provided is not real-time, and may be estimated, inaccurate,
-   * incomplete, and/or outdated. Inaccuracies in our data may be reported through the <a
-   * href="http://www.google.com/mapmaker">Google Map Maker</a> service.
+   * incomplete, and/or outdated. Inaccuracies in our data may be reported through <a
+   * href="https://www.localguidesconnect.com/t5/News-Updates/Exclusive-Edit-a-road-segment-in-Google-Maps/ba-p/149865">
+   * Google Maps Feedback</a>.
    *
    * @param context The {@link GeoApiContext} to make requests through.
    * @param path The collected GPS points as a path.
@@ -116,8 +117,9 @@ public class RoadsApi {
    *
    * <p>Note: The accuracy of speed limit data returned by the Google Maps Roads API cannot be
    * guaranteed. Speed limit data provided is not real-time, and may be estimated, inaccurate,
-   * incomplete, and/or outdated. Inaccuracies in our data may be reported through the <a
-   * href="http://www.google.com/mapmaker">Google Map Maker</a> service.
+   * incomplete, and/or outdated. Inaccuracies in our data may be reported through <a
+   * href="https://www.localguidesconnect.com/t5/News-Updates/Exclusive-Edit-a-road-segment-in-Google-Maps/ba-p/149865">
+   * Google Maps Feedback</a>.
    *
    * @param context The {@link GeoApiContext} to make requests through.
    * @param placeIds The Place ID of the road segment. Place IDs are returned by the {@link
@@ -150,7 +152,7 @@ public class RoadsApi {
 
   /**
    * Takes up to 100 GPS points, and returns the closest road segment for each point. The points
-   * passed do not need to be part of a continuous path
+   * passed do not need to be part of a continuous path.
    *
    * @param context The {@link GeoApiContext} to make requests through.
    * @param points The sequence of points to be aligned to nearest roads
