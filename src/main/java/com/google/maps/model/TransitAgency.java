@@ -20,7 +20,7 @@ package com.google.maps.model;
  *
  * <p>See <a
  * href="https://developers.google.com/maps/documentation/directions/intro#TransitDetails">Transit
- * details</a> for more detail.
+ * Details</a> for more detail.
  */
 public class TransitAgency {
 

@@ -142,7 +142,7 @@ public class PlaceDetails {
      */
     public String authorName;
 
-    /** authorUrl the URL to the users Google+ profile, if available. */
+    /** authorUrl the URL to the user's Google+ profile, if available. */
     public URL authorUrl;
 
     /** language an IETF language code indicating the language used in the user's review. */
@@ -190,7 +190,7 @@ public class PlaceDetails {
    */
   public String vicinity;
 
-  /** website lists the authoritative website for this place, such as a business' homepage. */
+  /** website lists the authoritative website for this place, such as a business's homepage. */
   public URL website;
 
   /**

@@ -33,7 +33,7 @@ public class GeocodingApi {
   private GeocodingApi() {}
 
   /**
-   * create a new Geocoding API request.
+   * Create a new Geocoding API request.
    *
    * @param context The {@link GeoApiContext} to make requests through.
    * @return Returns the request, ready to run.

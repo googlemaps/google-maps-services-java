@@ -19,13 +19,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Request body The following fields are supported, and all fields are optional:
+ * Request body.
  *
  * <p>Please see <a
  * href="https://developers.google.com/maps/documentation/geolocation/intro#requests">Geolocation
- * Requests</a> for more detail.
+ * Requests</a> and <a
+ * href="https://developers.google.com/maps/documentation/geolocation/intro#body">Request Body</a>
+ * for more detail.
  *
- * <p>https://developers.google.com/maps/documentation/geolocation/intro#body
+ * <p>The following fields are supported, and all fields are optional:
  */
 public class GeolocationPayload {
   public GeolocationPayload() {}
@@ -60,16 +62,19 @@ public class GeolocationPayload {
   /** {@code carrier}: The carrier name. */
   public String carrier = null;
   /**
-   * considerIp: Specifies whether to fall back to IP geolocation if wifi and cell tower signals are
-   * not available. Note that the IP address in the request header may not be the IP of the device.
-   * Defaults to true. Set considerIp to false to disable fall back.
+   * {@code considerIp}: Specifies whether to fall back to IP geolocation if wifi and cell tower
+   * signals are not available. Note that the IP address in the request header may not be the IP of
+   * the device. Defaults to true. Set considerIp to false to disable fall back.
    */
   public Boolean considerIp = null;
-  /** {@code cellTowers}: An array of cell tower objects. See the Cell Tower Objects. */
+  /**
+   * {@code cellTowers}: An array of cell tower objects. See {@link
+   * com.google.maps.model.CellTower}.
+   */
   public CellTower[] cellTowers;
   /**
-   * {@code wifiAccessPoints}: An array of WiFi access point objects. See the WiFi Access Point
-   * Objects.
+   * {@code wifiAccessPoints}: An array of WiFi access point objects. See {@link
+   * com.google.maps.model.WifiAccessPoint}.
    */
   public WifiAccessPoint[] wifiAccessPoints;
 

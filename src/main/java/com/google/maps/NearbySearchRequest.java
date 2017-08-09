@@ -61,8 +61,8 @@ public class NearbySearchRequest
 
   /**
    * radius defines the distance (in meters) within which to return place results. The maximum
-   * allowed radius is 50,000 meters. Note that radius must not be included if rankby=DISTANCE is
-   * specified.
+   * allowed radius is 50,000 meters. Note that radius must not be included if {@code
+   * rankby=DISTANCE} is specified.
    *
    * @param distance The distance in meters around the {@link #location(LatLng)} to search.
    * @return Returns this {@code NearbyApiRequest} for call chaining.
@@ -138,9 +138,9 @@ public class NearbySearchRequest
   }
 
   /**
-   * nextPageToken returns the next 20 results from a previously run search. Setting nextPageToken
+   * pageToken returns the next 20 results from a previously run search. Setting {@code pageToken}
    * will execute a search with the same parameters used previously — all parameters other than
-   * pageToken will be ignored.
+   * {@code pageToken} will be ignored.
    *
    * @param nextPageToken The page token from a previous result.
    * @return Returns this {@code NearbyApiRequest} for call chaining.
@@ -160,7 +160,7 @@ public class NearbySearchRequest
   }
 
   /**
-   * type restricts the results to places matching the specified type. Provide support of multiples
+   * type restricts the results to places matching the specified type. Provides support for multiple
    * types.
    *
    * @param types The {@link PlaceType}s to restrict results to.

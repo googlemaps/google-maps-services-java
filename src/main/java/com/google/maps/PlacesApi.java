@@ -44,13 +44,13 @@ public class PlacesApi {
   }
 
   /**
-   * Retrieve the next page of Text Search results. The nextPageToken, returned in a
-   * PlaceSearchResponse when there are more pages of results, encodes all of the original Text
-   * Search Request parameters, and are thus not required on this call.
+   * Retrieve the next page of Nearby Search results. The nextPageToken, returned in a
+   * PlacesSearchResponse when there are more pages of results, encodes all of the original Nearby
+   * Search Request parameters, which are thus not required on this call.
    *
    * @param context The context on which to make Geo API requests.
-   * @param nextPageToken The nextPageToken returned as part of a PlaceSearchResponse.
-   * @return Returns a TextSearchRequest that can be executed.
+   * @param nextPageToken The nextPageToken returned as part of a PlacesSearchResponse.
+   * @return Returns a NearbySearchRequest that can be executed.
    */
   public static NearbySearchRequest nearbySearchNextPage(
       GeoApiContext context, String nextPageToken) {
@@ -60,7 +60,7 @@ public class PlacesApi {
   }
 
   /**
-   * Perform a search for Places using a text query — for example "pizza in New York" or "shoe
+   * Perform a search for Places using a text query; for example, "pizza in New York" or "shoe
    * stores near Ottawa".
    *
    * @param context The context on which to make Geo API requests.
@@ -75,11 +75,11 @@ public class PlacesApi {
 
   /**
    * Retrieve the next page of Text Search results. The nextPageToken, returned in a
-   * PlaceSearchResponse when there are more pages of results, encodes all of the original Text
-   * Search Request parameters, and are thus not required on this call.
+   * PlacesSearchResponse when there are more pages of results, encodes all of the original Text
+   * Search Request parameters, which are thus not required on this call.
    *
    * @param context The context on which to make Geo API requests.
-   * @param nextPageToken The nextPageToken returned as part of a PlaceSearchResponse.
+   * @param nextPageToken The nextPageToken returned as part of a PlacesSearchResponse.
    * @return Returns a TextSearchRequest that can be executed.
    */
   public static TextSearchRequest textSearchNextPage(GeoApiContext context, String nextPageToken) {
@@ -112,10 +112,10 @@ public class PlacesApi {
   /**
    * Request the details of a Place.
    *
-   * <p>We are only enabling looking up Places by placeId as the older Place identifier - reference
-   * - is deprecated. Please see the <a
-   * href="https://developers.google.com/places/web-service/details#deprecation">deprecation
-   * warning</a>.
+   * <p>We are only enabling looking up Places by placeId as the older Place identifier, reference,
+   * is deprecated. Please see the <a
+   * href="https://web.archive.org/web/20170521070241/https://developers.google.com/places/web-service/details#deprecation">
+   * deprecation warning</a>.
    *
    * @param context The context on which to make Geo API requests.
    * @param placeId The PlaceID to request details on.

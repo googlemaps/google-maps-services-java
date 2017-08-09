@@ -21,7 +21,7 @@ import java.util.Currency;
 /**
  * A representation of ticket cost for use on public transit.
  *
- * <p>See <a href="https://developers.google.com/maps/documentation/directions/intro#Routes">the
+ * <p>See the <a href="https://developers.google.com/maps/documentation/directions/intro#Routes">
  * Routes Documentation</a> for more detail.
  */
 public class Fare {

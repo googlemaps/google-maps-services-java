@@ -18,8 +18,10 @@ package com.google.maps.model;
 /**
  * The parts of an address.
  *
- * <p>See <a href="https://developers.google.com/maps/documentation/geocoding/">here for more
- * detail</a>.
+ * <p>See <a href="https://developers.google.com/maps/documentation/geocoding/intro#Types">Address
+ * Types and Address Component Types</a> in the <a
+ * href="https://developers.google.com/maps/documentation/geocoding/intro">Google Maps Geocoding API
+ * Developer's Guide</a> for more detail.
  */
 public class AddressComponent {
   /**

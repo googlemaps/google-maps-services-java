@@ -53,9 +53,9 @@ public class DistanceMatrixApiRequest
 
   /**
    * One or more addresses from which to calculate distance and time. The service will geocode the
-   * string and convert it to a latitude/longitude coordinate to calculate directions.
+   * strings and convert them to latitude/longitude coordinates to calculate directions.
    *
-   * @param origins String to geocode and use as an origin point (e.g. "New York, NY")
+   * @param origins Strings to geocode and use as an origin point (e.g. "New York, NY")
    * @return Returns this {@code DistanceMatrixApiRequest} for call chaining.
    */
   public DistanceMatrixApiRequest origins(String... origins) {
@@ -74,9 +74,9 @@ public class DistanceMatrixApiRequest
 
   /**
    * One or more addresses to which to calculate distance and time. The service will geocode the
-   * string and convert it to a latitude/longitude coordinate to calculate directions.
+   * strings and convert them to latitude/longitude coordinates to calculate directions.
    *
-   * @param destinations String to geocode and use as a destination point (e.g. "New Jersey, NY")
+   * @param destinations Strings to geocode and use as a destination point (e.g. "Jersey City, NJ")
    * @return Returns this {@code DistanceMatrixApiRequest} for call chaining.
    */
   public DistanceMatrixApiRequest destinations(String... destinations) {
@@ -128,8 +128,9 @@ public class DistanceMatrixApiRequest
    * Specifies the unit system to use when expressing distance as text. Distance Matrix results
    * contain text within distance fields to indicate the distance of the calculated route.
    *
-   * @param unit One of {@link Unit#METRIC}, {@link Unit#IMPERIAL}.
-   * @see <a href="https://developers.google.com/maps/documentation/distancematrix/#unit_systems">
+   * @param unit One of {@link Unit#METRIC} or {@link Unit#IMPERIAL}.
+   * @see <a
+   *     href="https://developers.google.com/maps/documentation/distance-matrix/intro#unit_systems">
    *     Unit systems in the Distance Matrix API</a>
    * @return Returns this {@code DistanceMatrixApiRequest} for call chaining.
    */
@@ -145,7 +146,7 @@ public class DistanceMatrixApiRequest
    * <ul>
    *   <li>For requests where the travel mode is transit: You can optionally specify one of
    *       departure_time or arrival_time. If neither time is specified, the departure_time defaults
-   *       to now (that is, the departure time defaults to the current time).
+   *       to now. (That is, the departure time defaults to the current time.)
    *   <li>For requests where the travel mode is driving: Google Maps API for Work customers can
    *       specify the departure_time to receive trip duration considering current traffic
    *       conditions. The departure_time must be set to within a few minutes of the current time.

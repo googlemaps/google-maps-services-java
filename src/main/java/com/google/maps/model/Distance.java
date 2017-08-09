@@ -26,7 +26,7 @@ public class Distance {
 
   /**
    * This is the human friendly distance. This is rounded and in an appropriate unit for the
-   * request. The units can be overriden with a request parameter.
+   * request. The units can be overridden with a request parameter.
    */
   public String humanReadable;
 

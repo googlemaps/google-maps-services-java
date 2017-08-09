@@ -16,9 +16,9 @@
 package com.google.maps.model;
 
 /**
- * The Adress Component types. Please see <a
- * href="https://developers.google.com/maps/documentation/geocoding/#Types">Address Component
- * Types</a> for more detail.
+ * The Address Component types. Please see <a
+ * href="https://developers.google.com/maps/documentation/geocoding/intro#Types">Address Types and
+ * Address Component Types</a> for more detail.
  */
 public enum AddressComponentType {
 

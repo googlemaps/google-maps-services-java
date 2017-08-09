@@ -16,7 +16,7 @@
 package com.google.maps.model;
 
 /**
- * Cell tower objects
+ * A cell tower object.
  *
  * <p>The Geolocation API request body's cellTowers array contains zero or more cell tower objects.
  *
