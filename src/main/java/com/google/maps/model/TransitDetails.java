@@ -19,7 +19,7 @@ import org.joda.time.DateTime;
 
 /**
  * Transit directions return additional information that is not relevant for other modes of
- * transportation. These additional properties are exposed through the {@code transit_details}
+ * transportation. These additional properties are exposed through the {@code TransitDetails}
  * object, returned as a field of an element in the {@code steps} array. From the {@code
  * TransitDetails} object you can access additional information about the transit stop, transit line
  * and transit agency.
@@ -60,7 +60,7 @@ public class TransitDetails {
   /**
    * {@code numStops} contains the number of stops in this step, counting the arrival stop, but not
    * the departure stop. For example, if your directions involve leaving from Stop A, passing
-   * through stops B and C, and arriving at stop D, {@code numStops} will return 3.
+   * through stops B and C, and arriving at stop D, {@code numStops} will equal 3.
    */
   public int numStops;
 

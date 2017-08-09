@@ -16,7 +16,7 @@
 package com.google.maps.errors;
 
 /**
- * ApiException and it's descendants represent an error returned by the remote API. API errors are
+ * ApiException and its descendants represent an error returned by the remote API. API errors are
  * determined by the {@code status} field returned in any of the Geo API responses.
  */
 public class ApiException extends Exception {

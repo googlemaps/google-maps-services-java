@@ -18,7 +18,8 @@ package com.google.maps.errors;
 /**
  * Indicates that the product of origins and destinations exceeds the per-query limit.
  *
- * @see <a href="https://developers.google.com/maps/documentation/distancematrix/#Limits">Limits</a>
+ * @see <a href="https://developers.google.com/maps/documentation/distance-matrix/usage-limits">
+ *     Limits</a>
  */
 public class MaxElementsExceededException extends ApiException {
 

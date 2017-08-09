@@ -71,7 +71,7 @@ public class OpeningHours {
 
   /**
    * weekdayText is an array of seven strings representing the formatted opening hours for each day
-   * of the week, for example "Monday: 8:30 am – 5:30 pm".
+   * of the week; for example, "Monday: 8:30 am – 5:30 pm".
    */
   public String[] weekdayText;
 

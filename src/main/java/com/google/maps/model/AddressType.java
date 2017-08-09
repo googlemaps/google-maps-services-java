@@ -19,9 +19,10 @@ import com.google.maps.internal.StringJoin.UrlValue;
 
 /**
  * The Address types. Please see <a
- * href="https://developers.google.com/maps/documentation/geocoding/intro#Types">Address Types</a>
- * for more detail. Some addresses contain additional place categories. Please see <a
- * href="https://developers.google.com/places/documentation/supported_types">Places</a>
+ * href="https://developers.google.com/maps/documentation/geocoding/intro#Types">Address Types and
+ * Address Component Types</a> for more detail. Some addresses contain additional place categories.
+ * Please see <a href="https://developers.google.com/places/supported_types">Place Types</a> for
+ * more detail.
  */
 public enum AddressType implements UrlValue {
 
@@ -94,9 +95,10 @@ public enum AddressType implements UrlValue {
   WARD("ward"),
 
   /**
-   * {@code SUBLOCALITY} indicates a first-order civil entity below a locality. For some locations
-   * may receive one of the additional types: sublocality_level_1 to sublocality_level_5. Each
-   * sublocality level is a civil entity. Larger numbers indicate a smaller geographic area.
+   * {@code SUBLOCALITY} indicates a first-order civil entity below a locality. Some locations may
+   * receive one of the additional types: {@code SUBLOCALITY_LEVEL_1} to {@code
+   * SUBLOCALITY_LEVEL_5}. Each sublocality level is a civil entity. Larger numbers indicate a
+   * smaller geographic area.
    */
   SUBLOCALITY("sublocality"),
   SUBLOCALITY_LEVEL_1("sublocality_level_1"),
@@ -116,7 +118,7 @@ public enum AddressType implements UrlValue {
 
   /**
    * {@code SUBPREMISE} indicates a first-order entity below a named location, usually a singular
-   * building within a collection of buildings with a common name
+   * building within a collection of buildings with a common name.
    */
   SUBPREMISE("subpremise"),
 

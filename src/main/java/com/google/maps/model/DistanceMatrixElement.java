@@ -16,7 +16,7 @@
 package com.google.maps.model;
 
 /**
- * A single result corresponding to a origin/destination pair in a Distance Matrix response.
+ * A single result corresponding to an origin/destination pair in a Distance Matrix response.
  *
  * <p>Be sure to check the status for each element, as a matrix response can have a mix of
  * successful and failed elements depending on the connectivity of the origin and destination.
@@ -30,7 +30,7 @@ public class DistanceMatrixElement {
    */
   public DistanceMatrixElementStatus status;
 
-  /** {@code duration} indicates the total duration of this leg */
+  /** {@code duration} indicates the total duration of this leg. */
   public Duration duration;
 
   /**
@@ -51,9 +51,6 @@ public class DistanceMatrixElement {
   /** {@code distance} indicates the total distance covered by this leg. */
   public Distance distance;
 
-  /**
-   * {@code fare} indicates the contains information about the fare (that is, the ticket costs) on
-   * this route.
-   */
+  /** {@code fare} contains information about the fare (that is, the ticket costs) on this route. */
   public Fare fare;
 }

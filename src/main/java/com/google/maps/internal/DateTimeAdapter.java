@@ -59,7 +59,7 @@ public class DateTimeAdapter extends TypeAdapter<DateTime> {
     while (reader.hasNext()) {
       String name = reader.nextName();
       if (name.equals("text")) {
-        // Ignore the human readable rendering.
+        // Ignore the human-readable rendering.
         reader.nextString();
       } else if (name.equals("time_zone")) {
         timeZoneId = reader.nextString();

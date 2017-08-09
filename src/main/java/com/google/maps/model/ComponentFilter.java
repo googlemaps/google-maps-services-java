@@ -25,7 +25,7 @@ import com.google.maps.internal.StringJoin;
  * specified using the components filter.
  *
  * <p>Please see <a
- * href="https://developers.google.com/maps/documentation/geocoding/#ComponentFiltering">Component
+ * href="https://developers.google.com/maps/documentation/geocoding/intro#ComponentFiltering">Component
  * Filtering</a> for more detail.
  */
 public class ComponentFilter implements StringJoin.UrlValue {

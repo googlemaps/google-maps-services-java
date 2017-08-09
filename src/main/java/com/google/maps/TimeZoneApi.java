@@ -26,7 +26,8 @@ import java.util.TimeZone;
  * The Google Time Zone API provides a simple interface to request the time zone for a location on
  * the earth.
  *
- * <p>See <a href="https://developers.google.com/maps/documentation/timezone/">documentation</a>.
+ * <p>See the <a href="https://developers.google.com/maps/documentation/timezone/">Time Zone API
+ * documentation</a>.
  */
 public class TimeZoneApi {
   private static final ApiConfig API_CONFIG =

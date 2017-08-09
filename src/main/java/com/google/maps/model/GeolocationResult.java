@@ -16,13 +16,13 @@
 package com.google.maps.model;
 
 /**
- * Geolocation Results
+ * Geolocation Results.
  *
  * <p>A successful geolocation request will return a result defining a location and radius.
  *
  * <p>Please see <a
  * href="https://developers.google.com/maps/documentation/geolocation/intro#responses">Geolocation
- * results</a> for more detail.
+ * responses</a> for more detail.
  */
 public class GeolocationResult {
   /**

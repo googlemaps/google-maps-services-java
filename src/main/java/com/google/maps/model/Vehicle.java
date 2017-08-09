@@ -24,7 +24,7 @@ package com.google.maps.model;
  */
 public class Vehicle {
 
-  /** {@code name} contains the name of the vehicle on this line. eg. "Subway." */
+  /** {@code name} contains the name of the vehicle on this line. E.g. "Subway." */
   public String name;
 
   /**
