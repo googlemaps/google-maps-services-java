@@ -21,8 +21,8 @@ import org.joda.time.DateTime;
  * Transit directions return additional information that is not relevant for other modes of
  * transportation. These additional properties are exposed through the {@code TransitDetails}
  * object, returned as a field of an element in the {@code steps} array. From the {@code
- * TransitDetails} object you can access additional information about the transit stop, transit line
- * and transit agency.
+ * TransitDetails} object you can access additional information about the transit stop, transit
+ * line, and transit agency.
  */
 public class TransitDetails {
 
