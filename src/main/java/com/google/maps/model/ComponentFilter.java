@@ -20,9 +20,9 @@ import static com.google.maps.internal.StringJoin.join;
 import com.google.maps.internal.StringJoin;
 
 /**
- * This class represents a component filter for a geocode request. In a geocoding response, the
- * Google Geocoding API can return address results restricted to a specific area. The restriction is
- * specified using the components filter.
+ * A component filter for a geocode request. In a geocoding response, the Google Geocoding API can
+ * return address results restricted to a specific area. The restriction is specified using the
+ * components filter.
  *
  * <p>Please see <a
  * href="https://developers.google.com/maps/documentation/geocoding/intro#ComponentFiltering">Component
@@ -33,7 +33,7 @@ public class ComponentFilter implements StringJoin.UrlValue {
   public final String value;
 
   /**
-   * Construct a component filter.
+   * Constructs a component filter.
    *
    * @param component The component to filter.
    * @param value The value of the filter.
@@ -54,7 +54,7 @@ public class ComponentFilter implements StringJoin.UrlValue {
   }
 
   /**
-   * {@code route} matches long or short name of a route.
+   * Matches long or short name of a route.
    *
    * @param route The name of the route to filter on.
    * @return Returns a {@link ComponentFilter}.
@@ -64,7 +64,7 @@ public class ComponentFilter implements StringJoin.UrlValue {
   }
 
   /**
-   * {@code locality} matches against both locality and sublocality types.
+   * Matches against both locality and sublocality types.
    *
    * @param locality The locality to filter on.
    * @return Returns a {@link ComponentFilter}.
@@ -74,7 +74,7 @@ public class ComponentFilter implements StringJoin.UrlValue {
   }
 
   /**
-   * {@code administrativeArea} matches all the administrative area levels.
+   * Matches all the administrative area levels.
    *
    * @param administrativeArea The administrative area to filter on.
    * @return Returns a {@link ComponentFilter}.
@@ -84,7 +84,7 @@ public class ComponentFilter implements StringJoin.UrlValue {
   }
 
   /**
-   * {@code postalCode} matches postal code and postal code prefix.
+   * Matches postal code or postal code prefix.
    *
    * @param postalCode The postal code to filter on.
    * @return Returns a {@link ComponentFilter}.
@@ -94,7 +94,7 @@ public class ComponentFilter implements StringJoin.UrlValue {
   }
 
   /**
-   * {@code country} matches a country name or a two letter ISO 3166-1 country code.
+   * Matches a country name or a two letter ISO 3166-1 country code.
    *
    * @param country The country to filter on.
    * @return Returns a {@link ComponentFilter}.
