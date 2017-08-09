@@ -62,14 +62,12 @@ public class AutocompletePrediction {
   public MatchedSubstring matchedSubstrings[];
 
   /**
-   * Identifies each section of the returned description. (A section of the description is
-   * generally terminated with a comma.)
+   * Identifies each section of the returned description. (A section of the description is generally
+   * terminated with a comma.)
    */
   public static class Term {
 
-    /**
-     * The start position of this term in the description, measured in Unicode characters.
-     */
+    /** The start position of this term in the description, measured in Unicode characters. */
     public int offset;
 
     /** The text of the matched term. */

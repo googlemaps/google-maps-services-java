@@ -21,6 +21,6 @@ package com.google.maps.model;
  */
 public class DistanceMatrixRow {
 
-  /** {@code elements} contains the results for this row, or individual origin. */
+  /** The results for this row, or individual origin. */
   public DistanceMatrixElement[] elements;
 }

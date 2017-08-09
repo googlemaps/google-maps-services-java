@@ -88,13 +88,13 @@ public class DirectionsApi {
    */
   public enum RouteRestriction implements UrlValue {
 
-    /** {@code TOLLS} indicates that the calculated route should avoid toll roads/bridges. */
+    /** Indicates that the calculated route should avoid toll roads/bridges. */
     TOLLS("tolls"),
 
-    /** {@code HIGHWAYS} indicates that the calculated route should avoid highways. */
+    /** Indicates that the calculated route should avoid highways. */
     HIGHWAYS("highways"),
 
-    /** {@code FERRIES} indicates that the calculated route should avoid ferries. */
+    /** Indicates that the calculated route should avoid ferries. */
     FERRIES("ferries");
 
     private final String restriction;

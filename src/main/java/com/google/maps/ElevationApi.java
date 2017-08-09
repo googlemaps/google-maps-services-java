@@ -39,7 +39,7 @@ public class ElevationApi {
   private ElevationApi() {}
 
   /**
-   * Get a list of elevations for a list of points.
+   * Gets a list of elevations for a list of points.
    *
    * @param context The {@link GeoApiContext} to make requests through.
    * @param points The points to retrieve elevations for.
@@ -100,7 +100,7 @@ public class ElevationApi {
   }
 
   /**
-   * Retrieve the elevation of a single location.
+   * Retrieves the elevation of a single location.
    *
    * @param context The {@link GeoApiContext} to make requests through.
    * @param location The location to retrieve the elevation for.
@@ -135,7 +135,7 @@ public class ElevationApi {
   }
 
   /**
-   * Retrieve the elevations of an encoded polyline path.
+   * Retrieves the elevations of an encoded polyline path.
    *
    * @param context The {@link GeoApiContext} to make requests through.
    * @param encodedPolyline The encoded polyline to retrieve elevations for.

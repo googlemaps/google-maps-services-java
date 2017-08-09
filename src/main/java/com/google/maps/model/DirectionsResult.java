@@ -24,15 +24,14 @@ package com.google.maps.model;
 public class DirectionsResult {
 
   /**
-   * {@code geocodedWaypoints} contains an array with details about the geocoding of origin,
-   * destination and waypoints. See <a
+   * Details about the geocoding of origin, destination, and waypoints. See <a
    * href="https://developers.google.com/maps/documentation/directions/intro#GeocodedWaypoints">
    * Geocoded Waypoints</a> for more detail.
    */
   public GeocodedWaypoint geocodedWaypoints[];
 
   /**
-   * {@code routes} contains an array of routes from the origin to the destination. See <a
+   * Routes from the origin to the destination. See <a
    * href="https://developers.google.com/maps/documentation/directions/intro#Routes">Routes</a> for
    * more detail.
    */
