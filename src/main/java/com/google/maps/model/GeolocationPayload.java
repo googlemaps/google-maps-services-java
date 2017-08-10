@@ -49,33 +49,27 @@ public class GeolocationPayload {
     cellTowers = _cellTowers;
     wifiAccessPoints = _wifiAccessPoints;
   }
-  /** {@code homeMobileCountryCode}: The mobile country code (MCC) for the device's home network. */
+  /** The mobile country code (MCC) for the device's home network. */
   public Integer homeMobileCountryCode = null;
-  /** {@code homeMobileNetworkCode}: The mobile network code (MNC) for the device's home network. */
+  /** The mobile network code (MNC) for the device's home network. */
   public Integer homeMobileNetworkCode = null;
   /**
-   * {@code radioType}: The mobile radio type. Supported values are lte, gsm, cdma, and wcdma. While
-   * this field is optional, it should be included if a value is available, for more accurate
-   * results.
+   * The mobile radio type. Supported values are {@code "lte"}, {@code "gsm"}, {@code "cdma"}, and
+   * {@code "wcdma"}. While this field is optional, it should be included if a value is available,
+   * for more accurate results.
    */
   public String radioType = null;
-  /** {@code carrier}: The carrier name. */
+  /** The carrier name. */
   public String carrier = null;
   /**
-   * {@code considerIp}: Specifies whether to fall back to IP geolocation if wifi and cell tower
-   * signals are not available. Note that the IP address in the request header may not be the IP of
-   * the device. Defaults to true. Set considerIp to false to disable fall back.
+   * Specifies whether to fall back to IP geolocation if wifi and cell tower signals are not
+   * available. Note that the IP address in the request header may not be the IP of the device.
+   * Defaults to true. Set considerIp to false to disable fall back.
    */
   public Boolean considerIp = null;
-  /**
-   * {@code cellTowers}: An array of cell tower objects. See {@link
-   * com.google.maps.model.CellTower}.
-   */
+  /** An array of cell tower objects. See {@link com.google.maps.model.CellTower}. */
   public CellTower[] cellTowers;
-  /**
-   * {@code wifiAccessPoints}: An array of WiFi access point objects. See {@link
-   * com.google.maps.model.WifiAccessPoint}.
-   */
+  /** An array of WiFi access point objects. See {@link com.google.maps.model.WifiAccessPoint}. */
   public WifiAccessPoint[] wifiAccessPoints;
 
   public static class GeolocationPayloadBuilder {

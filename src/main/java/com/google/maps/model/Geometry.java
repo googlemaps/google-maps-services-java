@@ -15,19 +15,19 @@
 
 package com.google.maps.model;
 
-/** The Geometry of a Geocoding Result. */
+/** The geometry of a Geocoding result. */
 public class Geometry {
   /**
-   * {@code bounds} (optionally returned) stores the bounding box which can fully contain the
-   * returned result. Note that these bounds may not match the recommended viewport. (For example,
-   * San Francisco includes the Farallon islands, which are technically part of the city, but
-   * probably should not be returned in the viewport.)
+   * The bounding box which can fully contain the returned result (optionally returned). Note that
+   * these bounds may not match the recommended viewport. (For example, San Francisco includes the
+   * Farallon islands, which are technically part of the city, but probably should not be returned
+   * in the viewport.)
    */
   public Bounds bounds;
 
   /**
-   * {@code location} contains the geocoded latitude/longitude value. For normal address lookups,
-   * this field is typically the most important.
+   * The geocoded latitude/longitude value. For normal address lookups, this field is typically the
+   * most important.
    */
   public LatLng location;
 
@@ -35,8 +35,8 @@ public class Geometry {
   public LocationType locationType;
 
   /**
-   * {@code viewport} contains the recommended viewport for displaying the returned result.
-   * Generally the viewport is used to frame a result when displaying it to a user.
+   * The recommended viewport for displaying the returned result. Generally the viewport is used to
+   * frame a result when displaying it to a user.
    */
   public Bounds viewport;
 }

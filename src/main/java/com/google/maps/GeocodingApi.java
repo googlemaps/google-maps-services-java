@@ -33,7 +33,7 @@ public class GeocodingApi {
   private GeocodingApi() {}
 
   /**
-   * Create a new Geocoding API request.
+   * Creates a new Geocoding API request.
    *
    * @param context The {@link GeoApiContext} to make requests through.
    * @return Returns the request, ready to run.
@@ -43,7 +43,7 @@ public class GeocodingApi {
   }
 
   /**
-   * Request the latitude and longitude of an {@code address}.
+   * Requests the latitude and longitude of an {@code address}.
    *
    * @param context The {@link GeoApiContext} to make requests through.
    * @param address The address to geocode.
@@ -56,7 +56,7 @@ public class GeocodingApi {
   }
 
   /**
-   * Request the street address of a {@code location}.
+   * Requests the street address of a {@code location}.
    *
    * @param context The {@link GeoApiContext} to make requests through.
    * @param location The location to reverse geocode.

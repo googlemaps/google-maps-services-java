@@ -74,9 +74,9 @@ public class GeoApiContext {
   }
 
   /**
-   * RequestHandler is the service provider interface that enables requests to be handled via
-   * switchable back ends. There are supplied implementations of this interface for both OkHttp and
-   * Google App Engine's URL Fetch API.
+   * The service provider interface that enables requests to be handled via switchable back ends.
+   * There are supplied implementations of this interface for both OkHttp and Google App Engine's
+   * URL Fetch API.
    *
    * @see OkHttpRequestHandler
    * @see GaeRequestHandler
@@ -104,6 +104,7 @@ public class GeoApiContext {
         Integer maxRetries,
         ExceptionsAllowedToRetry exceptionsAllowedToRetry);
 
+    /** Builder pattern for {@code GeoApiContext.RequestHandler}. */
     interface Builder {
 
       void connectTimeout(long timeout, TimeUnit unit);
@@ -273,7 +274,7 @@ public class GeoApiContext {
     }
   }
 
-  /** This is the Builder for {@code GeoApiContext}. */
+  /** The Builder for {@code GeoApiContext}. */
   public static class Builder {
 
     private RequestHandler.Builder builder;
@@ -297,8 +298,8 @@ public class GeoApiContext {
     }
 
     /**
-     * Change the RequestHandler.Builder strategy to change between the {@code OkHttpRequestHandler}
-     * and the {@code GaeRequestHandler}.
+     * Changes the RequestHandler.Builder strategy to change between the {@code
+     * OkHttpRequestHandler} and the {@code GaeRequestHandler}.
      *
      * @param builder The {@code RequestHandler.Builder} to use for {@link #build()}
      * @return Returns this builder for call chaining.
@@ -312,7 +313,7 @@ public class GeoApiContext {
     }
 
     /**
-     * Override the base URL of the API endpoint. Useful only for testing.
+     * Overrides the base URL of the API endpoint. Useful only for testing.
      *
      * @param baseUrl The URL to use, without a trailing slash, e.g. https://maps.googleapis.com
      * @return Returns this builder for call chaining.
@@ -323,7 +324,7 @@ public class GeoApiContext {
     }
 
     /**
-     * Set the API Key to use for authorizing requests.
+     * Sets the API Key to use for authorizing requests.
      *
      * @param apiKey The API Key to use.
      * @return Returns this builder for call chaining.
@@ -334,7 +335,7 @@ public class GeoApiContext {
     }
 
     /**
-     * Set the ClientID/Secret pair to use for authorizing requests.
+     * Sets the ClientID/Secret pair to use for authorizing requests.
      *
      * @param clientId The Client ID to use.
      * @param cryptographicSecret The Secret to use.
@@ -430,7 +431,7 @@ public class GeoApiContext {
     }
 
     /**
-     * Disable retries completely, by setting max retries to 0 and retry timeout to 0.
+     * Disables retries completely, by setting max retries to 0 and retry timeout to 0.
      *
      * @return Returns this builder for call chaining.
      */
@@ -482,7 +483,7 @@ public class GeoApiContext {
     }
 
     /**
-     * Convert this builder into a {@code GeoApiContext}.
+     * Converts this builder into a {@code GeoApiContext}.
      *
      * @return Returns the built {@code GeoApiContext}.
      */
