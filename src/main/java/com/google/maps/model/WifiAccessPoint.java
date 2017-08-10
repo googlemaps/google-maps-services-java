@@ -16,7 +16,7 @@
 package com.google.maps.model;
 
 /**
- * WiFi access point objects.
+ * A WiFi access point.
  *
  * <p>The request body's {@code wifiAccessPoints} array must contain two or more WiFi access point
  * objects. {@code macAddress} is required; all other fields are optional.
@@ -42,18 +42,18 @@ public class WifiAccessPoint {
     signalToNoiseRatio = _signalToNoiseRatio;
   }
   /**
-   * {@code macAddress}: (required) The MAC address of the WiFi node. Separators must be : (colon)
-   * and hex digits must use uppercase.
+   * The MAC address of the WiFi node (required). Separators must be {@code :} (colon) and hex
+   * digits must use uppercase.
    */
   // TODO: add validation and test cases for malformed MAC Asdresses
   public String macAddress;
-  /** {@code signalStrength}: The current signal strength measured in dBm. */
+  /** The current signal strength measured in dBm. */
   public Integer signalStrength = null;
-  /** {@code age}: The number of milliseconds since this access point was detected. */
+  /** The number of milliseconds since this access point was detected. */
   public Integer age = null;
-  /** {@code channel}: The channel over which the client is communicating with the access point. */
+  /** The channel over which the client is communicating with the access point. */
   public Integer channel = null;
-  /** {@code signalToNoiseRatio}: The current signal to noise ratio measured in dB. */
+  /** The current signal to noise ratio measured in dB. */
   public Integer signalToNoiseRatio = null;
 
   public static class WifiAccessPointBuilder {
