@@ -24,9 +24,9 @@ package com.google.maps.model;
  */
 public class StopDetails {
 
-  /** The name of the transit station/stop. E.g. "Union Square". */
+  /** The name of the transit station/stop. E.g. {@code "Union Square"}. */
   public String name;
 
-  /** The location of the transit station/stop, represented as a latitude/longitude value. */
+  /** The location of the transit station/stop. */
   public LatLng location;
 }
