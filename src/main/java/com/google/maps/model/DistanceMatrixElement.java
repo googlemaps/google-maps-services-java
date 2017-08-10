@@ -39,7 +39,7 @@ public class DistanceMatrixElement {
    *
    * <ol>
    *   <li>The request includes a departureTime parameter.
-   *   <li>The request includes a valid API key, or a valid Google Maps APIs Premium Plan client ID
+   *   <li>The request includes a valid API key or a valid Google Maps APIs Premium Plan client ID
    *       and signature.
    *   <li>Traffic conditions are available for the requested route.
    *   <li>The mode parameter is set to driving.

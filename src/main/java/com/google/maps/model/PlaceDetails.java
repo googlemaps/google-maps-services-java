@@ -21,7 +21,7 @@ import org.joda.time.Instant;
 /**
  * PlaceDetails is the result of a Place Details request. A Place Details request returns more
  * comprehensive information about the indicated place such as its complete address, phone number,
- * user rating and reviews.
+ * user rating, and reviews.
  *
  * <p>See <a href="https://developers.google.com/places/web-service/details#PlaceDetailsResults">
  * Place Details Results</a> for more detail.
