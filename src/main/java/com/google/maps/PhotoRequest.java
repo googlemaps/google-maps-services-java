@@ -44,7 +44,7 @@ public class PhotoRequest
   }
 
   /**
-   * Set the photoReference for this request.
+   * Sets the photoReference for this request.
    *
    * @param photoReference A string identifier that uniquely identifies a photo. Photo references
    *     are returned from either a Place Search or Place Details request.
@@ -55,10 +55,10 @@ public class PhotoRequest
   }
 
   /**
-   * Set the maxHeight for this request.
+   * Sets the maxHeight for this request.
    *
-   * @param maxHeight Specifies the maximum desired height, in pixels, of the image returned by the
-   *     Place Photos service.
+   * @param maxHeight The maximum desired height, in pixels, of the image returned by the Place
+   *     Photos service.
    * @return Returns the configured PhotoRequest.
    */
   public PhotoRequest maxHeight(int maxHeight) {
@@ -66,10 +66,10 @@ public class PhotoRequest
   }
 
   /**
-   * Set the maxWidth for this request.
+   * Sets the maxWidth for this request.
    *
-   * @param maxWidth Specifies the maximum desired width, in pixels, of the image returned by the
-   *     Place Photos service.
+   * @param maxWidth The maximum desired width, in pixels, of the image returned by the Place Photos
+   *     service.
    * @return Returns the configured PhotoRequest.
    */
   public PhotoRequest maxWidth(int maxWidth) {

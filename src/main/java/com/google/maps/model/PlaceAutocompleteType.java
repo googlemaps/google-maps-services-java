@@ -18,8 +18,8 @@ package com.google.maps.model;
 import com.google.maps.internal.StringJoin;
 
 /**
- * PlaceAutocompleteType is used by the Places API to restrict the autocomplete results to places
- * matching the specified type.
+ * Used by the Places API to restrict the autocomplete results to places matching the specified
+ * type.
  */
 public enum PlaceAutocompleteType implements StringJoin.UrlValue {
   GEOCODE("geocode"),

@@ -16,21 +16,21 @@
 package com.google.maps.model;
 
 /**
- * This describes a photo available with a Search Result.
+ * Describes a photo available with a Search Result.
  *
  * <p>Please see <a href="https://developers.google.com/places/web-service/photos">Place Photos</a>
  * for more details.
  */
 public class Photo {
-  /** photoReference is used to identify the photo when you perform a Photo request. */
+  /** Used to identify the photo when you perform a Photo request. */
   public String photoReference;
 
-  /** height is the maximum height of the image. */
+  /** The maximum height of the image. */
   public int height;
 
-  /** width is the maximum width of the image. */
+  /** The maximum width of the image. */
   public int width;
 
-  /** htmlAttributions contains any required attributions. */
+  /** Attributions about this listing which must be displayed to the user. */
   public String[] htmlAttributions;
 }

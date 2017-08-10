@@ -44,8 +44,8 @@ public class PlaceAutocompleteRequest
   }
 
   /**
-   * input is the text string on which to search. The Places service will return candidate matches
-   * based on this string and order results based on their perceived relevance.
+   * Sets the text string on which to search. The Places service will return candidate matches based
+   * on this string and order results based on their perceived relevance.
    *
    * @param input The input text to autocomplete.
    * @return Returns this {@code PlaceAutocompleteRequest} for call chaining.
@@ -55,10 +55,10 @@ public class PlaceAutocompleteRequest
   }
 
   /**
-   * offset is the character position in the input term at which the service uses text for
-   * predictions. For example, if the input is 'Googl' and the completion point is 3, the service
-   * will match on 'Goo'. The offset should generally be set to the position of the text caret. If
-   * no offset is supplied, the service will use the entire term.
+   * The character position in the input term at which the service uses text for predictions. For
+   * example, if the input is 'Googl' and the completion point is 3, the service will match on
+   * 'Goo'. The offset should generally be set to the position of the text caret. If no offset is
+   * supplied, the service will use the entire term.
    *
    * @param offset The character offset position of the user's cursor.
    * @return Returns this {@code PlaceAutocompleteRequest} for call chaining.
@@ -68,7 +68,7 @@ public class PlaceAutocompleteRequest
   }
 
   /**
-   * location is the point around which you wish to retrieve place information.
+   * The point around which you wish to retrieve place information.
    *
    * @param location The {@link LatLng} location to center this autocomplete search.
    * @return Returns this {@code PlaceAutocompleteRequest} for call chaining.
@@ -78,9 +78,8 @@ public class PlaceAutocompleteRequest
   }
 
   /**
-   * radius is the distance (in meters) within which to return place results. Note that setting a
-   * radius biases results to the indicated area, but may not fully restrict results to the
-   * specified area.
+   * The distance (in meters) within which to return place results. Note that setting a radius
+   * biases results to the indicated area, but may not fully restrict results to the specified area.
    *
    * @param radius The radius over which to bias results.
    * @return Returns this {@code PlaceAutocompleteRequest} for call chaining.
@@ -90,7 +89,7 @@ public class PlaceAutocompleteRequest
   }
 
   /**
-   * type restricts the results to places matching the specified type.
+   * Restricts the results to places matching the specified type.
    *
    * @param type The type to restrict results to.
    * @return Returns this {@code PlaceAutocompleteRequest} for call chaining.
@@ -100,8 +99,8 @@ public class PlaceAutocompleteRequest
   }
 
   /**
-   * Components is a grouping of places to which you would like to restrict your results. Currently,
-   * you can use components to filter by country.
+   * A grouping of places to which you would like to restrict your results. Currently, you can use
+   * components to filter by country.
    *
    * @param filters The component filter to restrict results with.
    * @return Returns this {@code PlaceAutocompleteRequest} for call chaining.

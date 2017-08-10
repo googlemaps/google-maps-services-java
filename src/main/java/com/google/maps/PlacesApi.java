@@ -31,7 +31,7 @@ public class PlacesApi {
   private PlacesApi() {}
 
   /**
-   * Perform a search for nearby Places.
+   * Performs a search for nearby Places.
    *
    * @param context The context on which to make Geo API requests.
    * @param location The latitude/longitude around which to retrieve place information.
@@ -44,7 +44,7 @@ public class PlacesApi {
   }
 
   /**
-   * Retrieve the next page of Nearby Search results. The nextPageToken, returned in a
+   * Retrieves the next page of Nearby Search results. The nextPageToken, returned in a
    * PlacesSearchResponse when there are more pages of results, encodes all of the original Nearby
    * Search Request parameters, which are thus not required on this call.
    *
@@ -60,7 +60,7 @@ public class PlacesApi {
   }
 
   /**
-   * Perform a search for Places using a text query; for example, "pizza in New York" or "shoe
+   * Performs a search for Places using a text query; for example, "pizza in New York" or "shoe
    * stores near Ottawa".
    *
    * @param context The context on which to make Geo API requests.
@@ -74,7 +74,7 @@ public class PlacesApi {
   }
 
   /**
-   * Retrieve the next page of Text Search results. The nextPageToken, returned in a
+   * Retrieves the next page of Text Search results. The nextPageToken, returned in a
    * PlacesSearchResponse when there are more pages of results, encodes all of the original Text
    * Search Request parameters, which are thus not required on this call.
    *
@@ -89,7 +89,7 @@ public class PlacesApi {
   }
 
   /**
-   * Perform a radar search for up to 200 places, but with less detail than is returned from Text
+   * Performs a radar search for up to 200 places, but with less detail than is returned from Text
    * Search or Nearby Search.
    *
    * @deprecated This functionality is deprecated and will stop working on June 30, 2018.
@@ -110,7 +110,7 @@ public class PlacesApi {
   }
 
   /**
-   * Request the details of a Place.
+   * Requests the details of a Place.
    *
    * <p>We are only enabling looking up Places by placeId as the older Place identifier, reference,
    * is deprecated. Please see the <a
@@ -128,7 +128,7 @@ public class PlacesApi {
   }
 
   /**
-   * Request a Photo from a PhotoReference.
+   * Requests a Photo from a PhotoReference.
    *
    * <p>Note: If you want to use a Photo in a web browser, please retrieve the photos for a place
    * via our <a
@@ -148,8 +148,9 @@ public class PlacesApi {
   }
 
   /**
-   * The Place Autocomplete service can match on full words as well as substrings. Applications can
-   * therefore send queries as the user types, to provide on-the-fly place predictions.
+   * Creates a new Places Autocomplete request for a given input. The Place Autocomplete service can
+   * match on full words as well as substrings. Applications can therefore send queries as the user
+   * types, to provide on-the-fly place predictions.
    *
    * @param context The context on which to make Geo API requests.
    * @param input input is the text string on which to search.
@@ -162,8 +163,7 @@ public class PlacesApi {
   }
 
   /**
-   * Query Autocomplete allows you to add on-the-fly geographic query predictions to your
-   * application.
+   * Allows you to add on-the-fly geographic query predictions to your application.
    *
    * @param context The context on which to make Geo API requests.
    * @param input input is the text string on which to search.
