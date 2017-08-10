@@ -25,21 +25,19 @@ package com.google.maps.model;
 public class DistanceMatrix {
 
   /**
-   * {@code originAddresses} contains an array of addresses as returned by the API from your
-   * original request. These are formatted by the geocoder and localized according to the language
-   * parameter passed with the request.
+   * Origin addresses as returned by the API from your original request. These are formatted by the
+   * geocoder and localized according to the language parameter passed with the request.
    */
   public final String[] originAddresses;
 
   /**
-   * {@code destinationAddresses} contains an array of addresses as returned by the API from your
-   * original request. As with {@link #originAddresses}, these are localized if appropriate.
+   * Destination addresses as returned by the API from your original request. As with {@link
+   * #originAddresses}, these are localized if appropriate.
    */
   public final String[] destinationAddresses;
 
   /**
-   * {@code rows} contains an array of elements, which in turn each contain a status, duration, and
-   * distance element.
+   * An array of elements, each of which in turn contains a status, duration, and distance element.
    */
   public final DistanceMatrixRow[] rows;
 

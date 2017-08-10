@@ -24,19 +24,18 @@ package com.google.maps.model;
 public class DistanceMatrixElement {
 
   /**
-   * {@code status} indicates the status of the request for this origin/destination pair.
+   * The status of the request for this origin/destination pair.
    *
    * <p>Will be one of {@link com.google.maps.model.DistanceMatrixElementStatus}.
    */
   public DistanceMatrixElementStatus status;
 
-  /** {@code duration} indicates the total duration of this leg. */
+  /** The total duration of this leg. */
   public Duration duration;
 
   /**
-   * {@code durationInTraffic} indicates the length of time to travel this route, based on current
-   * and historical traffic conditions. The duration in traffic will only be returned if all of the
-   * following are true:
+   * The length of time to travel this route, based on current and historical traffic conditions.
+   * The duration in traffic will only be returned if all of the following are true:
    *
    * <ol>
    *   <li>The request includes a departureTime parameter.

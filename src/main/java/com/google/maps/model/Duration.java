@@ -19,12 +19,12 @@ package com.google.maps.model;
 public class Duration {
 
   /**
-   * This is the numeric duration, in seconds. This is intended to be used only in algorithmic
-   * situations, e.g. sorting results by some user specified metric.
+   * The numeric duration, in seconds. This is intended to be used only in algorithmic situations,
+   * e.g. sorting results by some user specified metric.
    */
   public long inSeconds;
 
-  /** This is the human friendly duration. Use this for display purposes. */
+  /** The human-friendly duration. Use this for display purposes. */
   public String humanReadable;
 
   @Override

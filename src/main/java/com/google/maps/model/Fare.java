@@ -26,13 +26,9 @@ import java.util.Currency;
  */
 public class Fare {
 
-  /**
-   * {@code currency} contains the currency indicating the currency that the amount is expressed in.
-   */
+  /** The currency that the amount is expressed in. */
   public Currency currency;
 
-  /**
-   * {@code value} contains the total fare amount, in the currency specified in {@link #currency}.
-   */
+  /** The total fare amount, in the currency specified in {@link #currency}. */
   public BigDecimal value;
 }

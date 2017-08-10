@@ -23,17 +23,12 @@ package com.google.maps.model;
  *     Documentation on status codes</a>
  */
 public enum DistanceMatrixElementStatus {
-  /** {@code OK} indicates that the response contains a valid result. */
+  /** Indicates that the response contains a valid result. */
   OK,
 
-  /**
-   * {@code NOT_FOUND} indicates that the origin and/or destination of this pairing could not be
-   * geocoded.
-   */
+  /** Indicates that the origin and/or destination of this pairing could not be geocoded. */
   NOT_FOUND,
 
-  /**
-   * {@code ZERO_RESULTS} indicates that no route could be found between the origin and destination.
-   */
+  /** Indicates that no route could be found between the origin and destination. */
   ZERO_RESULTS
 }
