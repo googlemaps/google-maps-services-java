@@ -140,7 +140,6 @@ public class RoadsApi {
 
   /**
    * Returns the result of snapping the provided points to roads and retrieving the speed limits.
-   * This is useful for interactive applications where you need to
    *
    * @param context The {@link GeoApiContext} to make requests through.
    * @param path The collected GPS points as a path.

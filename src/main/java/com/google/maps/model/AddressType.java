@@ -35,14 +35,10 @@ public enum AddressType implements UrlValue {
   /** A major intersection, usually of two major roads. */
   INTERSECTION("intersection"),
 
-  /**
-   * A political entity. Usually, this type indicates a polygon of some civil administration.
-   */
+  /** A political entity. Usually, this type indicates a polygon of some civil administration. */
   POLITICAL("political"),
 
-  /**
-   * The national political entity, typically the highest order type returned by the Geocoder.
-   */
+  /** The national political entity, typically the highest order type returned by the Geocoder. */
   COUNTRY("country"),
 
   /**
@@ -88,10 +84,9 @@ public enum AddressType implements UrlValue {
   WARD("ward"),
 
   /**
-   * A first-order civil entity below a locality. Some locations may receive one of the
-   * additional types: {@code SUBLOCALITY_LEVEL_1} to {@code
-   * SUBLOCALITY_LEVEL_5}. Each sublocality level is a civil entity. Larger numbers indicate a
-   * smaller geographic area.
+   * A first-order civil entity below a locality. Some locations may receive one of the additional
+   * types: {@code SUBLOCALITY_LEVEL_1} to {@code SUBLOCALITY_LEVEL_5}. Each sublocality level is a
+   * civil entity. Larger numbers indicate a smaller geographic area.
    */
   SUBLOCALITY("sublocality"),
   SUBLOCALITY_LEVEL_1("sublocality_level_1"),
@@ -103,9 +98,7 @@ public enum AddressType implements UrlValue {
   /** A named neighborhood. */
   NEIGHBORHOOD("neighborhood"),
 
-  /**
-   * A named location, usually a building or collection of buildings with a common name.
-   */
+  /** A named location, usually a building or collection of buildings with a common name. */
   PREMISE("premise"),
 
   /**
@@ -114,14 +107,10 @@ public enum AddressType implements UrlValue {
    */
   SUBPREMISE("subpremise"),
 
-  /**
-   * A postal code as used to address postal mail within the country.
-   */
+  /** A postal code as used to address postal mail within the country. */
   POSTAL_CODE("postal_code"),
 
-  /**
-   * A postal code prefix as used to address postal mail within the country.
-   */
+  /** A postal code prefix as used to address postal mail within the country. */
   POSTAL_CODE_PREFIX("postal_code_prefix"),
 
   /** A prominent natural feature. */
