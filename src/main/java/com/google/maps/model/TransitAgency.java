@@ -24,12 +24,12 @@ package com.google.maps.model;
  */
 public class TransitAgency {
 
-  /** {@code name} contains the name of the transit agency. */
+  /** The name of the transit agency. */
   public String name;
 
-  /** {@code url} contains the URL for the transit agency. */
+  /** The URL for the transit agency. */
   public String url;
 
-  /** {@code phone} contains the phone number of the transit agency. */
+  /** The phone number of the transit agency. */
   public String phone;
 }

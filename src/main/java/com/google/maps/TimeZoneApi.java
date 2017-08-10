@@ -36,7 +36,7 @@ public class TimeZoneApi {
   private TimeZoneApi() {}
 
   /**
-   * Retrieve the {@link java.util.TimeZone} for the given location.
+   * Retrieves the {@link java.util.TimeZone} for the given location.
    *
    * @param context The {@link GeoApiContext} to make requests through.
    * @param location The location for which to retrieve a time zone.
