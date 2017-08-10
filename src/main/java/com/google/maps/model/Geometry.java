@@ -26,8 +26,8 @@ public class Geometry {
   public Bounds bounds;
 
   /**
-   * {@code location} contains the geocoded {@code latitude,longitude} value. For normal address
-   * lookups, this field is typically the most important.
+   * {@code location} contains the geocoded latitude/longitude value. For normal address lookups,
+   * this field is typically the most important.
    */
   public LatLng location;
 

@@ -190,7 +190,7 @@ public class DirectionsApiRequest
   }
 
   /**
-   * The list of waypoints as latitude,longitude locations.
+   * The list of waypoints as latitude/longitude locations.
    *
    * @param waypoints The waypoints to add to this directions request.
    * @return Returns this {@code DirectionsApiRequest} for call chaining.
