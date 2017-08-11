@@ -16,27 +16,24 @@
 package com.google.maps.model;
 
 /**
- * Geocoded Waypoint represents a point in a Directions API response, either the origin, one of the
- * requested waypoints, or the destination. Please see <a
+ * A point in a Directions API response; either the origin, one of the requested waypoints, or the
+ * destination. Please see <a
  * href="https://developers.google.com/maps/documentation/directions/intro#GeocodedWaypoints">
  * Geocoded Waypoints</a> for more detail.
  */
 public class GeocodedWaypoint {
-  /** {@code geocoderStatus} indicates the status code resulting from the geocoding operation. */
+  /** The status code resulting from the geocoding operation for this waypoint. */
   public GeocodedWaypointStatus geocoderStatus;
 
   /**
-   * {@code partialMatch} indicates that the geocoder did not return an exact match for the original
-   * request, though it was able to match part of the requested address.
+   * Indicates that the geocoder did not return an exact match for the original request, though it
+   * was able to match part of the requested address.
    */
   public boolean partialMatch;
 
-  /** {@code placeId} is a unique identifier that can be used with other Google APIs. */
+  /** A unique identifier for this waypoint that can be used with other Google APIs. */
   public String placeId;
 
-  /**
-   * {@code types} indicates the address type of the geocoding result used for calculating
-   * directions.
-   */
+  /** The address types of the geocoding result used for calculating directions. */
   public AddressType types[];
 }

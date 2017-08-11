@@ -22,9 +22,9 @@ package com.google.maps.model;
  *     Documentation on status codes</a>
  */
 public enum GeocodedWaypointStatus {
-  /** {@code OK} indicates the response contains a valid result. */
+  /** Indicates the response contains a valid result. */
   OK,
 
-  /** {@code ZERO_RESULTS} indicates no route could be found between the origin and destination. */
+  /** Indicates no route could be found between the origin and destination. */
   ZERO_RESULTS
 }

@@ -24,7 +24,7 @@ import com.google.maps.model.GeocodingResult;
 import com.google.maps.model.LatLng;
 import com.google.maps.model.LocationType;
 
-/** Request for the Geocoding API. */
+/** A request for the Geocoding API. */
 public class GeocodingApiRequest
     extends PendingResultBase<GeocodingResult[], GeocodingApiRequest, GeocodingApi.Response> {
 
@@ -55,7 +55,7 @@ public class GeocodingApiRequest
   }
 
   /**
-   * Create a forward geocode for {@code address}.
+   * Creates a forward geocode for {@code address}.
    *
    * @param address The address to geocode.
    * @return Returns this {@code GeocodingApiRequest} for call chaining.
@@ -65,7 +65,7 @@ public class GeocodingApiRequest
   }
 
   /**
-   * Create a forward geocode for {@code placeId}.
+   * Creates a forward geocode for {@code placeId}.
    *
    * @param placeId The Place ID to geocode.
    * @return Returns this {@code GeocodingApiRequest} for call chaining.
@@ -75,7 +75,7 @@ public class GeocodingApiRequest
   }
 
   /**
-   * Create a reverse geocode for {@code latlng}.
+   * Creates a reverse geocode for {@code latlng}.
    *
    * @param latlng The location to reverse geocode.
    * @return Returns this {@code GeocodingApiRequest} for call chaining.
@@ -85,7 +85,7 @@ public class GeocodingApiRequest
   }
 
   /**
-   * Set the bounding box of the viewport within which to bias geocode results more prominently.
+   * Sets the bounding box of the viewport within which to bias geocode results more prominently.
    * This parameter will only influence, not fully restrict, results from the geocoder.
    *
    * <p>For more information see <a
@@ -101,7 +101,7 @@ public class GeocodingApiRequest
   }
 
   /**
-   * Set the region code, specified as a ccTLD ("top-level domain") two-character value. This
+   * Sets the region code, specified as a ccTLD ("top-level domain") two-character value. This
    * parameter will only influence, not fully restrict, results from the geocoder.
    *
    * <p>For more information see <a
@@ -116,7 +116,7 @@ public class GeocodingApiRequest
   }
 
   /**
-   * Set the component filters. Each component filter consists of a component:value pair and will
+   * Sets the component filters. Each component filter consists of a component:value pair and will
    * fully restrict the results from the geocoder.
    *
    * <p>For more information see <a
@@ -131,7 +131,7 @@ public class GeocodingApiRequest
   }
 
   /**
-   * Set the result type. Specifying a type will restrict the results to this type. If multiple
+   * Sets the result type. Specifying a type will restrict the results to this type. If multiple
    * types are specified, the API will return all addresses that match any of the types.
    *
    * @param resultTypes The result types to restrict to.
@@ -142,7 +142,7 @@ public class GeocodingApiRequest
   }
 
   /**
-   * Set the location type. Specifying a type will restrict the results to this type. If multiple
+   * Sets the location type. Specifying a type will restrict the results to this type. If multiple
    * types are specified, the API will return all addresses that match any of the types.
    *
    * @param locationTypes The location types to restrict to.

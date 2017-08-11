@@ -22,7 +22,7 @@ import com.google.maps.model.GeolocationPayload.GeolocationPayloadBuilder;
 import com.google.maps.model.GeolocationResult;
 import com.google.maps.model.WifiAccessPoint;
 
-/** Request for the Geolocation API. */
+/** A request for the Geolocation API. */
 public class GeolocationApiRequest
     extends PendingResultBase<GeolocationResult, GeolocationApiRequest, GeolocationApi.Response> {
 
