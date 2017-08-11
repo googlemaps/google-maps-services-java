@@ -24,19 +24,18 @@ package com.google.maps.model;
  */
 public class Vehicle {
 
-  /** {@code name} contains the name of the vehicle on this line. E.g. "Subway." */
+  /** The name of the vehicle on this line. E.g. {@code "Subway"}. */
   public String name;
 
   /**
-   * {@code type} contains the type of vehicle that runs on this line. See the {@link
-   * com.google.maps.model.VehicleType VehicleType} documentation for a complete list of supported
-   * values.
+   * The type of vehicle that runs on this line. See the {@link com.google.maps.model.VehicleType
+   * VehicleType} documentation for a complete list of supported values.
    */
   public VehicleType type;
 
-  /** {@code icon} contains the URL for an icon associated with this vehicle type. */
+  /** The URL for an icon associated with this vehicle type. */
   public String icon;
 
-  /** {@code localIcon} contains the URL for an icon based on the local transport signage. */
+  /** The URL for an icon based on the local transport signage. */
   public String localIcon;
 }
