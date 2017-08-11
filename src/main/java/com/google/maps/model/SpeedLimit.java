@@ -18,13 +18,13 @@ package com.google.maps.model;
 /** A speed limit result from the Roads API. */
 public class SpeedLimit {
   /**
-   * {@code placeId} is a unique identifier for a place. All placeIds returned by the Roads API will
-   * correspond to road segments.
+   * A unique identifier for a place. All placeIds returned by the Roads API will correspond to road
+   * segments.
    */
   public String placeId;
 
   /**
-   * {@code speedLimit} is the speed limit for that road segment, specified in kilometers per hour.
+   * The speed limit for that road segment, specified in kilometers per hour.
    *
    * <p>To obtain the speed in miles per hour, use {@link #speedLimitMph()}.
    */
