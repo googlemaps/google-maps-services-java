@@ -85,7 +85,7 @@ public class OkHttpRequestHandler implements GeoApiContext.RequestHandler {
         req, client, clazz, fieldNamingPolicy, errorTimeout, maxRetries, exceptionsAllowedToRetry);
   }
 
-  /** Builder strategy for constructing {@code OkHTTPRequestHandler}. */
+  /** Builder strategy for constructing an {@code OkHTTPRequestHandler}. */
   public static class Builder implements GeoApiContext.RequestHandler.Builder {
     private final OkHttpClient.Builder builder;
     private final RateLimitExecutorService rateLimitExecutorService;

@@ -41,7 +41,7 @@ public class NearbySearchRequest
           .fieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
 
   /**
-   * Constructor for {@code NearbySearchRequest}.
+   * Constructs a new {@code NearbySearchRequest}.
    *
    * @param context The {@code GeoApiContext} to make requests through.
    */
@@ -50,7 +50,7 @@ public class NearbySearchRequest
   }
 
   /**
-   * location is the latitude/longitude around which to retrieve place information.
+   * Specifies the latitude/longitude around which to retrieve place information.
    *
    * @param location The location to use as the center of the Nearby Search.
    * @return Returns this {@code NearbyApiRequest} for call chaining.
@@ -60,9 +60,9 @@ public class NearbySearchRequest
   }
 
   /**
-   * radius defines the distance (in meters) within which to return place results. The maximum
-   * allowed radius is 50,000 meters. Note that radius must not be included if {@code
-   * rankby=DISTANCE} is specified.
+   * Specifies the distance (in meters) within which to return place results. The maximum allowed
+   * radius is 50,000 meters. Note that radius must not be included if {@code rankby=DISTANCE} is
+   * specified.
    *
    * @param distance The distance in meters around the {@link #location(LatLng)} to search.
    * @return Returns this {@code NearbyApiRequest} for call chaining.
@@ -75,7 +75,7 @@ public class NearbySearchRequest
   }
 
   /**
-   * rankby specifies the order in which results are listed.
+   * Specifies the order in which results are listed.
    *
    * @param ranking The rank by method.
    * @return Returns this {@code NearbyApiRequest} for call chaining.
@@ -85,8 +85,8 @@ public class NearbySearchRequest
   }
 
   /**
-   * keyword is a term to be matched against all content that Google has indexed for this place,
-   * including but not limited to name, type, and address, as well as customer reviews and other
+   * Specifies a term to be matched against all content that Google has indexed for this place. This
+   * includes but is not limited to name, type, and address, as well as customer reviews and other
    * third-party content.
    *
    * @param keyword The keyword to search for.
@@ -97,7 +97,7 @@ public class NearbySearchRequest
   }
 
   /**
-   * minPrice restricts to places that are at least this price level.
+   * Restricts to places that are at least this price level.
    *
    * @param priceLevel The price level to set as minimum.
    * @return Returns this {@code NearbyApiRequest} for call chaining.
@@ -107,7 +107,7 @@ public class NearbySearchRequest
   }
 
   /**
-   * maxPrice restricts to places that are at most this price level.
+   * Restricts to places that are at most this price level.
    *
    * @param priceLevel The price level to set as maximum.
    * @return Returns this {@code NearbyApiRequest} for call chaining.
@@ -117,8 +117,7 @@ public class NearbySearchRequest
   }
 
   /**
-   * name is one or more terms to be matched against the names of places, separated with a space
-   * character.
+   * Specifies one or more terms to be matched against the names of places, separated by spaces.
    *
    * @param name Search for Places with this name.
    * @return Returns this {@code NearbyApiRequest} for call chaining.
@@ -128,7 +127,7 @@ public class NearbySearchRequest
   }
 
   /**
-   * openNow returns only those places that are open for business at the time the query is sent.
+   * Restricts to only those places that are open for business at the time the query is sent.
    *
    * @param openNow Whether to restrict to places that are open.
    * @return Returns this {@code NearbyApiRequest} for call chaining.
@@ -138,9 +137,9 @@ public class NearbySearchRequest
   }
 
   /**
-   * pageToken returns the next 20 results from a previously run search. Setting {@code pageToken}
-   * will execute a search with the same parameters used previously — all parameters other than
-   * {@code pageToken} will be ignored.
+   * Returns the next 20 results from a previously run search. Setting {@code pageToken} will
+   * execute a search with the same parameters used previously — all parameters other than {@code
+   * pageToken} will be ignored.
    *
    * @param nextPageToken The page token from a previous result.
    * @return Returns this {@code NearbyApiRequest} for call chaining.
@@ -150,7 +149,7 @@ public class NearbySearchRequest
   }
 
   /**
-   * type restricts the results to places matching the specified type.
+   * Restricts the results to places matching the specified type.
    *
    * @param type The {@link PlaceType} to restrict results to.
    * @return Returns this {@code NearbyApiRequest} for call chaining.
@@ -160,7 +159,7 @@ public class NearbySearchRequest
   }
 
   /**
-   * type restricts the results to places matching the specified type. Provides support for multiple
+   * Restricts the results to places matching the specified type. Provides support for multiple
    * types.
    *
    * @param types The {@link PlaceType}s to restrict results to.

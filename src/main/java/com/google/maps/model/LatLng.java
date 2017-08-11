@@ -28,7 +28,7 @@ public class LatLng implements UrlValue {
   public double lng;
 
   /**
-   * Construct a location with a latitude/longitude pair.
+   * Constructs a location with a latitude/longitude pair.
    *
    * @param lat The latitude of this location.
    * @param lng The longitude of this location.

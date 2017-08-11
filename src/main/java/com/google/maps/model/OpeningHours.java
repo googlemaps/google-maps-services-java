@@ -24,13 +24,13 @@ import org.joda.time.LocalTime;
  */
 public class OpeningHours {
   /**
-   * openNow is a boolean value indicating if the place is open at the current time.
+   * Whether the place is open at the current time.
    *
    * <p>Note: this field will be null if it isn't present in the response.
    */
   public Boolean openNow;
 
-  /** Period models the opening hours for a Place for a single day. */
+  /** The opening hours for a Place for a single day. */
   public static class Period {
     public static class OpenClose {
       public enum DayOfWeek {
@@ -63,20 +63,17 @@ public class OpeningHours {
     public Period.OpenClose close;
   }
 
-  /**
-   * periods is an array of opening periods covering seven days, starting from Sunday, in
-   * chronological order.
-   */
+  /** Opening periods covering seven days, starting from Sunday, in chronological order. */
   public Period[] periods;
 
   /**
-   * weekdayText is an array of seven strings representing the formatted opening hours for each day
-   * of the week; for example, "Monday: 8:30 am – 5:30 pm".
+   * The formatted opening hours for each day of the week, as an array of seven strings; for
+   * example, {@code "Monday: 8:30 am – 5:30 pm"}.
    */
   public String[] weekdayText;
 
   /**
-   * permanentlyClosed indicates that the place has permanently shut down.
+   * Indicates that the place has permanently shut down.
    *
    * <p>Note: this field will be null if it isn't present in the response.
    */
