@@ -18,8 +18,7 @@ package com.google.maps.model;
 import java.net.URL;
 
 /**
- * PlacesSearchResult represents a single result in the search results returned from the Google
- * Places API Web Service.
+ * A single result in the search results returned from the Google Places API Web Service.
  *
  * <p>Please see <a
  * href="https://developers.google.com/places/web-service/search#PlaceSearchResults">Place Search
@@ -27,48 +26,47 @@ import java.net.URL;
  */
 public class PlacesSearchResult {
 
-  /** formattedAddress is a string containing the human-readable address of this place. */
+  /** The human-readable address of this place. */
   public String formattedAddress;
 
   /**
-   * geometry contains geometry information about the result, generally including the location
-   * (geocode) of the place and (optionally) the viewport identifying its general area of coverage.
+   * Geometry information about the result, generally including the location (geocode) of the place
+   * and (optionally) the viewport identifying its general area of coverage.
    */
   public Geometry geometry;
 
   /**
-   * name contains the human-readable name for the returned result. For establishment results, this
-   * is usually the business name.
+   * The human-readable name for the returned result. For establishment results, this is usually the
+   * business name.
    */
   public String name;
 
   /**
-   * icon contains the URL of a recommended icon which may be displayed to the user when indicating
-   * this result.
+   * The URL of a recommended icon which may be displayed to the user when indicating this result.
    */
   public URL icon;
 
-  /** placeId is a textual identifier that uniquely identifies a place. */
+  /** A textual identifier that uniquely identifies a place. */
   public String placeId;
 
-  /** scope indicates the scope of the placeId. */
+  /** sThe scope of the placeId. */
   public PlaceIdScope scope;
 
-  /** rating contains the place's rating, from 1.0 to 5.0, based on aggregated user reviews. */
+  /** The place's rating, from 1.0 to 5.0, based on aggregated user reviews. */
   public float rating;
 
-  /** types contains an array of feature types describing the given result. */
+  /** Feature types describing the given result. */
   public String types[];
 
-  /** openingHours may contain information on when the place is open. */
+  /** Information on when the place is open. */
   public OpeningHours openingHours;
 
-  /** photos is an array of photo objects, each containing a reference to an image. */
+  /** Photo objects associated with this place, each containing a reference to an image. */
   public Photo photos[];
 
-  /** vicinity contains a feature name of a nearby location. */
+  /** A feature name of a nearby location. */
   public String vicinity;
 
-  /** permanentlyClosed is a boolean flag indicating whether the place has permanently shut down. */
+  /** Indicates that the place has permanently shut down. */
   public boolean permanentlyClosed;
 }

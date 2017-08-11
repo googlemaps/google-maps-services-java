@@ -19,14 +19,16 @@ import com.google.maps.errors.ApiException;
 import java.io.IOException;
 
 /**
- * Represents a pending result from an API call.
+ * A pending result from an API call.
  *
  * @param <T> the type of the result object.
  */
 public interface PendingResult<T> {
 
   /**
-   * Performs the request asynchronously, calling onResult or onFailure after the request has been
+   * Performs the request asynchronously, calling {@link
+   * com.google.maps.PendingResult.Callback#onResult onResult} or {@link
+   * com.google.maps.PendingResult.Callback#onFailure onFailure} after the request has been
    * completed.
    *
    * @param callback The callback to call on completion.
@@ -34,7 +36,7 @@ public interface PendingResult<T> {
   void setCallback(Callback<T> callback);
 
   /**
-   * Performs the GET request synchronously.
+   * Performs the request synchronously.
    *
    * @return The result.
    * @throws ApiException Thrown if the API Returned result is an error.
@@ -52,10 +54,14 @@ public interface PendingResult<T> {
    */
   T awaitIgnoreError();
 
-  /** Attempt to cancel the request. */
+  /** Attempts to cancel the request. */
   void cancel();
 
-  /** The callback interface the API client code needs to implement to handle API results. */
+  /**
+   * The callback interface the API client code needs to implement to handle API results.
+   *
+   * @param <T> The type of the result object.
+   */
   interface Callback<T> {
 
     /**

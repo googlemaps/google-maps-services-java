@@ -37,7 +37,7 @@ public class PlaceDetailsRequest
   }
 
   /**
-   * Get the Place Details for the specified Place ID. Required.
+   * Specifies the Place ID to get Place Details for. Required.
    *
    * @param placeId The Place ID to retrieve details for.
    * @return Returns this {@code PlaceDetailsRequest} for call chaining.

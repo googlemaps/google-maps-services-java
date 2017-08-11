@@ -27,16 +27,12 @@ public class PlacesSearchResponse {
   /** The list of Search Results. */
   public PlacesSearchResult results[];
 
-  /**
-   * htmlAttributions contain a set of attributions about this listing which must be displayed to
-   * the user.
-   */
+  /** Attributions about this listing which must be displayed to the user. */
   public String htmlAttributions[];
 
   /**
-   * nextPageToken is a token that can be used to request up to 20 additional results. This field
-   * will be null if there are no further results. The maximum number of results that can be
-   * returned is 60.
+   * A token that can be used to request up to 20 additional results. This field will be null if
+   * there are no further results. The maximum number of results that can be returned is 60.
    *
    * <p>Note: There is a short delay between when this response is issued, and when nextPageToken
    * will become valid to execute.
