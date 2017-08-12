@@ -38,6 +38,9 @@ public class LatLng implements UrlValue {
     this.lng = lng;
   }
 
+  /** Serialisation constructor. */
+  public LatLng() {}
+
   @Override
   public String toString() {
     return toUrlValue();
