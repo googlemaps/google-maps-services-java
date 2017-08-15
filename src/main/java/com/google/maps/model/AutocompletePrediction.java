@@ -60,16 +60,13 @@ public class AutocompletePrediction {
   }
 
   /**
-   * Describe the location of the entered term in the prediction result text, so that the term can
-   * be highlighted if desired.
+   * The locations of the entered term in the prediction result text, so that the term can be
+   * highlighted if desired.
    */
   public MatchedSubstring matchedSubstrings[];
 
-  /**
-   * Structured formatting contains a description of how the autocomplete query matched the returned
-   * result.
-   */
-  public AutcompleteStructuredFormatting structuredFormatting;
+  /** A description of how the autocomplete query matched the returned result. */
+  public AutocompleteStructuredFormatting structuredFormatting;
 
   /**
    * Identifies each section of the returned description. (A section of the description is generally

@@ -15,15 +15,15 @@
 
 package com.google.maps.model;
 
-/** Represents the Structured Formatting field of an {@see AutocompletePrediction}. */
-public class AutcompleteStructuredFormatting {
+/** The structured formatting info for a {@link com.google.maps.model.AutocompletePrediction}. */
+public class AutocompleteStructuredFormatting {
 
-  /** Contains the main text of a prediction, usually the name of the place. */
+  /** The main text of a prediction, usually the name of the place. */
   public String mainText;
 
-  /** Contains an array of where the query matched the returned main text. */
+  /** Where the query matched the returned main text. */
   public AutocompletePrediction.MatchedSubstring mainTextMatchedSubstrings[];
 
-  /** Contains the secondary text of a prediction, usually the location of the place. */
+  /** The secondary text of a prediction, usually the location of the place. */
   public String secondaryText;
 }
