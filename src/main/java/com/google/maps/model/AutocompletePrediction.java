@@ -52,14 +52,21 @@ public class AutocompletePrediction {
    */
   public static class MatchedSubstring {
 
-    /** The length of the matched substring. */
+    /** The length of the matched substring, measured in Unicode characters. */
     public int length;
 
-    /** The start position of the matched substring. */
+    /** The start position of the matched substring, measured in Unicode characters. */
     public int offset;
   }
 
+  /**
+   * The locations of the entered term in the prediction result text, so that the term can be
+   * highlighted if desired.
+   */
   public MatchedSubstring matchedSubstrings[];
+
+  /** A description of how the autocomplete query matched the returned result. */
+  public AutocompleteStructuredFormatting structuredFormatting;
 
   /**
    * Identifies each section of the returned description. (A section of the description is generally

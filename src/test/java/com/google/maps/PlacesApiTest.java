@@ -23,6 +23,8 @@ import static org.junit.Assert.assertTrue;
 
 import com.google.maps.model.AddressComponentType;
 import com.google.maps.model.AutocompletePrediction;
+import com.google.maps.model.AutocompletePrediction.MatchedSubstring;
+import com.google.maps.model.AutocompleteStructuredFormatting;
 import com.google.maps.model.ComponentFilter;
 import com.google.maps.model.LatLng;
 import com.google.maps.model.OpeningHours.Period;
@@ -51,6 +53,7 @@ public class PlacesApiTest {
   private static final String QUERY_AUTOCOMPLETE_INPUT = "pizza near par";
   private static final LatLng SYDNEY = new LatLng(-33.8650, 151.2094);
 
+  private final String autocompletePredictionStructuredFormatting;
   private final String placeDetailResponseBody;
   private final String placeDetailResponseBodyForPermanentlyClosedPlace;
   private final String quayResponseBody;
@@ -74,6 +77,8 @@ public class PlacesApiTest {
   private final String placesApiKitaWard;
 
   public PlacesApiTest() {
+    autocompletePredictionStructuredFormatting =
+        retrieveBody("AutocompletePredictionStructuredFormatting.json");
     placeDetailResponseBody = retrieveBody("PlaceDetailsResponse.json");
     placeDetailResponseBodyForPermanentlyClosedPlace =
         retrieveBody("PlaceDetailsResponseForPermanentlyClosedPlace.json");
@@ -112,6 +117,30 @@ public class PlacesApiTest {
       PlacesApi.placeDetails(sc.context, GOOGLE_SYDNEY).await();
 
       sc.assertParamValue(GOOGLE_SYDNEY, "placeid");
+    }
+  }
+
+  @Test
+  public void testAutocompletePredictionStructuredFormatting() throws Exception {
+    try (LocalTestServerContext sc =
+        new LocalTestServerContext(autocompletePredictionStructuredFormatting)) {
+      final AutocompletePrediction[] predictions =
+          PlacesApi.placeAutocomplete(sc.context, "1").await();
+
+      assertNotNull(predictions);
+      assertEquals(1, predictions.length);
+      final AutocompletePrediction prediction = predictions[0];
+      assertNotNull(prediction);
+      assertEquals("1033 Princes Highway, Heathmere, Victoria, Australia", prediction.description);
+      final AutocompleteStructuredFormatting structuredFormatting = prediction.structuredFormatting;
+      assertNotNull(structuredFormatting);
+      assertEquals("1033 Princes Highway", structuredFormatting.mainText);
+      assertEquals("Heathmere, Victoria, Australia", structuredFormatting.secondaryText);
+      assertEquals(1, structuredFormatting.mainTextMatchedSubstrings.length);
+      final MatchedSubstring matchedSubstring = structuredFormatting.mainTextMatchedSubstrings[0];
+      assertNotNull(matchedSubstring);
+      assertEquals(1, matchedSubstring.length);
+      assertEquals(0, matchedSubstring.offset);
     }
   }
 
