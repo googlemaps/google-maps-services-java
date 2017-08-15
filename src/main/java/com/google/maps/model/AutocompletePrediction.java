@@ -52,10 +52,10 @@ public class AutocompletePrediction {
    */
   public static class MatchedSubstring {
 
-    /** The length of the matched substring. */
+    /** The length of the matched substring, measured in Unicode characters. */
     public int length;
 
-    /** The start position of the matched substring. */
+    /** The start position of the matched substring, measured in Unicode characters. */
     public int offset;
   }
 
