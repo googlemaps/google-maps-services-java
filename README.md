@@ -182,8 +182,7 @@ For more usage examples, check out [the tests](src/test/java/com/google/maps/).
 You can use this client library on Google App Engine with a single code change.
 
 ```java
-GeoApiContext context = new GeoApiContext.Builder()
-    .requestHandlerBuilder(new GaeRequestHandler.Builder())
+new GeoApiContext.Builder(new GaeRequestHandler.Builder())
     .apiKey("AIza...")
     .build();
 ```
