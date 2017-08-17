@@ -127,6 +127,12 @@ public class GaeRequestHandler implements GeoApiContext.RequestHandler {
     }
 
     @Override
+      public void proxyAuthentication(String proxyUserName, String proxyUserPassword) {
+          // TODO: Investigate if GAE URL Fetch Service supports setting proxy authentication
+          throw new RuntimeException("setProxyAuthentication not implemented for Google App Engine");
+      }
+
+      @Override
     public RequestHandler build() {
       return new GaeRequestHandler();
     }
