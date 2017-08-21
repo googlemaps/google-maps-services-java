@@ -197,6 +197,7 @@ based strategy.
 Never sleep between requests again! By default, requests are sent at the expected rate limits for
 each web service, typically 10 queries per second for free users. If you want to speed up or slow
 down requests, you can do that too, using `new GeoApiContext.Builder().queryRateLimit(qps).build()`.
+Note that you still need to manually handle the [delay between the initial request and successive pages](https://developers.google.com/places/web-service/search#PlaceSearchPaging) when you're paging through multiple result sets.
 
 ### Retry on Failure
 
