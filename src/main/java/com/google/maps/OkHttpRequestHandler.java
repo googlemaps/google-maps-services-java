@@ -134,20 +134,24 @@ public class OkHttpRequestHandler implements GeoApiContext.RequestHandler {
 
     @Override
     public void proxyAuthentication(String proxyUserName, String proxyUserPassword) {
-        final String userName = proxyUserName;
-        final String password = proxyUserPassword;
-        builder.proxyAuthenticator(new Authenticator() {
+      final String userName = proxyUserName;
+      final String password = proxyUserPassword;
+
+      builder.proxyAuthenticator(
+          new Authenticator() {
             @Override
             public Request authenticate(Route route, Response response) throws IOException {
-                String credential = Credentials.basic(userName, password);
-                return response.request().newBuilder()
-                        .header("Proxy-Authorization", credential)
-                        .build();
+              String credential = Credentials.basic(userName, password);
+              return response
+                  .request()
+                  .newBuilder()
+                  .header("Proxy-Authorization", credential)
+                  .build();
             }
-        });
+          });
     }
 
-      @Override
+    @Override
     public RequestHandler build() {
       OkHttpClient client = builder.build();
       return new OkHttpRequestHandler(client);

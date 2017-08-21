@@ -484,16 +484,17 @@ public class GeoApiContext {
       return this;
     }
 
-      /**
-       * set authentication for proxy
-       * @param proxyUserName username for proxy authentication
-       * @param proxyUserPassword username for proxy authentication
-       * @return Returns this builder for call chaining.
-       */
-      public Builder proxyAuthentication(String proxyUserName, String proxyUserPassword) {
-          builder.proxyAuthentication(proxyUserName, proxyUserPassword);
-          return this;
-      }
+    /**
+     * set authentication for proxy
+     *
+     * @param proxyUserName username for proxy authentication
+     * @param proxyUserPassword username for proxy authentication
+     * @return Returns this builder for call chaining.
+     */
+    public Builder proxyAuthentication(String proxyUserName, String proxyUserPassword) {
+      builder.proxyAuthentication(proxyUserName, proxyUserPassword);
+      return this;
+    }
 
     /**
      * Converts this builder into a {@code GeoApiContext}.
