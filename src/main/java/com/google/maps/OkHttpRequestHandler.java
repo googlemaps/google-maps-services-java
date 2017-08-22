@@ -21,13 +21,20 @@ import com.google.maps.internal.ApiResponse;
 import com.google.maps.internal.ExceptionsAllowedToRetry;
 import com.google.maps.internal.OkHttpPendingResult;
 import com.google.maps.internal.RateLimitExecutorService;
+
+import java.io.IOException;
 import java.net.Proxy;
 import java.util.concurrent.TimeUnit;
+
+import okhttp3.Authenticator;
+import okhttp3.Credentials;
 import okhttp3.Dispatcher;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
+import okhttp3.Response;
+import okhttp3.Route;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -123,6 +130,25 @@ public class OkHttpRequestHandler implements GeoApiContext.RequestHandler {
     @Override
     public void proxy(Proxy proxy) {
       builder.proxy(proxy);
+    }
+
+    @Override
+    public void proxyAuthentication(String proxyUserName, String proxyUserPassword) {
+      final String userName = proxyUserName;
+      final String password = proxyUserPassword;
+
+      builder.proxyAuthenticator(
+          new Authenticator() {
+            @Override
+            public Request authenticate(Route route, Response response) throws IOException {
+              String credential = Credentials.basic(userName, password);
+              return response
+                  .request()
+                  .newBuilder()
+                  .header("Proxy-Authorization", credential)
+                  .build();
+            }
+          });
     }
 
     @Override
