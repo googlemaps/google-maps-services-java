@@ -15,13 +15,13 @@ Services] to your server-side Java application.
 The Java Client for Google Maps Services is a Java Client library for the following Google Maps
 APIs:
 
- - [Directions API]
- - [Distance Matrix API]
- - [Elevation API]
- - [Geocoding API]
- - [Places API]
- - [Roads API]
- - [Time Zone API]
+- [Directions API]
+- [Distance Matrix API]
+- [Elevation API]
+- [Geocoding API]
+- [Places API]
+- [Roads API]
+- [Time Zone API]
 
 Keep in mind that the same [terms and conditions](https://developers.google.com/maps/terms) apply
 to usage of the APIs when they're accessed through this library.
@@ -46,30 +46,30 @@ contribute, please read [How to Contribute][contrib].
 
 ## Requirements
 
- - Java 1.7 or later.
- - A Google Maps API key.
+- Java 1.7 or later.
+- A Google Maps API key.
 
 ### API keys
 
 Each Google Maps Web Service request requires an API key or client ID. API keys
 are freely available with a Google Account at
-https://developers.google.com/console. The type of API key you need is a
-**Server key**.
+[developers.google.com/console](https://developers.google.com/console). The
+type of API key you need is a **Server key**.
 
 To get an API key:
 
- 1. Visit https://developers.google.com/console and log in with
-    a Google Account.
+ 1. Visit [developers.google.com/console](https://developers.google.com/console)
+  and log in with a Google Account.
  1. Select one of your existing projects, or create a new project.
  1. Enable the API(s) you want to use. The Java Client for Google Maps Services
     accesses the following APIs:
-    * Directions API
-    * Distance Matrix API
-    * Elevation API
-    * Geocoding API
-    * Places API
-    * Roads API
-    * Time Zone API
+    - Directions API
+    - Distance Matrix API
+    - Elevation API
+    - Geocoding API
+    - Places API
+    - Roads API
+    - Time Zone API
  1. Create a new **Server key**.
  1. If you'd like to restrict requests to a specific IP address, do so now.
 
@@ -94,6 +94,7 @@ that will make more sense in other configurations. This will stop a warning mess
 when you start using `google-maps-services`.
 
 ### Maven
+
 ```xml
 <dependency>
     <groupId>com.google.maps</groupId>
@@ -108,6 +109,7 @@ when you start using `google-maps-services`.
 ```
 
 ### Gradle
+
 ```groovy
 repositories {
     mavenCentral()
@@ -129,13 +131,13 @@ View the [javadoc](https://googlemaps.github.io/google-maps-services-java/v0.2.2
 Additional documentation for the included web services is available at
 https://developers.google.com/maps/.
 
- - [Directions API]
- - [Distance Matrix API]
- - [Elevation API]
- - [Geocoding API]
- - [Places API]
- - [Roads API]
- - [Time Zone API]
+- [Directions API]
+- [Distance Matrix API]
+- [Elevation API]
+- [Geocoding API]
+- [Places API]
+- [Roads API]
+- [Time Zone API]
 
 ## Usage
 
@@ -206,10 +208,10 @@ are returned from the API.
 
 To alter or disable automatic retries, see these methods in `GeoApiContext`:
 
-* `.disableRetries()`
-* `.maxRetries()`
-* `.retryTimeout()`
-* `.setIfExceptionIsAllowedToRetry()`
+- `.disableRetries()`
+- `.maxRetries()`
+- `.retryTimeout()`
+- `.setIfExceptionIsAllowedToRetry()`
 
 ### Client IDs
 
