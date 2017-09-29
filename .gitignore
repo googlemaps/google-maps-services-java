@@ -1,4 +1,5 @@
 /build/
+/out/
 /bin/
 /com/
 .gradle/
