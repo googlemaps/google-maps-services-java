@@ -15,7 +15,7 @@
 
 package com.google.maps.internal;
 
-import com.google.common.util.concurrent.RateLimiter;
+import com.google.maps.internal.ratelimiter.RateLimiter;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
