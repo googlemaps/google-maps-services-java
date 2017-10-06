@@ -33,8 +33,6 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.Route;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * A strategy for handling URL requests using OkHttp.
@@ -42,7 +40,6 @@ import org.slf4j.LoggerFactory;
  * @see com.google.maps.GeoApiContext.RequestHandler
  */
 public class OkHttpRequestHandler implements GeoApiContext.RequestHandler {
-  private static final Logger LOG = LoggerFactory.getLogger(OkHttpRequestHandler.class.getName());
   private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
   private final OkHttpClient client;
 

@@ -21,7 +21,6 @@ import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
 import com.google.maps.GeolocationApi;
 import java.io.IOException;
-import java.util.logging.Logger;
 
 public class GeolocationResponseAdapter extends TypeAdapter<GeolocationApi.Response> {
   /**
@@ -62,8 +61,6 @@ public class GeolocationResponseAdapter extends TypeAdapter<GeolocationApi.Respo
    *   }
    * </pre>
    */
-  private static final Logger LOG = Logger.getLogger(GeolocationApi.Response.class.getName());
-
   @Override
   public GeolocationApi.Response read(JsonReader reader) throws IOException {
 

@@ -49,25 +49,26 @@ public class RoadsApiIntegrationTest {
 
   @Test
   public void testSnapToRoad() throws Exception {
-    LocalTestServerContext sc = new LocalTestServerContext(snapToRoadResponse);
-    LatLng[] path =
-        new LatLng[] {
-          new LatLng(-33.865382, 151.192861),
-          new LatLng(-33.865837, 151.193376),
-          new LatLng(-33.866745, 151.19373),
-          new LatLng(-33.867128, 151.19344),
-          new LatLng(-33.867547, 151.193676),
-          new LatLng(-33.867841, 151.194137),
-          new LatLng(-33.868224, 151.194116)
-        };
-    SnappedPoint[] points = RoadsApi.snapToRoads(sc.context, false, path).await();
+    try (LocalTestServerContext sc = new LocalTestServerContext(snapToRoadResponse)) {
+      LatLng[] path =
+          new LatLng[] {
+            new LatLng(-33.865382, 151.192861),
+            new LatLng(-33.865837, 151.193376),
+            new LatLng(-33.866745, 151.19373),
+            new LatLng(-33.867128, 151.19344),
+            new LatLng(-33.867547, 151.193676),
+            new LatLng(-33.867841, 151.194137),
+            new LatLng(-33.868224, 151.194116)
+          };
+      SnappedPoint[] points = RoadsApi.snapToRoads(sc.context, false, path).await();
 
-    sc.assertParamValue(join('|', path), "path");
-    sc.assertParamValue("false", "interpolate");
-    assertEquals(7, points.length);
-    assertEquals(-33.865233402568428, points[0].location.lat, 0.0001);
-    assertEquals(151.19288612197704, points[0].location.lng, 0.0001);
-    assertEquals("ChIJjXkMCDauEmsRp5xab4Ske6k", points[0].placeId);
+      sc.assertParamValue(join('|', path), "path");
+      sc.assertParamValue("false", "interpolate");
+      assertEquals(7, points.length);
+      assertEquals(-33.865233402568428, points[0].location.lat, 0.0001);
+      assertEquals(151.19288612197704, points[0].location.lng, 0.0001);
+      assertEquals("ChIJjXkMCDauEmsRp5xab4Ske6k", points[0].placeId);
+    }
   }
 
   @Test

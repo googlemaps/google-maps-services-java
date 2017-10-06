@@ -68,9 +68,10 @@ public class TimeZoneApiTest {
 
       sc.assertParamValue("0.00000000,0.00000000", "location");
 
-      LocalTestServerContext sc2 =
-          new LocalTestServerContext("\n{\n   \"status\" : \"ZERO_RESULTS\"\n}\n");
-      TimeZoneApi.getTimeZone(sc2.context, new LatLng(0, 0)).await();
+      try (LocalTestServerContext sc2 =
+          new LocalTestServerContext("\n{\n   \"status\" : \"ZERO_RESULTS\"\n}\n")) {
+        TimeZoneApi.getTimeZone(sc2.context, new LatLng(0, 0)).await();
+      }
     }
   }
 }

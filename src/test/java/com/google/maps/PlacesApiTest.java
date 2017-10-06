@@ -61,7 +61,6 @@ public class PlacesApiTest {
   private final String queryAutocompleteWithPlaceIdResponseBody;
   private final String textSearchResponseBody;
   private final String textSearchPizzaInNYCbody;
-  private final String placeDetailsLookupGoogleSydney;
   private final String placesApiTextSearch;
   private final String placesApiPhoto;
   private final String placesApiPizzaInNewYork;
@@ -88,7 +87,6 @@ public class PlacesApiTest {
         retrieveBody("QueryAutocompleteResponseWithPlaceID.json");
     textSearchResponseBody = retrieveBody("TextSearchResponse.json");
     textSearchPizzaInNYCbody = retrieveBody("TextSearchPizzaInNYC.json");
-    placeDetailsLookupGoogleSydney = retrieveBody("PlaceDetailsLookupGoogleSydneyResponse.json");
     placesApiTextSearch = retrieveBody("PlacesApiTextSearchResponse.json");
     placesApiPhoto = retrieveBody("PlacesApiPhotoResponse.json");
     placesApiPizzaInNewYork = retrieveBody("PlacesApiPizzaInNewYorkResponse.json");
