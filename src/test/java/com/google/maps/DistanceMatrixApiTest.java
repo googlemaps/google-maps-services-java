@@ -119,17 +119,15 @@ public class DistanceMatrixApiTest {
             "The Pinnacles, Australia"
           };
 
-      DistanceMatrix matrix =
-          DistanceMatrixApi.newRequest(sc.context)
-              .origins(origins)
-              .destinations(destinations)
-              .mode(TravelMode.DRIVING)
-              .language("en-AU")
-              .avoid(RouteRestriction.TOLLS)
-              .units(Unit.IMPERIAL)
-              .departureTime(
-                  new DateTime().plusMinutes(2)) // this is ignored when an API key is used
-              .await();
+      DistanceMatrixApi.newRequest(sc.context)
+          .origins(origins)
+          .destinations(destinations)
+          .mode(TravelMode.DRIVING)
+          .language("en-AU")
+          .avoid(RouteRestriction.TOLLS)
+          .units(Unit.IMPERIAL)
+          .departureTime(new DateTime().plusMinutes(2)) // this is ignored when an API key is used
+          .await();
 
       sc.assertParamValue(StringUtils.join(origins, "|"), "origins");
       sc.assertParamValue(StringUtils.join(destinations, "|"), "destinations");

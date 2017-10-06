@@ -22,7 +22,6 @@ import com.google.maps.internal.ApiResponse;
 import com.google.maps.model.GeolocationPayload;
 import com.google.maps.model.GeolocationResult;
 import com.google.maps.model.LatLng;
-import java.util.logging.Logger;
 
 /*
  *  The Google Maps Geolocation API returns a location and accuracy radius based on information
@@ -35,7 +34,6 @@ import java.util.logging.Logger;
  */
 public class GeolocationApi {
   private static final String API_BASE_URL = "https://www.googleapis.com";
-  private static final Logger LOG = Logger.getLogger(GeolocationApi.class.getName());
 
   static final ApiConfig GEOLOCATION_API_CONFIG =
       new ApiConfig("/geolocation/v1/geolocate")
@@ -82,7 +80,6 @@ public class GeolocationApi {
       if (successful()) {
         return null;
       }
-      ApiException e;
       return ApiException.from(reason, message);
     }
   }
