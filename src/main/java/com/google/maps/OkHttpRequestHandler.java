@@ -23,6 +23,7 @@ import com.google.maps.internal.OkHttpPendingResult;
 import com.google.maps.internal.RateLimitExecutorService;
 import java.io.IOException;
 import java.net.Proxy;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 import okhttp3.Authenticator;
 import okhttp3.Credentials;
@@ -42,9 +43,11 @@ import okhttp3.Route;
 public class OkHttpRequestHandler implements GeoApiContext.RequestHandler {
   private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
   private final OkHttpClient client;
+  private final ExecutorService executorService;
 
-  /* package */ OkHttpRequestHandler(OkHttpClient client) {
+  /* package */ OkHttpRequestHandler(OkHttpClient client, ExecutorService executorService) {
     this.client = client;
+    this.executorService = executorService;
   }
 
   @Override
@@ -85,6 +88,10 @@ public class OkHttpRequestHandler implements GeoApiContext.RequestHandler {
 
     return new OkHttpPendingResult<T, R>(
         req, client, clazz, fieldNamingPolicy, errorTimeout, maxRetries, exceptionsAllowedToRetry);
+  }
+
+  public void shutdown() {
+    executorService.shutdown();
   }
 
   /** Builder strategy for constructing an {@code OkHTTPRequestHandler}. */
@@ -149,7 +156,7 @@ public class OkHttpRequestHandler implements GeoApiContext.RequestHandler {
     @Override
     public RequestHandler build() {
       OkHttpClient client = builder.build();
-      return new OkHttpRequestHandler(client);
+      return new OkHttpRequestHandler(client, rateLimitExecutorService);
     }
   }
 }
