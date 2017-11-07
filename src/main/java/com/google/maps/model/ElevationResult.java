@@ -15,8 +15,13 @@
 
 package com.google.maps.model;
 
+import java.io.Serializable;
+
 /** An Elevation API result. */
-public class ElevationResult {
+public class ElevationResult implements Serializable {
+  /** The default serialVersionUID */
+  private static final long serialVersionUID = 1L;
+
   public double elevation;
   public LatLng location;
   public double resolution;

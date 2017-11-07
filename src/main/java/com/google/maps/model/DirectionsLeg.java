@@ -15,6 +15,7 @@
 
 package com.google.maps.model;
 
+import java.io.Serializable;
 import org.joda.time.DateTime;
 
 /**
@@ -23,7 +24,9 @@ import org.joda.time.DateTime;
  * <p>See <a href="https://developers.google.com/maps/documentation/directions/intro#Legs">the Legs
  * documentation</a> for more detail.
  */
-public class DirectionsLeg {
+public class DirectionsLeg implements Serializable {
+  /** The default serialVersionUID */
+  private static final long serialVersionUID = 1L;
 
   /**
    * Contains an array of steps denoting information about each separate step of this leg of the

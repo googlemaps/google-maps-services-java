@@ -15,6 +15,7 @@
 
 package com.google.maps.model;
 
+import java.io.Serializable;
 import org.joda.time.DateTime;
 
 /**
@@ -24,7 +25,9 @@ import org.joda.time.DateTime;
  * TransitDetails} object you can access additional information about the transit stop, transit
  * line, and transit agency.
  */
-public class TransitDetails {
+public class TransitDetails implements Serializable {
+  /** The default serialVersionUID */
+  private static final long serialVersionUID = 1L;
 
   /** Information about the arrival stop/station for this part of the trip. */
   public StopDetails arrivalStop;

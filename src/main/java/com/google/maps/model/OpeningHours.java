@@ -15,6 +15,7 @@
 
 package com.google.maps.model;
 
+import java.io.Serializable;
 import org.joda.time.LocalTime;
 
 /**
@@ -22,7 +23,9 @@ import org.joda.time.LocalTime;
  * href="https://developers.google.com/places/web-service/details#PlaceDetailsResults">Place Details
  * Results</a> for more details.
  */
-public class OpeningHours {
+public class OpeningHours implements Serializable {
+  /** The default serialVersionUID */
+  private static final long serialVersionUID = 1L;
   /**
    * Whether the place is open at the current time.
    *

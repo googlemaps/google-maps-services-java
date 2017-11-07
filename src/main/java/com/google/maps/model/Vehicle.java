@@ -15,6 +15,8 @@
 
 package com.google.maps.model;
 
+import java.io.Serializable;
+
 /**
  * The vehicle used on a line.
  *
@@ -22,7 +24,9 @@ package com.google.maps.model;
  * href="https://developers.google.com/maps/documentation/directions/intro#TransitDetails">Transit
  * details</a> for more detail.
  */
-public class Vehicle {
+public class Vehicle implements Serializable {
+  /** The default serialVersionUID */
+  private static final long serialVersionUID = 1L;
 
   /** The name of the vehicle on this line. E.g. {@code "Subway"}. */
   public String name;

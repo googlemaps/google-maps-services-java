@@ -15,6 +15,8 @@
 
 package com.google.maps.model;
 
+import java.io.Serializable;
+
 /**
  * The response from a Places Search request.
  *
@@ -22,7 +24,9 @@ package com.google.maps.model;
  * href="https://developers.google.com/places/web-service/search#PlaceSearchResponses">Places Search
  * Response</a> for more detail.
  */
-public class PlacesSearchResponse {
+public class PlacesSearchResponse implements Serializable {
+  /** The default serialVersionUID */
+  private static final long serialVersionUID = 1L;
 
   /** The list of Search Results. */
   public PlacesSearchResult results[];

@@ -15,6 +15,7 @@
 
 package com.google.maps.model;
 
+import java.io.Serializable;
 import java.net.URL;
 
 /**
@@ -24,7 +25,9 @@ import java.net.URL;
  * href="https://developers.google.com/places/web-service/search#PlaceSearchResults">Place Search
  * Results</a> for more detail.
  */
-public class PlacesSearchResult {
+public class PlacesSearchResult implements Serializable {
+  /** The default serialVersionUID */
+  private static final long serialVersionUID = 1L;
 
   /** The human-readable address of this place. */
   public String formattedAddress;

@@ -15,8 +15,12 @@
 
 package com.google.maps.model;
 
+import java.io.Serializable;
+
 /** A point that has been snapped to a road by the Roads API. */
-public class SnappedPoint {
+public class SnappedPoint implements Serializable {
+  /** The default serialVersionUID */
+  private static final long serialVersionUID = 1L;
   /** A latitude/longitude value representing the snapped location. */
   public LatLng location;
 

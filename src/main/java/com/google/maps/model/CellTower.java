@@ -15,6 +15,8 @@
 
 package com.google.maps.model;
 
+import java.io.Serializable;
+
 /**
  * A cell tower object.
  *
@@ -24,7 +26,10 @@ package com.google.maps.model;
  * href="https://developers.google.com/maps/documentation/geolocation/intro#cell_tower_object">Cell
  * Tower Object</a> for more detail.
  */
-public class CellTower {
+public class CellTower implements Serializable {
+  /** The default serialVersionUID */
+  private static final long serialVersionUID = 1L;
+
   public CellTower() {}
 
   // constructor only used by the builder class below

@@ -15,6 +15,7 @@
 
 package com.google.maps.model;
 
+import java.io.Serializable;
 /**
  * The parts of an address.
  *
@@ -23,7 +24,10 @@ package com.google.maps.model;
  * href="https://developers.google.com/maps/documentation/geocoding/intro">Google Maps Geocoding API
  * Developer's Guide</a> for more detail.
  */
-public class AddressComponent {
+public class AddressComponent implements Serializable {
+  /** The default serialVersionUID */
+  private static final long serialVersionUID = 1L;
+
   /** The full text description or name of the address component as returned by the Geocoder. */
   public String longName;
 

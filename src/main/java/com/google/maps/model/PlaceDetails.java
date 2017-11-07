@@ -15,6 +15,7 @@
 
 package com.google.maps.model;
 
+import java.io.Serializable;
 import java.net.URL;
 import org.joda.time.Instant;
 
@@ -26,7 +27,9 @@ import org.joda.time.Instant;
  * <p>See <a href="https://developers.google.com/places/web-service/details#PlaceDetailsResults">
  * Place Details Results</a> for more detail.
  */
-public class PlaceDetails {
+public class PlaceDetails implements Serializable {
+  /** The default serialVersionUID */
+  private static final long serialVersionUID = 1L;
 
   /** A list of separate address components that comprise the address of this place. */
   public AddressComponent[] addressComponents;
