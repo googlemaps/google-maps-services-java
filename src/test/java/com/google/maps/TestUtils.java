@@ -32,4 +32,18 @@ public class TestUtils {
       return body;
     }
   }
+
+  public static Thread findLastThreadByName(String name) {
+    ThreadGroup currentThreadGroup = Thread.currentThread().getThreadGroup();
+    Thread[] threads = new Thread[1000];
+    currentThreadGroup.enumerate(threads);
+    Thread delayThread = null;
+    for (Thread thread : threads) {
+      if (thread == null) break;
+      if (thread.getName().equals(name)) {
+        delayThread = thread;
+      }
+    }
+    return delayThread;
+  }
 }

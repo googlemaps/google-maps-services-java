@@ -15,7 +15,10 @@
 
 package com.google.maps;
 
+import static com.google.maps.TestUtils.findLastThreadByName;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
@@ -290,5 +293,21 @@ public class GeoApiContextTest {
     }
 
     fail("OverQueryLimitException was expected but not observed.");
+  }
+
+  @Test
+  public void testShutdown() throws InterruptedException {
+    GeoApiContext context = builder.build();
+    final Thread delayThread = findLastThreadByName("RateLimitExecutorDelayThread");
+    assertNotNull(
+        "Delay thread should be created in constructor of RateLimitExecutorService", delayThread);
+    assertTrue(
+        "Delay thread should start in constructor of RateLimitExecutorService",
+        delayThread.isAlive());
+    //this is needed to make sure that delay thread has reached queue.take()
+    delayThread.join(10);
+    context.shutdown();
+    delayThread.join(10);
+    assertFalse(delayThread.isAlive());
   }
 }

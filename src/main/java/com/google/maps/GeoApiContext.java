@@ -104,6 +104,8 @@ public class GeoApiContext {
         Integer maxRetries,
         ExceptionsAllowedToRetry exceptionsAllowedToRetry);
 
+    void shutdown();
+
     /** Builder pattern for {@code GeoApiContext.RequestHandler}. */
     interface Builder {
 
@@ -121,6 +123,10 @@ public class GeoApiContext {
 
       RequestHandler build();
     }
+  }
+
+  public void shutdown() {
+    requestHandler.shutdown();
   }
 
   <T, R extends ApiResponse<T>> PendingResult<T> get(

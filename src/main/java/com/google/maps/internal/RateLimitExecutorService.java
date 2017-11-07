@@ -55,9 +55,11 @@ public class RateLimitExecutorService implements ExecutorService, Runnable {
   private final RateLimiter rateLimiter =
       RateLimiter.create(DEFAULT_QUERIES_PER_SECOND, 1, TimeUnit.SECONDS);
 
+  final Thread delayThread;
+
   public RateLimitExecutorService() {
     setQueriesPerSecond(DEFAULT_QUERIES_PER_SECOND);
-    Thread delayThread = new Thread(this);
+    delayThread = new Thread(this);
     delayThread.setDaemon(true);
     delayThread.setName("RateLimitExecutorDelayThread");
     delayThread.start();
@@ -74,7 +76,9 @@ public class RateLimitExecutorService implements ExecutorService, Runnable {
       while (!delegate.isShutdown()) {
         this.rateLimiter.acquire();
         Runnable r = queue.take();
-        delegate.execute(r);
+        if (!delegate.isShutdown()) {
+          delegate.execute(r);
+        }
       }
     } catch (InterruptedException ie) {
       LOG.info("Interrupted", ie);
@@ -97,16 +101,33 @@ public class RateLimitExecutorService implements ExecutorService, Runnable {
     queue.add(runnable);
   }
 
-  // Everything below here is straight delegation.
-
   @Override
   public void shutdown() {
     delegate.shutdown();
+    //we need this to break out of queue.take()
+    execute(
+        new Runnable() {
+          @Override
+          public void run() {
+            //do nothing
+          }
+        });
   }
+
+  // Everything below here is straight delegation.
 
   @Override
   public List<Runnable> shutdownNow() {
-    return delegate.shutdownNow();
+    List<Runnable> tasks = delegate.shutdownNow();
+    //we need this to break out of queue.take()
+    execute(
+        new Runnable() {
+          @Override
+          public void run() {
+            //do nothing
+          }
+        });
+    return tasks;
   }
 
   @Override

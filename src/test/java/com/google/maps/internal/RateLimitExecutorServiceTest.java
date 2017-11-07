@@ -15,6 +15,8 @@
 
 package com.google.maps.internal;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import com.google.maps.MediumTests;
@@ -89,5 +91,21 @@ public class RateLimitExecutorServiceTest {
       counter += value;
     }
     return counter;
+  }
+
+  @Test
+  public void testDelayThreadIsStoppedAfterShutdownIsCalled() throws InterruptedException {
+    RateLimitExecutorService service = new RateLimitExecutorService();
+    final Thread delayThread = service.delayThread;
+    assertNotNull(
+        "Delay thread should be created in constructor of RateLimitExecutorService", delayThread);
+    assertTrue(
+        "Delay thread should start in constructor of RateLimitExecutorService",
+        delayThread.isAlive());
+    //this is needed to make sure that delay thread has reached queue.take()
+    delayThread.join(10);
+    service.shutdown();
+    delayThread.join(10);
+    assertFalse(delayThread.isAlive());
   }
 }
