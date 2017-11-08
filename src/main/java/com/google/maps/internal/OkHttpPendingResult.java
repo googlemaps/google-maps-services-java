@@ -220,7 +220,10 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
       return request.retry();
     }
 
-    byte[] bytes = response.body().bytes();
+    byte[] bytes;
+    try (ResponseBody body = response.body()) {
+        bytes = body.bytes();
+    }
     R resp;
     String contentType = response.header("Content-Type");
 
