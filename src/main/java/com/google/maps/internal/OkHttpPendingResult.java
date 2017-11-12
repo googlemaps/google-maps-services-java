@@ -222,7 +222,7 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
 
     byte[] bytes;
     try (ResponseBody body = response.body()) {
-        bytes = body.bytes();
+      bytes = body.bytes();
     }
     R resp;
     String contentType = response.header("Content-Type");
