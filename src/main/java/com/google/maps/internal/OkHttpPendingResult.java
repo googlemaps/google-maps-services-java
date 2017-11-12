@@ -45,6 +45,7 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 import org.joda.time.DateTime;
 import org.joda.time.Instant;
 import org.joda.time.LocalTime;
@@ -222,7 +223,7 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
 
     byte[] bytes;
     try (ResponseBody body = response.body()) {
-        bytes = body.bytes();
+      bytes = body.bytes();
     }
     R resp;
     String contentType = response.header("Content-Type");
