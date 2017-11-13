@@ -242,6 +242,9 @@ public enum AddressType implements UrlValue {
   /** Currently not a documented return type. */
   SPA("spa"),
 
+  /** Currently not a documented return type. */
+  SHOE_STORE("shoe_store"),
+
   /**
    * Indicates an unknown address type returned by the server. The Java Client for Google Maps
    * Services should be updated to support the new value.
