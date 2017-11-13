@@ -15,6 +15,8 @@
 
 package com.google.maps.model;
 
+import java.io.Serializable;
+
 /**
  * The stop/station.
  *
@@ -22,7 +24,9 @@ package com.google.maps.model;
  * href="https://developers.google.com/maps/documentation/directions/intro#TransitDetails">Transit
  * details</a> for more detail.
  */
-public class StopDetails {
+public class StopDetails implements Serializable {
+
+  private static final long serialVersionUID = 1L;
 
   /** The name of the transit station/stop. E.g. {@code "Union Square"}. */
   public String name;

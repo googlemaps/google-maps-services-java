@@ -16,6 +16,7 @@
 package com.google.maps.model;
 
 import com.google.maps.internal.PolylineEncoding;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -24,7 +25,10 @@ import java.util.List;
  * <p>See <a href="https://developers.google.com/maps/documentation/utilities/polylinealgorithm">
  * Encoded Polyline Algorithm</a> for more detail on the protocol.
  */
-public class EncodedPolyline {
+public class EncodedPolyline implements Serializable {
+
+  private static final long serialVersionUID = 1L;
+
   private final String points;
 
   /**

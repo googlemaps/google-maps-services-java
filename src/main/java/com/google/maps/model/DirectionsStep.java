@@ -15,6 +15,8 @@
 
 package com.google.maps.model;
 
+import java.io.Serializable;
+
 /**
  * Each element in the steps of a {@link DirectionsLeg} defines a single step of the calculated
  * directions. A step is the most atomic unit of a direction's route, containing a single step
@@ -34,7 +36,9 @@ package com.google.maps.model;
  * for that route in the {@code steps} array, such as: "Head north-west", "Turn left onto Arelious
  * Walker", and "Turn left onto Innes Ave".
  */
-public class DirectionsStep {
+public class DirectionsStep implements Serializable {
+
+  private static final long serialVersionUID = 1L;
 
   /** Formatted instructions for this step, presented as an HTML text string. */
   public String htmlInstructions;

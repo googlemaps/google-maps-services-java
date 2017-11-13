@@ -15,6 +15,8 @@
 
 package com.google.maps.model;
 
+import java.io.Serializable;
+
 /**
  * The transit line used in a step.
  *
@@ -22,7 +24,9 @@ package com.google.maps.model;
  * href="https://developers.google.com/maps/documentation/directions/intro#TransitDetails">Transit
  * Details</a> for more detail.
  */
-public class TransitLine {
+public class TransitLine implements Serializable {
+
+  private static final long serialVersionUID = 1L;
 
   /** The full name of this transit line. E.g. {@code "7 Avenue Express"}. */
   public String name;

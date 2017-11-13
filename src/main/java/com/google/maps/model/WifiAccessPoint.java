@@ -15,6 +15,8 @@
 
 package com.google.maps.model;
 
+import java.io.Serializable;
+
 /**
  * A WiFi access point.
  *
@@ -25,7 +27,10 @@ package com.google.maps.model;
  * href="https://developers.google.com/maps/documentation/geolocation/intro#wifi_access_point_object">
  * WiFi Access Point Objects</a> for more detail.
  */
-public class WifiAccessPoint {
+public class WifiAccessPoint implements Serializable {
+
+  private static final long serialVersionUID = 1L;
+
   public WifiAccessPoint() {}
 
   // constructor only used by the builder class below

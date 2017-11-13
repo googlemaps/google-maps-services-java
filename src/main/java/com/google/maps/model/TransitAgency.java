@@ -15,6 +15,8 @@
 
 package com.google.maps.model;
 
+import java.io.Serializable;
+
 /**
  * The operator of a line.
  *
@@ -22,7 +24,9 @@ package com.google.maps.model;
  * href="https://developers.google.com/maps/documentation/directions/intro#TransitDetails">Transit
  * Details</a> for more detail.
  */
-public class TransitAgency {
+public class TransitAgency implements Serializable {
+
+  private static final long serialVersionUID = 1L;
 
   /** The name of the transit agency. */
   public String name;

@@ -15,13 +15,17 @@
 
 package com.google.maps.model;
 
+import java.io.Serializable;
+
 /**
  * Contains the photo for a PhotoReference.
  *
  * <p>Please see <a href="https://developers.google.com/places/web-service/photos">Place Photos</a>
  * for more details.
  */
-public class PhotoResult {
+public class PhotoResult implements Serializable {
+
+  private static final long serialVersionUID = 1L;
   /** The image data from the Photos API call. */
   public byte[] imageData;
 
