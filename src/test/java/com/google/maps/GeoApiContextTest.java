@@ -65,6 +65,7 @@ public class GeoApiContextTest {
     builder.baseUrlForTesting("http://127.0.0.1:" + server.getPort());
   }
 
+  @SuppressWarnings("unchecked")
   @Test
   public void testGetIncludesDefaultUserAgent() throws Exception {
     // Set up a mock request
