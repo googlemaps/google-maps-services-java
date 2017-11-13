@@ -224,6 +224,12 @@ public enum AddressType implements UrlValue {
   /** Currently not a documented return type. */
   STORAGE("storage"),
 
+  /** Currently not a documented return type. */
+  CASINO("casino"),
+
+  /** Currently not a documented return type. */
+  PARKING("parking"),
+
   /**
    * Indicates an unknown address type returned by the server. The Java Client for Google Maps
    * Services should be updated to support the new value.
