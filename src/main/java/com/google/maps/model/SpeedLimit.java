@@ -19,7 +19,7 @@ import java.io.Serializable;
 
 /** A speed limit result from the Roads API. */
 public class SpeedLimit implements Serializable {
-  /** The default serialVersionUID */
+
   private static final long serialVersionUID = 1L;
   /**
    * A unique identifier for a place. All placeIds returned by the Roads API will correspond to road

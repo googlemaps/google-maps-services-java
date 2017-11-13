@@ -25,7 +25,7 @@ import java.io.Serializable;
  *     Distance Matrix Results</a>
  */
 public class DistanceMatrix implements Serializable {
-  /** The default serialVersionUID */
+
   private static final long serialVersionUID = 1L;
 
   /**

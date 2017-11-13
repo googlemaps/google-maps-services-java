@@ -37,7 +37,7 @@ import java.io.Serializable;
  * Walker", and "Turn left onto Innes Ave".
  */
 public class DirectionsStep implements Serializable {
-  /** The default serialVersionUID */
+
   private static final long serialVersionUID = 1L;
 
   /** Formatted instructions for this step, presented as an HTML text string. */

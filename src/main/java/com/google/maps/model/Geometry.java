@@ -19,7 +19,7 @@ import java.io.Serializable;
 
 /** The geometry of a Geocoding result. */
 public class Geometry implements Serializable {
-  /** The default serialVersionUID */
+
   private static final long serialVersionUID = 1L;
   /**
    * The bounding box which can fully contain the returned result (optionally returned). Note that

@@ -27,7 +27,7 @@ import java.io.Serializable;
  * responses</a> for more detail.
  */
 public class GeolocationResult implements Serializable {
-  /** The default serialVersionUID */
+
   private static final long serialVersionUID = 1L;
   /** The user’s estimated latitude and longitude. */
   public LatLng location;

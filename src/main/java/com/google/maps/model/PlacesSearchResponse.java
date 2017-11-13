@@ -25,7 +25,7 @@ import java.io.Serializable;
  * Response</a> for more detail.
  */
 public class PlacesSearchResponse implements Serializable {
-  /** The default serialVersionUID */
+
   private static final long serialVersionUID = 1L;
 
   /** The list of Search Results. */

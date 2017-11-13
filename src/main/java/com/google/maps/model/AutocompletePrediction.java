@@ -25,7 +25,7 @@ import java.io.Serializable;
  * Autocomplete Responses</a> for more detail.
  */
 public class AutocompletePrediction implements Serializable {
-  /** The default serialVersionUID */
+
   private static final long serialVersionUID = 1L;
 
   /** Description of the matched prediction. */

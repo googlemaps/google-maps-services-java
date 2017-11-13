@@ -24,7 +24,7 @@ import org.joda.time.LocalTime;
  * Results</a> for more details.
  */
 public class OpeningHours implements Serializable {
-  /** The default serialVersionUID */
+
   private static final long serialVersionUID = 1L;
   /**
    * Whether the place is open at the current time.

@@ -24,7 +24,7 @@ import java.io.Serializable;
  * Directions API</a> for more detail.
  */
 public class DirectionsResult implements Serializable {
-  /** The default serialVersionUID */
+
   private static final long serialVersionUID = 1L;
 
   /**

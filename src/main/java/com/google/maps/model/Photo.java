@@ -24,7 +24,7 @@ import java.io.Serializable;
  * for more details.
  */
 public class Photo implements Serializable {
-  /** The default serialVersionUID */
+
   private static final long serialVersionUID = 1L;
   /** Used to identify the photo when you perform a Photo request. */
   public String photoReference;

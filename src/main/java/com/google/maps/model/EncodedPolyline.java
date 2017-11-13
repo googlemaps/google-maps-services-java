@@ -26,7 +26,7 @@ import java.util.List;
  * Encoded Polyline Algorithm</a> for more detail on the protocol.
  */
 public class EncodedPolyline implements Serializable {
-  /** The default serialVersionUID */
+
   private static final long serialVersionUID = 1L;
 
   private final String points;

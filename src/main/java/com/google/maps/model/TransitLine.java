@@ -25,7 +25,7 @@ import java.io.Serializable;
  * Details</a> for more detail.
  */
 public class TransitLine implements Serializable {
-  /** The default serialVersionUID */
+
   private static final long serialVersionUID = 1L;
 
   /** The full name of this transit line. E.g. {@code "7 Avenue Express"}. */

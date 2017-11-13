@@ -26,7 +26,7 @@ import java.net.URL;
  * Results</a> for more detail.
  */
 public class PlacesSearchResult implements Serializable {
-  /** The default serialVersionUID */
+
   private static final long serialVersionUID = 1L;
 
   /** The human-readable address of this place. */

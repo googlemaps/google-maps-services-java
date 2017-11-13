@@ -26,7 +26,7 @@ import java.io.Serializable;
  * Routes</a> for more detail.
  */
 public class DirectionsRoute implements Serializable {
-  /** The default serialVersionUID */
+
   private static final long serialVersionUID = 1L;
   /**
    * A short textual description for the route, suitable for naming and disambiguating the route

@@ -25,7 +25,7 @@ import java.io.Serializable;
  * Developer's Guide</a> for more detail.
  */
 public class AddressComponent implements Serializable {
-  /** The default serialVersionUID */
+
   private static final long serialVersionUID = 1L;
 
   /** The full text description or name of the address component as returned by the Geocoder. */

@@ -24,7 +24,7 @@ import java.io.Serializable;
  * Geocoded Waypoints</a> for more detail.
  */
 public class GeocodedWaypoint implements Serializable {
-  /** The default serialVersionUID */
+
   private static final long serialVersionUID = 1L;
   /** The status code resulting from the geocoding operation for this waypoint. */
   public GeocodedWaypointStatus geocoderStatus;

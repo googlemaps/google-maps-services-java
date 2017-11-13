@@ -24,7 +24,7 @@ import java.io.Serializable;
  * for more details.
  */
 public class PhotoResult implements Serializable {
-  /** The default serialVersionUID */
+
   private static final long serialVersionUID = 1L;
   /** The image data from the Photos API call. */
   public byte[] imageData;

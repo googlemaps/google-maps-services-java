@@ -27,7 +27,7 @@ import java.io.Serializable;
  * Tower Object</a> for more detail.
  */
 public class CellTower implements Serializable {
-  /** The default serialVersionUID */
+
   private static final long serialVersionUID = 1L;
 
   public CellTower() {}

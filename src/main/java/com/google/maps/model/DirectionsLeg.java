@@ -25,7 +25,7 @@ import org.joda.time.DateTime;
  * documentation</a> for more detail.
  */
 public class DirectionsLeg implements Serializable {
-  /** The default serialVersionUID */
+
   private static final long serialVersionUID = 1L;
 
   /**

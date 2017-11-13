@@ -28,7 +28,7 @@ import java.io.Serializable;
  * WiFi Access Point Objects</a> for more detail.
  */
 public class WifiAccessPoint implements Serializable {
-  /** The default serialVersionUID */
+
   private static final long serialVersionUID = 1L;
 
   public WifiAccessPoint() {}

@@ -19,7 +19,7 @@ import java.io.Serializable;
 
 /** A combined snap-to-roads and speed limit response. */
 public class SnappedSpeedLimitResponse implements Serializable {
-  /** The default serialVersionUID */
+
   private static final long serialVersionUID = 1L;
 
   /** Speed limit results. */

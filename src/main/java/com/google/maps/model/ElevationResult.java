@@ -19,7 +19,7 @@ import java.io.Serializable;
 
 /** An Elevation API result. */
 public class ElevationResult implements Serializable {
-  /** The default serialVersionUID */
+
   private static final long serialVersionUID = 1L;
 
   public double elevation;

@@ -24,7 +24,7 @@ import java.io.Serializable;
  * successful and failed elements depending on the connectivity of the origin and destination.
  */
 public class DistanceMatrixElement implements Serializable {
-  /** The default serialVersionUID */
+
   private static final long serialVersionUID = 1L;
 
   /**

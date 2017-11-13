@@ -25,7 +25,7 @@ import java.io.Serializable;
  * details</a> for more detail.
  */
 public class StopDetails implements Serializable {
-  /** The default serialVersionUID */
+
   private static final long serialVersionUID = 1L;
 
   /** The name of the transit station/stop. E.g. {@code "Union Square"}. */

@@ -25,7 +25,7 @@ import java.io.Serializable;
  * details</a> for more detail.
  */
 public class Vehicle implements Serializable {
-  /** The default serialVersionUID */
+
   private static final long serialVersionUID = 1L;
 
   /** The name of the vehicle on this line. E.g. {@code "Subway"}. */

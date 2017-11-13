@@ -22,7 +22,7 @@ import java.io.Serializable;
  * single origin.
  */
 public class DistanceMatrixRow implements Serializable {
-  /** The default serialVersionUID */
+
   private static final long serialVersionUID = 1L;
 
   /** The results for this row, or individual origin. */

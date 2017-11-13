@@ -26,7 +26,7 @@ import org.joda.time.DateTime;
  * line, and transit agency.
  */
 public class TransitDetails implements Serializable {
-  /** The default serialVersionUID */
+
   private static final long serialVersionUID = 1L;
 
   /** Information about the arrival stop/station for this part of the trip. */

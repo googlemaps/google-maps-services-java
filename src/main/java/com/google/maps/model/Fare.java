@@ -26,7 +26,7 @@ import java.util.Currency;
  * Routes Documentation</a> for more detail.
  */
 public class Fare implements Serializable {
-  /** The default serialVersionUID */
+
   private static final long serialVersionUID = 1L;
 
   /** The currency that the amount is expressed in. */

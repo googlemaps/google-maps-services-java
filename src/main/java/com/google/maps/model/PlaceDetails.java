@@ -28,7 +28,7 @@ import org.joda.time.Instant;
  * Place Details Results</a> for more detail.
  */
 public class PlaceDetails implements Serializable {
-  /** The default serialVersionUID */
+
   private static final long serialVersionUID = 1L;
 
   /** A list of separate address components that comprise the address of this place. */

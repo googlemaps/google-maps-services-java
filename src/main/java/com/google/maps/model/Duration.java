@@ -19,7 +19,7 @@ import java.io.Serializable;
 
 /** The duration component for Directions API results. */
 public class Duration implements Serializable {
-  /** The default serialVersionUID */
+
   private static final long serialVersionUID = 1L;
 
   /**
