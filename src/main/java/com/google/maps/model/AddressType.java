@@ -234,7 +234,10 @@ public enum AddressType implements UrlValue {
   STADIUM("stadium"),
 
   /** Currently not a documented return type. */
-  TRAVEL_AGENCY("travel_agency"),  
+  TRAVEL_AGENCY("travel_agency"),
+
+  /** Currently not a documented return type. */
+  NIGHT_CLUB("night_club"),
 
   /**
    * Indicates an unknown address type returned by the server. The Java Client for Google Maps
