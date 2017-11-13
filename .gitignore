@@ -1,4 +1,13 @@
+/build/
+/out/
+/bin/
+/com/
 .gradle/
+.nb-gradle/
+.nb-gradle-properties
+*.iml
 .idea/
-build/
-google-maps-services-java.iml
+.settings/
+.project
+.classpath
+.vscode/
