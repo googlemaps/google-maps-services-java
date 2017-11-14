@@ -651,7 +651,7 @@ public class PlacesApiTest {
           .offset(4)
           .location(location)
           .radius(5000)
-          .type(PlaceAutocompleteType.ESTABLISHMENT)
+          .types(PlaceAutocompleteType.ESTABLISHMENT)
           .components(ComponentFilter.country("AU"))
           .await();
 
@@ -845,7 +845,7 @@ public class PlacesApiTest {
       AutocompletePrediction[] predictions =
           PlacesApi.placeAutocomplete(sc.context, "po")
               .components(ComponentFilter.country("nz"))
-              .type(PlaceAutocompleteType.REGIONS)
+              .types(PlaceAutocompleteType.REGIONS)
               .await();
 
       sc.assertParamValue("po", "input");
@@ -859,6 +859,25 @@ public class PlacesApiTest {
           assertFalse(predictions[i].types[j].equals("establishment"));
         }
       }
+    }
+  }
+
+  @Test
+  public void testPlaceAutocompleteWithStrictBounds() throws Exception {
+    try (LocalTestServerContext sc = new LocalTestServerContext(placesApiPlaceAutocomplete)) {
+      AutocompletePrediction[] predictions =
+          PlacesApi.placeAutocomplete(sc.context, "Amoeba")
+              .types(PlaceAutocompleteType.ESTABLISHMENT)
+              .location(new LatLng(37.76999,-122.44696))
+              .radius(500)
+              .strictBounds(true)
+              .await();
+
+      sc.assertParamValue("Amoeba", "input");
+      sc.assertParamValue("establishment", "types");
+      sc.assertParamValue("37.76999000,-122.44696000","location");
+      sc.assertParamValue("500", "radius");
+      sc.assertParamValue("true", "strictbounds");
     }
   }
 
