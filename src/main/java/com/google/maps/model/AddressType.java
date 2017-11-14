@@ -234,6 +234,9 @@ public enum AddressType implements UrlValue {
   STADIUM("stadium"),
 
   /** Currently not a documented return type. */
+  TRAVEL_AGENCY("travel_agency"),  
+
+  /** Currently not a documented return type. */
   BEAUTY_SALON("beauty_salon"),
 
   /** Currently not a documented return type. */
