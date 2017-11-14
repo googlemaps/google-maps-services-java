@@ -109,7 +109,6 @@ public class PlaceAutocompleteRequest
     return param("types", types);
   }
 
-
   /**
    * A grouping of places to which you would like to restrict your results. Currently, you can use
    * components to filter by country.

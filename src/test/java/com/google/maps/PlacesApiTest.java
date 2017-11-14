@@ -868,14 +868,14 @@ public class PlacesApiTest {
       AutocompletePrediction[] predictions =
           PlacesApi.placeAutocomplete(sc.context, "Amoeba")
               .types(PlaceAutocompleteType.ESTABLISHMENT)
-              .location(new LatLng(37.76999,-122.44696))
+              .location(new LatLng(37.76999, -122.44696))
               .radius(500)
               .strictBounds(true)
               .await();
 
       sc.assertParamValue("Amoeba", "input");
       sc.assertParamValue("establishment", "types");
-      sc.assertParamValue("37.76999000,-122.44696000","location");
+      sc.assertParamValue("37.76999000,-122.44696000", "location");
       sc.assertParamValue("500", "radius");
       sc.assertParamValue("true", "strictbounds");
     }
