@@ -243,6 +243,9 @@ public enum AddressType implements UrlValue {
   SPA("spa"),
 
   /** Currently not a documented return type. */
+  SHOE_STORE("shoe_store"),
+
+  /** Currently not a documented return type. */
   BAKERY("bakery"),
 
   /** Currently not a documented return type. */
