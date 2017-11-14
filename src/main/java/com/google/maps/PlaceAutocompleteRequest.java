@@ -93,10 +93,22 @@ public class PlaceAutocompleteRequest
    *
    * @param type The type to restrict results to.
    * @return Returns this {@code PlaceAutocompleteRequest} for call chaining.
+   * @deprecated Please use {@code types} instead.
    */
   public PlaceAutocompleteRequest type(PlaceAutocompleteType type) {
-    return param("types", type);
+    return this.types(type);
   }
+
+  /**
+   * Restricts the results to places matching the specified type.
+   *
+   * @param types The type to restrict results to.
+   * @return Returns this {@code PlaceAutocompleteRequest} for call chaining.
+   */
+  public PlaceAutocompleteRequest types(PlaceAutocompleteType types) {
+    return param("types", types);
+  }
+
 
   /**
    * A grouping of places to which you would like to restrict your results. Currently, you can use
@@ -107,6 +119,18 @@ public class PlaceAutocompleteRequest
    */
   public PlaceAutocompleteRequest components(ComponentFilter... filters) {
     return param("components", join('|', filters));
+  }
+
+  /**
+   * StrictBounds returns only those places that are strictly within the region defined by location
+   * and radius. This is a restriction, rather than a bias, meaning that results outside this region
+   * will not be returned even if they match the user input.
+   *
+   * @param strictBounds Whether to strictly bound results.
+   * @return Returns this {@code PlaceAutocompleteRequest} for call chaining.
+   */
+  public PlaceAutocompleteRequest strictBounds(boolean strictBounds) {
+    return param("strictbounds", Boolean.toString(strictBounds).toString());
   }
 
   @Override
