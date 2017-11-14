@@ -15,13 +15,17 @@
 
 package com.google.maps.model;
 
+import java.io.Serializable;
+
 /**
  * Describes a photo available with a Search Result.
  *
  * <p>Please see <a href="https://developers.google.com/places/web-service/photos">Place Photos</a>
  * for more details.
  */
-public class Photo {
+public class Photo implements Serializable {
+
+  private static final long serialVersionUID = 1L;
   /** Used to identify the photo when you perform a Photo request. */
   public String photoReference;
 

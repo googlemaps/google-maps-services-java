@@ -236,6 +236,54 @@ public enum AddressType implements UrlValue {
   /** Currently not a documented return type. */
   TRAVEL_AGENCY("travel_agency"),  
 
+  /** Currently not a documented return type. */
+  BEAUTY_SALON("beauty_salon"),
+
+  /** Currently not a documented return type. */
+  HAIR_CARE("hair_care"),
+
+  /** Currently not a documented return type. */
+  SPA("spa"),
+
+  /** Currently not a documented return type. */
+  SHOE_STORE("shoe_store"),
+
+  /** Currently not a documented return type. */
+  BAKERY("bakery"),
+
+  /** Currently not a documented return type. */
+  PHARMACY("pharmacy"),
+
+  /** Currently not a documented return type. */
+  SCHOOL("school"),
+
+  /** Currently not a documented return type. */
+  BOOK_STORE("book_store"),
+
+  /** Currently not a documented return type. */
+  DEPARTMENT_STORE("department_store"),
+
+  /** Currently not a documented return type. */
+  RESTAURANT("restaurant"),
+
+  /** Currently not a documented return type. */
+  REAL_ESTATE_AGENCY("real_estate_agency"),
+
+  /** Currently not a documented return type. */
+  BAR("bar"),
+
+  /** Currently not a documented return type. */
+  DOCTOR("doctor"),
+
+  /** Currently not a documented return type. */
+  HOSPITAL("hospital"),
+
+  /** Currently not a documented return type. */
+  FIRE_STATION("fire_station"),
+
+  /** Currently not a documented return type. */
+  SUPERMARKET("supermarket"),
+
   /**
    * Indicates an unknown address type returned by the server. The Java Client for Google Maps
    * Services should be updated to support the new value.

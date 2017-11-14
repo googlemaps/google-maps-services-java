@@ -15,8 +15,12 @@
 
 package com.google.maps.model;
 
+import java.io.Serializable;
+
 /** The geometry of a Geocoding result. */
-public class Geometry {
+public class Geometry implements Serializable {
+
+  private static final long serialVersionUID = 1L;
   /**
    * The bounding box which can fully contain the returned result (optionally returned). Note that
    * these bounds may not match the recommended viewport. (For example, San Francisco includes the

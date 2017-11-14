@@ -15,6 +15,8 @@
 
 package com.google.maps.model;
 
+import java.io.Serializable;
+
 /**
  * A complete result from a Distance Matrix API call.
  *
@@ -22,7 +24,9 @@ package com.google.maps.model;
  *     href="https://developers.google.com/maps/documentation/distancematrix/#DistanceMatrixResponses">
  *     Distance Matrix Results</a>
  */
-public class DistanceMatrix {
+public class DistanceMatrix implements Serializable {
+
+  private static final long serialVersionUID = 1L;
 
   /**
    * Origin addresses as returned by the API from your original request. These are formatted by the

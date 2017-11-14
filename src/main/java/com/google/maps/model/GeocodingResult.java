@@ -15,8 +15,12 @@
 
 package com.google.maps.model;
 
+import java.io.Serializable;
+
 /** A result from a Geocoding API call. */
-public class GeocodingResult {
+public class GeocodingResult implements Serializable {
+
+  private static final long serialVersionUID = 1L;
 
   /** The separate address components in this result. */
   public AddressComponent[] addressComponents;

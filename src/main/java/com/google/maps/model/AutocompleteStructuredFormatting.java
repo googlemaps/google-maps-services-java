@@ -15,8 +15,12 @@
 
 package com.google.maps.model;
 
+import java.io.Serializable;
+
 /** The structured formatting info for a {@link com.google.maps.model.AutocompletePrediction}. */
-public class AutocompleteStructuredFormatting {
+public class AutocompleteStructuredFormatting implements Serializable {
+
+  private static final long serialVersionUID = 1L;
 
   /** The main text of a prediction, usually the name of the place. */
   public String mainText;

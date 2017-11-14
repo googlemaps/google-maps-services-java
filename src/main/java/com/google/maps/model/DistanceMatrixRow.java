@@ -15,11 +15,15 @@
 
 package com.google.maps.model;
 
+import java.io.Serializable;
+
 /**
  * Represents a single row in a Distance Matrix API response. A row represents the results for a
  * single origin.
  */
-public class DistanceMatrixRow {
+public class DistanceMatrixRow implements Serializable {
+
+  private static final long serialVersionUID = 1L;
 
   /** The results for this row, or individual origin. */
   public DistanceMatrixElement[] elements;

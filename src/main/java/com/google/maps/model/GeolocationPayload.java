@@ -15,6 +15,7 @@
 
 package com.google.maps.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +30,10 @@ import java.util.List;
  *
  * <p>The following fields are supported, and all fields are optional:
  */
-public class GeolocationPayload {
+public class GeolocationPayload implements Serializable {
+
+  private static final long serialVersionUID = 1L;
+
   public GeolocationPayload() {}
 
   // constructor only used by the builder class below
