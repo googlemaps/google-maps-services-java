@@ -34,8 +34,14 @@ public class OpeningHours implements Serializable {
   public Boolean openNow;
 
   /** The opening hours for a Place for a single day. */
-  public static class Period {
-    public static class OpenClose {
+  public static class Period implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    public static class OpenClose implements Serializable {
+
+      private static final long serialVersionUID = 1L;
+
       public enum DayOfWeek {
         SUNDAY,
         MONDAY,
