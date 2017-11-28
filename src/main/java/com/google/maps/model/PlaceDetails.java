@@ -73,7 +73,10 @@ public class PlaceDetails implements Serializable {
   /** Whether the place has permanently closed. */
   public boolean permanentlyClosed;
 
-  public static class AlternatePlaceIds {
+  public static class AlternatePlaceIds implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     /**
      * The alternative placeId. The most likely reason for a place to have an alternative place ID
      * is if your application adds a place and receives an application-scoped place ID, then later
@@ -103,8 +106,14 @@ public class PlaceDetails implements Serializable {
   /** The place's rating, from 1.0 to 5.0, based on aggregated user reviews. */
   public float rating;
 
-  public static class Review {
-    public static class AspectRating {
+  public static class Review implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    public static class AspectRating implements Serializable {
+
+      private static final long serialVersionUID = 1L;
+
       public enum RatingType {
         APPEAL,
         ATMOSPHERE,
