@@ -30,7 +30,7 @@ import org.joda.time.ReadableInstant;
 public class DirectionsApiRequest
     extends PendingResultBase<DirectionsResult, DirectionsApiRequest, DirectionsApi.Response> {
 
-  public DirectionsApiRequest(GeoApiContext context) {
+  DirectionsApiRequest(GeoApiContext context) {
     super(context, DirectionsApi.API_CONFIG, DirectionsApi.Response.class);
   }
 
