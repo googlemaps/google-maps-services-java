@@ -38,7 +38,7 @@ public class ComponentFilter implements StringJoin.UrlValue {
    * @param component The component to filter.
    * @param value The value of the filter.
    */
-  public ComponentFilter(String component, String value) {
+  ComponentFilter(String component, String value) {
     this.component = component;
     this.value = value;
   }
