@@ -451,7 +451,7 @@ public class GeoApiContext {
 
     /**
      * Sets the maximum number of queries that will be executed during a 1 second interval. The
-     * default is 10. A minimum interval between requests will also be enforced, set to 1/(2 *
+     * default is 50. A minimum interval between requests will also be enforced, set to 1/(2 *
      * {@code maxQps}).
      *
      * @param maxQps The maximum queries per second.

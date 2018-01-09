@@ -84,8 +84,8 @@ For even more information, see the guide to [API keys][apikey].
 You can add the library to your project via Maven or Gradle.
 
 **Note:** Since 0.1.18 there is now a dependency on [SLF4J](https://www.slf4j.org/). You need to add
-one of the adapter dependencies that makes sense for your logging setup. In the configuration 
-samples below we are integrating 
+one of the adapter dependencies that makes sense for your logging setup. In the configuration
+samples below we are integrating
 [slf4j-nop](https://search.maven.org/#artifactdetails%7Corg.slf4j%7Cslf4j-nop%7C1.7.25%7Cjar),
 but there are others like
 [slf4j-log4j12](https://search.maven.org/#artifactdetails%7Corg.slf4j%7Cslf4j-log4j12%7C1.7.25%7Cjar)
@@ -197,7 +197,7 @@ based strategy.
 ### Rate Limiting
 
 Never sleep between requests again! By default, requests are sent at the expected rate limits for
-each web service, typically 10 queries per second for free users. If you want to speed up or slow
+each web service, typically 50 queries per second for free users. If you want to speed up or slow
 down requests, you can do that too, using `new GeoApiContext.Builder().queryRateLimit(qps).build()`.
 Note that you still need to manually handle the [delay between the initial request and successive pages](https://developers.google.com/places/web-service/search#PlaceSearchPaging) when you're paging through multiple result sets.
 

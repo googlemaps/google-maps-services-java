@@ -37,7 +37,7 @@ public class RateLimitExecutorService implements ExecutorService, Runnable {
 
   private static final Logger LOG =
       LoggerFactory.getLogger(RateLimitExecutorService.class.getName());
-  private static final int DEFAULT_QUERIES_PER_SECOND = 10;
+  private static final int DEFAULT_QUERIES_PER_SECOND = 50;
 
   // It's important we set Ok's second arg to threadFactory(.., true) to ensure the threads are
   // killed when the app exits. For synchronous requests this is ideal but it means any async
