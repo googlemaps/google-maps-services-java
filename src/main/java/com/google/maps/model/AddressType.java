@@ -124,6 +124,9 @@ public enum AddressType implements UrlValue {
 
   /** A named park. */
   PARK("park"),
+  
+  /** A museum. */
+  MUSEUM("museum"),
 
   /**
    * A named point of interest. Typically, these "POI"s are prominent local entities that don't
