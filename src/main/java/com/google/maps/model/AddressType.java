@@ -290,6 +290,18 @@ public enum AddressType implements UrlValue {
   /** Currently not a documented return type. */
   SUPERMARKET("supermarket"),
 
+  /** Currently not a documented return type. */
+  CITY_HALL("city_hall"),
+
+  /** Currently not a documented return type. */
+  LOCAL_GOVERNMENT_OFFICE("local_government_office"),
+
+  /** Currently not a documented return type. */
+  ATM("atm"),
+
+  /** Currently not a documented return type. */
+  BANK("bank"),
+
   /**
    * Indicates an unknown address type returned by the server. The Java Client for Google Maps
    * Services should be updated to support the new value.
