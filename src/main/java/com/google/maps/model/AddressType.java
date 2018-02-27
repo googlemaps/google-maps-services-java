@@ -124,7 +124,7 @@ public enum AddressType implements UrlValue {
 
   /** A named park. */
   PARK("park"),
-  
+
   /** A museum. */
   MUSEUM("museum"),
 
