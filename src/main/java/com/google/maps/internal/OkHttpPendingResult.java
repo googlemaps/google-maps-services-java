@@ -216,6 +216,9 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
   private T parseResponse(OkHttpPendingResult<T, R> request, Response response)
       throws ApiException, InterruptedException, IOException {
     if (shouldRetry(response)) {
+      // since we are retrying the request we must close the response
+      response.close();
+
       // Retry is a blocking method, but that's OK. If we're here, we're either in an await()
       // call, which is blocking anyway, or we're handling a callback in a separate thread.
       return request.retry();
