@@ -18,6 +18,7 @@ package com.google.maps.model;
 import com.google.maps.internal.StringJoin.UrlValue;
 import java.io.Serializable;
 import java.util.Locale;
+import java.util.Objects;
 
 /** A place on Earth, represented by a latitude/longitude pair. */
 public class LatLng implements UrlValue, Serializable {
@@ -53,5 +54,18 @@ public class LatLng implements UrlValue, Serializable {
   public String toUrlValue() {
     // Enforce Locale to English for double to string conversion
     return String.format(Locale.ENGLISH, "%.8f,%.8f", lat, lng);
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    LatLng latLng = (LatLng) o;
+    return Double.compare(latLng.lat, lat) == 0 && Double.compare(latLng.lng, lng) == 0;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(lat, lng);
   }
 }
