@@ -96,6 +96,14 @@ abstract class PendingResultBase<T, A extends PendingResultBase<T, A, R>, R exte
     return result;
   }
 
+  protected A param(String key, int val) {
+    params.put(key, Integer.toString(val));
+
+    @SuppressWarnings("unchecked") // safe by specification - A is the actual class of this instance
+    A result = (A) this;
+    return result;
+  }
+
   protected A param(String key, UrlValue val) {
     params.put(key, val.toUrlValue());
 

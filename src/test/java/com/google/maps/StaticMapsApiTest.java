@@ -22,10 +22,9 @@ public class StaticMapsApiTest {
   public void testGetSydneyStaticMap() throws Exception {
     try (LocalTestServerContext sc = new LocalTestServerContext(bufferedImage)) {
 
-      StaticMapsRequest req = StaticMapsApi.newRequest(sc.context);
+      StaticMapsRequest req = StaticMapsApi.newRequest(sc.context, new Size(300, 300));
       req.center("Google Sydney");
       req.zoom(16);
-      req.size(new Size(300, 300));
       BufferedImage img = req.await();
 
       assertNotNull(img);
