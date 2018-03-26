@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Google Inc. All rights reserved.
+ * Copyright 2018 Google Inc. All rights reserved.
  *
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -13,28 +13,32 @@
  * permissions and limitations under the License.
  */
 
-package com.google.maps.internal;
+package com.google.maps;
 
 import com.google.maps.errors.ApiException;
-import java.util.HashSet;
+import com.google.maps.internal.ApiResponse;
+import java.awt.image.BufferedImage;
 
-public final class ExceptionsAllowedToRetry extends HashSet<Class<? extends ApiException>> {
+/**
+ * <code>BufferedImageResponse</code> is a type system hack to enable API endpoints to return a
+ * <code>BufferedImage</code>.
+ */
+public class BufferedImageResponse implements ApiResponse<BufferedImage> {
 
-  private static final long serialVersionUID = 5283992240187266422L;
+  public BufferedImageResponse(BufferedImage image) {}
 
   @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder().append("ExceptionsAllowedToRetry[");
+  public boolean successful() {
+    return true;
+  }
 
-    Object[] array = toArray();
-    for (int i = 0; i < array.length; i++) {
-      sb.append(array[i]);
-      if (i < array.length - 1) {
-        sb.append(", ");
-      }
-    }
+  @Override
+  public ApiException getError() {
+    return null;
+  }
 
-    sb.append(']');
-    return sb.toString();
+  @Override
+  public BufferedImage getResult() {
+    return null;
   }
 }

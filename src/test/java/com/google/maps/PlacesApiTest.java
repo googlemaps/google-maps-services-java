@@ -865,13 +865,12 @@ public class PlacesApiTest {
   @Test
   public void testPlaceAutocompleteWithStrictBounds() throws Exception {
     try (LocalTestServerContext sc = new LocalTestServerContext(placesApiPlaceAutocomplete)) {
-      AutocompletePrediction[] predictions =
-          PlacesApi.placeAutocomplete(sc.context, "Amoeba")
-              .types(PlaceAutocompleteType.ESTABLISHMENT)
-              .location(new LatLng(37.76999, -122.44696))
-              .radius(500)
-              .strictBounds(true)
-              .await();
+      PlacesApi.placeAutocomplete(sc.context, "Amoeba")
+          .types(PlaceAutocompleteType.ESTABLISHMENT)
+          .location(new LatLng(37.76999, -122.44696))
+          .radius(500)
+          .strictBounds(true)
+          .await();
 
       sc.assertParamValue("Amoeba", "input");
       sc.assertParamValue("establishment", "types");

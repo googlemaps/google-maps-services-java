@@ -23,9 +23,9 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
+import com.google.maps.BufferedImageResponse;
 import com.google.maps.GeolocationApi;
 import com.google.maps.PendingResult;
-import com.google.maps.PhotoRequest;
 import com.google.maps.errors.ApiException;
 import com.google.maps.errors.UnknownErrorException;
 import com.google.maps.model.AddressComponentType;
@@ -37,16 +37,18 @@ import com.google.maps.model.Fare;
 import com.google.maps.model.LatLng;
 import com.google.maps.model.LocationType;
 import com.google.maps.model.OpeningHours.Period.OpenClose.DayOfWeek;
-import com.google.maps.model.PhotoResult;
 import com.google.maps.model.PlaceDetails.Review.AspectRating.RatingType;
 import com.google.maps.model.PriceLevel;
 import com.google.maps.model.TravelMode;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
+import javax.imageio.ImageIO;
 import org.joda.time.DateTime;
 import org.joda.time.Instant;
 import org.joda.time.LocalTime;
@@ -157,16 +159,13 @@ public class GaePendingResult<T, R extends ApiResponse<T>> implements PendingRes
       }
     }
 
-    // Places Photo API special case
     if (contentType != null
         && contentType.startsWith("image")
-        && responseClass == PhotoRequest.Response.class
+        && responseClass == BufferedImageResponse.class
         && response.getResponseCode() == 200) {
-      // Photo API response is just a raw image byte array.
-      PhotoResult result = new PhotoResult();
-      result.contentType = contentType;
-      result.imageData = bytes;
-      return (T) result;
+      ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
+      BufferedImage img = ImageIO.read(bais);
+      return (T) img;
     }
 
     Gson gson =
