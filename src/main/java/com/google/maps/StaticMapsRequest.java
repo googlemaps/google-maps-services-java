@@ -6,12 +6,12 @@ import com.google.maps.model.LatLng;
 import com.google.maps.model.Size;
 
 public class StaticMapsRequest
-    extends PendingResultBase<ImageResponse.Result, StaticMapsRequest, ImageResponse> {
+    extends PendingResultBase<ImageResult, StaticMapsRequest, ImageResult.Response> {
 
   static final ApiConfig API_CONFIG = new ApiConfig("/maps/api/staticmap");
 
   public StaticMapsRequest(GeoApiContext context) {
-    super(context, API_CONFIG, ImageResponse.class);
+    super(context, API_CONFIG, ImageResult.Response.class);
   }
 
   @Override

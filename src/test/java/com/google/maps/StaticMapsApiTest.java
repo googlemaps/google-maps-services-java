@@ -27,7 +27,7 @@ public class StaticMapsApiTest {
       StaticMapsRequest req = StaticMapsApi.newRequest(sc.context, new Size(300, 300));
       req.center("Google Sydney");
       req.zoom(16);
-      ImageResponse.Result result = req.await();
+      ImageResult result = req.await();
       ByteArrayInputStream input = new ByteArrayInputStream(result.imageData);
       BufferedImage img = ImageIO.read(input);
 
