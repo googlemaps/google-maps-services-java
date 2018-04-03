@@ -19,7 +19,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -43,12 +42,9 @@ public class LocalTestServerContext implements AutoCloseable {
   private List<NameValuePair> params = null;
 
   LocalTestServerContext(BufferedImage image) throws IOException {
-    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-    ImageIO.write(image, "png", baos);
-    Buffer buffer = new Buffer();
-    buffer.write(baos.toByteArray());
-
     this.server = new MockWebServer();
+    Buffer buffer = new Buffer();
+    ImageIO.write(image, "png", buffer.outputStream());
     MockResponse response = new MockResponse();
     response.setHeader("Content-Type", "image/png");
     response.setBody(buffer);
