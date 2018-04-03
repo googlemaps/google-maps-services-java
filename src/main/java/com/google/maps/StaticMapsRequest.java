@@ -61,7 +61,7 @@ public class StaticMapsRequest
 
   /**
    * <code>size</code> defines the rectangular dimensions of the map image.
-   * 
+   *
    * @param size The Size of the static map.
    * @return Returns this {@code StaticMapsRequest} for call chaining.
    */
@@ -70,8 +70,10 @@ public class StaticMapsRequest
   }
 
   /**
-   * <code>scale</code> affects the number of pixels that are returned. Setting <code>scale</code> to 2 returns twice as many pixels as <code>scale</code> set to 1 while retaining the same coverage area and level of detail (i.e. the contents of the map doesn't change).
-   * 
+   * <code>scale</code> affects the number of pixels that are returned. Setting <code>scale</code>
+   * to 2 returns twice as many pixels as <code>scale</code> set to 1 while retaining the same
+   * coverage area and level of detail (i.e. the contents of the map doesn't change).
+   *
    * @param scale The scale of the static map.
    * @return Returns this {@code StaticMapsRequest} for call chaining.
    */
@@ -80,8 +82,10 @@ public class StaticMapsRequest
   }
 
   /**
-   * <code>format</code> defines the format of the resulting image. By default, the Google Static Maps API creates PNG images. There are several possible formats including GIF, JPEG and PNG types.
-   * 
+   * <code>format</code> defines the format of the resulting image. By default, the Google Static
+   * Maps API creates PNG images. There are several possible formats including GIF, JPEG and PNG
+   * types.
+   *
    * @param format The format of the static map.
    * @return Returns this {@code StaticMapsRequest} for call chaining.
    */
@@ -90,7 +94,10 @@ public class StaticMapsRequest
   }
 
   public enum StaticMapType implements UrlValue {
-    roadmap, satellite, terrain, hybrid;
+    roadmap,
+    satellite,
+    terrain,
+    hybrid;
 
     public String toUrlValue() {
       return this.name();
@@ -99,7 +106,7 @@ public class StaticMapsRequest
 
   /**
    * <code>maptype</code> defines the type of map to construct.
-   * 
+   *
    * @param maptype The map type of the static map.
    * @return Returns this {@code StaticMapsRequest} for call chaining.
    */
@@ -108,8 +115,10 @@ public class StaticMapsRequest
   }
 
   /**
-   * <code>region</code> defines the appropriate borders to display, based on geo-political sensitivities. Accepts a region code specified as a two-character ccTLD ('top-level domain') value.
-   * 
+   * <code>region</code> defines the appropriate borders to display, based on geo-political
+   * sensitivities. Accepts a region code specified as a two-character ccTLD ('top-level domain')
+   * value.
+   *
    * @param region The region of the static map.
    * @return Returns this {@code StaticMapsRequest} for call chaining.
    */
