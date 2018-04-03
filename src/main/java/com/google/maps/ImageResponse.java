@@ -17,15 +17,15 @@ package com.google.maps;
 
 import com.google.maps.errors.ApiException;
 import com.google.maps.internal.ApiResponse;
-import java.awt.image.BufferedImage;
+import java.io.Serializable;
 
 /**
- * <code>BufferedImageResponse</code> is a type system hack to enable API endpoints to return a
- * <code>BufferedImage</code>.
+ * <code>ImageResponse</code> is a type system hack to enable API endpoints to return a <code>
+ * ImageResponse.Result</code>.
  */
-public class BufferedImageResponse implements ApiResponse<BufferedImage> {
+public class ImageResponse implements ApiResponse<ImageResponse.Result> {
 
-  public BufferedImageResponse(BufferedImage image) {}
+  public ImageResponse() {}
 
   @Override
   public boolean successful() {
@@ -38,7 +38,24 @@ public class BufferedImageResponse implements ApiResponse<BufferedImage> {
   }
 
   @Override
-  public BufferedImage getResult() {
+  public ImageResponse.Result getResult() {
     return null;
+  }
+
+  /** This is the object returned from API endpoints that return an Image. */
+  public static class Result implements Serializable {
+
+    public Result(String contentType, byte[] imageData) {
+      this.imageData = imageData;
+      this.contentType = contentType;
+    }
+
+    private static final long serialVersionUID = 1L;
+
+    /** The image data from the Photos API call. */
+    public final byte[] imageData;
+
+    /** The Content-Type header of the returned result. */
+    public final String contentType;
   }
 }

@@ -4,15 +4,14 @@ import com.google.maps.internal.ApiConfig;
 import com.google.maps.internal.StringJoin.UrlValue;
 import com.google.maps.model.LatLng;
 import com.google.maps.model.Size;
-import java.awt.image.BufferedImage;
 
 public class StaticMapsRequest
-    extends PendingResultBase<BufferedImage, StaticMapsRequest, BufferedImageResponse> {
+    extends PendingResultBase<ImageResponse.Result, StaticMapsRequest, ImageResponse> {
 
   static final ApiConfig API_CONFIG = new ApiConfig("/maps/api/staticmap");
 
   public StaticMapsRequest(GeoApiContext context) {
-    super(context, API_CONFIG, BufferedImageResponse.class);
+    super(context, API_CONFIG, ImageResponse.class);
   }
 
   @Override

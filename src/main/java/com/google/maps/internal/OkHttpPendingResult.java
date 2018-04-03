@@ -19,8 +19,8 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
-import com.google.maps.BufferedImageResponse;
 import com.google.maps.GeolocationApi;
+import com.google.maps.ImageResponse;
 import com.google.maps.PendingResult;
 import com.google.maps.errors.ApiException;
 import com.google.maps.model.AddressComponentType;
@@ -34,14 +34,11 @@ import com.google.maps.model.OpeningHours.Period.OpenClose.DayOfWeek;
 import com.google.maps.model.PlaceDetails.Review.AspectRating.RatingType;
 import com.google.maps.model.PriceLevel;
 import com.google.maps.model.TravelMode;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
-import javax.imageio.ImageIO;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -235,11 +232,10 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
 
     if (contentType != null
         && contentType.startsWith("image")
-        && responseClass == BufferedImageResponse.class
+        && responseClass == ImageResponse.class
         && response.code() == 200) {
-      ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
-      BufferedImage img = ImageIO.read(bais);
-      return (T) img;
+      ImageResponse.Result result = new ImageResponse.Result(contentType, bytes);
+      return (T) result;
     }
 
     Gson gson =

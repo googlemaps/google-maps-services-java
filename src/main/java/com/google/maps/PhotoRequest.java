@@ -16,19 +16,18 @@
 package com.google.maps;
 
 import com.google.maps.internal.ApiConfig;
-import java.awt.image.BufferedImage;
 
 /**
  * A <a href="https://developers.google.com/places/web-service/photos#place_photo_requests">Place
  * Photo</a> request.
  */
 public class PhotoRequest
-    extends PendingResultBase<BufferedImage, PhotoRequest, BufferedImageResponse> {
+    extends PendingResultBase<ImageResponse.Result, PhotoRequest, ImageResponse> {
 
   static final ApiConfig API_CONFIG = new ApiConfig("/maps/api/place/photo");
 
   public PhotoRequest(GeoApiContext context) {
-    super(context, API_CONFIG, BufferedImageResponse.class);
+    super(context, API_CONFIG, ImageResponse.class);
   }
 
   @Override
