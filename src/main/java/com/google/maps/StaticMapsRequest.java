@@ -4,6 +4,9 @@ import com.google.maps.internal.ApiConfig;
 import com.google.maps.internal.StringJoin.UrlValue;
 import com.google.maps.model.LatLng;
 import com.google.maps.model.Size;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Pattern;
 
 public class StaticMapsRequest
     extends PendingResultBase<ImageResult, StaticMapsRequest, ImageResult.Response> {
@@ -16,9 +19,10 @@ public class StaticMapsRequest
 
   @Override
   protected void validateRequest() {
-    // TODO: center and zoom required if markers aren't present.
-    if (!params().containsKey("center") || !params().containsKey("zoom")) {
-      throw new IllegalArgumentException("Request must contain 'center' and 'zoom'.");
+    if (!(params().containsKey("center") && params().containsKey("zoom")
+        || params().containsKey("markers"))) {
+      throw new IllegalArgumentException(
+          "Request must contain 'center' and 'zoom' if 'markers' isn't present.");
     }
     if (!params().containsKey("size")) {
       throw new IllegalArgumentException("Request must contain 'size'.");
@@ -123,5 +127,246 @@ public class StaticMapsRequest
    */
   public StaticMapsRequest region(String region) {
     return param("region", region);
+  }
+
+  private static final Pattern colorPattern =
+      Pattern.compile(
+          "(0x\\p{XDigit}{6})|(black)|(brown)|(green)|(purple)|(yellow)|(blue)|(gray)|(orange)|(red)|(white)");
+
+  public static class Markers implements UrlValue {
+
+    public static enum Size implements UrlValue {
+      tiny,
+      mid,
+      small,
+      normal;
+
+      @Override
+      public String toUrlValue() {
+        return this.name();
+      }
+    }
+
+    public static enum CustomIconAnchor implements UrlValue {
+      top,
+      bottom,
+      left,
+      right,
+      center,
+      topleft,
+      topright,
+      bottomleft,
+      bottomright;
+
+      @Override
+      public String toUrlValue() {
+        return this.name();
+      }
+    }
+
+    private Size size;
+    private String color;
+    private String label;
+    private String customIconURL;
+    private CustomIconAnchor anchorPoint;
+    private List<String> locations = new ArrayList<>();
+
+    /**
+     * Specifies the size of marker. If no size parameter is set, the marker will appear in its
+     * default (normal) size.
+     */
+    public void setSize(Size size) {
+      this.size = size;
+    }
+
+    /**
+     * Specifies a 24-bit color (example: color=0xFFFFCC) or a predefined color from the set {black,
+     * brown, green, purple, yellow, blue, gray, orange, red, white}.
+     */
+    public void setColor(String color) {
+      if (!colorPattern.matcher(color).matches()) {
+        throw new IllegalArgumentException(
+            "Color '" + color + "' doesn't match acceptable color pattern.");
+      }
+
+      this.color = color;
+    }
+
+    private static final Pattern labelPattern = Pattern.compile("^[A-Z0-9]$");
+
+    /** Specifies a single uppercase alphanumeric character from the set {A-Z, 0-9}. */
+    public void setLabel(String label) {
+      if (!labelPattern.matcher(label).matches()) {
+        throw new IllegalArgumentException(
+            "Label '" + label + "' doesn't match acceptable label pattern.");
+      }
+
+      this.label = label;
+    }
+
+    /**
+     * Set a custom icon for these markers.
+     *
+     * @param url URL for the custom icon.
+     * @param anchorPoint The anchor point for this custom icon.
+     */
+    public void setCustomIcon(String url, CustomIconAnchor anchorPoint) {
+      this.customIconURL = url;
+      this.anchorPoint = anchorPoint;
+    }
+
+    /** Add the location of a marker. At least one is required. */
+    public void addLocation(String location) {
+      locations.add(location);
+    }
+
+    /** Add the location of a marker. At least one is required. */
+    public void addLocation(LatLng location) {
+      locations.add(location.toUrlValue());
+    }
+
+    @Override
+    public String toUrlValue() {
+      List<String> urlParts = new ArrayList<>();
+
+      if (size != null || size != Size.normal) {
+        urlParts.add("size:" + size.toUrlValue());
+      }
+
+      if (color != null) {
+        urlParts.add("color:" + color);
+      }
+
+      if (label != null) {
+        urlParts.add("label:" + label);
+      }
+
+      if (customIconURL != null && anchorPoint != null) {
+        urlParts.add("icon:" + customIconURL);
+        urlParts.add(anchorPoint.toUrlValue());
+      }
+
+      urlParts.addAll(locations);
+
+      return String.join("|", urlParts);
+    }
+  }
+
+  /**
+   * <code>markers</code> parameter defines a set of one or more markers (map pins) at a set of
+   * locations. Each marker defined within a single markers declaration must exhibit the same visual
+   * style; if you wish to display markers with different styles, you will need to supply multiple
+   * markers parameters with separate style information.
+   *
+   * @param markers A group of markers with the same style.
+   * @return Returns this {@code StaticMapsRequest} for call chaining.
+   */
+  public StaticMapsRequest markers(Markers markers) {
+    return param("markers", markers);
+  }
+
+  public static class Path implements UrlValue {
+
+    private Integer weight;
+    private String color;
+    private String fillcolor;
+    private boolean geodesic;
+    private List<String> points = new ArrayList<>();
+
+    /**
+     * Specifies the thickness of the path in pixels. If no weight parameter is set, the path will
+     * appear in its default thickness (5 pixels).
+     */
+    public void setWeight(int weight) {
+      this.weight = weight;
+    }
+
+    /**
+     * Specifies a 24-bit color (example: color=0xFFFFCC) or a predefined color from the set {black,
+     * brown, green, purple, yellow, blue, gray, orange, red, white}.
+     */
+    public void setColor(String color) {
+      if (!colorPattern.matcher(color).matches()) {
+        throw new IllegalArgumentException(
+            "Color '" + color + "' doesn't match acceptable color pattern.");
+      }
+
+      this.color = color;
+    }
+
+    /**
+     * Specifies a 24-bit color (example: color=0xFFFFCC) or a predefined color from the set {black,
+     * brown, green, purple, yellow, blue, gray, orange, red, white}.
+     */
+    public void setFillcolor(String color) {
+      if (!colorPattern.matcher(color).matches()) {
+        throw new IllegalArgumentException(
+            "Fill Color '" + color + "' doesn't match acceptable color pattern.");
+      }
+
+      this.fillcolor = color;
+    }
+
+    /** Add a point to the path. At least two are required. */
+    public void addPoint(String point) {
+      points.add(point);
+    }
+
+    /** Add a point to the path. At least two are required. */
+    public void addPoint(LatLng point) {
+      points.add(point.toUrlValue());
+    }
+
+    @Override
+    public String toUrlValue() {
+      List<String> urlParts = new ArrayList<>();
+
+      if (weight != null) {
+        urlParts.add("weight:" + weight);
+      }
+
+      if (color != null) {
+        urlParts.add("color:" + color);
+      }
+
+      if (fillcolor != null) {
+        urlParts.add("fillcolor:" + fillcolor);
+      }
+
+      if (geodesic) {
+        urlParts.add("geodesic");
+      }
+
+      urlParts.addAll(points);
+
+      return String.join("|", urlParts);
+    }
+  }
+
+  /**
+   * The <code>path</code> parameter defines a set of one or more locations connected by a path to
+   * overlay on the map image.
+   *
+   * @param path A path to render atop the map.
+   * @return Returns this {@code StaticMapsRequest} for call chaining.
+   */
+  public StaticMapsRequest path(Path path) {
+    return param("path", path);
+  }
+
+  /**
+   * <code>visible</code> instructs the Google Static Maps API service to construct a map such that
+   * the existing locations remain visible.
+   */
+  public StaticMapsRequest visible(LatLng visibleLocation) {
+    return param("visible", visibleLocation);
+  }
+
+  /**
+   * <code>visible</code> instructs the Google Static Maps API service to construct a map such that
+   * the existing locations remain visible.
+   */
+  public StaticMapsRequest visible(String visibleLocation) {
+    return param("visible", visibleLocation);
   }
 }

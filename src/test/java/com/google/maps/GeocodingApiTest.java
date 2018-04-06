@@ -44,6 +44,7 @@ public class GeocodingApiTest {
   private static String simpleReverseGeocodeResponse;
   private static String utfResultGeocodeResponse;
   private static String reverseGeocodeWithKitaWardResponse;
+  private static String geocodeLibraryType;
 
   public GeocodingApiTest() {
     simpleGeocodeResponse = retrieveBody("SimpleGeocodeResponse.json");
@@ -52,6 +53,19 @@ public class GeocodingApiTest {
     simpleReverseGeocodeResponse = retrieveBody("SimpleReverseGeocodeResponse.json");
     utfResultGeocodeResponse = retrieveBody("UtfResultGeocodeResponse.json");
     reverseGeocodeWithKitaWardResponse = retrieveBody("ReverseGeocodeWithKitaWardResponse.json");
+    geocodeLibraryType = retrieveBody("GeocodeLibraryType.json");
+  }
+
+  @Test
+  public void testGeocodeLibraryType() throws Exception {
+    try (LocalTestServerContext sc = new LocalTestServerContext(geocodeLibraryType)) {
+      GeocodingResult[] results = GeocodingApi.newRequest(sc.context).address("80 FR").await();
+      assertEquals(1, results.length);
+      assertEquals(3, results[0].types.length);
+      assertEquals(AddressType.ESTABLISHMENT, results[0].types[0]);
+      assertEquals(AddressType.LIBRARY, results[0].types[1]);
+      assertEquals(AddressType.POINT_OF_INTEREST, results[0].types[2]);
+    }
   }
 
   @Test
