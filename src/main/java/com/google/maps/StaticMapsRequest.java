@@ -84,6 +84,26 @@ public class StaticMapsRequest
     return param("scale", scale);
   }
 
+  public enum ImageFormat implements UrlValue {
+    png("png"),
+    png8("png8"),
+    png32("png32"),
+    gif("gif"),
+    jpg("jpg"),
+    jpgBaseline("jpg-baseline");
+
+    private final String format;
+
+    ImageFormat(String format) {
+      this.format = format;
+    }
+
+    @Override
+    public String toUrlValue() {
+      return format;
+    }
+  }
+
   /**
    * <code>format</code> defines the format of the resulting image. By default, the Google Static
    * Maps API creates PNG images. There are several possible formats including GIF, JPEG and PNG
@@ -92,7 +112,7 @@ public class StaticMapsRequest
    * @param format The format of the static map.
    * @return Returns this {@code StaticMapsRequest} for call chaining.
    */
-  public StaticMapsRequest format(String format) {
+  public StaticMapsRequest format(ImageFormat format) {
     return param("format", format);
   }
 
@@ -135,7 +155,7 @@ public class StaticMapsRequest
 
   public static class Markers implements UrlValue {
 
-    public static enum Size implements UrlValue {
+    public static enum MarkersSize implements UrlValue {
       tiny,
       mid,
       small,
@@ -164,7 +184,7 @@ public class StaticMapsRequest
       }
     }
 
-    private Size size;
+    private MarkersSize size;
     private String color;
     private String label;
     private String customIconURL;
@@ -175,7 +195,7 @@ public class StaticMapsRequest
      * Specifies the size of marker. If no size parameter is set, the marker will appear in its
      * default (normal) size.
      */
-    public void setSize(Size size) {
+    public void size(MarkersSize size) {
       this.size = size;
     }
 
@@ -183,7 +203,7 @@ public class StaticMapsRequest
      * Specifies a 24-bit color (example: color=0xFFFFCC) or a predefined color from the set {black,
      * brown, green, purple, yellow, blue, gray, orange, red, white}.
      */
-    public void setColor(String color) {
+    public void color(String color) {
       if (!colorPattern.matcher(color).matches()) {
         throw new IllegalArgumentException(
             "Color '" + color + "' doesn't match acceptable color pattern.");
@@ -195,7 +215,7 @@ public class StaticMapsRequest
     private static final Pattern labelPattern = Pattern.compile("^[A-Z0-9]$");
 
     /** Specifies a single uppercase alphanumeric character from the set {A-Z, 0-9}. */
-    public void setLabel(String label) {
+    public void label(String label) {
       if (!labelPattern.matcher(label).matches()) {
         throw new IllegalArgumentException(
             "Label '" + label + "' doesn't match acceptable label pattern.");
@@ -210,7 +230,7 @@ public class StaticMapsRequest
      * @param url URL for the custom icon.
      * @param anchorPoint The anchor point for this custom icon.
      */
-    public void setCustomIcon(String url, CustomIconAnchor anchorPoint) {
+    public void customIcon(String url, CustomIconAnchor anchorPoint) {
       this.customIconURL = url;
       this.anchorPoint = anchorPoint;
     }
@@ -229,7 +249,12 @@ public class StaticMapsRequest
     public String toUrlValue() {
       List<String> urlParts = new ArrayList<>();
 
-      if (size != null || size != Size.normal) {
+      if (customIconURL != null && anchorPoint != null) {
+        urlParts.add("icon:" + customIconURL);
+        urlParts.add("anchor:" + anchorPoint.toUrlValue());
+      }
+
+      if (size != null || size != MarkersSize.normal) {
         urlParts.add("size:" + size.toUrlValue());
       }
 
@@ -239,11 +264,6 @@ public class StaticMapsRequest
 
       if (label != null) {
         urlParts.add("label:" + label);
-      }
-
-      if (customIconURL != null && anchorPoint != null) {
-        urlParts.add("icon:" + customIconURL);
-        urlParts.add(anchorPoint.toUrlValue());
       }
 
       urlParts.addAll(locations);
@@ -277,7 +297,7 @@ public class StaticMapsRequest
      * Specifies the thickness of the path in pixels. If no weight parameter is set, the path will
      * appear in its default thickness (5 pixels).
      */
-    public void setWeight(int weight) {
+    public void weight(int weight) {
       this.weight = weight;
     }
 
@@ -285,7 +305,7 @@ public class StaticMapsRequest
      * Specifies a 24-bit color (example: color=0xFFFFCC) or a predefined color from the set {black,
      * brown, green, purple, yellow, blue, gray, orange, red, white}.
      */
-    public void setColor(String color) {
+    public void color(String color) {
       if (!colorPattern.matcher(color).matches()) {
         throw new IllegalArgumentException(
             "Color '" + color + "' doesn't match acceptable color pattern.");
@@ -298,13 +318,21 @@ public class StaticMapsRequest
      * Specifies a 24-bit color (example: color=0xFFFFCC) or a predefined color from the set {black,
      * brown, green, purple, yellow, blue, gray, orange, red, white}.
      */
-    public void setFillcolor(String color) {
+    public void fillcolor(String color) {
       if (!colorPattern.matcher(color).matches()) {
         throw new IllegalArgumentException(
             "Fill Color '" + color + "' doesn't match acceptable color pattern.");
       }
 
       this.fillcolor = color;
+    }
+
+    /**
+     * Indicates that the requested path should be interpreted as a geodesic line that follows the
+     * curvature of the earth.
+     */
+    public void geodesic(boolean geodesic) {
+      this.geodesic = geodesic;
     }
 
     /** Add a point to the path. At least two are required. */

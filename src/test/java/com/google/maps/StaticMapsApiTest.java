@@ -3,6 +3,13 @@ package com.google.maps;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import com.google.maps.StaticMapsRequest.ImageFormat;
+import com.google.maps.StaticMapsRequest.Markers;
+import com.google.maps.StaticMapsRequest.Markers.CustomIconAnchor;
+import com.google.maps.StaticMapsRequest.Markers.MarkersSize;
+import com.google.maps.StaticMapsRequest.Path;
+import com.google.maps.StaticMapsRequest.StaticMapType;
+import com.google.maps.model.LatLng;
 import com.google.maps.model.Size;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
@@ -13,11 +20,12 @@ public class StaticMapsApiTest {
 
   private final int WIDTH = 640;
   private final int HEIGHT = 480;
+  private final LatLng SYDNEY = new LatLng(-33.8688, 151.2093);
+  private final BufferedImage IMAGE = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_ARGB);
 
   @Test
   public void testGetSydneyStaticMap() throws Exception {
-    try (LocalTestServerContext sc =
-        new LocalTestServerContext(new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_ARGB))) {
+    try (LocalTestServerContext sc = new LocalTestServerContext(IMAGE)) {
 
       StaticMapsRequest req = StaticMapsApi.newRequest(sc.context, new Size(WIDTH, HEIGHT));
       req.center("Google Sydney");
@@ -25,9 +33,114 @@ public class StaticMapsApiTest {
       ByteArrayInputStream bais = new ByteArrayInputStream(req.await().imageData);
       BufferedImage img = ImageIO.read(bais);
 
+      sc.assertParamValue("640x480", "size");
+      sc.assertParamValue("Google Sydney", "center");
+      sc.assertParamValue("16", "zoom");
+
       assertNotNull(img);
       assertEquals(WIDTH, img.getWidth());
       assertEquals(HEIGHT, img.getHeight());
+    }
+  }
+
+  @Test
+  public void testGetSydneyLatLngStaticMap() throws Exception {
+    try (LocalTestServerContext sc = new LocalTestServerContext(IMAGE)) {
+
+      StaticMapsRequest req = StaticMapsApi.newRequest(sc.context, new Size(WIDTH, HEIGHT));
+      req.center(SYDNEY);
+      req.zoom(16);
+      req.await();
+
+      sc.assertParamValue("640x480", "size");
+      sc.assertParamValue("-33.86880000,151.20930000", "center");
+      sc.assertParamValue("16", "zoom");
+    }
+  }
+
+  @Test
+  public void testRequest() throws Exception {
+    try (LocalTestServerContext sc = new LocalTestServerContext(IMAGE)) {
+
+      StaticMapsRequest req = StaticMapsApi.newRequest(sc.context, new Size(WIDTH, HEIGHT));
+      req.center("Sydney");
+      req.zoom(16);
+      req.scale(2);
+      req.format(ImageFormat.png32);
+      req.maptype(StaticMapType.hybrid);
+      req.region("AU");
+      req.visible("Melbourne");
+      req.await();
+
+      sc.assertParamValue("640x480", "size");
+      sc.assertParamValue("Sydney", "center");
+      sc.assertParamValue("16", "zoom");
+      sc.assertParamValue("2", "scale");
+      sc.assertParamValue("png32", "format");
+      sc.assertParamValue("hybrid", "maptype");
+      sc.assertParamValue("AU", "region");
+      sc.assertParamValue("Melbourne", "visible");
+    }
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testValidateRequest_noCenter() throws Exception {
+    try (LocalTestServerContext sc = new LocalTestServerContext(IMAGE)) {
+      StaticMapsRequest req = StaticMapsApi.newRequest(sc.context, new Size(WIDTH, HEIGHT));
+      req.zoom(16);
+      req.await();
+    }
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testValidateRequest_noZoom() throws Exception {
+    try (LocalTestServerContext sc = new LocalTestServerContext(IMAGE)) {
+      StaticMapsRequest req = StaticMapsApi.newRequest(sc.context, new Size(WIDTH, HEIGHT));
+      req.center("Google Sydney");
+      req.await();
+    }
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testValidateRequest_noSize() throws Exception {
+    try (LocalTestServerContext sc = new LocalTestServerContext(IMAGE)) {
+      StaticMapsRequest req = StaticMapsApi.newRequest(sc.context, null);
+      req.center("Google Sydney");
+      req.zoom(16);
+      req.await();
+    }
+  }
+
+  @Test
+  public void testMarkerAndPath() throws Exception {
+    try (LocalTestServerContext sc = new LocalTestServerContext(IMAGE)) {
+      StaticMapsRequest req = StaticMapsApi.newRequest(sc.context, new Size(WIDTH, HEIGHT));
+      Markers markers = new Markers();
+      markers.size(MarkersSize.small);
+      markers.customIcon("http://not.a/real/url", CustomIconAnchor.bottomleft);
+      markers.color("blue");
+      markers.label("A");
+      markers.addLocation("Melbourne");
+      markers.addLocation(SYDNEY);
+      req.markers(markers);
+
+      Path path = new Path();
+      path.color("green");
+      path.fillcolor("0xAACCEE");
+      path.weight(3);
+      path.geodesic(true);
+      path.addPoint("Melbourne");
+      path.addPoint(SYDNEY);
+      req.path(path);
+
+      req.await();
+
+      sc.assertParamValue(
+          "icon:http://not.a/real/url|anchor:bottomleft|size:small|color:blue|label:A|Melbourne|-33.86880000,151.20930000",
+          "markers");
+      sc.assertParamValue(
+          "weight:3|color:green|fillcolor:0xAACCEE|geodesic|Melbourne|-33.86880000,151.20930000",
+          "path");
     }
   }
 }
