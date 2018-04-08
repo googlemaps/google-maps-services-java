@@ -377,7 +377,7 @@ public class StaticMapsRequest
       }
 
       if (geodesic) {
-        urlParts.add("geodesic");
+        urlParts.add("geodesic:" + geodesic);
       }
 
       urlParts.addAll(points);
