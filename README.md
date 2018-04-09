@@ -26,10 +26,16 @@ APIs:
 Keep in mind that the same [terms and conditions](https://developers.google.com/maps/terms) apply
 to usage of the APIs when they're accessed through this library.
 
-**Note:** The Java Client for Google Maps Services is for use in server applications. If you're building a
-mobile application, you will need to introduce a proxy server to act as intermediary between your mobile
-application and the [Google Maps API Web Services]. The Java Client for Google Maps Services would make an
-excellent choice as the basis for such a proxy server.
+## Intended usage of this library
+
+The Java Client for Google Maps Services is designed for use in server applications. This library
+is not intended for use inside of an Android app, due to the potential for loss of API keys.
+
+If you are building a mobile application, you will need to introduce a proxy server to act as
+intermediary between your mobile application and the [Google Maps API Web Services]. The Java
+Client for Google Maps Services would make an excellent choice as the basis for such a proxy server.
+
+Please see [Making the most of the Google Maps Web Service APIs] for more detail.
 
 ## Support
 
@@ -293,3 +299,4 @@ req.setCallback(new PendingResult.Callback<GeocodingResult[]>() {
 [Places API]: https://developers.google.com/places/web-service/
 [Time Zone API]: https://developers.google.com/maps/documentation/timezone
 [Roads API]: https://developers.google.com/maps/documentation/roads
+[Making the most of the Google Maps Web Service APIs]: https://maps-apis.googleblog.com/2016/09/making-most-of-google-maps-web-service.html
