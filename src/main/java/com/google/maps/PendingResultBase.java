@@ -20,8 +20,10 @@ import com.google.maps.internal.ApiConfig;
 import com.google.maps.internal.ApiResponse;
 import com.google.maps.internal.StringJoin.UrlValue;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -35,7 +37,7 @@ abstract class PendingResultBase<T, A extends PendingResultBase<T, A, R>, R exte
 
   private final GeoApiContext context;
   private final ApiConfig config;
-  private HashMap<String, String> params = new HashMap<String, String>();
+  private HashMap<String, List<String>> params = new HashMap<>();
   private PendingResult<T> delegate;
   private Class<? extends R> responseClass;
 
@@ -88,23 +90,46 @@ abstract class PendingResultBase<T, A extends PendingResultBase<T, A, R>, R exte
 
   protected abstract void validateRequest();
 
-  protected A param(String key, String val) {
-    params.put(key, val);
-
-    @SuppressWarnings("unchecked") // safe by specification - A is the actual class of this instance
+  private A getInstance() {
+    @SuppressWarnings("unchecked")
     A result = (A) this;
     return result;
+  }
+
+  protected A param(String key, String val) {
+    // Enforce singleton parameter semantics for most API surfaces
+    params.put(key, new ArrayList<String>());
+    return paramAddToList(key, val);
+  }
+
+  protected A param(String key, int val) {
+    return this.param(key, Integer.toString(val));
   }
 
   protected A param(String key, UrlValue val) {
-    params.put(key, val.toUrlValue());
-
-    @SuppressWarnings("unchecked") // safe by specification - A is the actual class of this instance
-    A result = (A) this;
-    return result;
+    if (val != null) {
+      return this.param(key, val.toUrlValue());
+    }
+    return getInstance();
   }
 
-  protected Map<String, String> params() {
+  protected A paramAddToList(String key, String val) {
+    // Multiple parameter values required to support Static Maps API paths and markers.
+    if (params.get(key) == null) {
+      params.put(key, new ArrayList<String>());
+    }
+    params.get(key).add(val);
+    return getInstance();
+  }
+
+  protected A paramAddToList(String key, UrlValue val) {
+    if (val != null) {
+      return this.paramAddToList(key, val.toUrlValue());
+    }
+    return getInstance();
+  }
+
+  protected Map<String, List<String>> params() {
     return Collections.unmodifiableMap(params);
   }
 

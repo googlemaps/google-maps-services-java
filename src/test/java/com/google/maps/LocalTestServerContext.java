@@ -18,14 +18,17 @@ package com.google.maps;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.util.List;
+import javax.imageio.ImageIO;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.RecordedRequest;
+import okio.Buffer;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.json.JSONObject;
@@ -38,9 +41,27 @@ public class LocalTestServerContext implements AutoCloseable {
   private RecordedRequest request = null;
   private List<NameValuePair> params = null;
 
+  LocalTestServerContext(BufferedImage image) throws IOException {
+    this.server = new MockWebServer();
+    Buffer buffer = new Buffer();
+    ImageIO.write(image, "png", buffer.outputStream());
+    MockResponse response = new MockResponse();
+    response.setHeader("Content-Type", "image/png");
+    response.setBody(buffer);
+    server.enqueue(response);
+    server.start();
+
+    this.context =
+        new GeoApiContext.Builder()
+            .apiKey("AIzaFakeKey")
+            .baseUrlForTesting("http://127.0.0.1:" + server.getPort())
+            .build();
+  }
+
   LocalTestServerContext(String responseBody) throws IOException {
     this.server = new MockWebServer();
     MockResponse response = new MockResponse();
+    response.setHeader("Content-Type", "application/json");
     response.setBody(responseBody);
     server.enqueue(response);
     server.start();
@@ -94,6 +115,21 @@ public class LocalTestServerContext implements AutoCloseable {
       }
     }
     assertTrue(paramFound);
+  }
+
+  void assertParamValues(List<String> expectedValues, String paramName)
+      throws URISyntaxException, InterruptedException {
+    if (this.params == null) {
+      this.params = this.actualParams();
+    }
+    int paramsFound = 0;
+    for (NameValuePair pair : params) {
+      if (pair.getName().equals(paramName)) {
+        assertEquals(expectedValues.get(paramsFound), pair.getValue());
+        paramsFound++;
+      }
+    }
+    assertEquals(paramsFound, expectedValues.size());
   }
 
   @Override

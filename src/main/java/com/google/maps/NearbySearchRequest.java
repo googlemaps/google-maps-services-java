@@ -179,14 +179,14 @@ public class NearbySearchRequest
 
     // radius must not be included if rankby=distance
     if (params().containsKey("rankby")
-        && params().get("rankby").equals(RankBy.DISTANCE.toString())
+        && params().get("rankby").get(0).equals(RankBy.DISTANCE.toString())
         && params().containsKey("radius")) {
       throw new IllegalArgumentException("Request must not contain radius with rankby=distance");
     }
 
     // If rankby=distance is specified, then one or more of keyword, name, or type is required.
     if (params().containsKey("rankby")
-        && params().get("rankby").equals(RankBy.DISTANCE.toString())
+        && params().get("rankby").get(0).equals(RankBy.DISTANCE.toString())
         && !params().containsKey("keyword")
         && !params().containsKey("name")
         && !params().containsKey("type")) {

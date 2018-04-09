@@ -28,7 +28,9 @@ import com.google.maps.internal.ApiConfig;
 import com.google.maps.internal.ApiResponse;
 import com.google.maps.model.GeocodingResult;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import okhttp3.Headers;
@@ -69,10 +71,10 @@ public class GeoApiContextTest {
   @Test
   public void testGetIncludesDefaultUserAgent() throws Exception {
     // Set up a mock request
-    ApiResponse fakeResponse = mock(ApiResponse.class);
+    ApiResponse<Object> fakeResponse = mock(ApiResponse.class);
     String path = "/";
-    Map<String, String> params = new HashMap<String, String>(1);
-    params.put("key", "value");
+    Map<String, List<String>> params = new HashMap<>();
+    params.put("key", Collections.singletonList("value"));
 
     // Set up the fake web server
     server.enqueue(new MockResponse());

@@ -1,0 +1,75 @@
+
+{
+  "results" : [
+     {
+        "address_components" : [
+           {
+              "long_name" : "3548",
+              "short_name" : "3548",
+              "types" : [ "subpremise" ]
+           },
+           {
+              "long_name" : "1849",
+              "short_name" : "1849",
+              "types" : [ "street_number" ]
+           },
+           {
+              "long_name" : "C Street Northwest",
+              "short_name" : "C St NW",
+              "types" : [ "route" ]
+           },
+           {
+              "long_name" : "Northwest Washington",
+              "short_name" : "Northwest Washington",
+              "types" : [ "neighborhood", "political" ]
+           },
+           {
+              "long_name" : "Washington",
+              "short_name" : "Washington",
+              "types" : [ "locality", "political" ]
+           },
+           {
+              "long_name" : "District of Columbia",
+              "short_name" : "DC",
+              "types" : [ "administrative_area_level_1", "political" ]
+           },
+           {
+              "long_name" : "United States",
+              "short_name" : "US",
+              "types" : [ "country", "political" ]
+           },
+           {
+              "long_name" : "20240",
+              "short_name" : "20240",
+              "types" : [ "postal_code" ]
+           },
+           {
+              "long_name" : "0001",
+              "short_name" : "0001",
+              "types" : [ "postal_code_suffix" ]
+           }
+        ],
+        "formatted_address" : "1849 C St NW #3548, Washington, DC 20240, USA",
+        "geometry" : {
+           "location" : {
+              "lat" : 38.8944358,
+              "lng" : -77.0426044
+           },
+           "location_type" : "ROOFTOP",
+           "viewport" : {
+              "northeast" : {
+                 "lat" : 38.8957847802915,
+                 "lng" : -77.04125541970849
+              },
+              "southwest" : {
+                 "lat" : 38.8930868197085,
+                 "lng" : -77.0439533802915
+              }
+           }
+        },
+        "place_id" : "ChIJi9derqW3t4kREUwRQi51e24",
+        "types" : [ "establishment", "library", "point_of_interest" ]
+     }
+  ],
+  "status" : "OK"
+}

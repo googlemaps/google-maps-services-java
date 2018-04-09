@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Google Inc. All rights reserved.
+ * Copyright 2018 Google Inc. All rights reserved.
  *
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -13,22 +13,22 @@
  * permissions and limitations under the License.
  */
 
-package com.google.maps.model;
+package com.google.maps;
 
-import java.io.Serializable;
+import com.google.maps.model.Size;
 
-/**
- * Contains the photo for a PhotoReference.
- *
- * <p>Please see <a href="https://developers.google.com/places/web-service/photos">Place Photos</a>
- * for more details.
- */
-public class PhotoResult implements Serializable {
+public class StaticMapsApi {
 
-  private static final long serialVersionUID = 1L;
-  /** The image data from the Photos API call. */
-  public byte[] imageData;
+  private StaticMapsApi() {}
 
-  /** The Content-Type header of the returned result. */
-  public String contentType;
+  /**
+   * Create a new {@code StaticMapRequest}.
+   *
+   * @param context The {@code GeoApiContext} to make this request through.
+   * @param size The size of the static map.
+   * @return Returns a new {@code StaticMapRequest} with configured size.
+   */
+  public static StaticMapsRequest newRequest(GeoApiContext context, Size size) {
+    return new StaticMapsRequest(context).size(size);
+  }
 }

@@ -20,8 +20,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import com.google.maps.GeolocationApi;
+import com.google.maps.ImageResult;
 import com.google.maps.PendingResult;
-import com.google.maps.PhotoRequest;
 import com.google.maps.errors.ApiException;
 import com.google.maps.model.AddressComponentType;
 import com.google.maps.model.AddressType;
@@ -31,7 +31,6 @@ import com.google.maps.model.Fare;
 import com.google.maps.model.LatLng;
 import com.google.maps.model.LocationType;
 import com.google.maps.model.OpeningHours.Period.OpenClose.DayOfWeek;
-import com.google.maps.model.PhotoResult;
 import com.google.maps.model.PlaceDetails.Review.AspectRating.RatingType;
 import com.google.maps.model.PriceLevel;
 import com.google.maps.model.TravelMode;
@@ -231,15 +230,11 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
     R resp;
     String contentType = response.header("Content-Type");
 
-    // Places Photo API special case
     if (contentType != null
         && contentType.startsWith("image")
-        && responseClass == PhotoRequest.Response.class
+        && responseClass == ImageResult.Response.class
         && response.code() == 200) {
-      // Photo API response is just a raw image byte array.
-      PhotoResult result = new PhotoResult();
-      result.contentType = contentType;
-      result.imageData = bytes;
+      ImageResult result = new ImageResult(contentType, bytes);
       return (T) result;
     }
 

@@ -15,22 +15,19 @@
 
 package com.google.maps;
 
-import com.google.maps.errors.ApiException;
 import com.google.maps.internal.ApiConfig;
-import com.google.maps.internal.ApiResponse;
-import com.google.maps.model.PhotoResult;
 
 /**
  * A <a href="https://developers.google.com/places/web-service/photos#place_photo_requests">Place
  * Photo</a> request.
  */
 public class PhotoRequest
-    extends PendingResultBase<PhotoResult, PhotoRequest, PhotoRequest.Response> {
+    extends PendingResultBase<ImageResult, PhotoRequest, ImageResult.Response> {
 
   static final ApiConfig API_CONFIG = new ApiConfig("/maps/api/place/photo");
 
   public PhotoRequest(GeoApiContext context) {
-    super(context, API_CONFIG, Response.class);
+    super(context, API_CONFIG, ImageResult.Response.class);
   }
 
   @Override
@@ -74,26 +71,5 @@ public class PhotoRequest
    */
   public PhotoRequest maxWidth(int maxWidth) {
     return param("maxwidth", String.valueOf(maxWidth));
-  }
-
-  public static class Response implements ApiResponse<PhotoResult> {
-    // This class is here to keep the type system happy.
-    // It is not actually instantiated by OkHttpPendingResult.
-    private Response() {}
-
-    @Override
-    public boolean successful() {
-      return false;
-    }
-
-    @Override
-    public PhotoResult getResult() {
-      return null;
-    }
-
-    @Override
-    public ApiException getError() {
-      return null;
-    }
   }
 }

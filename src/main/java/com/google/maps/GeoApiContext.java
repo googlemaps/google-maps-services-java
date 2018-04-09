@@ -27,6 +27,8 @@ import java.net.Proxy;
 import java.net.URLEncoder;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -130,20 +132,23 @@ public class GeoApiContext {
   }
 
   <T, R extends ApiResponse<T>> PendingResult<T> get(
-      ApiConfig config, Class<? extends R> clazz, Map<String, String> params) {
+      ApiConfig config, Class<? extends R> clazz, Map<String, List<String>> params) {
     if (channel != null && !channel.isEmpty() && !params.containsKey("channel")) {
-      params.put("channel", channel);
+      params.put("channel", Collections.singletonList(channel));
     }
 
     StringBuilder query = new StringBuilder();
 
-    for (Map.Entry<String, String> param : params.entrySet()) {
-      query.append('&').append(param.getKey()).append("=");
-      try {
-        query.append(URLEncoder.encode(param.getValue(), "UTF-8"));
-      } catch (UnsupportedEncodingException e) {
-        // This should never happen. UTF-8 support is required for every Java implementation.
-        throw new IllegalStateException(e);
+    for (Map.Entry<String, List<String>> param : params.entrySet()) {
+      List<String> values = param.getValue();
+      for (String value : values) {
+        query.append('&').append(param.getKey()).append("=");
+        try {
+          query.append(URLEncoder.encode(value, "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+          // This should never happen. UTF-8 support is required for every Java implementation.
+          throw new IllegalStateException(e);
+        }
       }
     }
 
@@ -197,7 +202,7 @@ public class GeoApiContext {
   }
 
   <T, R extends ApiResponse<T>> PendingResult<T> post(
-      ApiConfig config, Class<? extends R> clazz, Map<String, String> params) {
+      ApiConfig config, Class<? extends R> clazz, Map<String, List<String>> params) {
 
     checkContext(config.supportsClientId);
 
@@ -221,7 +226,7 @@ public class GeoApiContext {
     return requestHandler.handlePost(
         hostName,
         url.toString(),
-        params.get("_payload"),
+        params.get("_payload").get(0),
         USER_AGENT,
         clazz,
         config.fieldNamingPolicy,
