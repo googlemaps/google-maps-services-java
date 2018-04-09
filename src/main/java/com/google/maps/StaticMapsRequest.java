@@ -269,7 +269,7 @@ public class StaticMapsRequest
         urlParts.add("anchor:" + anchorPoint.toUrlValue());
       }
 
-      if (size != null || size != MarkersSize.normal) {
+      if (size != null && size != MarkersSize.normal) {
         urlParts.add("size:" + size.toUrlValue());
       }
 
