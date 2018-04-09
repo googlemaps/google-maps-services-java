@@ -154,7 +154,7 @@ public class StaticMapsApiTest {
           "icon:http://not.a/real/url|anchor:bottomleft|size:small|color:blue|label:A|Melbourne|-33.86880000,151.20930000",
           "markers");
       sc.assertParamValue(
-          "weight:3|color:green|fillcolor:0xAACCEE|geodesic|Melbourne|-33.86880000,151.20930000",
+          "weight:3|color:green|fillcolor:0xAACCEE|geodesic:true|Melbourne|-33.86880000,151.20930000",
           "path");
     }
   }
