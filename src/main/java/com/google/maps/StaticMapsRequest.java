@@ -264,8 +264,11 @@ public class StaticMapsRequest
     public String toUrlValue() {
       List<String> urlParts = new ArrayList<>();
 
-      if (customIconURL != null && anchorPoint != null) {
+      if (customIconURL != null) {
         urlParts.add("icon:" + customIconURL);
+      }
+
+      if (anchorPoint != null) {
         urlParts.add("anchor:" + anchorPoint.toUrlValue());
       }
 
