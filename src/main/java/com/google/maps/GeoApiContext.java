@@ -148,7 +148,7 @@ public class GeoApiContext {
         } catch (UnsupportedEncodingException e) {
           // This should never happen. UTF-8 support is required for every Java implementation.
           throw new IllegalStateException(e);
-        }          
+        }
       }
     }
 

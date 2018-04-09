@@ -30,7 +30,6 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.imageio.ImageIO;
 import org.junit.Test;
 
@@ -203,7 +202,6 @@ public class StaticMapsApiTest {
       expected.add("color:green|label:G|40.71161400,-74.01231800");
       expected.add("color:red|label:C|40.71821700,-73.99828400");
       sc.assertParamValues(expected, "markers");
-      
-    }    
+    }
   }
 }

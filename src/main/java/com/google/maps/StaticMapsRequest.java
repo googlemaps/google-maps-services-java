@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
- package com.google.maps;
+package com.google.maps;
 
 import com.google.maps.internal.ApiConfig;
 import com.google.maps.internal.StringJoin.UrlValue;
@@ -205,6 +205,8 @@ public class StaticMapsRequest
     /**
      * Specifies the size of marker. If no size parameter is set, the marker will appear in its
      * default (normal) size.
+     *
+     * @param size The size of the markers.
      */
     public void size(MarkersSize size) {
       this.size = size;
@@ -213,6 +215,8 @@ public class StaticMapsRequest
     /**
      * Specifies a 24-bit color (example: color=0xFFFFCC) or a predefined color from the set {black,
      * brown, green, purple, yellow, blue, gray, orange, red, white}.
+     *
+     * @param color The color of the markers.
      */
     public void color(String color) {
       this.color = color;
@@ -220,7 +224,11 @@ public class StaticMapsRequest
 
     private static final Pattern labelPattern = Pattern.compile("^[A-Z0-9]$");
 
-    /** Specifies a single uppercase alphanumeric character from the set {A-Z, 0-9}. */
+    /**
+     * Specifies a single uppercase alphanumeric character from the set {A-Z, 0-9}.
+     *
+     * @param label The label to add to markers.
+     */
     public void label(String label) {
       if (!labelPattern.matcher(label).matches()) {
         throw new IllegalArgumentException(
@@ -241,12 +249,20 @@ public class StaticMapsRequest
       this.anchorPoint = anchorPoint;
     }
 
-    /** Add the location of a marker. At least one is required. */
+    /**
+     * Add the location of a marker. At least one is required.
+     *
+     * @param location The location of the added marker.
+     */
     public void addLocation(String location) {
       locations.add(location);
     }
 
-    /** Add the location of a marker. At least one is required. */
+    /**
+     * Add the location of a marker. At least one is required.
+     *
+     * @param location The location of the added marker.
+     */
     public void addLocation(LatLng location) {
       locations.add(location.toUrlValue());
     }
@@ -291,7 +307,7 @@ public class StaticMapsRequest
    * @return Returns this {@code StaticMapsRequest} for call chaining.
    */
   public StaticMapsRequest markers(Markers markers) {
-    return param("markers", markers);
+    return paramAddToList("markers", markers);
   }
 
   public static class Path implements UrlValue {
@@ -305,6 +321,8 @@ public class StaticMapsRequest
     /**
      * Specifies the thickness of the path in pixels. If no weight parameter is set, the path will
      * appear in its default thickness (5 pixels).
+     *
+     * @param weight The thickness of the path in pixels.
      */
     public void weight(int weight) {
       this.weight = weight;
@@ -313,6 +331,8 @@ public class StaticMapsRequest
     /**
      * Specifies a 24-bit color (example: color=0xFFFFCC) or a predefined color from the set {black,
      * brown, green, purple, yellow, blue, gray, orange, red, white}.
+     *
+     * @param color The color of the path.
      */
     public void color(String color) {
       this.color = color;
@@ -321,6 +341,8 @@ public class StaticMapsRequest
     /**
      * Specifies a 24-bit color (example: color=0xFFFFCC) or a predefined color from the set {black,
      * brown, green, purple, yellow, blue, gray, orange, red, white}.
+     *
+     * @param color The fill color.
      */
     public void fillcolor(String color) {
       this.fillcolor = color;
@@ -329,17 +351,27 @@ public class StaticMapsRequest
     /**
      * Indicates that the requested path should be interpreted as a geodesic line that follows the
      * curvature of the earth.
+     *
+     * @param geodesic Whether the path is geodesic.
      */
     public void geodesic(boolean geodesic) {
       this.geodesic = geodesic;
     }
 
-    /** Add a point to the path. At least two are required. */
+    /**
+     * Add a point to the path. At least two are required.
+     *
+     * @param point The point to add.
+     */
     public void addPoint(String point) {
       points.add(point);
     }
 
-    /** Add a point to the path. At least two are required. */
+    /**
+     * Add a point to the path. At least two are required.
+     *
+     * @param point The point to add.
+     */
     public void addPoint(LatLng point) {
       points.add(point.toUrlValue());
     }
@@ -378,12 +410,15 @@ public class StaticMapsRequest
    * @return Returns this {@code StaticMapsRequest} for call chaining.
    */
   public StaticMapsRequest path(Path path) {
-    return param("path", path);
+    return paramAddToList("path", path);
   }
 
   /**
    * <code>visible</code> instructs the Google Static Maps API service to construct a map such that
    * the existing locations remain visible.
+   *
+   * @param visibleLocation The location to be made visible in the requested Static Map.
+   * @return Returns this {@code StaticMapsRequest} for call chaining.
    */
   public StaticMapsRequest visible(LatLng visibleLocation) {
     return param("visible", visibleLocation);
@@ -392,6 +427,9 @@ public class StaticMapsRequest
   /**
    * <code>visible</code> instructs the Google Static Maps API service to construct a map such that
    * the existing locations remain visible.
+   *
+   * @param visibleLocation The location to be made visible in the requested Static Map.
+   * @return Returns this {@code StaticMapsRequest} for call chaining.
    */
   public StaticMapsRequest visible(String visibleLocation) {
     return param("visible", visibleLocation);

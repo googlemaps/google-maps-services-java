@@ -117,8 +117,8 @@ public class LocalTestServerContext implements AutoCloseable {
     assertTrue(paramFound);
   }
 
-  void assertParamValues(List<String> expectedValues, String paramName) 
-  throws URISyntaxException, InterruptedException {
+  void assertParamValues(List<String> expectedValues, String paramName)
+      throws URISyntaxException, InterruptedException {
     if (this.params == null) {
       this.params = this.actualParams();
     }
@@ -129,7 +129,7 @@ public class LocalTestServerContext implements AutoCloseable {
         paramsFound++;
       }
     }
-    assertTrue(paramsFound == expectedValues.size());
+    assertEquals(paramsFound, expectedValues.size());
   }
 
   @Override
