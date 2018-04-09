@@ -164,10 +164,6 @@ public class StaticMapsRequest
     return param("region", region);
   }
 
-  private static final Pattern colorPattern =
-      Pattern.compile(
-          "(0x\\p{XDigit}{6})|(black)|(brown)|(green)|(purple)|(yellow)|(blue)|(gray)|(orange)|(red)|(white)");
-
   public static class Markers implements UrlValue {
 
     public static enum MarkersSize implements UrlValue {
@@ -204,7 +200,7 @@ public class StaticMapsRequest
     private String label;
     private String customIconURL;
     private CustomIconAnchor anchorPoint;
-    private List<String> locations = new ArrayList<>();
+    private final List<String> locations = new ArrayList<>();
 
     /**
      * Specifies the size of marker. If no size parameter is set, the marker will appear in its
@@ -219,11 +215,6 @@ public class StaticMapsRequest
      * brown, green, purple, yellow, blue, gray, orange, red, white}.
      */
     public void color(String color) {
-      if (!colorPattern.matcher(color).matches()) {
-        throw new IllegalArgumentException(
-            "Color '" + color + "' doesn't match acceptable color pattern.");
-      }
-
       this.color = color;
     }
 
@@ -305,11 +296,11 @@ public class StaticMapsRequest
 
   public static class Path implements UrlValue {
 
-    private Integer weight;
+    private int weight;
     private String color;
     private String fillcolor;
     private boolean geodesic;
-    private List<String> points = new ArrayList<>();
+    private final List<String> points = new ArrayList<>();
 
     /**
      * Specifies the thickness of the path in pixels. If no weight parameter is set, the path will
@@ -324,11 +315,6 @@ public class StaticMapsRequest
      * brown, green, purple, yellow, blue, gray, orange, red, white}.
      */
     public void color(String color) {
-      if (!colorPattern.matcher(color).matches()) {
-        throw new IllegalArgumentException(
-            "Color '" + color + "' doesn't match acceptable color pattern.");
-      }
-
       this.color = color;
     }
 
@@ -337,11 +323,6 @@ public class StaticMapsRequest
      * brown, green, purple, yellow, blue, gray, orange, red, white}.
      */
     public void fillcolor(String color) {
-      if (!colorPattern.matcher(color).matches()) {
-        throw new IllegalArgumentException(
-            "Fill Color '" + color + "' doesn't match acceptable color pattern.");
-      }
-
       this.fillcolor = color;
     }
 
@@ -367,7 +348,7 @@ public class StaticMapsRequest
     public String toUrlValue() {
       List<String> urlParts = new ArrayList<>();
 
-      if (weight != null) {
+      if (weight > 0) {
         urlParts.add("weight:" + weight);
       }
 

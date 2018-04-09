@@ -23,7 +23,7 @@ public class Size implements StringJoin.UrlValue, Serializable {
     this.height = height;
   }
 
-  /** Serialisation constructor. */
+  /** Serialization constructor. */
   public Size() {}
 
   @Override
