@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
- package com.google.maps.model;
+package com.google.maps.model;
 
 import com.google.maps.internal.StringJoin;
 import java.io.Serializable;
