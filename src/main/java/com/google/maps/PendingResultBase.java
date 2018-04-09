@@ -90,16 +90,18 @@ abstract class PendingResultBase<T, A extends PendingResultBase<T, A, R>, R exte
 
   protected abstract void validateRequest();
 
+  private A getInstance() {
+    @SuppressWarnings("unchecked")
+    A result = (A) this;
+    return result;
+  }  
+
   protected A param(String key, String val) {
     if(params.get(key) == null) {
       params.put(key, new ArrayList<String>());
     }
-
     params.get(key).add(val);
-
-    @SuppressWarnings("unchecked") // safe by specification - A is the actual class of this instance
-    A result = (A) this;
-    return result;
+    return getInstance();
   }
 
   protected A param(String key, int val) {
@@ -110,10 +112,7 @@ abstract class PendingResultBase<T, A extends PendingResultBase<T, A, R>, R exte
     if (val != null) {
       return this.param(key, val.toUrlValue());
     }
-
-    @SuppressWarnings("unchecked") // safe by specification - A is the actual class of this instance
-    A result = (A) this;
-    return result;
+    return getInstance();
   }
 
   protected Map<String, List<String>> params() {
