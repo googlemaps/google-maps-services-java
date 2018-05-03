@@ -16,10 +16,12 @@
 package com.google.maps;
 
 import com.google.maps.internal.ApiConfig;
+import com.google.maps.internal.StringJoin;
 import com.google.maps.internal.StringJoin.UrlValue;
 import com.google.maps.model.LatLng;
 import com.google.maps.model.Size;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -311,7 +313,7 @@ public class StaticMapsRequest
 
       urlParts.addAll(locations);
 
-      return String.join("|", urlParts);
+      return StringJoin.join('|', urlParts.toArray(new String[urlParts.size()]));
     }
   }
 
@@ -416,7 +418,7 @@ public class StaticMapsRequest
 
       urlParts.addAll(points);
 
-      return String.join("|", urlParts);
+      return StringJoin.join('|', urlParts.toArray(new String[urlParts.size()]));
     }
   }
 
