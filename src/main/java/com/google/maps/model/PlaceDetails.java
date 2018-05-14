@@ -17,7 +17,7 @@ package com.google.maps.model;
 
 import java.io.Serializable;
 import java.net.URL;
-import org.joda.time.Instant;
+import java.time.Instant;
 
 /**
  * The result of a Place Details request. A Place Details request returns more comprehensive

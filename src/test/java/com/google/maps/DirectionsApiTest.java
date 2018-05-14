@@ -32,13 +32,13 @@ import com.google.maps.model.TransitMode;
 import com.google.maps.model.TransitRoutingPreference;
 import com.google.maps.model.TravelMode;
 import com.google.maps.model.Unit;
+
+import java.time.Duration;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import org.joda.time.DateTime;
-import org.joda.time.Duration;
-import org.joda.time.Instant;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
@@ -127,9 +127,9 @@ public class DirectionsApiTest {
 
       assertEquals(1, result.routes.length);
       assertEquals(1, result.routes[0].legs.length);
-      DateTimeFormatter fmt = DateTimeFormat.forPattern("h:mm a");
-      assertEquals("1:54 pm", fmt.print(result.routes[0].legs[0].arrivalTime).toLowerCase());
-      assertEquals("1:21 pm", fmt.print(result.routes[0].legs[0].departureTime).toLowerCase());
+      DateTimeFormatter fmt = DateTimeFormatter.ofPattern("h:mm a");
+      assertEquals("1:54 pm", fmt.format(result.routes[0].legs[0].arrivalTime).toLowerCase());
+      assertEquals("1:21 pm", fmt.format(result.routes[0].legs[0].departureTime).toLowerCase());
 
       sc.assertParamValue(TravelMode.TRANSIT.toUrlValue(), "mode");
       sc.assertParamValue("483 George St, Sydney NSW 2000, Australia", "origin");
@@ -295,7 +295,7 @@ public class DirectionsApiTest {
           .origin("48 Pirrama Road, Pyrmont NSW 2009")
           .destination("182 Church St, Parramatta NSW 2150")
           .mode(TravelMode.DRIVING)
-          .departureTime(new DateTime().plus(Duration.standardMinutes(2)))
+          .departureTime(Instant.now().plus(Duration.ofMinutes(2)))
           .trafficModel(TrafficModel.PESSIMISTIC)
           .await();
 

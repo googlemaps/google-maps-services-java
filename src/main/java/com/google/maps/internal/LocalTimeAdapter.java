@@ -20,9 +20,8 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
-import org.joda.time.LocalTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 /** This class handles conversion from JSON to {@link LocalTime}. */
 public class LocalTimeAdapter extends TypeAdapter<LocalTime> {
@@ -35,7 +34,7 @@ public class LocalTimeAdapter extends TypeAdapter<LocalTime> {
     }
 
     if (reader.peek() == JsonToken.STRING) {
-      DateTimeFormatter dtf = DateTimeFormat.forPattern("HHmm");
+      DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HHmm");
       return LocalTime.parse(reader.nextString(), dtf);
     }
 

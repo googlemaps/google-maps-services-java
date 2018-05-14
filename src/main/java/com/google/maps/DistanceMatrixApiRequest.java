@@ -26,7 +26,7 @@ import com.google.maps.model.TransitMode;
 import com.google.maps.model.TransitRoutingPreference;
 import com.google.maps.model.TravelMode;
 import com.google.maps.model.Unit;
-import org.joda.time.ReadableInstant;
+import java.time.Instant;
 
 /** A request to the Distance Matrix API. */
 public class DistanceMatrixApiRequest
@@ -157,8 +157,8 @@ public class DistanceMatrixApiRequest
    * @param departureTime The time of departure.
    * @return Returns this {@code DistanceMatrixApiRequest} for call chaining.
    */
-  public DistanceMatrixApiRequest departureTime(ReadableInstant departureTime) {
-    return param("departure_time", Long.toString(departureTime.getMillis() / 1000L));
+  public DistanceMatrixApiRequest departureTime(Instant departureTime) {
+    return param("departure_time", Long.toString(departureTime.toEpochMilli() / 1000L));
   }
 
   /**
@@ -179,8 +179,8 @@ public class DistanceMatrixApiRequest
    * @param arrivalTime The preferred arrival time.
    * @return Returns this {@code DistanceMatrixApiRequest} for call chaining.
    */
-  public DistanceMatrixApiRequest arrivalTime(ReadableInstant arrivalTime) {
-    return param("arrival_time", Long.toString(arrivalTime.getMillis() / 1000L));
+  public DistanceMatrixApiRequest arrivalTime(Instant arrivalTime) {
+    return param("arrival_time", Long.toString(arrivalTime.toEpochMilli() / 1000L));
   }
 
   /**

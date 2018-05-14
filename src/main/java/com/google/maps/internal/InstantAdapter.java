@@ -20,7 +20,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
-import org.joda.time.Instant;
+import java.time.Instant;
 
 /** This class handles conversion from JSON to {@link Instant}. */
 public class InstantAdapter extends TypeAdapter<Instant> {
@@ -35,7 +35,7 @@ public class InstantAdapter extends TypeAdapter<Instant> {
 
     if (reader.peek() == JsonToken.NUMBER) {
       // Number is the number of seconds since Epoch.
-      return new Instant(reader.nextLong() * 1000L);
+      return Instant.ofEpochMilli(reader.nextLong() * 1000L);
     }
 
     throw new UnsupportedOperationException("Unsupported format");

@@ -20,7 +20,7 @@ apply plugin: 'jacoco'
 apply plugin: 'com.github.kt3k.coveralls'
 
 group = 'com.google.maps'
-sourceCompatibility = 1.7
+sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
@@ -45,7 +45,6 @@ artifacts {
 dependencies {
     compile 'com.google.code.gson:gson:2.8.1'
     compile 'com.squareup.okhttp3:okhttp:3.8.1'
-    compile 'joda-time:joda-time:2.9.9'
     compileOnly 'com.google.appengine:appengine-api-1.0-sdk:1.9.54'
     compile 'org.slf4j:slf4j-api:1.7.25'
     testCompile 'junit:junit:4.12'
