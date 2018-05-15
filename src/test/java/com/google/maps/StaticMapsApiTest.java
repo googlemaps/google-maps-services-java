@@ -134,7 +134,7 @@ public class StaticMapsApiTest {
       StaticMapsRequest req = StaticMapsApi.newRequest(sc.context, new Size(WIDTH, HEIGHT));
       Markers markers = new Markers();
       markers.size(MarkersSize.small);
-      markers.customIcon("http://not.a/real/url", CustomIconAnchor.bottomleft);
+      markers.customIcon("http://not.a/real/url", CustomIconAnchor.bottomleft, 2);
       markers.color("blue");
       markers.label("A");
       markers.addLocation("Melbourne");
@@ -153,7 +153,7 @@ public class StaticMapsApiTest {
       req.await();
 
       sc.assertParamValue(
-          "icon:http://not.a/real/url|anchor:bottomleft|size:small|color:blue|label:A|Melbourne|-33.86880000,151.20930000",
+          "icon:http://not.a/real/url|anchor:bottomleft|scale:2|size:small|color:blue|label:A|Melbourne|-33.86880000,151.20930000",
           "markers");
       sc.assertParamValue(
           "weight:3|color:green|fillcolor:0xAACCEE|geodesic:true|Melbourne|-33.86880000,151.20930000",
