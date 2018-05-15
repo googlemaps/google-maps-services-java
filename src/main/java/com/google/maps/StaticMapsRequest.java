@@ -21,7 +21,6 @@ import com.google.maps.internal.StringJoin.UrlValue;
 import com.google.maps.model.LatLng;
 import com.google.maps.model.Size;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
