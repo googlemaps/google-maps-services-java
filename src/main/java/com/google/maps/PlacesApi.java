@@ -174,4 +174,19 @@ public class PlacesApi {
     request.input(input);
     return request;
   }
+
+  /**
+   * Find places using either search text, or a phone number.
+   *
+   * @param context The context on which to make Geo API requests.
+   * @param input The input to search on.
+   * @param inputType Whether the input is search text, or a phone number.
+   * @return Returns a FindPlaceFromTextRequest that you can configure and execute.
+   */
+  public static FindPlaceFromTextRequest findPlaceFromText(
+      GeoApiContext context, String input, FindPlaceFromTextRequest.InputType inputType) {
+    FindPlaceFromTextRequest request = new FindPlaceFromTextRequest(context);
+    request.input(input).inputType(inputType);
+    return request;
+  }
 }

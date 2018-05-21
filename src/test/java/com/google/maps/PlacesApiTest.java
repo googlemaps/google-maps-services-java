@@ -21,11 +21,13 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import com.google.maps.FindPlaceFromTextRequest.InputType;
 import com.google.maps.model.AddressComponentType;
 import com.google.maps.model.AutocompletePrediction;
 import com.google.maps.model.AutocompletePrediction.MatchedSubstring;
 import com.google.maps.model.AutocompleteStructuredFormatting;
 import com.google.maps.model.ComponentFilter;
+import com.google.maps.model.FindPlaceFromText;
 import com.google.maps.model.LatLng;
 import com.google.maps.model.OpeningHours.Period;
 import com.google.maps.model.OpeningHours.Period.OpenClose.DayOfWeek;
@@ -33,6 +35,7 @@ import com.google.maps.model.Photo;
 import com.google.maps.model.PlaceAutocompleteType;
 import com.google.maps.model.PlaceDetails;
 import com.google.maps.model.PlaceDetails.Review.AspectRating.RatingType;
+import com.google.maps.model.PlaceDetailsFieldMask;
 import com.google.maps.model.PlaceIdScope;
 import com.google.maps.model.PlaceType;
 import com.google.maps.model.PlacesSearchResponse;
@@ -74,6 +77,7 @@ public class PlacesApiTest {
   private final String placesApiPlaceAutocomplete;
   private final String placesApiPlaceAutocompleteWithType;
   private final String placesApiKitaWard;
+  private final String findPlaceFromTextMuseumOfContemporaryArt;
 
   public PlacesApiTest() {
     autocompletePredictionStructuredFormatting =
@@ -107,6 +111,8 @@ public class PlacesApiTest {
     placesApiPlaceAutocompleteWithType =
         retrieveBody("PlacesApiPlaceAutocompleteWithTypeResponse.json");
     placesApiKitaWard = retrieveBody("placesApiKitaWardResponse.json");
+    findPlaceFromTextMuseumOfContemporaryArt =
+        retrieveBody("FindPlaceFromTextMuseumOfContemporaryArt.json");
   }
 
   @Test
@@ -145,7 +151,16 @@ public class PlacesApiTest {
   @Test
   public void testPlaceDetailsLookupGoogleSydney() throws Exception {
     try (LocalTestServerContext sc = new LocalTestServerContext(placeDetailResponseBody)) {
-      PlaceDetails placeDetails = PlacesApi.placeDetails(sc.context, GOOGLE_SYDNEY).await();
+      PlaceDetails placeDetails =
+          PlacesApi.placeDetails(sc.context, GOOGLE_SYDNEY)
+              .fields(
+                  PlaceDetailsFieldMask.PLACE_ID,
+                  PlaceDetailsFieldMask.NAME,
+                  PlaceDetailsFieldMask.TYPE)
+              .await();
+
+      sc.assertParamValue(GOOGLE_SYDNEY, "placeid");
+      sc.assertParamValue("place_id,name,type", "fields");
 
       assertNotNull(placeDetails);
 
@@ -187,9 +202,7 @@ public class PlacesApiTest {
       // Geometry
       assertNotNull(placeDetails.geometry);
       assertNotNull(placeDetails.geometry.location);
-      assertNotNull(placeDetails.geometry.location.lat);
       assertEquals(placeDetails.geometry.location.lat, -33.866611, 0.001);
-      assertNotNull(placeDetails.geometry.location.lng);
       assertEquals(placeDetails.geometry.location.lng, 151.195832, 0.001);
 
       // URLs
@@ -262,7 +275,6 @@ public class PlacesApiTest {
       assertEquals(placeDetails.openingHours.weekdayText[4], "Friday: 8:30 am – 5:00 pm");
       assertEquals(placeDetails.openingHours.weekdayText[5], "Saturday: Closed");
       assertEquals(placeDetails.openingHours.weekdayText[6], "Sunday: Closed");
-      assertNotNull(placeDetails.utcOffset);
       assertEquals(placeDetails.utcOffset, 600);
 
       // Photos
@@ -270,8 +282,6 @@ public class PlacesApiTest {
       Photo photo = placeDetails.photos[0];
       assertNotNull(photo);
       assertNotNull(photo.photoReference);
-      assertNotNull(photo.height);
-      assertNotNull(photo.width);
       assertNotNull(photo.htmlAttributions);
       assertNotNull(photo.htmlAttributions[0]);
 
@@ -286,14 +296,12 @@ public class PlacesApiTest {
           new URI("https://plus.google.com/118257578392162991040"), review.authorUrl.toURI());
       assertNotNull(review.language);
       assertEquals("en", review.language);
-      assertNotNull(review.rating);
       assertEquals(5, review.rating);
       assertNotNull(review.text);
       assertTrue(review.text.startsWith("As someone who works in the theatre,"));
       assertNotNull(review.aspects);
       PlaceDetails.Review.AspectRating aspect = review.aspects[0];
       assertNotNull(aspect);
-      assertNotNull(aspect.rating);
       assertEquals(3, aspect.rating);
       assertNotNull(aspect.type);
       assertEquals(RatingType.OVERALL, aspect.type);
@@ -309,7 +317,6 @@ public class PlacesApiTest {
       assertEquals(placeDetails.scope, PlaceIdScope.GOOGLE);
       assertNotNull(placeDetails.types);
       assertEquals(placeDetails.types[0], "establishment");
-      assertNotNull(placeDetails.rating);
       assertEquals(placeDetails.rating, 4.4, 0.1);
 
       // Permanently closed:
@@ -853,10 +860,10 @@ public class PlacesApiTest {
       sc.assertParamValue("(regions)", "types");
 
       assertEquals(5, predictions.length);
-      for (int i = 0; i < predictions.length; i++) {
-        for (int j = 0; j < predictions[i].types.length; j++) {
-          assertFalse(predictions[i].types[j].equals("route"));
-          assertFalse(predictions[i].types[j].equals("establishment"));
+      for (AutocompletePrediction prediction : predictions) {
+        for (int j = 0; j < prediction.types.length; j++) {
+          assertFalse(prediction.types[j].equals("route"));
+          assertFalse(prediction.types[j].equals("establishment"));
         }
       }
     }
@@ -891,6 +898,51 @@ public class PlacesApiTest {
       assertEquals(
           "Kita Ward, Kyoto, Kyoto Prefecture, Japan", response.results[0].formattedAddress);
       assertTrue(Arrays.asList(response.results[0].types).contains("ward"));
+    }
+  }
+
+  @Test
+  public void testFindPlaceFromText() throws Exception {
+    try (LocalTestServerContext sc =
+        new LocalTestServerContext(findPlaceFromTextMuseumOfContemporaryArt)) {
+
+      // https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=Museum%20of%20Contemporary%20Art%20Australia&inputtype=textquery&
+      // //fields=photos,formatted_address,name,rating,opening_hours,geometry&key=AIzaSyAa95tS5pgugJuGDGuTaZ0w0AObTKGzR2c
+
+      String input = "Museum of Contemporary Art Australia";
+      InputType inputType = InputType.TEXT_QUERY;
+      PlaceDetailsFieldMask fields[] = {
+        PlaceDetailsFieldMask.PHOTOS,
+        PlaceDetailsFieldMask.FORMATTED_ADDRESS,
+        PlaceDetailsFieldMask.NAME,
+        PlaceDetailsFieldMask.RATING,
+        PlaceDetailsFieldMask.OPENING_HOURS,
+        PlaceDetailsFieldMask.GEOMETRY
+      };
+
+      FindPlaceFromText response =
+          PlacesApi.findPlaceFromText(sc.context, input, inputType).fields(fields).await();
+
+      sc.assertParamValue(input, "input");
+      sc.assertParamValue(InputType.TEXT_QUERY.toUrlValue(), "inputtype");
+      sc.assertParamValue("photos,formatted_address,name,rating,opening_hours,geometry", "fields");
+
+      assertNotNull(response);
+      PlacesSearchResult candidate = response.candidates[0];
+      assertNotNull(candidate);
+      assertEquals("140 George St, The Rocks NSW 2000, Australia", candidate.formattedAddress);
+      LatLng location = candidate.geometry.location;
+      assertEquals(-33.8599358, location.lat, 0.00001);
+      assertEquals(151.2090295, location.lng, 0.00001);
+      assertEquals("Museum of Contemporary Art Australia", candidate.name);
+      assertEquals(true, candidate.openingHours.openNow);
+      Photo photo = candidate.photos[0];
+      assertEquals(
+          "CmRaAAAAXBZe3QrziBst5oTCPUzL4LSgSuWYMctBNRu8bOP4TfwD0aU80YemnnbhjWdFfMX-kkh5h9NhFJky6fW5Ivk_G9fc11GekI0HOCDASZH3qRJmUBsdw0MWoCDZmwQAg-dVEhBb0aLoJXzoZ8cXWEceB9omGhRrX24jI3VnSEQUmInfYoAwSX4OPw",
+          photo.photoReference);
+      assertEquals(2268, photo.height);
+      assertEquals(4032, photo.width);
+      assertEquals(4.4, candidate.rating, 0.01);
     }
   }
 }

@@ -19,7 +19,9 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.maps.errors.ApiException;
 import com.google.maps.internal.ApiConfig;
 import com.google.maps.internal.ApiResponse;
+import com.google.maps.internal.StringJoin;
 import com.google.maps.model.PlaceDetails;
+import com.google.maps.model.PlaceDetailsFieldMask;
 
 /**
  * A <a href="https://developers.google.com/places/web-service/details#PlaceDetailsRequests">Place
@@ -44,6 +46,16 @@ public class PlaceDetailsRequest
    */
   public PlaceDetailsRequest placeId(String placeId) {
     return param("placeid", placeId);
+  }
+
+  /**
+   * Specifies the field masks of the details to be returned by PlaceDetails.
+   *
+   * @param fields The Field Masks of the fields to return.
+   * @return Returns this {@code PlaceDetailsRequest} for call chaining.
+   */
+  public PlaceDetailsRequest fields(PlaceDetailsFieldMask... fields) {
+    return param("fields", StringJoin.join(',', fields));
   }
 
   @Override
