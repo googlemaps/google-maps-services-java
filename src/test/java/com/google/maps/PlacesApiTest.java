@@ -905,9 +905,6 @@ public class PlacesApiTest {
     try (LocalTestServerContext sc =
         new LocalTestServerContext(findPlaceFromTextMuseumOfContemporaryArt)) {
 
-      // https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=Museum%20of%20Contemporary%20Art%20Australia&inputtype=textquery&
-      // //fields=photos,formatted_address,name,rating,opening_hours,geometry&key=AIzaSyAa95tS5pgugJuGDGuTaZ0w0AObTKGzR2c
-
       String input = "Museum of Contemporary Art Australia";
 
       FindPlaceFromText response =
