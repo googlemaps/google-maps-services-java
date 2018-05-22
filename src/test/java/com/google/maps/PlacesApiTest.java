@@ -35,7 +35,6 @@ import com.google.maps.model.Photo;
 import com.google.maps.model.PlaceAutocompleteType;
 import com.google.maps.model.PlaceDetails;
 import com.google.maps.model.PlaceDetails.Review.AspectRating.RatingType;
-import com.google.maps.model.PlaceDetailsFieldMask;
 import com.google.maps.model.PlaceIdScope;
 import com.google.maps.model.PlaceType;
 import com.google.maps.model.PlacesSearchResponse;
@@ -154,13 +153,13 @@ public class PlacesApiTest {
       PlaceDetails placeDetails =
           PlacesApi.placeDetails(sc.context, GOOGLE_SYDNEY)
               .fields(
-                  PlaceDetailsFieldMask.PLACE_ID,
-                  PlaceDetailsFieldMask.NAME,
-                  PlaceDetailsFieldMask.TYPE)
+                  PlaceDetailsRequest.FieldMask.PLACE_ID,
+                  PlaceDetailsRequest.FieldMask.NAME,
+                  PlaceDetailsRequest.FieldMask.TYPES)
               .await();
 
       sc.assertParamValue(GOOGLE_SYDNEY, "placeid");
-      sc.assertParamValue("place_id,name,type", "fields");
+      sc.assertParamValue("place_id,name,types", "fields");
 
       assertNotNull(placeDetails);
 
@@ -910,21 +909,20 @@ public class PlacesApiTest {
       // //fields=photos,formatted_address,name,rating,opening_hours,geometry&key=AIzaSyAa95tS5pgugJuGDGuTaZ0w0AObTKGzR2c
 
       String input = "Museum of Contemporary Art Australia";
-      InputType inputType = InputType.TEXT_QUERY;
-      PlaceDetailsFieldMask fields[] = {
-        PlaceDetailsFieldMask.PHOTOS,
-        PlaceDetailsFieldMask.FORMATTED_ADDRESS,
-        PlaceDetailsFieldMask.NAME,
-        PlaceDetailsFieldMask.RATING,
-        PlaceDetailsFieldMask.OPENING_HOURS,
-        PlaceDetailsFieldMask.GEOMETRY
-      };
 
       FindPlaceFromText response =
-          PlacesApi.findPlaceFromText(sc.context, input, inputType).fields(fields).await();
+          PlacesApi.findPlaceFromText(sc.context, input, InputType.TEXT_QUERY)
+              .fields(
+                  FindPlaceFromTextRequest.FieldMask.PHOTOS,
+                  FindPlaceFromTextRequest.FieldMask.FORMATTED_ADDRESS,
+                  FindPlaceFromTextRequest.FieldMask.NAME,
+                  FindPlaceFromTextRequest.FieldMask.RATING,
+                  FindPlaceFromTextRequest.FieldMask.OPENING_HOURS,
+                  FindPlaceFromTextRequest.FieldMask.GEOMETRY)
+              .await();
 
       sc.assertParamValue(input, "input");
-      sc.assertParamValue(InputType.TEXT_QUERY.toUrlValue(), "inputtype");
+      sc.assertParamValue("textquery", "inputtype");
       sc.assertParamValue("photos,formatted_address,name,rating,opening_hours,geometry", "fields");
 
       assertNotNull(response);

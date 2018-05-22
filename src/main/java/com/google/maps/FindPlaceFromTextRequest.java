@@ -22,7 +22,6 @@ import com.google.maps.internal.ApiResponse;
 import com.google.maps.internal.StringJoin;
 import com.google.maps.internal.StringJoin.UrlValue;
 import com.google.maps.model.FindPlaceFromText;
-import com.google.maps.model.PlaceDetailsFieldMask;
 import com.google.maps.model.PlacesSearchResult;
 
 public class FindPlaceFromTextRequest
@@ -30,7 +29,7 @@ public class FindPlaceFromTextRequest
         FindPlaceFromText, FindPlaceFromTextRequest, FindPlaceFromTextRequest.Response> {
 
   static final ApiConfig API_CONFIG =
-      new ApiConfig("//maps/api/place/findplacefromtext/json")
+      new ApiConfig("/maps/api/place/findplacefromtext/json")
           .fieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
           .supportsClientId(false);
 
@@ -62,7 +61,7 @@ public class FindPlaceFromTextRequest
     return param("inputtype", inputType);
   }
 
-  public FindPlaceFromTextRequest fields(PlaceDetailsFieldMask... fields) {
+  public FindPlaceFromTextRequest fields(FieldMask... fields) {
     return param("fields", StringJoin.join(',', fields));
   }
 
@@ -100,6 +99,37 @@ public class FindPlaceFromTextRequest
         return null;
       }
       return ApiException.from(status, errorMessage);
+    }
+  }
+
+  public enum FieldMask implements UrlValue {
+    ALT_ID("alt_id"),
+    FORMATTED_ADDRESS("formatted_address"),
+    GEOMETRY("geometry"),
+    ICON("icon"),
+    ID("id"),
+    NAME("name"),
+    OPENING_HOURS("opening_hours"),
+    OPEN_NOW("open_now"),
+    PERMANENTLY_CLOSED("permanently_closed"),
+    PHOTOS("photos"),
+    PLACE_ID("place_id"),
+    PRICE_LEVEL("price_level"),
+    RATING("rating"),
+    REFERENCE("reference"),
+    SCOPE("scope"),
+    TYPES("types"),
+    VICINITY("vicinity");
+
+    private final String field;
+
+    FieldMask(final String field) {
+      this.field = field;
+    }
+
+    @Override
+    public String toUrlValue() {
+      return field;
     }
   }
 }

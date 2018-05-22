@@ -20,8 +20,8 @@ import com.google.maps.errors.ApiException;
 import com.google.maps.internal.ApiConfig;
 import com.google.maps.internal.ApiResponse;
 import com.google.maps.internal.StringJoin;
+import com.google.maps.internal.StringJoin.UrlValue;
 import com.google.maps.model.PlaceDetails;
-import com.google.maps.model.PlaceDetailsFieldMask;
 
 /**
  * A <a href="https://developers.google.com/places/web-service/details#PlaceDetailsRequests">Place
@@ -54,7 +54,7 @@ public class PlaceDetailsRequest
    * @param fields The Field Masks of the fields to return.
    * @return Returns this {@code PlaceDetailsRequest} for call chaining.
    */
-  public PlaceDetailsRequest fields(PlaceDetailsFieldMask... fields) {
+  public PlaceDetailsRequest fields(FieldMask... fields) {
     return param("fields", StringJoin.join(',', fields));
   }
 
@@ -90,6 +90,44 @@ public class PlaceDetailsRequest
         return null;
       }
       return ApiException.from(status, errorMessage);
+    }
+  }
+
+  public enum FieldMask implements UrlValue {
+    ADDRESS_COMPONENT("address_component"),
+    ADR_ADDRESS("adr_address"),
+    ALT_ID("alt_id"),
+    FORMATTED_ADDRESS("formatted_address"),
+    FORMATTED_PHONE_NUMBER("formatted_phone_number"),
+    GEOMETRY("geometry"),
+    ICON("icon"),
+    ID("id"),
+    INTERNATIONAL_PHONE_NUMBER("international_phone_number"),
+    NAME("name"),
+    OPENING_HOURS("opening_hours"),
+    PERMANENTLY_CLOSED("permanently_closed"),
+    PHOTOS("photos"),
+    PLACE_ID("place_id"),
+    PRICE_LEVEL("price_level"),
+    RATING("rating"),
+    REFERENCE("reference"),
+    REVIEWS("reviews"),
+    SCOPE("scope"),
+    TYPES("types"),
+    URL("url"),
+    UTC_OFFSET("utc_offset"),
+    VICINITY("vicinity"),
+    WEBSITE("website");
+
+    private final String field;
+
+    FieldMask(final String field) {
+      this.field = field;
+    }
+
+    @Override
+    public String toUrlValue() {
+      return field;
     }
   }
 }
