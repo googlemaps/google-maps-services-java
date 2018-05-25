@@ -22,6 +22,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import com.google.maps.FindPlaceFromTextRequest.InputType;
+import com.google.maps.PlaceAutocompleteRequest.SessionToken;
 import com.google.maps.model.AddressComponentType;
 import com.google.maps.model.AutocompletePrediction;
 import com.google.maps.model.AutocompletePrediction.MatchedSubstring;
@@ -127,8 +128,9 @@ public class PlacesApiTest {
   public void testAutocompletePredictionStructuredFormatting() throws Exception {
     try (LocalTestServerContext sc =
         new LocalTestServerContext(autocompletePredictionStructuredFormatting)) {
+      SessionToken session = new SessionToken();
       final AutocompletePrediction[] predictions =
-          PlacesApi.placeAutocomplete(sc.context, "1").await();
+          PlacesApi.placeAutocomplete(sc.context, "1", session).await();
 
       assertNotNull(predictions);
       assertEquals(1, predictions.length);
@@ -652,8 +654,9 @@ public class PlacesApiTest {
   @Test
   public void testPlaceAutocompleteRequest() throws Exception {
     try (LocalTestServerContext sc = new LocalTestServerContext("{\"status\" : \"OK\"}")) {
+      SessionToken session = new SessionToken();
       LatLng location = new LatLng(10, 20);
-      PlacesApi.placeAutocomplete(sc.context, "Sydney Town Hall")
+      PlacesApi.placeAutocomplete(sc.context, "Sydney Town Hall", session)
           .offset(4)
           .location(location)
           .radius(5000)
@@ -667,6 +670,7 @@ public class PlacesApiTest {
       sc.assertParamValue("5000", "radius");
       sc.assertParamValue(PlaceAutocompleteType.ESTABLISHMENT.toString(), "types");
       sc.assertParamValue(ComponentFilter.country("AU").toString(), "components");
+      sc.assertParamValue(session.toUrlValue(), "sessiontoken");
     }
   }
 
@@ -834,10 +838,12 @@ public class PlacesApiTest {
   @Test
   public void testPlaceAutocomplete() throws Exception {
     try (LocalTestServerContext sc = new LocalTestServerContext(placesApiPlaceAutocomplete)) {
+      SessionToken session = new SessionToken();
       AutocompletePrediction[] predictions =
-          PlacesApi.placeAutocomplete(sc.context, "Sydney Town Ha").await();
+          PlacesApi.placeAutocomplete(sc.context, "Sydney Town Ha", session).await();
 
       sc.assertParamValue("Sydney Town Ha", "input");
+      sc.assertParamValue(session.toUrlValue(), "sessiontoken");
 
       assertEquals(5, predictions.length);
       assertTrue(predictions[0].description.contains("Town Hall"));
@@ -848,8 +854,9 @@ public class PlacesApiTest {
   public void testPlaceAutocompleteWithType() throws Exception {
     try (LocalTestServerContext sc =
         new LocalTestServerContext(placesApiPlaceAutocompleteWithType)) {
+      SessionToken session = new SessionToken();
       AutocompletePrediction[] predictions =
-          PlacesApi.placeAutocomplete(sc.context, "po")
+          PlacesApi.placeAutocomplete(sc.context, "po", session)
               .components(ComponentFilter.country("nz"))
               .types(PlaceAutocompleteType.REGIONS)
               .await();
@@ -857,6 +864,7 @@ public class PlacesApiTest {
       sc.assertParamValue("po", "input");
       sc.assertParamValue("country:nz", "components");
       sc.assertParamValue("(regions)", "types");
+      sc.assertParamValue(session.toUrlValue(), "sessiontoken");
 
       assertEquals(5, predictions.length);
       for (AutocompletePrediction prediction : predictions) {
@@ -871,7 +879,8 @@ public class PlacesApiTest {
   @Test
   public void testPlaceAutocompleteWithStrictBounds() throws Exception {
     try (LocalTestServerContext sc = new LocalTestServerContext(placesApiPlaceAutocomplete)) {
-      PlacesApi.placeAutocomplete(sc.context, "Amoeba")
+      SessionToken session = new SessionToken();
+      PlacesApi.placeAutocomplete(sc.context, "Amoeba", session)
           .types(PlaceAutocompleteType.ESTABLISHMENT)
           .location(new LatLng(37.76999, -122.44696))
           .radius(500)
@@ -883,6 +892,7 @@ public class PlacesApiTest {
       sc.assertParamValue("37.76999000,-122.44696000", "location");
       sc.assertParamValue("500", "radius");
       sc.assertParamValue("true", "strictbounds");
+      sc.assertParamValue(session.toUrlValue(), "sessiontoken");
     }
   }
 
