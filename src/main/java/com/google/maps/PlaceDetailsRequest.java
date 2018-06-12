@@ -49,6 +49,29 @@ public class PlaceDetailsRequest
   }
 
   /**
+   * Sets the SessionToken for this request. Use this for Place Details requests that are called following an
+   * autocomplete request in the same user session. Optional.
+   *
+   * @param sessionToken Session Token is the session identifier.
+   * @return Returns this {@code PlaceDetailsRequest} for call chaining.
+   */
+  public PlaceDetailsRequest sessionToken(PlaceAutocompleteRequest.SessionToken sessionToken) {
+    return param("sessiontoken", sessionToken);
+  }
+
+  /**
+   * Sets the Region for this request. The region code, specified as a ccTLD (country code top-level domain)
+   * two-character value. Most ccTLD codes are identical to ISO 3166-1 codes, with some exceptions. This parameter will
+   * only influence, not fully restrict, results.
+   *
+   * @param region The region code.
+   * @return Returns this {@code PlaceDetailsRequest} for call chaining.
+   */
+  public PlaceDetailsRequest region(String region) {
+    return param("region", region);
+  }
+
+  /**
    * Specifies the field masks of the details to be returned by PlaceDetails.
    *
    * @param fields The Field Masks of the fields to return.
