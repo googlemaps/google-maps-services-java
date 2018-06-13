@@ -284,8 +284,12 @@ public class PlacesApiTest {
       assertNotNull(review.authorUrl);
       assertEquals(
           new URI("https://plus.google.com/118257578392162991040"), review.authorUrl.toURI());
+      assertNotNull(review.profilePhotoUrl);
+      assertEquals("https://lh5.googleusercontent.com/photo.jpg", review.profilePhotoUrl);
       assertNotNull(review.language);
       assertEquals("en", review.language);
+      assertNotNull(review.relativeTimeDescription);
+      assertEquals("a month ago", review.relativeTimeDescription);
       assertNotNull(review.rating);
       assertEquals(5, review.rating);
       assertNotNull(review.text);

@@ -160,8 +160,14 @@ public class PlaceDetails implements Serializable {
     /** An IETF language code indicating the language used in the user's review. */
     public String language;
 
+    /** The URL of the user's Google+ profile photo, if available. */
+    public String profilePhotoUrl;
+
     /** The user's overall rating for this place. This is a whole number, ranging from 1 to 5. */
     public int rating;
+
+    /** The relative time that the review was submitted. */
+    public String relativeTimeDescription;
 
     /**
      * The user's review. When reviewing a location with Google Places, text reviews are considered
