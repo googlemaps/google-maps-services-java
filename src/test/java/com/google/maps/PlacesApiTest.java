@@ -22,6 +22,10 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import com.google.maps.FindPlaceFromTextRequest.InputType;
+import com.google.maps.FindPlaceFromTextRequest.LocationBiasCircular;
+import com.google.maps.FindPlaceFromTextRequest.LocationBiasIP;
+import com.google.maps.FindPlaceFromTextRequest.LocationBiasPoint;
+import com.google.maps.FindPlaceFromTextRequest.LocationBiasRectangular;
 import com.google.maps.PlaceAutocompleteRequest.SessionToken;
 import com.google.maps.model.AddressComponentType;
 import com.google.maps.model.AutocompletePrediction;
@@ -926,11 +930,13 @@ public class PlacesApiTest {
                   FindPlaceFromTextRequest.FieldMask.RATING,
                   FindPlaceFromTextRequest.FieldMask.OPENING_HOURS,
                   FindPlaceFromTextRequest.FieldMask.GEOMETRY)
+              .locationBias(new LocationBiasIP())
               .await();
 
       sc.assertParamValue(input, "input");
       sc.assertParamValue("textquery", "inputtype");
       sc.assertParamValue("photos,formatted_address,name,rating,opening_hours,geometry", "fields");
+      sc.assertParamValue("ipbias", "locationbias");
 
       assertNotNull(response);
       PlacesSearchResult candidate = response.candidates[0];
@@ -948,6 +954,84 @@ public class PlacesApiTest {
       assertEquals(2268, photo.height);
       assertEquals(4032, photo.width);
       assertEquals(4.4, candidate.rating, 0.01);
+    }
+  }
+
+  @Test
+  public void testFindPlaceFromTextPoint() throws Exception {
+    try (LocalTestServerContext sc =
+        new LocalTestServerContext(findPlaceFromTextMuseumOfContemporaryArt)) {
+
+      String input = "Museum of Contemporary Art Australia";
+
+      FindPlaceFromText response =
+          PlacesApi.findPlaceFromText(sc.context, input, InputType.TEXT_QUERY)
+              .fields(
+                  FindPlaceFromTextRequest.FieldMask.PHOTOS,
+                  FindPlaceFromTextRequest.FieldMask.FORMATTED_ADDRESS,
+                  FindPlaceFromTextRequest.FieldMask.NAME,
+                  FindPlaceFromTextRequest.FieldMask.RATING,
+                  FindPlaceFromTextRequest.FieldMask.OPENING_HOURS,
+                  FindPlaceFromTextRequest.FieldMask.GEOMETRY)
+              .locationBias(new LocationBiasPoint(new LatLng(1, 2)))
+              .await();
+
+      sc.assertParamValue(input, "input");
+      sc.assertParamValue("textquery", "inputtype");
+      sc.assertParamValue("photos,formatted_address,name,rating,opening_hours,geometry", "fields");
+      sc.assertParamValue("point:1.00000000,2.00000000", "locationbias");
+    }
+  }
+
+  @Test
+  public void testFindPlaceFromTextCircular() throws Exception {
+    try (LocalTestServerContext sc =
+        new LocalTestServerContext(findPlaceFromTextMuseumOfContemporaryArt)) {
+
+      String input = "Museum of Contemporary Art Australia";
+
+      FindPlaceFromText response =
+          PlacesApi.findPlaceFromText(sc.context, input, InputType.TEXT_QUERY)
+              .fields(
+                  FindPlaceFromTextRequest.FieldMask.PHOTOS,
+                  FindPlaceFromTextRequest.FieldMask.FORMATTED_ADDRESS,
+                  FindPlaceFromTextRequest.FieldMask.NAME,
+                  FindPlaceFromTextRequest.FieldMask.RATING,
+                  FindPlaceFromTextRequest.FieldMask.OPENING_HOURS,
+                  FindPlaceFromTextRequest.FieldMask.GEOMETRY)
+              .locationBias(new LocationBiasCircular(new LatLng(1, 2), 3000))
+              .await();
+
+      sc.assertParamValue(input, "input");
+      sc.assertParamValue("textquery", "inputtype");
+      sc.assertParamValue("photos,formatted_address,name,rating,opening_hours,geometry", "fields");
+      sc.assertParamValue("circle:3000@1.00000000,2.00000000", "locationbias");
+    }
+  }
+
+  @Test
+  public void testFindPlaceFromTextRectangular() throws Exception {
+    try (LocalTestServerContext sc =
+        new LocalTestServerContext(findPlaceFromTextMuseumOfContemporaryArt)) {
+
+      String input = "Museum of Contemporary Art Australia";
+
+      FindPlaceFromText response =
+          PlacesApi.findPlaceFromText(sc.context, input, InputType.TEXT_QUERY)
+              .fields(
+                  FindPlaceFromTextRequest.FieldMask.PHOTOS,
+                  FindPlaceFromTextRequest.FieldMask.FORMATTED_ADDRESS,
+                  FindPlaceFromTextRequest.FieldMask.NAME,
+                  FindPlaceFromTextRequest.FieldMask.RATING,
+                  FindPlaceFromTextRequest.FieldMask.OPENING_HOURS,
+                  FindPlaceFromTextRequest.FieldMask.GEOMETRY)
+              .locationBias(new LocationBiasRectangular(new LatLng(1, 2), new LatLng(3, 4)))
+              .await();
+
+      sc.assertParamValue(input, "input");
+      sc.assertParamValue("textquery", "inputtype");
+      sc.assertParamValue("photos,formatted_address,name,rating,opening_hours,geometry", "fields");
+      sc.assertParamValue("rectangle:1.00000000,2.00000000|3.00000000,4.00000000", "locationbias");
     }
   }
 }

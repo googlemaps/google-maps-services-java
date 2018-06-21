@@ -22,6 +22,7 @@ import com.google.maps.internal.ApiResponse;
 import com.google.maps.internal.StringJoin;
 import com.google.maps.internal.StringJoin.UrlValue;
 import com.google.maps.model.FindPlaceFromText;
+import com.google.maps.model.LatLng;
 import com.google.maps.model.PlacesSearchResult;
 
 public class FindPlaceFromTextRequest
@@ -53,16 +54,46 @@ public class FindPlaceFromTextRequest
     }
   }
 
+  /**
+   * The text input specifying which place to search for (for example, a name, address, or phone
+   * number).
+   *
+   * @param input The text input.
+   * @return Returns {@code FindPlaceFromTextRequest} for call chaining.
+   */
   public FindPlaceFromTextRequest input(String input) {
     return param("input", input);
   }
 
+  /**
+   * The type of input.
+   *
+   * @param inputType The input type.
+   * @return Returns {@code FindPlaceFromTextRequest} for call chaining.
+   */
   public FindPlaceFromTextRequest inputType(InputType inputType) {
     return param("inputtype", inputType);
   }
 
+  /**
+   * The fields specifying the types of place data to return.
+   *
+   * @param fields The fields to return.
+   * @return Returns {@code FindPlaceFromTextRequest} for call chaining.
+   */
   public FindPlaceFromTextRequest fields(FieldMask... fields) {
     return param("fields", StringJoin.join(',', fields));
+  }
+
+  /**
+   * Prefer results in a specified area, by specifying either a radius plus lat/lng, or two lat/lng
+   * pairs representing the points of a rectangle.
+   *
+   * @param locationBias The location bias for this request.
+   * @return Returns {@code FindPlaceFromTextRequest} for call chaining.
+   */
+  public FindPlaceFromTextRequest locationBias(LocationBias locationBias) {
+    return param("locationbias", locationBias);
   }
 
   @Override
@@ -125,6 +156,57 @@ public class FindPlaceFromTextRequest
     @Override
     public String toUrlValue() {
       return field;
+    }
+  }
+
+  public interface LocationBias extends UrlValue {}
+
+  public static class LocationBiasIP implements LocationBias {
+    public String toUrlValue() {
+      return "ipbias";
+    }
+  }
+
+  public static class LocationBiasPoint implements LocationBias {
+    private final LatLng point;
+
+    public LocationBiasPoint(LatLng point) {
+      this.point = point;
+    }
+
+    @Override
+    public String toUrlValue() {
+      return "point:" + point.toUrlValue();
+    }
+  }
+
+  public static class LocationBiasCircular implements LocationBias {
+    private final LatLng center;
+    private final int radius;
+
+    public LocationBiasCircular(LatLng center, int radius) {
+      this.center = center;
+      this.radius = radius;
+    }
+
+    @Override
+    public String toUrlValue() {
+      return "circle:" + radius + "@" + center.toUrlValue();
+    }
+  }
+
+  public static class LocationBiasRectangular implements LocationBias {
+    private final LatLng southWest;
+    private final LatLng northEast;
+
+    public LocationBiasRectangular(LatLng southWest, LatLng northEast) {
+      this.southWest = southWest;
+      this.northEast = northEast;
+    }
+
+    @Override
+    public String toUrlValue() {
+      return "rectangle:" + southWest.toUrlValue() + "|" + northEast.toUrlValue();
     }
   }
 }
