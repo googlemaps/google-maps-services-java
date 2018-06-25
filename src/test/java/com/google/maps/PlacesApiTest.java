@@ -21,11 +21,18 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import com.google.maps.FindPlaceFromTextRequest.InputType;
+import com.google.maps.FindPlaceFromTextRequest.LocationBiasCircular;
+import com.google.maps.FindPlaceFromTextRequest.LocationBiasIP;
+import com.google.maps.FindPlaceFromTextRequest.LocationBiasPoint;
+import com.google.maps.FindPlaceFromTextRequest.LocationBiasRectangular;
+import com.google.maps.PlaceAutocompleteRequest.SessionToken;
 import com.google.maps.model.AddressComponentType;
 import com.google.maps.model.AutocompletePrediction;
 import com.google.maps.model.AutocompletePrediction.MatchedSubstring;
 import com.google.maps.model.AutocompleteStructuredFormatting;
 import com.google.maps.model.ComponentFilter;
+import com.google.maps.model.FindPlaceFromText;
 import com.google.maps.model.LatLng;
 import com.google.maps.model.OpeningHours.Period;
 import com.google.maps.model.OpeningHours.Period.OpenClose.DayOfWeek;
@@ -74,6 +81,7 @@ public class PlacesApiTest {
   private final String placesApiPlaceAutocomplete;
   private final String placesApiPlaceAutocompleteWithType;
   private final String placesApiKitaWard;
+  private final String findPlaceFromTextMuseumOfContemporaryArt;
 
   public PlacesApiTest() {
     autocompletePredictionStructuredFormatting =
@@ -107,6 +115,8 @@ public class PlacesApiTest {
     placesApiPlaceAutocompleteWithType =
         retrieveBody("PlacesApiPlaceAutocompleteWithTypeResponse.json");
     placesApiKitaWard = retrieveBody("placesApiKitaWardResponse.json");
+    findPlaceFromTextMuseumOfContemporaryArt =
+        retrieveBody("FindPlaceFromTextMuseumOfContemporaryArt.json");
   }
 
   @Test
@@ -122,8 +132,9 @@ public class PlacesApiTest {
   public void testAutocompletePredictionStructuredFormatting() throws Exception {
     try (LocalTestServerContext sc =
         new LocalTestServerContext(autocompletePredictionStructuredFormatting)) {
+      SessionToken session = new SessionToken();
       final AutocompletePrediction[] predictions =
-          PlacesApi.placeAutocomplete(sc.context, "1").await();
+          PlacesApi.placeAutocomplete(sc.context, "1", session).await();
 
       assertNotNull(predictions);
       assertEquals(1, predictions.length);
@@ -145,7 +156,16 @@ public class PlacesApiTest {
   @Test
   public void testPlaceDetailsLookupGoogleSydney() throws Exception {
     try (LocalTestServerContext sc = new LocalTestServerContext(placeDetailResponseBody)) {
-      PlaceDetails placeDetails = PlacesApi.placeDetails(sc.context, GOOGLE_SYDNEY).await();
+      PlaceDetails placeDetails =
+          PlacesApi.placeDetails(sc.context, GOOGLE_SYDNEY)
+              .fields(
+                  PlaceDetailsRequest.FieldMask.PLACE_ID,
+                  PlaceDetailsRequest.FieldMask.NAME,
+                  PlaceDetailsRequest.FieldMask.TYPES)
+              .await();
+
+      sc.assertParamValue(GOOGLE_SYDNEY, "placeid");
+      sc.assertParamValue("place_id,name,types", "fields");
 
       assertNotNull(placeDetails);
 
@@ -187,9 +207,7 @@ public class PlacesApiTest {
       // Geometry
       assertNotNull(placeDetails.geometry);
       assertNotNull(placeDetails.geometry.location);
-      assertNotNull(placeDetails.geometry.location.lat);
       assertEquals(placeDetails.geometry.location.lat, -33.866611, 0.001);
-      assertNotNull(placeDetails.geometry.location.lng);
       assertEquals(placeDetails.geometry.location.lng, 151.195832, 0.001);
 
       // URLs
@@ -262,7 +280,6 @@ public class PlacesApiTest {
       assertEquals(placeDetails.openingHours.weekdayText[4], "Friday: 8:30 am – 5:00 pm");
       assertEquals(placeDetails.openingHours.weekdayText[5], "Saturday: Closed");
       assertEquals(placeDetails.openingHours.weekdayText[6], "Sunday: Closed");
-      assertNotNull(placeDetails.utcOffset);
       assertEquals(placeDetails.utcOffset, 600);
 
       // Photos
@@ -270,8 +287,6 @@ public class PlacesApiTest {
       Photo photo = placeDetails.photos[0];
       assertNotNull(photo);
       assertNotNull(photo.photoReference);
-      assertNotNull(photo.height);
-      assertNotNull(photo.width);
       assertNotNull(photo.htmlAttributions);
       assertNotNull(photo.htmlAttributions[0]);
 
@@ -286,14 +301,12 @@ public class PlacesApiTest {
           new URI("https://plus.google.com/118257578392162991040"), review.authorUrl.toURI());
       assertNotNull(review.language);
       assertEquals("en", review.language);
-      assertNotNull(review.rating);
       assertEquals(5, review.rating);
       assertNotNull(review.text);
       assertTrue(review.text.startsWith("As someone who works in the theatre,"));
       assertNotNull(review.aspects);
       PlaceDetails.Review.AspectRating aspect = review.aspects[0];
       assertNotNull(aspect);
-      assertNotNull(aspect.rating);
       assertEquals(3, aspect.rating);
       assertNotNull(aspect.type);
       assertEquals(RatingType.OVERALL, aspect.type);
@@ -309,7 +322,6 @@ public class PlacesApiTest {
       assertEquals(placeDetails.scope, PlaceIdScope.GOOGLE);
       assertNotNull(placeDetails.types);
       assertEquals(placeDetails.types[0], "establishment");
-      assertNotNull(placeDetails.rating);
       assertEquals(placeDetails.rating, 4.4, 0.1);
 
       // Permanently closed:
@@ -646,8 +658,9 @@ public class PlacesApiTest {
   @Test
   public void testPlaceAutocompleteRequest() throws Exception {
     try (LocalTestServerContext sc = new LocalTestServerContext("{\"status\" : \"OK\"}")) {
+      SessionToken session = new SessionToken();
       LatLng location = new LatLng(10, 20);
-      PlacesApi.placeAutocomplete(sc.context, "Sydney Town Hall")
+      PlacesApi.placeAutocomplete(sc.context, "Sydney Town Hall", session)
           .offset(4)
           .location(location)
           .radius(5000)
@@ -661,6 +674,7 @@ public class PlacesApiTest {
       sc.assertParamValue("5000", "radius");
       sc.assertParamValue(PlaceAutocompleteType.ESTABLISHMENT.toString(), "types");
       sc.assertParamValue(ComponentFilter.country("AU").toString(), "components");
+      sc.assertParamValue(session.toUrlValue(), "sessiontoken");
     }
   }
 
@@ -828,10 +842,12 @@ public class PlacesApiTest {
   @Test
   public void testPlaceAutocomplete() throws Exception {
     try (LocalTestServerContext sc = new LocalTestServerContext(placesApiPlaceAutocomplete)) {
+      SessionToken session = new SessionToken();
       AutocompletePrediction[] predictions =
-          PlacesApi.placeAutocomplete(sc.context, "Sydney Town Ha").await();
+          PlacesApi.placeAutocomplete(sc.context, "Sydney Town Ha", session).await();
 
       sc.assertParamValue("Sydney Town Ha", "input");
+      sc.assertParamValue(session.toUrlValue(), "sessiontoken");
 
       assertEquals(5, predictions.length);
       assertTrue(predictions[0].description.contains("Town Hall"));
@@ -842,8 +858,9 @@ public class PlacesApiTest {
   public void testPlaceAutocompleteWithType() throws Exception {
     try (LocalTestServerContext sc =
         new LocalTestServerContext(placesApiPlaceAutocompleteWithType)) {
+      SessionToken session = new SessionToken();
       AutocompletePrediction[] predictions =
-          PlacesApi.placeAutocomplete(sc.context, "po")
+          PlacesApi.placeAutocomplete(sc.context, "po", session)
               .components(ComponentFilter.country("nz"))
               .types(PlaceAutocompleteType.REGIONS)
               .await();
@@ -851,12 +868,13 @@ public class PlacesApiTest {
       sc.assertParamValue("po", "input");
       sc.assertParamValue("country:nz", "components");
       sc.assertParamValue("(regions)", "types");
+      sc.assertParamValue(session.toUrlValue(), "sessiontoken");
 
       assertEquals(5, predictions.length);
-      for (int i = 0; i < predictions.length; i++) {
-        for (int j = 0; j < predictions[i].types.length; j++) {
-          assertFalse(predictions[i].types[j].equals("route"));
-          assertFalse(predictions[i].types[j].equals("establishment"));
+      for (AutocompletePrediction prediction : predictions) {
+        for (int j = 0; j < prediction.types.length; j++) {
+          assertFalse(prediction.types[j].equals("route"));
+          assertFalse(prediction.types[j].equals("establishment"));
         }
       }
     }
@@ -865,7 +883,8 @@ public class PlacesApiTest {
   @Test
   public void testPlaceAutocompleteWithStrictBounds() throws Exception {
     try (LocalTestServerContext sc = new LocalTestServerContext(placesApiPlaceAutocomplete)) {
-      PlacesApi.placeAutocomplete(sc.context, "Amoeba")
+      SessionToken session = new SessionToken();
+      PlacesApi.placeAutocomplete(sc.context, "Amoeba", session)
           .types(PlaceAutocompleteType.ESTABLISHMENT)
           .location(new LatLng(37.76999, -122.44696))
           .radius(500)
@@ -877,6 +896,7 @@ public class PlacesApiTest {
       sc.assertParamValue("37.76999000,-122.44696000", "location");
       sc.assertParamValue("500", "radius");
       sc.assertParamValue("true", "strictbounds");
+      sc.assertParamValue(session.toUrlValue(), "sessiontoken");
     }
   }
 
@@ -891,6 +911,127 @@ public class PlacesApiTest {
       assertEquals(
           "Kita Ward, Kyoto, Kyoto Prefecture, Japan", response.results[0].formattedAddress);
       assertTrue(Arrays.asList(response.results[0].types).contains("ward"));
+    }
+  }
+
+  @Test
+  public void testFindPlaceFromText() throws Exception {
+    try (LocalTestServerContext sc =
+        new LocalTestServerContext(findPlaceFromTextMuseumOfContemporaryArt)) {
+
+      String input = "Museum of Contemporary Art Australia";
+
+      FindPlaceFromText response =
+          PlacesApi.findPlaceFromText(sc.context, input, InputType.TEXT_QUERY)
+              .fields(
+                  FindPlaceFromTextRequest.FieldMask.PHOTOS,
+                  FindPlaceFromTextRequest.FieldMask.FORMATTED_ADDRESS,
+                  FindPlaceFromTextRequest.FieldMask.NAME,
+                  FindPlaceFromTextRequest.FieldMask.RATING,
+                  FindPlaceFromTextRequest.FieldMask.OPENING_HOURS,
+                  FindPlaceFromTextRequest.FieldMask.GEOMETRY)
+              .locationBias(new LocationBiasIP())
+              .await();
+
+      sc.assertParamValue(input, "input");
+      sc.assertParamValue("textquery", "inputtype");
+      sc.assertParamValue("photos,formatted_address,name,rating,opening_hours,geometry", "fields");
+      sc.assertParamValue("ipbias", "locationbias");
+
+      assertNotNull(response);
+      PlacesSearchResult candidate = response.candidates[0];
+      assertNotNull(candidate);
+      assertEquals("140 George St, The Rocks NSW 2000, Australia", candidate.formattedAddress);
+      LatLng location = candidate.geometry.location;
+      assertEquals(-33.8599358, location.lat, 0.00001);
+      assertEquals(151.2090295, location.lng, 0.00001);
+      assertEquals("Museum of Contemporary Art Australia", candidate.name);
+      assertEquals(true, candidate.openingHours.openNow);
+      Photo photo = candidate.photos[0];
+      assertEquals(
+          "CmRaAAAAXBZe3QrziBst5oTCPUzL4LSgSuWYMctBNRu8bOP4TfwD0aU80YemnnbhjWdFfMX-kkh5h9NhFJky6fW5Ivk_G9fc11GekI0HOCDASZH3qRJmUBsdw0MWoCDZmwQAg-dVEhBb0aLoJXzoZ8cXWEceB9omGhRrX24jI3VnSEQUmInfYoAwSX4OPw",
+          photo.photoReference);
+      assertEquals(2268, photo.height);
+      assertEquals(4032, photo.width);
+      assertEquals(4.4, candidate.rating, 0.01);
+    }
+  }
+
+  @Test
+  public void testFindPlaceFromTextPoint() throws Exception {
+    try (LocalTestServerContext sc =
+        new LocalTestServerContext(findPlaceFromTextMuseumOfContemporaryArt)) {
+
+      String input = "Museum of Contemporary Art Australia";
+
+      FindPlaceFromText response =
+          PlacesApi.findPlaceFromText(sc.context, input, InputType.TEXT_QUERY)
+              .fields(
+                  FindPlaceFromTextRequest.FieldMask.PHOTOS,
+                  FindPlaceFromTextRequest.FieldMask.FORMATTED_ADDRESS,
+                  FindPlaceFromTextRequest.FieldMask.NAME,
+                  FindPlaceFromTextRequest.FieldMask.RATING,
+                  FindPlaceFromTextRequest.FieldMask.OPENING_HOURS,
+                  FindPlaceFromTextRequest.FieldMask.GEOMETRY)
+              .locationBias(new LocationBiasPoint(new LatLng(1, 2)))
+              .await();
+
+      sc.assertParamValue(input, "input");
+      sc.assertParamValue("textquery", "inputtype");
+      sc.assertParamValue("photos,formatted_address,name,rating,opening_hours,geometry", "fields");
+      sc.assertParamValue("point:1.00000000,2.00000000", "locationbias");
+    }
+  }
+
+  @Test
+  public void testFindPlaceFromTextCircular() throws Exception {
+    try (LocalTestServerContext sc =
+        new LocalTestServerContext(findPlaceFromTextMuseumOfContemporaryArt)) {
+
+      String input = "Museum of Contemporary Art Australia";
+
+      FindPlaceFromText response =
+          PlacesApi.findPlaceFromText(sc.context, input, InputType.TEXT_QUERY)
+              .fields(
+                  FindPlaceFromTextRequest.FieldMask.PHOTOS,
+                  FindPlaceFromTextRequest.FieldMask.FORMATTED_ADDRESS,
+                  FindPlaceFromTextRequest.FieldMask.NAME,
+                  FindPlaceFromTextRequest.FieldMask.RATING,
+                  FindPlaceFromTextRequest.FieldMask.OPENING_HOURS,
+                  FindPlaceFromTextRequest.FieldMask.GEOMETRY)
+              .locationBias(new LocationBiasCircular(new LatLng(1, 2), 3000))
+              .await();
+
+      sc.assertParamValue(input, "input");
+      sc.assertParamValue("textquery", "inputtype");
+      sc.assertParamValue("photos,formatted_address,name,rating,opening_hours,geometry", "fields");
+      sc.assertParamValue("circle:3000@1.00000000,2.00000000", "locationbias");
+    }
+  }
+
+  @Test
+  public void testFindPlaceFromTextRectangular() throws Exception {
+    try (LocalTestServerContext sc =
+        new LocalTestServerContext(findPlaceFromTextMuseumOfContemporaryArt)) {
+
+      String input = "Museum of Contemporary Art Australia";
+
+      FindPlaceFromText response =
+          PlacesApi.findPlaceFromText(sc.context, input, InputType.TEXT_QUERY)
+              .fields(
+                  FindPlaceFromTextRequest.FieldMask.PHOTOS,
+                  FindPlaceFromTextRequest.FieldMask.FORMATTED_ADDRESS,
+                  FindPlaceFromTextRequest.FieldMask.NAME,
+                  FindPlaceFromTextRequest.FieldMask.RATING,
+                  FindPlaceFromTextRequest.FieldMask.OPENING_HOURS,
+                  FindPlaceFromTextRequest.FieldMask.GEOMETRY)
+              .locationBias(new LocationBiasRectangular(new LatLng(1, 2), new LatLng(3, 4)))
+              .await();
+
+      sc.assertParamValue(input, "input");
+      sc.assertParamValue("textquery", "inputtype");
+      sc.assertParamValue("photos,formatted_address,name,rating,opening_hours,geometry", "fields");
+      sc.assertParamValue("rectangle:1.00000000,2.00000000|3.00000000,4.00000000", "locationbias");
     }
   }
 }

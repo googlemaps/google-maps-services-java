@@ -154,11 +154,15 @@ public class PlacesApi {
    *
    * @param context The context on which to make Geo API requests.
    * @param input input is the text string on which to search.
+   * @param sessionToken Session token, to make sure requests are billed per session, instead of per
+   *     character.
    * @return Returns a PlaceAutocompleteRequest that you can configure and execute.
    */
-  public static PlaceAutocompleteRequest placeAutocomplete(GeoApiContext context, String input) {
+  public static PlaceAutocompleteRequest placeAutocomplete(
+      GeoApiContext context, String input, PlaceAutocompleteRequest.SessionToken sessionToken) {
     PlaceAutocompleteRequest request = new PlaceAutocompleteRequest(context);
     request.input(input);
+    request.sessionToken(sessionToken);
     return request;
   }
 
@@ -172,6 +176,21 @@ public class PlacesApi {
   public static QueryAutocompleteRequest queryAutocomplete(GeoApiContext context, String input) {
     QueryAutocompleteRequest request = new QueryAutocompleteRequest(context);
     request.input(input);
+    return request;
+  }
+
+  /**
+   * Find places using either search text, or a phone number.
+   *
+   * @param context The context on which to make Geo API requests.
+   * @param input The input to search on.
+   * @param inputType Whether the input is search text, or a phone number.
+   * @return Returns a FindPlaceFromTextRequest that you can configure and execute.
+   */
+  public static FindPlaceFromTextRequest findPlaceFromText(
+      GeoApiContext context, String input, FindPlaceFromTextRequest.InputType inputType) {
+    FindPlaceFromTextRequest request = new FindPlaceFromTextRequest(context);
+    request.input(input).inputType(inputType);
     return request;
   }
 }

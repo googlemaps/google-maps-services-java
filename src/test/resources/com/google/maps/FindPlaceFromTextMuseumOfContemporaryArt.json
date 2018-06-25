@@ -1,0 +1,41 @@
+
+{
+  "candidates" : [
+    {
+      "formatted_address" : "140 George St, The Rocks NSW 2000, Australia",
+      "geometry" : {
+        "location" : {
+          "lat" : -33.8599358,
+          "lng" : 151.2090295
+        },
+        "viewport" : {
+          "northeast" : {
+            "lat" : -33.85824767010727,
+            "lng" : 151.2102470798928
+          },
+          "southwest" : {
+            "lat" : -33.86094732989272,
+            "lng" : 151.2075474201073
+          }
+        }
+      },
+      "name" : "Museum of Contemporary Art Australia",
+      "opening_hours" : {
+        "open_now" : true,
+        "weekday_text" : []
+      },
+      "photos" : [
+        {
+          "height" : 2268,
+          "html_attributions" : [
+            "\u003ca href=\"https://maps.google.com/maps/contrib/113202928073475129698/photos\"\u003eEmily Zimny\u003c/a\u003e"
+          ],
+          "photo_reference" : "CmRaAAAAXBZe3QrziBst5oTCPUzL4LSgSuWYMctBNRu8bOP4TfwD0aU80YemnnbhjWdFfMX-kkh5h9NhFJky6fW5Ivk_G9fc11GekI0HOCDASZH3qRJmUBsdw0MWoCDZmwQAg-dVEhBb0aLoJXzoZ8cXWEceB9omGhRrX24jI3VnSEQUmInfYoAwSX4OPw",
+          "width" : 4032
+        }
+      ],
+      "rating" : 4.4
+    }
+  ],
+  "status" : "OK"
+}
