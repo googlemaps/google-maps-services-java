@@ -21,10 +21,12 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.maps.errors.ApiException;
 import com.google.maps.internal.ApiConfig;
 import com.google.maps.internal.ApiResponse;
+import com.google.maps.internal.StringJoin.UrlValue;
 import com.google.maps.model.AutocompletePrediction;
 import com.google.maps.model.ComponentFilter;
 import com.google.maps.model.LatLng;
 import com.google.maps.model.PlaceAutocompleteType;
+import java.util.UUID;
 
 /**
  * A <a
@@ -41,6 +43,31 @@ public class PlaceAutocompleteRequest
 
   protected PlaceAutocompleteRequest(GeoApiContext context) {
     super(context, API_CONFIG, Response.class);
+  }
+
+  /** SessionToken represents an Autocomplete session. */
+  public static final class SessionToken implements UrlValue {
+    private UUID uuid;
+
+    public SessionToken() {
+      uuid = UUID.randomUUID();
+    }
+
+    @Override
+    public String toUrlValue() {
+      return uuid.toString();
+    }
+  }
+
+  /**
+   * Sets the SessionToken for this request. Using session token makes sure the autocomplete is
+   * priced per session, instead of per keystroke.
+   *
+   * @param sessionToken Session Token is the session identifier.
+   * @return Returns this {@code PlaceAutocompleteRequest} for call chaining.
+   */
+  public PlaceAutocompleteRequest sessionToken(SessionToken sessionToken) {
+    return param("sessiontoken", sessionToken);
   }
 
   /**
@@ -129,7 +156,7 @@ public class PlaceAutocompleteRequest
    * @return Returns this {@code PlaceAutocompleteRequest} for call chaining.
    */
   public PlaceAutocompleteRequest strictBounds(boolean strictBounds) {
-    return param("strictbounds", Boolean.toString(strictBounds).toString());
+    return param("strictbounds", Boolean.toString(strictBounds));
   }
 
   @Override

@@ -44,7 +44,7 @@ public class StringJoin {
     String[] strings = new String[parts.length];
     int i = 0;
     for (UrlValue part : parts) {
-      strings[i++] = part.toString();
+      strings[i++] = part.toUrlValue();
     }
 
     return join(delim, strings);

@@ -19,6 +19,8 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.maps.errors.ApiException;
 import com.google.maps.internal.ApiConfig;
 import com.google.maps.internal.ApiResponse;
+import com.google.maps.internal.StringJoin;
+import com.google.maps.internal.StringJoin.UrlValue;
 import com.google.maps.model.PlaceDetails;
 
 /**
@@ -44,6 +46,39 @@ public class PlaceDetailsRequest
    */
   public PlaceDetailsRequest placeId(String placeId) {
     return param("placeid", placeId);
+  }
+
+  /**
+   * Sets the SessionToken for this request. Use this for Place Details requests that are called
+   * following an autocomplete request in the same user session. Optional.
+   *
+   * @param sessionToken Session Token is the session identifier.
+   * @return Returns this {@code PlaceDetailsRequest} for call chaining.
+   */
+  public PlaceDetailsRequest sessionToken(PlaceAutocompleteRequest.SessionToken sessionToken) {
+    return param("sessiontoken", sessionToken);
+  }
+
+  /**
+   * Sets the Region for this request. The region code, specified as a ccTLD (country code top-level
+   * domain) two-character value. Most ccTLD codes are identical to ISO 3166-1 codes, with some
+   * exceptions. This parameter will only influence, not fully restrict, results.
+   *
+   * @param region The region code.
+   * @return Returns this {@code PlaceDetailsRequest} for call chaining.
+   */
+  public PlaceDetailsRequest region(String region) {
+    return param("region", region);
+  }
+
+  /**
+   * Specifies the field masks of the details to be returned by PlaceDetails.
+   *
+   * @param fields The Field Masks of the fields to return.
+   * @return Returns this {@code PlaceDetailsRequest} for call chaining.
+   */
+  public PlaceDetailsRequest fields(FieldMask... fields) {
+    return param("fields", StringJoin.join(',', fields));
   }
 
   @Override
@@ -78,6 +113,44 @@ public class PlaceDetailsRequest
         return null;
       }
       return ApiException.from(status, errorMessage);
+    }
+  }
+
+  public enum FieldMask implements UrlValue {
+    ADDRESS_COMPONENT("address_component"),
+    ADR_ADDRESS("adr_address"),
+    ALT_ID("alt_id"),
+    FORMATTED_ADDRESS("formatted_address"),
+    FORMATTED_PHONE_NUMBER("formatted_phone_number"),
+    GEOMETRY("geometry"),
+    ICON("icon"),
+    ID("id"),
+    INTERNATIONAL_PHONE_NUMBER("international_phone_number"),
+    NAME("name"),
+    OPENING_HOURS("opening_hours"),
+    PERMANENTLY_CLOSED("permanently_closed"),
+    PHOTOS("photos"),
+    PLACE_ID("place_id"),
+    PRICE_LEVEL("price_level"),
+    RATING("rating"),
+    REFERENCE("reference"),
+    REVIEWS("reviews"),
+    SCOPE("scope"),
+    TYPES("types"),
+    URL("url"),
+    UTC_OFFSET("utc_offset"),
+    VICINITY("vicinity"),
+    WEBSITE("website");
+
+    private final String field;
+
+    FieldMask(final String field) {
+      this.field = field;
+    }
+
+    @Override
+    public String toUrlValue() {
+      return field;
     }
   }
 }
