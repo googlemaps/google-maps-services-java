@@ -166,6 +166,9 @@ public enum AddressComponentType {
   /** The location of a light rail station. */
   LIGHT_RAIL_STATION("light_rail_station"),
 
+  /** A cafe. */
+  CAFE("cafe"),
+
   /**
    * Indicates an unknown address component type returned by the server. The Java Client for Google
    * Maps Services should be updated to support the new value.
