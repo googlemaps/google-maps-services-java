@@ -381,6 +381,9 @@ public enum AddressType implements UrlValue {
   FUNERAL_HOME("funeral_home"),
 
   /** Currently not a documented return type. */
+  GENERAL_CONTRACTOR("general_contractor"),
+
+  /** Currently not a documented return type. */
   HINDU_TEMPLE("hindu_temple"),
 
   /** Currently not a documented return type. */

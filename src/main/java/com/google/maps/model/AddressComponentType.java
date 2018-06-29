@@ -178,6 +178,18 @@ public enum AddressComponentType {
   /** A car-rental establishment. */
   CAR_RENTAL("car_rental"),
 
+  /** A travel agency. */
+  TRAVEL_AGENCY("travel_agency"),
+
+  /** An electronics store. */
+  ELECTRONICS_STORE("electronics_store"),
+
+  /** A home goods store. */
+  HOME_GOODS_STORE("home_goods_store"),
+
+  /** A school. */
+  SCHOOL("school"),
+
   /** A store. */
   STORE("store"),
 
@@ -186,6 +198,51 @@ public enum AddressComponentType {
 
   /** A lodging establishment. */
   LODGING("lodging"),
+
+  /** An art gallery. */
+  ART_GALLERY("art_gallery"),
+
+  /** A lawyer. */
+  LAWYER("lawyer"),
+
+  /** A restaurant. */
+  RESTAURANT("restaurant"),
+
+  /** A bar. */
+  BAR("bar"),
+
+  /** A take-away meal establishment. */
+  MEAL_TAKEAWAY("meal_takeaway"),
+
+  /** A clothing store. */
+  CLOTHING_STORE("clothing_store"),
+
+  /** A local government office. */
+  LOCAL_GOVERNMENT_OFFICE("local_government_office"),
+
+  /** A finance establishment. */
+  FINANCE("finance"),
+
+  /** A moving company. */
+  MOVING_COMPANY("moving_company"),
+
+  /** A storage establishment. */
+  STORAGE("storage"),
+
+  /** A cafe. */
+  CAFE("cafe"),
+
+  /** A car repair establishment. */
+  CAR_REPAIR("car_repair"),
+
+  /** A health service provider. */
+  HEALTH("health"),
+
+  /** An insurance agency. */
+  INSURANCE_AGENCY("insurance_agency"),
+
+  /** A painter. */
+  PAINTER("painter"),
 
   /**
    * Indicates an unknown address component type returned by the server. The Java Client for Google
