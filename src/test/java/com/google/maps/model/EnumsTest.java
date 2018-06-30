@@ -85,6 +85,14 @@ public class EnumsTest {
       assertEquals(
           addressTypeLiteralPair.getValue(), addressTypeLiteralPair.getKey().toCanonicalLiteral());
     }
+    List<AddressType> enumsMinusUnknown = new ArrayList<>(Arrays.asList(AddressType.values()));
+    enumsMinusUnknown.remove(AddressType.UNKNOWN);
+    List<AddressType> onlyInTest = setdiff(addressTypeToLiteralMap.keySet(), enumsMinusUnknown);
+    List<AddressType> onlyInEnum = setdiff(enumsMinusUnknown, addressTypeToLiteralMap.keySet());
+    assertEquals(
+        "Unexpected enum elements: Only in test: " + onlyInTest + ". Only in enum: " + onlyInEnum,
+        addressTypeToLiteralMap.size() + 1, // 1 for unknown
+        AddressType.values().length);
   }
 
   @Test
