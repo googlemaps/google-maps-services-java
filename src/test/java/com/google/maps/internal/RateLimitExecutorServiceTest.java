@@ -41,7 +41,7 @@ public class RateLimitExecutorServiceTest {
     RateLimitExecutorService service = new RateLimitExecutorService();
     service.setQueriesPerSecond(qps);
     final ConcurrentHashMap<Integer, Integer> executedTimestamps =
-        new ConcurrentHashMap<Integer, Integer>();
+        new ConcurrentHashMap<>();
 
     for (int i = 0; i < 100; i++) {
       Runnable emptyTask =

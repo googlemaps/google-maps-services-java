@@ -483,7 +483,7 @@ public class DirectionsApiTest {
 
   /** Coordinates in Mexico City. */
   private List<LatLng> getOptimizationWaypoints() {
-    List<LatLng> waypoints = new ArrayList<LatLng>();
+    List<LatLng> waypoints = new ArrayList<>();
     waypoints.add(new LatLng(19.431676, -99.133999));
     waypoints.add(new LatLng(19.427915, -99.138939));
     waypoints.add(new LatLng(19.435436, -99.139145));

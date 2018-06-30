@@ -51,7 +51,7 @@ public class RateLimitExecutorService implements ExecutorService, Runnable {
           new SynchronousQueue<Runnable>(),
           threadFactory("Rate Limited Dispatcher", true));
 
-  private final BlockingQueue<Runnable> queue = new LinkedBlockingQueue<Runnable>();
+  private final BlockingQueue<Runnable> queue = new LinkedBlockingQueue<>();
   private final RateLimiter rateLimiter =
       RateLimiter.create(DEFAULT_QUERIES_PER_SECOND, 1, TimeUnit.SECONDS);
 

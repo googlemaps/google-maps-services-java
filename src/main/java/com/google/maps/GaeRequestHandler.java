@@ -63,8 +63,8 @@ public class GaeRequestHandler implements GeoApiContext.RequestHandler {
       throw (new RuntimeException(e));
     }
 
-    return new GaePendingResult<T, R>(
-        req, client, clazz, fieldNamingPolicy, errorTimeout, maxRetries, exceptionsAllowedToRetry);
+    return new GaePendingResult<>(
+            req, client, clazz, fieldNamingPolicy, errorTimeout, maxRetries, exceptionsAllowedToRetry);
   }
 
   @Override
@@ -89,8 +89,8 @@ public class GaeRequestHandler implements GeoApiContext.RequestHandler {
       throw (new RuntimeException(e));
     }
 
-    return new GaePendingResult<T, R>(
-        req, client, clazz, fieldNamingPolicy, errorTimeout, maxRetries, exceptionsAllowedToRetry);
+    return new GaePendingResult<>(
+            req, client, clazz, fieldNamingPolicy, errorTimeout, maxRetries, exceptionsAllowedToRetry);
   }
 
   @Override

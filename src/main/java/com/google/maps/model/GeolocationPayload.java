@@ -83,9 +83,9 @@ public class GeolocationPayload implements Serializable {
     private String _carrier = null;
     private Boolean _considerIp = null;
     private CellTower[] _cellTowers = null;
-    private List<CellTower> _addedCellTowers = new ArrayList<CellTower>();
+    private List<CellTower> _addedCellTowers = new ArrayList<>();
     private WifiAccessPoint[] _wifiAccessPoints = null;
-    private List<WifiAccessPoint> _addedWifiAccessPoints = new ArrayList<WifiAccessPoint>();
+    private List<WifiAccessPoint> _addedWifiAccessPoints = new ArrayList<>();
 
     public GeolocationPayload createGeolocationPayload() {
       // if wifi access points have been added individually...

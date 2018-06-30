@@ -92,7 +92,7 @@ public class GeocodingApiTest {
   @Test
   public void testAsync() throws Exception {
     try (LocalTestServerContext sc = new LocalTestServerContext(simpleGeocodeResponse)) {
-      final List<GeocodingResult[]> resps = new ArrayList<GeocodingResult[]>();
+      final List<GeocodingResult[]> resps = new ArrayList<>();
 
       PendingResult.Callback<GeocodingResult[]> callback =
           new PendingResult.Callback<GeocodingResult[]>() {
