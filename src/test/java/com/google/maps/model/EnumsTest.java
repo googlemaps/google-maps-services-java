@@ -150,6 +150,36 @@ public class EnumsTest {
     addressComponentTypeToLiteralMap.put(AddressComponentType.POSTAL_TOWN, "postal_town");
     addressComponentTypeToLiteralMap.put(AddressComponentType.ROOM, "room");
     addressComponentTypeToLiteralMap.put(AddressComponentType.STREET_NUMBER, "street_number");
+    addressComponentTypeToLiteralMap.put(
+        AddressComponentType.GENERAL_CONTRACTOR, "general_contractor");
+    addressComponentTypeToLiteralMap.put(AddressComponentType.FOOD, "food");
+    addressComponentTypeToLiteralMap.put(
+        AddressComponentType.REAL_ESTATE_AGENCY, "real_estate_agency");
+    addressComponentTypeToLiteralMap.put(AddressComponentType.CAR_RENTAL, "car_rental");
+    addressComponentTypeToLiteralMap.put(AddressComponentType.STORE, "store");
+    addressComponentTypeToLiteralMap.put(AddressComponentType.SHOPPING_MALL, "shopping_mall");
+    addressComponentTypeToLiteralMap.put(AddressComponentType.LODGING, "lodging");
+    addressComponentTypeToLiteralMap.put(AddressComponentType.TRAVEL_AGENCY, "travel_agency");
+    addressComponentTypeToLiteralMap.put(
+        AddressComponentType.ELECTRONICS_STORE, "electronics_store");
+    addressComponentTypeToLiteralMap.put(AddressComponentType.HOME_GOODS_STORE, "home_goods_store");
+    addressComponentTypeToLiteralMap.put(AddressComponentType.SCHOOL, "school");
+    addressComponentTypeToLiteralMap.put(AddressComponentType.ART_GALLERY, "art_gallery");
+    addressComponentTypeToLiteralMap.put(AddressComponentType.LAWYER, "lawyer");
+    addressComponentTypeToLiteralMap.put(AddressComponentType.RESTAURANT, "restaurant");
+    addressComponentTypeToLiteralMap.put(AddressComponentType.BAR, "bar");
+    addressComponentTypeToLiteralMap.put(AddressComponentType.MEAL_TAKEAWAY, "meal_takeaway");
+    addressComponentTypeToLiteralMap.put(AddressComponentType.CLOTHING_STORE, "clothing_store");
+    addressComponentTypeToLiteralMap.put(
+        AddressComponentType.LOCAL_GOVERNMENT_OFFICE, "local_government_office");
+    addressComponentTypeToLiteralMap.put(AddressComponentType.FINANCE, "finance");
+    addressComponentTypeToLiteralMap.put(AddressComponentType.MOVING_COMPANY, "moving_company");
+    addressComponentTypeToLiteralMap.put(AddressComponentType.STORAGE, "storage");
+    addressComponentTypeToLiteralMap.put(AddressComponentType.CAFE, "cafe");
+    addressComponentTypeToLiteralMap.put(AddressComponentType.CAR_REPAIR, "car_repair");
+    addressComponentTypeToLiteralMap.put(AddressComponentType.HEALTH, "health");
+    addressComponentTypeToLiteralMap.put(AddressComponentType.INSURANCE_AGENCY, "insurance_agency");
+    addressComponentTypeToLiteralMap.put(AddressComponentType.PAINTER, "painter");
 
     for (Map.Entry<AddressComponentType, String> AddressComponentTypeLiteralPair :
         addressComponentTypeToLiteralMap.entrySet()) {
