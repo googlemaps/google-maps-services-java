@@ -37,7 +37,7 @@ public class GeolocationApiRequest
   @Override
   protected void validateRequest() {
     if (this.payload.considerIp != null
-        && this.payload.considerIp == false
+        && !this.payload.considerIp
         && this.payload.wifiAccessPoints != null
         && this.payload.wifiAccessPoints.length < 2) {
       throw new IllegalArgumentException("Request must contain two or more 'Wifi Access Points'");
