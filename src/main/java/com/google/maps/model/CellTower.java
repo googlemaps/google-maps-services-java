@@ -101,37 +101,37 @@ public class CellTower implements Serializable {
     }
 
     public CellTowerBuilder CellId(int newCellId) {
-      this._cellId = new Integer(newCellId);
+      this._cellId = newCellId;
       return this;
     }
 
     public CellTowerBuilder LocationAreaCode(int newLocationAreaCode) {
-      this._locationAreaCode = new Integer(newLocationAreaCode);
+      this._locationAreaCode = newLocationAreaCode;
       return this;
     }
 
     public CellTowerBuilder MobileCountryCode(int newMobileCountryCode) {
-      this._mobileCountryCode = new Integer(newMobileCountryCode);
+      this._mobileCountryCode = newMobileCountryCode;
       return this;
     }
 
     public CellTowerBuilder MobileNetworkCode(int newMobileNetworkCode) {
-      this._mobileNetworkCode = new Integer(newMobileNetworkCode);
+      this._mobileNetworkCode = newMobileNetworkCode;
       return this;
     }
 
     public CellTowerBuilder Age(int newAge) {
-      this._age = new Integer(newAge);
+      this._age = newAge;
       return this;
     }
 
     public CellTowerBuilder SignalStrength(int newSignalStrength) {
-      this._signalStrength = new Integer(newSignalStrength);
+      this._signalStrength = newSignalStrength;
       return this;
     }
 
     public CellTowerBuilder TimingAdvance(int newTimingAdvance) {
-      this._timingAdvance = new Integer(newTimingAdvance);
+      this._timingAdvance = newTimingAdvance;
       return this;
     }
   }

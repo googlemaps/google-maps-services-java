@@ -110,12 +110,12 @@ public class GeolocationPayload implements Serializable {
     }
 
     public GeolocationPayloadBuilder HomeMobileCountryCode(int newHomeMobileCountryCode) {
-      this._homeMobileCountryCode = new Integer(newHomeMobileCountryCode);
+      this._homeMobileCountryCode = newHomeMobileCountryCode;
       return this;
     }
 
     public GeolocationPayloadBuilder HomeMobileNetworkCode(int newHomeMobileNetworkCode) {
-      this._homeMobileNetworkCode = new Integer(newHomeMobileNetworkCode);
+      this._homeMobileNetworkCode = newHomeMobileNetworkCode;
       return this;
     }
 
@@ -130,7 +130,7 @@ public class GeolocationPayload implements Serializable {
     }
 
     public GeolocationPayloadBuilder ConsiderIp(boolean newConsiderIp) {
-      this._considerIp = new Boolean(newConsiderIp);
+      this._considerIp = newConsiderIp;
       return this;
     }
 
