@@ -167,7 +167,7 @@ public class StaticMapsRequest
 
   public static class Markers implements UrlValue {
 
-    public static enum MarkersSize implements UrlValue {
+    public enum MarkersSize implements UrlValue {
       tiny,
       mid,
       small,
@@ -179,7 +179,7 @@ public class StaticMapsRequest
       }
     }
 
-    public static enum CustomIconAnchor implements UrlValue {
+    public enum CustomIconAnchor implements UrlValue {
       top,
       bottom,
       left,
