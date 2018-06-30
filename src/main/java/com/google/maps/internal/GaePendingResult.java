@@ -172,16 +172,11 @@ public class GaePendingResult<T, R extends ApiResponse<T>> implements PendingRes
             .registerTypeAdapter(Fare.class, new FareAdapter())
             .registerTypeAdapter(LatLng.class, new LatLngAdapter())
             .registerTypeAdapter(
-                AddressComponentType.class,
-                    new SafeEnumAdapter<>(AddressComponentType.UNKNOWN))
-            .registerTypeAdapter(
-                AddressType.class, new SafeEnumAdapter<>(AddressType.UNKNOWN))
-            .registerTypeAdapter(
-                TravelMode.class, new SafeEnumAdapter<>(TravelMode.UNKNOWN))
-            .registerTypeAdapter(
-                LocationType.class, new SafeEnumAdapter<>(LocationType.UNKNOWN))
-            .registerTypeAdapter(
-                RatingType.class, new SafeEnumAdapter<>(RatingType.UNKNOWN))
+                AddressComponentType.class, new SafeEnumAdapter<>(AddressComponentType.UNKNOWN))
+            .registerTypeAdapter(AddressType.class, new SafeEnumAdapter<>(AddressType.UNKNOWN))
+            .registerTypeAdapter(TravelMode.class, new SafeEnumAdapter<>(TravelMode.UNKNOWN))
+            .registerTypeAdapter(LocationType.class, new SafeEnumAdapter<>(LocationType.UNKNOWN))
+            .registerTypeAdapter(RatingType.class, new SafeEnumAdapter<>(RatingType.UNKNOWN))
             .registerTypeAdapter(DayOfWeek.class, new DayOfWeekAdapter())
             .registerTypeAdapter(PriceLevel.class, new PriceLevelAdapter())
             .registerTypeAdapter(Instant.class, new InstantAdapter())

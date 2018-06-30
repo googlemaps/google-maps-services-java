@@ -93,8 +93,7 @@ public class EnumsTest {
 
   @Test
   public void testCanonicalLiteralsForAddressComponentType() {
-    Map<AddressComponentType, String> addressComponentTypeToLiteralMap =
-            new HashMap<>();
+    Map<AddressComponentType, String> addressComponentTypeToLiteralMap = new HashMap<>();
     addressComponentTypeToLiteralMap.put(AddressComponentType.STREET_ADDRESS, "street_address");
     addressComponentTypeToLiteralMap.put(AddressComponentType.ROUTE, "route");
     addressComponentTypeToLiteralMap.put(AddressComponentType.INTERSECTION, "intersection");

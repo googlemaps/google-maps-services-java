@@ -290,7 +290,7 @@ public class DirectionsApiTest {
   @Test
   public void testTrafficModel() throws Exception {
     try (LocalTestServerContext sc =
-        new LocalTestServerContext("{\"routes\": [{}],\"status\": \"OK\"}"); ) {
+        new LocalTestServerContext("{\"routes\": [{}],\"status\": \"OK\"}")) {
       DirectionsApi.newRequest(sc.context)
           .origin("48 Pirrama Road, Pyrmont NSW 2009")
           .destination("182 Church St, Parramatta NSW 2150")
@@ -349,7 +349,7 @@ public class DirectionsApiTest {
   @Test
   public void testTravelModeWalking() throws Exception {
     try (LocalTestServerContext sc =
-        new LocalTestServerContext("{\"routes\": [{}],\"status\": \"OK\"}"); ) {
+        new LocalTestServerContext("{\"routes\": [{}],\"status\": \"OK\"}")) {
       DirectionsResult result =
           DirectionsApi.newRequest(sc.context)
               .mode(TravelMode.WALKING)
