@@ -83,9 +83,9 @@ public class GeolocationPayload implements Serializable {
     private String _carrier = null;
     private Boolean _considerIp = null;
     private CellTower[] _cellTowers = null;
-    private List<CellTower> _addedCellTowers = new ArrayList<CellTower>();
+    private List<CellTower> _addedCellTowers = new ArrayList<>();
     private WifiAccessPoint[] _wifiAccessPoints = null;
-    private List<WifiAccessPoint> _addedWifiAccessPoints = new ArrayList<WifiAccessPoint>();
+    private List<WifiAccessPoint> _addedWifiAccessPoints = new ArrayList<>();
 
     public GeolocationPayload createGeolocationPayload() {
       // if wifi access points have been added individually...
@@ -110,12 +110,12 @@ public class GeolocationPayload implements Serializable {
     }
 
     public GeolocationPayloadBuilder HomeMobileCountryCode(int newHomeMobileCountryCode) {
-      this._homeMobileCountryCode = new Integer(newHomeMobileCountryCode);
+      this._homeMobileCountryCode = newHomeMobileCountryCode;
       return this;
     }
 
     public GeolocationPayloadBuilder HomeMobileNetworkCode(int newHomeMobileNetworkCode) {
-      this._homeMobileNetworkCode = new Integer(newHomeMobileNetworkCode);
+      this._homeMobileNetworkCode = newHomeMobileNetworkCode;
       return this;
     }
 
@@ -130,7 +130,7 @@ public class GeolocationPayload implements Serializable {
     }
 
     public GeolocationPayloadBuilder ConsiderIp(boolean newConsiderIp) {
-      this._considerIp = new Boolean(newConsiderIp);
+      this._considerIp = newConsiderIp;
       return this;
     }
 

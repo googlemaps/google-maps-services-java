@@ -305,7 +305,6 @@ public class PlacesApiTest {
       assertEquals("en", review.language);
       assertNotNull(review.relativeTimeDescription);
       assertEquals("a month ago", review.relativeTimeDescription);
-      assertNotNull(review.rating);
       assertEquals(5, review.rating);
       assertNotNull(review.text);
       assertTrue(review.text.startsWith("As someone who works in the theatre,"));

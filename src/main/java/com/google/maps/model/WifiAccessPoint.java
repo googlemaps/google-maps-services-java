@@ -79,22 +79,22 @@ public class WifiAccessPoint implements Serializable {
     }
 
     public WifiAccessPointBuilder SignalStrength(int newSignalStrength) {
-      this._signalStrength = new Integer(newSignalStrength);
+      this._signalStrength = newSignalStrength;
       return this;
     }
 
     public WifiAccessPointBuilder Age(int newAge) {
-      this._age = new Integer(newAge);
+      this._age = newAge;
       return this;
     }
 
     public WifiAccessPointBuilder Channel(int newChannel) {
-      this._channel = new Integer(newChannel);
+      this._channel = newChannel;
       return this;
     }
 
     public WifiAccessPointBuilder SignalToNoiseRatio(int newSignalToNoiseRatio) {
-      this._signalToNoiseRatio = new Integer(newSignalToNoiseRatio);
+      this._signalToNoiseRatio = newSignalToNoiseRatio;
       return this;
     }
   }

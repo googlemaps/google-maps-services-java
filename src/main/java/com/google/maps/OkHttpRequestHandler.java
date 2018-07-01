@@ -63,7 +63,7 @@ public class OkHttpRequestHandler implements GeoApiContext.RequestHandler {
     Request req =
         new Request.Builder().get().header("User-Agent", userAgent).url(hostName + url).build();
 
-    return new OkHttpPendingResult<T, R>(
+    return new OkHttpPendingResult<>(
         req, client, clazz, fieldNamingPolicy, errorTimeout, maxRetries, exceptionsAllowedToRetry);
   }
 
@@ -86,7 +86,7 @@ public class OkHttpRequestHandler implements GeoApiContext.RequestHandler {
             .url(hostName + url)
             .build();
 
-    return new OkHttpPendingResult<T, R>(
+    return new OkHttpPendingResult<>(
         req, client, clazz, fieldNamingPolicy, errorTimeout, maxRetries, exceptionsAllowedToRetry);
   }
 
