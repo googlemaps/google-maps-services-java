@@ -39,8 +39,9 @@ public class DirectionsApi {
   private DirectionsApi() {}
 
   /**
-   * Creates a new DirectionsApiRequest using the given context, with all attributes
-   * at their default values.
+   * Creates a new DirectionsApiRequest using the given context, with all attributes at their
+   * default values.
+   *
    * @param context Context that the DirectionsApiRequest will be executed against
    * @return A newly constructed DirectionsApiRequest between the given points.
    */
@@ -49,8 +50,9 @@ public class DirectionsApi {
   }
 
   /**
-   * Creates a new DirectionsApiRequest between the given origin and destination, using
-   * the defaults for all other options.
+   * Creates a new DirectionsApiRequest between the given origin and destination, using the defaults
+   * for all other options.
+   *
    * @param context Context that the DirectionsApiRequest will be executed against
    * @param origin Origin address as text
    * @param destination Destination address as text
