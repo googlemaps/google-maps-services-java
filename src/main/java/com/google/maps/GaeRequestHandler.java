@@ -95,7 +95,7 @@ public class GaeRequestHandler implements GeoApiContext.RequestHandler {
 
   @Override
   public void shutdown() {
-    //do nothing
+    // do nothing
   }
 
   /** Builder strategy for constructing {@code GaeRequestHandler}. */

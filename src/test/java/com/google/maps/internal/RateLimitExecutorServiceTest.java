@@ -79,7 +79,7 @@ public class RateLimitExecutorServiceTest {
     }
     // Check that we executed every request
     // TODO(brettmorgan): figure out where we are losing requests
-    //assertEquals(100, countTotalRequests(executedTimestamps));
+    // assertEquals(100, countTotalRequests(executedTimestamps));
 
     service.shutdown();
   }
@@ -101,7 +101,7 @@ public class RateLimitExecutorServiceTest {
     assertTrue(
         "Delay thread should start in constructor of RateLimitExecutorService",
         delayThread.isAlive());
-    //this is needed to make sure that delay thread has reached queue.take()
+    // this is needed to make sure that delay thread has reached queue.take()
     delayThread.join(10);
     service.shutdown();
     delayThread.join(10);

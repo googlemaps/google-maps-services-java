@@ -74,7 +74,8 @@ public class DistanceMatrixApiTest {
       DistanceMatrix matrix =
           DistanceMatrixApi.getDistanceMatrix(sc.context, origins, destinations).await();
 
-      // Rows length will match the number of origin elements, regardless of whether they're routable.
+      // Rows length will match the number of origin elements, regardless of whether they're
+      // routable.
       assertEquals(8, matrix.rows.length);
       assertEquals(5, matrix.rows[0].elements.length);
       assertEquals(DistanceMatrixElementStatus.OK, matrix.rows[0].elements[0].status);
