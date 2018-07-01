@@ -269,8 +269,8 @@ public class GeoApiContextTest {
 
   @Test
   public void testToggleIfExceptionIsAllowedToRetry() throws Exception {
-    // Enqueue some error responses, although only the first should be used because the response's exception is not
-    // allowed to be retried.
+    // Enqueue some error responses, although only the first should be used because the response's
+    // exception is not allowed to be retried.
     MockResponse overQueryLimitResponse = new MockResponse();
     overQueryLimitResponse.setStatus("HTTP/1.1 400 Internal server error");
     overQueryLimitResponse.setBody(TestUtils.retrieveBody("OverQueryLimitResponse.json"));
@@ -307,7 +307,7 @@ public class GeoApiContextTest {
     assertTrue(
         "Delay thread should start in constructor of RateLimitExecutorService",
         delayThread.isAlive());
-    //this is needed to make sure that delay thread has reached queue.take()
+    // this is needed to make sure that delay thread has reached queue.take()
     delayThread.join(10);
     context.shutdown();
     delayThread.join(10);

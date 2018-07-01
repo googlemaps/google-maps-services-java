@@ -5,12 +5,13 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.0.0'
+        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.8.2'
     }
 }
 
 plugins {
-    id 'com.github.sherter.google-java-format' version '0.6'
+    id 'com.github.sherter.google-java-format' version '0.7.1'
+    id 'com.github.ben-manes.versions' version '0.20.0'
 }
 
 apply plugin: 'java'
@@ -43,18 +44,18 @@ artifacts {
 }
 
 dependencies {
-    compile 'com.google.code.gson:gson:2.8.1'
-    compile 'com.squareup.okhttp3:okhttp:3.8.1'
-    compile 'joda-time:joda-time:2.9.9'
-    compileOnly 'com.google.appengine:appengine-api-1.0-sdk:1.9.54'
-    compile 'org.slf4j:slf4j-api:1.7.25'
+    compileOnly 'com.google.appengine:appengine-api-1.0-sdk:1.9.64'
+    compile 'com.google.code.gson:gson:2.8.5'
+    compile 'com.squareup.okhttp3:okhttp:3.10.0'
+    compile 'joda-time:joda-time:2.10'
+    compile 'org.slf4j:slf4j-api:1.8.0-beta2'
     testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:1.10.19'
-    testCompile 'com.squareup.okhttp3:mockwebserver:3.8.1'
-    testCompile 'org.apache.httpcomponents:httpclient:4.5.3'
-    testCompile 'org.slf4j:slf4j-simple:1.7.25'
+    testCompile 'org.mockito:mockito-core:2.19.0'
+    testCompile 'com.squareup.okhttp3:mockwebserver:3.10.0'
+    testCompile 'org.apache.httpcomponents:httpclient:4.5.5'
+    testCompile 'org.slf4j:slf4j-simple:1.8.0-beta2'
     testCompile 'commons-lang:commons-lang:2.6'
-    testCompile 'org.json:json:20170516'
+    testCompile 'org.json:json:20180130'
 }
 
 task updateVersion(type: Copy) {

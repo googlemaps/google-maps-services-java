@@ -16,6 +16,7 @@
 package com.google.maps.model;
 
 import java.io.Serializable;
+
 /**
  * The parts of an address.
  *

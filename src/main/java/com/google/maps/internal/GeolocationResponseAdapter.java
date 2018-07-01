@@ -74,8 +74,8 @@ public class GeolocationResponseAdapter extends TypeAdapter<GeolocationApi.Respo
     reader.beginObject(); // opening {
     while (reader.hasNext()) {
       String name = reader.nextName();
-      // two different objects could be returned a success object containing "location" and "accuracy"
-      // keys or an error object containing an "error" key
+      // two different objects could be returned a success object containing "location" and
+      // "accuracy" keys or an error object containing an "error" key
       if (name.equals("location")) {
         // we already have a parser for the LatLng object so lets use that
         response.location = latLngAdapter.read(reader);
@@ -96,7 +96,8 @@ public class GeolocationResponseAdapter extends TypeAdapter<GeolocationApi.Respo
               reader.beginObject(); // ...and each error array element is an object...
               while (reader.hasNext()) {
                 errName = reader.nextName();
-                // ...with keys "reason", "domain", "debugInfo", "location", "locationType",  and "message" (again)
+                // ...with keys "reason", "domain", "debugInfo", "location", "locationType",  and
+                // "message" (again)
                 if (errName.equals("reason")) {
                   response.reason = reader.nextString();
                 } else if (errName.equals("domain")) {
