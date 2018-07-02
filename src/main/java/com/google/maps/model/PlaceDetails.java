@@ -186,7 +186,7 @@ public class PlaceDetails implements Serializable {
   public Review[] reviews;
 
   /** Feature types describing the given result. */
-  public String[] types;
+  public AddressType[] types;
 
   /**
    * The URL of the official Google page for this place. This will be the establishment's Google+
