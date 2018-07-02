@@ -61,6 +61,27 @@ public class WifiAccessPoint implements Serializable {
   /** The current signal to noise ratio measured in dB. */
   public Integer signalToNoiseRatio = null;
 
+  public String toString() {
+    StringBuilder sb = new StringBuilder("[WifiAccessPoint:");
+    if (macAddress != null) {
+      sb.append(" macAddress=").append(macAddress);
+    }
+    if (signalStrength != null) {
+      sb.append(" signalStrength=").append(signalStrength);
+    }
+    if (age != null) {
+      sb.append(" age=").append(age);
+    }
+    if (channel != null) {
+      sb.append(" channel=").append(channel);
+    }
+    if (signalToNoiseRatio != null) {
+      sb.append(" signalToNoiseRatio=").append(signalToNoiseRatio);
+    }
+    sb.append("]");
+    return sb.toString();
+  }
+
   public static class WifiAccessPointBuilder {
     private String _macAddress = null;
     private Integer _signalStrength = null;

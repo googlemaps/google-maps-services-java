@@ -42,4 +42,8 @@ public class SnappedPoint implements Serializable {
    * that road segment.
    */
   public String placeId;
+
+  public String toString() {
+    return String.format("[%s, placeId=%s, originalIndex=%s]", location, placeId, originalIndex);
+  }
 }

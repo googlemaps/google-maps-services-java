@@ -138,6 +138,7 @@ public class PlacesApiTest {
           PlacesApi.placeAutocomplete(sc.context, "1", session).await();
 
       assertNotNull(predictions);
+      assertNotNull(Arrays.toString(predictions));
       assertEquals(1, predictions.length);
       final AutocompletePrediction prediction = predictions[0];
       assertNotNull(prediction);
@@ -169,6 +170,7 @@ public class PlacesApiTest {
       sc.assertParamValue("place_id,name,types", "fields");
 
       assertNotNull(placeDetails);
+      assertNotNull(placeDetails.toString());
 
       // Address
       assertNotNull(placeDetails.addressComponents);
@@ -341,6 +343,7 @@ public class PlacesApiTest {
       PlaceDetails placeDetails =
           PlacesApi.placeDetails(sc.context, PERMANENTLY_CLOSED_PLACE_ID).await();
       assertNotNull(placeDetails);
+      assertNotNull(placeDetails.toString());
       assertTrue(placeDetails.permanentlyClosed);
     }
   }
@@ -350,6 +353,7 @@ public class PlacesApiTest {
     try (LocalTestServerContext sc = new LocalTestServerContext(quayResponseBody)) {
       PlaceDetails placeDetails = PlacesApi.placeDetails(sc.context, QUAY_PLACE_ID).await();
       assertNotNull(placeDetails);
+      assertNotNull(placeDetails.toString());
       assertNotNull(placeDetails.priceLevel);
       assertEquals(PriceLevel.VERY_EXPENSIVE, placeDetails.priceLevel);
       assertNotNull(placeDetails.photos);
@@ -392,6 +396,7 @@ public class PlacesApiTest {
 
       assertNotNull(predictions);
       assertEquals(predictions.length, 5);
+      assertNotNull(Arrays.toString(predictions));
 
       AutocompletePrediction prediction = predictions[0];
       assertNotNull(prediction);
@@ -419,6 +424,7 @@ public class PlacesApiTest {
 
       assertNotNull(predictions);
       assertEquals(predictions.length, 1);
+      assertNotNull(Arrays.toString(predictions));
 
       AutocompletePrediction prediction = predictions[0];
       assertNotNull(prediction);
@@ -484,6 +490,7 @@ public class PlacesApiTest {
       assertNotNull(results);
       assertNotNull(results.results);
       assertEquals(1, results.results.length);
+      assertNotNull(results.toString());
 
       PlacesSearchResult result = results.results[0];
       assertNotNull(result.formattedAddress);
@@ -532,6 +539,7 @@ public class PlacesApiTest {
     try (LocalTestServerContext sc = new LocalTestServerContext(textSearchPizzaInNYCbody)) {
       PlacesSearchResponse results =
           PlacesApi.textSearchQuery(sc.context, "Pizza in New York").await();
+      assertNotNull(results.toString());
       assertNotNull(results.nextPageToken);
       assertEquals(
           "CuQB1wAAANI17eHXt1HpqbLjkj7T5Ti69DEAClo02Qampg7Q6W_O_krFbge7hnTtDR7oVF3asex"
@@ -692,6 +700,7 @@ public class PlacesApiTest {
 
       sc.assertParamValue("Google Sydney", "query");
 
+      assertNotNull(response.toString());
       assertEquals(1, response.results.length);
       PlacesSearchResult result = response.results[0];
       assertEquals("5, 48 Pirrama Rd, Pyrmont NSW 2009, Australia", result.formattedAddress);
@@ -706,6 +715,7 @@ public class PlacesApiTest {
 
       sc.assertParamValue("ChIJN1t_tDeuEmsRUsoyG83frY4", "placeid");
 
+      assertNotNull(placeDetails.toString());
       assertEquals(10, placeDetails.photos.length);
       assertEquals(
           "CmRaAAAA-N3w5YTMXWautuDW7IZgX9knz_2fNyyUpCWpvYdVEVb8RurBiisMKvr7AFxMW8dsu2yakYoqjW-IYSFk2cylXVM_c50cCxfm7MlgjPErFxumlcW1bLNOe--SwLYmWlvkEhDxjz75xRqim-CkVlwFyp7sGhTs1fE02MZ6GQcc-TugrepSaeWapA",
@@ -723,6 +733,7 @@ public class PlacesApiTest {
 
       sc.assertParamValue("Pizza in New York", "query");
 
+      assertNotNull(response.toString());
       assertEquals(20, response.results.length);
       assertEquals(
           "CvQB6AAAAPQLwX6KjvGbOw81Y7aYVhXRlHR8M60aCRXFDM9eyflac4BjE5MaNxTj_1T429x3H2kzBd-ztTFXCSu1CPh3kY44Gu0gmL-xfnArnPE9-BgfqXTpgzGPZNeCltB7m341y4LnU-NE2omFPoDWIrOPIyHnyi05Qol9eP2wKW7XPUhMlHvyl9MeVgZ8COBZKvCdENHbhBD1MN1lWlada6A9GPFj06cCp1aqRGW6v98-IHcIcM9RcfMcS4dLAFm6TsgLq4tpeU6E1kSzhrvDiLMBXdJYFlI0qJmytd2wS3vD0t3zKgU6Im_mY-IJL7AwAqhugBIQ8k0X_n6TnacL9BExELBaixoUo8nPOwWm0Nx02haufF2dY0VL-tg",
@@ -739,6 +750,7 @@ public class PlacesApiTest {
       sc.assertParamValue("ChIJ442GNENu5kcRGYUrvgqHw88", "placeid");
       sc.assertParamValue("fr", "language");
 
+      assertNotNull(details.toString());
       assertEquals("ChIJ442GNENu5kcRGYUrvgqHw88", details.placeId);
       assertEquals(
           "35 Rue du Chevalier de la Barre, 75018 Paris, France", details.formattedAddress);
@@ -876,6 +888,7 @@ public class PlacesApiTest {
       sc.assertParamValue("(regions)", "types");
       sc.assertParamValue(session.toUrlValue(), "sessiontoken");
 
+      assertNotNull(Arrays.toString(predictions));
       assertEquals(5, predictions.length);
       for (AutocompletePrediction prediction : predictions) {
         for (int j = 0; j < prediction.types.length; j++) {

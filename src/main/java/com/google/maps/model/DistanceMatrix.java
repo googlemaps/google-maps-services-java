@@ -51,4 +51,10 @@ public class DistanceMatrix implements Serializable {
     this.destinationAddresses = destinationAddresses;
     this.rows = rows;
   }
+
+  public String toString() {
+    return String.format(
+        "DistanceMatrix: %d origins x %d destinations, %d rows",
+        originAddresses.length, destinationAddresses.length, rows.length);
+  }
 }

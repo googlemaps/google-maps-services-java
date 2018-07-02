@@ -16,6 +16,7 @@
 package com.google.maps.model;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import org.joda.time.LocalTime;
 
 /**
@@ -43,19 +44,29 @@ public class OpeningHours implements Serializable {
       private static final long serialVersionUID = 1L;
 
       public enum DayOfWeek {
-        SUNDAY,
-        MONDAY,
-        TUESDAY,
-        WEDNESDAY,
-        THURSDAY,
-        FRIDAY,
-        SATURDAY,
+        SUNDAY("Sunday"),
+        MONDAY("Monday"),
+        TUESDAY("Tuesday"),
+        WEDNESDAY("Wednesday"),
+        THURSDAY("Thursday"),
+        FRIDAY("Friday"),
+        SATURDAY("Saturday"),
 
         /**
          * Indicates an unknown day of week type returned by the server. The Java Client for Google
          * Maps Services should be updated to support the new value.
          */
-        UNKNOWN
+        UNKNOWN("Unknown");
+
+        private DayOfWeek(String name) {
+          this.name = name;
+        }
+
+        private final String name;
+
+        public String getName() {
+          return name;
+        }
       }
 
       /** Day that this Open/Close pair is for. */
@@ -63,6 +74,10 @@ public class OpeningHours implements Serializable {
 
       /** Time that this Open or Close happens at. */
       public LocalTime time;
+
+      public String toString() {
+        return String.format("%s %s", day, time);
+      }
     }
 
     /** When the Place opens. */
@@ -70,6 +85,10 @@ public class OpeningHours implements Serializable {
 
     /** When the Place closes. */
     public Period.OpenClose close;
+
+    public String toString() {
+      return String.format("%s - %s", open, close);
+    }
   }
 
   /** Opening periods covering seven days, starting from Sunday, in chronological order. */
@@ -87,4 +106,16 @@ public class OpeningHours implements Serializable {
    * <p>Note: this field will be null if it isn't present in the response.
    */
   public Boolean permanentlyClosed;
+
+  public String toString() {
+    StringBuilder sb = new StringBuilder("[OpeningHours:");
+    if (permanentlyClosed != null && permanentlyClosed) {
+      sb.append(" permanentlyClosed");
+    }
+    if (openNow != null && openNow) {
+      sb.append(" openNow");
+    }
+    sb.append(" ").append(Arrays.toString(periods));
+    return sb.toString();
+  }
 }

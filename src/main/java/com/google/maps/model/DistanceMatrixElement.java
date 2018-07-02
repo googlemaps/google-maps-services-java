@@ -56,4 +56,18 @@ public class DistanceMatrixElement implements Serializable {
 
   /** {@code fare} contains information about the fare (that is, the ticket costs) on this route. */
   public Fare fare;
+
+  public String toString() {
+    String str =
+        String.format(
+            "[DistanceMatrixElement %s distance=%s, duration=%s", status, distance, duration);
+    if (durationInTraffic != null) {
+      str = str + ", durationInTraffic=" + durationInTraffic;
+    }
+    if (fare != null) {
+      str = str + ", fare=" + fare;
+    }
+    str = str + "]";
+    return str;
+  }
 }

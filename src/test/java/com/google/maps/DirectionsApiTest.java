@@ -33,6 +33,7 @@ import com.google.maps.model.TransitRoutingPreference;
 import com.google.maps.model.TravelMode;
 import com.google.maps.model.Unit;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
@@ -62,11 +63,14 @@ public class DirectionsApiTest {
           DirectionsApi.getDirections(sc.context, "Sydney, AU", "Melbourne, AU").await();
 
       assertNotNull(result);
+      assertNotNull(result.toString(), "result.toString() succeeded");
       assertNotNull(result.geocodedWaypoints);
+      assertNotNull(Arrays.toString(result.geocodedWaypoints));
       assertEquals(2, result.geocodedWaypoints.length);
       assertEquals("ChIJP3Sa8ziYEmsRUKgyFmh9AQM", result.geocodedWaypoints[0].placeId);
       assertEquals("ChIJ90260rVG1moRkM2MIXVWBAQ", result.geocodedWaypoints[1].placeId);
       assertNotNull(result.routes);
+      assertNotNull(Arrays.toString(result.routes));
       assertEquals(1, result.routes.length);
       assertNotNull(result.routes[0]);
       assertEquals("M31 and National Highway M31", result.routes[0].summary);
@@ -357,6 +361,7 @@ public class DirectionsApiTest {
               .destination("182 Church St, Parramatta NSW 2150, Australia")
               .await();
 
+      assertNotNull(result.toString());
       assertNotNull(result.routes);
       assertNotNull(result.routes[0]);
 
@@ -411,6 +416,7 @@ public class DirectionsApiTest {
               .mode(TravelMode.DRIVING)
               .await();
 
+      assertNotNull(result.toString());
       assertNotNull(result.geocodedWaypoints);
       assertEquals(2, result.geocodedWaypoints.length);
       assertEquals(GeocodedWaypointStatus.OK, result.geocodedWaypoints[0].geocoderStatus);
