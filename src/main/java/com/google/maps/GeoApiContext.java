@@ -36,6 +36,15 @@ import java.util.concurrent.TimeUnit;
  * The entry point for making requests against the Google Geo APIs.
  *
  * <p>Construct this object by using the enclosed {@link GeoApiContext.Builder}.
+ *
+ * <h3>GeoApiContexts should be shared</h3>
+ *
+ * GeoApiContext works best when you create a single GeoApiContext instance, or one per API key, and
+ * reuse it for all your Google Geo API queries. This is because each GeoApiContext manages its own
+ * thread pool, back-end client, and other resources.
+ *
+ * <p>When you are finished with a GeoApiContext object, you must call {@link #shutdown()} on it to
+ * release its resources.
  */
 public class GeoApiContext {
 
@@ -127,6 +136,10 @@ public class GeoApiContext {
     }
   }
 
+  /**
+   * Shut down this GeoApiContext instance, reclaiming resources. After shutdown() has been called,
+   * no further queries may be done against this instance.
+   */
   public void shutdown() {
     requestHandler.shutdown();
   }
