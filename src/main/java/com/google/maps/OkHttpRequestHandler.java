@@ -92,6 +92,7 @@ public class OkHttpRequestHandler implements GeoApiContext.RequestHandler {
 
   public void shutdown() {
     executorService.shutdown();
+    client.connectionPool().evictAll();
   }
 
   /** Builder strategy for constructing an {@code OkHTTPRequestHandler}. */
