@@ -593,6 +593,7 @@ public class PlacesApiTest {
   }
 
   @Test
+  @SuppressWarnings("deprecation") // Testing a deprecated method
   public void testNearbySearchRequestWithMultipleType() throws Exception {
     try (LocalTestServerContext sc = new LocalTestServerContext("{\"status\" : \"OK\"}")) {
       LatLng location = new LatLng(10, 20);
@@ -969,17 +970,16 @@ public class PlacesApiTest {
 
       String input = "Museum of Contemporary Art Australia";
 
-      FindPlaceFromText response =
-          PlacesApi.findPlaceFromText(sc.context, input, InputType.TEXT_QUERY)
-              .fields(
-                  FindPlaceFromTextRequest.FieldMask.PHOTOS,
-                  FindPlaceFromTextRequest.FieldMask.FORMATTED_ADDRESS,
-                  FindPlaceFromTextRequest.FieldMask.NAME,
-                  FindPlaceFromTextRequest.FieldMask.RATING,
-                  FindPlaceFromTextRequest.FieldMask.OPENING_HOURS,
-                  FindPlaceFromTextRequest.FieldMask.GEOMETRY)
-              .locationBias(new LocationBiasPoint(new LatLng(1, 2)))
-              .await();
+      PlacesApi.findPlaceFromText(sc.context, input, InputType.TEXT_QUERY)
+          .fields(
+              FindPlaceFromTextRequest.FieldMask.PHOTOS,
+              FindPlaceFromTextRequest.FieldMask.FORMATTED_ADDRESS,
+              FindPlaceFromTextRequest.FieldMask.NAME,
+              FindPlaceFromTextRequest.FieldMask.RATING,
+              FindPlaceFromTextRequest.FieldMask.OPENING_HOURS,
+              FindPlaceFromTextRequest.FieldMask.GEOMETRY)
+          .locationBias(new LocationBiasPoint(new LatLng(1, 2)))
+          .await();
 
       sc.assertParamValue(input, "input");
       sc.assertParamValue("textquery", "inputtype");
@@ -995,17 +995,16 @@ public class PlacesApiTest {
 
       String input = "Museum of Contemporary Art Australia";
 
-      FindPlaceFromText response =
-          PlacesApi.findPlaceFromText(sc.context, input, InputType.TEXT_QUERY)
-              .fields(
-                  FindPlaceFromTextRequest.FieldMask.PHOTOS,
-                  FindPlaceFromTextRequest.FieldMask.FORMATTED_ADDRESS,
-                  FindPlaceFromTextRequest.FieldMask.NAME,
-                  FindPlaceFromTextRequest.FieldMask.RATING,
-                  FindPlaceFromTextRequest.FieldMask.OPENING_HOURS,
-                  FindPlaceFromTextRequest.FieldMask.GEOMETRY)
-              .locationBias(new LocationBiasCircular(new LatLng(1, 2), 3000))
-              .await();
+      PlacesApi.findPlaceFromText(sc.context, input, InputType.TEXT_QUERY)
+          .fields(
+              FindPlaceFromTextRequest.FieldMask.PHOTOS,
+              FindPlaceFromTextRequest.FieldMask.FORMATTED_ADDRESS,
+              FindPlaceFromTextRequest.FieldMask.NAME,
+              FindPlaceFromTextRequest.FieldMask.RATING,
+              FindPlaceFromTextRequest.FieldMask.OPENING_HOURS,
+              FindPlaceFromTextRequest.FieldMask.GEOMETRY)
+          .locationBias(new LocationBiasCircular(new LatLng(1, 2), 3000))
+          .await();
 
       sc.assertParamValue(input, "input");
       sc.assertParamValue("textquery", "inputtype");
@@ -1021,17 +1020,16 @@ public class PlacesApiTest {
 
       String input = "Museum of Contemporary Art Australia";
 
-      FindPlaceFromText response =
-          PlacesApi.findPlaceFromText(sc.context, input, InputType.TEXT_QUERY)
-              .fields(
-                  FindPlaceFromTextRequest.FieldMask.PHOTOS,
-                  FindPlaceFromTextRequest.FieldMask.FORMATTED_ADDRESS,
-                  FindPlaceFromTextRequest.FieldMask.NAME,
-                  FindPlaceFromTextRequest.FieldMask.RATING,
-                  FindPlaceFromTextRequest.FieldMask.OPENING_HOURS,
-                  FindPlaceFromTextRequest.FieldMask.GEOMETRY)
-              .locationBias(new LocationBiasRectangular(new LatLng(1, 2), new LatLng(3, 4)))
-              .await();
+      PlacesApi.findPlaceFromText(sc.context, input, InputType.TEXT_QUERY)
+          .fields(
+              FindPlaceFromTextRequest.FieldMask.PHOTOS,
+              FindPlaceFromTextRequest.FieldMask.FORMATTED_ADDRESS,
+              FindPlaceFromTextRequest.FieldMask.NAME,
+              FindPlaceFromTextRequest.FieldMask.RATING,
+              FindPlaceFromTextRequest.FieldMask.OPENING_HOURS,
+              FindPlaceFromTextRequest.FieldMask.GEOMETRY)
+          .locationBias(new LocationBiasRectangular(new LatLng(1, 2), new LatLng(3, 4)))
+          .await();
 
       sc.assertParamValue(input, "input");
       sc.assertParamValue("textquery", "inputtype");
