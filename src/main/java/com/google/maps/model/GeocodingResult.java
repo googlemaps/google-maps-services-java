@@ -16,6 +16,7 @@
 package com.google.maps.model;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 /** A result from a Geocoding API call. */
 public class GeocodingResult implements Serializable {
@@ -74,4 +75,21 @@ public class GeocodingResult implements Serializable {
 
   /** The Plus Code identifier for this place. */
   public PlusCode plusCode;
+
+  public String toString() {
+    StringBuilder sb = new StringBuilder("[GeocodingResult");
+    if (partialMatch) {
+      sb.append(" PARTIAL MATCH");
+    }
+    sb.append(" placeId=").append(placeId);
+    sb.append(" ").append(geometry);
+    sb.append(", formattedAddress=").append(formattedAddress);
+    sb.append(", types=").append(Arrays.toString(types));
+    sb.append(", addressComponents=").append(Arrays.toString(addressComponents));
+    if (postcodeLocalities != null && postcodeLocalities.length > 0) {
+      sb.append(", postcodeLocalities=").append(Arrays.toString(postcodeLocalities));
+    }
+    sb.append("]");
+    return sb.toString();
+  }
 }

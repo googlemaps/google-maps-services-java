@@ -15,6 +15,8 @@
 
 package com.google.maps.internal;
 
+import java.util.Objects;
+
 /** Utility class to join strings. */
 public class StringJoin {
 
@@ -30,12 +32,31 @@ public class StringJoin {
   private StringJoin() {}
 
   public static String join(char delim, String... parts) {
+    return join(new String(new char[] {delim}), parts);
+  }
+
+  public static String join(CharSequence delim, String... parts) {
     StringBuilder result = new StringBuilder();
     for (int i = 0; i < parts.length; i++) {
       if (i != 0) {
         result.append(delim);
       }
       result.append(parts[i]);
+    }
+    return result.toString();
+  }
+
+  public static String join(char delim, Object... parts) {
+    return join(new String(new char[] {delim}), parts);
+  }
+
+  public static String join(CharSequence delim, Object... parts) {
+    StringBuilder result = new StringBuilder();
+    for (int i = 0; i < parts.length; i++) {
+      if (i != 0) {
+        result.append(delim);
+      }
+      result.append(Objects.toString(parts[i]));
     }
     return result.toString();
   }

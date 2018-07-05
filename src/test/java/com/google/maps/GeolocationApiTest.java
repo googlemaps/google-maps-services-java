@@ -88,6 +88,8 @@ public class GeolocationApiTest {
               .CreatePayload()
               .await();
 
+      assertNotNull(result.toString());
+
       JSONObject body = sc.requestBody();
       assertEquals(false, body.get("considerIp"));
       assertEquals(310, body.get("homeMobileCountryCode"));
@@ -116,6 +118,8 @@ public class GeolocationApiTest {
                       .createWifiAccessPoint())
               .CreatePayload()
               .await();
+
+      assertNotNull(result.toString());
 
       JSONObject body = sc.requestBody();
       assertEquals(false, body.get("considerIp"));
@@ -148,6 +152,8 @@ public class GeolocationApiTest {
                       .createWifiAccessPoint())
               .CreatePayload()
               .await();
+
+      assertNotNull(result.toString());
 
       JSONObject body = sc.requestBody();
       assertEquals(false, body.get("considerIp"));
@@ -185,6 +191,8 @@ public class GeolocationApiTest {
               .WifiAccessPoints(wifiAccessPoints)
               .CreatePayload()
               .await();
+
+      assertNotNull(result.toString());
 
       JSONObject body = sc.requestBody();
       assertEquals(false, body.get("considerIp"));
@@ -228,6 +236,8 @@ public class GeolocationApiTest {
               .CreatePayload()
               .await();
 
+      assertNotNull(result.toString());
+
       JSONObject body = sc.requestBody();
       assertEquals(false, body.get("considerIp"));
       assertEquals(310, body.get("homeMobileCountryCode"));
@@ -269,6 +279,8 @@ public class GeolocationApiTest {
               .CreatePayload()
               .await();
 
+      assertNotNull(result.toString());
+
       JSONObject body = sc.requestBody();
       assertEquals(false, body.get("considerIp"));
       JSONObject cellTower = body.getJSONArray("cellTowers").getJSONObject(0);
@@ -299,6 +311,7 @@ public class GeolocationApiTest {
               .createGeolocationPayload();
 
       GeolocationResult result = GeolocationApi.geolocate(sc.context, payload).await();
+      assertNotNull(result.toString());
       JSONObject body = sc.requestBody();
       assertEquals(false, body.get("considerIp"));
       JSONObject cellTower = body.getJSONArray("cellTowers").getJSONObject(0);
@@ -335,6 +348,8 @@ public class GeolocationApiTest {
               .CreatePayload()
               .await();
 
+      assertNotNull(result.toString());
+
       JSONObject body = sc.requestBody();
       assertEquals(false, body.get("considerIp"));
       assertEquals(310, body.get("homeMobileCountryCode"));
@@ -363,6 +378,7 @@ public class GeolocationApiTest {
 
       GeolocationResult result = GeolocationApi.geolocate(sc.context, payload).await();
       assertNotNull(result);
+      assertNotNull(result.toString());
       assertNotNull(result.location);
     }
   }
@@ -373,6 +389,7 @@ public class GeolocationApiTest {
       GeolocationResult result = GeolocationApi.newRequest(sc.context).CreatePayload().await();
 
       assertNotNull(result);
+      assertNotNull(result.toString());
       assertNotNull(result.location);
     }
   }

@@ -27,4 +27,16 @@ public class SnappedSpeedLimitResponse implements Serializable {
 
   /** Snap-to-road results. */
   public SnappedPoint[] snappedPoints;
+
+  public String toString() {
+    StringBuilder sb = new StringBuilder("[SnappedSpeedLimitResponse:");
+    if (speedLimits != null && speedLimits.length > 0) {
+      sb.append(" ").append(speedLimits.length).append(" speedLimits");
+    }
+    if (snappedPoints != null && snappedPoints.length > 0) {
+      sb.append(" ").append(snappedPoints.length).append(" speedLimits");
+    }
+    sb.append("]");
+    return sb.toString();
+  }
 }

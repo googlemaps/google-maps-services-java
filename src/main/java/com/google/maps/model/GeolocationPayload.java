@@ -15,8 +15,11 @@
 
 package com.google.maps.model;
 
+import static com.google.maps.internal.StringJoin.join;
+
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -75,6 +78,33 @@ public class GeolocationPayload implements Serializable {
   public CellTower[] cellTowers;
   /** An array of WiFi access point objects. See {@link com.google.maps.model.WifiAccessPoint}. */
   public WifiAccessPoint[] wifiAccessPoints;
+
+  public String toString() {
+    StringBuilder sb = new StringBuilder("[GeolocationPayload");
+    List<String> elements = new ArrayList<>();
+    if (homeMobileCountryCode != null) {
+      elements.add("homeMobileCountryCode=" + homeMobileCountryCode);
+    }
+    if (homeMobileNetworkCode != null) {
+      elements.add("homeMobileNetworkCode=" + homeMobileNetworkCode);
+    }
+    if (radioType != null) {
+      elements.add("radioType=" + radioType);
+    }
+    if (carrier != null) {
+      elements.add("carrier=" + carrier);
+    }
+    elements.add("considerIp=" + considerIp);
+    if (cellTowers != null && cellTowers.length > 0) {
+      elements.add("cellTowers=" + Arrays.toString(cellTowers));
+    }
+    if (wifiAccessPoints != null && wifiAccessPoints.length > 0) {
+      elements.add("wifiAccessPoints=" + Arrays.toString(wifiAccessPoints));
+    }
+    sb.append(join(", ", elements));
+    sb.append("]");
+    return sb.toString();
+  }
 
   public static class GeolocationPayloadBuilder {
     private Integer _homeMobileCountryCode = null;
