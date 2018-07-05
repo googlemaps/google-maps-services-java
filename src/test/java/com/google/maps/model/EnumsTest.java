@@ -51,6 +51,7 @@ public class EnumsTest {
     m.put(AddressType.INTERSECTION, "intersection");
     m.put(AddressType.POLITICAL, "political");
     m.put(AddressType.COUNTRY, "country");
+    m.put(AddressType.CONTINENT, "continent");
     m.put(AddressType.ADMINISTRATIVE_AREA_LEVEL_1, "administrative_area_level_1");
     m.put(AddressType.ADMINISTRATIVE_AREA_LEVEL_2, "administrative_area_level_2");
     m.put(AddressType.ADMINISTRATIVE_AREA_LEVEL_3, "administrative_area_level_3");
@@ -204,6 +205,7 @@ public class EnumsTest {
     m.put(AddressComponentType.INTERSECTION, "intersection");
     m.put(AddressComponentType.POLITICAL, "political");
     m.put(AddressComponentType.COUNTRY, "country");
+    m.put(AddressComponentType.CONTINENT, "continent");
     m.put(AddressComponentType.ADMINISTRATIVE_AREA_LEVEL_1, "administrative_area_level_1");
     m.put(AddressComponentType.ADMINISTRATIVE_AREA_LEVEL_2, "administrative_area_level_2");
     m.put(AddressComponentType.ADMINISTRATIVE_AREA_LEVEL_3, "administrative_area_level_3");

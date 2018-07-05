@@ -47,6 +47,9 @@ public enum AddressType implements UrlValue {
   /** A major intersection, usually of two major roads. */
   INTERSECTION("intersection"),
 
+  /** A continent. */
+  CONTINENT("continent"),
+
   /** A political entity. Usually, this type indicates a polygon of some civil administration. */
   POLITICAL("political"),
 
