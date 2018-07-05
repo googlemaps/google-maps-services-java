@@ -154,6 +154,18 @@ public class OkHttpRequestHandler implements GeoApiContext.RequestHandler {
           });
     }
 
+    /**
+     * Gets a reference to the OkHttpClient.Builder used to build the OkHttpRequestHandler's
+     * internal OkHttpClient. This allows you to fully customize the OkHttpClient that the resulting
+     * OkHttpRequestHandler will make HTTP requests through.
+     *
+     * @return OkHttpClient.Builder that will produce the OkHttpClient used by the
+     *     OkHttpRequestHandler built by this.
+     */
+    public OkHttpClient.Builder okHttpClientBuilder() {
+      return builder;
+    }
+
     @Override
     public RequestHandler build() {
       OkHttpClient client = builder.build();
