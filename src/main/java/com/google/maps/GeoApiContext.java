@@ -120,17 +120,17 @@ public class GeoApiContext {
     /** Builder pattern for {@code GeoApiContext.RequestHandler}. */
     interface Builder {
 
-      void connectTimeout(long timeout, TimeUnit unit);
+      Builder connectTimeout(long timeout, TimeUnit unit);
 
-      void readTimeout(long timeout, TimeUnit unit);
+      Builder readTimeout(long timeout, TimeUnit unit);
 
-      void writeTimeout(long timeout, TimeUnit unit);
+      Builder writeTimeout(long timeout, TimeUnit unit);
 
-      void queriesPerSecond(int maxQps);
+      Builder queriesPerSecond(int maxQps);
 
-      void proxy(Proxy proxy);
+      Builder proxy(Proxy proxy);
 
-      void proxyAuthentication(String proxyUserName, String proxyUserPassword);
+      Builder proxyAuthentication(String proxyUserName, String proxyUserPassword);
 
       RequestHandler build();
     }

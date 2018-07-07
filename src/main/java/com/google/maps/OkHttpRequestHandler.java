@@ -109,34 +109,39 @@ public class OkHttpRequestHandler implements GeoApiContext.RequestHandler {
     }
 
     @Override
-    public void connectTimeout(long timeout, TimeUnit unit) {
+    public Builder connectTimeout(long timeout, TimeUnit unit) {
       builder.connectTimeout(timeout, unit);
+      return this;
     }
 
     @Override
-    public void readTimeout(long timeout, TimeUnit unit) {
+    public Builder readTimeout(long timeout, TimeUnit unit) {
       builder.readTimeout(timeout, unit);
+      return this;
     }
 
     @Override
-    public void writeTimeout(long timeout, TimeUnit unit) {
+    public Builder writeTimeout(long timeout, TimeUnit unit) {
       builder.writeTimeout(timeout, unit);
+      return this;
     }
 
     @Override
-    public void queriesPerSecond(int maxQps) {
+    public Builder queriesPerSecond(int maxQps) {
       dispatcher.setMaxRequests(maxQps);
       dispatcher.setMaxRequestsPerHost(maxQps);
       rateLimitExecutorService.setQueriesPerSecond(maxQps);
+      return this;
     }
 
     @Override
-    public void proxy(Proxy proxy) {
+    public Builder proxy(Proxy proxy) {
       builder.proxy(proxy);
+      return this;
     }
 
     @Override
-    public void proxyAuthentication(String proxyUserName, String proxyUserPassword) {
+    public Builder proxyAuthentication(String proxyUserName, String proxyUserPassword) {
       final String userName = proxyUserName;
       final String password = proxyUserPassword;
 
@@ -152,6 +157,7 @@ public class OkHttpRequestHandler implements GeoApiContext.RequestHandler {
                   .build();
             }
           });
+      return this;
     }
 
     /**
