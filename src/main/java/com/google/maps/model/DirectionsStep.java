@@ -92,7 +92,9 @@ public class DirectionsStep implements Serializable {
     sb.append(" ").append(travelMode);
     sb.append(", duration=").append(duration);
     sb.append(", distance=").append(distance);
-    sb.append(", ").append(steps.length).append(" steps");
+    if (steps != null && steps.length > 0) {
+      sb.append(", ").append(steps.length).append(" substeps");
+    }
     if (transitDetails != null) {
       sb.append(", transitDetails=").append(transitDetails);
     }
