@@ -76,9 +76,6 @@ public class PlacesApiTest {
   private final String placesApiNearbySearchRequestByKeyword;
   private final String placesApiNearbySearchRequestByName;
   private final String placesApiNearbySearchRequestByType;
-  private final String placesApiRadarSearchRequestByKeyword;
-  private final String placesApiRadarSearchRequestByName;
-  private final String placesApiRadarSearchRequestByType;
   private final String placesApiPlaceAutocomplete;
   private final String placesApiPlaceAutocompleteWithType;
   private final String placesApiKitaWard;
@@ -106,12 +103,6 @@ public class PlacesApiTest {
         retrieveBody("PlacesApiNearbySearchRequestByNameResponse.json");
     placesApiNearbySearchRequestByType =
         retrieveBody("PlacesApiNearbySearchRequestByTypeResponse.json");
-    placesApiRadarSearchRequestByKeyword =
-        retrieveBody("PlacesApiRadarSearchRequestByKeywordResponse.json");
-    placesApiRadarSearchRequestByName =
-        retrieveBody("PlacesApiRadarSearchRequestByNameResponse.json");
-    placesApiRadarSearchRequestByType =
-        retrieveBody("PlacesApiRadarSearchRequestByTypeResponse.json");
     placesApiPlaceAutocomplete = retrieveBody("PlacesApiPlaceAutocompleteResponse.json");
     placesApiPlaceAutocompleteWithType =
         retrieveBody("PlacesApiPlaceAutocompleteWithTypeResponse.json");
@@ -634,42 +625,6 @@ public class PlacesApiTest {
   }
 
   @Test
-  @SuppressWarnings("deprecation") // radarSearchQuery still supported until 6/30/2018
-  public void testRadarSearchRequest() throws Exception {
-    try (LocalTestServerContext sc = new LocalTestServerContext("{\"status\" : \"OK\"}")) {
-      LatLng location = new LatLng(10, 20);
-      PlacesApi.radarSearchQuery(sc.context, location, 5000)
-          .keyword("keyword")
-          .language("en")
-          .minPrice(PriceLevel.INEXPENSIVE)
-          .maxPrice(PriceLevel.EXPENSIVE)
-          .name("name")
-          .openNow(true)
-          .type(PlaceType.AIRPORT)
-          .await();
-
-      sc.assertParamValue(location.toUrlValue(), "location");
-      sc.assertParamValue("5000", "radius");
-      sc.assertParamValue("keyword", "keyword");
-      sc.assertParamValue("en", "language");
-      sc.assertParamValue(PriceLevel.INEXPENSIVE.toString(), "minprice");
-      sc.assertParamValue(PriceLevel.EXPENSIVE.toString(), "maxprice");
-      sc.assertParamValue("name", "name");
-      sc.assertParamValue("true", "opennow");
-      sc.assertParamValue(PlaceType.AIRPORT.toString(), "type");
-    }
-  }
-
-  @Test(expected = IllegalArgumentException.class)
-  @SuppressWarnings("deprecation") // radarSearchQuery still supported until 6/30/2018
-  public void testRadarSearchLocationWithoutKeywordNameOrType() throws Exception {
-    try (LocalTestServerContext sc = new LocalTestServerContext("")) {
-      LatLng location = new LatLng(10, 20);
-      PlacesApi.radarSearchQuery(sc.context, location, 5000).await();
-    }
-  }
-
-  @Test
   public void testPlaceAutocompleteRequest() throws Exception {
     try (LocalTestServerContext sc = new LocalTestServerContext("{\"status\" : \"OK\"}")) {
       SessionToken session = new SessionToken();
@@ -803,57 +758,6 @@ public class PlacesApiTest {
       sc.assertParamValue(PlaceType.BAR.toUrlValue(), "type");
 
       assertEquals(20, response.results.length);
-    }
-  }
-
-  @Test
-  @SuppressWarnings("deprecation") // radarSearchQuery still supported until 6/30/2018
-  public void testRadarSearchRequestByKeyword() throws Exception {
-    try (LocalTestServerContext sc =
-        new LocalTestServerContext(placesApiRadarSearchRequestByKeyword)) {
-      PlacesSearchResponse response =
-          PlacesApi.radarSearchQuery(sc.context, SYDNEY, 10000).keyword("pub").await();
-
-      sc.assertParamValue(SYDNEY.toUrlValue(), "location");
-      sc.assertParamValue("10000", "radius");
-      sc.assertParamValue("pub", "keyword");
-
-      assertTrue(100 < response.results.length);
-    }
-  }
-
-  @Test
-  @SuppressWarnings("deprecation") // radarSearchQuery still supported until 6/30/2018
-  public void testRadarSearchRequestByName() throws Exception {
-    try (LocalTestServerContext sc =
-        new LocalTestServerContext(placesApiRadarSearchRequestByName)) {
-      PlacesSearchResponse response =
-          PlacesApi.radarSearchQuery(sc.context, SYDNEY, 10000).name("Sydney Town Hall").await();
-
-      sc.assertParamValue("Sydney Town Hall", "name");
-      sc.assertParamValue("10000", "radius");
-      sc.assertParamValue(SYDNEY.toUrlValue(), "location");
-
-      assertEquals("ChIJhSxoJzyuEmsR9gBDBR09ZrE", response.results[0].placeId);
-      assertEquals(-33.8731575, response.results[0].geometry.location.lat, 0.001);
-      assertEquals(151.2061157, response.results[0].geometry.location.lng, 0.001);
-      assertEquals(125, response.results.length);
-    }
-  }
-
-  @Test
-  @SuppressWarnings("deprecation") // radarSearchQuery still supported until 6/30/2018
-  public void testRadarSearchRequestByType() throws Exception {
-    try (LocalTestServerContext sc =
-        new LocalTestServerContext(placesApiRadarSearchRequestByType)) {
-      PlacesSearchResponse response =
-          PlacesApi.radarSearchQuery(sc.context, SYDNEY, 10000).type(PlaceType.BAR).await();
-
-      sc.assertParamValue(SYDNEY.toUrlValue(), "location");
-      sc.assertParamValue(PlaceType.BAR.toUrlValue(), "type");
-      sc.assertParamValue("10000", "radius");
-
-      assertEquals(197, response.results.length);
     }
   }
 

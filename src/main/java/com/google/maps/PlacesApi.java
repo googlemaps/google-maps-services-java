@@ -89,27 +89,6 @@ public class PlacesApi {
   }
 
   /**
-   * Performs a radar search for up to 200 places, but with less detail than is returned from Text
-   * Search or Nearby Search.
-   *
-   * @deprecated This functionality is deprecated and will stop working on June 30, 2018.
-   * @see <a
-   *     href="https://maps-apis.googleblog.com/2017/06/announcing-deprecation-of-place-add.html">Removing
-   *     Place Add, Delete &amp; Radar Search features</a>
-   * @param context The context on which to make Geo API requests.
-   * @param location The location around which to retrieve place information.
-   * @param radius The distance in meters within which to return place results.
-   * @return Returns a RadarSearchRequest that can be configured and executed.
-   */
-  public static RadarSearchRequest radarSearchQuery(
-      GeoApiContext context, LatLng location, int radius) {
-    RadarSearchRequest request = new RadarSearchRequest(context);
-    request.location(location);
-    request.radius(radius);
-    return request;
-  }
-
-  /**
    * Requests the details of a Place.
    *
    * <p>We are only enabling looking up Places by placeId as the older Place identifier, reference,
