@@ -211,7 +211,7 @@ public class DirectionsApiTest {
    * http://maps.googleapis.com/maps/api/directions/json?origin=Boston,MA&destination=Concord,MA&waypoints=Charlestown,MA|Lexington,MA}
    */
   @Test
-  public void testBostonToConcordViaCharlestownAndLexignton() throws Exception {
+  public void testBostonToConcordViaCharlestownAndLexington() throws Exception {
     try (LocalTestServerContext sc =
         new LocalTestServerContext("{\"routes\": [{}],\"status\": \"OK\"}")) {
       DirectionsApi.newRequest(sc.context)
@@ -234,7 +234,7 @@ public class DirectionsApiTest {
    * http://maps.googleapis.com/maps/api/directions/json?origin=Boston,MA&destination=Concord,MA&waypoints=42.379322,-71.063384|42.444303,-71.229087}
    */
   @Test
-  public void testBostonToConcordViaCharlestownAndLexigntonLatLng() throws Exception {
+  public void testBostonToConcordViaCharlestownAndLexingtonLatLng() throws Exception {
     try (LocalTestServerContext sc =
         new LocalTestServerContext("{\"routes\": [{}],\"status\": \"OK\"}")) {
       DirectionsApi.newRequest(sc.context)
