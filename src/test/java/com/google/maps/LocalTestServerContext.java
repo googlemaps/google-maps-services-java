@@ -54,7 +54,7 @@ public class LocalTestServerContext implements AutoCloseable {
     this.context =
         new GeoApiContext.Builder()
             .apiKey("AIzaFakeKey")
-            .baseUrlForTesting("http://127.0.0.1:" + server.getPort())
+            .baseUrlOverride("http://127.0.0.1:" + server.getPort())
             .build();
   }
 
@@ -69,7 +69,7 @@ public class LocalTestServerContext implements AutoCloseable {
     this.context =
         new GeoApiContext.Builder()
             .apiKey("AIzaFakeKey")
-            .baseUrlForTesting("http://127.0.0.1:" + server.getPort())
+            .baseUrlOverride("http://127.0.0.1:" + server.getPort())
             .build();
   }
 
