@@ -325,12 +325,13 @@ public class DirectionsApiTest {
   public void testLanguageParameter() throws Exception {
     try (LocalTestServerContext sc =
         new LocalTestServerContext("{\"routes\": [{}],\"status\": \"OK\"}")) {
-      DirectionsResult result = DirectionsApi.newRequest(sc.context)
-          .origin("Toledo")
-          .destination("Madrid")
-          .region("es")
-          .language("es")
-          .await();
+      DirectionsResult result =
+          DirectionsApi.newRequest(sc.context)
+              .origin("Toledo")
+              .destination("Madrid")
+              .region("es")
+              .language("es")
+              .await();
 
       sc.assertParamValue("Toledo", "origin");
       sc.assertParamValue("Madrid", "destination");
@@ -346,13 +347,14 @@ public class DirectionsApiTest {
   public void testTrafficModel() throws Exception {
     try (LocalTestServerContext sc =
         new LocalTestServerContext("{\"routes\": [{}],\"status\": \"OK\"}")) {
-      DirectionsResult result = DirectionsApi.newRequest(sc.context)
-          .origin("48 Pirrama Road, Pyrmont NSW 2009")
-          .destination("182 Church St, Parramatta NSW 2150")
-          .mode(TravelMode.DRIVING)
-          .departureTime(new DateTime().plus(Duration.standardMinutes(2)))
-          .trafficModel(TrafficModel.PESSIMISTIC)
-          .await();
+      DirectionsResult result =
+          DirectionsApi.newRequest(sc.context)
+              .origin("48 Pirrama Road, Pyrmont NSW 2009")
+              .destination("182 Church St, Parramatta NSW 2150")
+              .mode(TravelMode.DRIVING)
+              .departureTime(new DateTime().plus(Duration.standardMinutes(2)))
+              .trafficModel(TrafficModel.PESSIMISTIC)
+              .await();
 
       sc.assertParamValue("48 Pirrama Road, Pyrmont NSW 2009", "origin");
       sc.assertParamValue("182 Church St, Parramatta NSW 2150", "destination");
@@ -368,11 +370,12 @@ public class DirectionsApiTest {
   public void testTransitWithoutSpecifyingTime() throws Exception {
     try (LocalTestServerContext sc =
         new LocalTestServerContext("{\"routes\": [{}],\"status\": \"OK\"}")) {
-      DirectionsResult result = DirectionsApi.newRequest(sc.context)
-          .origin("Fisherman's Wharf, San Francisco")
-          .destination("Union Square, San Francisco")
-          .mode(TravelMode.TRANSIT)
-          .await();
+      DirectionsResult result =
+          DirectionsApi.newRequest(sc.context)
+              .origin("Fisherman's Wharf, San Francisco")
+              .destination("Union Square, San Francisco")
+              .mode(TravelMode.TRANSIT)
+              .await();
 
       sc.assertParamValue("Fisherman's Wharf, San Francisco", "origin");
       sc.assertParamValue("Union Square, San Francisco", "destination");
@@ -387,13 +390,14 @@ public class DirectionsApiTest {
   public void testTransitParams() throws Exception {
     try (LocalTestServerContext sc =
         new LocalTestServerContext("{\"routes\": [{}],\"status\": \"OK\"}")) {
-      DirectionsResult result = DirectionsApi.newRequest(sc.context)
-          .origin("Fisherman's Wharf, San Francisco")
-          .destination("Union Square, San Francisco")
-          .mode(TravelMode.TRANSIT)
-          .transitMode(TransitMode.BUS, TransitMode.TRAM)
-          .transitRoutingPreference(TransitRoutingPreference.LESS_WALKING)
-          .await();
+      DirectionsResult result =
+          DirectionsApi.newRequest(sc.context)
+              .origin("Fisherman's Wharf, San Francisco")
+              .destination("Union Square, San Francisco")
+              .mode(TravelMode.TRANSIT)
+              .transitMode(TransitMode.BUS, TransitMode.TRAM)
+              .transitRoutingPreference(TransitRoutingPreference.LESS_WALKING)
+              .await();
 
       sc.assertParamValue("Fisherman's Wharf, San Francisco", "origin");
       sc.assertParamValue("Union Square, San Francisco", "destination");
@@ -494,13 +498,14 @@ public class DirectionsApiTest {
       List<LatLng> waypoints = getOptimizationWaypoints();
       LatLng origin = waypoints.get(0);
       LatLng destination = waypoints.get(1);
-      DirectionsResult result = DirectionsApi.newRequest(sc.context)
-          .origin(origin)
-          .destination(destination)
-          .departureTime(Instant.now())
-          .optimizeWaypoints(true)
-          .waypoints(waypoints.subList(2, waypoints.size()).toArray(new LatLng[0]))
-          .await();
+      DirectionsResult result =
+          DirectionsApi.newRequest(sc.context)
+              .origin(origin)
+              .destination(destination)
+              .departureTime(Instant.now())
+              .optimizeWaypoints(true)
+              .waypoints(waypoints.subList(2, waypoints.size()).toArray(new LatLng[0]))
+              .await();
 
       sc.assertParamValue(origin.toUrlValue(), "origin");
       sc.assertParamValue(destination.toUrlValue(), "destination");
@@ -527,13 +532,14 @@ public class DirectionsApiTest {
       List<LatLng> waypoints = getOptimizationWaypoints();
       LatLng origin = waypoints.get(0);
       LatLng destination = waypoints.get(1);
-      DirectionsResult result = DirectionsApi.newRequest(sc.context)
-          .origin(origin)
-          .destination(destination)
-          .departureTime(Instant.now())
-          .waypoints(waypoints.subList(2, waypoints.size()).toArray(new LatLng[0]))
-          .optimizeWaypoints(true)
-          .await();
+      DirectionsResult result =
+          DirectionsApi.newRequest(sc.context)
+              .origin(origin)
+              .destination(destination)
+              .departureTime(Instant.now())
+              .waypoints(waypoints.subList(2, waypoints.size()).toArray(new LatLng[0]))
+              .optimizeWaypoints(true)
+              .await();
 
       sc.assertParamValue(origin.toUrlValue(), "origin");
       sc.assertParamValue(destination.toUrlValue(), "destination");
