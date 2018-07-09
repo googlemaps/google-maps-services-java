@@ -211,7 +211,7 @@ public class DirectionsApiTest {
    * http://maps.googleapis.com/maps/api/directions/json?origin=Boston,MA&destination=Concord,MA&waypoints=Charlestown,MA|Lexington,MA}
    */
   @Test
-  public void testBostonToConcordViaCharlestownAndLexignton() throws Exception {
+  public void testBostonToConcordViaCharlestownAndLexington() throws Exception {
     try (LocalTestServerContext sc =
         new LocalTestServerContext("{\"routes\": [{}],\"status\": \"OK\"}")) {
       DirectionsApi.newRequest(sc.context)
@@ -227,6 +227,30 @@ public class DirectionsApiTest {
   }
 
   /**
+   * Boston to Concord, via Charlestown and Lexington, using non-stopover waypoints.
+   *
+   * <p>{@code
+   * http://maps.googleapis.com/maps/api/directions/json?origin=Boston,MA&destination=Concord,MA&waypoints=via:Charlestown,MA|via:Lexington,MA}
+   */
+  @Test
+  public void testBostonToConcordViaCharlestownAndLexingtonNonStopover() throws Exception {
+    try (LocalTestServerContext sc =
+        new LocalTestServerContext("{\"routes\": [{}],\"status\": \"OK\"}")) {
+      DirectionsApi.newRequest(sc.context)
+          .origin("Boston,MA")
+          .destination("Concord,MA")
+          .waypoints(
+              new DirectionsApiRequest.Waypoint("Charlestown,MA", false),
+              new DirectionsApiRequest.Waypoint("Lexington,MA", false))
+          .await();
+
+      sc.assertParamValue("Boston,MA", "origin");
+      sc.assertParamValue("Concord,MA", "destination");
+      sc.assertParamValue("via:Charlestown,MA|via:Lexington,MA", "waypoints");
+    }
+  }
+
+  /**
    * Boston to Concord, via Charlestown and Lexington, but using exact latitude and longitude
    * coordinates for the waypoints.
    *
@@ -234,7 +258,7 @@ public class DirectionsApiTest {
    * http://maps.googleapis.com/maps/api/directions/json?origin=Boston,MA&destination=Concord,MA&waypoints=42.379322,-71.063384|42.444303,-71.229087}
    */
   @Test
-  public void testBostonToConcordViaCharlestownAndLexigntonLatLng() throws Exception {
+  public void testBostonToConcordViaCharlestownAndLexingtonLatLng() throws Exception {
     try (LocalTestServerContext sc =
         new LocalTestServerContext("{\"routes\": [{}],\"status\": \"OK\"}")) {
       DirectionsApi.newRequest(sc.context)
@@ -246,6 +270,31 @@ public class DirectionsApiTest {
       sc.assertParamValue("Boston,MA", "origin");
       sc.assertParamValue("Concord,MA", "destination");
       sc.assertParamValue("42.37932200,-71.06338400|42.44430300,-71.22908700", "waypoints");
+    }
+  }
+
+  /**
+   * Boston to Concord, via Charlestown and Lexington, but using exact latitude and longitude
+   * coordinates for the waypoints, using non-stopover waypoints.
+   *
+   * <p>{@code
+   * http://maps.googleapis.com/maps/api/directions/json?origin=Boston,MA&destination=Concord,MA&waypoints=via:42.379322,-71.063384|via:42.444303,-71.229087}
+   */
+  @Test
+  public void testBostonToConcordViaCharlestownAndLexingtonLatLngNonStopoever() throws Exception {
+    try (LocalTestServerContext sc =
+        new LocalTestServerContext("{\"routes\": [{}],\"status\": \"OK\"}")) {
+      DirectionsApi.newRequest(sc.context)
+          .origin("Boston,MA")
+          .destination("Concord,MA")
+          .waypoints(
+              new DirectionsApiRequest.Waypoint(new LatLng(42.379322, -71.063384), false),
+              new DirectionsApiRequest.Waypoint(new LatLng(42.444303, -71.229087), false))
+          .await();
+
+      sc.assertParamValue("Boston,MA", "origin");
+      sc.assertParamValue("Concord,MA", "destination");
+      sc.assertParamValue("via:42.37932200,-71.06338400|via:42.44430300,-71.22908700", "waypoints");
     }
   }
 
