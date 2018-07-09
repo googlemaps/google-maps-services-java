@@ -102,37 +102,37 @@ public class GaeRequestHandler implements GeoApiContext.RequestHandler {
   public static class Builder implements GeoApiContext.RequestHandler.Builder {
 
     @Override
-    public void connectTimeout(long timeout, TimeUnit unit) {
+    public Builder connectTimeout(long timeout, TimeUnit unit) {
       // TODO: Investigate if GAE URL Fetch Service supports setting connection timeout
       throw new RuntimeException("connectTimeout not implemented for Google App Engine");
     }
 
     @Override
-    public void readTimeout(long timeout, TimeUnit unit) {
+    public Builder readTimeout(long timeout, TimeUnit unit) {
       // TODO: Investigate if GAE URL Fetch Service supports setting read timeout
       throw new RuntimeException("readTimeout not implemented for Google App Engine");
     }
 
     @Override
-    public void writeTimeout(long timeout, TimeUnit unit) {
+    public Builder writeTimeout(long timeout, TimeUnit unit) {
       // TODO: Investigate if GAE URL Fetch Service supports setting write timeout
       throw new RuntimeException("writeTimeout not implemented for Google App Engine");
     }
 
     @Override
-    public void queriesPerSecond(int maxQps) {
+    public Builder queriesPerSecond(int maxQps) {
       // TODO: Investigate if GAE URL Fetch Service supports setting qps
       throw new RuntimeException("queriesPerSecond not implemented for Google App Engine");
     }
 
     @Override
-    public void proxy(Proxy proxy) {
+    public Builder proxy(Proxy proxy) {
       // TODO: Investigate if GAE URL Fetch Service supports setting proxy
       throw new RuntimeException("setProxy not implemented for Google App Engine");
     }
 
     @Override
-    public void proxyAuthentication(String proxyUserName, String proxyUserPassword) {
+    public Builder proxyAuthentication(String proxyUserName, String proxyUserPassword) {
       // TODO: Investigate if GAE URL Fetch Service supports setting proxy authentication
       throw new RuntimeException("setProxyAuthentication not implemented for Google App Engine");
     }
