@@ -35,6 +35,9 @@ public class PlaceDetails implements Serializable {
   /** A list of separate address components that comprise the address of this place. */
   public AddressComponent[] addressComponents;
 
+  /** A representation of the place's address in the adr microformat. */
+  public String adrAddress;
+
   /** The human-readable address of this place. */
   public String formattedAddress;
 
