@@ -26,6 +26,8 @@ import com.google.maps.model.AutocompletePrediction;
 import com.google.maps.model.ComponentFilter;
 import com.google.maps.model.LatLng;
 import com.google.maps.model.PlaceAutocompleteType;
+
+import javax.mail.Session;
 import java.util.UUID;
 
 /**
@@ -49,8 +51,30 @@ public class PlaceAutocompleteRequest
   public static final class SessionToken implements UrlValue {
     private UUID uuid;
 
+    /**
+     * This constructor creates a new session.
+     */
     public SessionToken() {
       uuid = UUID.randomUUID();
+    }
+
+    /**
+     * Construct a session that is a continuation of a previous session.
+     *
+     * @param uuid The universally unique identifier for this session.
+     */
+    public SessionToken(UUID uuid) {
+      this.uuid = uuid;
+    }
+
+    /**
+     * Retrieve the universally unique identifier for this session. This enables you to
+     * recreate the session token in a later context.
+     *
+     * @return Returns the universally unique identifier for this session.
+     */
+    public UUID getUUID() {
+      return uuid;
     }
 
     @Override
