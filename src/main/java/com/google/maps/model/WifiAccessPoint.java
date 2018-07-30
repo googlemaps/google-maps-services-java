@@ -50,7 +50,6 @@ public class WifiAccessPoint implements Serializable {
    * The MAC address of the WiFi node (required). Separators must be {@code :} (colon) and hex
    * digits must use uppercase.
    */
-  // TODO: add validation and test cases for malformed MAC Asdresses
   public String macAddress;
   /** The current signal strength measured in dBm. */
   public Integer signalStrength = null;

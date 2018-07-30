@@ -42,7 +42,6 @@ public class UrlSigner {
       throw new IllegalArgumentException("Private key is invalid.");
     }
 
-    // TODO(macd): add test
     mac = Mac.getInstance(ALGORITHM_HMAC_SHA1);
     mac.init(new SecretKeySpec(decodedKey.toByteArray(), ALGORITHM_HMAC_SHA1));
   }
