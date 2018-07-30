@@ -103,37 +103,31 @@ public class GaeRequestHandler implements GeoApiContext.RequestHandler {
 
     @Override
     public Builder connectTimeout(long timeout, TimeUnit unit) {
-      // TODO: Investigate if GAE URL Fetch Service supports setting connection timeout
       throw new RuntimeException("connectTimeout not implemented for Google App Engine");
     }
 
     @Override
     public Builder readTimeout(long timeout, TimeUnit unit) {
-      // TODO: Investigate if GAE URL Fetch Service supports setting read timeout
       throw new RuntimeException("readTimeout not implemented for Google App Engine");
     }
 
     @Override
     public Builder writeTimeout(long timeout, TimeUnit unit) {
-      // TODO: Investigate if GAE URL Fetch Service supports setting write timeout
       throw new RuntimeException("writeTimeout not implemented for Google App Engine");
     }
 
     @Override
     public Builder queriesPerSecond(int maxQps) {
-      // TODO: Investigate if GAE URL Fetch Service supports setting qps
       throw new RuntimeException("queriesPerSecond not implemented for Google App Engine");
     }
 
     @Override
     public Builder proxy(Proxy proxy) {
-      // TODO: Investigate if GAE URL Fetch Service supports setting proxy
       throw new RuntimeException("setProxy not implemented for Google App Engine");
     }
 
     @Override
     public Builder proxyAuthentication(String proxyUserName, String proxyUserPassword) {
-      // TODO: Investigate if GAE URL Fetch Service supports setting proxy authentication
       throw new RuntimeException("setProxyAuthentication not implemented for Google App Engine");
     }
 

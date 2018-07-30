@@ -15,6 +15,7 @@
 
 package com.google.maps.internal;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -78,8 +79,7 @@ public class RateLimitExecutorServiceTest {
           actualQps <= qps);
     }
     // Check that we executed every request
-    // TODO(brettmorgan): figure out where we are losing requests
-    // assertEquals(100, countTotalRequests(executedTimestamps));
+    assertEquals(100, countTotalRequests(executedTimestamps));
 
     service.shutdown();
   }

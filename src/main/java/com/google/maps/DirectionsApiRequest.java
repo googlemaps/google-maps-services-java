@@ -46,7 +46,9 @@ public class DirectionsApiRequest
     if (!params().containsKey("destination")) {
       throw new IllegalArgumentException("Request must contain 'destination'");
     }
-    if (TravelMode.TRANSIT.toString().equals(params().get("mode"))
+    if (params().get("mode") != null
+        && params().get("mode").size() == 1
+        && TravelMode.TRANSIT.toString().equals(params().get("mode").get(0))
         && (params().containsKey("arrival_time") && params().containsKey("departure_time"))) {
       throw new IllegalArgumentException(
           "Transit request must not contain both a departureTime and an arrivalTime");
