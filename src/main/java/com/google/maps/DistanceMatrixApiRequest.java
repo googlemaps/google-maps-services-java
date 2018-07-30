@@ -44,10 +44,7 @@ public class DistanceMatrixApiRequest
     if (!params().containsKey("destinations")) {
       throw new IllegalArgumentException("Request must contain 'destinations'");
     }
-    if (params().get("mode") != null
-        && params().get("mode").size() == 1
-        && TravelMode.TRANSIT.toString().equals(params().get("mode").get(0))
-        && (params().containsKey("arrival_time") && params().containsKey("departure_time"))) {
+    if (params().containsKey("arrival_time") && params().containsKey("departure_time")) {
       throw new IllegalArgumentException(
           "Transit request must not contain both a departureTime and an arrivalTime");
     }
