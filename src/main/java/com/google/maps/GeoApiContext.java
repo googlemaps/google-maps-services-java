@@ -339,8 +339,8 @@ public class GeoApiContext {
     }
 
     /**
-     * Overrides the base URL of the API endpoint. Useful for testing or certain international
-     * usage scenarios.
+     * Overrides the base URL of the API endpoint. Useful for testing or certain international usage
+     * scenarios.
      *
      * @param baseUrl The URL to use, without a trailing slash, e.g. https://maps.googleapis.com
      * @return Returns this builder for call chaining.
@@ -351,8 +351,8 @@ public class GeoApiContext {
     }
 
     /**
-     * Older name for {@link #baseUrlOverride(String)}. This was used back when testing was the
-     * only use case foreseen for this.
+     * Older name for {@link #baseUrlOverride(String)}. This was used back when testing was the only
+     * use case foreseen for this.
      *
      * @deprecated Use baseUrlOverride(String) instead.
      * @param baseUrl The URL to use, without a trailing slash, e.g. https://maps.googleapis.com
