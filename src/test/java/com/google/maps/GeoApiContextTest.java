@@ -64,7 +64,7 @@ public class GeoApiContextTest {
   }
 
   private void setMockBaseUrl() {
-    builder.baseUrlForTesting("http://127.0.0.1:" + server.getPort());
+    builder.baseUrlOverride("http://127.0.0.1:" + server.getPort());
   }
 
   @SuppressWarnings("unchecked")
