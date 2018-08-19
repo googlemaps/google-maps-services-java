@@ -294,7 +294,7 @@ req.setCallback(new PendingResult.Callback<GeocodingResult[]>() {
 [Distance Matrix API]: https://developers.google.com/maps/documentation/distancematrix
 [Elevation API]: https://developers.google.com/maps/documentation/elevation
 [Geocoding API]: https://developers.google.com/maps/documentation/geocoding
-[Google Maps API Web Services]: https://developers.google.com/maps/documentation/webservices/
+[Google Maps API Web Services]: https://developers.google.com/maps/apis-by-platform#web_service_apis
 [issues]: https://github.com/googlemaps/google-maps-services-java/issues
 [Places API]: https://developers.google.com/places/web-service/
 [Time Zone API]: https://developers.google.com/maps/documentation/timezone
