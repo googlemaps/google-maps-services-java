@@ -98,6 +98,27 @@ public class PlacesApi {
    *
    * @param context The context on which to make Geo API requests.
    * @param placeId The PlaceID to request details on.
+   * @param sessionToken The Session Token for this request.
+   * @return Returns a PlaceDetailsRequest that you can configure and execute.
+   */
+  public static PlaceDetailsRequest placeDetails(
+      GeoApiContext context, String placeId, PlaceAutocompleteRequest.SessionToken sessionToken) {
+    PlaceDetailsRequest request = new PlaceDetailsRequest(context);
+    request.placeId(placeId);
+    request.sessionToken(sessionToken);
+    return request;
+  }
+
+  /**
+   * Requests the details of a Place.
+   *
+   * <p>We are only enabling looking up Places by placeId as the older Place identifier, reference,
+   * is deprecated. Please see the <a
+   * href="https://web.archive.org/web/20170521070241/https://developers.google.com/places/web-service/details#deprecation">
+   * deprecation warning</a>.
+   *
+   * @param context The context on which to make Geo API requests.
+   * @param placeId The PlaceID to request details on.
    * @return Returns a PlaceDetailsRequest that you can configure and execute.
    */
   public static PlaceDetailsRequest placeDetails(GeoApiContext context, String placeId) {
