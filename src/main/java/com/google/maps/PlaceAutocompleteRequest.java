@@ -26,6 +26,7 @@ import com.google.maps.model.AutocompletePrediction;
 import com.google.maps.model.ComponentFilter;
 import com.google.maps.model.LatLng;
 import com.google.maps.model.PlaceAutocompleteType;
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
@@ -46,7 +47,10 @@ public class PlaceAutocompleteRequest
   }
 
   /** SessionToken represents an Autocomplete session. */
-  public static final class SessionToken implements UrlValue {
+  public static final class SessionToken implements UrlValue, Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     private UUID uuid;
 
     /** This constructor creates a new session. */
