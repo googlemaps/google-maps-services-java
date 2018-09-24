@@ -103,9 +103,9 @@ when you start using `google-maps-services`.
 
 ```xml
 <dependency>
-    <groupId>com.google.maps</groupId>
-    <artifactId>google-maps-services</artifactId>
-    <version>(insert latest version)</version>
+  <groupId>com.google.maps</groupId>
+  <artifactId>google-maps-services</artifactId>
+  <version>(insert latest version)</version>
 </dependency>
 <dependency>
   <groupId>org.slf4j</groupId>
