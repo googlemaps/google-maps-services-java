@@ -52,7 +52,7 @@ contribute, please read [How to Contribute][contrib].
 
 ## Requirements
 
-- Java 1.7 or later.
+- Java 1.8 or later.
 - A Google Maps API key.
 
 ### API keys
@@ -108,9 +108,9 @@ when you start using `google-maps-services`.
     <version>(insert latest version)</version>
 </dependency>
 <dependency>
-    <groupId>org.slf4j</groupId>
-    <artifactId>slf4j-nop</artifactId>
-    <version>1.7.25</version>
+  <groupId>org.slf4j</groupId>
+  <artifactId>slf4j-simple</artifactId>
+  <version>1.7.25</version>
 </dependency>
 ```
 
@@ -123,7 +123,7 @@ repositories {
 
 dependencies {
     compile 'com.google.maps:google-maps-services:(insert latest version)'
-    compile 'org.slf4j:slf4j-nop:1.7.25'
+    compile 'org.slf4j:slf4j-simple:1.7.25'
 }
 ```
 
