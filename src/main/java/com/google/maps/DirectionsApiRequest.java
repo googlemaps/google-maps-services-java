@@ -25,7 +25,8 @@ import com.google.maps.model.TransitMode;
 import com.google.maps.model.TransitRoutingPreference;
 import com.google.maps.model.TravelMode;
 import com.google.maps.model.Unit;
-import org.joda.time.ReadableInstant;
+
+import java.time.Instant;
 
 /** Request for the Directions API. */
 public class DirectionsApiRequest
@@ -149,8 +150,8 @@ public class DirectionsApiRequest
    * @param time The arrival time to calculate directions for.
    * @return Returns this {@code DirectionsApiRequest} for call chaining.
    */
-  public DirectionsApiRequest arrivalTime(ReadableInstant time) {
-    return param("arrival_time", Long.toString(time.getMillis() / 1000L));
+  public DirectionsApiRequest arrivalTime(Instant time) {
+    return param("arrival_time", Long.toString(time.toEpochMilli() / 1000L));
   }
 
   /**
@@ -161,8 +162,8 @@ public class DirectionsApiRequest
    * @param time The departure time to calculate directions for.
    * @return Returns this {@code DirectionsApiRequest} for call chaining.
    */
-  public DirectionsApiRequest departureTime(ReadableInstant time) {
-    return param("departure_time", Long.toString(time.getMillis() / 1000L));
+  public DirectionsApiRequest departureTime(Instant time) {
+    return param("departure_time", Long.toString(time.toEpochMilli() / 1000L));
   }
 
   /**

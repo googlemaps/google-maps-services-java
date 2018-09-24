@@ -48,9 +48,10 @@ import com.google.maps.model.PlacesSearchResult;
 import com.google.maps.model.PriceLevel;
 import com.google.maps.model.RankBy;
 import java.net.URI;
+import java.time.LocalTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
-import org.joda.time.LocalTime;
-import org.joda.time.format.DateTimeFormat;
 import org.junit.Test;
 
 public class PlacesApiTest {
@@ -237,9 +238,9 @@ public class PlacesApiTest {
         Period friday = placeDetails.openingHours.periods[4];
 
         assertEquals(DayOfWeek.MONDAY, monday.open.day);
-        LocalTime opening = new LocalTime(8, 30);
-        LocalTime closing5pm = new LocalTime(17, 0);
-        LocalTime closing530pm = new LocalTime(17, 30);
+        LocalTime opening = LocalTime.of(8, 30);
+        LocalTime closing5pm = LocalTime.of(17, 0);
+        LocalTime closing530pm = LocalTime.of(17, 30);
 
         assertEquals(opening, monday.open.time);
         assertEquals(DayOfWeek.MONDAY, monday.close.day);
@@ -308,10 +309,10 @@ public class PlacesApiTest {
       assertEquals(3, aspect.rating);
       assertNotNull(aspect.type);
       assertEquals(RatingType.OVERALL, aspect.type);
-      assertEquals(1425790392, review.time.getMillis() / 1000);
+      assertEquals(1425790392, review.time.toEpochMilli() / 1000);
       assertEquals(
           "2015-03-08 04:53AM",
-          review.time.toString(DateTimeFormat.forPattern("YYYY-MM-dd HH:mmaa")));
+          DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mma").withZone(ZoneOffset.UTC).format(review.time));
 
       // Place ID
       assertNotNull(placeDetails.placeId);

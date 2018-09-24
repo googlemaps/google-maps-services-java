@@ -16,7 +16,7 @@
 package com.google.maps.model;
 
 import java.io.Serializable;
-import org.joda.time.DateTime;
+import java.time.LocalDateTime;
 
 /**
  * Transit directions return additional information that is not relevant for other modes of
@@ -36,10 +36,10 @@ public class TransitDetails implements Serializable {
   public StopDetails departureStop;
 
   /** The arrival time for this leg of the journey. */
-  public DateTime arrivalTime;
+  public LocalDateTime arrivalTime;
 
   /** The departure time for this leg of the journey. */
-  public DateTime departureTime;
+  public LocalDateTime departureTime;
 
   /**
    * The direction in which to travel on this line, as it is marked on the vehicle or at the

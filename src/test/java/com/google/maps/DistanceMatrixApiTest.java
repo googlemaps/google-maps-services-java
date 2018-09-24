@@ -28,9 +28,11 @@ import com.google.maps.model.TravelMode;
 import com.google.maps.model.Unit;
 import java.util.Arrays;
 import org.apache.commons.lang.StringUtils;
-import org.joda.time.DateTime;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+
+import java.time.Duration;
+import java.time.Instant;
 
 @Category(MediumTests.class)
 public class DistanceMatrixApiTest {
@@ -132,8 +134,8 @@ public class DistanceMatrixApiTest {
           .language("en-AU")
           .avoid(RouteRestriction.TOLLS)
           .units(Unit.IMPERIAL)
-          .departureTime(new DateTime().plusMinutes(2)) // this is ignored when an API key is used
-          .await();
+          .departureTime(Instant.now().plus(Duration.ofMinutes(2))) // this is ignored when an API key is used
+                                .await();
 
       sc.assertParamValue(StringUtils.join(origins, "|"), "origins");
       sc.assertParamValue(StringUtils.join(destinations, "|"), "destinations");
@@ -201,7 +203,7 @@ public class DistanceMatrixApiTest {
           .destinations("San Francisco International Airport, San Francisco, CA")
           .mode(TravelMode.DRIVING)
           .trafficModel(TrafficModel.PESSIMISTIC)
-          .departureTime(new DateTime(System.currentTimeMillis() + ONE_HOUR_MILLIS))
+          .departureTime(Instant.ofEpochMilli(System.currentTimeMillis() + ONE_HOUR_MILLIS))
           .await();
 
       sc.assertParamValue("Fisherman's Wharf, San Francisco", "origins");

@@ -42,13 +42,13 @@ import com.google.maps.model.PriceLevel;
 import com.google.maps.model.TravelMode;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
-import org.joda.time.DateTime;
-import org.joda.time.Instant;
-import org.joda.time.LocalTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -166,7 +166,7 @@ public class GaePendingResult<T, R extends ApiResponse<T>> implements PendingRes
 
     Gson gson =
         new GsonBuilder()
-            .registerTypeAdapter(DateTime.class, new DateTimeAdapter())
+            .registerTypeAdapter(LocalDateTime.class, new DateTimeAdapter())
             .registerTypeAdapter(Distance.class, new DistanceAdapter())
             .registerTypeAdapter(Duration.class, new DurationAdapter())
             .registerTypeAdapter(Fare.class, new FareAdapter())

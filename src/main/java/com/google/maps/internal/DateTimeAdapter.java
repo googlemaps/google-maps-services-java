@@ -20,20 +20,21 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 /**
- * This class handles conversion from JSON to {@link DateTime}s.
+ * This class handles conversion from JSON to {@link LocalDateTime}s.
  *
  * <p>Please see <a
  * href="https://google-gson.googlecode.com/svn/trunk/gson/docs/javadocs/com/google/gson/TypeAdapter.html">TypeAdapter</a>
  * for more detail.
  */
-public class DateTimeAdapter extends TypeAdapter<DateTime> {
+public class DateTimeAdapter extends TypeAdapter<LocalDateTime> {
 
   /**
-   * Read a Time object from a Directions API result and convert it to a {@link DateTime}.
+   * Read a Time object from a Directions API result and convert it to a {@link LocalDateTime}.
    *
    * <p>We are expecting to receive something akin to the following:
    *
@@ -46,7 +47,7 @@ public class DateTimeAdapter extends TypeAdapter<DateTime> {
    * </pre>
    */
   @Override
-  public DateTime read(JsonReader reader) throws IOException {
+  public LocalDateTime read(JsonReader reader) throws IOException {
     if (reader.peek() == JsonToken.NULL) {
       reader.nextNull();
       return null;
@@ -69,12 +70,12 @@ public class DateTimeAdapter extends TypeAdapter<DateTime> {
     }
     reader.endObject();
 
-    return new DateTime(secondsSinceEpoch * 1000, DateTimeZone.forID(timeZoneId));
+    return LocalDateTime.ofInstant(Instant.ofEpochMilli(secondsSinceEpoch * 1000), ZoneId.of(timeZoneId));
   }
 
   /** This method is not implemented. */
   @Override
-  public void write(JsonWriter writer, DateTime value) throws IOException {
+  public void write(JsonWriter writer, LocalDateTime value) throws IOException {
     throw new UnsupportedOperationException("Unimplemented method");
   }
 }

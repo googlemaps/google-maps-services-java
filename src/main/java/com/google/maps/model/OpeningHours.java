@@ -16,8 +16,8 @@
 package com.google.maps.model;
 
 import java.io.Serializable;
+import java.time.LocalTime;
 import java.util.Arrays;
-import org.joda.time.LocalTime;
 
 /**
  * Opening hours for a Place Details result. Please see <a
