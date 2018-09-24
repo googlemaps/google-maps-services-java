@@ -113,6 +113,7 @@ public class ElevationApiTest {
       ElevationResult result = ElevationApi.getByPoint(sc.context, SYDNEY).await();
 
       assertNotNull(result);
+      assertNotNull(result.toString());
       assertEquals(SYDNEY_POINT_ELEVATION, result.elevation, EPSILON);
 
       sc.assertParamValue(SYDNEY.toUrlValue(), "locations");

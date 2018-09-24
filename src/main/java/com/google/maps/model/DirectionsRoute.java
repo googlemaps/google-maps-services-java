@@ -16,6 +16,7 @@
 package com.google.maps.model;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 /**
  * A Directions API result. When the Directions API returns results, it places them within a routes
@@ -71,4 +72,19 @@ public class DirectionsRoute implements Serializable {
    * warnings yourself.
    */
   public String[] warnings;
+
+  public String toString() {
+    String str =
+        String.format(
+            "[DirectionsRoute: \"%s\", %d legs, waypointOrder=%s, bounds=%s",
+            summary, legs.length, Arrays.toString(waypointOrder), bounds);
+    if (fare != null) {
+      str = str + ", fare=" + fare;
+    }
+    if (warnings != null && warnings.length > 0) {
+      str = str + ", " + warnings.length + " warnings";
+    }
+    str = str + "]";
+    return str;
+  }
 }

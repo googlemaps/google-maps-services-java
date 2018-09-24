@@ -5,15 +5,17 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.0.0'
+        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.8.2'
     }
 }
 
 plugins {
-    id 'com.github.sherter.google-java-format' version '0.6'
+    id 'com.github.sherter.google-java-format' version '0.7.1'
+    id 'com.github.ben-manes.versions' version '0.20.0'
 }
 
 apply plugin: 'java'
+apply plugin: 'java-library'
 apply plugin: 'maven'
 apply plugin: 'signing'
 apply plugin: 'jacoco'
@@ -80,6 +82,10 @@ tasks.withType(Test) {
 
 javadoc {
     exclude '**/internal/**'
+    def currentJavaVersion = org.gradle.api.JavaVersion.current()
+    if (currentJavaVersion.compareTo(org.gradle.api.JavaVersion.VERSION_1_9) > 0) {
+      options.addBooleanOption('html4', true)
+    }
 }
 
 jacocoTestReport {

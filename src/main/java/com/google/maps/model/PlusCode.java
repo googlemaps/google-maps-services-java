@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Google Inc. All rights reserved.
+ * Copyright 2018 Google Inc. All rights reserved.
  *
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -15,26 +15,21 @@
 
 package com.google.maps.model;
 
-import java.io.Serializable;
+/** A Plus Code encoded location reference. */
+public class PlusCode {
+  /** The global Plus Code identifier. */
+  public String globalCode;
 
-/**
- * The stop/station.
- *
- * <p>See <a
- * href="https://developers.google.com/maps/documentation/directions/intro#TransitDetails">Transit
- * details</a> for more detail.
- */
-public class StopDetails implements Serializable {
-
-  private static final long serialVersionUID = 1L;
-
-  /** The name of the transit station/stop. E.g. {@code "Union Square"}. */
-  public String name;
-
-  /** The location of the transit station/stop. */
-  public LatLng location;
+  /** The compound Plus Code identifier. May be null for locations in remote areas. */
+  public String compoundCode;
 
   public String toString() {
-    return String.format("%s (%s)", name, location);
+    StringBuilder sb = new StringBuilder("[PlusCode: ");
+    sb.append(globalCode);
+    if (compoundCode != null) {
+      sb.append(", compoundCode=").append(compoundCode);
+    }
+    sb.append("]");
+    return sb.toString();
   }
 }

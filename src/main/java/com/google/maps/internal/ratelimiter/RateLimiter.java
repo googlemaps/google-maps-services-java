@@ -96,8 +96,6 @@ import java.util.concurrent.TimeUnit;
  * @author Dimitris Andreou
  * @since 13.0
  */
-// TODO(user): switch to nano precision. A natural unit of cost is "bytes", and a micro precision
-// would mean a maximum rate of "1MB/s", which might be small in some cases.
 public abstract class RateLimiter {
   /**
    * Creates a {@code RateLimiter} with the specified stable throughput, given as "permits per
@@ -114,8 +112,6 @@ public abstract class RateLimiter {
    *     permits become available per second
    * @throws IllegalArgumentException if {@code permitsPerSecond} is negative or zero
    */
-  // TODO(user): "This is equivalent to
-  // {@code createWithCapacity(permitsPerSecond, 1, TimeUnit.SECONDS)}".
   public static RateLimiter create(double permitsPerSecond) {
     /*
      * The default RateLimiter configuration can save the unused permits of up to one second. This
@@ -400,15 +396,13 @@ public abstract class RateLimiter {
     protected SleepingStopwatch() {}
 
     /*
-     * We always hold the mutex when calling this. TODO(cpovirk): Is that important? Perhaps we need
-     * to guarantee that each call to reserveEarliestAvailable, etc. sees a value >= the previous?
-     * Also, is it OK that we don't hold the mutex when sleeping?
+     * We always hold the mutex when calling this.
      */
     protected abstract long readMicros();
 
     protected abstract void sleepMicrosUninterruptibly(long micros);
 
-    public static final SleepingStopwatch createFromSystemTimer() {
+    public static SleepingStopwatch createFromSystemTimer() {
       return new SleepingStopwatch() {
         final Stopwatch stopwatch = Stopwatch.createStarted();
 

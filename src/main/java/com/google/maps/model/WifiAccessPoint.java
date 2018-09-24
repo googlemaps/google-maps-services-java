@@ -50,7 +50,6 @@ public class WifiAccessPoint implements Serializable {
    * The MAC address of the WiFi node (required). Separators must be {@code :} (colon) and hex
    * digits must use uppercase.
    */
-  // TODO: add validation and test cases for malformed MAC Asdresses
   public String macAddress;
   /** The current signal strength measured in dBm. */
   public Integer signalStrength = null;
@@ -60,6 +59,27 @@ public class WifiAccessPoint implements Serializable {
   public Integer channel = null;
   /** The current signal to noise ratio measured in dB. */
   public Integer signalToNoiseRatio = null;
+
+  public String toString() {
+    StringBuilder sb = new StringBuilder("[WifiAccessPoint:");
+    if (macAddress != null) {
+      sb.append(" macAddress=").append(macAddress);
+    }
+    if (signalStrength != null) {
+      sb.append(" signalStrength=").append(signalStrength);
+    }
+    if (age != null) {
+      sb.append(" age=").append(age);
+    }
+    if (channel != null) {
+      sb.append(" channel=").append(channel);
+    }
+    if (signalToNoiseRatio != null) {
+      sb.append(" signalToNoiseRatio=").append(signalToNoiseRatio);
+    }
+    sb.append("]");
+    return sb.toString();
+  }
 
   public static class WifiAccessPointBuilder {
     private String _macAddress = null;
@@ -79,22 +99,22 @@ public class WifiAccessPoint implements Serializable {
     }
 
     public WifiAccessPointBuilder SignalStrength(int newSignalStrength) {
-      this._signalStrength = new Integer(newSignalStrength);
+      this._signalStrength = newSignalStrength;
       return this;
     }
 
     public WifiAccessPointBuilder Age(int newAge) {
-      this._age = new Integer(newAge);
+      this._age = newAge;
       return this;
     }
 
     public WifiAccessPointBuilder Channel(int newChannel) {
-      this._channel = new Integer(newChannel);
+      this._channel = newChannel;
       return this;
     }
 
     public WifiAccessPointBuilder SignalToNoiseRatio(int newSignalToNoiseRatio) {
-      this._signalToNoiseRatio = new Integer(newSignalToNoiseRatio);
+      this._signalToNoiseRatio = newSignalToNoiseRatio;
       return this;
     }
   }

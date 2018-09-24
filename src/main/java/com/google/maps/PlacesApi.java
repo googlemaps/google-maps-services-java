@@ -89,23 +89,23 @@ public class PlacesApi {
   }
 
   /**
-   * Performs a radar search for up to 200 places, but with less detail than is returned from Text
-   * Search or Nearby Search.
+   * Requests the details of a Place.
    *
-   * @deprecated This functionality is deprecated and will stop working on June 30, 2018.
-   * @see <a
-   *     href="https://maps-apis.googleblog.com/2017/06/announcing-deprecation-of-place-add.html">Removing
-   *     Place Add, Delete &amp; Radar Search features</a>
+   * <p>We are only enabling looking up Places by placeId as the older Place identifier, reference,
+   * is deprecated. Please see the <a
+   * href="https://web.archive.org/web/20170521070241/https://developers.google.com/places/web-service/details#deprecation">
+   * deprecation warning</a>.
+   *
    * @param context The context on which to make Geo API requests.
-   * @param location The location around which to retrieve place information.
-   * @param radius The distance in meters within which to return place results.
-   * @return Returns a RadarSearchRequest that can be configured and executed.
+   * @param placeId The PlaceID to request details on.
+   * @param sessionToken The Session Token for this request.
+   * @return Returns a PlaceDetailsRequest that you can configure and execute.
    */
-  public static RadarSearchRequest radarSearchQuery(
-      GeoApiContext context, LatLng location, int radius) {
-    RadarSearchRequest request = new RadarSearchRequest(context);
-    request.location(location);
-    request.radius(radius);
+  public static PlaceDetailsRequest placeDetails(
+      GeoApiContext context, String placeId, PlaceAutocompleteRequest.SessionToken sessionToken) {
+    PlaceDetailsRequest request = new PlaceDetailsRequest(context);
+    request.placeId(placeId);
+    request.sessionToken(sessionToken);
     return request;
   }
 
@@ -154,11 +154,15 @@ public class PlacesApi {
    *
    * @param context The context on which to make Geo API requests.
    * @param input input is the text string on which to search.
+   * @param sessionToken Session token, to make sure requests are billed per session, instead of per
+   *     character.
    * @return Returns a PlaceAutocompleteRequest that you can configure and execute.
    */
-  public static PlaceAutocompleteRequest placeAutocomplete(GeoApiContext context, String input) {
+  public static PlaceAutocompleteRequest placeAutocomplete(
+      GeoApiContext context, String input, PlaceAutocompleteRequest.SessionToken sessionToken) {
     PlaceAutocompleteRequest request = new PlaceAutocompleteRequest(context);
     request.input(input);
+    request.sessionToken(sessionToken);
     return request;
   }
 
@@ -172,6 +176,21 @@ public class PlacesApi {
   public static QueryAutocompleteRequest queryAutocomplete(GeoApiContext context, String input) {
     QueryAutocompleteRequest request = new QueryAutocompleteRequest(context);
     request.input(input);
+    return request;
+  }
+
+  /**
+   * Find places using either search text, or a phone number.
+   *
+   * @param context The context on which to make Geo API requests.
+   * @param input The input to search on.
+   * @param inputType Whether the input is search text, or a phone number.
+   * @return Returns a FindPlaceFromTextRequest that you can configure and execute.
+   */
+  public static FindPlaceFromTextRequest findPlaceFromText(
+      GeoApiContext context, String input, FindPlaceFromTextRequest.InputType inputType) {
+    FindPlaceFromTextRequest request = new FindPlaceFromTextRequest(context);
+    request.input(input).inputType(inputType);
     return request;
   }
 }

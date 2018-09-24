@@ -84,4 +84,21 @@ public class DirectionsStep implements Serializable {
    * Details</a> for more detail.
    */
   public TransitDetails transitDetails;
+
+  public String toString() {
+    StringBuilder sb = new StringBuilder("[DirectionsStep: ");
+    sb.append("\"").append(htmlInstructions).append("\"");
+    sb.append(String.format(" (%s -> %s", startLocation, endLocation)).append(")");
+    sb.append(" ").append(travelMode);
+    sb.append(", duration=").append(duration);
+    sb.append(", distance=").append(distance);
+    if (steps != null && steps.length > 0) {
+      sb.append(", ").append(steps.length).append(" substeps");
+    }
+    if (transitDetails != null) {
+      sb.append(", transitDetails=").append(transitDetails);
+    }
+    sb.append("]");
+    return sb.toString();
+  }
 }

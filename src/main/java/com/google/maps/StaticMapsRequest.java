@@ -16,6 +16,7 @@
 package com.google.maps;
 
 import com.google.maps.internal.ApiConfig;
+import com.google.maps.internal.StringJoin;
 import com.google.maps.internal.StringJoin.UrlValue;
 import com.google.maps.model.LatLng;
 import com.google.maps.model.Size;
@@ -166,7 +167,7 @@ public class StaticMapsRequest
 
   public static class Markers implements UrlValue {
 
-    public static enum MarkersSize implements UrlValue {
+    public enum MarkersSize implements UrlValue {
       tiny,
       mid,
       small,
@@ -178,7 +179,7 @@ public class StaticMapsRequest
       }
     }
 
-    public static enum CustomIconAnchor implements UrlValue {
+    public enum CustomIconAnchor implements UrlValue {
       top,
       bottom,
       left,
@@ -200,6 +201,7 @@ public class StaticMapsRequest
     private String label;
     private String customIconURL;
     private CustomIconAnchor anchorPoint;
+    private Integer scale;
     private final List<String> locations = new ArrayList<>();
 
     /**
@@ -250,6 +252,19 @@ public class StaticMapsRequest
     }
 
     /**
+     * Set a custom icon for these markers.
+     *
+     * @param url URL for the custom icon.
+     * @param anchorPoint The anchor point for this custom icon.
+     * @param scale Set the image density scale (1, 2, or 4) of the custom icon provided.
+     */
+    public void customIcon(String url, CustomIconAnchor anchorPoint, int scale) {
+      this.customIconURL = url;
+      this.anchorPoint = anchorPoint;
+      this.scale = scale;
+    }
+
+    /**
      * Add the location of a marker. At least one is required.
      *
      * @param location The location of the added marker.
@@ -279,6 +294,10 @@ public class StaticMapsRequest
         urlParts.add("anchor:" + anchorPoint.toUrlValue());
       }
 
+      if (scale != null) {
+        urlParts.add("scale:" + scale);
+      }
+
       if (size != null && size != MarkersSize.normal) {
         urlParts.add("size:" + size.toUrlValue());
       }
@@ -293,7 +312,7 @@ public class StaticMapsRequest
 
       urlParts.addAll(locations);
 
-      return String.join("|", urlParts);
+      return StringJoin.join('|', urlParts.toArray(new String[urlParts.size()]));
     }
   }
 
@@ -398,7 +417,7 @@ public class StaticMapsRequest
 
       urlParts.addAll(points);
 
-      return String.join("|", urlParts);
+      return StringJoin.join('|', urlParts.toArray(new String[urlParts.size()]));
     }
   }
 

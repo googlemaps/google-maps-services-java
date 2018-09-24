@@ -36,6 +36,15 @@ import java.util.concurrent.TimeUnit;
  * The entry point for making requests against the Google Geo APIs.
  *
  * <p>Construct this object by using the enclosed {@link GeoApiContext.Builder}.
+ *
+ * <h3>GeoApiContexts should be shared</h3>
+ *
+ * GeoApiContext works best when you create a single GeoApiContext instance, or one per API key, and
+ * reuse it for all your Google Geo API queries. This is because each GeoApiContext manages its own
+ * thread pool, back-end client, and other resources.
+ *
+ * <p>When you are finished with a GeoApiContext object, you must call {@link #shutdown()} on it to
+ * release its resources.
  */
 public class GeoApiContext {
 
@@ -111,22 +120,26 @@ public class GeoApiContext {
     /** Builder pattern for {@code GeoApiContext.RequestHandler}. */
     interface Builder {
 
-      void connectTimeout(long timeout, TimeUnit unit);
+      Builder connectTimeout(long timeout, TimeUnit unit);
 
-      void readTimeout(long timeout, TimeUnit unit);
+      Builder readTimeout(long timeout, TimeUnit unit);
 
-      void writeTimeout(long timeout, TimeUnit unit);
+      Builder writeTimeout(long timeout, TimeUnit unit);
 
-      void queriesPerSecond(int maxQps);
+      Builder queriesPerSecond(int maxQps);
 
-      void proxy(Proxy proxy);
+      Builder proxy(Proxy proxy);
 
-      void proxyAuthentication(String proxyUserName, String proxyUserPassword);
+      Builder proxyAuthentication(String proxyUserName, String proxyUserPassword);
 
       RequestHandler build();
     }
   }
 
+  /**
+   * Shut down this GeoApiContext instance, reclaiming resources. After shutdown() has been called,
+   * no further queries may be done against this instance.
+   */
   public void shutdown() {
     requestHandler.shutdown();
   }
@@ -326,14 +339,28 @@ public class GeoApiContext {
     }
 
     /**
-     * Overrides the base URL of the API endpoint. Useful only for testing.
+     * Overrides the base URL of the API endpoint. Useful for testing or certain international usage
+     * scenarios.
      *
      * @param baseUrl The URL to use, without a trailing slash, e.g. https://maps.googleapis.com
      * @return Returns this builder for call chaining.
      */
-    Builder baseUrlForTesting(String baseUrl) {
+    Builder baseUrlOverride(String baseUrl) {
       baseUrlOverride = baseUrl;
       return this;
+    }
+
+    /**
+     * Older name for {@link #baseUrlOverride(String)}. This was used back when testing was the only
+     * use case foreseen for this.
+     *
+     * @deprecated Use baseUrlOverride(String) instead.
+     * @param baseUrl The URL to use, without a trailing slash, e.g. https://maps.googleapis.com
+     * @return Returns this builder for call chaining.
+     */
+    @Deprecated
+    Builder baseUrlForTesting(String baseUrl) {
+      return baseUrlOverride(baseUrl);
     }
 
     /**

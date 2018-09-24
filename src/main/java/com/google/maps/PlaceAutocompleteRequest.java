@@ -21,10 +21,13 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.maps.errors.ApiException;
 import com.google.maps.internal.ApiConfig;
 import com.google.maps.internal.ApiResponse;
+import com.google.maps.internal.StringJoin.UrlValue;
 import com.google.maps.model.AutocompletePrediction;
 import com.google.maps.model.ComponentFilter;
 import com.google.maps.model.LatLng;
 import com.google.maps.model.PlaceAutocompleteType;
+import java.io.Serializable;
+import java.util.UUID;
 
 /**
  * A <a
@@ -41,6 +44,54 @@ public class PlaceAutocompleteRequest
 
   protected PlaceAutocompleteRequest(GeoApiContext context) {
     super(context, API_CONFIG, Response.class);
+  }
+
+  /** SessionToken represents an Autocomplete session. */
+  public static final class SessionToken implements UrlValue, Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    private UUID uuid;
+
+    /** This constructor creates a new session. */
+    public SessionToken() {
+      uuid = UUID.randomUUID();
+    }
+
+    /**
+     * Construct a session that is a continuation of a previous session.
+     *
+     * @param uuid The universally unique identifier for this session.
+     */
+    public SessionToken(UUID uuid) {
+      this.uuid = uuid;
+    }
+
+    /**
+     * Retrieve the universally unique identifier for this session. This enables you to recreate the
+     * session token in a later context.
+     *
+     * @return Returns the universally unique identifier for this session.
+     */
+    public UUID getUUID() {
+      return uuid;
+    }
+
+    @Override
+    public String toUrlValue() {
+      return uuid.toString();
+    }
+  }
+
+  /**
+   * Sets the SessionToken for this request. Using session token makes sure the autocomplete is
+   * priced per session, instead of per keystroke.
+   *
+   * @param sessionToken Session Token is the session identifier.
+   * @return Returns this {@code PlaceAutocompleteRequest} for call chaining.
+   */
+  public PlaceAutocompleteRequest sessionToken(SessionToken sessionToken) {
+    return param("sessiontoken", sessionToken);
   }
 
   /**
@@ -129,7 +180,7 @@ public class PlaceAutocompleteRequest
    * @return Returns this {@code PlaceAutocompleteRequest} for call chaining.
    */
   public PlaceAutocompleteRequest strictBounds(boolean strictBounds) {
-    return param("strictbounds", Boolean.toString(strictBounds).toString());
+    return param("strictbounds", Boolean.toString(strictBounds));
   }
 
   @Override

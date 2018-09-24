@@ -18,6 +18,7 @@ package com.google.maps.model;
 import java.io.Serializable;
 import java.net.URL;
 import java.time.Instant;
+import java.util.Arrays;
 
 /**
  * The result of a Place Details request. A Place Details request returns more comprehensive
@@ -33,6 +34,9 @@ public class PlaceDetails implements Serializable {
 
   /** A list of separate address components that comprise the address of this place. */
   public AddressComponent[] addressComponents;
+
+  /** A representation of the place's address in the adr microformat. */
+  public String adrAddress;
 
   /** The human-readable address of this place. */
   public String formattedAddress;
@@ -70,6 +74,9 @@ public class PlaceDetails implements Serializable {
   /** The scope of the placeId. */
   public PlaceIdScope scope;
 
+  /** The Plus Code location identifier for this place. */
+  public PlusCode plusCode;
+
   /** Whether the place has permanently closed. */
   public boolean permanentlyClosed;
 
@@ -89,6 +96,10 @@ public class PlaceDetails implements Serializable {
      * place ID is recognised by your application only.
      */
     public PlaceIdScope scope;
+
+    public String toString() {
+      return String.format("%s (%s)", placeId, scope);
+    }
   }
 
   /**
@@ -160,8 +171,14 @@ public class PlaceDetails implements Serializable {
     /** An IETF language code indicating the language used in the user's review. */
     public String language;
 
+    /** The URL of the user's Google+ profile photo, if available. */
+    public String profilePhotoUrl;
+
     /** The user's overall rating for this place. This is a whole number, ranging from 1 to 5. */
     public int rating;
+
+    /** The relative time that the review was submitted. */
+    public String relativeTimeDescription;
 
     /**
      * The user's review. When reviewing a location with Google Places, text reviews are considered
@@ -180,7 +197,7 @@ public class PlaceDetails implements Serializable {
   public Review[] reviews;
 
   /** Feature types describing the given result. */
-  public String[] types;
+  public AddressType[] types;
 
   /**
    * The URL of the official Google page for this place. This will be the establishment's Google+
@@ -204,4 +221,58 @@ public class PlaceDetails implements Serializable {
 
   /** Attributions about this listing which must be displayed to the user. */
   public String[] htmlAttributions;
+
+  public String toString() {
+    StringBuilder sb = new StringBuilder("[PlaceDetails: ");
+    sb.append("\"").append(name).append("\"");
+    sb.append(" ").append(placeId).append(" (").append(scope).append(")");
+    sb.append(" address=\"").append(formattedAddress).append("\"");
+    sb.append(" geometry=").append(geometry);
+    if (vicinity != null) {
+      sb.append(", vicinity=").append(vicinity);
+    }
+    if (types != null && types.length > 0) {
+      sb.append(", types=").append(Arrays.toString(types));
+    }
+    if (altIds != null && altIds.length > 0) {
+      sb.append(", altIds=").append(Arrays.toString(altIds));
+    }
+    if (formattedPhoneNumber != null) {
+      sb.append(", phone=").append(formattedPhoneNumber);
+    }
+    if (internationalPhoneNumber != null) {
+      sb.append(", internationalPhoneNumber=").append(internationalPhoneNumber);
+    }
+    if (url != null) {
+      sb.append(", url=").append(url);
+    }
+    if (website != null) {
+      sb.append(", website=").append(website);
+    }
+    if (icon != null) {
+      sb.append(", icon");
+    }
+    if (openingHours != null) {
+      sb.append(", openingHours");
+      sb.append(", utcOffset=").append(utcOffset);
+    }
+    if (priceLevel != null) {
+      sb.append(", priceLevel=").append(priceLevel);
+    }
+    sb.append(", rating=").append(rating);
+    if (permanentlyClosed) {
+      sb.append(", permanentlyClosed");
+    }
+    if (photos != null && photos.length > 0) {
+      sb.append(", ").append(photos.length).append(" photos");
+    }
+    if (reviews != null && reviews.length > 0) {
+      sb.append(", ").append(reviews.length).append(" reviews");
+    }
+    if (htmlAttributions != null && htmlAttributions.length > 0) {
+      sb.append(", ").append(htmlAttributions.length).append(" htmlAttributions");
+    }
+    sb.append("]");
+    return sb.toString();
+  }
 }

@@ -132,7 +132,7 @@ Maven Central](https://search.maven.org/#search%7Cga%7C1%7Ca%3A%22google-maps-se
 
 ## Developer Documentation
 
-View the [javadoc](https://googlemaps.github.io/google-maps-services-java/v0.2.7/javadoc/).
+View the [javadoc](https://googlemaps.github.io/google-maps-services-java/v0.2.11/javadoc/index.html?overview-summary.html).
 
 Additional documentation for the included web services is available at
 https://developers.google.com/maps/.
@@ -181,7 +181,7 @@ The `GeoApiContext` is designed to be a [Singleton](https://en.wikipedia.org/wik
 in your application. Please instantiate one on application startup, and continue to use it for the
 life of your application. This will enable proper QPS enforcement across all of your requests.
 
-For more usage examples, check out [the tests](src/test/java/com/google/maps/).
+For more usage examples, check out [the tests](src/test/java/com/google/maps).
 
 ## Features
 
@@ -294,7 +294,7 @@ req.setCallback(new PendingResult.Callback<GeocodingResult[]>() {
 [Distance Matrix API]: https://developers.google.com/maps/documentation/distancematrix
 [Elevation API]: https://developers.google.com/maps/documentation/elevation
 [Geocoding API]: https://developers.google.com/maps/documentation/geocoding
-[Google Maps API Web Services]: https://developers.google.com/maps/documentation/webservices/
+[Google Maps API Web Services]: https://developers.google.com/maps/apis-by-platform#web_service_apis
 [issues]: https://github.com/googlemaps/google-maps-services-java/issues
 [Places API]: https://developers.google.com/places/web-service/
 [Time Zone API]: https://developers.google.com/maps/documentation/timezone

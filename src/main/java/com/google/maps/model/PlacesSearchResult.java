@@ -17,6 +17,7 @@ package com.google.maps.model;
 
 import java.io.Serializable;
 import java.net.URL;
+import java.util.Arrays;
 
 /**
  * A single result in the search results returned from the Google Places API Web Service.
@@ -52,7 +53,7 @@ public class PlacesSearchResult implements Serializable {
   /** A textual identifier that uniquely identifies a place. */
   public String placeId;
 
-  /** sThe scope of the placeId. */
+  /** The scope of the placeId. */
   public PlaceIdScope scope;
 
   /** The place's rating, from 1.0 to 5.0, based on aggregated user reviews. */
@@ -72,4 +73,34 @@ public class PlacesSearchResult implements Serializable {
 
   /** Indicates that the place has permanently shut down. */
   public boolean permanentlyClosed;
+
+  public String toString() {
+    StringBuilder sb = new StringBuilder("[PlacesSearchResult: ");
+    sb.append("\"").append(name).append("\"");
+    sb.append(", \"").append(formattedAddress).append("\"");
+    sb.append(", geometry=").append(geometry);
+    sb.append(", placeId=").append(placeId).append(" (").append(scope).append(" )");
+    if (vicinity != null) {
+      sb.append(", vicinity=").append(vicinity);
+    }
+    if (types != null && types.length > 0) {
+      sb.append(", types=").append(Arrays.toString(types));
+    }
+    sb.append(", rating=").append(rating);
+    if (icon != null) {
+      sb.append(", icon");
+    }
+    if (openingHours != null) {
+      sb.append(", openingHours");
+    }
+    if (photos != null && photos.length > 0) {
+      sb.append(", ").append(photos.length).append(" photos");
+    }
+    if (permanentlyClosed) {
+      sb.append(", permanentlyClosed");
+    }
+
+    sb.append("]");
+    return sb.toString();
+  }
 }

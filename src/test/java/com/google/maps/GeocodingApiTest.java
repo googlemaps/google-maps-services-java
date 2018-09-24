@@ -30,6 +30,7 @@ import com.google.maps.model.GeocodingResult;
 import com.google.maps.model.LatLng;
 import com.google.maps.model.LocationType;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -60,11 +61,13 @@ public class GeocodingApiTest {
   public void testGeocodeLibraryType() throws Exception {
     try (LocalTestServerContext sc = new LocalTestServerContext(geocodeLibraryType)) {
       GeocodingResult[] results = GeocodingApi.newRequest(sc.context).address("80 FR").await();
+
       assertEquals(1, results.length);
       assertEquals(3, results[0].types.length);
       assertEquals(AddressType.ESTABLISHMENT, results[0].types[0]);
       assertEquals(AddressType.LIBRARY, results[0].types[1]);
       assertEquals(AddressType.POINT_OF_INTEREST, results[0].types[2]);
+      assertNotNull(Arrays.toString(results));
     }
   }
 
@@ -73,6 +76,7 @@ public class GeocodingApiTest {
     try (LocalTestServerContext sc = new LocalTestServerContext(simpleGeocodeResponse)) {
       GeocodingResult[] results = GeocodingApi.newRequest(sc.context).address("Sydney").await();
       checkSydneyResult(results);
+      assertNotNull(Arrays.toString(results));
 
       sc.assertParamValue("Sydney", "address");
     }
@@ -92,7 +96,7 @@ public class GeocodingApiTest {
   @Test
   public void testAsync() throws Exception {
     try (LocalTestServerContext sc = new LocalTestServerContext(simpleGeocodeResponse)) {
-      final List<GeocodingResult[]> resps = new ArrayList<GeocodingResult[]>();
+      final List<GeocodingResult[]> resps = new ArrayList<>();
 
       PendingResult.Callback<GeocodingResult[]> callback =
           new PendingResult.Callback<GeocodingResult[]>() {
@@ -236,6 +240,7 @@ public class GeocodingApiTest {
       GeocodingResult[] results = GeocodingApi.newRequest(sc.context).address(address).await();
 
       assertNotNull(results);
+      assertNotNull(Arrays.toString(results));
       assertEquals(
           "Google Bldg 41, 1600 Amphitheatre Pkwy, Mountain View, CA 94043, USA",
           results[0].formattedAddress);
@@ -323,6 +328,8 @@ public class GeocodingApiTest {
               .bounds(new LatLng(34.172684, -118.604794), new LatLng(34.236144, -118.500938))
               .await();
 
+      assertNotNull(Arrays.toString(results));
+
       assertEquals("Winnetka, Los Angeles, CA, USA", results[0].formattedAddress);
       assertEquals("ChIJ0fd4S_KbwoAR2hRDrsr3HmQ", results[0].placeId);
 
@@ -402,6 +409,8 @@ public class GeocodingApiTest {
                 + "}\n")) {
       GeocodingResult[] results =
           GeocodingApi.newRequest(sc.context).address("Toledo").region("es").await();
+
+      assertNotNull(Arrays.toString(results));
 
       assertNotNull(results);
       assertEquals("Toledo, Spain", results[0].formattedAddress);
@@ -488,6 +497,8 @@ public class GeocodingApiTest {
               .components(ComponentFilter.country("ES"))
               .await();
 
+      assertNotNull(Arrays.toString(results));
+
       assertEquals("Santa Cruz de Tenerife, Spain", results[0].formattedAddress);
       assertEquals("ChIJcUElzOzMQQwRLuV30nMUEUM", results[0].placeId);
 
@@ -571,6 +582,8 @@ public class GeocodingApiTest {
               .address("Torun")
               .components(administrativeArea("TX"), country("US"))
               .await();
+
+      assertNotNull(Arrays.toString(results));
 
       assertEquals("Texas, USA", results[0].formattedAddress);
       assertEquals(true, results[0].partialMatch);
@@ -660,6 +673,7 @@ public class GeocodingApiTest {
               .await();
 
       assertNotNull(results);
+      assertNotNull(Arrays.toString(results));
       assertEquals("Annankatu, 00101 Helsinki, Finland", results[0].formattedAddress);
       assertEquals("EiBBbm5hbmthdHUsIDAwMTAxIEhlbHNpbmtpLCBTdW9taQ", results[0].placeId);
 
@@ -680,6 +694,7 @@ public class GeocodingApiTest {
       GeocodingResult[] results = GeocodingApi.newRequest(sc.context).latlng(latlng).await();
 
       assertNotNull(results);
+      assertNotNull(Arrays.toString(results));
       assertEquals("277 Bedford Ave, Brooklyn, NY 11211, USA", results[0].formattedAddress);
       assertEquals("277", results[0].addressComponents[0].longName);
       assertEquals("277", results[0].addressComponents[0].shortName);
@@ -779,6 +794,7 @@ public class GeocodingApiTest {
               .await();
 
       assertNotNull(results);
+      assertNotNull(Arrays.toString(results));
       assertEquals("277 Bedford Ave, Brooklyn, NY 11211, USA", results[0].formattedAddress);
       assertEquals(LocationType.ROOFTOP, results[0].geometry.locationType);
       assertEquals("ChIJd8BlQ2BZwokRAFUEcm_qrcA", results[0].placeId);
@@ -898,6 +914,7 @@ public class GeocodingApiTest {
               .custom("new_forward_geocoder", "true")
               .await();
 
+      assertNotNull(Arrays.toString(results));
       assertEquals(
           "Google Bldg 41, 1600 Amphitheatre Pkwy, Mountain View, CA 94043, USA",
           results[0].formattedAddress);
@@ -916,6 +933,7 @@ public class GeocodingApiTest {
       GeocodingResult[] results = GeocodingApi.newRequest(sc.context).latlng(location).await();
 
       assertNotNull(results);
+      assertNotNull(Arrays.toString(results));
       assertEquals(
           "Japan, 〒603-8361 Kyōto-fu, Kyōto-shi, Kita-ku, Kinkakujichō, １ 北山鹿苑寺金閣寺",
           results[0].formattedAddress);
@@ -1009,6 +1027,7 @@ public class GeocodingApiTest {
       GeocodingResult[] results = GeocodingApi.newRequest(sc.context).address(address).await();
 
       assertNotNull(results);
+      assertNotNull(Arrays.toString(results));
       assertEquals(AddressType.ESTABLISHMENT, results[0].types[0]);
       assertEquals(AddressType.FOOD, results[0].types[1]);
       assertEquals(AddressType.GROCERY_OR_SUPERMARKET, results[0].types[2]);
@@ -1093,6 +1112,7 @@ public class GeocodingApiTest {
       GeocodingResult[] results = GeocodingApi.newRequest(sc.context).address(address).await();
 
       assertNotNull(results);
+      assertNotNull(Arrays.toString(results));
       assertEquals(AddressType.ESTABLISHMENT, results[0].types[0]);
       assertEquals(AddressType.PLACE_OF_WORSHIP, results[0].types[1]);
       assertEquals(AddressType.POINT_OF_INTEREST, results[0].types[2]);

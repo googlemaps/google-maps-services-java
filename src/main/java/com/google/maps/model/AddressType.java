@@ -29,11 +29,26 @@ public enum AddressType implements UrlValue {
   /** A precise street address. */
   STREET_ADDRESS("street_address"),
 
+  /** A precise street number. */
+  STREET_NUMBER("street_number"),
+
+  /** The floor in the address of the building. */
+  FLOOR("floor"),
+
+  /** The room in the address of the building */
+  ROOM("room"),
+
+  /** A specific mailbox. */
+  POST_BOX("post_box"),
+
   /** A named route (such as "US 101"). */
   ROUTE("route"),
 
   /** A major intersection, usually of two major roads. */
   INTERSECTION("intersection"),
+
+  /** A continent. */
+  CONTINENT("continent"),
 
   /** A political entity. Usually, this type indicates a polygon of some civil administration. */
   POLITICAL("political"),
@@ -112,6 +127,9 @@ public enum AddressType implements UrlValue {
 
   /** A postal code prefix as used to address postal mail within the country. */
   POSTAL_CODE_PREFIX("postal_code_prefix"),
+
+  /** A postal code prefix as used to address postal mail within the country. */
+  POSTAL_CODE_SUFFIX("postal_code_suffix"),
 
   /** A prominent natural feature. */
   NATURAL_FEATURE("natural_feature"),
@@ -305,6 +323,125 @@ public enum AddressType implements UrlValue {
   /** Currently not a documented return type. */
   LIBRARY("library"),
 
+  /** Currently not a documented return type. */
+  CAR_WASH("car_wash"),
+
+  /** Currently not a documented return type. */
+  HARDWARE_STORE("hardware_store"),
+
+  /** Currently not a documented return type. */
+  AMUSEMENT_PARK("amusement_park"),
+
+  /** Currently not a documented return type. */
+  AQUARIUM("aquarium"),
+
+  /** Currently not a documented return type. */
+  ART_GALLERY("art_gallery"),
+
+  /** Currently not a documented return type. */
+  BICYCLE_STORE("bicycle_store"),
+
+  /** Currently not a documented return type. */
+  BOWLING_ALLEY("bowling_alley"),
+
+  /** Currently not a documented return type. */
+  CAFE("cafe"),
+
+  /** Currently not a documented return type. */
+  CAMPGROUND("campground"),
+
+  /** Currently not a documented return type. */
+  CAR_RENTAL("car_rental"),
+
+  /** Currently not a documented return type. */
+  CEMETERY("cemetery"),
+
+  /** Currently not a documented return type. */
+  CLOTHING_STORE("clothing_store"),
+
+  /** Currently not a documented return type. */
+  CONVENIENCE_STORE("convenience_store"),
+
+  /** Currently not a documented return type. */
+  COURTHOUSE("courthouse"),
+
+  /** Currently not a documented return type. */
+  DENTIST("dentist"),
+
+  /** Currently not a documented return type. */
+  ELECTRICIAN("electrician"),
+
+  /** Currently not a documented return type. */
+  ELECTRONICS_STORE("electronics_store"),
+
+  /** Currently not a documented return type. */
+  EMBASSY("embassy"),
+
+  /** Currently not a documented return type. */
+  FLORIST("florist"),
+
+  /** Currently not a documented return type. */
+  FUNERAL_HOME("funeral_home"),
+
+  /** Currently not a documented return type. */
+  GENERAL_CONTRACTOR("general_contractor"),
+
+  /** Currently not a documented return type. */
+  HINDU_TEMPLE("hindu_temple"),
+
+  /** Currently not a documented return type. */
+  JEWELRY_STORE("jewelry_store"),
+
+  /** Currently not a documented return type. */
+  LAUNDRY("laundry"),
+
+  /** Currently not a documented return type. */
+  LIQUOR_STORE("liquor_store"),
+
+  /** Currently not a documented return type. */
+  LOCKSMITH("locksmith"),
+
+  /** Currently not a documented return type. */
+  MEAL_DELIVERY("meal_delivery"),
+
+  /** Currently not a documented return type. */
+  MOSQUE("mosque"),
+
+  /** Currently not a documented return type. */
+  MOVIE_RENTAL("movie_rental"),
+
+  /** Currently not a documented return type. */
+  MOVIE_THEATER("movie_theater"),
+
+  /** Currently not a documented return type. */
+  PAINTER("painter"),
+
+  /** Currently not a documented return type. */
+  PET_STORE("pet_store"),
+
+  /** Currently not a documented return type. */
+  PHYSIOTHERAPIST("physiotherapist"),
+
+  /** Currently not a documented return type. */
+  PLUMBER("plumber"),
+
+  /** Currently not a documented return type. */
+  POLICE("police"),
+
+  /** Currently not a documented return type. */
+  ROOFING_CONTRACTOR("roofing_contractor"),
+
+  /** Currently not a documented return type. */
+  RV_PARK("rv_park"),
+
+  /** Currently not a documented return type. */
+  TAXI_STAND("taxi_stand"),
+
+  /** Currently not a documented return type. */
+  VETERINARY_CARE("veterinary_care"),
+
+  /** Currently not a documented return type. */
+  ZOO("zoo"),
   /**
    * Indicates an unknown address type returned by the server. The Java Client for Google Maps
    * Services should be updated to support the new value.

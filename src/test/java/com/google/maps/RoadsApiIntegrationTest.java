@@ -25,6 +25,7 @@ import com.google.maps.model.LatLng;
 import com.google.maps.model.SnappedPoint;
 import com.google.maps.model.SnappedSpeedLimitResponse;
 import com.google.maps.model.SpeedLimit;
+import java.util.Arrays;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
@@ -62,6 +63,7 @@ public class RoadsApiIntegrationTest {
           };
       SnappedPoint[] points = RoadsApi.snapToRoads(sc.context, false, path).await();
 
+      assertNotNull(Arrays.toString(points));
       sc.assertParamValue(join('|', path), "path");
       sc.assertParamValue("false", "interpolate");
       assertEquals(7, points.length);
@@ -86,6 +88,7 @@ public class RoadsApiIntegrationTest {
           };
       SpeedLimit[] speeds = RoadsApi.speedLimits(sc.context, path).await();
 
+      assertNotNull(Arrays.toString(speeds));
       assertEquals("/v1/speedLimits", sc.path());
       sc.assertParamValue(join('|', path), "path");
       assertEquals(7, speeds.length);
@@ -112,6 +115,7 @@ public class RoadsApiIntegrationTest {
           };
       SpeedLimit[] speeds = RoadsApi.speedLimits(sc.context, path).await();
 
+      assertNotNull(Arrays.toString(speeds));
       assertEquals("/v1/speedLimits", sc.path());
       sc.assertParamValue(join('|', path), "path");
       assertEquals(7, speeds.length);
@@ -134,6 +138,7 @@ public class RoadsApiIntegrationTest {
           };
       SpeedLimit[] speeds = RoadsApi.speedLimits(sc.context, placeIds).await();
 
+      assertNotNull(Arrays.toString(speeds));
       assertEquals("/v1/speedLimits", sc.path());
       assertEquals(3, speeds.length);
       assertEquals("ChIJc0BrC2EE9YgR71DvaFzNgrA", speeds[2].placeId);
@@ -159,6 +164,7 @@ public class RoadsApiIntegrationTest {
           };
       SnappedSpeedLimitResponse response = RoadsApi.snappedSpeedLimits(sc.context, path).await();
 
+      assertNotNull(response.toString());
       assertEquals("/v1/speedLimits", sc.path());
       sc.assertParamValue(join('|', path), "path");
       assertEquals(path.length, response.snappedPoints.length);
@@ -181,6 +187,7 @@ public class RoadsApiIntegrationTest {
           };
       SnappedPoint[] points = RoadsApi.nearestRoads(sc.context, path).await();
 
+      assertNotNull(Arrays.toString(points));
       assertEquals("/v1/nearestRoads", sc.path());
       sc.assertParamValue(join('|', path), "points");
       assertEquals(13, points.length);

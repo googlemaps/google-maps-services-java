@@ -17,6 +17,7 @@ package com.google.maps;
 
 import static com.google.maps.TestUtils.retrieveBody;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import com.google.maps.DirectionsApi.RouteRestriction;
 import com.google.maps.model.DistanceMatrix;
@@ -25,6 +26,7 @@ import com.google.maps.model.LatLng;
 import com.google.maps.model.TrafficModel;
 import com.google.maps.model.TravelMode;
 import com.google.maps.model.Unit;
+import java.util.Arrays;
 import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -76,7 +78,11 @@ public class DistanceMatrixApiTest {
       DistanceMatrix matrix =
           DistanceMatrixApi.getDistanceMatrix(sc.context, origins, destinations).await();
 
-      // Rows length will match the number of origin elements, regardless of whether they're routable.
+      assertNotNull(matrix.toString());
+      assertNotNull(Arrays.toString(matrix.rows));
+
+      // Rows length will match the number of origin elements, regardless of whether they're
+      // routable.
       assertEquals(8, matrix.rows.length);
       assertEquals(5, matrix.rows[0].elements.length);
       assertEquals(DistanceMatrixElementStatus.OK, matrix.rows[0].elements[0].status);

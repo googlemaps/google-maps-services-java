@@ -153,7 +153,7 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
       }
     }
 
-    final BlockingQueue<QueuedResponse> waiter = new ArrayBlockingQueue<QueuedResponse>(1);
+    final BlockingQueue<QueuedResponse> waiter = new ArrayBlockingQueue<>(1);
     final OkHttpPendingResult<T, R> parent = this;
 
     // This callback will be called on another thread, handled by the RateLimitExecutorService.

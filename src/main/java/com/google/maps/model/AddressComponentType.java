@@ -31,6 +31,9 @@ public enum AddressComponentType {
   /** A major intersection, usually of two major roads. */
   INTERSECTION("intersection"),
 
+  /** A continent. */
+  CONTINENT("continent"),
+
   /** A political entity. Usually, this type indicates a polygon of some civil administration. */
   POLITICAL("political"),
 
@@ -165,6 +168,84 @@ public enum AddressComponentType {
 
   /** The location of a light rail station. */
   LIGHT_RAIL_STATION("light_rail_station"),
+
+  /** A general contractor. */
+  GENERAL_CONTRACTOR("general_contractor"),
+
+  /** A food service establishment. */
+  FOOD("food"),
+
+  /** A real-estate agency. */
+  REAL_ESTATE_AGENCY("real_estate_agency"),
+
+  /** A car-rental establishment. */
+  CAR_RENTAL("car_rental"),
+
+  /** A travel agency. */
+  TRAVEL_AGENCY("travel_agency"),
+
+  /** An electronics store. */
+  ELECTRONICS_STORE("electronics_store"),
+
+  /** A home goods store. */
+  HOME_GOODS_STORE("home_goods_store"),
+
+  /** A school. */
+  SCHOOL("school"),
+
+  /** A store. */
+  STORE("store"),
+
+  /** A shopping mall. */
+  SHOPPING_MALL("shopping_mall"),
+
+  /** A lodging establishment. */
+  LODGING("lodging"),
+
+  /** An art gallery. */
+  ART_GALLERY("art_gallery"),
+
+  /** A lawyer. */
+  LAWYER("lawyer"),
+
+  /** A restaurant. */
+  RESTAURANT("restaurant"),
+
+  /** A bar. */
+  BAR("bar"),
+
+  /** A take-away meal establishment. */
+  MEAL_TAKEAWAY("meal_takeaway"),
+
+  /** A clothing store. */
+  CLOTHING_STORE("clothing_store"),
+
+  /** A local government office. */
+  LOCAL_GOVERNMENT_OFFICE("local_government_office"),
+
+  /** A finance establishment. */
+  FINANCE("finance"),
+
+  /** A moving company. */
+  MOVING_COMPANY("moving_company"),
+
+  /** A storage establishment. */
+  STORAGE("storage"),
+
+  /** A cafe. */
+  CAFE("cafe"),
+
+  /** A car repair establishment. */
+  CAR_REPAIR("car_repair"),
+
+  /** A health service provider. */
+  HEALTH("health"),
+
+  /** An insurance agency. */
+  INSURANCE_AGENCY("insurance_agency"),
+
+  /** A painter. */
+  PAINTER("painter"),
 
   /**
    * Indicates an unknown address component type returned by the server. The Java Client for Google

@@ -23,8 +23,9 @@ import java.util.List;
 /**
  * Utility class that encodes and decodes Polylines.
  *
- * <p>See {@url https://developers.google.com/maps/documentation/utilities/polylinealgorithm} for
- * detailed description of this format.
+ * <p>See <a href="https://developers.google.com/maps/documentation/utilities/polylinealgorithm">
+ * https://developers.google.com/maps/documentation/utilities/polylinealgorithm</a> for detailed
+ * description of this format.
  */
 public class PolylineEncoding {
   /** Decodes an encoded path string into a sequence of LatLngs. */
@@ -32,7 +33,7 @@ public class PolylineEncoding {
 
     int len = encodedPath.length();
 
-    final List<LatLng> path = new ArrayList<LatLng>(len / 2);
+    final List<LatLng> path = new ArrayList<>(len / 2);
     int index = 0;
     int lat = 0;
     int lng = 0;

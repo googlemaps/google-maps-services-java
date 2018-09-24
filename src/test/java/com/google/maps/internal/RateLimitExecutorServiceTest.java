@@ -15,6 +15,7 @@
 
 package com.google.maps.internal;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -40,8 +41,7 @@ public class RateLimitExecutorServiceTest {
     int qps = 10;
     RateLimitExecutorService service = new RateLimitExecutorService();
     service.setQueriesPerSecond(qps);
-    final ConcurrentHashMap<Integer, Integer> executedTimestamps =
-        new ConcurrentHashMap<Integer, Integer>();
+    final ConcurrentHashMap<Integer, Integer> executedTimestamps = new ConcurrentHashMap<>();
 
     for (int i = 0; i < 100; i++) {
       Runnable emptyTask =
@@ -79,8 +79,7 @@ public class RateLimitExecutorServiceTest {
           actualQps <= qps);
     }
     // Check that we executed every request
-    // TODO(brettmorgan): figure out where we are losing requests
-    //assertEquals(100, countTotalRequests(executedTimestamps));
+    assertEquals(100, countTotalRequests(executedTimestamps));
 
     service.shutdown();
   }
@@ -102,7 +101,7 @@ public class RateLimitExecutorServiceTest {
     assertTrue(
         "Delay thread should start in constructor of RateLimitExecutorService",
         delayThread.isAlive());
-    //this is needed to make sure that delay thread has reached queue.take()
+    // this is needed to make sure that delay thread has reached queue.take()
     delayThread.join(10);
     service.shutdown();
     delayThread.join(10);

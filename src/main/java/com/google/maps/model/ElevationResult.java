@@ -17,12 +17,23 @@ package com.google.maps.model;
 
 import java.io.Serializable;
 
-/** An Elevation API result. */
+/**
+ * An Elevation API result.
+ *
+ * <p>Units are in meters, per https://developers.google.com/maps/documentation/elevation/start.
+ */
 public class ElevationResult implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
+  /** Elevation in meters. */
   public double elevation;
+  /** Location of the elevation data. */
   public LatLng location;
+  /** Maximum distance between data points from which the elevation was interpolated, in meters. */
   public double resolution;
+
+  public String toString() {
+    return String.format("(%s, %f m, resolution=%f m)", location, elevation, resolution);
+  }
 }

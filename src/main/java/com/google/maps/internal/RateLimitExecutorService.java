@@ -51,7 +51,7 @@ public class RateLimitExecutorService implements ExecutorService, Runnable {
           new SynchronousQueue<Runnable>(),
           threadFactory("Rate Limited Dispatcher", true));
 
-  private final BlockingQueue<Runnable> queue = new LinkedBlockingQueue<Runnable>();
+  private final BlockingQueue<Runnable> queue = new LinkedBlockingQueue<>();
   private final RateLimiter rateLimiter =
       RateLimiter.create(DEFAULT_QUERIES_PER_SECOND, 1, TimeUnit.SECONDS);
 
@@ -104,12 +104,12 @@ public class RateLimitExecutorService implements ExecutorService, Runnable {
   @Override
   public void shutdown() {
     delegate.shutdown();
-    //we need this to break out of queue.take()
+    // we need this to break out of queue.take()
     execute(
         new Runnable() {
           @Override
           public void run() {
-            //do nothing
+            // do nothing
           }
         });
   }
@@ -119,12 +119,12 @@ public class RateLimitExecutorService implements ExecutorService, Runnable {
   @Override
   public List<Runnable> shutdownNow() {
     List<Runnable> tasks = delegate.shutdownNow();
-    //we need this to break out of queue.take()
+    // we need this to break out of queue.take()
     execute(
         new Runnable() {
           @Override
           public void run() {
-            //do nothing
+            // do nothing
           }
         });
     return tasks;

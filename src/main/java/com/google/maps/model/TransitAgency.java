@@ -36,4 +36,17 @@ public class TransitAgency implements Serializable {
 
   /** The phone number of the transit agency. */
   public String phone;
+
+  public String toString() {
+    StringBuilder sb = new StringBuilder("[TransitAgency: ");
+    sb.append(name);
+    if (url != null) {
+      sb.append(", url=").append(url);
+    }
+    if (phone != null) {
+      sb.append(", phone=").append(phone);
+    }
+    sb.append("]");
+    return sb.toString();
+  }
 }
