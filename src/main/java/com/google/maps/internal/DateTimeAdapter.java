@@ -70,7 +70,8 @@ public class DateTimeAdapter extends TypeAdapter<LocalDateTime> {
     }
     reader.endObject();
 
-    return LocalDateTime.ofInstant(Instant.ofEpochMilli(secondsSinceEpoch * 1000), ZoneId.of(timeZoneId));
+    return LocalDateTime.ofInstant(
+        Instant.ofEpochMilli(secondsSinceEpoch * 1000), ZoneId.of(timeZoneId));
   }
 
   /** This method is not implemented. */

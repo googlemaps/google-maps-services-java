@@ -32,10 +32,8 @@ import com.google.maps.model.TransitMode;
 import com.google.maps.model.TransitRoutingPreference;
 import com.google.maps.model.TravelMode;
 import com.google.maps.model.Unit;
-
 import java.time.Duration;
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -352,7 +350,7 @@ public class DirectionsApiTest {
               .origin("48 Pirrama Road, Pyrmont NSW 2009")
               .destination("182 Church St, Parramatta NSW 2150")
               .mode(TravelMode.DRIVING)
-              .departureTime(new DateTime().plus(Duration.standardMinutes(2)))
+              .departureTime(Instant.now().plus(Duration.ofMinutes(2)))
               .trafficModel(TrafficModel.PESSIMISTIC)
               .await();
 

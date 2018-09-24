@@ -312,7 +312,9 @@ public class PlacesApiTest {
       assertEquals(1425790392, review.time.toEpochMilli() / 1000);
       assertEquals(
           "2015-03-08 04:53AM",
-          DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mma").withZone(ZoneOffset.UTC).format(review.time));
+          DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mma")
+              .withZone(ZoneOffset.UTC)
+              .format(review.time));
 
       // Place ID
       assertNotNull(placeDetails.placeId);

@@ -26,13 +26,12 @@ import com.google.maps.model.LatLng;
 import com.google.maps.model.TrafficModel;
 import com.google.maps.model.TravelMode;
 import com.google.maps.model.Unit;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Arrays;
 import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-
-import java.time.Duration;
-import java.time.Instant;
 
 @Category(MediumTests.class)
 public class DistanceMatrixApiTest {
@@ -134,8 +133,9 @@ public class DistanceMatrixApiTest {
           .language("en-AU")
           .avoid(RouteRestriction.TOLLS)
           .units(Unit.IMPERIAL)
-          .departureTime(Instant.now().plus(Duration.ofMinutes(2))) // this is ignored when an API key is used
-                                .await();
+          .departureTime(
+              Instant.now().plus(Duration.ofMinutes(2))) // this is ignored when an API key is used
+          .await();
 
       sc.assertParamValue(StringUtils.join(origins, "|"), "origins");
       sc.assertParamValue(StringUtils.join(destinations, "|"), "destinations");
