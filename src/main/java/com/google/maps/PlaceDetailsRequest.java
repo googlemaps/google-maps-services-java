@@ -134,7 +134,7 @@ public class PlaceDetailsRequest
     PRICE_LEVEL("price_level"),
     RATING("rating"),
     REFERENCE("reference"),
-    REVIEWS("reviews"),
+    REVIEW("review"),
     SCOPE("scope"),
     TYPES("types"),
     URL("url"),
