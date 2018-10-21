@@ -19,6 +19,7 @@ APIs:
 - [Distance Matrix API]
 - [Elevation API]
 - [Geocoding API]
+- [Maps Static API]
 - [Places API]
 - [Roads API]
 - [Time Zone API]
@@ -73,6 +74,7 @@ To get an API key:
     - Distance Matrix API
     - Elevation API
     - Geocoding API
+    - Maps Static API
     - Places API
     - Roads API
     - Time Zone API
@@ -141,6 +143,7 @@ https://developers.google.com/maps/.
 - [Distance Matrix API]
 - [Elevation API]
 - [Geocoding API]
+- [Maps Static API]
 - [Places API]
 - [Roads API]
 - [Time Zone API]
@@ -296,6 +299,7 @@ req.setCallback(new PendingResult.Callback<GeocodingResult[]>() {
 [Geocoding API]: https://developers.google.com/maps/documentation/geocoding
 [Google Maps API Web Services]: https://developers.google.com/maps/apis-by-platform#web_service_apis
 [issues]: https://github.com/googlemaps/google-maps-services-java/issues
+[Maps Static API]: https://developers.google.com/maps/documentation/maps-static/
 [Places API]: https://developers.google.com/places/web-service/
 [Time Zone API]: https://developers.google.com/maps/documentation/timezone
 [Roads API]: https://developers.google.com/maps/documentation/roads
