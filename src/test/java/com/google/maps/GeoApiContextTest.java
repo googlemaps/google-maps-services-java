@@ -55,6 +55,7 @@ public class GeoApiContextTest {
   }
 
   @After
+  @SuppressWarnings("CatchAndPrintStackTrace")
   public void Teardown() {
     try {
       server.shutdown();
