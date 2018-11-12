@@ -183,16 +183,15 @@ public class GeoApiContext {
     StringBuilder query = new StringBuilder();
 
     boolean channelSet = false;
-    for (int i = 0; i < params.length; i++) {
+    for (int i = 0; i < params.length; i += 2) {
       if (params[i].equals("channel")) {
         channelSet = true;
       }
       query.append('&').append(params[i]).append('=');
-      i++;
 
       // URL-encode the parameter.
       try {
-        query.append(URLEncoder.encode(params[i], "UTF-8"));
+        query.append(URLEncoder.encode(params[i + 1], "UTF-8"));
       } catch (UnsupportedEncodingException e) {
         // This should never happen. UTF-8 support is required for every Java implementation.
         throw new IllegalStateException(e);
