@@ -69,7 +69,7 @@ public class PolylineEncoding {
     long lastLat = 0;
     long lastLng = 0;
 
-    final StringBuffer result = new StringBuffer();
+    final StringBuilder result = new StringBuilder();
 
     for (final LatLng point : path) {
       long lat = Math.round(point.lat * 1e5);
@@ -87,7 +87,7 @@ public class PolylineEncoding {
     return result.toString();
   }
 
-  private static void encode(long v, StringBuffer result) {
+  private static void encode(long v, StringBuilder result) {
     v = v < 0 ? ~(v << 1) : v << 1;
     while (v >= 0x20) {
       result.append(Character.toChars((int) ((0x20 | (v & 0x1f)) + 63)));
