@@ -35,6 +35,7 @@ public class Fare implements Serializable {
   /** The total fare amount, in the currency specified in {@link #currency}. */
   public BigDecimal value;
 
+  @Override
   public String toString() {
     return String.format("%s %s", value, currency);
   }

@@ -75,6 +75,7 @@ public class OpeningHours implements Serializable {
       /** Time that this Open or Close happens at. */
       public LocalTime time;
 
+      @Override
       public String toString() {
         return String.format("%s %s", day, time);
       }
@@ -86,6 +87,7 @@ public class OpeningHours implements Serializable {
     /** When the Place closes. */
     public Period.OpenClose close;
 
+    @Override
     public String toString() {
       return String.format("%s - %s", open, close);
     }
@@ -107,6 +109,7 @@ public class OpeningHours implements Serializable {
    */
   public Boolean permanentlyClosed;
 
+  @Override
   public String toString() {
     StringBuilder sb = new StringBuilder("[OpeningHours:");
     if (permanentlyClosed != null && permanentlyClosed) {

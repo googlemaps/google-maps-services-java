@@ -74,6 +74,7 @@ public class PlacesSearchResult implements Serializable {
   /** Indicates that the place has permanently shut down. */
   public boolean permanentlyClosed;
 
+  @Override
   public String toString() {
     StringBuilder sb = new StringBuilder("[PlacesSearchResult: ");
     sb.append("\"").append(name).append("\"");

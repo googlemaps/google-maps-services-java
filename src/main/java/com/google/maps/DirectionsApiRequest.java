@@ -344,6 +344,7 @@ public class DirectionsApiRequest
      *
      * @return The HTTP parameter fragment representing this waypoint.
      */
+    @Override
     public String toString() {
       if (isStopover) {
         return location;

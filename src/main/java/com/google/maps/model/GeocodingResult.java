@@ -76,6 +76,7 @@ public class GeocodingResult implements Serializable {
   /** The Plus Code identifier for this place. */
   public PlusCode plusCode;
 
+  @Override
   public String toString() {
     StringBuilder sb = new StringBuilder("[GeocodingResult");
     if (partialMatch) {

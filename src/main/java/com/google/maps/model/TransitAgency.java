@@ -37,6 +37,7 @@ public class TransitAgency implements Serializable {
   /** The phone number of the transit agency. */
   public String phone;
 
+  @Override
   public String toString() {
     StringBuilder sb = new StringBuilder("[TransitAgency: ");
     sb.append(name);

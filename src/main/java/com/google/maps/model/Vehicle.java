@@ -43,6 +43,7 @@ public class Vehicle implements Serializable {
   /** The URL for an icon based on the local transport signage. */
   public String localIcon;
 
+  @Override
   public String toString() {
     return String.format("%s (%s)", name, type);
   }

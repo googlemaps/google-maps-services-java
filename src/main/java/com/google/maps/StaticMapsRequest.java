@@ -139,6 +139,7 @@ public class StaticMapsRequest
     terrain,
     hybrid;
 
+    @Override
     public String toUrlValue() {
       return this.name();
     }

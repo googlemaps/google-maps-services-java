@@ -64,6 +64,7 @@ public class AutocompletePrediction implements Serializable {
     /** The start position of the matched substring, measured in Unicode characters. */
     public int offset;
 
+    @Override
     public String toString() {
       return String.format("(offset=%d, length=%d)", offset, length);
     }
@@ -90,11 +91,13 @@ public class AutocompletePrediction implements Serializable {
     /** The text of the matched term. */
     public String value;
 
+    @Override
     public String toString() {
       return String.format("(offset=%d, value=%s)", offset, value);
     }
   }
 
+  @Override
   public String toString() {
     return String.format(
         "[AutocompletePrediction: \"%s\", placeId=%s, types=%s, terms=%s, "
