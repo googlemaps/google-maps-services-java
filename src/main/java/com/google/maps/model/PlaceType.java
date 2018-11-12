@@ -120,7 +120,7 @@ public enum PlaceType implements StringJoin.UrlValue {
     this.placeType = placeType;
   }
 
-  private String placeType;
+  private final String placeType;
 
   @Override
   public String toUrlValue() {
