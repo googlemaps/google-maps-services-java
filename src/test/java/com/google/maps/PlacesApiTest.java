@@ -311,8 +311,8 @@ public class PlacesApiTest {
       assertEquals(RatingType.OVERALL, aspect.type);
       assertEquals(1425790392, review.time.toEpochMilli() / 1000);
       assertEquals(
-          "2015-03-08 04:53AM",
-          DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mma")
+          "2015-03-08 04:53 AM",
+          DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm a")
               .withZone(ZoneOffset.UTC)
               .format(review.time));
 
