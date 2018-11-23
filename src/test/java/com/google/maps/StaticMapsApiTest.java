@@ -24,6 +24,7 @@ import com.google.maps.StaticMapsRequest.Markers.CustomIconAnchor;
 import com.google.maps.StaticMapsRequest.Markers.MarkersSize;
 import com.google.maps.StaticMapsRequest.Path;
 import com.google.maps.StaticMapsRequest.StaticMapType;
+import com.google.maps.model.EncodedPolyline;
 import com.google.maps.model.LatLng;
 import com.google.maps.model.Size;
 import java.awt.image.BufferedImage;
@@ -37,7 +38,11 @@ public class StaticMapsApiTest {
 
   private final int WIDTH = 640;
   private final int HEIGHT = 480;
+  private final LatLng MELBOURNE = new LatLng(-37.8136, 144.9630);
   private final LatLng SYDNEY = new LatLng(-33.8688, 151.2093);
+  /** This encoded path matches the exact [MELBOURNE, SYDNEY] points. */
+  private final String MELBOURNE_TO_SYDNEY_ENCODED_POLYLINE = "~mxeFwaxsZ_naWk~be@";
+
   private final BufferedImage IMAGE = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_ARGB);
 
   @Test
@@ -158,6 +163,34 @@ public class StaticMapsApiTest {
       sc.assertParamValue(
           "weight:3|color:green|fillcolor:0xAACCEE|geodesic:true|Melbourne|-33.86880000,151.20930000",
           "path");
+    }
+  }
+
+  @Test
+  public void testMarkerAndPathAsEncodedPolyline() throws Exception {
+    try (LocalTestServerContext sc = new LocalTestServerContext(IMAGE)) {
+      StaticMapsRequest req = StaticMapsApi.newRequest(sc.context, new Size(WIDTH, HEIGHT));
+      Markers markers = new Markers();
+      markers.size(MarkersSize.small);
+      markers.customIcon("http://not.a/real/url", CustomIconAnchor.bottomleft, 2);
+      markers.color("blue");
+      markers.label("A");
+      markers.addLocation("Melbourne");
+      markers.addLocation(SYDNEY);
+      req.markers(markers);
+
+      List<LatLng> points = new ArrayList<>();
+      points.add(MELBOURNE);
+      points.add(SYDNEY);
+      EncodedPolyline path = new EncodedPolyline(points);
+      req.path(path);
+
+      req.await();
+
+      sc.assertParamValue(
+          "icon:http://not.a/real/url|anchor:bottomleft|scale:2|size:small|color:blue|label:A|Melbourne|-33.86880000,151.20930000",
+          "markers");
+      sc.assertParamValue("enc:" + MELBOURNE_TO_SYDNEY_ENCODED_POLYLINE, "path");
     }
   }
 
