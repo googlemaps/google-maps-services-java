@@ -43,8 +43,8 @@ import com.google.maps.model.TravelMode;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -166,7 +166,7 @@ public class GaePendingResult<T, R extends ApiResponse<T>> implements PendingRes
 
     Gson gson =
         new GsonBuilder()
-            .registerTypeAdapter(LocalDateTime.class, new DateTimeAdapter())
+            .registerTypeAdapter(ZonedDateTime.class, new ZonedDateTimeAdapter())
             .registerTypeAdapter(Distance.class, new DistanceAdapter())
             .registerTypeAdapter(Duration.class, new DurationAdapter())
             .registerTypeAdapter(Fare.class, new FareAdapter())
