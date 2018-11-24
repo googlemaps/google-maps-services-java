@@ -16,7 +16,7 @@
 package com.google.maps.model;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 /**
  * A component of a Directions API result.
@@ -58,13 +58,13 @@ public class DirectionsLeg implements Serializable {
    * The estimated time of arrival for this leg. This property is only returned for transit
    * directions.
    */
-  public LocalDateTime arrivalTime;
+  public ZonedDateTime arrivalTime;
 
   /**
    * The estimated time of departure for this leg. The departureTime is only available for transit
    * directions.
    */
-  public LocalDateTime departureTime;
+  public ZonedDateTime departureTime;
 
   /**
    * The latitude/longitude coordinates of the origin of this leg. Because the Directions API
