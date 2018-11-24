@@ -162,6 +162,7 @@ public class FindPlaceFromTextRequest
   public interface LocationBias extends UrlValue {}
 
   public static class LocationBiasIP implements LocationBias {
+    @Override
     public String toUrlValue() {
       return "ipbias";
     }

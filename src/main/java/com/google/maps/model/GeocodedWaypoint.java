@@ -43,6 +43,7 @@ public class GeocodedWaypoint implements Serializable {
   /** The address types of the geocoding result used for calculating directions. */
   public AddressType types[];
 
+  @Override
   public String toString() {
     StringBuilder sb = new StringBuilder("[GeocodedWaypoint");
     sb.append(" ").append(geocoderStatus);

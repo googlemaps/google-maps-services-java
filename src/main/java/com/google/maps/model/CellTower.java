@@ -79,6 +79,7 @@ public class CellTower implements Serializable {
   /** The timing advance value. */
   public Integer timingAdvance = null;
 
+  @Override
   public String toString() {
     return String.format(
         "[CellTower: cellId=%s, locationAreaCode=%s, mobileCountryCode=%s, "

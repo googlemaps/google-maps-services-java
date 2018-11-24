@@ -43,6 +43,7 @@ public class PlacesSearchResponse implements Serializable {
    */
   public String nextPageToken;
 
+  @Override
   public String toString() {
     StringBuilder sb = new StringBuilder("[PlacesSearchResponse: ");
     sb.append(results.length).append(" results");

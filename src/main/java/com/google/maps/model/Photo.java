@@ -38,6 +38,7 @@ public class Photo implements Serializable {
   /** Attributions about this listing which must be displayed to the user. */
   public String[] htmlAttributions;
 
+  @Override
   public String toString() {
     String str = String.format("[Photo %s (%d x %d)", photoReference, width, height);
     if (htmlAttributions != null && htmlAttributions.length > 0) {

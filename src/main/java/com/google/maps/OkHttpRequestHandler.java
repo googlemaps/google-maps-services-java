@@ -90,6 +90,7 @@ public class OkHttpRequestHandler implements GeoApiContext.RequestHandler {
         req, client, clazz, fieldNamingPolicy, errorTimeout, maxRetries, exceptionsAllowedToRetry);
   }
 
+  @Override
   public void shutdown() {
     executorService.shutdown();
     client.connectionPool().evictAll();

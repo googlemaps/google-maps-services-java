@@ -63,6 +63,7 @@ public class TransitDetails implements Serializable {
   /** Information about the transit line used in this step. */
   public TransitLine line;
 
+  @Override
   public String toString() {
     StringBuilder sb = new StringBuilder("[");
     sb.append(departureStop).append(" at ").append(departureTime);

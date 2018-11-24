@@ -15,6 +15,8 @@
 
 package com.google.maps.internal;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import javax.crypto.Mac;
@@ -48,7 +50,7 @@ public class UrlSigner {
 
   /** Generate url safe HmacSHA1 of a path. */
   public String getSignature(String path) {
-    byte[] digest = getMac().doFinal(path.getBytes());
+    byte[] digest = getMac().doFinal(path.getBytes(UTF_8));
     return ByteString.of(digest).base64().replace('+', '-').replace('/', '_');
   }
 

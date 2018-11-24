@@ -15,13 +15,15 @@
 
 package com.google.maps;
 
+import static org.apache.commons.lang.CharEncoding.UTF_8;
+
 import java.io.InputStream;
 import java.util.Scanner;
 
 public class TestUtils {
   public static String retrieveBody(String filename) {
     InputStream input = TestUtils.class.getResourceAsStream(filename);
-    try (Scanner s = new java.util.Scanner(input)) {
+    try (Scanner s = new java.util.Scanner(input, UTF_8)) {
       s.useDelimiter("\\A");
       String body = s.next();
 

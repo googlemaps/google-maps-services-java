@@ -41,6 +41,8 @@ public final class LongMath {
    * Returns the sum of {@code a} and {@code b} unless it would overflow or underflow in which case
    * {@code Long.MAX_VALUE} or {@code Long.MIN_VALUE} is returned, respectively.
    */
+  /* Suppress warnings instead of "fixing" because this is code imported from Guava. */
+  @SuppressWarnings("ShortCircuitBoolean")
   public static long saturatedAdd(long a, long b) {
     long naiveSum = a + b;
     if ((a ^ b) < 0 | (a ^ naiveSum) >= 0) {

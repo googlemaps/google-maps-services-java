@@ -28,6 +28,7 @@ public class DistanceMatrixRow implements Serializable {
   /** The results for this row, or individual origin. */
   public DistanceMatrixElement[] elements;
 
+  @Override
   public String toString() {
     return String.format("[DistanceMatrixRow %d elements]", elements.length);
   }

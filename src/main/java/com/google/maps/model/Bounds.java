@@ -26,6 +26,7 @@ public class Bounds implements Serializable {
   /** The southwest corner of the bounding box. */
   public LatLng southwest;
 
+  @Override
   public String toString() {
     return String.format("[%s, %s]", northeast, southwest);
   }

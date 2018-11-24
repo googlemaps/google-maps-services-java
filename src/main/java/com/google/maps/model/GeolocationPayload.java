@@ -79,6 +79,7 @@ public class GeolocationPayload implements Serializable {
   /** An array of WiFi access point objects. See {@link com.google.maps.model.WifiAccessPoint}. */
   public WifiAccessPoint[] wifiAccessPoints;
 
+  @Override
   public String toString() {
     StringBuilder sb = new StringBuilder("[GeolocationPayload");
     List<String> elements = new ArrayList<>();

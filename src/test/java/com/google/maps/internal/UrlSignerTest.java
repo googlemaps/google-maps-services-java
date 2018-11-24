@@ -15,6 +15,7 @@
 
 package com.google.maps.internal;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -38,7 +39,7 @@ public class UrlSignerTest {
   //     = 0xde7c9b85b8b78aa6bc8a7a36f70a90701c9db4d9
   private static final String MESSAGE = "The quick brown fox jumps over the lazy dog";
   private static final String SIGNING_KEY =
-      ByteString.of("key".getBytes()).base64().replace('+', '-').replace('/', '_');
+      ByteString.of("key".getBytes(UTF_8)).base64().replace('+', '-').replace('/', '_');
   private static final String SIGNATURE =
       ByteString.of(hexStringToByteArray("de7c9b85b8b78aa6bc8a7a36f70a90701c9db4d9"))
           .base64()

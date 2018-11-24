@@ -97,6 +97,7 @@ public class PlaceDetails implements Serializable {
      */
     public PlaceIdScope scope;
 
+    @Override
     public String toString() {
       return String.format("%s (%s)", placeId, scope);
     }
@@ -222,6 +223,7 @@ public class PlaceDetails implements Serializable {
   /** Attributions about this listing which must be displayed to the user. */
   public String[] htmlAttributions;
 
+  @Override
   public String toString() {
     StringBuilder sb = new StringBuilder("[PlaceDetails: ");
     sb.append("\"").append(name).append("\"");

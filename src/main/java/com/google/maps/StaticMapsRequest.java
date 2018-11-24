@@ -36,7 +36,7 @@ public class StaticMapsRequest
 
   @Override
   protected void validateRequest() {
-    if (!(params().containsKey("center") && params().containsKey("zoom")
+    if (!((params().containsKey("center") && params().containsKey("zoom"))
         || params().containsKey("markers"))) {
       throw new IllegalArgumentException(
           "Request must contain 'center' and 'zoom' if 'markers' isn't present.");
@@ -139,6 +139,7 @@ public class StaticMapsRequest
     terrain,
     hybrid;
 
+    @Override
     public String toUrlValue() {
       return this.name();
     }

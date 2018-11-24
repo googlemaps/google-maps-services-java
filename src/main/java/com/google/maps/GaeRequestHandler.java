@@ -15,6 +15,8 @@
 
 package com.google.maps;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.google.appengine.api.urlfetch.FetchOptions;
 import com.google.appengine.api.urlfetch.HTTPHeader;
 import com.google.appengine.api.urlfetch.HTTPMethod;
@@ -83,7 +85,7 @@ public class GaeRequestHandler implements GeoApiContext.RequestHandler {
     try {
       req = new HTTPRequest(new URL(hostName + url), HTTPMethod.POST, fetchOptions);
       req.setHeader(new HTTPHeader("Content-Type", "application/json; charset=utf-8"));
-      req.setPayload(payload.getBytes());
+      req.setPayload(payload.getBytes(UTF_8));
     } catch (MalformedURLException e) {
       LOG.error("Request: {}{}", hostName, url, e);
       throw (new RuntimeException(e));

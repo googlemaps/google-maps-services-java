@@ -33,6 +33,7 @@ public class ElevationResult implements Serializable {
   /** Maximum distance between data points from which the elevation was interpolated, in meters. */
   public double resolution;
 
+  @Override
   public String toString() {
     return String.format("(%s, %f m, resolution=%f m)", location, elevation, resolution);
   }
