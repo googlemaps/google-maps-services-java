@@ -1,7 +1,11 @@
 language: java
 dist: trusty
 jdk:
+- openjdk7
+- openjdk8
 - oraclejdk8
+- oraclejdk9
+- oraclejdk11
 notifications:
   email:
   - mdr-eng@google.com
