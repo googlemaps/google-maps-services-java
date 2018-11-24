@@ -88,6 +88,10 @@ javadoc {
     }
 }
 
+jacoco {
+    toolVersion = "0.8.2" // non-default version 0.8.2 required for OpenJDK 11 compatibility
+}
+
 jacocoTestReport {
     reports {
         xml.enabled = true // coveralls plugin depends on xml format report
