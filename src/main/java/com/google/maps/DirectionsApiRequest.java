@@ -157,12 +157,24 @@ public class DirectionsApiRequest
    * Set the departure time for a transit or driving directions request. If both departure time and
    * traffic model are not provided, then "now" is assumed. If traffic model is supplied, then
    * departure time must be specified.
+   * Duration in traffic will only be returned if the departure time is specified.
    *
    * @param time The departure time to calculate directions for.
    * @return Returns this {@code DirectionsApiRequest} for call chaining.
    */
   public DirectionsApiRequest departureTime(Instant time) {
     return param("departure_time", Long.toString(time.toEpochMilli() / 1000L));
+  }
+    
+  /**
+   * Set the departure time for a transit or driving directions request as the current time.
+   * If traffic model is supplied, then departure time must be specified.
+   * Duration in traffic will only be returned if the departure time is specified.
+   * 
+   * @return Returns this {@code DirectionsApiRequest} for call chaining.
+   */
+  public DirectionsApiRequest departureTimeNow() {
+    return param("departure_time", "now");
   }
 
   /**
