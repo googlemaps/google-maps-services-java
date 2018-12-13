@@ -166,9 +166,9 @@ public class DirectionsApiRequest
   }
 
   /**
-   * Specifies a list of waypoints. Waypoints alter a route by routing it through the specified *
+   * Specifies a list of waypoints. Waypoints alter a route by routing it through the specified
    * location(s). A waypoint is specified as either a latitude/longitude coordinate or as an address
-   * * which will be geocoded. Waypoints are only supported for driving, walking and bicycling *
+   * which will be geocoded. Waypoints are only supported for driving, walking and bicycling
    * directions.
    *
    * <p>For more information on waypoints, see <a
