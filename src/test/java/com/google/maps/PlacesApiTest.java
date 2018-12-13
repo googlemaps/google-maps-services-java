@@ -314,7 +314,8 @@ public class PlacesApiTest {
           "2015-03-08 04:53 am",
           DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm a")
               .withZone(ZoneOffset.UTC)
-              .format(review.time));
+              .format(review.time)
+              .toLowerCase());
 
       // Place ID
       assertNotNull(placeDetails.placeId);
