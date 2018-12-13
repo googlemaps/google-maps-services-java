@@ -230,7 +230,7 @@ public class DirectionsApiRequest
    * Specifies the list of waypoints as String addresses.
    * If any of the Strings are Place IDs, you must prefix them with {@code place_id:}.
    *
-   * <p>See {@link #prefixPlaceId()}.
+   * <p>See {@link #prefixPlaceId(String)}.
    * <p>See {@link #waypoints(Waypoint...)}.
    *
    * @param waypoints The waypoints to add to this directions request.
@@ -248,7 +248,7 @@ public class DirectionsApiRequest
    * Specifies the list of waypoints as Plade ID Strings, prefixing them as required by
    * the API.
    *
-   * <p>See {@link #prefixPlaceId()}.
+   * <p>See {@link #prefixPlaceId(String)}.
    * <p>See {@link #waypoints(Waypoint...)}.
    *
    * @param waypoints The waypoints to add to this directions request.
