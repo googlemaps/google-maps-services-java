@@ -81,7 +81,7 @@ public class DirectionsApiRequest
   public DirectionsApiRequest destination(String destination) {
     return param("destination", destination);
   }
-    
+
   /**
    * The Place ID value from which you wish to calculate directions.
    *
@@ -91,7 +91,7 @@ public class DirectionsApiRequest
   public DirectionsApiRequest originPlaceId(String originPlaceId) {
     return param("origin", prefixPlaceId(originPlaceId));
   }
-    
+
   /**
    * The Place ID value from which you wish to calculate directions.
    *
@@ -227,10 +227,11 @@ public class DirectionsApiRequest
   }
 
   /**
-   * Specifies the list of waypoints as String addresses.
-   * If any of the Strings are Place IDs, you must prefix them with {@code place_id:}.
+   * Specifies the list of waypoints as String addresses. If any of the Strings are Place IDs, you
+   * must prefix them with {@code place_id:}.
    *
    * <p>See {@link #prefixPlaceId(String)}.
+   *
    * <p>See {@link #waypoints(Waypoint...)}.
    *
    * @param waypoints The waypoints to add to this directions request.
@@ -243,12 +244,12 @@ public class DirectionsApiRequest
     }
     return waypoints(objWaypoints);
   }
-    
+
   /**
-   * Specifies the list of waypoints as Plade ID Strings, prefixing them as required by
-   * the API.
+   * Specifies the list of waypoints as Plade ID Strings, prefixing them as required by the API.
    *
    * <p>See {@link #prefixPlaceId(String)}.
+   *
    * <p>See {@link #waypoints(Waypoint...)}.
    *
    * @param waypoints The waypoints to add to this directions request.
@@ -342,7 +343,7 @@ public class DirectionsApiRequest
   public DirectionsApiRequest trafficModel(TrafficModel trafficModel) {
     return param("traffic_model", trafficModel);
   }
-    
+
   /**
    * Helper method for prefixing a Place ID, as specified by the API.
    *
