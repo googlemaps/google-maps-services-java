@@ -81,6 +81,26 @@ public class DirectionsApiRequest
   public DirectionsApiRequest destination(String destination) {
     return param("destination", destination);
   }
+    
+  /**
+   * The Place ID value from which you wish to calculate directions.
+   *
+   * @param originPlaceId The starting location Place ID for the Directions request.
+   * @return Returns this {@code DirectionsApiRequest} for call chaining.
+   */
+  public DirectionsApiRequest originPlaceId(String originPlaceId) {
+    return param("origin", prefixPlaceId(originPlaceId));
+  }
+    
+  /**
+   * The Place ID value from which you wish to calculate directions.
+   *
+   * @param destinationPlaceId The ending location Place ID for the Directions request.
+   * @return Returns this {@code DirectionsApiRequest} for call chaining.
+   */
+  public DirectionsApiRequest destinationPlaceId(String destinationPlaceId) {
+    return param("destination", prefixPlaceId(destinationPlaceId));
+  }
 
   /**
    * The origin, as a latitude/longitude location.
@@ -208,7 +228,9 @@ public class DirectionsApiRequest
 
   /**
    * Specifies the list of waypoints as String addresses.
+   * If any of the Strings are Place IDs, you must prefix them with {@code place_id:}.
    *
+   * <p>See {@link #prefixPlaceId(String)}.
    * <p>See {@link #waypoints(Waypoint...)}.
    *
    * @param waypoints The waypoints to add to this directions request.
@@ -218,6 +240,24 @@ public class DirectionsApiRequest
     Waypoint[] objWaypoints = new Waypoint[waypoints.length];
     for (int i = 0; i < waypoints.length; i++) {
       objWaypoints[i] = new Waypoint(waypoints[i]);
+    }
+    return waypoints(objWaypoints);
+  }
+    
+  /**
+   * Specifies the list of waypoints as Plade ID Strings, prefixing them as required by
+   * the API.
+   *
+   * <p>See {@link #prefixPlaceId(String)}.
+   * <p>See {@link #waypoints(Waypoint...)}.
+   *
+   * @param waypoints The waypoints to add to this directions request.
+   * @return Returns this {@code DirectionsApiRequest} for call chaining.
+   */
+  public DirectionsApiRequest waypointsFromPlaceIds(String... waypoints) {
+    Waypoint[] objWaypoints = new Waypoint[waypoints.length];
+    for (int i = 0; i < waypoints.length; i++) {
+      objWaypoints[i] = new Waypoint(prefixPlaceId(waypoints[i]));
     }
     return waypoints(objWaypoints);
   }
@@ -301,6 +341,16 @@ public class DirectionsApiRequest
    */
   public DirectionsApiRequest trafficModel(TrafficModel trafficModel) {
     return param("traffic_model", trafficModel);
+  }
+    
+  /**
+   * Helper method for prefixing a Place ID, as specified by the API.
+   *
+   * @param placeId The Place ID to be prefixed.
+   * @return Returns the Place ID prefixed with {@code place_id:}.
+   */
+  public String prefixPlaceId(String placeId) {
+    return "place_id:" + placeId;
   }
 
   public static class Waypoint {
