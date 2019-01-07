@@ -56,7 +56,7 @@ dependencies {
     testImplementation 'com.squareup.okhttp3:mockwebserver:3.12.1'
     testImplementation 'org.apache.httpcomponents:httpclient:4.5.6'
     testImplementation 'org.slf4j:slf4j-simple:1.7.25'
-    testImplementation 'commons-lang:commons-lang:2.6'
+    testImplementation 'org.apache.commons:commons-lang3:3.8.1'
     testImplementation 'org.json:json:20180813'
 }
 

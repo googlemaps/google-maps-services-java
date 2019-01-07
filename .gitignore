@@ -12,3 +12,4 @@
 .classpath
 .vscode/
 .DS_Store
+hs_err_*.log
