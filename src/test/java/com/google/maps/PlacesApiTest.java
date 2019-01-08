@@ -448,6 +448,7 @@ public class PlacesApiTest {
       LatLng location = new LatLng(10, 20);
       PlacesApi.textSearchQuery(sc.context, "Google Sydney")
           .location(location)
+          .region("AU")
           .radius(3000)
           .minPrice(PriceLevel.INEXPENSIVE)
           .maxPrice(PriceLevel.VERY_EXPENSIVE)
@@ -459,6 +460,7 @@ public class PlacesApiTest {
 
       sc.assertParamValue("Google Sydney", "query");
       sc.assertParamValue(location.toUrlValue(), "location");
+      sc.assertParamValue("AU", "region");
       sc.assertParamValue(String.valueOf(3000), "radius");
       sc.assertParamValue(String.valueOf(1), "minprice");
       sc.assertParamValue(String.valueOf(4), "maxprice");

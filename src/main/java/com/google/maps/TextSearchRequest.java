@@ -62,6 +62,19 @@ public class TextSearchRequest
   }
 
   /**
+   * Region used to influence search results. This parameter will only influence, not fully
+   * restrict, search results. If more relevant results exist outside of the specified region, they
+   * may be included. When this parameter is used, the country name is omitted from the resulting
+   * formatted_address for results in the specified region.
+   *
+   * @param region The ccTLD two-letter code of the region.
+   * @return Returns this {@code TextSearchRequest} for call chaining.
+   */
+  public TextSearchRequest region(String region) {
+    return param("region", region);
+  }
+
+  /**
    * Specifies the distance (in meters) within which to bias place results.
    *
    * @param radius The radius of the search bias.
