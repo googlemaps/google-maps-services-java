@@ -30,6 +30,11 @@ public class EncodedPolyline implements Serializable {
   private static final long serialVersionUID = 1L;
 
   private final String points;
+  
+  /**
+   * Default constructor.
+   */
+  public EncodedPolyline(){}
 
   /**
    * @param encodedPoints A string representation of a path, encoded with the Polyline Algorithm.
