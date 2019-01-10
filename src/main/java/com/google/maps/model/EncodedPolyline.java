@@ -34,7 +34,9 @@ public class EncodedPolyline implements Serializable {
   /**
    * Default constructor.
    */
-  public EncodedPolyline(){}
+  public EncodedPolyline(){
+    this.points = null;
+  }
 
   /**
    * @param encodedPoints A string representation of a path, encoded with the Polyline Algorithm.
