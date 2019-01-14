@@ -31,7 +31,7 @@ public class EncodedPolyline implements Serializable {
 
   private final String points;
 
-  public EncodedPolyline(){
+  public EncodedPolyline() {
     this.points = null;
   }
 
