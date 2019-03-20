@@ -247,6 +247,18 @@ public enum AddressComponentType {
   /** A painter. */
   PAINTER("painter"),
 
+  /** An archipelago. */
+  ARCHIPELAGO("archipelago"),
+
+  /** A museum. */
+  MUSEUM("museum"),
+
+  /** A campground. */
+  CAMPGROUND("campground"),
+
+  /** An RV park. */
+  RV_PARK("rv_park"),
+
   /**
    * Indicates an unknown address component type returned by the server. The Java Client for Google
    * Maps Services should be updated to support the new value.
