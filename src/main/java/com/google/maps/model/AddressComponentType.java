@@ -259,6 +259,9 @@ public enum AddressComponentType {
   /** An RV park. */
   RV_PARK("rv_park"),
 
+  /** A meal delivery establishment. */
+  MEAL_DELIVERY("meal_delivery"),
+
   /**
    * Indicates an unknown address component type returned by the server. The Java Client for Google
    * Maps Services should be updated to support the new value.

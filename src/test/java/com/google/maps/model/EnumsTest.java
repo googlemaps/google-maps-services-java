@@ -273,6 +273,7 @@ public class EnumsTest {
     m.put(AddressComponentType.MUSEUM, "museum");
     m.put(AddressComponentType.RV_PARK, "rv_park");
     m.put(AddressComponentType.CAMPGROUND, "campground");
+    m.put(AddressComponentType.MEAL_DELIVERY, "meal_delivery");
 
     for (Map.Entry<AddressComponentType, String> AddressComponentTypeLiteralPair :
         addressComponentTypeToLiteralMap.entrySet()) {
