@@ -74,6 +74,7 @@ public enum PlaceType implements StringJoin.UrlValue {
   LAUNDRY("laundry"),
   LAWYER("lawyer"),
   LIBRARY("library"),
+  LIGHT_RAIL_STATION("light_rail_station"),
   LIQUOR_STORE("liquor_store"),
   LOCAL_GOVERNMENT_OFFICE("local_government_office"),
   LOCKSMITH("locksmith"),
