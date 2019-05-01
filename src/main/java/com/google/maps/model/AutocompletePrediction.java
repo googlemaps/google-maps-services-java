@@ -56,7 +56,9 @@ public class AutocompletePrediction implements Serializable {
    * Describes the location of the entered term in the prediction result text, so that the term can
    * be highlighted if desired.
    */
-  public static class MatchedSubstring {
+  public static class MatchedSubstring implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     /** The length of the matched substring, measured in Unicode characters. */
     public int length;
