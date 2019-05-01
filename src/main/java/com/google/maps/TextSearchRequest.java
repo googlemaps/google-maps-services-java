@@ -168,8 +168,9 @@ public class TextSearchRequest
       return;
     }
 
-    if (!params().containsKey("query")) {
-      throw new IllegalArgumentException("Request must contain 'query' or a 'pageToken'.");
+    if (!params().containsKey("query") && !params().containsKey("type")) {
+      throw new IllegalArgumentException(
+              "Request must contain 'query' or a 'pageToken'. If a 'type' is specified 'query' becomes optional.");
     }
 
     if (params().containsKey("location") && !params().containsKey("radius")) {
