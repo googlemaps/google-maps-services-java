@@ -85,7 +85,9 @@ public class AutocompletePrediction implements Serializable {
    * Identifies each section of the returned description. (A section of the description is generally
    * terminated with a comma.)
    */
-  public static class Term {
+  public static class Term implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     /** The start position of this term in the description, measured in Unicode characters. */
     public int offset;
