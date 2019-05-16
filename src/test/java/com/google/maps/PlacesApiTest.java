@@ -783,6 +783,18 @@ public class PlacesApiTest {
   }
 
   @Test
+  public void testNearbySearchRequestByTypeReturnsUserRatingsTotal() throws Exception {
+    try (LocalTestServerContext sc =
+                 new LocalTestServerContext(placesApiNearbySearchRequestByType)) {
+      PlacesSearchResponse response =
+              PlacesApi.nearbySearchQuery(sc.context, SYDNEY).radius(10000).type(PlaceType.BAR).await();
+
+      assertEquals(20, response.results.length);
+      assertEquals(563, response.results[0].userRatingsTotal);
+    }
+  }
+
+  @Test
   public void testPlaceAutocomplete() throws Exception {
     try (LocalTestServerContext sc = new LocalTestServerContext(placesApiPlaceAutocomplete)) {
       SessionToken session = new SessionToken();

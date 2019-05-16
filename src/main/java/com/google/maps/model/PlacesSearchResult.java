@@ -74,6 +74,9 @@ public class PlacesSearchResult implements Serializable {
   /** Indicates that the place has permanently shut down. */
   public boolean permanentlyClosed;
 
+  /** The number of user reviews for this place*/
+  public int userRatingsTotal;
+
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder("[PlacesSearchResult: ");
@@ -99,6 +102,9 @@ public class PlacesSearchResult implements Serializable {
     }
     if (permanentlyClosed) {
       sb.append(", permanentlyClosed");
+    }
+    if (userRatingsTotal > 0) {
+      sb.append(", userRatingsTotal=").append(userRatingsTotal);
     }
 
     sb.append("]");
