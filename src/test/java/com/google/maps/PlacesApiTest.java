@@ -475,7 +475,8 @@ public class PlacesApiTest {
   public void testTextSearchRequestWithType() throws Exception {
     try (LocalTestServerContext sc = new LocalTestServerContext("{\"status\" : \"OK\"}")) {
       LatLng location = new LatLng(-33.866611, 151.195832);
-      PlacesSearchResponse results = PlacesApi.textSearchQuery(sc.context, PlaceType.ESTABLISHMENT)
+      PlacesSearchResponse results =
+          PlacesApi.textSearchQuery(sc.context, PlaceType.ESTABLISHMENT)
               .location(location)
               .radius(500)
               .await();
@@ -785,9 +786,9 @@ public class PlacesApiTest {
   @Test
   public void testNearbySearchRequestByTypeReturnsUserRatingsTotal() throws Exception {
     try (LocalTestServerContext sc =
-                 new LocalTestServerContext(placesApiNearbySearchRequestByType)) {
+        new LocalTestServerContext(placesApiNearbySearchRequestByType)) {
       PlacesSearchResponse response =
-              PlacesApi.nearbySearchQuery(sc.context, SYDNEY).radius(10000).type(PlaceType.BAR).await();
+          PlacesApi.nearbySearchQuery(sc.context, SYDNEY).radius(10000).type(PlaceType.BAR).await();
 
       assertEquals(20, response.results.length);
       assertEquals(563, response.results[0].userRatingsTotal);
