@@ -74,7 +74,7 @@ public class PlacesSearchResult implements Serializable {
   /** Indicates that the place has permanently shut down. */
   public boolean permanentlyClosed;
 
-  /** The number of user reviews for this place*/
+  /** The number of user reviews for this place */
   public int userRatingsTotal;
 
   @Override

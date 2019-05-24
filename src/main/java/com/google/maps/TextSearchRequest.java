@@ -170,7 +170,7 @@ public class TextSearchRequest
 
     if (!params().containsKey("query") && !params().containsKey("type")) {
       throw new IllegalArgumentException(
-              "Request must contain 'query' or a 'pageToken'. If a 'type' is specified 'query' becomes optional.");
+          "Request must contain 'query' or a 'pageToken'. If a 'type' is specified 'query' becomes optional.");
     }
 
     if (params().containsKey("location") && !params().containsKey("radius")) {
