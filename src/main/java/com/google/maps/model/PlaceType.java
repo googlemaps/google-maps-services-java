@@ -103,6 +103,7 @@ public enum PlaceType implements StringJoin.UrlValue {
   STORAGE("storage"),
   STORE("store"),
   SUBWAY_STATION("subway_station"),
+  SUPERMARKET("supermarket"),
   SYNAGOGUE("synagogue"),
   TAXI_STAND("taxi_stand"),
   TRAIN_STATION("train_station"),
