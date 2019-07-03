@@ -476,14 +476,14 @@ public class PlacesApiTest {
     try (LocalTestServerContext sc = new LocalTestServerContext("{\"status\" : \"OK\"}")) {
       LatLng location = new LatLng(-33.866611, 151.195832);
       PlacesSearchResponse results =
-          PlacesApi.textSearchQuery(sc.context, PlaceType.ESTABLISHMENT)
+          PlacesApi.textSearchQuery(sc.context, PlaceType.LOCKSMITH)
               .location(location)
               .radius(500)
               .await();
 
       sc.assertParamValue(location.toUrlValue(), "location");
       sc.assertParamValue(String.valueOf(500), "radius");
-      sc.assertParamValue(PlaceType.ESTABLISHMENT.toString(), "type");
+      sc.assertParamValue(PlaceType.LOCKSMITH.toString(), "type");
     }
   }
 
@@ -610,6 +610,60 @@ public class PlacesApiTest {
       sc.assertParamValue("true", "opennow");
       sc.assertParamValue(PlaceType.AIRPORT.toString(), "type");
       sc.assertParamValue("next-page-token", "pagetoken");
+    }
+  }
+
+  @Test
+  public void testNearbySearchWithPlaceTypeAndLocationFromPlaceId() throws Exception {
+
+
+    PlaceDetails placeDetails;
+
+    // LIMITATION: There is a type limitation in nearby and text search.
+    // If more than one type is provided, all types following the first entry are ignored.
+
+    try (LocalTestServerContext sc = new LocalTestServerContext(quayResponseBody)) {
+      placeDetails = PlacesApi.placeDetails(sc.context, QUAY_PLACE_ID).await();
+      assertNotNull(placeDetails);
+      assertNotNull(placeDetails.toString());
+      assertNotNull(placeDetails.geometry);
+      assertNotNull(placeDetails.geometry.location);
+      assertEquals(placeDetails.geometry.location.lat, -33.858018, 0.001);
+      assertEquals(placeDetails.geometry.location.lng, 151.210091, 0.001);
+
+      assertNotNull(placeDetails.types);
+      assertNotNull(placeDetails.types[0]);
+      assertEquals(placeDetails.types[0],AddressType.RESTAURANT);
+      assertEquals(placeDetails.types[1],AddressType.FOOD);
+      assertEquals(placeDetails.types[2],AddressType.POINT_OF_INTEREST);
+      assertEquals(placeDetails.types[3],AddressType.ESTABLISHMENT);
+
+    }
+
+    // We need to build a valid PlaceType from the AddressType name stored in the PlaceDetails response.
+    // ToDo This conversion can fail!
+    // See: https://developers.google.com/places/web-service/supported_types#table2
+    // Loop over AddressType[] for supported type and catch exception if unsupported type filter.
+    AddressType addressType = placeDetails.types[0];
+    PlaceType placeType = PlaceType.valueOf(addressType.name());
+
+    try (LocalTestServerContext sc = new LocalTestServerContext(textSearchPizzaInNYCbody)) {
+
+      PlacesSearchResponse results =
+              PlacesApi.nearbySearchQuery(sc.context, placeDetails.geometry.location)
+                      .location(placeDetails.geometry.location)
+                      .rankby(RankBy.DISTANCE)
+                      .type(placeType)
+                      .await();
+      assertNotNull(results.toString());
+      assertNotNull(results.nextPageToken);
+      assertEquals(
+              "CuQB1wAAANI17eHXt1HpqbLjkj7T5Ti69DEAClo02Qampg7Q6W_O_krFbge7hnTtDR7oVF3asex"
+                      + "HcGnUtR1ZKjroYd4BTCXxSGPi9LEkjJ0P_zVE7byjEBcHvkdxB6nCHKHAgVNGqe0ZHuwSYKlr3C1-"
+                      + "kuellMYwMlg3WSe69bJr1Ck35uToNZkUGvo4yjoYxNFRn1lABEnjPskbMdyHAjUDwvBDxzgGxpd8t"
+                      + "0EzA9UOM8Y1jqWnZGJM7u8gacNFcI4prr0Doh9etjY1yHrgGYI4F7lKPbfLQKiks_wYzoHbcAcdbB"
+                      + "jkEhAxDHC0XXQ16thDAlwVbEYaGhSaGDw5sHbaZkG9LZIqbcas0IJU8w",
+              results.nextPageToken);
     }
   }
 
