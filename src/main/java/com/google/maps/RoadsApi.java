@@ -163,7 +163,7 @@ public class RoadsApi {
     return context.get(NEAREST_ROADS_API_CONFIG, RoadsResponse.class, "points", join('|', points));
   }
 
-  private static class RoadsResponse implements ApiResponse<SnappedPoint[]> {
+  public static class RoadsResponse implements ApiResponse<SnappedPoint[]> {
     private SnappedPoint[] snappedPoints;
     private ApiError error;
 
@@ -183,7 +183,7 @@ public class RoadsApi {
     }
   }
 
-  private static class SpeedsResponse implements ApiResponse<SpeedLimit[]> {
+  public static class SpeedsResponse implements ApiResponse<SpeedLimit[]> {
     private SpeedLimit[] speedLimits;
     private ApiError error;
 
@@ -203,7 +203,7 @@ public class RoadsApi {
     }
   }
 
-  private static class CombinedResponse implements ApiResponse<SnappedSpeedLimitResponse> {
+  public static class CombinedResponse implements ApiResponse<SnappedSpeedLimitResponse> {
     private SnappedPoint[] snappedPoints;
     private SpeedLimit[] speedLimits;
     private ApiError error;

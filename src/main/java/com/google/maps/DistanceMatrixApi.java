@@ -53,7 +53,7 @@ public class DistanceMatrixApi {
     return newRequest(context).origins(origins).destinations(destinations);
   }
 
-  static class Response implements ApiResponse<DistanceMatrix> {
+  public static class Response implements ApiResponse<DistanceMatrix> {
     public String status;
     public String errorMessage;
     public String[] originAddresses;

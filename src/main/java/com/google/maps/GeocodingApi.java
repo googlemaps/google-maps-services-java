@@ -68,7 +68,7 @@ public class GeocodingApi {
     return request;
   }
 
-  static class Response implements ApiResponse<GeocodingResult[]> {
+  public static class Response implements ApiResponse<GeocodingResult[]> {
     public String status;
     public String errorMessage;
     public GeocodingResult[] results;
