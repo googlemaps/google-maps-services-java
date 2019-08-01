@@ -63,7 +63,7 @@ public class DirectionsApi {
     return new DirectionsApiRequest(context).origin(origin).destination(destination);
   }
 
-  static class Response implements ApiResponse<DirectionsResult> {
+  public static class Response implements ApiResponse<DirectionsResult> {
     public String status;
     public String errorMessage;
     public GeocodedWaypoint[] geocodedWaypoints;
