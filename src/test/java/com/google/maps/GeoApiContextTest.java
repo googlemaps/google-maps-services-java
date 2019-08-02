@@ -189,7 +189,7 @@ public class GeoApiContextTest {
 
   private MockResponse createMockBadResponse() {
     MockResponse response = new MockResponse();
-    response.setStatus("HTTP/1.1 500 Internal server error");
+    response.status("HTTP/1.1 500 Internal server error");
     response.setBody("Uh-oh. Server Error.");
 
     return response;
@@ -199,7 +199,7 @@ public class GeoApiContextTest {
   public void testRetryCanBeDisabled() throws Exception {
     // Set up 2 mock responses, an error that shouldn't be retried and a success
     MockResponse errorResponse = new MockResponse();
-    errorResponse.setStatus("HTTP/1.1 500 Internal server error");
+    errorResponse.status("HTTP/1.1 500 Internal server error");
     errorResponse.setBody("Uh-oh. Server Error.");
     server.enqueue(errorResponse);
 
@@ -221,7 +221,7 @@ public class GeoApiContextTest {
   @Test
   public void testRetryEventuallyReturnsTheRightException() throws Exception {
     MockResponse errorResponse = new MockResponse();
-    errorResponse.setStatus("HTTP/1.1 500 Internal server error");
+    errorResponse.status("HTTP/1.1 500 Internal server error");
     errorResponse.setBody("Uh-oh. Server Error.");
 
     // Enqueue some error responses.
@@ -273,7 +273,7 @@ public class GeoApiContextTest {
     // Enqueue some error responses, although only the first should be used because the response's
     // exception is not allowed to be retried.
     MockResponse overQueryLimitResponse = new MockResponse();
-    overQueryLimitResponse.setStatus("HTTP/1.1 400 Internal server error");
+    overQueryLimitResponse.status("HTTP/1.1 400 Internal server error");
     overQueryLimitResponse.setBody(TestUtils.retrieveBody("OverQueryLimitResponse.json"));
     server.enqueue(overQueryLimitResponse);
     server.enqueue(overQueryLimitResponse);
