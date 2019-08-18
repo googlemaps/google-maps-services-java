@@ -75,6 +75,22 @@ public class PlacesApi {
   }
 
   /**
+   * Performs a search for Places using a text query; for example, "pizza in New York" or "shoe
+   * stores near Ottawa".
+   *
+   * @param context The context on which to make Geo API requests.
+   * @param query The text string on which to search, for example: "restaurant".
+   * @param location The latitude/longitude around which to retrieve place information.
+   * @return Returns a TextSearchRequest that can be configured and executed.
+   */
+  public static TextSearchRequest textSearchQuery(GeoApiContext context, String query, LatLng location) {
+    TextSearchRequest request = new TextSearchRequest(context);
+    request.query(query);
+    request.location(location);
+    return request;
+  }
+
+  /**
    * Performs a search for Places using a PlaceType parameter.
    *
    * @param context The context on which to make Geo API requests.
