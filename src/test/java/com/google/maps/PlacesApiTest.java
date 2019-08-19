@@ -472,6 +472,34 @@ public class PlacesApiTest {
   }
 
   @Test
+  public void testTextSearchRequestWithLocation() throws Exception {
+    try (LocalTestServerContext sc = new LocalTestServerContext("{\"status\" : \"OK\"}")) {
+      LatLng location = new LatLng(10, 20);
+      PlacesApi.textSearchQuery(sc.context, "Google Sydney", location)
+              .region("AU")
+              .radius(3000)
+              .minPrice(PriceLevel.INEXPENSIVE)
+              .maxPrice(PriceLevel.VERY_EXPENSIVE)
+              .name("name")
+              .openNow(true)
+              .rankby(RankBy.DISTANCE)
+              .type(PlaceType.AIRPORT)
+              .await();
+
+      sc.assertParamValue("Google Sydney", "query");
+      sc.assertParamValue(location.toUrlValue(), "location");
+      sc.assertParamValue("AU", "region");
+      sc.assertParamValue(String.valueOf(3000), "radius");
+      sc.assertParamValue(String.valueOf(1), "minprice");
+      sc.assertParamValue(String.valueOf(4), "maxprice");
+      sc.assertParamValue("name", "name");
+      sc.assertParamValue("true", "opennow");
+      sc.assertParamValue(RankBy.DISTANCE.toString(), "rankby");
+      sc.assertParamValue(PlaceType.AIRPORT.toString(), "type");
+    }
+  }
+
+  @Test
   public void testTextSearchRequestWithType() throws Exception {
     try (LocalTestServerContext sc = new LocalTestServerContext("{\"status\" : \"OK\"}")) {
       LatLng location = new LatLng(-33.866611, 151.195832);
