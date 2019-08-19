@@ -80,6 +80,9 @@ public class PlaceDetails implements Serializable {
   /** Whether the place has permanently closed. */
   public boolean permanentlyClosed;
 
+  /** The number of user reviews for this place */
+  public int userRatingsTotal;
+
   public static class AlternatePlaceIds implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -264,6 +267,9 @@ public class PlaceDetails implements Serializable {
     sb.append(", rating=").append(rating);
     if (permanentlyClosed) {
       sb.append(", permanentlyClosed");
+    }
+    if (userRatingsTotal > 0) {
+      sb.append(", userRatingsTotal=").append(userRatingsTotal);
     }
     if (photos != null && photos.length > 0) {
       sb.append(", ").append(photos.length).append(" photos");

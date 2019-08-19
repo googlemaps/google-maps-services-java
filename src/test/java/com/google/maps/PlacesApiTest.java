@@ -344,6 +344,18 @@ public class PlacesApiTest {
   }
 
   @Test
+  public void testPlaceDetailsLookupReturnsUserRatingsTotal() throws Exception {
+    try (LocalTestServerContext sc = new LocalTestServerContext(placeDetailResponseBody)) {
+      PlaceDetails placeDetails = PlacesApi.placeDetails(sc.context, GOOGLE_SYDNEY).await();
+
+      assertNotNull(placeDetails);
+      assertNotNull(placeDetails.toString());
+      assertEquals(GOOGLE_SYDNEY, placeDetails.placeId);
+      assertEquals(98, placeDetails.userRatingsTotal);
+    }
+  }
+
+  @Test
   public void testPlaceDetailsLookupQuay() throws Exception {
     try (LocalTestServerContext sc = new LocalTestServerContext(quayResponseBody)) {
       PlaceDetails placeDetails = PlacesApi.placeDetails(sc.context, QUAY_PLACE_ID).await();

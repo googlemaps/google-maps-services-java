@@ -129,6 +129,7 @@ public class PlaceDetailsRequest
     NAME("name"),
     OPENING_HOURS("opening_hours"),
     PERMANENTLY_CLOSED("permanently_closed"),
+    USER_RATINGS_TOTAL("user_ratings_total"),
     PHOTOS("photos"),
     PLACE_ID("place_id"),
     PRICE_LEVEL("price_level"),
