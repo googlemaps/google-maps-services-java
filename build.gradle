@@ -17,12 +17,14 @@ plugins {
 
 apply plugin: 'java'
 apply plugin: 'java-library'
-apply plugin: 'maven'
+apply plugin: 'maven-publish'
 apply plugin: 'signing'
 apply plugin: 'jacoco'
 apply plugin: 'com.github.kt3k.coveralls'
 apply plugin: 'com.github.sherter.google-java-format'
 
+archivesBaseName = 'google-maps-services'
+version = '0.9.5'
 group = 'com.google.maps'
 sourceCompatibility = 1.8
 
@@ -98,61 +100,66 @@ jacocoTestReport {
     }
 }
 
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
-
-            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-                authentication(userName: sonatypeUsername, password: sonatypePassword)
-            }
-
-            pom.artifactId = 'google-maps-services'
-            pom.project {
-                name 'Java Client for Google Maps Services'
-                packaging 'jar'
-                description 'Use the Google Maps API Web Services in Java! ' +
-                    'https://developers.google.com/maps/documentation/webservices/'
-                url 'https://github.com/googlemaps/google-maps-services-java'
+publishing {
+    publications {
+        jar(MavenPublication) {
+            pom {
+                name = 'Java Client for Google Maps Platform Web Services'
+                description = 'Use the Google Maps Platform Web Services in Java! ' +
+                        'https://developers.google.com/maps/documentation/webservices/'
+                url = 'https://github.com/googlemaps/google-maps-services-java'
 
                 scm {
-                    url 'scm:git@github.com:googlemaps/google-maps-services-java.git'
-                    connection 'scm:git@github.com:googlemaps/google-maps-services-java.git'
-                    developerConnection 'scm:git@github.com:googlemaps/google-maps-services-java.git'
+                    url = 'scm:git@github.com:googlemaps/google-maps-services-java.git'
+                    connection = 'scm:git@github.com:googlemaps/google-maps-services-java.git'
+                    developerConnection = 'scm:git@github.com:googlemaps/google-maps-services-java.git'
                 }
 
                 licenses {
                     license {
-                        name 'The Apache Software License, Version 2.0'
-                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                        distribution 'repo'
+                        name = 'The Apache Software License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        distribution = 'repo'
                     }
+                }
+
+                organization {
+                    name = 'Google Inc'
+                    url = 'http://developers.google.com/maps'
                 }
 
                 developers {
                     developer {
-                        id 'markmcd'
-                        name 'Mark McDonald'
-                        url 'https://google.com/+MarkMcDonald0'
+                        id = 'markmcd'
+                        name = 'Mark McDonald'
                     }
                     developer {
-                        id 'domesticmouse'
-                        name 'Brett Morgan'
-                        url 'https://google.com/+BrettMorgan'
+                        id = 'domesticmouse'
+                        name = 'Brett Morgan'
                     }
                     developer {
-                        id 'broady'
-                        name 'Chris Broadfoot'
-                        url 'https://google.com/+ChristopherBroadfoot'
+                        id = 'broady'
+                        name = 'Chris Broadfoot'
                     }
                 }
+            }
+            groupId group
+            artifactId 'google-maps-services'
+            version version
+            artifact("$buildDir/libs/google-maps-services-" + version + ".jar")
+        }
+    }
+    repositories {
+        maven {
+            url "https://oss.sonatype.org/service/local/staging/deploy/maven2"
+            credentials {
+                username sonatypeUsername
+                password sonatypePassword
             }
         }
     }
 }
 
-if (ext.'signing.secretKeyRingFile') {
-    signing {
-        sign configurations.archives
-    }
+signing {
+    sign publishing.publications.jar
 }
