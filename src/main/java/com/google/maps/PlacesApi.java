@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Google Inc. All rights reserved.
+ * Copyright 2014 Google Inc. All rights reserved.
  *
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -83,7 +83,8 @@ public class PlacesApi {
    * @param location The latitude/longitude around which to retrieve place information.
    * @return Returns a TextSearchRequest that can be configured and executed.
    */
-  public static TextSearchRequest textSearchQuery(GeoApiContext context, String query, LatLng location) {
+  public static TextSearchRequest textSearchQuery(
+      GeoApiContext context, String query, LatLng location) {
     TextSearchRequest request = new TextSearchRequest(context);
     request.query(query);
     request.location(location);
