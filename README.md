@@ -134,7 +134,7 @@ Maven Central](https://search.maven.org/#search%7Cga%7C1%7Ca%3A%22google-maps-se
 
 ## Developer Documentation
 
-View the [javadoc](https://googlemaps.github.io/google-maps-services-java/v0.9.4/javadoc/index.html?overview-summary.html).
+View the [javadoc](https://googlemaps.github.io/google-maps-services-java/v0.9.5/javadoc/index.html?overview-summary.html).
 
 Additional documentation for the included web services is available at
 https://developers.google.com/maps/.
