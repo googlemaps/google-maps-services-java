@@ -15,8 +15,13 @@
 
 package com.google.maps.model;
 
+import java.io.Serializable;
+
 /** A Plus Code encoded location reference. */
-public class PlusCode {
+public class PlusCode implements Serializable {
+
+  private static final long serialVersionUID = 1L;
+
   /** The global Plus Code identifier. */
   public String globalCode;
 
