@@ -132,6 +132,7 @@ public class PlaceDetailsRequest
     USER_RATINGS_TOTAL("user_ratings_total"),
     PHOTOS("photos"),
     PLACE_ID("place_id"),
+    PLUS_CODE("plus_code"),
     PRICE_LEVEL("price_level"),
     RATING("rating"),
     REFERENCE("reference"),
