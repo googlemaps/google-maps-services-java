@@ -179,6 +179,7 @@ public class EnumsTest {
     m.put(AddressType.VETERINARY_CARE, "veterinary_care");
     m.put(AddressType.ZOO, "zoo");
     m.put(AddressType.ARCHIPELAGO, "archipelago");
+    m.put(AddressType.TOURIST_ATTRACTION, "tourist_attraction");
 
     for (Map.Entry<AddressType, String> addressTypeLiteralPair :
         addressTypeToLiteralMap.entrySet()) {
