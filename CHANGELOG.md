@@ -3,6 +3,8 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased](https://github.com/googlemaps/google-maps-services-java/compare/v0.10.0...HEAD)
+### Changed
+- deprecation warning for place fields: `alt_id`, `id`, `reference`, and `scope`. Read more about this at https://developers.google.com/maps/deprecations.
 
 ## [v0.10.1](https://github.com/googlemaps/google-maps-services-java/compare/v0.10.0...v0.10.1) - 2019-09-23
 
