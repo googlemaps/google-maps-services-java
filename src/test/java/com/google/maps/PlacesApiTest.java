@@ -41,7 +41,6 @@ import com.google.maps.model.Photo;
 import com.google.maps.model.PlaceAutocompleteType;
 import com.google.maps.model.PlaceDetails;
 import com.google.maps.model.PlaceDetails.Review.AspectRating.RatingType;
-import com.google.maps.model.PlaceIdScope;
 import com.google.maps.model.PlaceType;
 import com.google.maps.model.PlacesSearchResponse;
 import com.google.maps.model.PlacesSearchResult;
@@ -320,8 +319,6 @@ public class PlacesApiTest {
       // Place ID
       assertNotNull(placeDetails.placeId);
       assertEquals(placeDetails.placeId, GOOGLE_SYDNEY);
-      assertNotNull(placeDetails.scope);
-      assertEquals(placeDetails.scope, PlaceIdScope.GOOGLE);
       assertNotNull(placeDetails.types);
       assertEquals(placeDetails.types[0], AddressType.ESTABLISHMENT);
       assertEquals(placeDetails.rating, 4.4, 0.1);

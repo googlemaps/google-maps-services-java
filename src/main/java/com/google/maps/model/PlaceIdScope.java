@@ -16,6 +16,7 @@
 package com.google.maps.model;
 
 /** The scope of a Place ID returned from the Google Places API Web Service. */
+@Deprecated
 public enum PlaceIdScope {
   /**
    * Indicates the place ID is recognised by your application only. This is because your application
