@@ -446,6 +446,9 @@ public enum AddressType implements UrlValue {
   /** An archipelago. */
   ARCHIPELAGO("archipelago"),
 
+  /** A tourist attraction */
+  TOURIST_ATTRACTION("tourist_attraction"),
+
   /**
    * Indicates an unknown address type returned by the server. The Java Client for Google Maps
    * Services should be updated to support the new value.
