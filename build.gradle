@@ -101,7 +101,7 @@ jacocoTestReport {
 
 publishing {
     publications {
-        jar(MavenPublication) {
+        MapsJavaUtils(MavenPublication) {
             pom {
                 name = 'Java Client for Google Maps Platform Web Services'
                 description = 'Use the Google Maps Platform Web Services in Java! ' +
@@ -145,7 +145,7 @@ publishing {
             groupId group
             artifactId 'google-maps-services'
             version version
-            artifact("$buildDir/libs/google-maps-services-" + project.version + ".jar")
+            from components.java
         }
     }
     repositories {
@@ -160,5 +160,5 @@ publishing {
 }
 
 signing {
-    sign publishing.publications.jar
+    sign publishing.publications.MapsJavaUtils
 }
