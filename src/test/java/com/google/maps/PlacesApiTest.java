@@ -513,14 +513,14 @@ public class PlacesApiTest {
     try (LocalTestServerContext sc = new LocalTestServerContext("{\"status\" : \"OK\"}")) {
       LatLng location = new LatLng(-33.866611, 151.195832);
       PlacesSearchResponse results =
-          PlacesApi.textSearchQuery(sc.context, PlaceType.ESTABLISHMENT)
+          PlacesApi.textSearchQuery(sc.context, PlaceType.ZOO)
               .location(location)
               .radius(500)
               .await();
 
       sc.assertParamValue(location.toUrlValue(), "location");
       sc.assertParamValue(String.valueOf(500), "radius");
-      sc.assertParamValue(PlaceType.ESTABLISHMENT.toString(), "type");
+      sc.assertParamValue(PlaceType.ZOO.toString(), "type");
     }
   }
 
@@ -868,7 +868,7 @@ public class PlacesApiTest {
       for (AutocompletePrediction prediction : predictions) {
         for (int j = 0; j < prediction.types.length; j++) {
           assertFalse(prediction.types[j].equals("route"));
-          assertFalse(prediction.types[j].equals("establishment"));
+          assertFalse(prediction.types[j].equals("zoo"));
         }
       }
     }
