@@ -119,6 +119,7 @@ public class PlaceDetailsRequest
   public enum FieldMask implements UrlValue {
     ADDRESS_COMPONENT("address_component"),
     ADR_ADDRESS("adr_address"),
+    @Deprecated
     ALT_ID("alt_id"),
     FORMATTED_ADDRESS("formatted_address"),
     FORMATTED_PHONE_NUMBER("formatted_phone_number"),
@@ -134,6 +135,7 @@ public class PlaceDetailsRequest
     GEOMETRY_VIEWPORT_SOUTHWEST_LAT("geometry/viewport/southwest/lat"),
     GEOMETRY_VIEWPORT_SOUTHWEST_LNG("geometry/viewport/southwest/lng"),
     ICON("icon"),
+    @Deprecated
     ID("id"),
     INTERNATIONAL_PHONE_NUMBER("international_phone_number"),
     NAME("name"),
@@ -145,8 +147,10 @@ public class PlaceDetailsRequest
     PLUS_CODE("plus_code"),
     PRICE_LEVEL("price_level"),
     RATING("rating"),
+    @Deprecated
     REFERENCE("reference"),
     REVIEW("review"),
+    @Deprecated
     SCOPE("scope"),
     TYPES("types"),
     URL("url"),

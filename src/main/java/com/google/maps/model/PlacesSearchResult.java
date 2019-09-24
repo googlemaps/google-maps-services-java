@@ -54,7 +54,7 @@ public class PlacesSearchResult implements Serializable {
   public String placeId;
 
   /** The scope of the placeId. */
-  public PlaceIdScope scope;
+  @Deprecated public PlaceIdScope scope;
 
   /** The place's rating, from 1.0 to 5.0, based on aggregated user reviews. */
   public float rating;
@@ -83,7 +83,7 @@ public class PlacesSearchResult implements Serializable {
     sb.append("\"").append(name).append("\"");
     sb.append(", \"").append(formattedAddress).append("\"");
     sb.append(", geometry=").append(geometry);
-    sb.append(", placeId=").append(placeId).append(" (").append(scope).append(" )");
+    sb.append(", placeId=").append(placeId);
     if (vicinity != null) {
       sb.append(", vicinity=").append(vicinity);
     }
