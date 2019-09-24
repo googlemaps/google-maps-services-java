@@ -3,8 +3,13 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased](https://github.com/googlemaps/google-maps-services-java/compare/v0.10.0...HEAD)
+
 ### Changed
-- deprecation warning for place fields: `alt_id`, `id`, `reference`, and `scope`. Read more about this at https://developers.google.com/maps/deprecations.
+- Deprecated place fields: `alt_id`, `id`, `reference`, and `scope`. Read more about this at https://developers.google.com/maps/deprecations.
+- Marked `establishment`, `finance`, `food`, `general_contractor`, `health`, and `place_of_worship` in `PlaceType` enum as deprecated since they are not supported. Read more at: https://developers.devsite.corp.google.com/places/supported_types.html.
+
+### Added
+- Added `drugstore`, `primary_school`, `secondary_school`, `supermarket`, `tourist_attraction`, and `transit_station` to `PlaceType` enum.
 
 ## [v0.10.1](https://github.com/googlemaps/google-maps-services-java/compare/v0.10.0...v0.10.1) - 2019-09-23
 
