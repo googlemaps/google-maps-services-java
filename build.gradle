@@ -1,4 +1,5 @@
 import org.apache.tools.ant.filters.ReplaceTokens
+import java.time.Duration
 
 buildscript {
   repositories {
@@ -13,6 +14,8 @@ buildscript {
 plugins {
     id 'com.github.ben-manes.versions' version '0.22.0'
     id 'com.github.sherter.google-java-format' version '0.8'
+    id "de.marcphilipp.nexus-publish" version "0.3.0"
+    id 'io.codearte.nexus-staging' version '0.21.1'
 }
 
 apply plugin: 'java'
@@ -157,6 +160,22 @@ publishing {
             }
         }
     }
+}
+
+nexusPublishing {
+    repositories {
+        sonatype {
+            username = sonatypeUsername
+            password = sonatypePassword
+            clientTimeout = Duration.ofSeconds(120)
+        }
+    }
+}
+
+nexusStaging {
+    username = sonatypeUsername
+    password = sonatypePassword
+    packageGroup = "com.google.maps"
 }
 
 signing {
