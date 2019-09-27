@@ -11,3 +11,8 @@
 .project
 .classpath
 .vscode/
+.DS_Store
+
+*.gpg
+*.bak
+*.properties
