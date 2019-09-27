@@ -2,8 +2,9 @@ Java Client for Google Maps Services
 ====================================
 
 [![Build Status](https://travis-ci.org/googlemaps/google-maps-services-java.svg)](https://travis-ci.org/googlemaps/google-maps-services-java)
-[![Maven Central Version](http://img.shields.io/maven-central/v/com.google.maps/google-maps-services.svg)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.google.maps%22%20a%3A%22google-maps-services%22)
 [![Coverage Status](https://img.shields.io/coveralls/googlemaps/google-maps-services-java.svg)](https://coveralls.io/r/googlemaps/google-maps-services-java)
+[![Maven Central Version](http://img.shields.io/maven-central/v/com.google.maps/google-maps-services.svg)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.google.maps%22%20a%3A%22google-maps-services%22)
+[![Javadocs](https://www.javadoc.io/badge/com.google.maps/google-maps-services.svg)](https://www.javadoc.io/doc/com.google.maps/google-maps-services)
 ![GitHub contributors](https://img.shields.io/github/contributors/googlemaps/google-maps-services-java?color=green)
 [![Stack Exchange questions](https://img.shields.io/stackexchange/stackoverflow/t/google-maps?color=orange&label=google-maps&logo=stackoverflow)](https://stackoverflow.com/questions/tagged/google-maps)
 
@@ -136,7 +137,7 @@ Maven Central](https://search.maven.org/#search%7Cga%7C1%7Ca%3A%22google-maps-se
 
 ## Developer Documentation
 
-View the [javadoc](https://googlemaps.github.io/google-maps-services-java/v0.10.0/javadoc/index.html?overview-summary.html).
+View the [javadoc](https://www.javadoc.io/doc/com.google.maps/google-maps-services).
 
 Additional documentation for the included web services is available at
 https://developers.google.com/maps/.
@@ -274,21 +275,6 @@ req.setCallback(new PendingResult.Callback<GeocodingResult[]>() {
     # Run the tests
     $ ./gradlew test
 
-    # Generate documentation
-    $ ./gradlew javadoc
-
-    # Publish documentation
-    $ git checkout $VERSION
-    $ ./gradlew javadoc
-    $ git checkout gh-pages
-    $ mkdir $VERSION
-    $ mv build/docs/javadoc $VERSION
-    $ git add $VERSION/javadoc
-    $ rm latest
-    $ ln -s $VERSION latest
-    $ git add latest
-    $ git commit -m "Javadoc for $VERSION"
-    $ git push origin gh-pages
 
 [apikey]: https://developers.google.com/maps/faq#keysystem
 [clientid]: https://developers.google.com/maps/documentation/business/webservices/auth
