@@ -33,3 +33,4 @@ deploy:
   target_branch: gh_pages_test
   on:
     branch: process/automate_gh_pages
+    jdk: openjdk8
