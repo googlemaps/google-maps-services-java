@@ -72,7 +72,7 @@ public class PlaceDetails implements Serializable {
   public String placeId;
 
   /** The scope of the placeId. */
-  public PlaceIdScope scope;
+  @Deprecated public PlaceIdScope scope;
 
   /** The Plus Code location identifier for this place. */
   public PlusCode plusCode;
@@ -83,6 +83,7 @@ public class PlaceDetails implements Serializable {
   /** The number of user reviews for this place */
   public int userRatingsTotal;
 
+  @Deprecated
   public static class AlternatePlaceIds implements Serializable {
 
     private static final long serialVersionUID = 1L;
