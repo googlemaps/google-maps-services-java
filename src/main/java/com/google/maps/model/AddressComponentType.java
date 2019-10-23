@@ -262,6 +262,21 @@ public enum AddressComponentType {
   /** A meal delivery establishment. */
   MEAL_DELIVERY("meal_delivery"),
 
+  /** A spa. */
+  SPA("spa"),
+
+  /** A tourist attraction. */
+  TOURIST_ATTRACTION("tourist_attraction"),
+
+  /** A university. */
+  UNIVERSITY("university"),
+
+  /** An amusement park. */
+  AMUSEMENT_PARK("amusement_park"),
+
+  /** A hardware store. */
+  HARDWARE_STORE("hardware_store"),
+
   /**
    * Indicates an unknown address component type returned by the server. The Java Client for Google
    * Maps Services should be updated to support the new value.

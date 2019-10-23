@@ -281,6 +281,12 @@ public enum AddressType implements UrlValue {
   /** Currently not a documented return type. */
   SCHOOL("school"),
 
+  /** A primary school. */
+  PRIMARY_SCHOOL("primary_school"),
+
+  /** A secondary school. */
+  SECONDARY_SCHOOL("secondary_school"),
+
   /** Currently not a documented return type. */
   BOOK_STORE("book_store"),
 
@@ -448,6 +454,9 @@ public enum AddressType implements UrlValue {
 
   /** A tourist attraction */
   TOURIST_ATTRACTION("tourist_attraction"),
+
+  /** A drugstore. */
+  DRUGSTORE("drugstore"),
 
   /**
    * Indicates an unknown address type returned by the server. The Java Client for Google Maps
