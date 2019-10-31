@@ -54,7 +54,7 @@ public class GeocodingResult implements Serializable {
    * "locality" which indicates that "Chicago" is a city, and also returns "political" which
    * indicates it is a political entity.
    */
-  public AddressType[] types;
+  public PlaceType[] types;
 
   /**
    * Indicates that the geocoder did not return an exact match for the original request, though it

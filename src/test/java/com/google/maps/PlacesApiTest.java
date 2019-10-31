@@ -28,7 +28,6 @@ import com.google.maps.FindPlaceFromTextRequest.LocationBiasPoint;
 import com.google.maps.FindPlaceFromTextRequest.LocationBiasRectangular;
 import com.google.maps.PlaceAutocompleteRequest.SessionToken;
 import com.google.maps.model.AddressComponentType;
-import com.google.maps.model.AddressType;
 import com.google.maps.model.AutocompletePrediction;
 import com.google.maps.model.AutocompletePrediction.MatchedSubstring;
 import com.google.maps.model.AutocompleteStructuredFormatting;
@@ -320,7 +319,7 @@ public class PlacesApiTest {
       assertNotNull(placeDetails.placeId);
       assertEquals(placeDetails.placeId, GOOGLE_SYDNEY);
       assertNotNull(placeDetails.types);
-      assertEquals(placeDetails.types[0], AddressType.ESTABLISHMENT);
+      assertEquals(placeDetails.types[0], PlaceType.ESTABLISHMENT);
       assertEquals(placeDetails.rating, 4.4, 0.1);
 
       // Permanently closed:

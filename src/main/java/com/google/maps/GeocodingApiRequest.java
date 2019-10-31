@@ -18,11 +18,11 @@ package com.google.maps;
 import static com.google.maps.internal.StringJoin.join;
 
 import com.google.maps.internal.ApiConfig;
-import com.google.maps.model.AddressType;
 import com.google.maps.model.ComponentFilter;
 import com.google.maps.model.GeocodingResult;
 import com.google.maps.model.LatLng;
 import com.google.maps.model.LocationType;
+import com.google.maps.model.PlaceType;
 
 /** A request for the Geocoding API. */
 public class GeocodingApiRequest
@@ -137,7 +137,7 @@ public class GeocodingApiRequest
    * @param resultTypes The result types to restrict to.
    * @return Returns this {@code GeocodingApiRequest} for call chaining.
    */
-  public GeocodingApiRequest resultType(AddressType... resultTypes) {
+  public GeocodingApiRequest resultType(PlaceType... resultTypes) {
     return param("result_type", join('|', resultTypes));
   }
 

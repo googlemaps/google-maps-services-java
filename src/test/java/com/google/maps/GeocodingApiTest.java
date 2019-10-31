@@ -24,11 +24,11 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 import com.google.maps.model.AddressComponentType;
-import com.google.maps.model.AddressType;
 import com.google.maps.model.ComponentFilter;
 import com.google.maps.model.GeocodingResult;
 import com.google.maps.model.LatLng;
 import com.google.maps.model.LocationType;
+import com.google.maps.model.PlaceType;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -64,9 +64,9 @@ public class GeocodingApiTest {
 
       assertEquals(1, results.length);
       assertEquals(3, results[0].types.length);
-      assertEquals(AddressType.ESTABLISHMENT, results[0].types[0]);
-      assertEquals(AddressType.LIBRARY, results[0].types[1]);
-      assertEquals(AddressType.POINT_OF_INTEREST, results[0].types[2]);
+      assertEquals(PlaceType.ESTABLISHMENT, results[0].types[0]);
+      assertEquals(PlaceType.LIBRARY, results[0].types[1]);
+      assertEquals(PlaceType.POINT_OF_INTEREST, results[0].types[2]);
       assertNotNull(Arrays.toString(results));
     }
   }
@@ -414,8 +414,8 @@ public class GeocodingApiTest {
 
       assertNotNull(results);
       assertEquals("Toledo, Spain", results[0].formattedAddress);
-      assertEquals(AddressType.LOCALITY, results[0].types[0]);
-      assertEquals(AddressType.POLITICAL, results[0].types[1]);
+      assertEquals(PlaceType.LOCALITY, results[0].types[0]);
+      assertEquals(PlaceType.POLITICAL, results[0].types[1]);
 
       sc.assertParamValue("Toledo", "address");
       sc.assertParamValue("es", "region");
@@ -699,7 +699,7 @@ public class GeocodingApiTest {
       assertEquals("277", results[0].addressComponents[0].longName);
       assertEquals("277", results[0].addressComponents[0].shortName);
       assertEquals(AddressComponentType.STREET_NUMBER, results[0].addressComponents[0].types[0]);
-      assertEquals(AddressType.STREET_ADDRESS, results[0].types[0]);
+      assertEquals(PlaceType.STREET_ADDRESS, results[0].types[0]);
 
       sc.assertParamValue(latlng.toUrlValue(), "latlng");
     }
@@ -790,7 +790,7 @@ public class GeocodingApiTest {
           GeocodingApi.newRequest(sc.context)
               .latlng(latlng)
               .locationType(LocationType.ROOFTOP)
-              .resultType(AddressType.STREET_ADDRESS)
+              .resultType(PlaceType.STREET_ADDRESS)
               .await();
 
       assertNotNull(results);
@@ -801,7 +801,7 @@ public class GeocodingApiTest {
 
       sc.assertParamValue(latlng.toUrlValue(), "latlng");
       sc.assertParamValue(LocationType.ROOFTOP.toUrlValue(), "location_type");
-      sc.assertParamValue(AddressType.STREET_ADDRESS.toUrlValue(), "result_type");
+      sc.assertParamValue(PlaceType.STREET_ADDRESS.toUrlValue(), "result_type");
     }
   }
 
@@ -949,7 +949,7 @@ public class GeocodingApiTest {
 
   /** Testing supported Address Types for Geocoding. */
   @Test
-  public void testSupportedAddressTypesFood() throws Exception {
+  public void testSupportedPlaceTypesFood() throws Exception {
     try (LocalTestServerContext sc =
         new LocalTestServerContext(
             "\n"
@@ -1028,11 +1028,11 @@ public class GeocodingApiTest {
 
       assertNotNull(results);
       assertNotNull(Arrays.toString(results));
-      assertEquals(AddressType.ESTABLISHMENT, results[0].types[0]);
-      assertEquals(AddressType.FOOD, results[0].types[1]);
-      assertEquals(AddressType.GROCERY_OR_SUPERMARKET, results[0].types[2]);
-      assertEquals(AddressType.POINT_OF_INTEREST, results[0].types[3]);
-      assertEquals(AddressType.STORE, results[0].types[4]);
+      assertEquals(PlaceType.ESTABLISHMENT, results[0].types[0]);
+      assertEquals(PlaceType.FOOD, results[0].types[1]);
+      assertEquals(PlaceType.GROCERY_OR_SUPERMARKET, results[0].types[2]);
+      assertEquals(PlaceType.POINT_OF_INTEREST, results[0].types[3]);
+      assertEquals(PlaceType.STORE, results[0].types[4]);
 
       sc.assertParamValue(address, "address");
     }
@@ -1040,7 +1040,7 @@ public class GeocodingApiTest {
 
   /** Testing supported Address Types for Geocoding - Synagogue. */
   @Test
-  public void testSupportedAddressTypesSynagogue() throws Exception {
+  public void testSupportedPlaceTypesSynagogue() throws Exception {
     try (LocalTestServerContext sc =
         new LocalTestServerContext(
             "\n"
@@ -1113,10 +1113,10 @@ public class GeocodingApiTest {
 
       assertNotNull(results);
       assertNotNull(Arrays.toString(results));
-      assertEquals(AddressType.ESTABLISHMENT, results[0].types[0]);
-      assertEquals(AddressType.PLACE_OF_WORSHIP, results[0].types[1]);
-      assertEquals(AddressType.POINT_OF_INTEREST, results[0].types[2]);
-      assertEquals(AddressType.SYNAGOGUE, results[0].types[3]);
+      assertEquals(PlaceType.ESTABLISHMENT, results[0].types[0]);
+      assertEquals(PlaceType.PLACE_OF_WORSHIP, results[0].types[1]);
+      assertEquals(PlaceType.POINT_OF_INTEREST, results[0].types[2]);
+      assertEquals(PlaceType.SYNAGOGUE, results[0].types[3]);
 
       sc.assertParamValue(address, "address");
     }

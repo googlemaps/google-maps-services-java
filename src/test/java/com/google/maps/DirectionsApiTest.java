@@ -23,10 +23,10 @@ import static org.junit.Assert.assertThat;
 
 import com.google.maps.DirectionsApi.RouteRestriction;
 import com.google.maps.errors.NotFoundException;
-import com.google.maps.model.AddressType;
 import com.google.maps.model.DirectionsResult;
 import com.google.maps.model.GeocodedWaypointStatus;
 import com.google.maps.model.LatLng;
+import com.google.maps.model.PlaceType;
 import com.google.maps.model.TrafficModel;
 import com.google.maps.model.TransitMode;
 import com.google.maps.model.TransitRoutingPreference;
@@ -482,7 +482,7 @@ public class DirectionsApiTest {
       assertEquals(2, result.geocodedWaypoints.length);
       assertEquals(GeocodedWaypointStatus.OK, result.geocodedWaypoints[0].geocoderStatus);
       assertEquals(GeocodedWaypointStatus.OK, result.geocodedWaypoints[1].geocoderStatus);
-      assertEquals(AddressType.ROUTE, result.geocodedWaypoints[1].types[0]);
+      assertEquals(PlaceType.ROUTE, result.geocodedWaypoints[1].types[0]);
 
       assertNotNull(result.toString());
     }

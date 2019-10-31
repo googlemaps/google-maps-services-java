@@ -19,6 +19,7 @@ import com.google.maps.internal.StringJoin;
 
 /** Used by the Places API to restrict the results to places matching the specified type. */
 public enum PlaceType implements StringJoin.UrlValue {
+  /** Table #1 Types https://developers.google.com/places/web-service/supported_types */
   ACCOUNTING("accounting"),
   AIRPORT("airport"),
   AMUSEMENT_PARK("amusement_park"),
@@ -53,25 +54,15 @@ public enum PlaceType implements StringJoin.UrlValue {
   ELECTRICIAN("electrician"),
   ELECTRONICS_STORE("electronics_store"),
   EMBASSY("embassy"),
-  @Deprecated
-  ESTABLISHMENT("establishment"),
-  @Deprecated
-  FINANCE("finance"),
   FIRE_STATION("fire_station"),
   FLORIST("florist"),
-  @Deprecated
-  FOOD("food"),
   FUNERAL_HOME("funeral_home"),
   FURNITURE_STORE("furniture_store"),
   GAS_STATION("gas_station"),
-  @Deprecated
-  GENERAL_CONTRACTOR("general_contractor"),
   GROCERY_OR_SUPERMARKET("grocery_or_supermarket"),
   GYM("gym"),
   HAIR_CARE("hair_care"),
   HARDWARE_STORE("hardware_store"),
-  @Deprecated
-  HEALTH("health"),
   HINDU_TEMPLE("hindu_temple"),
   HOME_GOODS_STORE("home_goods_store"),
   HOSPITAL("hospital"),
@@ -99,8 +90,6 @@ public enum PlaceType implements StringJoin.UrlValue {
   PET_STORE("pet_store"),
   PHARMACY("pharmacy"),
   PHYSIOTHERAPIST("physiotherapist"),
-  @Deprecated
-  PLACE_OF_WORSHIP("place_of_worship"),
   PLUMBER("plumber"),
   POLICE("police"),
   POST_OFFICE("post_office"),
@@ -127,7 +116,51 @@ public enum PlaceType implements StringJoin.UrlValue {
   TRAVEL_AGENCY("travel_agency"),
   UNIVERSITY("university"),
   VETERINARY_CARE("veterinary_care"),
-  ZOO("zoo");
+  ZOO("zoo"),
+
+  /** Table #2 Types https://developers.google.com/places/web-service/supported_types */
+  ADMINISTRATIVE_AREA_LEVEL_1("administrative_area_level_1"),
+  ADMINISTRATIVE_AREA_LEVEL_2("administrative_area_level_2"),
+  ADMINISTRATIVE_AREA_LEVEL_3("administrative_area_level_3"),
+  ADMINISTRATIVE_AREA_LEVEL_4("administrative_area_level_4"),
+  ADMINISTRATIVE_AREA_LEVEL_5("administrative_area_level_5"),
+  ARCHIPELAGO("archipelago"),
+  COLLOQUIAL_AREA("colloquial_area"),
+  CONTINENT("continent"),
+  COUNTRY("country"),
+  ESTABLISHMENT("establishment"),
+  FINANCE("finance"),
+  FLOOR("floor"),
+  FOOD("food"),
+  GENERAL_CONTRACTOR("general_contractor"),
+  GEOCODE("geocode"),
+  HEALTH("health"),
+  INTERSECTION("intersection"),
+  LOCALITY("locality"),
+  NATURAL_FEATURE("natural_feature"),
+  NEIGHBORHOOD("neighborhood"),
+  PLACE_OF_WORSHIP("place_of_worship"),
+  POINT_OF_INTEREST("point_of_interest"),
+  POLITICAL("political"),
+  POST_BOX("post_box"),
+  POSTAL_CODE("postal_code"),
+  POSTAL_CODE_PREFIX("postal_code_prefix"),
+  POSTAL_CODE_SUFFIX("postal_code_suffix"),
+  POSTAL_TOWN("postal_town"),
+  PREMISE("premise"),
+  ROOM("room"),
+  ROUTE("route"),
+  STREET_ADDRESS("street_address"),
+  STREET_NUMBER("street_number"),
+  SUBLOCALITY("sublocality"),
+  SUBLOCALITY_LEVEL_1("sublocality_level_1"),
+  SUBLOCALITY_LEVEL_2("sublocality_level_2"),
+  SUBLOCALITY_LEVEL_3("sublocality_level_3"),
+  SUBLOCALITY_LEVEL_4("sublocality_level_4"),
+  SUBLOCALITY_LEVEL_5("sublocality_level_5"),
+  SUBPREMISE("subpremise"),
+
+  UNKNOWN("unknown");
 
   PlaceType(final String placeType) {
     this.placeType = placeType;
@@ -137,9 +170,12 @@ public enum PlaceType implements StringJoin.UrlValue {
 
   @Override
   public String toUrlValue() {
+    if (this == UNKNOWN) {
+      throw new UnsupportedOperationException("Shouldn't use PlaceType.UNKNOWN in a request.");
+    }
     return placeType;
   }
-
+  
   @Override
   public String toString() {
     return placeType;
