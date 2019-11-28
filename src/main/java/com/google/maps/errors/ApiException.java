@@ -42,6 +42,8 @@ public class ApiException extends Exception {
       return new InvalidRequestException(errorMessage);
     } else if ("MAX_ELEMENTS_EXCEEDED".equals(status)) {
       return new MaxElementsExceededException(errorMessage);
+    } else if ("MAX_ROUTE_LENGTH_EXCEEDED".equals(status)) {
+      return new MaxRouteLengthExceededException(errorMessage);
     } else if ("NOT_FOUND".equals(status)) {
       return new NotFoundException(errorMessage);
     } else if ("OVER_QUERY_LIMIT".equals(status)) {
