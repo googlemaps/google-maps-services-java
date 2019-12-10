@@ -2,24 +2,41 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased](https://github.com/googlemaps/google-maps-services-java/compare/v0.10.0...HEAD)
+## [Unreleased](https://github.com/googlemaps/google-maps-services-java/compare/v0.10.2...HEAD)
+## [v0.10.2](https://github.com/googlemaps/google-maps-services-java/compare/v0.10.1...v0.10.2) - 2019-12-10
 
-### Changed
-- Deprecated place fields: `alt_id`, `id`, `reference`, and `scope`. Read more about this at https://developers.google.com/maps/deprecations.
-- Marked `establishment`, `finance`, `food`, `general_contractor`, `health`, and `place_of_worship` in `PlaceType` enum as deprecated since they are not supported. Read more at: https://developers.devsite.corp.google.com/places/supported_types.html.
+### Merged
 
-### Added
-- Added `drugstore`, `primary_school`, `secondary_school`, `supermarket`, `tourist_attraction`, and `transit_station` to `PlaceType` enum.
+- fix: Add MAX_ROUTE_LENGTH_EXCEEDED Exception [`#632`](https://github.com/googlemaps/google-maps-services-java/pull/632)
+- fix: Add more AddressComponentTypes [`#633`](https://github.com/googlemaps/google-maps-services-java/pull/633)
+- automate publish to staging repository with additional nexus plugins [`#610`](https://github.com/googlemaps/google-maps-services-java/pull/610)
+- mark additional deprecations for alt_id and scope in PlaceDetails [`#613`](https://github.com/googlemaps/google-maps-services-java/pull/613)
+- update okhttp dependency [`#614`](https://github.com/googlemaps/google-maps-services-java/pull/614)
+- direct users to https://www.javadoc.io/doc/com.google.maps/google-maps-services [`#612`](https://github.com/googlemaps/google-maps-services-java/pull/612)
+- add additional place types and deprecate non supported [`#608`](https://github.com/googlemaps/google-maps-services-java/pull/608)
+- deprecation warning for place fields: `alt_id`, `id`, `reference`, and `scope` [`#605`](https://github.com/googlemaps/google-maps-services-java/pull/605)
+
+### Commits
+
+- add stale config [`f7b2116`](https://github.com/googlemaps/google-maps-services-java/commit/f7b211626318b6e5ee079a5e211b66720fd3f639)
+- update issue templates [`e6273e3`](https://github.com/googlemaps/google-maps-services-java/commit/e6273e39ee33bb4e84fb3c055c170ebed443d298)
+- modify stale config [`fd856b8`](https://github.com/googlemaps/google-maps-services-java/commit/fd856b89de01bd0d64b194a2f1c2ad5333b1d778)
 
 ## [v0.10.1](https://github.com/googlemaps/google-maps-services-java/compare/v0.10.0...v0.10.1) - 2019-09-23
 
-### Added
+### Merged
+
+- Fixes issue where deps were not being added to pom.xml [`#606`](https://github.com/googlemaps/google-maps-services-java/pull/606)
+- Add tourist_attraction address type [`#601`](https://github.com/googlemaps/google-maps-services-java/pull/601)
+- add changelog [`#598`](https://github.com/googlemaps/google-maps-services-java/pull/598)
+- add subfields to mask values for place details request [`#597`](https://github.com/googlemaps/google-maps-services-java/pull/597)
 - add github issue templates [`#595`](https://github.com/googlemaps/google-maps-services-java/pull/595)
 - Include plus_code in PlaceDetailsRequest.FieldMask [`#594`](https://github.com/googlemaps/google-maps-services-java/pull/594)
-- add subfields to mask values for place details request [`0bd8211`](https://github.com/googlemaps/google-maps-services-java/commit/0bd82115665e4ae52957a83cef3aa1f4c9bc81b6)
 
-### Changed
-- Fix pom dependencies #606
+### Commits
+
+- update changelog for 0.10.1 [`943c0d9`](https://github.com/googlemaps/google-maps-services-java/commit/943c0d972301bb5bbf0980cd0951665eec6a5b30)
+- add contributor and stackoverflow badges [`47b5c1c`](https://github.com/googlemaps/google-maps-services-java/commit/47b5c1cfca0ed093a81a3c11e97a6d19adb32892)
 
 ## [v0.10.0](https://github.com/googlemaps/google-maps-services-java/compare/v0.9.4...v0.10.0) - 2019-08-27
 
