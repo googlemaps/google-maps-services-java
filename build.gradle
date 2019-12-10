@@ -149,6 +149,12 @@ publishing {
             artifactId 'google-maps-services'
             version version
             from components.java
+            artifact(sourcesJar) {
+                classifier = 'sources'
+            }
+            artifact(javadocJar) {
+                classifier = 'javadoc'
+            }
         }
     }
     repositories {
