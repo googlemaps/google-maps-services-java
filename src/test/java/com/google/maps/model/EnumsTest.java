@@ -275,6 +275,12 @@ public class EnumsTest {
     m.put(AddressComponentType.RV_PARK, "rv_park");
     m.put(AddressComponentType.CAMPGROUND, "campground");
     m.put(AddressComponentType.MEAL_DELIVERY, "meal_delivery");
+    m.put(AddressComponentType.PRIMARY_SCHOOL, "primary_school");
+    m.put(AddressComponentType.SECONDARY_SCHOOL, "secondary_school");
+    m.put(AddressComponentType.TOWN_SQUARE, "town_square");
+    m.put(AddressComponentType.TOURIST_ATTRACTION, "tourist_attraction");
+    m.put(AddressComponentType.PLUS_CODE, "plus_code");
+    m.put(AddressComponentType.DRUGSTORE, "drugstore");
 
     for (Map.Entry<AddressComponentType, String> AddressComponentTypeLiteralPair :
         addressComponentTypeToLiteralMap.entrySet()) {
