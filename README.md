@@ -35,11 +35,14 @@ to usage of the APIs when they're accessed through this library.
 The Java Client for Google Maps Services is designed for use in server applications. This library
 is not intended for use inside of an Android app, due to the potential for loss of API keys.
 
-If you are building a mobile application, you will need to introduce a proxy server to act as
+If you are building a mobile application, you will need to introduce a proxy server to act as 
 intermediary between your mobile application and the [Google Maps API Web Services]. The Java
 Client for Google Maps Services would make an excellent choice as the basis for such a proxy server.
 
 Please see [Making the most of the Google Maps Web Service APIs] for more detail.
+
+Looking for our Android [Maps](https://developers.google.com/maps/documentation/android-sdk/intro) or 
+[Places](https://developers.google.com/places/android-sdk/intro) SDKs?
 
 ## Support
 
