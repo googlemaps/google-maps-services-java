@@ -193,8 +193,6 @@ life of your application. This will enable proper QPS enforcement across all of 
 At the end of the execution, call the `shutdown()` method of `GeoApiContext`,
 otherwise the thread will remain instantiated in memory.
 
-
-
 For more usage examples, check out [the tests](src/test/java/com/google/maps).
 
 ## Features
