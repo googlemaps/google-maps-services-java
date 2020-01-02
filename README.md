@@ -190,7 +190,7 @@ The `GeoApiContext` is designed to be a [Singleton](https://en.wikipedia.org/wik
 in your application. Please instantiate one on application startup, and continue to use it for the
 life of your application. This will enable proper QPS enforcement across all of your requests.
 
-at the end of the execution, call the `shutdown()` method of `GeoApiContext`,
+At the end of the execution, call the `shutdown()` method of `GeoApiContext`,
 otherwise the thread will remain instantiated in memory.
 
 
