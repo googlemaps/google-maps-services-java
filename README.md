@@ -139,7 +139,6 @@ You can find the latest version at the top of this README or by [searching
 Maven Central](https://search.maven.org/#search%7Cga%7C1%7Ca%3A%22google-maps-services%22) or [Gradle, Please](http://gradleplease.appspot.com/#google-maps-services).
 
 ## Developer Documentation
- 
 View the [javadoc](https://www.javadoc.io/doc/com.google.maps/google-maps-services).
 
 Additional documentation for the included web services is available at
