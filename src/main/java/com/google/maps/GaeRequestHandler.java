@@ -51,6 +51,7 @@ public class GaeRequestHandler implements GeoApiContext.RequestHandler {
       String hostName,
       String url,
       String userAgent,
+      String experienceIdHeaderValue,
       Class<R> clazz,
       FieldNamingPolicy fieldNamingPolicy,
       long errorTimeout,
@@ -60,6 +61,9 @@ public class GaeRequestHandler implements GeoApiContext.RequestHandler {
     HTTPRequest req;
     try {
       req = new HTTPRequest(new URL(hostName + url), HTTPMethod.POST, fetchOptions);
+      if (experienceIdHeaderValue != null) {
+        req.setHeader(new HTTPHeader("X-GOOG-MAPS-EXPERIENCE-ID", experienceIdHeaderValue));
+      }
     } catch (MalformedURLException e) {
       LOG.error("Request: {}{}", hostName, url, e);
       throw (new RuntimeException(e));
@@ -75,6 +79,7 @@ public class GaeRequestHandler implements GeoApiContext.RequestHandler {
       String url,
       String payload,
       String userAgent,
+      String experienceIdHeaderValue,
       Class<R> clazz,
       FieldNamingPolicy fieldNamingPolicy,
       long errorTimeout,
@@ -85,6 +90,9 @@ public class GaeRequestHandler implements GeoApiContext.RequestHandler {
     try {
       req = new HTTPRequest(new URL(hostName + url), HTTPMethod.POST, fetchOptions);
       req.setHeader(new HTTPHeader("Content-Type", "application/json; charset=utf-8"));
+      if (experienceIdHeaderValue != null) {
+        req.setHeader(new HTTPHeader("X-GOOG-MAPS-EXPERIENCE-ID", experienceIdHeaderValue));
+      }
       req.setPayload(payload.getBytes(UTF_8));
     } catch (MalformedURLException e) {
       LOG.error("Request: {}{}", hostName, url, e);

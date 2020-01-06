@@ -15,6 +15,8 @@
 
 package com.google.maps;
 
+import static com.google.maps.internal.StringJoin.join;
+
 import com.google.gson.FieldNamingPolicy;
 import com.google.maps.errors.ApiException;
 import com.google.maps.errors.OverQueryLimitException;
@@ -61,6 +63,7 @@ public class GeoApiContext {
   private final ExceptionsAllowedToRetry exceptionsAllowedToRetry;
   private final Integer maxRetries;
   private final UrlSigner urlSigner;
+  private final String experienceIdHeaderValue;
 
   /* package */
   GeoApiContext(
@@ -72,7 +75,8 @@ public class GeoApiContext {
       long errorTimeout,
       ExceptionsAllowedToRetry exceptionsAllowedToRetry,
       Integer maxRetries,
-      UrlSigner urlSigner) {
+      UrlSigner urlSigner,
+      String experienceIdHeaderValue) {
     this.requestHandler = requestHandler;
     this.apiKey = apiKey;
     this.baseUrlOverride = baseUrlOverride;
@@ -82,6 +86,7 @@ public class GeoApiContext {
     this.exceptionsAllowedToRetry = exceptionsAllowedToRetry;
     this.maxRetries = maxRetries;
     this.urlSigner = urlSigner;
+    this.experienceIdHeaderValue = experienceIdHeaderValue;
   }
 
   /**
@@ -98,6 +103,7 @@ public class GeoApiContext {
         String hostName,
         String url,
         String userAgent,
+        String experienceIdHeaderValue,
         Class<R> clazz,
         FieldNamingPolicy fieldNamingPolicy,
         long errorTimeout,
@@ -109,6 +115,7 @@ public class GeoApiContext {
         String url,
         String payload,
         String userAgent,
+        String experienceIdHeaderValue,
         Class<R> clazz,
         FieldNamingPolicy fieldNamingPolicy,
         long errorTimeout,
@@ -240,6 +247,7 @@ public class GeoApiContext {
         url.toString(),
         params.get("_payload").get(0),
         USER_AGENT,
+        experienceIdHeaderValue,
         clazz,
         config.fieldNamingPolicy,
         errorTimeout,
@@ -280,6 +288,7 @@ public class GeoApiContext {
         hostName,
         url.toString(),
         USER_AGENT,
+        experienceIdHeaderValue,
         clazz,
         fieldNamingPolicy,
         errorTimeout,
@@ -312,6 +321,7 @@ public class GeoApiContext {
     private ExceptionsAllowedToRetry exceptionsAllowedToRetry = new ExceptionsAllowedToRetry();
     private Integer maxRetries;
     private UrlSigner urlSigner;
+    private String experienceIdHeaderValue;
 
     /** Builder pattern for the enclosing {@code GeoApiContext}. */
     public Builder() {
@@ -534,6 +544,28 @@ public class GeoApiContext {
     }
 
     /**
+     * Sets experience id header for subsequent calls
+     *
+     * @param experienceId The experienceId for subsequent calls.
+     * @return Returns this builder for call chaining.
+     */
+    public Builder experienceId(String experienceId) {
+      this.experienceIdHeaderValue = experienceId;
+      return this;
+    }
+
+    /**
+     * Sets experience id header for subsequent calls
+     *
+     * @param experienceIds The experienceId for subsequent calls.
+     * @return Returns this builder for call chaining.
+     */
+    public Builder experienceIds(String[] experienceIds) {
+      this.experienceIdHeaderValue = join(",", experienceIds);
+      return this;
+    }
+
+    /**
      * Converts this builder into a {@code GeoApiContext}.
      *
      * @return Returns the built {@code GeoApiContext}.
@@ -548,7 +580,8 @@ public class GeoApiContext {
           errorTimeout,
           exceptionsAllowedToRetry,
           maxRetries,
-          urlSigner);
+          urlSigner,
+          experienceIdHeaderValue);
     }
   }
 }
