@@ -173,6 +173,9 @@ public enum AddressType implements UrlValue {
   /** The location of a church. */
   CHURCH("church"),
 
+  /** The location of a primary school. */
+  PRIMARY_SCHOOL("primary_school"),
+
   /** The location of a finance institute. */
   FINANCE("finance"),
 
