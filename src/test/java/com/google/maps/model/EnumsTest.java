@@ -81,6 +81,7 @@ public class EnumsTest {
     m.put(AddressType.SUBWAY_STATION, "subway_station");
     m.put(AddressType.TRANSIT_STATION, "transit_station");
     m.put(AddressType.CHURCH, "church");
+    m.put(AddressType.PRIMARY_SCHOOL, "primary_school");
     m.put(AddressType.FINANCE, "finance");
     m.put(AddressType.ESTABLISHMENT, "establishment");
     m.put(AddressType.POSTAL_TOWN, "postal_town");
