@@ -151,7 +151,7 @@ public class GeoApiContext {
    * @param experienceId The experience ID if set, otherwise null
    */
   public void setExperienceId(String... experienceId) {
-    if (experienceId == null) {
+    if (experienceId == null || experienceId.length == 0) {
       experienceIdHeaderValue = null;
       return;
     }
