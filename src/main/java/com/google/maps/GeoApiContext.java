@@ -15,15 +15,16 @@
 
 package com.google.maps;
 
-import static com.google.maps.internal.StringJoin.join;
-
 import com.google.gson.FieldNamingPolicy;
 import com.google.maps.errors.ApiException;
 import com.google.maps.errors.OverQueryLimitException;
 import com.google.maps.internal.ApiConfig;
 import com.google.maps.internal.ApiResponse;
 import com.google.maps.internal.ExceptionsAllowedToRetry;
+import com.google.maps.internal.HttpHeaders;
+import com.google.maps.internal.StringJoin;
 import com.google.maps.internal.UrlSigner;
+
 import java.io.UnsupportedEncodingException;
 import java.net.Proxy;
 import java.net.URLEncoder;
@@ -63,7 +64,7 @@ public class GeoApiContext {
   private final ExceptionsAllowedToRetry exceptionsAllowedToRetry;
   private final Integer maxRetries;
   private final UrlSigner urlSigner;
-  private final String experienceIdHeaderValue;
+  private String experienceIdHeaderValue;
 
   /* package */
   GeoApiContext(
@@ -76,7 +77,7 @@ public class GeoApiContext {
       ExceptionsAllowedToRetry exceptionsAllowedToRetry,
       Integer maxRetries,
       UrlSigner urlSigner,
-      String experienceIdHeaderValue) {
+      String... experienceIdHeaderValue) {
     this.requestHandler = requestHandler;
     this.apiKey = apiKey;
     this.baseUrlOverride = baseUrlOverride;
@@ -86,7 +87,7 @@ public class GeoApiContext {
     this.exceptionsAllowedToRetry = exceptionsAllowedToRetry;
     this.maxRetries = maxRetries;
     this.urlSigner = urlSigner;
-    this.experienceIdHeaderValue = experienceIdHeaderValue;
+    setExperienceId(experienceIdHeaderValue);
   }
 
   /**
@@ -141,6 +142,35 @@ public class GeoApiContext {
 
       RequestHandler build();
     }
+  }
+
+  /**
+   * Sets the value for the HTTP header field name {@link HttpHeaders#X_GOOG_MAPS_EXPERIENCE_ID} to be used on
+   * subsequent API calls. Calling this method with {@code null} is equivalent to calling {@link #clearExperienceId()}.
+   *
+   * @param experienceId The experience ID if set, otherwise null
+   */
+  public void setExperienceId(String... experienceId) {
+    if (experienceId == null) {
+      experienceIdHeaderValue = null;
+      return;
+    }
+    experienceIdHeaderValue = StringJoin.join(",", experienceId);
+  }
+
+  /**
+   * @return Returns the experience ID if set, otherwise, null
+   */
+  public String getExperienceId() {
+    return experienceIdHeaderValue;
+  }
+
+  /**
+   * Clears the experience ID if set the HTTP header field {@link HttpHeaders#X_GOOG_MAPS_EXPERIENCE_ID} will be
+   * omitted from subsequent calls.
+   */
+  public void clearExperienceId() {
+    experienceIdHeaderValue = null;
   }
 
   /**
@@ -321,7 +351,7 @@ public class GeoApiContext {
     private ExceptionsAllowedToRetry exceptionsAllowedToRetry = new ExceptionsAllowedToRetry();
     private Integer maxRetries;
     private UrlSigner urlSigner;
-    private String experienceIdHeaderValue;
+    private String[] experienceIdHeaderValue;
 
     /** Builder pattern for the enclosing {@code GeoApiContext}. */
     public Builder() {
@@ -544,24 +574,14 @@ public class GeoApiContext {
     }
 
     /**
-     * Sets experience id header for subsequent calls
+     * Sets the value for the HTTP header field name {@link HttpHeaders#X_GOOG_MAPS_EXPERIENCE_ID}
+     * HTTP header value for the field name  on subsequent API calls.
      *
-     * @param experienceId The experienceId for subsequent calls.
+     * @param experienceId The experience ID
      * @return Returns this builder for call chaining.
      */
-    public Builder experienceId(String experienceId) {
+    public Builder experienceId(String... experienceId) {
       this.experienceIdHeaderValue = experienceId;
-      return this;
-    }
-
-    /**
-     * Sets experience id header for subsequent calls
-     *
-     * @param experienceIds The experienceId for subsequent calls.
-     * @return Returns this builder for call chaining.
-     */
-    public Builder experienceIds(String[] experienceIds) {
-      this.experienceIdHeaderValue = join(",", experienceIds);
       return this;
     }
 
