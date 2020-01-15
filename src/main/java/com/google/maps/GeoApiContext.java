@@ -24,7 +24,6 @@ import com.google.maps.internal.ExceptionsAllowedToRetry;
 import com.google.maps.internal.HttpHeaders;
 import com.google.maps.internal.StringJoin;
 import com.google.maps.internal.UrlSigner;
-
 import java.io.UnsupportedEncodingException;
 import java.net.Proxy;
 import java.net.URLEncoder;
@@ -145,8 +144,9 @@ public class GeoApiContext {
   }
 
   /**
-   * Sets the value for the HTTP header field name {@link HttpHeaders#X_GOOG_MAPS_EXPERIENCE_ID} to be used on
-   * subsequent API calls. Calling this method with {@code null} is equivalent to calling {@link #clearExperienceId()}.
+   * Sets the value for the HTTP header field name {@link HttpHeaders#X_GOOG_MAPS_EXPERIENCE_ID} to
+   * be used on subsequent API calls. Calling this method with {@code null} is equivalent to calling
+   * {@link #clearExperienceId()}.
    *
    * @param experienceId The experience ID if set, otherwise null
    */
@@ -158,16 +158,14 @@ public class GeoApiContext {
     experienceIdHeaderValue = StringJoin.join(",", experienceId);
   }
 
-  /**
-   * @return Returns the experience ID if set, otherwise, null
-   */
+  /** @return Returns the experience ID if set, otherwise, null */
   public String getExperienceId() {
     return experienceIdHeaderValue;
   }
 
   /**
-   * Clears the experience ID if set the HTTP header field {@link HttpHeaders#X_GOOG_MAPS_EXPERIENCE_ID} will be
-   * omitted from subsequent calls.
+   * Clears the experience ID if set the HTTP header field {@link
+   * HttpHeaders#X_GOOG_MAPS_EXPERIENCE_ID} will be omitted from subsequent calls.
    */
   public void clearExperienceId() {
     experienceIdHeaderValue = null;
@@ -575,7 +573,7 @@ public class GeoApiContext {
 
     /**
      * Sets the value for the HTTP header field name {@link HttpHeaders#X_GOOG_MAPS_EXPERIENCE_ID}
-     * HTTP header value for the field name  on subsequent API calls.
+     * HTTP header value for the field name on subsequent API calls.
      *
      * @param experienceId The experience ID
      * @return Returns this builder for call chaining.

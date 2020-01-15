@@ -28,12 +28,11 @@ import com.google.maps.GeoApiContext.RequestHandler;
 import com.google.maps.internal.ApiResponse;
 import com.google.maps.internal.ExceptionsAllowedToRetry;
 import com.google.maps.internal.GaePendingResult;
+import com.google.maps.internal.HttpHeaders;
 import java.net.MalformedURLException;
 import java.net.Proxy;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
-
-import com.google.maps.internal.HttpHeaders;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -64,7 +63,8 @@ public class GaeRequestHandler implements GeoApiContext.RequestHandler {
     try {
       req = new HTTPRequest(new URL(hostName + url), HTTPMethod.POST, fetchOptions);
       if (experienceIdHeaderValue != null) {
-        req.setHeader(new HTTPHeader(HttpHeaders.X_GOOG_MAPS_EXPERIENCE_ID, experienceIdHeaderValue));
+        req.setHeader(
+            new HTTPHeader(HttpHeaders.X_GOOG_MAPS_EXPERIENCE_ID, experienceIdHeaderValue));
       }
     } catch (MalformedURLException e) {
       LOG.error("Request: {}{}", hostName, url, e);
@@ -93,7 +93,8 @@ public class GaeRequestHandler implements GeoApiContext.RequestHandler {
       req = new HTTPRequest(new URL(hostName + url), HTTPMethod.POST, fetchOptions);
       req.setHeader(new HTTPHeader("Content-Type", "application/json; charset=utf-8"));
       if (experienceIdHeaderValue != null) {
-        req.setHeader(new HTTPHeader(HttpHeaders.X_GOOG_MAPS_EXPERIENCE_ID, experienceIdHeaderValue));
+        req.setHeader(
+            new HTTPHeader(HttpHeaders.X_GOOG_MAPS_EXPERIENCE_ID, experienceIdHeaderValue));
       }
       req.setPayload(payload.getBytes(UTF_8));
     } catch (MalformedURLException e) {

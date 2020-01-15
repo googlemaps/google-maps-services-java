@@ -15,9 +15,7 @@
 
 package com.google.maps.internal;
 
-/**
- * Contains HTTP header name constants.
- */
+/** Contains HTTP header name constants. */
 public final class HttpHeaders {
 
   /** The HTTP {@code X-Goog-Maps-Experience-ID} header field name. */

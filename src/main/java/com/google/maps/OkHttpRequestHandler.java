@@ -22,6 +22,10 @@ import com.google.maps.internal.ExceptionsAllowedToRetry;
 import com.google.maps.internal.HttpHeaders;
 import com.google.maps.internal.OkHttpPendingResult;
 import com.google.maps.internal.RateLimitExecutorService;
+import java.io.IOException;
+import java.net.Proxy;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.TimeUnit;
 import okhttp3.Authenticator;
 import okhttp3.Credentials;
 import okhttp3.Dispatcher;
@@ -31,11 +35,6 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.Route;
-
-import java.io.IOException;
-import java.net.Proxy;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.TimeUnit;
 
 /**
  * A strategy for handling URL requests using OkHttp.
