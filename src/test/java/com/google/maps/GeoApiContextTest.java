@@ -28,7 +28,6 @@ import com.google.maps.errors.OverQueryLimitException;
 import com.google.maps.internal.ApiConfig;
 import com.google.maps.internal.ApiResponse;
 import com.google.maps.internal.HttpHeaders;
-import com.google.maps.internal.StringJoin;
 import com.google.maps.model.GeocodingResult;
 import java.io.IOException;
 import java.util.Collections;
