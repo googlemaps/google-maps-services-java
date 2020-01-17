@@ -123,6 +123,39 @@ public class StaticMapsApiTest {
     }
   }
 
+  @Test
+  public void testValidateRequest_noCenterAndNoZoomWithMarkers() throws Exception {
+    try (LocalTestServerContext sc = new LocalTestServerContext(IMAGE)) {
+      StaticMapsRequest req = StaticMapsApi.newRequest(sc.context, new Size(WIDTH, HEIGHT));
+
+      Markers markers = new Markers();
+      markers.size(MarkersSize.small);
+      markers.customIcon("http://not.a/real/url", CustomIconAnchor.bottomleft, 2);
+      markers.color("blue");
+      markers.label("A");
+      markers.addLocation("Melbourne");
+      markers.addLocation(SYDNEY);
+      req.markers(markers);
+      req.await();
+    }
+  }
+
+  @Test
+  public void testValidateRequest_noCenterAndNoZoomWithPath() throws Exception {
+    try (LocalTestServerContext sc = new LocalTestServerContext(IMAGE)) {
+      StaticMapsRequest req = StaticMapsApi.newRequest(sc.context, new Size(WIDTH, HEIGHT));
+      Path path = new Path();
+      path.color("green");
+      path.fillcolor("0xAACCEE");
+      path.weight(3);
+      path.geodesic(true);
+      path.addPoint("Melbourne");
+      path.addPoint(SYDNEY);
+      req.path(path);
+      req.await();
+    }
+  }
+
   @Test(expected = IllegalArgumentException.class)
   public void testValidateRequest_noSize() throws Exception {
     try (LocalTestServerContext sc = new LocalTestServerContext(IMAGE)) {
