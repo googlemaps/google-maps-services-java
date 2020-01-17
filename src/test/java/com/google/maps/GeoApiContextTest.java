@@ -349,30 +349,28 @@ public class GeoApiContextTest {
 
   @Test
   public void testExperienceIdSample() {
-      // [START maps_experience_id]
-      final String experienceId = UUID.randomUUID().toString();
+    // [START maps_experience_id]
+    final String experienceId = UUID.randomUUID().toString();
 
-      // instantiate context with experience id
-      final GeoApiContext context = new GeoApiContext.Builder()
-          .apiKey("AIza-Maps-API-Key")
-          .experienceId(experienceId)
-          .build();
+    // instantiate context with experience id
+    final GeoApiContext context =
+        new GeoApiContext.Builder().apiKey("AIza-Maps-API-Key").experienceId(experienceId).build();
 
-      // clear the current experience id
-      context.clearExperienceId();
+    // clear the current experience id
+    context.clearExperienceId();
 
-      // set a new experience id
-      final String otherExperienceId = UUID.randomUUID().toString();
-      context.setExperienceId(experienceId, otherExperienceId);
+    // set a new experience id
+    final String otherExperienceId = UUID.randomUUID().toString();
+    context.setExperienceId(experienceId, otherExperienceId);
 
-      // make API request, the client will set the header
-      // X-GOOG-MAPS-EXPERIENCE-ID: experienceId,otherExperienceId
+    // make API request, the client will set the header
+    // X-GOOG-MAPS-EXPERIENCE-ID: experienceId,otherExperienceId
 
-      // get current experience id
-      final String ids = context.getExperienceId();
-      // [END maps_experience_id]
+    // get current experience id
+    final String ids = context.getExperienceId();
+    // [END maps_experience_id]
 
-      assertEquals(experienceId + "," + otherExperienceId, ids);
+    assertEquals(experienceId + "," + otherExperienceId, ids);
   }
 
   @SuppressWarnings("unchecked")
