@@ -16,10 +16,13 @@
 package com.google.maps.errors;
 
 /**
- * Indicates that the product of origins and destinations exceeds the per-query limit.
+ * Indicates that the requested route is too long and cannot be processed.
  *
- * @see <a href="https://developers.google.com/maps/documentation/distance-matrix/usage-limits">
- *     Limits</a>
+ * <p>This error occurs when more complex directions are returned. Try reducing the number of
+ * waypoints, turns, or instructions.
+ *
+ * @see <a href="https://developers.google.com/maps/documentation/directions/intro#StatusCodes">
+ *     Status Codes</a>
  */
 public class MaxRouteLengthExceededException extends ApiException {
 
