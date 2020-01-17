@@ -34,6 +34,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import okhttp3.Headers;
 import okhttp3.mockwebserver.MockResponse;
@@ -344,6 +345,34 @@ public class GeoApiContextTest {
     final RecordedRequest request = makeMockRequest();
     final String value = request.getHeader(HttpHeaders.X_GOOG_MAPS_EXPERIENCE_ID);
     assertNull(value);
+  }
+
+  @Test
+  public void testExperienceIdSample() {
+      // [START maps_experience_id]
+      final String experienceId = UUID.randomUUID().toString();
+
+      // instantiate context with experience id
+      final GeoApiContext context = new GeoApiContext.Builder()
+          .apiKey("AIza-Maps-API-Key")
+          .experienceId(experienceId)
+          .build();
+
+      // clear the current experience id
+      context.clearExperienceId();
+
+      // set a new experience id
+      final String otherExperienceId = UUID.randomUUID().toString();
+      context.setExperienceId(experienceId, otherExperienceId);
+
+      // make API request, the client will set the header
+      // X-GOOG-MAPS-EXPERIENCE-ID: experienceId,otherExperienceId
+
+      // get current experience id
+      final String ids = context.getExperienceId();
+      // [END maps_experience_id]
+
+      assertEquals(experienceId + "," + otherExperienceId, ids);
   }
 
   @SuppressWarnings("unchecked")
