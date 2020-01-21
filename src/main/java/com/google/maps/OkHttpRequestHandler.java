@@ -19,6 +19,7 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.maps.GeoApiContext.RequestHandler;
 import com.google.maps.internal.ApiResponse;
 import com.google.maps.internal.ExceptionsAllowedToRetry;
+import com.google.maps.internal.HttpHeaders;
 import com.google.maps.internal.OkHttpPendingResult;
 import com.google.maps.internal.RateLimitExecutorService;
 import java.io.IOException;
@@ -55,13 +56,17 @@ public class OkHttpRequestHandler implements GeoApiContext.RequestHandler {
       String hostName,
       String url,
       String userAgent,
+      String experienceIdHeaderValue,
       Class<R> clazz,
       FieldNamingPolicy fieldNamingPolicy,
       long errorTimeout,
       Integer maxRetries,
       ExceptionsAllowedToRetry exceptionsAllowedToRetry) {
-    Request req =
-        new Request.Builder().get().header("User-Agent", userAgent).url(hostName + url).build();
+    Request.Builder builder = new Request.Builder().get().header("User-Agent", userAgent);
+    if (experienceIdHeaderValue != null) {
+      builder = builder.header(HttpHeaders.X_GOOG_MAPS_EXPERIENCE_ID, experienceIdHeaderValue);
+    }
+    Request req = builder.url(hostName + url).build();
 
     return new OkHttpPendingResult<>(
         req, client, clazz, fieldNamingPolicy, errorTimeout, maxRetries, exceptionsAllowedToRetry);
@@ -73,18 +78,19 @@ public class OkHttpRequestHandler implements GeoApiContext.RequestHandler {
       String url,
       String payload,
       String userAgent,
+      String experienceIdHeaderValue,
       Class<R> clazz,
       FieldNamingPolicy fieldNamingPolicy,
       long errorTimeout,
       Integer maxRetries,
       ExceptionsAllowedToRetry exceptionsAllowedToRetry) {
     RequestBody body = RequestBody.create(JSON, payload);
-    Request req =
-        new Request.Builder()
-            .post(body)
-            .header("User-Agent", userAgent)
-            .url(hostName + url)
-            .build();
+    Request.Builder builder = new Request.Builder().post(body).header("User-Agent", userAgent);
+
+    if (experienceIdHeaderValue != null) {
+      builder = builder.header(HttpHeaders.X_GOOG_MAPS_EXPERIENCE_ID, experienceIdHeaderValue);
+    }
+    Request req = builder.url(hostName + url).build();
 
     return new OkHttpPendingResult<>(
         req, client, clazz, fieldNamingPolicy, errorTimeout, maxRetries, exceptionsAllowedToRetry);

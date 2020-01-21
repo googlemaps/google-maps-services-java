@@ -21,6 +21,8 @@ import com.google.maps.errors.OverQueryLimitException;
 import com.google.maps.internal.ApiConfig;
 import com.google.maps.internal.ApiResponse;
 import com.google.maps.internal.ExceptionsAllowedToRetry;
+import com.google.maps.internal.HttpHeaders;
+import com.google.maps.internal.StringJoin;
 import com.google.maps.internal.UrlSigner;
 import java.io.UnsupportedEncodingException;
 import java.net.Proxy;
@@ -61,6 +63,7 @@ public class GeoApiContext {
   private final ExceptionsAllowedToRetry exceptionsAllowedToRetry;
   private final Integer maxRetries;
   private final UrlSigner urlSigner;
+  private String experienceIdHeaderValue;
 
   /* package */
   GeoApiContext(
@@ -72,7 +75,8 @@ public class GeoApiContext {
       long errorTimeout,
       ExceptionsAllowedToRetry exceptionsAllowedToRetry,
       Integer maxRetries,
-      UrlSigner urlSigner) {
+      UrlSigner urlSigner,
+      String... experienceIdHeaderValue) {
     this.requestHandler = requestHandler;
     this.apiKey = apiKey;
     this.baseUrlOverride = baseUrlOverride;
@@ -82,6 +86,7 @@ public class GeoApiContext {
     this.exceptionsAllowedToRetry = exceptionsAllowedToRetry;
     this.maxRetries = maxRetries;
     this.urlSigner = urlSigner;
+    setExperienceId(experienceIdHeaderValue);
   }
 
   /**
@@ -98,6 +103,7 @@ public class GeoApiContext {
         String hostName,
         String url,
         String userAgent,
+        String experienceIdHeaderValue,
         Class<R> clazz,
         FieldNamingPolicy fieldNamingPolicy,
         long errorTimeout,
@@ -109,6 +115,7 @@ public class GeoApiContext {
         String url,
         String payload,
         String userAgent,
+        String experienceIdHeaderValue,
         Class<R> clazz,
         FieldNamingPolicy fieldNamingPolicy,
         long errorTimeout,
@@ -134,6 +141,34 @@ public class GeoApiContext {
 
       RequestHandler build();
     }
+  }
+
+  /**
+   * Sets the value for the HTTP header field name {@link HttpHeaders#X_GOOG_MAPS_EXPERIENCE_ID} to
+   * be used on subsequent API calls. Calling this method with {@code null} is equivalent to calling
+   * {@link #clearExperienceId()}.
+   *
+   * @param experienceId The experience ID if set, otherwise null
+   */
+  public void setExperienceId(String... experienceId) {
+    if (experienceId == null || experienceId.length == 0) {
+      experienceIdHeaderValue = null;
+      return;
+    }
+    experienceIdHeaderValue = StringJoin.join(",", experienceId);
+  }
+
+  /** @return Returns the experience ID if set, otherwise, null */
+  public String getExperienceId() {
+    return experienceIdHeaderValue;
+  }
+
+  /**
+   * Clears the experience ID if set the HTTP header field {@link
+   * HttpHeaders#X_GOOG_MAPS_EXPERIENCE_ID} will be omitted from subsequent calls.
+   */
+  public void clearExperienceId() {
+    experienceIdHeaderValue = null;
   }
 
   /**
@@ -240,6 +275,7 @@ public class GeoApiContext {
         url.toString(),
         params.get("_payload").get(0),
         USER_AGENT,
+        experienceIdHeaderValue,
         clazz,
         config.fieldNamingPolicy,
         errorTimeout,
@@ -280,6 +316,7 @@ public class GeoApiContext {
         hostName,
         url.toString(),
         USER_AGENT,
+        experienceIdHeaderValue,
         clazz,
         fieldNamingPolicy,
         errorTimeout,
@@ -312,6 +349,7 @@ public class GeoApiContext {
     private ExceptionsAllowedToRetry exceptionsAllowedToRetry = new ExceptionsAllowedToRetry();
     private Integer maxRetries;
     private UrlSigner urlSigner;
+    private String[] experienceIdHeaderValue;
 
     /** Builder pattern for the enclosing {@code GeoApiContext}. */
     public Builder() {
@@ -534,6 +572,18 @@ public class GeoApiContext {
     }
 
     /**
+     * Sets the value for the HTTP header field name {@link HttpHeaders#X_GOOG_MAPS_EXPERIENCE_ID}
+     * HTTP header value for the field name on subsequent API calls.
+     *
+     * @param experienceId The experience ID
+     * @return Returns this builder for call chaining.
+     */
+    public Builder experienceId(String... experienceId) {
+      this.experienceIdHeaderValue = experienceId;
+      return this;
+    }
+
+    /**
      * Converts this builder into a {@code GeoApiContext}.
      *
      * @return Returns the built {@code GeoApiContext}.
@@ -548,7 +598,8 @@ public class GeoApiContext {
           errorTimeout,
           exceptionsAllowedToRetry,
           maxRetries,
-          urlSigner);
+          urlSigner,
+          experienceIdHeaderValue);
     }
   }
 }

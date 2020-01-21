@@ -19,6 +19,7 @@ import static com.google.maps.TestUtils.findLastThreadByName;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
@@ -26,12 +27,14 @@ import static org.mockito.Mockito.mock;
 import com.google.maps.errors.OverQueryLimitException;
 import com.google.maps.internal.ApiConfig;
 import com.google.maps.internal.ApiResponse;
+import com.google.maps.internal.HttpHeaders;
 import com.google.maps.model.GeocodingResult;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import okhttp3.Headers;
 import okhttp3.mockwebserver.MockResponse;
@@ -297,6 +300,99 @@ public class GeoApiContextTest {
     }
 
     fail("OverQueryLimitException was expected but not observed.");
+  }
+
+  @Test
+  public void testSingleExperienceId() {
+    final String experienceId = "experienceId";
+    final GeoApiContext context = builder.experienceId(experienceId).build();
+    assertEquals(experienceId, context.getExperienceId());
+  }
+
+  @Test
+  public void testMultipleExperienceId() {
+    final String experienceId1 = "experienceId1";
+    final String experienceId2 = "experienceId2";
+    final GeoApiContext context = builder.experienceId(experienceId1, experienceId2).build();
+    assertEquals(experienceId1 + "," + experienceId2, context.getExperienceId());
+  }
+
+  @Test
+  public void testNoExperienceId() {
+    final GeoApiContext context = builder.build();
+    assertNull(context.getExperienceId());
+  }
+
+  @Test
+  public void testClearingExperienceId() {
+    final String experienceId = "experienceId";
+    final GeoApiContext context = builder.experienceId(experienceId).build();
+    assertEquals(experienceId, context.getExperienceId());
+
+    context.clearExperienceId();
+    assertNull(context.getExperienceId());
+  }
+
+  @Test
+  public void testExperienceIdIsInHeader() throws Exception {
+    final String experienceId = "exp1";
+    final RecordedRequest request = makeMockRequest(experienceId);
+    assertEquals(experienceId, request.getHeader(HttpHeaders.X_GOOG_MAPS_EXPERIENCE_ID));
+  }
+
+  @Test
+  public void testExperienceIdNotInHeader() throws Exception {
+    final RecordedRequest request = makeMockRequest();
+    final String value = request.getHeader(HttpHeaders.X_GOOG_MAPS_EXPERIENCE_ID);
+    assertNull(value);
+  }
+
+  @Test
+  public void testExperienceIdSample() {
+    // [START maps_experience_id]
+    final String experienceId = UUID.randomUUID().toString();
+
+    // instantiate context with experience id
+    final GeoApiContext context =
+        new GeoApiContext.Builder().apiKey("AIza-Maps-API-Key").experienceId(experienceId).build();
+
+    // clear the current experience id
+    context.clearExperienceId();
+
+    // set a new experience id
+    final String otherExperienceId = UUID.randomUUID().toString();
+    context.setExperienceId(experienceId, otherExperienceId);
+
+    // make API request, the client will set the header
+    // X-GOOG-MAPS-EXPERIENCE-ID: experienceId,otherExperienceId
+
+    // get current experience id
+    final String ids = context.getExperienceId();
+    // [END maps_experience_id]
+
+    assertEquals(experienceId + "," + otherExperienceId, ids);
+  }
+
+  @SuppressWarnings("unchecked")
+  private RecordedRequest makeMockRequest(String... experienceId) throws Exception {
+    // Set up a mock request
+    ApiResponse<Object> fakeResponse = mock(ApiResponse.class);
+    String path = "/";
+    Map<String, List<String>> params = new HashMap<>();
+    params.put("key", Collections.singletonList("value"));
+
+    // Set up the fake web server
+    server.enqueue(new MockResponse());
+    server.start();
+    setMockBaseUrl();
+
+    // Build & execute the request using our context
+    final GeoApiContext context = builder.experienceId(experienceId).build();
+    context.get(new ApiConfig(path), fakeResponse.getClass(), params).awaitIgnoreError();
+
+    // Read the header
+    server.shutdown();
+    return server.takeRequest();
   }
 
   @Test
