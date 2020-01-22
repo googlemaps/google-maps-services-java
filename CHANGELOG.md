@@ -2,7 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased](https://github.com/googlemaps/google-maps-services-java/compare/v0.10.2...HEAD)
+## [Unreleased](https://github.com/googlemaps/google-maps-services-java/compare/v0.11.0...HEAD)
+
+## [v0.11.0](https://github.com/googlemaps/google-maps-services-java/compare/v0.10.2...v0.11.0) - 2020-01-21
+
+### Bug Fixes
+
+- increase stale bot window ([22a2b4c](https://github.com/googlemaps/google-maps-services-java/commit/22a2b4cb8d6530e59494b9b25681bbae33d5ee60))
+- added path exception when there is no center or no zoom (#650) ([47acc92](https://github.com/googlemaps/google-maps-services-java/commit/47acc92)), closes [#650](https://github.com/googlemaps/google-maps-services-java/issues/650)
+- added primary school as a poi AddressType to silence SafeEnumAdapter … (#646) ([6500947](https://github.com/googlemaps/google-maps-services-java/commit/6500947)), closes [#646](https://github.com/googlemaps/google-maps-services-java/issues/646)
+
+### Features
+
+- add support for experience id. ([#647](https://github.com/googlemaps/google-maps-services-java/issues/647)) ([b229806](https://github.com/googlemaps/google-maps-services-java/commit/b229806526c9a1e0b98a71889a209446a1035d36))
+
 ## [v0.10.2](https://github.com/googlemaps/google-maps-services-java/compare/v0.10.1...v0.10.2) - 2019-12-10
 
 ### Merged
