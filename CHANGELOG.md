@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file.
 - increase stale bot window ([22a2b4c](https://github.com/googlemaps/google-maps-services-java/commit/22a2b4cb8d6530e59494b9b25681bbae33d5ee60))
 - added path exception when there is no center or no zoom (#650) ([47acc92](https://github.com/googlemaps/google-maps-services-java/commit/47acc92)), closes [#650](https://github.com/googlemaps/google-maps-services-java/issues/650)
 - added primary school as a poi AddressType to silence SafeEnumAdapter … (#646) ([6500947](https://github.com/googlemaps/google-maps-services-java/commit/6500947)), closes [#646](https://github.com/googlemaps/google-maps-services-java/issues/646)
+- typo in FieldMask lon to lng ([#654](https://github.com/googlemaps/google-maps-services-java/issues/654)) ([244d188](https://github.com/googlemaps/google-maps-services-java/commit/244d188a229fdbde29bc397228a2cc1ca28946d6))
 
 ### Features
 
