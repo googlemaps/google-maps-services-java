@@ -126,7 +126,7 @@ public class PlaceDetailsRequest
     GEOMETRY("geometry"),
     GEOMETRY_LOCATION("geometry/location"),
     GEOMETRY_LOCATION_LAT("geometry/location/lat"),
-    GEOMETRY_LOCATION_LNG("geometry/location/lon"),
+    GEOMETRY_LOCATION_LNG("geometry/location/lng"),
     GEOMETRY_VIEWPORT("geometry/viewport"),
     GEOMETRY_VIEWPORT_NORTHEAST("geometry/viewport/northeast"),
     GEOMETRY_VIEWPORT_NORTHEAST_LAT("geometry/viewport/northeast/lat"),
