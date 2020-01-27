@@ -86,6 +86,11 @@ tasks.withType(Test) {
     systemProperty 'client.secret', System.getProperty('client.secret')
 }
 
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
 javadoc {
     exclude '**/internal/**'
     def currentJavaVersion = org.gradle.api.JavaVersion.current()
