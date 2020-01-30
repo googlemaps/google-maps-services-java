@@ -412,7 +412,8 @@ public class GeoApiContext {
     }
 
     /**
-     * Sets the ClientID/Secret pair to use for authorizing requests. Most users should use {@link #apiKey(String)} instead.
+     * Sets the ClientID/Secret pair to use for authorizing requests. Most users should use {@link
+     * #apiKey(String)} instead.
      *
      * @param clientId The Client ID to use.
      * @param cryptographicSecret The Secret to use.
