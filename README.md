@@ -63,35 +63,11 @@ contribute, please read [How to Contribute][contrib].
 - A Google Maps API key.
 
 ### API keys
+Each Google Maps Web Service request requires an API key. API keys are generated in the 'Credentials' page of the 'APIs & Services' tab of Google Cloud console.
 
-Each Google Maps Web Service request requires an API key or client ID. API keys
-are freely available with a Google Account at
-[developers.google.com/console](https://developers.google.com/console). The
-type of API key you need is a **Server key**.
+For even more information on getting started with Google Maps Platform and generating/restricting an API key, see [Get Started with Google Maps Platform](https://developers.google.com/maps/gmp-get-started) in our docs.
 
-To get an API key:
-
- 1. Visit [developers.google.com/console](https://developers.google.com/console)
-  and log in with a Google Account.
- 1. Select one of your existing projects, or create a new project.
- 1. Enable the API(s) you want to use. The Java Client for Google Maps Services
-    accesses the following APIs:
-    - Directions API
-    - Distance Matrix API
-    - Elevation API
-    - Geocoding API
-    - Maps Static API
-    - Places API
-    - Roads API
-    - Time Zone API
- 1. Create a new **Server key**.
- 1. If you'd like to restrict requests to a specific IP address, do so now.
-
-For guided help, follow the instructions for the [Directions API][directions-key].
-You only need one API key, but remember to enable all the APIs you need.
-For even more information, see the guide to [API keys][apikey].
-
-**Important:** This key should be kept secret on your server.
+Important: This key should be kept secret on your server.
 
 ## Installation
 
@@ -167,24 +143,6 @@ Gson gson = new GsonBuilder().setPrettyPrinting().create();
 System.out.println(gson.toJson(results[0].addressComponents));
 ```
 
-Below is the same example, using client ID and client secret (digital signature)
-for authentication. This code assumes you have previously loaded the `clientID`
-and `clientSecret` variables with appropriate values.
-
-For a guide on how to generate the `clientSecret` (digital signature), see the
-documentation for the API you're using. For example, see the guide for the
-[Directions API][directions-client-id].
-
-```java
-GeoApiContext context = new GeoApiContext.Builder()
-    .enterpriseCredentials(clientID, clientSecret)
-    .build();
-GeocodingResult[] results =  GeocodingApi.geocode(context,
-    "1600 Amphitheatre Parkway Mountain View, CA 94043").await();
-Gson gson = new GsonBuilder().setPrettyPrinting().create();
-System.out.println(gson.toJson(results[0].addressComponents));
-```
-
 The `GeoApiContext` is designed to be a [Singleton](https://en.wikipedia.org/wiki/Singleton_pattern)
 in your application. Please instantiate one on application startup, and continue to use it for the
 life of your application. This will enable proper QPS enforcement across all of your requests.
@@ -229,11 +187,6 @@ To alter or disable automatic retries, see these methods in `GeoApiContext`:
 - `.maxRetries()`
 - `.retryTimeout()`
 - `.setIfExceptionIsAllowedToRetry()`
-
-### Client IDs
-
-Google Maps APIs Premium Plan customers can use their [client ID and secret][clientid] to
-authenticate, instead of an API key.
 
 ### POJOs
 
