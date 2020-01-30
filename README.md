@@ -188,11 +188,6 @@ To alter or disable automatic retries, see these methods in `GeoApiContext`:
 - `.retryTimeout()`
 - `.setIfExceptionIsAllowedToRetry()`
 
-### Client IDs
-
-Google Maps APIs Premium Plan customers can use their [client ID and secret][clientid] to
-authenticate, instead of an API key.
-
 ### POJOs
 
 Native objects for each of the API responses.
