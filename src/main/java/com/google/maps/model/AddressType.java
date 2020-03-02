@@ -452,6 +452,9 @@ public enum AddressType implements UrlValue {
   /** A tourist attraction */
   TOURIST_ATTRACTION("tourist_attraction"),
 
+  /** Currently not a documented return type. */
+  TOWN_SQUARE("town_square"),
+
   /**
    * Indicates an unknown address type returned by the server. The Java Client for Google Maps
    * Services should be updated to support the new value.
