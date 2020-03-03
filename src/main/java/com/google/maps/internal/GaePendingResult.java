@@ -28,6 +28,7 @@ import com.google.maps.ImageResult;
 import com.google.maps.PendingResult;
 import com.google.maps.errors.ApiException;
 import com.google.maps.errors.UnknownErrorException;
+import com.google.maps.metrics.RequestMetrics;
 import com.google.maps.model.AddressComponentType;
 import com.google.maps.model.AddressType;
 import com.google.maps.model.Distance;
@@ -66,6 +67,7 @@ public class GaePendingResult<T, R extends ApiResponse<T>> implements PendingRes
   private final FieldNamingPolicy fieldNamingPolicy;
   private final Integer maxRetries;
   private final ExceptionsAllowedToRetry exceptionsAllowedToRetry;
+  private final RequestMetrics metrics;
 
   private long errorTimeOut;
   private int retryCounter = 0;
@@ -90,7 +92,8 @@ public class GaePendingResult<T, R extends ApiResponse<T>> implements PendingRes
       FieldNamingPolicy fieldNamingPolicy,
       long errorTimeOut,
       Integer maxRetries,
-      ExceptionsAllowedToRetry exceptionsAllowedToRetry) {
+      ExceptionsAllowedToRetry exceptionsAllowedToRetry,
+      RequestMetrics metrics) {
     this.request = request;
     this.client = client;
     this.responseClass = responseClass;
@@ -98,7 +101,9 @@ public class GaePendingResult<T, R extends ApiResponse<T>> implements PendingRes
     this.errorTimeOut = errorTimeOut;
     this.maxRetries = maxRetries;
     this.exceptionsAllowedToRetry = exceptionsAllowedToRetry;
+    this.metrics = metrics;
 
+    metrics.startNetwork();
     this.call = client.fetchAsync(request);
   }
 
@@ -110,7 +115,9 @@ public class GaePendingResult<T, R extends ApiResponse<T>> implements PendingRes
   @Override
   public T await() throws ApiException, IOException, InterruptedException {
     try {
-      return parseResponse(this, call.get());
+      HTTPResponse result = call.get();
+      metrics.endNetwork();
+      return parseResponse(this, result);
     } catch (ExecutionException e) {
       if (e.getCause() instanceof IOException) {
         throw (IOException) e.getCause();
@@ -139,6 +146,19 @@ public class GaePendingResult<T, R extends ApiResponse<T>> implements PendingRes
 
   @SuppressWarnings("unchecked")
   private T parseResponse(GaePendingResult<T, R> request, HTTPResponse response)
+      throws IOException, ApiException, InterruptedException {
+    try {
+      T result = parseResponseInternal(request, response);
+      metrics.endRequest(null, response.getResponseCode(), retryCounter);
+      return result;
+    } catch (Exception e) {
+      metrics.endRequest(e, response.getResponseCode(), retryCounter);
+      throw e;
+    }
+  }
+
+  @SuppressWarnings("unchecked")
+  private T parseResponseInternal(GaePendingResult<T, R> request, HTTPResponse response)
       throws IOException, ApiException, InterruptedException {
     if (shouldRetry(response)) {
       // Retry is a blocking method, but that's OK. If we're here, we're either in an await()
@@ -225,6 +245,7 @@ public class GaePendingResult<T, R extends ApiResponse<T>> implements PendingRes
   private T retry() throws IOException, ApiException, InterruptedException {
     retryCounter++;
     LOG.info("Retrying request. Retry #{}", retryCounter);
+    metrics.startNetwork();
     this.call = client.fetchAsync(request);
     return this.await();
   }

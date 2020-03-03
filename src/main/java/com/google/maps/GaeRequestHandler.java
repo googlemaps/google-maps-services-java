@@ -29,6 +29,7 @@ import com.google.maps.internal.ApiResponse;
 import com.google.maps.internal.ExceptionsAllowedToRetry;
 import com.google.maps.internal.GaePendingResult;
 import com.google.maps.internal.HttpHeaders;
+import com.google.maps.metrics.RequestMetrics;
 import java.net.MalformedURLException;
 import java.net.Proxy;
 import java.net.URL;
@@ -57,7 +58,8 @@ public class GaeRequestHandler implements GeoApiContext.RequestHandler {
       FieldNamingPolicy fieldNamingPolicy,
       long errorTimeout,
       Integer maxRetries,
-      ExceptionsAllowedToRetry exceptionsAllowedToRetry) {
+      ExceptionsAllowedToRetry exceptionsAllowedToRetry,
+      RequestMetrics metrics) {
     FetchOptions fetchOptions = FetchOptions.Builder.withDeadline(10);
     HTTPRequest req;
     try {
@@ -72,7 +74,14 @@ public class GaeRequestHandler implements GeoApiContext.RequestHandler {
     }
 
     return new GaePendingResult<>(
-        req, client, clazz, fieldNamingPolicy, errorTimeout, maxRetries, exceptionsAllowedToRetry);
+        req,
+        client,
+        clazz,
+        fieldNamingPolicy,
+        errorTimeout,
+        maxRetries,
+        exceptionsAllowedToRetry,
+        metrics);
   }
 
   @Override
@@ -86,7 +95,8 @@ public class GaeRequestHandler implements GeoApiContext.RequestHandler {
       FieldNamingPolicy fieldNamingPolicy,
       long errorTimeout,
       Integer maxRetries,
-      ExceptionsAllowedToRetry exceptionsAllowedToRetry) {
+      ExceptionsAllowedToRetry exceptionsAllowedToRetry,
+      RequestMetrics metrics) {
     FetchOptions fetchOptions = FetchOptions.Builder.withDeadline(10);
     HTTPRequest req = null;
     try {
@@ -103,7 +113,14 @@ public class GaeRequestHandler implements GeoApiContext.RequestHandler {
     }
 
     return new GaePendingResult<>(
-        req, client, clazz, fieldNamingPolicy, errorTimeout, maxRetries, exceptionsAllowedToRetry);
+        req,
+        client,
+        clazz,
+        fieldNamingPolicy,
+        errorTimeout,
+        maxRetries,
+        exceptionsAllowedToRetry,
+        metrics);
   }
 
   @Override
