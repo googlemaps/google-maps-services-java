@@ -24,6 +24,9 @@ import com.google.maps.internal.ExceptionsAllowedToRetry;
 import com.google.maps.internal.HttpHeaders;
 import com.google.maps.internal.StringJoin;
 import com.google.maps.internal.UrlSigner;
+import com.google.maps.metrics.NoOpRequestMetricsReporter;
+import com.google.maps.metrics.RequestMetrics;
+import com.google.maps.metrics.RequestMetricsReporter;
 import java.io.UnsupportedEncodingException;
 import java.net.Proxy;
 import java.net.URLEncoder;
@@ -64,6 +67,7 @@ public class GeoApiContext {
   private final Integer maxRetries;
   private final UrlSigner urlSigner;
   private String experienceIdHeaderValue;
+  private final RequestMetricsReporter requestMetricsReporter;
 
   /* package */
   GeoApiContext(
@@ -76,6 +80,7 @@ public class GeoApiContext {
       ExceptionsAllowedToRetry exceptionsAllowedToRetry,
       Integer maxRetries,
       UrlSigner urlSigner,
+      RequestMetricsReporter requestMetricsReporter,
       String... experienceIdHeaderValue) {
     this.requestHandler = requestHandler;
     this.apiKey = apiKey;
@@ -86,6 +91,7 @@ public class GeoApiContext {
     this.exceptionsAllowedToRetry = exceptionsAllowedToRetry;
     this.maxRetries = maxRetries;
     this.urlSigner = urlSigner;
+    this.requestMetricsReporter = requestMetricsReporter;
     setExperienceId(experienceIdHeaderValue);
   }
 
@@ -108,7 +114,8 @@ public class GeoApiContext {
         FieldNamingPolicy fieldNamingPolicy,
         long errorTimeout,
         Integer maxRetries,
-        ExceptionsAllowedToRetry exceptionsAllowedToRetry);
+        ExceptionsAllowedToRetry exceptionsAllowedToRetry,
+        RequestMetrics metrics);
 
     <T, R extends ApiResponse<T>> PendingResult<T> handlePost(
         String hostName,
@@ -120,7 +127,8 @@ public class GeoApiContext {
         FieldNamingPolicy fieldNamingPolicy,
         long errorTimeout,
         Integer maxRetries,
-        ExceptionsAllowedToRetry exceptionsAllowedToRetry);
+        ExceptionsAllowedToRetry exceptionsAllowedToRetry,
+        RequestMetrics metrics);
 
     void shutdown();
 
@@ -206,7 +214,8 @@ public class GeoApiContext {
         config.hostName,
         config.path,
         config.supportsClientId,
-        query.toString());
+        query.toString(),
+        requestMetricsReporter.newRequest(config.path));
   }
 
   <T, R extends ApiResponse<T>> PendingResult<T> get(
@@ -245,7 +254,8 @@ public class GeoApiContext {
         config.hostName,
         config.path,
         config.supportsClientId,
-        query.toString());
+        query.toString(),
+        requestMetricsReporter.newRequest(config.path));
   }
 
   <T, R extends ApiResponse<T>> PendingResult<T> post(
@@ -280,7 +290,8 @@ public class GeoApiContext {
         config.fieldNamingPolicy,
         errorTimeout,
         maxRetries,
-        exceptionsAllowedToRetry);
+        exceptionsAllowedToRetry,
+        requestMetricsReporter.newRequest(config.path));
   }
 
   private <T, R extends ApiResponse<T>> PendingResult<T> getWithPath(
@@ -289,7 +300,8 @@ public class GeoApiContext {
       String hostName,
       String path,
       boolean canUseClientId,
-      String encodedPath) {
+      String encodedPath,
+      RequestMetrics metrics) {
     checkContext(canUseClientId);
     if (!encodedPath.startsWith("&")) {
       throw new IllegalArgumentException("encodedPath must start with &");
@@ -321,7 +333,8 @@ public class GeoApiContext {
         fieldNamingPolicy,
         errorTimeout,
         maxRetries,
-        exceptionsAllowedToRetry);
+        exceptionsAllowedToRetry,
+        metrics);
   }
 
   private void checkContext(boolean canUseClientId) {
@@ -349,6 +362,7 @@ public class GeoApiContext {
     private ExceptionsAllowedToRetry exceptionsAllowedToRetry = new ExceptionsAllowedToRetry();
     private Integer maxRetries;
     private UrlSigner urlSigner;
+    private RequestMetricsReporter requestMetricsReporter = new NoOpRequestMetricsReporter();
     private String[] experienceIdHeaderValue;
 
     /** Builder pattern for the enclosing {@code GeoApiContext}. */
@@ -584,6 +598,11 @@ public class GeoApiContext {
       return this;
     }
 
+    public Builder requestMetricsReporter(RequestMetricsReporter requestMetricsReporter) {
+      this.requestMetricsReporter = requestMetricsReporter;
+      return this;
+    }
+
     /**
      * Converts this builder into a {@code GeoApiContext}.
      *
@@ -600,6 +619,7 @@ public class GeoApiContext {
           exceptionsAllowedToRetry,
           maxRetries,
           urlSigner,
+          requestMetricsReporter,
           experienceIdHeaderValue);
     }
   }
