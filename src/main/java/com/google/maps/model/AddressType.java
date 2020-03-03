@@ -176,6 +176,9 @@ public enum AddressType implements UrlValue {
   /** The location of a primary school. */
   PRIMARY_SCHOOL("primary_school"),
 
+  /** The location of a secondary school. */
+  SECONDARY_SCHOOL("secondary_school"),
+
   /** The location of a finance institute. */
   FINANCE("finance"),
 
@@ -202,6 +205,9 @@ public enum AddressType implements UrlValue {
 
   /** Currently not a documented return type. */
   STORE("store"),
+
+  /** The location of a drugstore. */
+  DRUGSTORE("drugstore"),
 
   /** Currently not a documented return type. */
   LAWYER("lawyer"),

@@ -82,6 +82,7 @@ public class EnumsTest {
     m.put(AddressType.TRANSIT_STATION, "transit_station");
     m.put(AddressType.CHURCH, "church");
     m.put(AddressType.PRIMARY_SCHOOL, "primary_school");
+    m.put(AddressType.SECONDARY_SCHOOL, "secondary_school");
     m.put(AddressType.FINANCE, "finance");
     m.put(AddressType.ESTABLISHMENT, "establishment");
     m.put(AddressType.POSTAL_TOWN, "postal_town");
@@ -98,6 +99,7 @@ public class EnumsTest {
     m.put(AddressType.FOOD, "food");
     m.put(AddressType.GROCERY_OR_SUPERMARKET, "grocery_or_supermarket");
     m.put(AddressType.STORE, "store");
+    m.put(AddressType.DRUGSTORE, "drugstore");
     m.put(AddressType.LAWYER, "lawyer");
     m.put(AddressType.HEALTH, "health");
     m.put(AddressType.INSURANCE_AGENCY, "insurance_agency");
