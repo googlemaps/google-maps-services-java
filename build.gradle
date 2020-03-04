@@ -54,6 +54,7 @@ dependencies {
     compileOnly 'com.google.appengine:appengine-api-1.0-sdk:1.9.76'
     api 'com.squareup.okhttp3:okhttp:3.14.4'
     api 'com.google.code.gson:gson:2.8.5'
+    api 'io.opencensus:opencensus-api:0.25.0'
     implementation 'org.slf4j:slf4j-api:1.7.26'
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.mockito:mockito-core:3.0.0'
@@ -62,6 +63,7 @@ dependencies {
     testImplementation 'org.slf4j:slf4j-simple:1.7.26'
     testImplementation 'org.apache.commons:commons-lang3:3.9'
     testImplementation 'org.json:json:20180813'
+    testImplementation 'io.opencensus:opencensus-impl:0.25.0'
 }
 
 task updateVersion(type: Copy) {
