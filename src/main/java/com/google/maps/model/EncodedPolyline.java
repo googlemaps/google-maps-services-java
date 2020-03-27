@@ -16,7 +16,10 @@
 package com.google.maps.model;
 
 import com.google.maps.internal.PolylineEncoding;
+import com.google.maps.internal.StringJoin;
+
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,6 +32,10 @@ public class EncodedPolyline implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
+  private int weight;
+  private String color;
+  private String fillcolor;
+  private boolean geodesic;
   private final String points;
 
   public EncodedPolyline() {
@@ -48,7 +55,7 @@ public class EncodedPolyline implements Serializable {
   }
 
   public String getEncodedPath() {
-    return points;
+    return toUrlValue();
   }
 
   public List<LatLng> decodePath() {
@@ -60,5 +67,45 @@ public class EncodedPolyline implements Serializable {
   @Override
   public String toString() {
     return String.format("[EncodedPolyline: %s]", points);
+  }
+
+  public void weight(int weight) {
+    this.weight = weight;
+  }
+
+  public void setColor(String color) {
+    this.color = color;
+  }
+
+  public void fillcolor(String fillcolor) {
+    this.fillcolor = fillcolor;
+  }
+
+  public void geodesic(boolean geodesic) {
+    this.geodesic = geodesic;
+  }
+
+  public String toUrlValue() {
+    List<String> urlParts = new ArrayList<>();
+
+    if (weight > 0) {
+      urlParts.add("weight:" + weight);
+    }
+
+    if (color != null) {
+      urlParts.add("color:" + color);
+    }
+
+    if (fillcolor != null) {
+      urlParts.add("fillcolor:" + fillcolor);
+    }
+
+    if (geodesic) {
+      urlParts.add("geodesic:" + geodesic);
+    }
+
+    urlParts.add("enc:" + points);
+
+    return StringJoin.join('|', urlParts.toArray(new String[urlParts.size()]));
   }
 }
