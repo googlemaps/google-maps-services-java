@@ -31,10 +31,10 @@ import com.google.maps.model.DistanceMatrixRow;
  * passing the desired single origin and destination to the Directions API, using {@link
  * com.google.maps.DirectionsApi}.
  *
- * <p><strong>Note:</strong> Use of the Distance Matrix API must relate to the display of
- * information on a Google Map; for example, to determine origin-destination pairs that fall within
- * a specific driving time from one another, before requesting and displaying those destinations on
- * a map. Use of the service in an application that doesn't display a Google Map is prohibited.
+ * <p><strong>Note:</strong> You can display Distance Matrix API results on a Google Map, or without
+ * a map. If you want to display Distance Matrix API results on a map, then these results must be
+ * displayed on a Google Map. It is prohibited to use Distance Matrix API data on a map that is not
+ * a Google map.
  *
  * @see <a href="https://developers.google.com/maps/documentation/distancematrix/">Distance Matrix
  *     API Documentation</a>
