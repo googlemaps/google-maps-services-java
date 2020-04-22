@@ -83,6 +83,7 @@
       "id": "4f89212bf76dde31f092cfc14d7506555d85b5c7",
       "international_phone_number": "+61 2 9374 4000",
       "name": "Google",
+      "business_status": "OPERATIONAL",
       "opening_hours": {
         "minutes_until_closed": 224,
         "minutes_until_open": 1184,

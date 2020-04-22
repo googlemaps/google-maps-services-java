@@ -77,6 +77,9 @@ public class PlacesSearchResult implements Serializable {
   /** The number of user reviews for this place */
   public int userRatingsTotal;
 
+  /** The status of the business (i.e. operational, temporarily closed, etc.). */
+  public String businessStatus;
+
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder("[PlacesSearchResult: ");
@@ -106,7 +109,9 @@ public class PlacesSearchResult implements Serializable {
     if (userRatingsTotal > 0) {
       sb.append(", userRatingsTotal=").append(userRatingsTotal);
     }
-
+    if (businessStatus != null) {
+      sb.append(", businessStatus=").append(businessStatus);
+    }
     sb.append("]");
     return sb.toString();
   }
