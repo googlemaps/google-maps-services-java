@@ -32,9 +32,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Run tests
-      run: |
-        echo "Running unit tests"
-        ./gradlew check test jacocoTestReport --stacktrace
+      run: ./gradlew check test jacocoTestReport --stacktrace
 
-        echo "Sending test results to CodeCov"
-        bash <(curl -s https://codecov.io/bash)
+    - name: Send test results to CodeCov
+      run: bash <(curl -s https://codecov.io/bash)
