@@ -34,7 +34,7 @@ jobs:
     - name: Run tests
       run: |
         echo "Running unit tests"
-        ./gradlew check test jacocoTestReport -x lint --stacktrace
+        ./gradlew check test jacocoTestReport --stacktrace
 
         echo "Sending test results to CodeCov"
         bash <(curl -s https://codecov.io/bash)
