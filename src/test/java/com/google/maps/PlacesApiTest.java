@@ -920,6 +920,7 @@ public class PlacesApiTest {
       FindPlaceFromText response =
           PlacesApi.findPlaceFromText(sc.context, input, InputType.TEXT_QUERY)
               .fields(
+                  FindPlaceFromTextRequest.FieldMask.BUSINESS_STATUS,
                   FindPlaceFromTextRequest.FieldMask.PHOTOS,
                   FindPlaceFromTextRequest.FieldMask.FORMATTED_ADDRESS,
                   FindPlaceFromTextRequest.FieldMask.NAME,
@@ -931,7 +932,7 @@ public class PlacesApiTest {
 
       sc.assertParamValue(input, "input");
       sc.assertParamValue("textquery", "inputtype");
-      sc.assertParamValue("photos,formatted_address,name,rating,opening_hours,geometry", "fields");
+      sc.assertParamValue("business_status,photos,formatted_address,name,rating,opening_hours,geometry", "fields");
       sc.assertParamValue("ipbias", "locationbias");
 
       assertNotNull(response);

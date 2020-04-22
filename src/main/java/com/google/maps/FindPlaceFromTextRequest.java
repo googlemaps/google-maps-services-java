@@ -134,6 +134,7 @@ public class FindPlaceFromTextRequest
   }
 
   public enum FieldMask implements UrlValue {
+    BUSINESS_STATUS("business_status"),
     FORMATTED_ADDRESS("formatted_address"),
     GEOMETRY("geometry"),
     ICON("icon"),
