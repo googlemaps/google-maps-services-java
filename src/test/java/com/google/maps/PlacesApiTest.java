@@ -932,7 +932,8 @@ public class PlacesApiTest {
 
       sc.assertParamValue(input, "input");
       sc.assertParamValue("textquery", "inputtype");
-      sc.assertParamValue("business_status,photos,formatted_address,name,rating,opening_hours,geometry", "fields");
+      sc.assertParamValue(
+          "business_status,photos,formatted_address,name,rating,opening_hours,geometry", "fields");
       sc.assertParamValue("ipbias", "locationbias");
 
       assertNotNull(response);
@@ -1033,8 +1034,7 @@ public class PlacesApiTest {
   public void testPlaceDetailsWithBusinessStatus() throws Exception {
     final String jsonString = retrieveBody("PlaceDetailsResponseWithBusinessStatus.json");
     final LocalTestServerContext server = new LocalTestServerContext(jsonString);
-    final PlaceDetails placeDetails = PlacesApi.placeDetails(server.context, "testPlaceId")
-        .await();
+    final PlaceDetails placeDetails = PlacesApi.placeDetails(server.context, "testPlaceId").await();
     assertNotNull(placeDetails);
     assertEquals("OPERATIONAL", placeDetails.businessStatus);
   }
@@ -1044,9 +1044,7 @@ public class PlacesApiTest {
     final String jsonString = retrieveBody("PlaceDetailsResponseWithBusinessStatus.json");
     final LocalTestServerContext server = new LocalTestServerContext(jsonString);
 
-    PlacesApi.placeDetails(server.context, "testPlaceId")
-        .fields(FieldMask.BUSINESS_STATUS)
-        .await();
+    PlacesApi.placeDetails(server.context, "testPlaceId").fields(FieldMask.BUSINESS_STATUS).await();
 
     server.assertParamValue("business_status", "fields");
   }
