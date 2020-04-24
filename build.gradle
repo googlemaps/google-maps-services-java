@@ -111,7 +111,7 @@ jacocoTestReport {
 
 publishing {
     publications {
-        MapsJavaUtils(MavenPublication) {
+        maven(MavenPublication) {
             pom {
                 name = 'Java Client for Google Maps Platform Web Services'
                 description = 'Use the Google Maps Platform Web Services in Java! ' +
@@ -176,19 +176,24 @@ publishing {
 nexusPublishing {
     repositories {
         sonatype {
-            username = sonatypeUsername
-            password = sonatypePassword
+            username = System.getenv('SYNCED_SONATYPE_USERNAME')
+            password = System.getenv('SYNCED_SONATYPE_PASSWORD')
             clientTimeout = Duration.ofSeconds(120)
         }
     }
 }
 
 nexusStaging {
-    username = sonatypeUsername
-    password = sonatypePassword
+    username System.getenv('SYNCED_SONATYPE_USERNAME')
+    password System.getenv('SYNCED_SONATYPE_PASSWORD')
     packageGroup = "com.google.maps"
 }
 
 signing {
-    sign publishing.publications.MapsJavaUtils
+    useInMemoryPgpKeys(
+        System.getenv('SYNCED_GPG_KEY_ID'),
+        System.getenv('SYNCED_GPG_KEY_ARMOR'),
+        System.getenv('SYNCED_GPG_KEY_PASSWORD')
+    )
+    sign publishing.publications.maven
 }

@@ -31,15 +31,4 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Publish build
-      run: |
-        echo "Creating .gpg key"
-        echo ${{ secrets.SYNCED_GPG_KEY_ARMOR }} > ./release.asc
-        gpg --quiet --output ./release.gpg --dearmor ./release.asc
-
-        echo "Creating build"
-        ./gradlew build publish --warn --stacktrace \
-        -PsonatypeUsername=${{ secrets.SYNCED_SONATYPE_USERNAME }} \
-        -PsonatypePassword=${{ secrets.SYNCED_SONATYPE_PASSWORD }} \
-        -Psigning.keyId=${{ secrets.SYNCED_GPG_KEY_ID }} \
-        -Psigning.password=${{ secrets.SYNCED_GPG_KEY_PASSWORD }} \
-        -Psigning.secretKeyRingFile=./release.gpg
+      run: ./gradlew build publish --warn --stacktrace
