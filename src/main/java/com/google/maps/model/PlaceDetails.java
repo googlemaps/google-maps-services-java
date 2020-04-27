@@ -227,6 +227,9 @@ public class PlaceDetails implements Serializable {
   /** Attributions about this listing which must be displayed to the user. */
   public String[] htmlAttributions;
 
+  /** The status of the business (i.e. operational, temporarily closed, etc.). */
+  public String businessStatus;
+
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder("[PlaceDetails: ");
@@ -280,6 +283,9 @@ public class PlaceDetails implements Serializable {
     }
     if (htmlAttributions != null && htmlAttributions.length > 0) {
       sb.append(", ").append(htmlAttributions.length).append(" htmlAttributions");
+    }
+    if (businessStatus != null) {
+      sb.append(", businessStatus=").append(businessStatus);
     }
     sb.append("]");
     return sb.toString();

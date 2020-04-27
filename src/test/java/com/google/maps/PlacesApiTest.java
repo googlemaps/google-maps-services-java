@@ -27,6 +27,7 @@ import com.google.maps.FindPlaceFromTextRequest.LocationBiasIP;
 import com.google.maps.FindPlaceFromTextRequest.LocationBiasPoint;
 import com.google.maps.FindPlaceFromTextRequest.LocationBiasRectangular;
 import com.google.maps.PlaceAutocompleteRequest.SessionToken;
+import com.google.maps.PlaceDetailsRequest.FieldMask;
 import com.google.maps.model.AddressComponentType;
 import com.google.maps.model.AddressType;
 import com.google.maps.model.AutocompletePrediction;
@@ -719,6 +720,7 @@ public class PlacesApiTest {
       PlacesSearchResult result = response.results[0];
       assertEquals("5, 48 Pirrama Rd, Pyrmont NSW 2009, Australia", result.formattedAddress);
       assertEquals("ChIJN1t_tDeuEmsRUsoyG83frY4", result.placeId);
+      assertEquals("OPERATIONAL", result.businessStatus);
     }
   }
 
@@ -918,6 +920,7 @@ public class PlacesApiTest {
       FindPlaceFromText response =
           PlacesApi.findPlaceFromText(sc.context, input, InputType.TEXT_QUERY)
               .fields(
+                  FindPlaceFromTextRequest.FieldMask.BUSINESS_STATUS,
                   FindPlaceFromTextRequest.FieldMask.PHOTOS,
                   FindPlaceFromTextRequest.FieldMask.FORMATTED_ADDRESS,
                   FindPlaceFromTextRequest.FieldMask.NAME,
@@ -929,7 +932,8 @@ public class PlacesApiTest {
 
       sc.assertParamValue(input, "input");
       sc.assertParamValue("textquery", "inputtype");
-      sc.assertParamValue("photos,formatted_address,name,rating,opening_hours,geometry", "fields");
+      sc.assertParamValue(
+          "business_status,photos,formatted_address,name,rating,opening_hours,geometry", "fields");
       sc.assertParamValue("ipbias", "locationbias");
 
       assertNotNull(response);
@@ -1024,5 +1028,24 @@ public class PlacesApiTest {
       sc.assertParamValue("photos,formatted_address,name,rating,opening_hours,geometry", "fields");
       sc.assertParamValue("rectangle:1.00000000,2.00000000|3.00000000,4.00000000", "locationbias");
     }
+  }
+
+  @Test
+  public void testPlaceDetailsWithBusinessStatus() throws Exception {
+    final String jsonString = retrieveBody("PlaceDetailsResponseWithBusinessStatus.json");
+    final LocalTestServerContext server = new LocalTestServerContext(jsonString);
+    final PlaceDetails placeDetails = PlacesApi.placeDetails(server.context, "testPlaceId").await();
+    assertNotNull(placeDetails);
+    assertEquals("OPERATIONAL", placeDetails.businessStatus);
+  }
+
+  @Test
+  public void testPlaceDetailsRequestHasFieldMask() throws Exception {
+    final String jsonString = retrieveBody("PlaceDetailsResponseWithBusinessStatus.json");
+    final LocalTestServerContext server = new LocalTestServerContext(jsonString);
+
+    PlacesApi.placeDetails(server.context, "testPlaceId").fields(FieldMask.BUSINESS_STATUS).await();
+
+    server.assertParamValue("business_status", "fields");
   }
 }
