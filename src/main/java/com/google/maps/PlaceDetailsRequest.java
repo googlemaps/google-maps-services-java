@@ -141,6 +141,7 @@ public class PlaceDetailsRequest
     INTERNATIONAL_PHONE_NUMBER("international_phone_number"),
     NAME("name"),
     OPENING_HOURS("opening_hours"),
+    @Deprecated
     PERMANENTLY_CLOSED("permanently_closed"),
     USER_RATINGS_TOTAL("user_ratings_total"),
     PHOTOS("photos"),

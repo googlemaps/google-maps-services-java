@@ -141,6 +141,7 @@ public class FindPlaceFromTextRequest
     ID("id"),
     NAME("name"),
     OPENING_HOURS("opening_hours"),
+    @Deprecated
     PERMANENTLY_CLOSED("permanently_closed"),
     PHOTOS("photos"),
     PLACE_ID("place_id"),
