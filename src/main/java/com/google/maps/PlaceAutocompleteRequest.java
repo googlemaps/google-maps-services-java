@@ -119,15 +119,15 @@ public class PlaceAutocompleteRequest
   }
 
   /**
-   * The origin point from which to calculate straight-line distance to the destination
-   * (returned as {@link AutocompletePrediction#distanceMeters}).
-   * If this value is omitted, straight-line distance will not be returned.
+   * The origin point from which to calculate straight-line distance to the destination (returned as
+   * {@link AutocompletePrediction#distanceMeters}). If this value is omitted, straight-line
+   * distance will not be returned.
    *
-   * @param location The {@link LatLng} location to center this autocomplete search.
+   * @param origin The {@link LatLng} origin point from which to calculate distance.
    * @return Returns this {@code PlaceAutocompleteRequest} for call chaining.
    */
-  public PlaceAutocompleteRequest origin(LatLng location) {
-    return param("origin", location);
+  public PlaceAutocompleteRequest origin(LatLng origin) {
+    return param("origin", origin);
   }
 
   /**
