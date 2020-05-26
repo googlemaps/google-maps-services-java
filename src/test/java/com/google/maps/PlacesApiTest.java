@@ -691,6 +691,7 @@ public class PlacesApiTest {
       LatLng location = new LatLng(10, 20);
       PlacesApi.placeAutocomplete(sc.context, "Sydney Town Hall", session)
           .offset(4)
+          .origin(location)
           .location(location)
           .radius(5000)
           .types(PlaceAutocompleteType.ESTABLISHMENT)
@@ -699,6 +700,7 @@ public class PlacesApiTest {
 
       sc.assertParamValue("Sydney Town Hall", "input");
       sc.assertParamValue(Integer.toString(4), "offset");
+      sc.assertParamValue(location.toUrlValue(), "origin");
       sc.assertParamValue(location.toUrlValue(), "location");
       sc.assertParamValue("5000", "radius");
       sc.assertParamValue(PlaceAutocompleteType.ESTABLISHMENT.toString(), "types");
