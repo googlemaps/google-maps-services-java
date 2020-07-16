@@ -180,6 +180,24 @@ public class DirectionsApiTest {
     }
   }
 
+  @Test
+  public void testSanFranciscoToSeattleByBicycleAvoidingIndoor() throws Exception {
+    try (LocalTestServerContext sc =
+        new LocalTestServerContext("{\"routes\": [{}],\"status\": \"OK\"}")) {
+      DirectionsApi.newRequest(sc.context)
+          .origin("San Francisco")
+          .destination("Seattle")
+          .avoid(RouteRestriction.INDOOR)
+          .mode(TravelMode.BICYCLING)
+          .await();
+
+      sc.assertParamValue("San Francisco", "origin");
+      sc.assertParamValue("Seattle", "destination");
+      sc.assertParamValue(RouteRestriction.INDOOR.toUrlValue(), "avoid");
+      sc.assertParamValue(TravelMode.BICYCLING.toUrlValue(), "mode");
+    }
+  }
+
   /**
    * Brooklyn to Queens by public transport.
    *
