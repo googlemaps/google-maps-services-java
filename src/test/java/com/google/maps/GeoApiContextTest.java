@@ -42,14 +42,19 @@ import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.RecordedRequest;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+import org.junit.rules.ExpectedException;
 
 @Category(MediumTests.class)
 public class GeoApiContextTest {
 
   private MockWebServer server;
   private GeoApiContext.Builder builder;
+  
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
 
   @Before
   public void Setup() {
@@ -236,15 +241,13 @@ public class GeoApiContextTest {
     // Wire the mock web server to the context
     setMockBaseUrl();
     builder.retryTimeout(5, TimeUnit.SECONDS);
+    
+    // Configure rule to the exception that must be thrown and ensure 
+    // the message matches the status line in the mock responses 
+    thrown.expect(IOException.class);
+    thrown.expectMessage("Server Error: 500 Internal server error");
 
-    try {
-      builder.build().get(new ApiConfig("/"), GeocodingApi.Response.class, "k", "v").await();
-    } catch (IOException ioe) {
-      // Ensure the message matches the status line in the mock responses.
-      assertEquals("Server Error: 500 Internal server error", ioe.getMessage());
-      return;
-    }
-    fail("Internal server error was expected but not observed.");
+    builder.build().get(new ApiConfig("/"), GeocodingApi.Response.class, "k", "v").await();
   }
 
   @Test
