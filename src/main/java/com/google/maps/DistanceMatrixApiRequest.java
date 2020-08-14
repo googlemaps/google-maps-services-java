@@ -96,7 +96,7 @@ public class DistanceMatrixApiRequest
    * Specifies the mode of transport to use when calculating directions.
    *
    * <p>Note that Distance Matrix requests only support {@link TravelMode#DRIVING}, {@link
-   * TravelMode#WALKING} and {@link TravelMode#BICYCLING}.
+   * TravelMode#WALKING}, {@link TravelMode#BICYCLING} and {@link TravelMode#TRANSIT}.
    *
    * @param mode One of the travel modes supported by the Distance Matrix API.
    * @return Returns this {@code DistanceMatrixApiRequest} for call chaining.
@@ -115,8 +115,7 @@ public class DistanceMatrixApiRequest
   /**
    * Introduces restrictions to the route. Only one restriction can be specified.
    *
-   * @param restriction One of {@link RouteRestriction#TOLLS}, {@link RouteRestriction#FERRIES} or
-   *     {@link RouteRestriction#HIGHWAYS}.
+   * @param restriction A {@link RouteRestriction} object.
    * @return Returns this {@code DistanceMatrixApiRequest} for call chaining.
    */
   public DistanceMatrixApiRequest avoid(RouteRestriction restriction) {
