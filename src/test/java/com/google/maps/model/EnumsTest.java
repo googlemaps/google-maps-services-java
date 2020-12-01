@@ -70,6 +70,7 @@ public class EnumsTest {
     m.put(AddressType.PREMISE, "premise");
     m.put(AddressType.SUBPREMISE, "subpremise");
     m.put(AddressType.POSTAL_CODE, "postal_code");
+    m.put(AddressType.PLUS_CODE, "plus_code");
     m.put(AddressType.NATURAL_FEATURE, "natural_feature");
     m.put(AddressType.AIRPORT, "airport");
     m.put(AddressType.PARK, "park");
