@@ -27,6 +27,8 @@ import com.google.maps.internal.UrlSigner;
 import com.google.maps.metrics.NoOpRequestMetricsReporter;
 import com.google.maps.metrics.RequestMetrics;
 import com.google.maps.metrics.RequestMetricsReporter;
+import java.io.Closeable;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.Proxy;
 import java.net.URLEncoder;
@@ -51,7 +53,7 @@ import java.util.concurrent.TimeUnit;
  * <p>When you are finished with a GeoApiContext object, you must call {@link #shutdown()} on it to
  * release its resources.
  */
-public class GeoApiContext {
+public class GeoApiContext implements Closeable {
 
   private static final String VERSION = "@VERSION@"; // Populated by the build script
   private static final String USER_AGENT = "GoogleGeoApiClientJava/" + VERSION;
@@ -93,6 +95,16 @@ public class GeoApiContext {
     this.urlSigner = urlSigner;
     this.requestMetricsReporter = requestMetricsReporter;
     setExperienceId(experienceIdHeaderValue);
+  }
+
+  /**
+   * standard Java API to reclaim resources
+   *
+   * @throws IOException
+   */
+  @Override
+  public void close() throws IOException {
+    shutdown();
   }
 
   /**
