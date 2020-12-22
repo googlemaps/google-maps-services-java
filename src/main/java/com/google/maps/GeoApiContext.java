@@ -100,6 +100,7 @@ public class GeoApiContext implements Closeable {
 
   /**
    * standard Java API to reclaim resources
+   *
    * @throws IOException
    */
   @Override
