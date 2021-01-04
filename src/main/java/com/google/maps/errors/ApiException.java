@@ -49,7 +49,7 @@ public class ApiException extends Exception {
     } else if ("NOT_FOUND".equals(status)) {
       return new NotFoundException(errorMessage);
     } else if ("OVER_QUERY_LIMIT".equals(status)) {
-      if ("You have exceeded your daily request quota for this API."
+      if ("You have exceeded your daily request quota for this API. If you did not set a custom daily request quota, verify your project has an active billing account: http://g.co/dev/maps-no-account"
           .equalsIgnoreCase(errorMessage)) {
         return new OverDailyLimitException(errorMessage);
       }
