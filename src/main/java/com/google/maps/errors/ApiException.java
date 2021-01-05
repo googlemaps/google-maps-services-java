@@ -50,7 +50,7 @@ public class ApiException extends Exception {
       return new NotFoundException(errorMessage);
     } else if ("OVER_QUERY_LIMIT".equals(status)) {
       if ("You have exceeded your daily request quota for this API."
-          .equalsIgnoreCase(errorMessage)) {
+          .contains(errorMessage)) {
         return new OverDailyLimitException(errorMessage);
       }
       return new OverQueryLimitException(errorMessage);
