@@ -71,7 +71,7 @@ public class DirectionsApi {
 
     @Override
     public boolean successful() {
-      return "OK".equals(status) || "ZERO_RESULTS".equals(status);
+      return "OK".equals(status);
     }
 
     @Override
