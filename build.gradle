@@ -53,7 +53,7 @@ artifacts {
 dependencies {
     compileOnly 'com.google.appengine:appengine-api-1.0-sdk:1.9.76'
     api 'com.squareup.okhttp3:okhttp:3.14.4'
-    api 'com.google.code.gson:gson:2.8.5'
+    api 'com.google.code.gson:gson:2.8.6'
     api 'io.opencensus:opencensus-api:0.25.0'
     implementation 'org.slf4j:slf4j-api:1.7.26'
     testImplementation 'junit:junit:4.12'
