@@ -6,6 +6,8 @@
 .nb-gradle/
 .nb-gradle-properties
 *.iml
+*.iws
+*.ipr
 .idea/
 .settings/
 .project
