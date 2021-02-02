@@ -161,6 +161,9 @@ publishing {
             version version
             from components.java
         }
+        gpr(MavenPublication) {
+            from(components.java)
+        }
     }
     repositories {
         maven {
@@ -168,6 +171,14 @@ publishing {
             credentials {
                 username sonatypeUsername
                 password sonatypePassword
+            }
+        }
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/googlemaps/google-maps-services-java")
+            credentials {
+                username = googlemaps-bot
+                password = githubPassword
             }
         }
     }

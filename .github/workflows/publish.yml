@@ -37,9 +37,10 @@ jobs:
         echo $GPG_KEY_ARMOR | base64 --decode > ./release.asc
         gpg --quiet --output $GITHUB_WORKSPACE/release.gpg --dearmor ./release.asc
 
-        sed -i -e "s,sonatypeUsername=,sonatypeUsername=$SONATYPE_USERNAME,g" gradle.properties
         SONATYPE_PASSWORD_ESCAPED=$(printf '%s\n' "$SONATYPE_PASSWORD" | sed -e 's/[\/&]/\\&/g')
+        sed -i -e "s,sonatypeUsername=,sonatypeUsername=$SONATYPE_USERNAME,g" gradle.properties
         sed -i -e "s,sonatypePassword=,sonatypePassword=$SONATYPE_PASSWORD_ESCAPED,g" gradle.properties
+        sed -i -e "s,githubPassword=,githubPassword=$GITHUB_PASSWORD,g" gradle.properties
         sed -i -e "s,signing.keyId=,signing.keyId=$GPG_KEY_ID,g" gradle.properties
         sed -i -e "s,signing.password=,signing.password=$GPG_PASSWORD,g" gradle.properties
         sed -i -e "s,signing.secretKeyRingFile=,signing.secretKeyRingFile=$GITHUB_WORKSPACE/release.gpg,g" gradle.properties
@@ -50,3 +51,4 @@ jobs:
         GPG_PASSWORD: ${{ secrets.SYNCED_GPG_KEY_PASSWORD }}
         SONATYPE_PASSWORD: '${{ secrets.SYNCED_SONATYPE_PASSWORD }}'
         SONATYPE_USERNAME: ${{ secrets.SYNCED_SONATYPE_USERNAME }}
+        GITHUB_PASSWORD: '${{ secrets.SYNCED_GITHUB_TOKEN_REPO }}'
