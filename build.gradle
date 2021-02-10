@@ -177,7 +177,7 @@ publishing {
             name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/googlemaps/google-maps-services-java")
             credentials {
-                username = googlemaps-bot
+                username = 'googlemaps-bot'
                 password = githubPassword
             }
         }
