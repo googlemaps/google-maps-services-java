@@ -35,6 +35,7 @@ import com.google.maps.model.OpeningHours.Period.OpenClose.DayOfWeek;
 import com.google.maps.model.PlaceDetails.Review.AspectRating.RatingType;
 import com.google.maps.model.PriceLevel;
 import com.google.maps.model.TravelMode;
+import com.google.maps.model.VehicleType;
 import java.io.IOException;
 import java.time.Instant;
 import java.time.LocalTime;
@@ -280,6 +281,8 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
                 LocationType.class, new SafeEnumAdapter<LocationType>(LocationType.UNKNOWN))
             .registerTypeAdapter(
                 RatingType.class, new SafeEnumAdapter<RatingType>(RatingType.UNKNOWN))
+            .registerTypeAdapter(
+                VehicleType.class, new SafeEnumAdapter<VehicleType>(VehicleType.OTHER))
             .registerTypeAdapter(DayOfWeek.class, new DayOfWeekAdapter())
             .registerTypeAdapter(PriceLevel.class, new PriceLevelAdapter())
             .registerTypeAdapter(Instant.class, new InstantAdapter())
