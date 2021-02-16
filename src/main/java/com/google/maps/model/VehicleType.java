@@ -47,6 +47,9 @@ public enum VehicleType {
   /** High speed train. */
   HIGH_SPEED_TRAIN,
 
+  /** Long distance train. */
+  LONG_DISTANCE_TRAIN,
+
   /** Bus. */
   BUS,
 
