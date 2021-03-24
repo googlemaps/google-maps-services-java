@@ -9,6 +9,9 @@ plugins:
             - "./gradle.properties"
           from: "version=.*"
           to: "version=${nextRelease.version}"
+  - - "@semantic-release/exec"
+    - prepareCmd: "./gradlew build --warn --stacktrace"
+      publishCmd: "./gradlew publish --warn --stacktrace"
   - - "@semantic-release/git"
     - assets:
         - "./gradle.properties"
