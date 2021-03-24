@@ -236,7 +236,7 @@ req.setCallback(new PendingResult.Callback<GeocodingResult[]>() {
 
 [apikey]: https://developers.google.com/maps/faq#keysystem
 [clientid]: https://developers.google.com/maps/documentation/business/webservices/auth
-[contrib]: https://github.com/googlemaps/google-maps-services-java/blob/master/CONTRIB.md
+[contrib]: https://github.com/googlemaps/google-maps-services-java/blob/main/CONTRIB.md
 [Directions API]: https://developers.google.com/maps/documentation/directions
 [directions-key]: https://developers.google.com/maps/documentation/directions/get-api-key#key
 [directions-client-id]: https://developers.google.com/maps/documentation/directions/get-api-key#client-id
