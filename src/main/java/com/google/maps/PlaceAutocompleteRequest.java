@@ -70,7 +70,7 @@ public class PlaceAutocompleteRequest
     /**
      * Construct a session that is a continuation of a previous session.
      *
-     * @param token The unique token to be used as the identifier for this session.
+     * @param token The unique String to be used as the seed for the session identifier.
      */
     public SessionToken(String token) {
       this.uuid = UUID.nameUUIDFromBytes(token.getBytes());
