@@ -68,6 +68,15 @@ public class PlaceAutocompleteRequest
     }
 
     /**
+     * Construct a session that is a continuation of a previous session.
+     *
+     * @param token The unique String to be used as the seed for the session identifier.
+     */
+    public SessionToken(String token) {
+      this.uuid = UUID.nameUUIDFromBytes(token.getBytes());
+    }
+
+    /**
      * Retrieve the universally unique identifier for this session. This enables you to recreate the
      * session token in a later context.
      *
