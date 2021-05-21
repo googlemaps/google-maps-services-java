@@ -28,6 +28,7 @@ apply plugin: 'com.github.sherter.google-java-format'
 
 group = 'com.google.maps'
 sourceCompatibility = 1.8
+version = '0.18.1'
 
 repositories {
     mavenCentral()
@@ -161,12 +162,6 @@ publishing {
             artifactId project.ext.artifactId
             version version
             from components.java
-        }
-        gpr(MavenPublication) {
-            groupId group
-            artifactId project.ext.artifactId
-            version version
-            from(components.java)
         }
     }
     repositories {
