@@ -141,9 +141,12 @@ GeocodingResult[] results =  GeocodingApi.geocode(context,
     "1600 Amphitheatre Parkway Mountain View, CA 94043").await();
 Gson gson = new GsonBuilder().setPrettyPrinting().create();
 System.out.println(gson.toJson(results[0].addressComponents));
+
+// Invoke .shutdown() after your application is done making requests
+context.shutdown()
 ```
 
-The `GeoApiContext` is designed to be a [Singleton](https://en.wikipedia.org/wiki/Singleton_pattern)
+**Note:** The `GeoApiContext` is designed to be a [Singleton](https://en.wikipedia.org/wiki/Singleton_pattern)
 in your application. Please instantiate one on application startup, and continue to use it for the
 life of your application. This will enable proper QPS enforcement across all of your requests.
 
