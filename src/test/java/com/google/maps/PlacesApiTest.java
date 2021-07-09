@@ -852,6 +852,21 @@ public class PlacesApiTest {
   }
 
   @Test
+  public void testPlaceAutocompleteWithoutSession() throws Exception {
+    try (LocalTestServerContext sc = new LocalTestServerContext(placesApiPlaceAutocomplete)) {
+      SessionToken session = new SessionToken();
+      AutocompletePrediction[] predictions =
+          PlacesApi.placeAutocomplete(sc.context, "Sydney Town Ha").await();
+
+      sc.assertParamValue("Sydney Town Ha", "input");
+      sc.assertParamValue(session.toUrlValue(), "sessiontoken");
+
+      assertEquals(5, predictions.length);
+      assertTrue(predictions[0].description.contains("Town Hall"));
+    }
+  }
+
+  @Test
   public void testPlaceAutocompleteWithType() throws Exception {
     try (LocalTestServerContext sc =
         new LocalTestServerContext(placesApiPlaceAutocompleteWithType)) {
