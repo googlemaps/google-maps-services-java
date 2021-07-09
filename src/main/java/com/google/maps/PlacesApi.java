@@ -206,12 +206,12 @@ public class PlacesApi {
    * @param input input is the text string on which to search.
    * @return Returns a PlaceAutocompleteRequest that you can configure and execute.
    */
-  public static PlaceAutocompleteRequest placeAutocomplete(GeoApiContext context, String input){
+  public static PlaceAutocompleteRequest placeAutocomplete(GeoApiContext context, String input) {
     PlaceAutocompleteRequest request = new PlaceAutocompleteRequest(context);
     request.input(input);
     return request;
   }
-  
+
   /**
    * Allows you to add on-the-fly geographic query predictions to your application.
    *
