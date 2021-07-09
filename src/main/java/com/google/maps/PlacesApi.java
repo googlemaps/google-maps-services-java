@@ -198,6 +198,21 @@ public class PlacesApi {
   }
 
   /**
+   * Creates a new Places Autocomplete request for a given input. The Place Autocomplete service can
+   * match on full words as well as substrings. Applications can therefore send queries as the user
+   * types, to provide on-the-fly place predictions.
+   *
+   * @param context The context on which to make Geo API requests.
+   * @param input input is the text string on which to search.
+   * @return Returns a PlaceAutocompleteRequest that you can configure and execute.
+   */
+  public static PlaceAutocompleteRequest placeAutocomplete(GeoApiContext context, String input){
+    PlaceAutocompleteRequest request = new PlaceAutocompleteRequest(context);
+    request.input(input);
+    return request;
+  }
+  
+  /**
    * Allows you to add on-the-fly geographic query predictions to your application.
    *
    * @param context The context on which to make Geo API requests.
