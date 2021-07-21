@@ -20,4 +20,10 @@ public final class HttpHeaders {
 
   /** The HTTP {@code X-Goog-Maps-Experience-ID} header field name. */
   public static final String X_GOOG_MAPS_EXPERIENCE_ID = "X-Goog-Maps-Experience-ID";
+
+  /** The HTTP {@code X-Android-Package} header field name. */
+  public static final String X_ANDROID_PACKAGE = "X-Android-Package";
+
+  /** The HTTP {@code X-Android-Cert} header field name. */
+  public static final String X_ANDROID_CERT = "X-Android-Cert";
 }
