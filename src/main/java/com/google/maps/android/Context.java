@@ -1,6 +1,5 @@
 package com.google.maps.android;
 
-import io.opencensus.internal.DefaultVisibilityForTesting;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import org.jetbrains.annotations.NotNull;

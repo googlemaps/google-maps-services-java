@@ -130,7 +130,8 @@ public class OkHttpRequestHandler implements GeoApiContext.RequestHandler {
       dispatcher = new Dispatcher(rateLimitExecutorService);
       builder.dispatcher(dispatcher);
 
-      final AndroidAuthenticationConfigProvider provider = new AndroidAuthenticationConfigProvider();
+      final AndroidAuthenticationConfigProvider provider =
+          new AndroidAuthenticationConfigProvider();
       final AndroidAuthenticationConfig config = provider.provide();
       builder.addInterceptor(new AndroidAuthenticationInterceptor(config));
     }

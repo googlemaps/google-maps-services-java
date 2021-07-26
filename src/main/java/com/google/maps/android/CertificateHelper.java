@@ -7,13 +7,12 @@ import java.security.NoSuchAlgorithmException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-/**
- * Helper class for obtaining information about an Android app's signing certificate.
- */
+/** Helper class for obtaining information about an Android app's signing certificate. */
 public class CertificateHelper {
 
   /**
    * Obtains the SHA-1 fingerprint of the certificate used to sign the app.
+   *
    * @param context a Context
    * @return the SHA-1 fingerprint if obtainable, otherwise, <code>null</code>
    */
