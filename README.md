@@ -30,44 +30,28 @@ APIs:
 Keep in mind that the same [terms and conditions](https://developers.google.com/maps/terms) apply
 to usage of the APIs when they're accessed through this library.
 
-## Intended usage of this library
-
-The Java Client for Google Maps Services is designed for use in server applications. This library
-is not intended for use inside of an Android app, due to the potential for loss of API keys.
-
-If you are building a mobile application, you will need to introduce a proxy server to act as 
-intermediary between your mobile application and the [Google Maps API Web Services]. The Java
-Client for Google Maps Services would make an excellent choice as the basis for such a proxy server.
-
-Please see [Making the most of the Google Maps Web Service APIs] for more detail.
-
-Looking for our Android [Maps](https://developers.google.com/maps/documentation/android-sdk/intro) or 
-[Places](https://developers.google.com/places/android-sdk/intro) SDKs?
-
-## Support
-
-This library is community supported. We're comfortable enough with the stability and features of
-the library that we want you to build real production applications on it. We will try to support,
-through Stack Overflow, the public and protected surface of the library and maintain backwards
-compatibility in the future; however, while the library is in version 0.x, we reserve the right
-to make backwards-incompatible changes. If we do remove some functionality (typically because
-better functionality exists or if the feature proved infeasible), our intention is to deprecate
-and give developers a year to update their code.
-
-If you find a bug, or have a feature suggestion, please [log an issue][issues]. If you'd like to
-contribute, please read [How to Contribute][contrib].
-
 ## Requirements
 
 - Java 1.8 or later.
 - A Google Maps API key.
 
-### API keys
+## API keys
 Each Google Maps Web Service request requires an API key. API keys are generated in the 'Credentials' page of the 'APIs & Services' tab of Google Cloud console.
 
-For even more information on getting started with Google Maps Platform and generating/restricting an API key, see [Get Started with Google Maps Platform](https://developers.google.com/maps/gmp-get-started) in our docs.
+For even more information on getting started with Google Maps Platform and generating an API key, see [Get Started with Google Maps Platform](https://developers.google.com/maps/gmp-get-started) in our docs.
 
-Important: This key should be kept secret on your server.
+### API Key Security
+
+The Java Client for Google Maps Services is designed for use in both server and Android applications.
+In either case, it is important to add [API key restrictions](https://developers.google.com/maps/api-security-best-practices?hl=it)
+to improve the security of your API key. Additional security measures, such as hiding your key
+from version control, should also be put in place to further improve the security of your API key.
+
+You can refer to [API Security Best Practices](https://developers.google.com/maps/api-security-best-practices) to learn
+more about this topic.
+
+**NOTE**: If you are using this library on Android, ensure that your application
+is using at least version 0.19.0 of this library so that API key restrictions can be enforced.
 
 ## Installation
 
@@ -235,6 +219,19 @@ req.setCallback(new PendingResult.Callback<GeocodingResult[]>() {
 
     # Run the tests
     $ ./gradlew test
+
+## Support
+
+This library is community supported. We're comfortable enough with the stability and features of
+the library that we want you to build real production applications on it. We will try to support,
+through Stack Overflow, the public and protected surface of the library and maintain backwards
+compatibility in the future; however, while the library is in version 0.x, we reserve the right
+to make backwards-incompatible changes. If we do remove some functionality (typically because
+better functionality exists or if the feature proved infeasible), our intention is to deprecate
+and give developers a year to update their code.
+
+If you find a bug, or have a feature suggestion, please [log an issue][issues]. If you'd like to
+contribute, please read [How to Contribute][contrib].
 
 
 [apikey]: https://developers.google.com/maps/faq#keysystem

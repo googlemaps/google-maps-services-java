@@ -23,7 +23,12 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.mockStatic;
+import static org.mockito.Mockito.when;
 
+import com.google.maps.android.Context;
+import com.google.maps.android.PackageInfo;
+import com.google.maps.android.PackageManager;
 import com.google.maps.errors.OverQueryLimitException;
 import com.google.maps.internal.ApiConfig;
 import com.google.maps.internal.ApiResponse;
@@ -44,6 +49,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+import org.mockito.MockedStatic;
 
 @Category(MediumTests.class)
 public class GeoApiContextTest {
@@ -69,6 +75,72 @@ public class GeoApiContextTest {
 
   private void setMockBaseUrl() {
     builder.baseUrlOverride("http://127.0.0.1:" + server.getPort());
+  }
+
+  @Test
+  public void testIncludedAndroidAuthHeaders() throws IOException, InterruptedException {
+    // Set up a mock request
+    ApiResponse<?> fakeResponse = mock(ApiResponse.class);
+    Map<String, List<String>> params = new HashMap<>();
+    params.put("key", Collections.singletonList("value"));
+    String packageName = "com.test.test.test";
+
+    Context mockContext = mock(Context.class);
+    when(mockContext.getPackageName()).thenReturn(packageName);
+    MockedStatic<Context> mockedStaticContext = mockStatic(Context.class);
+    mockedStaticContext.when(Context::getApplicationContext).thenReturn(mockContext);
+
+    PackageInfo mockPi = mock(PackageInfo.class);
+    when(mockPi.signingSignature()).thenReturn(null);
+
+    PackageManager mockPm = mock(PackageManager.class);
+    when(mockPm.getPackageInfo(packageName, 64)).thenReturn(mockPi);
+    when(mockContext.getPackageManager()).thenReturn(mockPm);
+
+    // Set up the fake web server
+    builder = new GeoApiContext.Builder().apiKey("AIza...");
+    server.enqueue(new MockResponse());
+    server.start();
+    setMockBaseUrl();
+
+    // Build & execute the request using our context
+    GeoApiContext context = builder.build();
+    context.get(new ApiConfig("/"), fakeResponse.getClass(), params).awaitIgnoreError();
+
+    // Read the headers
+    server.shutdown();
+    RecordedRequest request = server.takeRequest();
+    Headers headers = request.getHeaders();
+
+    assertEquals(packageName, headers.get(HttpHeaders.X_ANDROID_PACKAGE));
+    assertNull(headers.get(HttpHeaders.X_ANDROID_CERT));
+
+    mockedStaticContext.close();
+  }
+
+  @Test
+  public void testNotIncludedAndroidAuthHeaders() throws IOException, InterruptedException {
+    // Set up a mock request
+    ApiResponse<?> fakeResponse = mock(ApiResponse.class);
+    Map<String, List<String>> params = new HashMap<>();
+    params.put("key", Collections.singletonList("value"));
+
+    // Set up the fake web server
+    server.enqueue(new MockResponse());
+    server.start();
+    setMockBaseUrl();
+
+    // Build & execute the request using our context
+    GeoApiContext context = builder.build();
+    context.get(new ApiConfig("/"), fakeResponse.getClass(), params).awaitIgnoreError();
+
+    // Read the headers
+    server.shutdown();
+    RecordedRequest request = server.takeRequest();
+    Headers headers = request.getHeaders();
+
+    assertNull(headers.get(HttpHeaders.X_ANDROID_PACKAGE));
+    assertNull(headers.get(HttpHeaders.X_ANDROID_CERT));
   }
 
   @SuppressWarnings("unchecked")
