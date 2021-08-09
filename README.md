@@ -127,7 +127,7 @@ Gson gson = new GsonBuilder().setPrettyPrinting().create();
 System.out.println(gson.toJson(results[0].addressComponents));
 
 // Invoke .shutdown() after your application is done making requests
-context.shutdown()
+context.shutdown();
 ```
 
 **Note:** The `GeoApiContext` is designed to be a [Singleton](https://en.wikipedia.org/wiki/Singleton_pattern)
