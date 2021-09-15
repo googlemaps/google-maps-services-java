@@ -38,6 +38,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
 import javax.print.DocFlavor.STRING;
 
@@ -170,6 +171,16 @@ public class GeoApiContext implements Closeable {
     requestHandler.shutdown();
   }
 
+  private Map<String, String> addDefaultHeaders(Map<String, String> headers) {
+    Map<String, String> newHeaders = new HashMap<>(headers);
+    for (Entry<String, String> entry : defaultHeaders.entrySet()) {
+      if (!newHeaders.containsKey(entry.getKey())) {
+        newHeaders.put(entry.getKey(), entry.getValue());
+      }
+    }
+    return newHeaders;
+  }
+
   <T, R extends ApiResponse<T>> PendingResult<T> get(
       ApiConfig config, Class<? extends R> clazz, Map<String, String> headers, Map<String, List<String>> params) {
     if (channel != null && !channel.isEmpty() && !params.containsKey("channel")) {
@@ -238,6 +249,8 @@ public class GeoApiContext implements Closeable {
       query.append("&channel=").append(channel);
     }
 
+    final Map<String, String> allHeaders = addDefaultHeaders(headers);
+
     return getWithPath(
         clazz,
         config.fieldNamingPolicy,
@@ -246,7 +259,7 @@ public class GeoApiContext implements Closeable {
         config.supportsClientId,
         query.toString(),
         requestMetricsReporter.newRequest(config.path),
-        headers);
+        allHeaders);
   }
 
   <T, R extends ApiResponse<T>> PendingResult<T> get(
@@ -275,11 +288,13 @@ public class GeoApiContext implements Closeable {
       hostName = baseUrlOverride;
     }
 
+    final Map<String, String> allHeaders = addDefaultHeaders(headers);
+
     return requestHandler.handlePost(
         hostName,
         url.toString(),
         params.get("_payload").get(0),
-        headers,
+        allHeaders,
         clazz,
         config.fieldNamingPolicy,
         errorTimeout,
@@ -324,10 +339,12 @@ public class GeoApiContext implements Closeable {
       hostName = baseUrlOverride;
     }
 
+    final Map<String, String> allHeaders = addDefaultHeaders(headers);
+
     return requestHandler.handle(
         hostName,
         url.toString(),
-        headers,
+        allHeaders,
         clazz,
         fieldNamingPolicy,
         errorTimeout,

@@ -23,6 +23,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
+import com.google.maps.internal.HttpHeaders;
 import com.google.maps.model.AddressComponentType;
 import com.google.maps.model.AddressType;
 import com.google.maps.model.ComponentFilter;
@@ -32,6 +33,8 @@ import com.google.maps.model.LocationType;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
+import okhttp3.Headers;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
@@ -93,6 +96,68 @@ public class GeocodingApiTest {
     }
   }
 
+  private void testExperienceIdSample() {
+    // [START maps_experience_id]
+    final String experienceId = UUID.randomUUID().toString();
+
+    // instantiate context
+    final GeoApiContext context =
+        new GeoApiContext.Builder().apiKey("AIza-Maps-API-Key").build();
+
+    // set the experience id on a request
+    final GeocodingApiRequest request =
+        GeocodingApi.newRequest(context).experienceIds(experienceId);
+
+    // set a new experience id on another request
+    final String otherExperienceId = UUID.randomUUID().toString();
+    final GeocodingApiRequest request2 =
+        GeocodingApi.newRequest(context).experienceIds(otherExperienceId);
+
+    // make API request, the client will set the header
+    // X-GOOG-MAPS-EXPERIENCE-ID: experienceId,otherExperienceId
+    // [END maps_experience_id]
+  }
+
+  @Test
+  public void testNoExperienceId() throws Exception {
+    try (LocalTestServerContext sc = new LocalTestServerContext(placeGeocodeResponse)) {
+      String placeID = "ChIJP3Sa8ziYEmsRUKgyFmh9AQM";
+      GeocodingResult[] results = GeocodingApi.newRequest(sc.context).place(placeID).await();
+      final Headers headers = sc.headers();
+      final List<String> experienceIds = headers.values(HttpHeaders.X_GOOG_MAPS_EXPERIENCE_ID);
+      assertEquals(0, experienceIds.size());
+    }
+  }
+
+  @Test
+  public void testExperienceId() throws Exception {
+    try (LocalTestServerContext sc = new LocalTestServerContext(placeGeocodeResponse)) {
+      String placeID = "ChIJP3Sa8ziYEmsRUKgyFmh9AQM";
+      String expId = "experienceId";
+      GeocodingApi.newRequest(sc.context).experienceIds(expId)
+          .place(placeID).await();
+      final Headers headers = sc.headers();
+      final List<String> experienceIds = headers.values(HttpHeaders.X_GOOG_MAPS_EXPERIENCE_ID);
+      assertEquals(1, experienceIds.size());
+      assertEquals(expId, experienceIds.get(0));
+    }
+  }
+
+  @Test
+  public void testExperienceIds() throws Exception {
+    try (LocalTestServerContext sc = new LocalTestServerContext(placeGeocodeResponse)) {
+      String placeID = "ChIJP3Sa8ziYEmsRUKgyFmh9AQM";
+      String expId = "experienceId";
+      String expId2 = "experienceId2";
+      GeocodingResult[] results = GeocodingApi.newRequest(sc.context).experienceIds(expId, expId2)
+          .place(placeID).await();
+      final Headers headers = sc.headers();
+      final List<String> experienceIds = headers.values(HttpHeaders.X_GOOG_MAPS_EXPERIENCE_ID);
+      assertEquals(1, experienceIds.size());
+      assertEquals(expId + "," + expId2, experienceIds.get(0));
+    }
+  }
+
   @Test
   public void testAsync() throws Exception {
     try (LocalTestServerContext sc = new LocalTestServerContext(simpleGeocodeResponse)) {
@@ -148,8 +213,7 @@ public class GeocodingApiTest {
   }
 
   /**
-   * Simple geocode sample: <a
-   * href="https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA">
+   * Simple geocode sample: <a href="https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA">
    * Address Geocode for "1600 Amphitheatre Parkway, Mountain View, CA"</a>.
    */
   @Test
@@ -249,8 +313,7 @@ public class GeocodingApiTest {
   }
 
   /**
-   * Address geocode with bounds: <a
-   * href="https://maps.googleapis.com/maps/api/geocode/json?address=Winnetka&bounds=34.172684,-118.604794|34.236144,-118.500938">
+   * Address geocode with bounds: <a href="https://maps.googleapis.com/maps/api/geocode/json?address=Winnetka&bounds=34.172684,-118.604794|34.236144,-118.500938">
    * Winnetka within (34.172684,-118.604794) - (34.236144,-118.500938)</a>.
    */
   @Test
@@ -339,9 +402,8 @@ public class GeocodingApiTest {
   }
 
   /**
-   * Geocode with region biasing: <a
-   * href="https://maps.googleapis.com/maps/api/geocode/json?address=Toledo&region=es">Geocode for
-   * Toledo in Spain</a>.
+   * Geocode with region biasing: <a href="https://maps.googleapis.com/maps/api/geocode/json?address=Toledo&region=es">Geocode
+   * for Toledo in Spain</a>.
    */
   @Test
   public void testGeocodeWithRegionBiasing() throws Exception {
@@ -423,8 +485,7 @@ public class GeocodingApiTest {
   }
 
   /**
-   * Geocode with component filtering: <a
-   * href="https://maps.googleapis.com/maps/api/geocode/json?address=santa+cruz&components=country:ES">
+   * Geocode with component filtering: <a href="https://maps.googleapis.com/maps/api/geocode/json?address=santa+cruz&components=country:ES">
    * Geocoding "santa cruz" with country set to ES</a>.
    */
   @Test
@@ -508,8 +569,7 @@ public class GeocodingApiTest {
   }
 
   /**
-   * Geocode with multiple component filters: <a
-   * href="https://maps.googleapis.com/maps/api/geocode/json?address=Torun&components=administrative_area:TX|country:US">
+   * Geocode with multiple component filters: <a href="https://maps.googleapis.com/maps/api/geocode/json?address=Torun&components=administrative_area:TX|country:US">
    * Geocoding Torun, with administrative area of "TX" and country of "US"</a>.
    */
   @Test
@@ -595,8 +655,7 @@ public class GeocodingApiTest {
   }
 
   /**
-   * Making a request using just components filter: <a
-   * href="https://maps.googleapis.com/maps/api/geocode/json?components=route:Annegatan|administrative_area:Helsinki|country:Finland">
+   * Making a request using just components filter: <a href="https://maps.googleapis.com/maps/api/geocode/json?components=route:Annegatan|administrative_area:Helsinki|country:Finland">
    * Searching for a route of Annegatan, in the administrative area of Helsinki, and the country of
    * Finland </a>.
    */
@@ -683,8 +742,7 @@ public class GeocodingApiTest {
   }
 
   /**
-   * Simple reverse geocoding. <a
-   * href="https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452">Reverse
+   * Simple reverse geocoding. <a href="https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452">Reverse
    * geocode (40.714224,-73.961452)</a>.
    */
   @Test
@@ -706,8 +764,7 @@ public class GeocodingApiTest {
   }
 
   /**
-   * Reverse geocode restricted by type: <a
-   * href="https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&location_type=ROOFTOP&result_type=street_address">
+   * Reverse geocode restricted by type: <a href="https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&location_type=ROOFTOP&result_type=street_address">
    * Reverse Geocode (40.714224,-73.961452) with location type of ROOFTOP and result type of
    * street_address</a>.
    */
@@ -805,7 +862,9 @@ public class GeocodingApiTest {
     }
   }
 
-  /** Testing UTF8 result parsing. */
+  /**
+   * Testing UTF8 result parsing.
+   */
   @Test
   public void testUtfResult() throws Exception {
     try (LocalTestServerContext sc = new LocalTestServerContext(utfResultGeocodeResponse)) {
@@ -924,7 +983,9 @@ public class GeocodingApiTest {
     }
   }
 
-  /** Testing Kita Ward reverse geocode. */
+  /**
+   * Testing Kita Ward reverse geocode.
+   */
   @Test
   public void testReverseGeocodeWithKitaWard() throws Exception {
     try (LocalTestServerContext sc =
@@ -947,7 +1008,9 @@ public class GeocodingApiTest {
     }
   }
 
-  /** Testing supported Address Types for Geocoding. */
+  /**
+   * Testing supported Address Types for Geocoding.
+   */
   @Test
   public void testSupportedAddressTypesFood() throws Exception {
     try (LocalTestServerContext sc =
@@ -1038,7 +1101,9 @@ public class GeocodingApiTest {
     }
   }
 
-  /** Testing supported Address Types for Geocoding - Synagogue. */
+  /**
+   * Testing supported Address Types for Geocoding - Synagogue.
+   */
   @Test
   public void testSupportedAddressTypesSynagogue() throws Exception {
     try (LocalTestServerContext sc =

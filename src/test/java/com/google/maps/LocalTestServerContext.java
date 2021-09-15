@@ -25,6 +25,7 @@ import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.util.List;
 import javax.imageio.ImageIO;
+import okhttp3.Headers;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.RecordedRequest;
@@ -100,6 +101,11 @@ public class LocalTestServerContext implements AutoCloseable {
   public String path() throws InterruptedException {
     this.takeRequest();
     return request.getPath().split("\\?", -1)[0];
+  }
+
+  public Headers headers() throws InterruptedException {
+    takeRequest();
+    return request.getHeaders();
   }
 
   void assertParamValue(String expected, String paramName)
