@@ -379,7 +379,8 @@ public class GeoApiContextTest {
     final String experienceId = "exp1";
     final String experienceId2 = "exp2";
     final RecordedRequest request = makeMockRequest(experienceId, experienceId2);
-    assertEquals(experienceId + "," + experienceId2,
+    assertEquals(
+        experienceId + "," + experienceId2,
         request.getHeader(HttpHeaders.X_GOOG_MAPS_EXPERIENCE_ID));
   }
 

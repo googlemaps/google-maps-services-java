@@ -22,7 +22,6 @@ import com.google.maps.internal.ApiConfig;
 import com.google.maps.internal.ApiResponse;
 import com.google.maps.internal.ExceptionsAllowedToRetry;
 import com.google.maps.internal.HttpHeaders;
-import com.google.maps.internal.StringJoin;
 import com.google.maps.internal.UrlSigner;
 import com.google.maps.metrics.NoOpRequestMetricsReporter;
 import com.google.maps.metrics.RequestMetrics;
@@ -40,7 +39,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
-import javax.print.DocFlavor.STRING;
 
 /**
  * The entry point for making requests against the Google Geo APIs.
@@ -182,7 +180,10 @@ public class GeoApiContext implements Closeable {
   }
 
   <T, R extends ApiResponse<T>> PendingResult<T> get(
-      ApiConfig config, Class<? extends R> clazz, Map<String, String> headers, Map<String, List<String>> params) {
+      ApiConfig config,
+      Class<? extends R> clazz,
+      Map<String, String> headers,
+      Map<String, List<String>> params) {
     if (channel != null && !channel.isEmpty() && !params.containsKey("channel")) {
       params.put("channel", Collections.singletonList(channel));
     }
@@ -268,7 +269,10 @@ public class GeoApiContext implements Closeable {
   }
 
   <T, R extends ApiResponse<T>> PendingResult<T> post(
-      ApiConfig config, Class<? extends R> clazz, Map<String, String> headers, Map<String, List<String>> params) {
+      ApiConfig config,
+      Class<? extends R> clazz,
+      Map<String, String> headers,
+      Map<String, List<String>> params) {
     checkContext(config.supportsClientId);
 
     StringBuilder url = new StringBuilder(config.path);

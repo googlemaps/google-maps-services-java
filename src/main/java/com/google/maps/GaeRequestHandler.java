@@ -63,9 +63,10 @@ public class GaeRequestHandler implements GeoApiContext.RequestHandler {
     final HTTPRequest req;
     try {
       req = new HTTPRequest(new URL(hostName + url), HTTPMethod.POST, fetchOptions);
-      headers.forEach((k, v) -> {
-        req.addHeader(new HTTPHeader(k, v));
-      });
+      headers.forEach(
+          (k, v) -> {
+            req.addHeader(new HTTPHeader(k, v));
+          });
     } catch (MalformedURLException e) {
       LOG.error("Request: {}{}", hostName, url, e);
       throw (new RuntimeException(e));
@@ -99,9 +100,10 @@ public class GaeRequestHandler implements GeoApiContext.RequestHandler {
     try {
       req = new HTTPRequest(new URL(hostName + url), HTTPMethod.POST, fetchOptions);
       req.setHeader(new HTTPHeader("Content-Type", "application/json; charset=utf-8"));
-      headers.forEach((k, v) -> {
-        req.addHeader(new HTTPHeader(k, v));
-      });
+      headers.forEach(
+          (k, v) -> {
+            req.addHeader(new HTTPHeader(k, v));
+          });
       req.setPayload(payload.getBytes(UTF_8));
     } catch (MalformedURLException e) {
       LOG.error("Request: {}{}", hostName, url, e);

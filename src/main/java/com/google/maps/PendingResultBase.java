@@ -102,6 +102,7 @@ abstract class PendingResultBase<T, A extends PendingResultBase<T, A, R>, R exte
   /**
    * Sets the header named {@code key} to {@code value}. If this request already has any headers
    * with the same key, the value is replaced.
+   *
    * @param key the header key
    * @param value the header value
    * @return this request
