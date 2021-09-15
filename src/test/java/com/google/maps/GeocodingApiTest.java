@@ -23,6 +23,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
+import com.google.maps.internal.HttpHeaders;
 import com.google.maps.model.AddressComponentType;
 import com.google.maps.model.AddressType;
 import com.google.maps.model.ComponentFilter;
@@ -32,6 +33,8 @@ import com.google.maps.model.LocationType;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
+import okhttp3.Headers;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
@@ -90,6 +93,66 @@ public class GeocodingApiTest {
       checkSydneyResult(results);
 
       sc.assertParamValue(placeID, "place_id");
+    }
+  }
+
+  private void testExperienceIdSample() {
+    // [START maps_experience_id]
+    final String experienceId = UUID.randomUUID().toString();
+
+    // instantiate context
+    final GeoApiContext context = new GeoApiContext.Builder().apiKey("AIza-Maps-API-Key").build();
+
+    // set the experience id on a request
+    final GeocodingApiRequest request =
+        GeocodingApi.newRequest(context).experienceIds(experienceId);
+
+    // set a new experience id on another request
+    final String otherExperienceId = UUID.randomUUID().toString();
+    final GeocodingApiRequest request2 =
+        GeocodingApi.newRequest(context).experienceIds(otherExperienceId);
+
+    // make API request, the client will set the header
+    // X-GOOG-MAPS-EXPERIENCE-ID: experienceId,otherExperienceId
+    // [END maps_experience_id]
+  }
+
+  @Test
+  public void testNoExperienceId() throws Exception {
+    try (LocalTestServerContext sc = new LocalTestServerContext(placeGeocodeResponse)) {
+      String placeID = "ChIJP3Sa8ziYEmsRUKgyFmh9AQM";
+      GeocodingResult[] results = GeocodingApi.newRequest(sc.context).place(placeID).await();
+      final Headers headers = sc.headers();
+      final List<String> experienceIds = headers.values(HttpHeaders.X_GOOG_MAPS_EXPERIENCE_ID);
+      assertEquals(0, experienceIds.size());
+    }
+  }
+
+  @Test
+  public void testExperienceId() throws Exception {
+    try (LocalTestServerContext sc = new LocalTestServerContext(placeGeocodeResponse)) {
+      String placeID = "ChIJP3Sa8ziYEmsRUKgyFmh9AQM";
+      String expId = "experienceId";
+      GeocodingApi.newRequest(sc.context).experienceIds(expId).place(placeID).await();
+      final Headers headers = sc.headers();
+      final List<String> experienceIds = headers.values(HttpHeaders.X_GOOG_MAPS_EXPERIENCE_ID);
+      assertEquals(1, experienceIds.size());
+      assertEquals(expId, experienceIds.get(0));
+    }
+  }
+
+  @Test
+  public void testExperienceIds() throws Exception {
+    try (LocalTestServerContext sc = new LocalTestServerContext(placeGeocodeResponse)) {
+      String placeID = "ChIJP3Sa8ziYEmsRUKgyFmh9AQM";
+      String expId = "experienceId";
+      String expId2 = "experienceId2";
+      GeocodingResult[] results =
+          GeocodingApi.newRequest(sc.context).experienceIds(expId, expId2).place(placeID).await();
+      final Headers headers = sc.headers();
+      final List<String> experienceIds = headers.values(HttpHeaders.X_GOOG_MAPS_EXPERIENCE_ID);
+      assertEquals(1, experienceIds.size());
+      assertEquals(expId + "," + expId2, experienceIds.get(0));
     }
   }
 

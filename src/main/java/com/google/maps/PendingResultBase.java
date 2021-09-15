@@ -18,6 +18,8 @@ package com.google.maps;
 import com.google.maps.errors.ApiException;
 import com.google.maps.internal.ApiConfig;
 import com.google.maps.internal.ApiResponse;
+import com.google.maps.internal.HttpHeaders;
+import com.google.maps.internal.StringJoin;
 import com.google.maps.internal.StringJoin.UrlValue;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -38,6 +40,7 @@ abstract class PendingResultBase<T, A extends PendingResultBase<T, A, R>, R exte
   private final GeoApiContext context;
   private final ApiConfig config;
   private HashMap<String, List<String>> params = new HashMap<>();
+  private Map<String, String> headers = new HashMap<>();
   private PendingResult<T> delegate;
   private Class<? extends R> responseClass;
 
@@ -79,9 +82,9 @@ abstract class PendingResultBase<T, A extends PendingResultBase<T, A, R>, R exte
     validateRequest();
     switch (config.requestVerb) {
       case "GET":
-        return delegate = context.get(config, responseClass, params);
+        return delegate = context.get(config, responseClass, headers, params);
       case "POST":
-        return delegate = context.post(config, responseClass, params);
+        return delegate = context.post(config, responseClass, headers, params);
       default:
         throw new IllegalStateException(
             String.format("Unexpected request method '%s'", config.requestVerb));
@@ -94,6 +97,34 @@ abstract class PendingResultBase<T, A extends PendingResultBase<T, A, R>, R exte
     @SuppressWarnings("unchecked")
     A result = (A) this;
     return result;
+  }
+
+  /**
+   * Sets the header named {@code key} to {@code value}. If this request already has any headers
+   * with the same key, the value is replaced.
+   *
+   * @param key the header key
+   * @param value the header value
+   * @return this request
+   */
+  public A header(String key, String value) {
+    headers.put(key, value);
+    return getInstance();
+  }
+
+  /**
+   * Sets the value for the HTTP header field name {@link HttpHeaders#X_GOOG_MAPS_EXPERIENCE_ID}.
+   * Passing null to this method will unset the experienceId header field.
+   *
+   * @param experienceIds The experience IDs
+   */
+  public A experienceIds(String... experienceIds) {
+    if (experienceIds == null || experienceIds.length == 0) {
+      headers.remove(HttpHeaders.X_GOOG_MAPS_EXPERIENCE_ID);
+      return getInstance();
+    }
+    header(HttpHeaders.X_GOOG_MAPS_EXPERIENCE_ID, StringJoin.join(",", experienceIds));
+    return getInstance();
   }
 
   protected A param(String key, String val) {

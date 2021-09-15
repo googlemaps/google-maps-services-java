@@ -28,11 +28,11 @@ import com.google.maps.GeoApiContext.RequestHandler;
 import com.google.maps.internal.ApiResponse;
 import com.google.maps.internal.ExceptionsAllowedToRetry;
 import com.google.maps.internal.GaePendingResult;
-import com.google.maps.internal.HttpHeaders;
 import com.google.maps.metrics.RequestMetrics;
 import java.net.MalformedURLException;
 import java.net.Proxy;
 import java.net.URL;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,8 +52,7 @@ public class GaeRequestHandler implements GeoApiContext.RequestHandler {
   public <T, R extends ApiResponse<T>> PendingResult<T> handle(
       String hostName,
       String url,
-      String userAgent,
-      String experienceIdHeaderValue,
+      Map<String, String> headers,
       Class<R> clazz,
       FieldNamingPolicy fieldNamingPolicy,
       long errorTimeout,
@@ -61,13 +60,13 @@ public class GaeRequestHandler implements GeoApiContext.RequestHandler {
       ExceptionsAllowedToRetry exceptionsAllowedToRetry,
       RequestMetrics metrics) {
     FetchOptions fetchOptions = FetchOptions.Builder.withDeadline(10);
-    HTTPRequest req;
+    final HTTPRequest req;
     try {
       req = new HTTPRequest(new URL(hostName + url), HTTPMethod.POST, fetchOptions);
-      if (experienceIdHeaderValue != null) {
-        req.setHeader(
-            new HTTPHeader(HttpHeaders.X_GOOG_MAPS_EXPERIENCE_ID, experienceIdHeaderValue));
-      }
+      headers.forEach(
+          (k, v) -> {
+            req.addHeader(new HTTPHeader(k, v));
+          });
     } catch (MalformedURLException e) {
       LOG.error("Request: {}{}", hostName, url, e);
       throw (new RuntimeException(e));
@@ -89,8 +88,7 @@ public class GaeRequestHandler implements GeoApiContext.RequestHandler {
       String hostName,
       String url,
       String payload,
-      String userAgent,
-      String experienceIdHeaderValue,
+      Map<String, String> headers,
       Class<R> clazz,
       FieldNamingPolicy fieldNamingPolicy,
       long errorTimeout,
@@ -98,14 +96,14 @@ public class GaeRequestHandler implements GeoApiContext.RequestHandler {
       ExceptionsAllowedToRetry exceptionsAllowedToRetry,
       RequestMetrics metrics) {
     FetchOptions fetchOptions = FetchOptions.Builder.withDeadline(10);
-    HTTPRequest req = null;
+    final HTTPRequest req;
     try {
       req = new HTTPRequest(new URL(hostName + url), HTTPMethod.POST, fetchOptions);
       req.setHeader(new HTTPHeader("Content-Type", "application/json; charset=utf-8"));
-      if (experienceIdHeaderValue != null) {
-        req.setHeader(
-            new HTTPHeader(HttpHeaders.X_GOOG_MAPS_EXPERIENCE_ID, experienceIdHeaderValue));
-      }
+      headers.forEach(
+          (k, v) -> {
+            req.addHeader(new HTTPHeader(k, v));
+          });
       req.setPayload(payload.getBytes(UTF_8));
     } catch (MalformedURLException e) {
       LOG.error("Request: {}{}", hostName, url, e);

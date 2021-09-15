@@ -22,11 +22,12 @@ import com.google.maps.android.AndroidAuthenticationConfigProvider;
 import com.google.maps.android.AndroidAuthenticationInterceptor;
 import com.google.maps.internal.ApiResponse;
 import com.google.maps.internal.ExceptionsAllowedToRetry;
-import com.google.maps.internal.HttpHeaders;
 import com.google.maps.internal.OkHttpPendingResult;
 import com.google.maps.internal.RateLimitExecutorService;
 import com.google.maps.metrics.RequestMetrics;
 import java.net.Proxy;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 import okhttp3.Credentials;
@@ -55,17 +56,16 @@ public class OkHttpRequestHandler implements GeoApiContext.RequestHandler {
   public <T, R extends ApiResponse<T>> PendingResult<T> handle(
       String hostName,
       String url,
-      String userAgent,
-      String experienceIdHeaderValue,
+      Map<String, String> headers,
       Class<R> clazz,
       FieldNamingPolicy fieldNamingPolicy,
       long errorTimeout,
       Integer maxRetries,
       ExceptionsAllowedToRetry exceptionsAllowedToRetry,
       RequestMetrics metrics) {
-    Request.Builder builder = new Request.Builder().get().header("User-Agent", userAgent);
-    if (experienceIdHeaderValue != null) {
-      builder = builder.header(HttpHeaders.X_GOOG_MAPS_EXPERIENCE_ID, experienceIdHeaderValue);
+    Request.Builder builder = new Request.Builder().get();
+    for (Entry<String, String> entry : headers.entrySet()) {
+      builder = builder.header(entry.getKey(), entry.getValue());
     }
     Request req = builder.url(hostName + url).build();
 
@@ -85,8 +85,7 @@ public class OkHttpRequestHandler implements GeoApiContext.RequestHandler {
       String hostName,
       String url,
       String payload,
-      String userAgent,
-      String experienceIdHeaderValue,
+      Map<String, String> headers,
       Class<R> clazz,
       FieldNamingPolicy fieldNamingPolicy,
       long errorTimeout,
@@ -94,10 +93,9 @@ public class OkHttpRequestHandler implements GeoApiContext.RequestHandler {
       ExceptionsAllowedToRetry exceptionsAllowedToRetry,
       RequestMetrics metrics) {
     RequestBody body = RequestBody.create(JSON, payload);
-    Request.Builder builder = new Request.Builder().post(body).header("User-Agent", userAgent);
-
-    if (experienceIdHeaderValue != null) {
-      builder = builder.header(HttpHeaders.X_GOOG_MAPS_EXPERIENCE_ID, experienceIdHeaderValue);
+    Request.Builder builder = new Request.Builder().post(body);
+    for (Entry<String, String> entry : headers.entrySet()) {
+      builder = builder.header(entry.getKey(), entry.getValue());
     }
     Request req = builder.url(hostName + url).build();
 

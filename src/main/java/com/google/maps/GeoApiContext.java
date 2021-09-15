@@ -22,7 +22,6 @@ import com.google.maps.internal.ApiConfig;
 import com.google.maps.internal.ApiResponse;
 import com.google.maps.internal.ExceptionsAllowedToRetry;
 import com.google.maps.internal.HttpHeaders;
-import com.google.maps.internal.StringJoin;
 import com.google.maps.internal.UrlSigner;
 import com.google.maps.metrics.NoOpRequestMetricsReporter;
 import com.google.maps.metrics.RequestMetrics;
@@ -35,8 +34,10 @@ import java.net.URLEncoder;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -68,8 +69,8 @@ public class GeoApiContext implements Closeable {
   private final ExceptionsAllowedToRetry exceptionsAllowedToRetry;
   private final Integer maxRetries;
   private final UrlSigner urlSigner;
-  private String experienceIdHeaderValue;
   private final RequestMetricsReporter requestMetricsReporter;
+  private final Map<String, String> defaultHeaders = new HashMap<>();
 
   /* package */
   GeoApiContext(
@@ -82,8 +83,7 @@ public class GeoApiContext implements Closeable {
       ExceptionsAllowedToRetry exceptionsAllowedToRetry,
       Integer maxRetries,
       UrlSigner urlSigner,
-      RequestMetricsReporter requestMetricsReporter,
-      String... experienceIdHeaderValue) {
+      RequestMetricsReporter requestMetricsReporter) {
     this.requestHandler = requestHandler;
     this.apiKey = apiKey;
     this.baseUrlOverride = baseUrlOverride;
@@ -94,7 +94,7 @@ public class GeoApiContext implements Closeable {
     this.maxRetries = maxRetries;
     this.urlSigner = urlSigner;
     this.requestMetricsReporter = requestMetricsReporter;
-    setExperienceId(experienceIdHeaderValue);
+    defaultHeaders.put(HttpHeaders.USER_AGENT, USER_AGENT);
   }
 
   /**
@@ -120,8 +120,7 @@ public class GeoApiContext implements Closeable {
     <T, R extends ApiResponse<T>> PendingResult<T> handle(
         String hostName,
         String url,
-        String userAgent,
-        String experienceIdHeaderValue,
+        Map<String, String> headers,
         Class<R> clazz,
         FieldNamingPolicy fieldNamingPolicy,
         long errorTimeout,
@@ -133,8 +132,7 @@ public class GeoApiContext implements Closeable {
         String hostName,
         String url,
         String payload,
-        String userAgent,
-        String experienceIdHeaderValue,
+        Map<String, String> headers,
         Class<R> clazz,
         FieldNamingPolicy fieldNamingPolicy,
         long errorTimeout,
@@ -164,34 +162,6 @@ public class GeoApiContext implements Closeable {
   }
 
   /**
-   * Sets the value for the HTTP header field name {@link HttpHeaders#X_GOOG_MAPS_EXPERIENCE_ID} to
-   * be used on subsequent API calls. Calling this method with {@code null} is equivalent to calling
-   * {@link #clearExperienceId()}.
-   *
-   * @param experienceId The experience ID if set, otherwise null
-   */
-  public void setExperienceId(String... experienceId) {
-    if (experienceId == null || experienceId.length == 0) {
-      experienceIdHeaderValue = null;
-      return;
-    }
-    experienceIdHeaderValue = StringJoin.join(",", experienceId);
-  }
-
-  /** @return Returns the experience ID if set, otherwise, null */
-  public String getExperienceId() {
-    return experienceIdHeaderValue;
-  }
-
-  /**
-   * Clears the experience ID if set the HTTP header field {@link
-   * HttpHeaders#X_GOOG_MAPS_EXPERIENCE_ID} will be omitted from subsequent calls.
-   */
-  public void clearExperienceId() {
-    experienceIdHeaderValue = null;
-  }
-
-  /**
    * Shut down this GeoApiContext instance, reclaiming resources. After shutdown() has been called,
    * no further queries may be done against this instance.
    */
@@ -199,8 +169,21 @@ public class GeoApiContext implements Closeable {
     requestHandler.shutdown();
   }
 
+  private Map<String, String> addDefaultHeaders(Map<String, String> headers) {
+    Map<String, String> newHeaders = new HashMap<>(headers);
+    for (Entry<String, String> entry : defaultHeaders.entrySet()) {
+      if (!newHeaders.containsKey(entry.getKey())) {
+        newHeaders.put(entry.getKey(), entry.getValue());
+      }
+    }
+    return newHeaders;
+  }
+
   <T, R extends ApiResponse<T>> PendingResult<T> get(
-      ApiConfig config, Class<? extends R> clazz, Map<String, List<String>> params) {
+      ApiConfig config,
+      Class<? extends R> clazz,
+      Map<String, String> headers,
+      Map<String, List<String>> params) {
     if (channel != null && !channel.isEmpty() && !params.containsKey("channel")) {
       params.put("channel", Collections.singletonList(channel));
     }
@@ -227,11 +210,18 @@ public class GeoApiContext implements Closeable {
         config.path,
         config.supportsClientId,
         query.toString(),
-        requestMetricsReporter.newRequest(config.path));
+        requestMetricsReporter.newRequest(config.path),
+        headers);
   }
 
   <T, R extends ApiResponse<T>> PendingResult<T> get(
-      ApiConfig config, Class<? extends R> clazz, String... params) {
+      ApiConfig config, Class<? extends R> clazz, Map<String, List<String>> params) {
+    return get(config, clazz, Collections.emptyMap(), params);
+  }
+
+  <T, R extends ApiResponse<T>> PendingResult<T> get(
+      ApiConfig config, Class<? extends R> clazz, Map<String, String> headers, String... params) {
+    // FIXME: Refactor this to reuse implementation in overloaded get()
     if (params.length % 2 != 0) {
       throw new IllegalArgumentException("Params must be matching key/value pairs.");
     }
@@ -260,6 +250,8 @@ public class GeoApiContext implements Closeable {
       query.append("&channel=").append(channel);
     }
 
+    final Map<String, String> allHeaders = addDefaultHeaders(headers);
+
     return getWithPath(
         clazz,
         config.fieldNamingPolicy,
@@ -267,12 +259,20 @@ public class GeoApiContext implements Closeable {
         config.path,
         config.supportsClientId,
         query.toString(),
-        requestMetricsReporter.newRequest(config.path));
+        requestMetricsReporter.newRequest(config.path),
+        allHeaders);
+  }
+
+  <T, R extends ApiResponse<T>> PendingResult<T> get(
+      ApiConfig config, Class<? extends R> clazz, String... params) {
+    return get(config, clazz, Collections.emptyMap(), params);
   }
 
   <T, R extends ApiResponse<T>> PendingResult<T> post(
-      ApiConfig config, Class<? extends R> clazz, Map<String, List<String>> params) {
-
+      ApiConfig config,
+      Class<? extends R> clazz,
+      Map<String, String> headers,
+      Map<String, List<String>> params) {
     checkContext(config.supportsClientId);
 
     StringBuilder url = new StringBuilder(config.path);
@@ -292,18 +292,24 @@ public class GeoApiContext implements Closeable {
       hostName = baseUrlOverride;
     }
 
+    final Map<String, String> allHeaders = addDefaultHeaders(headers);
+
     return requestHandler.handlePost(
         hostName,
         url.toString(),
         params.get("_payload").get(0),
-        USER_AGENT,
-        experienceIdHeaderValue,
+        allHeaders,
         clazz,
         config.fieldNamingPolicy,
         errorTimeout,
         maxRetries,
         exceptionsAllowedToRetry,
         requestMetricsReporter.newRequest(config.path));
+  }
+
+  <T, R extends ApiResponse<T>> PendingResult<T> post(
+      ApiConfig config, Class<? extends R> clazz, Map<String, List<String>> params) {
+    return post(config, clazz, Collections.emptyMap(), params);
   }
 
   private <T, R extends ApiResponse<T>> PendingResult<T> getWithPath(
@@ -313,7 +319,8 @@ public class GeoApiContext implements Closeable {
       String path,
       boolean canUseClientId,
       String encodedPath,
-      RequestMetrics metrics) {
+      RequestMetrics metrics,
+      Map<String, String> headers) {
     checkContext(canUseClientId);
     if (!encodedPath.startsWith("&")) {
       throw new IllegalArgumentException("encodedPath must start with &");
@@ -336,11 +343,12 @@ public class GeoApiContext implements Closeable {
       hostName = baseUrlOverride;
     }
 
+    final Map<String, String> allHeaders = addDefaultHeaders(headers);
+
     return requestHandler.handle(
         hostName,
         url.toString(),
-        USER_AGENT,
-        experienceIdHeaderValue,
+        allHeaders,
         clazz,
         fieldNamingPolicy,
         errorTimeout,
@@ -375,7 +383,6 @@ public class GeoApiContext implements Closeable {
     private Integer maxRetries;
     private UrlSigner urlSigner;
     private RequestMetricsReporter requestMetricsReporter = new NoOpRequestMetricsReporter();
-    private String[] experienceIdHeaderValue;
 
     /** Builder pattern for the enclosing {@code GeoApiContext}. */
     public Builder() {
@@ -598,18 +605,6 @@ public class GeoApiContext implements Closeable {
       return this;
     }
 
-    /**
-     * Sets the value for the HTTP header field name {@link HttpHeaders#X_GOOG_MAPS_EXPERIENCE_ID}
-     * HTTP header value for the field name on subsequent API calls.
-     *
-     * @param experienceId The experience ID
-     * @return Returns this builder for call chaining.
-     */
-    public Builder experienceId(String... experienceId) {
-      this.experienceIdHeaderValue = experienceId;
-      return this;
-    }
-
     public Builder requestMetricsReporter(RequestMetricsReporter requestMetricsReporter) {
       this.requestMetricsReporter = requestMetricsReporter;
       return this;
@@ -631,8 +626,7 @@ public class GeoApiContext implements Closeable {
           exceptionsAllowedToRetry,
           maxRetries,
           urlSigner,
-          requestMetricsReporter,
-          experienceIdHeaderValue);
+          requestMetricsReporter);
     }
   }
 }
