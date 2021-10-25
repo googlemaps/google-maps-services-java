@@ -143,7 +143,16 @@ For more usage examples, check out [the tests](src/test/java/com/google/maps).
 
 ### Google App Engine Support
 
-You can use this client library on Google App Engine with a single code change.
+To use Google App Engine with this client library add the latest [App Engine dependency](https://mvnrepository.com/artifact/com.google.appengine/appengine-api-1.0-sdk)
+to your `build.gradle` file:
+
+```groovy
+dependencies {
+    implementation 'com.google.appengine:appengine-api-1.0-sdk:<latest version>'
+}
+```
+
+You can then use this client library on Google App Engine with the following code change:
 
 ```java
 new GeoApiContext.Builder(new GaeRequestHandler.Builder())
