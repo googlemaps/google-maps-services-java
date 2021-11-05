@@ -28,7 +28,7 @@ apply plugin: 'com.github.sherter.google-java-format'
 
 group = 'com.google.maps'
 sourceCompatibility = 1.8
-version = '1.0.0'
+version = '1.0.1'
 
 repositories {
     mavenCentral()
