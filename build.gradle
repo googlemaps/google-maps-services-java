@@ -51,7 +51,7 @@ artifacts {
 }
 
 dependencies {
-    compileOnly 'com.google.appengine:appengine-api-1.0-sdk:1.9.93'
+    compileOnly 'com.google.appengine:appengine-api-1.0-sdk:2.0.0'
     api 'com.squareup.okhttp3:okhttp:4.9.3'
     api 'com.google.code.gson:gson:2.8.9'
     api 'io.opencensus:opencensus-api:0.28.3'
