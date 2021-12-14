@@ -62,7 +62,7 @@ dependencies {
     testImplementation 'org.slf4j:slf4j-simple:1.7.32'
     testImplementation 'org.apache.commons:commons-lang3:3.12.0'
     testImplementation 'org.json:json:20211205'
-    testImplementation 'io.opencensus:opencensus-impl:0.28.3'
+    testImplementation 'io.opencensus:opencensus-impl:0.29.0'
     testImplementation "org.mockito:mockito-inline:4.1.0"
 }
 
