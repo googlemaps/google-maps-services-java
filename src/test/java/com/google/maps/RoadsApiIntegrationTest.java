@@ -23,7 +23,7 @@ import static org.junit.Assert.assertTrue;
 
 import com.google.maps.model.LatLng;
 import com.google.maps.model.SnappedPoint;
-import com.google.maps.model.SnappedSpeedLimitResponse;
+import com.google.maps.model.SnappedSpeedLimitResult;
 import com.google.maps.model.SpeedLimit;
 import java.util.Arrays;
 import org.junit.Test;
@@ -86,7 +86,8 @@ public class RoadsApiIntegrationTest {
             new LatLng(-33.867841, 151.194137),
             new LatLng(-33.868224, 151.194116)
           };
-      SpeedLimit[] speeds = RoadsApi.speedLimits(sc.context, path).await();
+      SpeedLimitsApiRequest request = RoadsApi.speedLimits(sc.context, path);
+      SpeedLimit[] speeds = request.await().speedLimits;
 
       assertNotNull(Arrays.toString(speeds));
       assertEquals("/v1/speedLimits", sc.path());
@@ -113,7 +114,7 @@ public class RoadsApiIntegrationTest {
             new LatLng(33.773250, -84.388840),
             new LatLng(33.771991, -84.388840)
           };
-      SpeedLimit[] speeds = RoadsApi.speedLimits(sc.context, path).await();
+      SpeedLimit[] speeds = RoadsApi.speedLimits(sc.context, path).await().speedLimits;
 
       assertNotNull(Arrays.toString(speeds));
       assertEquals("/v1/speedLimits", sc.path());
@@ -136,7 +137,7 @@ public class RoadsApiIntegrationTest {
             "ChIJyU-E2mEE9YgRftyNXxcfQYw",
             "ChIJc0BrC2EE9YgR71DvaFzNgrA"
           };
-      SpeedLimit[] speeds = RoadsApi.speedLimits(sc.context, placeIds).await();
+      SpeedLimit[] speeds = RoadsApi.speedLimits(sc.context, placeIds).await().speedLimits;
 
       assertNotNull(Arrays.toString(speeds));
       assertEquals("/v1/speedLimits", sc.path());
@@ -162,7 +163,7 @@ public class RoadsApiIntegrationTest {
             new LatLng(-33.867841, 151.194137),
             new LatLng(-33.868224, 151.194116)
           };
-      SnappedSpeedLimitResponse response = RoadsApi.snappedSpeedLimits(sc.context, path).await();
+      SnappedSpeedLimitResult response = RoadsApi.speedLimits(sc.context, path).await();
 
       assertNotNull(response.toString());
       assertEquals("/v1/speedLimits", sc.path());

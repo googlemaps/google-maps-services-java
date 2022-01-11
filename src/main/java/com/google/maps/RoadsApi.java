@@ -15,16 +15,12 @@
 
 package com.google.maps;
 
-import static com.google.maps.internal.StringJoin.join;
-
-import com.google.gson.FieldNamingPolicy;
 import com.google.maps.errors.ApiError;
 import com.google.maps.errors.ApiException;
-import com.google.maps.internal.ApiConfig;
 import com.google.maps.internal.ApiResponse;
 import com.google.maps.model.LatLng;
 import com.google.maps.model.SnappedPoint;
-import com.google.maps.model.SnappedSpeedLimitResponse;
+import com.google.maps.model.SnappedSpeedLimitResult;
 import com.google.maps.model.SpeedLimit;
 
 /**
@@ -37,24 +33,6 @@ import com.google.maps.model.SpeedLimit;
 public class RoadsApi {
   static final String API_BASE_URL = "https://roads.googleapis.com";
 
-  static final ApiConfig SNAP_TO_ROADS_API_CONFIG =
-      new ApiConfig("/v1/snapToRoads")
-          .hostName(API_BASE_URL)
-          .supportsClientId(false)
-          .fieldNamingPolicy(FieldNamingPolicy.IDENTITY);
-
-  static final ApiConfig SPEEDS_API_CONFIG =
-      new ApiConfig("/v1/speedLimits")
-          .hostName(API_BASE_URL)
-          .supportsClientId(false)
-          .fieldNamingPolicy(FieldNamingPolicy.IDENTITY);
-
-  static final ApiConfig NEAREST_ROADS_API_CONFIG =
-      new ApiConfig("/v1/nearestRoads")
-          .hostName(API_BASE_URL)
-          .supportsClientId(false)
-          .fieldNamingPolicy(FieldNamingPolicy.IDENTITY);
-
   private RoadsApi() {}
 
   /**
@@ -63,10 +41,10 @@ public class RoadsApi {
    *
    * @param context The {@link GeoApiContext} to make requests through.
    * @param path The collected GPS points as a path.
-   * @return Returns the snapped points as a {@link PendingResult}.
+   * @return Returns the {@code SnapToRoadsApiRequest} for call chaining
    */
-  public static PendingResult<SnappedPoint[]> snapToRoads(GeoApiContext context, LatLng... path) {
-    return context.get(SNAP_TO_ROADS_API_CONFIG, RoadsResponse.class, "path", join('|', path));
+  public static SnapToRoadsApiRequest snapToRoads(GeoApiContext context, LatLng... path) {
+    return snapToRoads(context, false, path);
   }
 
   /**
@@ -81,17 +59,11 @@ public class RoadsApi {
    *     in a path that smoothly follows the geometry of the road, even around corners and through
    *     tunnels.
    * @param path The path to be snapped.
-   * @return Returns the snapped points as a {@link PendingResult}.
+   * @return Returns the {@code SnapToRoadsApiRequest} for call chaining
    */
-  public static PendingResult<SnappedPoint[]> snapToRoads(
+  public static SnapToRoadsApiRequest snapToRoads(
       GeoApiContext context, boolean interpolate, LatLng... path) {
-    return context.get(
-        SNAP_TO_ROADS_API_CONFIG,
-        RoadsResponse.class,
-        "path",
-        join('|', path),
-        "interpolate",
-        String.valueOf(interpolate));
+    return new SnapToRoadsApiRequest(context).path(path).interpolate(interpolate);
   }
 
   /**
@@ -106,10 +78,10 @@ public class RoadsApi {
    *
    * @param context The {@link GeoApiContext} to make requests through.
    * @param path The collected GPS points as a path.
-   * @return Returns the speed limits as a {@link PendingResult}.
+   * @return a {@link SpeedLimitsApiRequest}
    */
-  public static PendingResult<SpeedLimit[]> speedLimits(GeoApiContext context, LatLng... path) {
-    return context.get(SPEEDS_API_CONFIG, SpeedsResponse.class, "path", join('|', path));
+  public static SpeedLimitsApiRequest speedLimits(GeoApiContext context, LatLng... path) {
+    return new SpeedLimitsApiRequest(context).path(path);
   }
 
   /**
@@ -125,29 +97,10 @@ public class RoadsApi {
    * @param placeIds The Place ID of the road segment. Place IDs are returned by the {@link
    *     #snapToRoads(GeoApiContext, com.google.maps.model.LatLng...)} method. You can pass up to
    *     100 placeIds with each request.
-   * @return Returns the speed limits as a {@link PendingResult}.
+   * @return a {@link SpeedLimitsApiRequest}
    */
-  public static PendingResult<SpeedLimit[]> speedLimits(GeoApiContext context, String... placeIds) {
-    String[] placeParams = new String[2 * placeIds.length];
-    int i = 0;
-    for (String placeId : placeIds) {
-      placeParams[i++] = "placeId";
-      placeParams[i++] = placeId;
-    }
-
-    return context.get(SPEEDS_API_CONFIG, SpeedsResponse.class, placeParams);
-  }
-
-  /**
-   * Returns the result of snapping the provided points to roads and retrieving the speed limits.
-   *
-   * @param context The {@link GeoApiContext} to make requests through.
-   * @param path The collected GPS points as a path.
-   * @return Returns the snapped points and speed limits as a {@link PendingResult}.
-   */
-  public static PendingResult<SnappedSpeedLimitResponse> snappedSpeedLimits(
-      GeoApiContext context, LatLng... path) {
-    return context.get(SPEEDS_API_CONFIG, CombinedResponse.class, "path", join('|', path));
+  public static SpeedLimitsApiRequest speedLimits(GeoApiContext context, String... placeIds) {
+    return new SpeedLimitsApiRequest(context).placeIds(placeIds);
   }
 
   /**
@@ -156,11 +109,10 @@ public class RoadsApi {
    *
    * @param context The {@link GeoApiContext} to make requests through.
    * @param points The sequence of points to be aligned to nearest roads
-   * @return Returns the snapped points as a {@link PendingResult}.
+   * @return a {@link NearestRoadsApiRequest}
    */
-  public static PendingResult<SnappedPoint[]> nearestRoads(
-      GeoApiContext context, LatLng... points) {
-    return context.get(NEAREST_ROADS_API_CONFIG, RoadsResponse.class, "points", join('|', points));
+  public static NearestRoadsApiRequest nearestRoads(GeoApiContext context, LatLng... points) {
+    return new NearestRoadsApiRequest(context).points(points);
   }
 
   public static class RoadsResponse implements ApiResponse<SnappedPoint[]> {
@@ -183,27 +135,7 @@ public class RoadsApi {
     }
   }
 
-  public static class SpeedsResponse implements ApiResponse<SpeedLimit[]> {
-    private SpeedLimit[] speedLimits;
-    private ApiError error;
-
-    @Override
-    public boolean successful() {
-      return error == null;
-    }
-
-    @Override
-    public SpeedLimit[] getResult() {
-      return speedLimits;
-    }
-
-    @Override
-    public ApiException getError() {
-      return ApiException.from(error.status, error.message);
-    }
-  }
-
-  public static class CombinedResponse implements ApiResponse<SnappedSpeedLimitResponse> {
+  public static class SpeedLimitsResponse implements ApiResponse<SnappedSpeedLimitResult> {
     private SnappedPoint[] snappedPoints;
     private SpeedLimit[] speedLimits;
     private ApiError error;
@@ -214,8 +146,8 @@ public class RoadsApi {
     }
 
     @Override
-    public SnappedSpeedLimitResponse getResult() {
-      SnappedSpeedLimitResponse response = new SnappedSpeedLimitResponse();
+    public SnappedSpeedLimitResult getResult() {
+      SnappedSpeedLimitResult response = new SnappedSpeedLimitResult();
       response.snappedPoints = snappedPoints;
       response.speedLimits = speedLimits;
       return response;
