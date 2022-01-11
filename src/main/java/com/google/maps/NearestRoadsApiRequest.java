@@ -37,6 +37,6 @@ public class NearestRoadsApiRequest extends
    * @return returns this {@link NearestRoadsApiRequest} for call chaining.
    */
   public NearestRoadsApiRequest points(LatLng... points) {
-    return param("", StringJoin.join('|', points));
+    return param("points", StringJoin.join('|', points));
   }
 }
