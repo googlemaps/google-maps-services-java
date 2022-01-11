@@ -25,18 +25,18 @@ public class NearestRoadsApiRequest extends
 
   @Override
   protected void validateRequest() {
-    if (!params().containsKey("path")) {
+    if (!params().containsKey("points")) {
       throw new IllegalArgumentException("Request must contain 'path");
     }
   }
 
   /**
-   * The path from which to snap to roads.
+   * The points from which to snap to roads.
    *
-   * @param path the path to be snapped
+   * @param points the point to be snapped
    * @return returns this {@link NearestRoadsApiRequest} for call chaining.
    */
-  public NearestRoadsApiRequest path(LatLng... path) {
-    return param("path", StringJoin.join('|', path));
+  public NearestRoadsApiRequest points(LatLng... points) {
+    return param("", StringJoin.join('|', points));
   }
 }

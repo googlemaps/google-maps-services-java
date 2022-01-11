@@ -115,7 +115,7 @@ public class RoadsApi {
    * @return a {@link NearestRoadsApiRequest}
    */
   public static NearestRoadsApiRequest nearestRoads(GeoApiContext context, LatLng... points) {
-    return new NearestRoadsApiRequest(context).path(points);
+    return new NearestRoadsApiRequest(context).points(points);
   }
 
   public static class RoadsResponse implements ApiResponse<SnappedPoint[]> {
