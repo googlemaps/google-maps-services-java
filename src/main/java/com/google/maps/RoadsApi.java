@@ -17,10 +17,8 @@ package com.google.maps;
 
 import static com.google.maps.internal.StringJoin.join;
 
-import com.google.gson.FieldNamingPolicy;
 import com.google.maps.errors.ApiError;
 import com.google.maps.errors.ApiException;
-import com.google.maps.internal.ApiConfig;
 import com.google.maps.internal.ApiResponse;
 import com.google.maps.model.LatLng;
 import com.google.maps.model.SnappedPoint;
@@ -37,12 +35,6 @@ import com.google.maps.model.SpeedLimit;
 
 public class RoadsApi {
   static final String API_BASE_URL = "https://roads.googleapis.com";
-
-  static final ApiConfig NEAREST_ROADS_API_CONFIG =
-      new ApiConfig("/v1/nearestRoads")
-          .hostName(API_BASE_URL)
-          .supportsClientId(false)
-          .fieldNamingPolicy(FieldNamingPolicy.IDENTITY);
 
   private RoadsApi() {}
 
@@ -120,11 +112,10 @@ public class RoadsApi {
    *
    * @param context The {@link GeoApiContext} to make requests through.
    * @param points The sequence of points to be aligned to nearest roads
-   * @return Returns the snapped points as a {@link PendingResult}.
+   * @return a {@link NearestRoadsApiRequest}
    */
-  public static PendingResult<SnappedPoint[]> nearestRoads(
-      GeoApiContext context, LatLng... points) {
-    return context.get(NEAREST_ROADS_API_CONFIG, RoadsResponse.class, "points", join('|', points));
+  public static NearestRoadsApiRequest nearestRoads(GeoApiContext context, LatLng... points) {
+    return new NearestRoadsApiRequest(context).path(points);
   }
 
   public static class RoadsResponse implements ApiResponse<SnappedPoint[]> {
