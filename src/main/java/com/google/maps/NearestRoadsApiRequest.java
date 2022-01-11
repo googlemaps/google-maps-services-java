@@ -7,11 +7,9 @@ import com.google.maps.internal.StringJoin;
 import com.google.maps.model.LatLng;
 import com.google.maps.model.SnappedPoint;
 
-/**
- * A request to the snap to roads API (part of Roads API).
- */
-public class NearestRoadsApiRequest extends
-    PendingResultBase<SnappedPoint[], NearestRoadsApiRequest, RoadsResponse> {
+/** A request to the snap to roads API (part of Roads API). */
+public class NearestRoadsApiRequest
+    extends PendingResultBase<SnappedPoint[], NearestRoadsApiRequest, RoadsResponse> {
 
   private static final ApiConfig NEAREST_ROADS_API_CONFIG =
       new ApiConfig("/v1/nearestRoads")

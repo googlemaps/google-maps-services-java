@@ -7,18 +7,15 @@ import com.google.maps.internal.StringJoin;
 import com.google.maps.model.LatLng;
 import com.google.maps.model.SnappedSpeedLimitResult;
 
-/**
- * A request to the speed limits API (part of Roads API).
- */
-public class SpeedLimitsApiRequest extends
-    PendingResultBase<SnappedSpeedLimitResult, SpeedLimitsApiRequest, SpeedLimitsResponse> {
+/** A request to the speed limits API (part of Roads API). */
+public class SpeedLimitsApiRequest
+    extends PendingResultBase<SnappedSpeedLimitResult, SpeedLimitsApiRequest, SpeedLimitsResponse> {
 
   private static final ApiConfig SPEEDS_API_CONFIG =
       new ApiConfig("/v1/speedLimits")
           .hostName(RoadsApi.API_BASE_URL)
           .supportsClientId(false)
           .fieldNamingPolicy(FieldNamingPolicy.IDENTITY);
-
 
   public SpeedLimitsApiRequest(GeoApiContext context) {
     super(context, SPEEDS_API_CONFIG, SpeedLimitsResponse.class);
@@ -33,6 +30,7 @@ public class SpeedLimitsApiRequest extends
 
   /**
    * A list of up to 100 lat/long pairs representing a path.
+   *
    * @param path the path
    * @return a {@code SpeedLimitsApiRequest} for call chaining.
    */
@@ -42,6 +40,7 @@ public class SpeedLimitsApiRequest extends
 
   /**
    * A list of place ID/s representing one or more road segments.
+   *
    * @param placeIds the place ID/s
    * @return a {@code SpeedLimitsApiRequest} for call chaining.
    */

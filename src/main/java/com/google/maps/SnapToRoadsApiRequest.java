@@ -7,11 +7,9 @@ import com.google.maps.internal.StringJoin;
 import com.google.maps.model.LatLng;
 import com.google.maps.model.SnappedPoint;
 
-/**
- * A request to the snap to roads API (part of Roads API).
- */
-public class SnapToRoadsApiRequest extends
-    PendingResultBase<SnappedPoint[], SnapToRoadsApiRequest, RoadsResponse> {
+/** A request to the snap to roads API (part of Roads API). */
+public class SnapToRoadsApiRequest
+    extends PendingResultBase<SnappedPoint[], SnapToRoadsApiRequest, RoadsResponse> {
 
   private static final ApiConfig SNAP_TO_ROADS_API_CONFIG =
       new ApiConfig("/v1/snapToRoads")

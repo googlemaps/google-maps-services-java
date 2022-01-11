@@ -30,7 +30,6 @@ import com.google.maps.model.SpeedLimit;
  * <p>See also: <a href="https://developers.google.com/maps/documentation/roads">Roads API
  * documentation</a>.
  */
-
 public class RoadsApi {
   static final String API_BASE_URL = "https://roads.googleapis.com";
 
