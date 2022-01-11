@@ -18,7 +18,7 @@ package com.google.maps.model;
 import java.io.Serializable;
 
 /** A combined snap-to-roads and speed limit response. */
-public class SnappedSpeedLimitResponse implements Serializable {
+public class SnappedSpeedLimitResult implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
