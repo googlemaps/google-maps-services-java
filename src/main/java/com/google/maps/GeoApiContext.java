@@ -415,7 +415,7 @@ public class GeoApiContext implements Closeable {
      * @param baseUrl The URL to use, without a trailing slash, e.g. https://maps.googleapis.com
      * @return Returns this builder for call chaining.
      */
-    Builder baseUrlOverride(String baseUrl) {
+    public Builder baseUrlOverride(String baseUrl) {
       baseUrlOverride = baseUrl;
       return this;
     }
