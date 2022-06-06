@@ -63,7 +63,7 @@ dependencies {
     testImplementation 'org.apache.commons:commons-lang3:3.12.0'
     testImplementation 'org.json:json:20220320'
     testImplementation 'io.opencensus:opencensus-impl:0.31.0'
-    testImplementation "org.mockito:mockito-inline:4.4.0"
+    testImplementation "org.mockito:mockito-inline:4.6.1"
 }
 
 task updateVersion(type: Copy) {
