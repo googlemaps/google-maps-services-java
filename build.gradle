@@ -55,7 +55,7 @@ dependencies {
     api 'com.squareup.okhttp3:okhttp:5.0.0-alpha.7'
     api 'com.google.code.gson:gson:2.9.0'
     api 'io.opencensus:opencensus-api:0.31.0'
-    implementation 'org.slf4j:slf4j-api:1.7.36'
+    implementation 'org.slf4j:slf4j-api:2.0.3'
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'com.squareup.okhttp3:mockwebserver:5.0.0-alpha.7'
     testImplementation 'org.apache.httpcomponents:httpclient:4.5.13'
