@@ -51,15 +51,6 @@ artifacts {
 }
 
 dependencies {
-<<<<<<< HEAD
-    compileOnly 'com.google.appengine:appengine-api-1.0-sdk:2.0.9'
-    api 'com.squareup.okhttp3:okhttp:5.0.0-alpha.10'
-    api 'com.google.code.gson:gson:2.9.1'
-    api 'io.opencensus:opencensus-api:0.31.1'
-    implementation 'org.slf4j:slf4j-api:2.0.3'
-    testImplementation 'junit:junit:4.13.2'
-    testImplementation 'com.squareup.okhttp3:mockwebserver:5.0.0-alpha.10'
-=======
     compileOnly 'com.google.appengine:appengine-api-1.0-sdk:2.0.4'
     api 'com.squareup.okhttp3:okhttp:4.10.0'
     api 'com.google.code.gson:gson:2.9.0'
@@ -67,7 +58,6 @@ dependencies {
     implementation 'org.slf4j:slf4j-api:2.0.3'
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'com.squareup.okhttp3:mockwebserver:4.10.0'
->>>>>>> pull/839
     testImplementation 'org.apache.httpcomponents:httpclient:4.5.13'
     testImplementation 'org.slf4j:slf4j-simple:2.0.3'
     testImplementation 'org.apache.commons:commons-lang3:3.12.0'
