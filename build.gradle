@@ -34,6 +34,12 @@ repositories {
     mavenCentral()
 }
 
+tasks.named('jar') {
+    manifest {
+        attributes('Automatic-Module-Name': 'com.google.maps')
+    }
+}
+
 task javadocJar(type: Jar, dependsOn: javadoc) {
     classifier = 'javadoc'
     from 'build/docs/javadoc'
