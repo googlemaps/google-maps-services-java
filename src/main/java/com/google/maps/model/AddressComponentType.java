@@ -280,6 +280,9 @@ public enum AddressComponentType {
   /** DRUGSTORE */
   DRUGSTORE("drugstore"),
 
+  /** Landmark */
+  LANDMARK("landmark"),
+
   /**
    * Indicates an unknown address component type returned by the server. The Java Client for Google
    * Maps Services should be updated to support the new value.
