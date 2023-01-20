@@ -53,17 +53,17 @@ artifacts {
 dependencies {
     compileOnly 'com.google.appengine:appengine-api-1.0-sdk:2.0.10'
     api 'com.squareup.okhttp3:okhttp:4.10.0'
-    api 'com.google.code.gson:gson:2.10'
+    api 'com.google.code.gson:gson:2.10.1'
     api 'io.opencensus:opencensus-api:0.31.0'
-    implementation 'org.slf4j:slf4j-api:2.0.4'
+    implementation 'org.slf4j:slf4j-api:2.0.6'
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'com.squareup.okhttp3:mockwebserver:4.10.0'
-    testImplementation 'org.apache.httpcomponents:httpclient:4.5.13'
-    testImplementation 'org.slf4j:slf4j-simple:2.0.4'
+    testImplementation 'org.apache.httpcomponents:httpclient:4.5.14'
+    testImplementation 'org.slf4j:slf4j-simple:2.0.6'
     testImplementation 'org.apache.commons:commons-lang3:3.12.0'
     testImplementation 'org.json:json:20220924'
     testImplementation 'io.opencensus:opencensus-impl:0.31.1'
-    testImplementation "org.mockito:mockito-inline:4.8.1"
+    testImplementation "org.mockito:mockito-inline:5.0.0"
 }
 
 task updateVersion(type: Copy) {
