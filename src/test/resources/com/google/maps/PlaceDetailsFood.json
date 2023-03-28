@@ -1,0 +1,466 @@
+{
+  "html_attributions": [],
+  "logging_info": {
+    "experiment_id": [],
+    "query_geographic_location": "US"
+  },
+  "result": {
+    "address_components": [
+      {
+        "long_name": "1431",
+        "short_name": "1431",
+        "types": [
+          "street_number"
+        ]
+      },
+      {
+        "long_name": "Plymouth Street",
+        "short_name": "Plymouth St",
+        "types": [
+          "route"
+        ]
+      },
+      {
+        "long_name": "Mountain View",
+        "short_name": "Mountain View",
+        "types": [
+          "locality",
+          "political"
+        ]
+      },
+      {
+        "long_name": "Santa Clara County",
+        "short_name": "Santa Clara County",
+        "types": [
+          "administrative_area_level_2",
+          "political"
+        ]
+      },
+      {
+        "long_name": "California",
+        "short_name": "CA",
+        "types": [
+          "administrative_area_level_1",
+          "political"
+        ]
+      },
+      {
+        "long_name": "United States",
+        "short_name": "US",
+        "types": [
+          "country",
+          "political"
+        ]
+      },
+      {
+        "long_name": "94043",
+        "short_name": "94043",
+        "types": [
+          "postal_code"
+        ]
+      }
+    ],
+    "adr_address": "<span class=\"street-address\">1431 Plymouth St</span>, <span class=\"locality\">Mountain View</span>, <span class=\"region\">CA</span> <span class=\"postal-code\">94043</span>, <span class=\"country-name\">USA</span>",
+    "business_status": "OPERATIONAL",
+    "curbside_pickup": false,
+    "current_opening_hours": {
+      "open_now": false,
+      "periods": [
+        {
+          "close": {
+            "date": "2023-04-03",
+            "day": 1,
+            "time": "0000"
+          },
+          "open": {
+            "date": "2023-04-02",
+            "day": 0,
+            "time": "0900"
+          }
+        },
+        {
+          "close": {
+            "date": "2023-04-03",
+            "day": 1,
+            "time": "2359",
+            "truncated": true
+          },
+          "open": {
+            "date": "2023-04-03",
+            "day": 1,
+            "time": "0930"
+          }
+        },
+        {
+          "close": {
+            "date": "2023-03-28",
+            "day": 2,
+            "time": "0200"
+          },
+          "open": {
+            "date": "2023-03-28",
+            "day": 2,
+            "time": "0000",
+            "truncated": true
+          }
+        },
+        {
+          "close": {
+            "date": "2023-03-29",
+            "day": 3,
+            "time": "0200"
+          },
+          "open": {
+            "date": "2023-03-28",
+            "day": 2,
+            "time": "0930"
+          }
+        },
+        {
+          "close": {
+            "date": "2023-03-30",
+            "day": 4,
+            "time": "0200"
+          },
+          "open": {
+            "date": "2023-03-29",
+            "day": 3,
+            "time": "0930"
+          }
+        },
+        {
+          "close": {
+            "date": "2023-03-31",
+            "day": 5,
+            "time": "0200"
+          },
+          "open": {
+            "date": "2023-03-30",
+            "day": 4,
+            "time": "0930"
+          }
+        },
+        {
+          "close": {
+            "date": "2023-04-01",
+            "day": 6,
+            "time": "0200"
+          },
+          "open": {
+            "date": "2023-03-31",
+            "day": 5,
+            "time": "0930"
+          }
+        },
+        {
+          "close": {
+            "date": "2023-04-02",
+            "day": 0,
+            "time": "0200"
+          },
+          "open": {
+            "date": "2023-04-01",
+            "day": 6,
+            "time": "0900"
+          }
+        }
+      ],
+      "weekday_text": [
+        "Monday: 9:30 AM – 2:00 AM",
+        "Tuesday: 9:30 AM – 2:00 AM",
+        "Wednesday: 9:30 AM – 2:00 AM",
+        "Thursday: 9:30 AM – 2:00 AM",
+        "Friday: 9:30 AM – 2:00 AM",
+        "Saturday: 9:00 AM – 2:00 AM",
+        "Sunday: 9:00 AM – 12:00 AM"
+      ]
+    },
+    "delivery": false,
+    "dine_in": true,
+    "editorial_summary": {
+      "language": "en",
+      "overview": "Classic bar drinks & eats with plenty of TVs, a sand volleyball court, Ping-Pong & an outdoor patio."
+    },
+    "formatted_address": "1431 Plymouth St, Mountain View, CA 94043, USA",
+    "formatted_phone_number": "(650) 961-1992",
+    "geometry": {
+      "location": {
+        "lat": 37.4161493,
+        "lng": -122.0786363
+      },
+      "viewport": {
+        "northeast": {
+          "lat": 37.4175716302915,
+          "lng": -122.0772776197085
+        },
+        "southwest": {
+          "lat": 37.41487366970851,
+          "lng": -122.0799755802915
+        }
+      }
+    },
+    "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/bar-71.png",
+    "icon_background_color": "#FF9E67",
+    "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/bar_pinlet",
+    "international_phone_number": "+1 650-961-1992",
+    "name": "Sports Page",
+    "opening_hours": {
+      "open_now": false,
+      "periods": [
+        {
+          "close": {
+            "day": 1,
+            "time": "0000"
+          },
+          "open": {
+            "day": 0,
+            "time": "0900"
+          }
+        },
+        {
+          "close": {
+            "day": 2,
+            "time": "0200"
+          },
+          "open": {
+            "day": 1,
+            "time": "0930"
+          }
+        },
+        {
+          "close": {
+            "day": 3,
+            "time": "0200"
+          },
+          "open": {
+            "day": 2,
+            "time": "0930"
+          }
+        },
+        {
+          "close": {
+            "day": 4,
+            "time": "0200"
+          },
+          "open": {
+            "day": 3,
+            "time": "0930"
+          }
+        },
+        {
+          "close": {
+            "day": 5,
+            "time": "0200"
+          },
+          "open": {
+            "day": 4,
+            "time": "0930"
+          }
+        },
+        {
+          "close": {
+            "day": 6,
+            "time": "0200"
+          },
+          "open": {
+            "day": 5,
+            "time": "0930"
+          }
+        },
+        {
+          "close": {
+            "day": 0,
+            "time": "0200"
+          },
+          "open": {
+            "day": 6,
+            "time": "0900"
+          }
+        }
+      ],
+      "weekday_text": [
+        "Monday: 9:30 AM – 2:00 AM",
+        "Tuesday: 9:30 AM – 2:00 AM",
+        "Wednesday: 9:30 AM – 2:00 AM",
+        "Thursday: 9:30 AM – 2:00 AM",
+        "Friday: 9:30 AM – 2:00 AM",
+        "Saturday: 9:00 AM – 2:00 AM",
+        "Sunday: 9:00 AM – 12:00 AM"
+      ]
+    },
+    "photos": [
+      {
+        "height": 2268,
+        "html_attributions": [
+          "<a href=\"https://maps.google.com/maps/contrib/109277953886570896407\">Angela</a>"
+        ],
+        "photo_reference": "AUjq9jn7G4Gr4j8RgruVVABueWZpOyrPFCXSdrbLSrCqAMVLmPtokbPNL593MQDgVRgkWqIJ2meNBPu1U5_Lm-nDKCEp_AciTsbnryaKgkLdppN48I1XphmZvY0xuV0IzH-OkwTEWikm5-QI2Tvh-AdR3SRkLCjACcyJ1SEUVknDzvUMiM7_",
+        "width": 4032
+      },
+      {
+        "height": 1960,
+        "html_attributions": [
+          "<a href=\"https://maps.google.com/maps/contrib/109779162063535561420\">Jarek Głowacki</a>"
+        ],
+        "photo_reference": "AUjq9jkUWpgOpKvpd-o4zcJxTCEgHUE3UUCmoq_Mkmhh5VxP6Zb4ip5n_wCgEHi8PUqAEmlhGY3M9g0D7QH2D2YfHpZ_ZUUzzVii3-_UaO-Yt7Y35t8DvlWvn8571fCDOtG4RDc6B_1J12fRwYydYt9BZisH7yDO5pUY53V1XHiisj_OZr3D",
+        "width": 4032
+      },
+      {
+        "height": 1920,
+        "html_attributions": [
+          "<a href=\"https://maps.google.com/maps/contrib/104103731626225911186\">Mr. Duncan</a>"
+        ],
+        "photo_reference": "AUjq9jkHMqL6IQ4DrSTlodgHdDMtT7dc83L8kAcrq5Q5wMUUM-mAZ5MCbhVt4rROFXV-90Tj_p70gjXuiMf9RiEZ1UyzoWzIb8iweKcbeHFdnmivMh_-5T4AVRoLrvrszJLphDrZjV3r37jEfbzDjJ8NulZLUiZivqHm5rqf0q0sr1kY-WrE",
+        "width": 2560
+      },
+      {
+        "height": 2268,
+        "html_attributions": [
+          "<a href=\"https://maps.google.com/maps/contrib/103452220297974319847\">gopi krishna tummala</a>"
+        ],
+        "photo_reference": "AUjq9jljztcvSCrjcYlmEQtAUZUK98ehvJXstvLvs__UMjk9Ghgc8AQm7_bCVZA5JvP-ZcElocfF7Nu7XNoQeN97bSUBL9ocYTo7Hu8GpXZb5g0hnf-CQIxXtKbr_PjyxzTKaO0pA06SSaZLwaC5vZIFp_x9kMscHjySRBL_0YYLeTb4Kbl2",
+        "width": 4032
+      },
+      {
+        "height": 3024,
+        "html_attributions": [
+          "<a href=\"https://maps.google.com/maps/contrib/103638509957811347708\">navneeta mukherjee</a>"
+        ],
+        "photo_reference": "AUjq9jnXWZuTVdIfIxTUiDpkbq2L-QOv2UBSaNZHd_5S-92qPj9_Df8A3P1qjQWstgLI6BHM-4frRcXjJgSLw7iLBrUSB7OYTfgTa-zukR9XkrXjXXIXFy5MzaPOoSKMRj7VFTYbuM0mhqBvTxzV8XU1A6oUQpbsUnHV9-5vKIbYV8Kdkzyy",
+        "width": 4032
+      },
+      {
+        "height": 3024,
+        "html_attributions": [
+          "<a href=\"https://maps.google.com/maps/contrib/104799660171571974775\">Alex Aved</a>"
+        ],
+        "photo_reference": "AUjq9jndfE-t61P0HBk7XADDiGns7dK-TGLfgnweEfBge6nSIp9BVppo09aRXAJvSuqtAOlPWLGU4-oAM_A8PD4VF_0BqDAiVySztBZ9rNTOtxTDZQHPOVt8igkdyKzfIka8oZN7HMwo2aqHLRwr0JvZr1K6POfa3Q1LUYZ6vUOtgWYn4o6E",
+        "width": 4032
+      },
+      {
+        "height": 1920,
+        "html_attributions": [
+          "<a href=\"https://maps.google.com/maps/contrib/104103731626225911186\">Mr. Duncan</a>"
+        ],
+        "photo_reference": "AUjq9jkBkpMkC8AiTKSNMq_1KsAzc6PeUXzoQ3Y_5VjV_d5Hv6aq234OkSMF91WL1Q2QVfFj2VxZxjeYZvob-Z5YphUtc1Vb9qytLYDyWXLJdAxOZuEFbuRGvQtvciwEiT7NIY7nMbb33NGQy7EvigPOzu7bGkLppq2Rx_JmJcpvMstf0vWa",
+        "width": 2560
+      },
+      {
+        "height": 2268,
+        "html_attributions": [
+          "<a href=\"https://maps.google.com/maps/contrib/109286569689625773062\">Tobias Wilsmann</a>"
+        ],
+        "photo_reference": "AUjq9jmzbLCfioF8gr1V-Vin7b8hnVgr-2iMtOv-WFhGE35wczjkrX5uoYCvcARPZ8ZbT2h5n5cEVDWCVwJ2IoCh4x6Jv-5lVPdnKGWGOhmE1eGNW3in1of---WIpDKH7eaQx19qlTB5R7rAlwy3gyin8-GvPOPp02LXXizAK0-TkmqRq5xV",
+        "width": 4032
+      },
+      {
+        "height": 3036,
+        "html_attributions": [
+          "<a href=\"https://maps.google.com/maps/contrib/109371125811701898435\">Russell Palmiter</a>"
+        ],
+        "photo_reference": "AUjq9jnGx0QMeT5P_u-yDNNlBAHDhUfCO8MWOjyTffTOSa4QcIi2mt37o2KUdezw_HHbltHVw53nd8Zeu3oKYil9vr_0qoKBNb1WGuL6hmGNADCJ-e8WS6aST67elR945SBosIAxbG-KbengaNnYwtFd71XHwGtJz6cXeAi4OsA7p_1XbFWw",
+        "width": 4048
+      },
+      {
+        "height": 4032,
+        "html_attributions": [
+          "<a href=\"https://maps.google.com/maps/contrib/105907925038908567034\">gian</a>"
+        ],
+        "photo_reference": "AUjq9jn1z6o-3qXbFphV_FtqBi__PsTVtWdirGb7BgtIXoCT3tZHSYg1lw9BiKC0MVbPBdy9x1Vyqkek4-nHH1auXVg5OEVcddDL2lSDYIrPrFF4YYW8ohP0-BJXE2_uwx29PnGKMQZXH64vNBwjZQFZUmVuR__uPCUpQKtsVjG9R_VjFHFV",
+        "width": 3024
+      }
+    ],
+    "place_id": "ChIJN5Nz71W3j4ARhx5bwpTQEGg",
+    "plus_code": {
+      "compound_code": "CW8C+FG Mountain View, CA, USA",
+      "global_code": "849VCW8C+FG"
+    },
+    "price_level": 1,
+    "rating": 4.2,
+    "reference": "ChIJN5Nz71W3j4ARhx5bwpTQEGg",
+    "reviews": [
+      {
+        "author_name": "Brett Kho",
+        "author_url": "https://www.google.com/maps/contrib/107144797617482585156/reviews",
+        "language": "en",
+        "original_language": "en",
+        "profile_photo_url": "https://lh3.googleusercontent.com/a-/ACB-R5R9TEgUC2pB65Uqii-2LdCcZksoFziRgXwkjuVxxlw=s128-c0x00000000-cc-rp-mo-ba5",
+        "rating": 4,
+        "relative_time_description": "a year ago",
+        "text": "came here for the super bowl with a few friends and it is an incredibly popular bar. The volleyball court is the best! we had a couple rounds of nachos which while they were delicious, everything was too damn expensive like $12 for some nachos. anyway a good place to be if you want lots of outdoor seating",
+        "time": 1646013507,
+        "translated": false
+      },
+      {
+        "author_name": "Mr. Duncan",
+        "author_url": "https://www.google.com/maps/contrib/104103731626225911186/reviews",
+        "language": "en",
+        "original_language": "en",
+        "profile_photo_url": "https://lh3.googleusercontent.com/a-/ACB-R5RxdHgjQWJjZwLr_P7K2yaZirfbUWzPnlkA5ux2QjQ=s128-c0x00000000-cc-rp-mo-ba6",
+        "rating": 4,
+        "relative_time_description": "11 months ago",
+        "text": "A nice spot to get a drink or have some food. Plenty of televisions to watch football games and other sports. The guest there today we're all happy and enjoying themselves. There is also a sand volleyball court and pool tables to enjoy. Bathrooms are nothing spectacular but it is what it is. Nice spot I'll be going back it was a beautiful day if you watch some football. The folks were with had Bloody Marys and said they were really good.",
+        "time": 1649632359,
+        "translated": false
+      },
+      {
+        "author_name": "Mike Nolan",
+        "author_url": "https://www.google.com/maps/contrib/110653248507759707049/reviews",
+        "language": "en",
+        "original_language": "en",
+        "profile_photo_url": "https://lh3.googleusercontent.com/a-/ACB-R5RII-tHntWI_gUlBGkA1oqQRBn4KOMRrPnQ2wc9VQ=s128-c0x00000000-cc-rp-mo-ba5",
+        "rating": 3,
+        "relative_time_description": "4 months ago",
+        "text": "Noisy... Did not try the food, I needed to get some work done and think... The outdoor seemed fun and there are big screens to watch sports... Full bar... I might even consider returning to party.... The inside smelled like cleaning fluids so, eating inside was not an option either...",
+        "time": 1667911505,
+        "translated": false
+      },
+      {
+        "author_name": "Crystal Lin",
+        "author_url": "https://www.google.com/maps/contrib/110400385659283300958/reviews",
+        "language": "en",
+        "original_language": "en",
+        "profile_photo_url": "https://lh3.googleusercontent.com/a-/ACB-R5SxDO_ykBLdwRG3hY1OdbyHXQY0Ubl1vgGWrHKW=s128-c0x00000000-cc-rp-mo-ba4",
+        "rating": 5,
+        "relative_time_description": "6 months ago",
+        "text": "Family friendly place. Fun atmosphere. Great selection of activities!! Very welcoming bartender/staff. Would come here again!",
+        "time": 1663018401,
+        "translated": false
+      },
+      {
+        "author_name": "Tobias Wilsmann",
+        "author_url": "https://www.google.com/maps/contrib/109286569689625773062/reviews",
+        "language": "en",
+        "original_language": "en",
+        "profile_photo_url": "https://lh3.googleusercontent.com/a-/ACB-R5R70br9POeT_Bd9tpgtRazY6m7X2Jb15TnYyHq4va8=s128-c0x00000000-cc-rp-mo-ba4",
+        "rating": 5,
+        "relative_time_description": "6 months ago",
+        "text": "Good sports Bar with really good food. Nice place to sit outside..",
+        "time": 1664094493,
+        "translated": false
+      }
+    ],
+    "serves_beer": true,
+    "serves_breakfast": true,
+    "serves_brunch": true,
+    "serves_dinner": true,
+    "serves_lunch": true,
+    "serves_vegetarian_food": true,
+    "serves_wine": true,
+    "takeout": true,
+    "types": [
+      "bar",
+      "restaurant",
+      "food",
+      "point_of_interest",
+      "establishment"
+    ],
+    "url": "https://maps.google.com/?cid=7498722716906364551",
+    "user_ratings_total": 3063,
+    "utc_offset": -420,
+    "vicinity": "1431 Plymouth Street, Mountain View",
+    "website": "http://www.sportspagesf.com/",
+    "wheelchair_accessible_entrance": true
+  },
+  "status": "OK"
+}

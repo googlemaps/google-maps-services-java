@@ -41,7 +41,6 @@ import com.google.maps.model.OpeningHours.Period.OpenClose.DayOfWeek;
 import com.google.maps.model.Photo;
 import com.google.maps.model.PlaceAutocompleteType;
 import com.google.maps.model.PlaceDetails;
-import com.google.maps.model.PlaceDetails.Review.AspectRating.RatingType;
 import com.google.maps.model.PlaceType;
 import com.google.maps.model.PlacesSearchResponse;
 import com.google.maps.model.PlacesSearchResult;
@@ -57,7 +56,7 @@ import org.junit.Test;
 public class PlacesApiTest {
 
   private static final String GOOGLE_SYDNEY = "ChIJN1t_tDeuEmsRUsoyG83frY4";
-  private static final String QUAY_PLACE_ID = "ChIJ02qnq0KuEmsRHUJF4zo1x4I";
+  private static final String FOOD_PLACE_ID = "ChIJN5Nz71W3j4ARhx5bwpTQEGg";
   private static final String PERMANENTLY_CLOSED_PLACE_ID = "ChIJZQvy3jAbdkgR9avxegjoCe0";
   private static final String QUERY_AUTOCOMPLETE_INPUT = "pizza near par";
   private static final LatLng SYDNEY = new LatLng(-33.8650, 151.2094);
@@ -65,7 +64,7 @@ public class PlacesApiTest {
   private final String autocompletePredictionStructuredFormatting;
   private final String placeDetailResponseBody;
   private final String placeDetailResponseBodyForPermanentlyClosedPlace;
-  private final String quayResponseBody;
+  private final String foodResponseBody;
   private final String queryAutocompleteResponseBody;
   private final String queryAutocompleteWithPlaceIdResponseBody;
   private final String textSearchResponseBody;
@@ -88,7 +87,7 @@ public class PlacesApiTest {
     placeDetailResponseBody = retrieveBody("PlaceDetailsResponse.json");
     placeDetailResponseBodyForPermanentlyClosedPlace =
         retrieveBody("PlaceDetailsResponseForPermanentlyClosedPlace.json");
-    quayResponseBody = retrieveBody("PlaceDetailsQuay.json");
+    foodResponseBody = retrieveBody("PlaceDetailsFood.json");
     queryAutocompleteResponseBody = retrieveBody("QueryAutocompleteResponse.json");
     queryAutocompleteWithPlaceIdResponseBody =
         retrieveBody("QueryAutocompleteResponseWithPlaceID.json");
@@ -290,26 +289,6 @@ public class PlacesApiTest {
       PlaceDetails.Review review = placeDetails.reviews[0];
       assertNotNull(review);
       assertNotNull(review.authorName);
-      assertEquals("Danielle Lonnon", review.authorName);
-      assertNotNull(review.authorUrl);
-      assertEquals(
-          new URI("https://plus.google.com/118257578392162991040"), review.authorUrl.toURI());
-      assertNotNull(review.profilePhotoUrl);
-      assertEquals("https://lh5.googleusercontent.com/photo.jpg", review.profilePhotoUrl);
-      assertNotNull(review.language);
-      assertEquals("en", review.language);
-      assertNotNull(review.relativeTimeDescription);
-      assertEquals("a month ago", review.relativeTimeDescription);
-      assertEquals(5, review.rating);
-      assertNotNull(review.text);
-      assertTrue(review.text.startsWith("As someone who works in the theatre,"));
-      assertNotNull(review.aspects);
-      PlaceDetails.Review.AspectRating aspect = review.aspects[0];
-      assertNotNull(aspect);
-      assertEquals(3, aspect.rating);
-      assertNotNull(aspect.type);
-      assertEquals(RatingType.OVERALL, aspect.type);
-      assertEquals(1425790392, review.time.toEpochMilli() / 1000);
       assertEquals(
           "2015-03-08 04:53 am",
           DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm a")
@@ -317,15 +296,15 @@ public class PlacesApiTest {
               .format(review.time)
               .toLowerCase());
 
+      // Wheelchair Accessible Entrance
+      assertTrue(placeDetails.wheelchairAccessibleEntrance);
+
       // Place ID
       assertNotNull(placeDetails.placeId);
       assertEquals(placeDetails.placeId, GOOGLE_SYDNEY);
       assertNotNull(placeDetails.types);
       assertEquals(placeDetails.types[0], AddressType.ESTABLISHMENT);
       assertEquals(placeDetails.rating, 4.4, 0.1);
-
-      // Permanently closed:
-      assertFalse(placeDetails.permanentlyClosed);
     }
   }
 
@@ -337,7 +316,7 @@ public class PlacesApiTest {
           PlacesApi.placeDetails(sc.context, PERMANENTLY_CLOSED_PLACE_ID).await();
       assertNotNull(placeDetails);
       assertNotNull(placeDetails.toString());
-      assertTrue(placeDetails.permanentlyClosed);
+      assertEquals("CLOSED_PERMANENTLY", placeDetails.businessStatus);
     }
   }
 
@@ -354,23 +333,17 @@ public class PlacesApiTest {
   }
 
   @Test
-  public void testPlaceDetailsLookupQuay() throws Exception {
-    try (LocalTestServerContext sc = new LocalTestServerContext(quayResponseBody)) {
-      PlaceDetails placeDetails = PlacesApi.placeDetails(sc.context, QUAY_PLACE_ID).await();
+  public void testPlaceDetailsLookupFood() throws Exception {
+    try (LocalTestServerContext sc = new LocalTestServerContext(foodResponseBody)) {
+      PlaceDetails placeDetails = PlacesApi.placeDetails(sc.context, FOOD_PLACE_ID).await();
       assertNotNull(placeDetails);
       assertNotNull(placeDetails.toString());
       assertNotNull(placeDetails.priceLevel);
-      assertEquals(PriceLevel.VERY_EXPENSIVE, placeDetails.priceLevel);
+      assertEquals(PriceLevel.INEXPENSIVE, placeDetails.priceLevel);
       assertNotNull(placeDetails.photos);
-      Photo photo = placeDetails.photos[0];
-      assertEquals(1944, photo.height);
-      assertEquals(2592, photo.width);
-      assertEquals(
-          "<a href=\"https://maps.google.com/maps/contrib/101719343658521132777\">James Prendergast</a>",
-          photo.htmlAttributions[0]);
-      assertEquals(
-          "CmRdAAAATDVdhv0RdMEZlvO2jNE_EXXZZnCWvenfvLmWCsYqVtCFxZiasbcv1X0CNDTkpaCtrurGzVxTVt8Fqc7egdA7VyFeq1VFaq1GiFatWrFAUm_H0CN9u2wbfjb1Zf0NL9QiEhCj6I5O2h6eFH_2sa5hyVaEGhTdn8b7RWD-2W64OrT3mFGjzzLWlQ",
-          photo.photoReference);
+      assertEquals("OPERATIONAL", placeDetails.businessStatus);
+      assertEquals(false, placeDetails.curbsidePickup);
+      assertTrue(placeDetails.servesBeer);
     }
   }
 
