@@ -75,7 +75,7 @@ public class PlaceDetailsRequest
    * Specify reviews_no_translations=true to disable translation of reviews. Specify
    * reviews_no_translations=false (default) to enable translation of reviews.
    *
-   * @param reviews_no_translations Whether to disable translation of reviews.
+   * @param reviewsNoTranslations Whether to disable translation of reviews.
    * @return Returns this {@code PlaceDetailsRequest} for call chaining.
    */
   public PlaceDetailsRequest reviewsNoTranslations(boolean reviewsNoTranslations) {
@@ -87,7 +87,7 @@ public class PlaceDetailsRequest
    * (default) or newest. Google recommends that you display how the reviews are being sorted to the
    * end user.
    *
-   * @param reviews_sort The sorting method to use when returning reviews.
+   * @param reviewsSort The sorting method to use when returning reviews.
    * @return Returns this {@code PlaceDetailsRequest} for call chaining.
    */
   public PlaceDetailsRequest reviewsSort(String reviewsSort) {
