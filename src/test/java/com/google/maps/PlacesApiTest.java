@@ -206,15 +206,13 @@ public class PlacesApiTest {
       assertNotNull(placeDetails.icon);
       assertEquals(
           placeDetails.icon.toURI(),
-          new URI("https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png"));
+          new URI(
+              "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png"));
       assertNotNull(placeDetails.url);
       assertEquals(
-          placeDetails.url.toURI(),
-          new URI("https://maps.google.com/?cid=10281119596374313554"));
+          placeDetails.url.toURI(), new URI("https://maps.google.com/?cid=10281119596374313554"));
       assertNotNull(placeDetails.website);
-      assertEquals(
-          placeDetails.website.toURI(),
-          new URI("http://google.com/"));
+      assertEquals(placeDetails.website.toURI(), new URI("http://google.com/"));
 
       // Name
       assertNotNull(placeDetails.name);
@@ -330,14 +328,15 @@ public class PlacesApiTest {
   @Test
   public void testPlaceDetailsLookupFood() throws Exception {
     try (LocalTestServerContext sc = new LocalTestServerContext(foodResponseBody)) {
-      PlaceDetails placeDetails = PlacesApi.placeDetails(sc.context, FOOD_PLACE_ID)
-          .fields(
-              PlaceDetailsRequest.FieldMask.BUSINESS_STATUS,
-              PlaceDetailsRequest.FieldMask.CURBSIDE_PICKUP,
-              PlaceDetailsRequest.FieldMask.PHOTOS,
-              PlaceDetailsRequest.FieldMask.PRICE_LEVEL,
-              PlaceDetailsRequest.FieldMask.SERVES_BEER)
-          .await();
+      PlaceDetails placeDetails =
+          PlacesApi.placeDetails(sc.context, FOOD_PLACE_ID)
+              .fields(
+                  PlaceDetailsRequest.FieldMask.BUSINESS_STATUS,
+                  PlaceDetailsRequest.FieldMask.CURBSIDE_PICKUP,
+                  PlaceDetailsRequest.FieldMask.PHOTOS,
+                  PlaceDetailsRequest.FieldMask.PRICE_LEVEL,
+                  PlaceDetailsRequest.FieldMask.SERVES_BEER)
+              .await();
       assertNotNull(placeDetails);
       assertNotNull(placeDetails.toString());
       assertNotNull(placeDetails.priceLevel);
@@ -543,7 +542,8 @@ public class PlacesApiTest {
       assertNotNull(photo.htmlAttributions);
       assertEquals(1, photo.htmlAttributions.length);
       assertEquals(
-          "<a href=\"https://maps.google.com/maps/contrib/107252953636064841537\">William Stewart</a>",
+          "<a href=\"https://maps.google.com/maps/contrib/107252953636064841537\">William"
+              + " Stewart</a>",
           photo.htmlAttributions[0]);
       assertEquals(
           "CmRdAAAAa43ZeiQvF4n-Yv5UnEGcIe0KjdTzzTH4g-g1GuKgWas0g8W7793eFDGxkrG4Z5i_Jua0Z-"
@@ -1021,7 +1021,9 @@ public class PlacesApiTest {
     final String jsonString = retrieveBody("PlaceDetailsResponseWithBusinessStatus.json");
     final LocalTestServerContext server = new LocalTestServerContext(jsonString);
 
-    PlacesApi.placeDetails(server.context, "testPlaceId").fields(PlaceDetailsRequest.FieldMask.BUSINESS_STATUS).await();
+    PlacesApi.placeDetails(server.context, "testPlaceId")
+        .fields(PlaceDetailsRequest.FieldMask.BUSINESS_STATUS)
+        .await();
 
     server.assertParamValue("business_status", "fields");
   }

@@ -20,10 +20,8 @@ import java.time.LocalTime;
 import java.util.Arrays;
 
 /**
- * Opening hours for a Place Details result. Please see <a
- * href=
- * "https://developers.google.com/places/web-service/details#PlaceDetailsResults">Place
- * Details
+ * Opening hours for a Place Details result. Please see <a href=
+ * "https://developers.google.com/places/web-service/details#PlaceDetailsResults">Place Details
  * Results</a> for more details.
  */
 public class OpeningHours implements Serializable {
@@ -32,8 +30,7 @@ public class OpeningHours implements Serializable {
   /**
    * Whether the place is open at the current time.
    *
-   * <p>
-   * Note: this field will be null if it isn't present in the response.
+   * <p>Note: this field will be null if it isn't present in the response.
    */
   public Boolean openNow;
 
@@ -56,8 +53,7 @@ public class OpeningHours implements Serializable {
         SATURDAY("Saturday"),
 
         /**
-         * Indicates an unknown day of week type returned by the server. The Java Client
-         * for Google
+         * Indicates an unknown day of week type returned by the server. The Java Client for Google
          * Maps Services should be updated to support the new value.
          */
         UNKNOWN("Unknown");
@@ -97,10 +93,7 @@ public class OpeningHours implements Serializable {
     }
   }
 
-  /**
-   * Opening periods covering seven days, starting from Sunday, in chronological
-   * order.
-   */
+  /** Opening periods covering seven days, starting from Sunday, in chronological order. */
   public Period[] periods;
 
   /** An indicator of special hours for a Place for a single day. */
@@ -109,17 +102,16 @@ public class OpeningHours implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * A date expressed in RFC3339 format in the local timezone for the place, for
-     * example 2010-12-31.
+     * A date expressed in RFC3339 format in the local timezone for the place, for example
+     * 2010-12-31.
      */
     public String date;
 
     /**
-     * True if there are exceptional hours for this day. If true, this means that
-     * there is at least one exception for this day. Exceptions cause different
-     * values to occur in the subfields of currentOpeningHours and
-     * secondaryOpeningHours such as periods, DayOfWeek, openNow. The exceptions
-     * apply to the hours, and the hours are used to generate the other fields.
+     * True if there are exceptional hours for this day. If true, this means that there is at least
+     * one exception for this day. Exceptions cause different values to occur in the subfields of
+     * currentOpeningHours and secondaryOpeningHours such as periods, DayOfWeek, openNow. The
+     * exceptions apply to the hours, and the hours are used to generate the other fields.
      */
     public Boolean exceptionalHours;
 
@@ -141,15 +133,14 @@ public class OpeningHours implements Serializable {
   public SpecialDay[] specialDays;
 
   /**
-   * A type string used to identify the type of secondary hours (for example,
-   * DRIVE_THROUGH, HAPPY_HOUR, DELIVERY, TAKEOUT, KITCHEN, BREAKFAST, LUNCH,
-   * DINNER, BRUNCH, PICKUP, SENIOR_HOURS). Set for secondary_opening_hours only.
+   * A type string used to identify the type of secondary hours (for example, DRIVE_THROUGH,
+   * HAPPY_HOUR, DELIVERY, TAKEOUT, KITCHEN, BREAKFAST, LUNCH, DINNER, BRUNCH, PICKUP,
+   * SENIOR_HOURS). Set for secondary_opening_hours only.
    */
   public String type;
 
   /**
-   * The formatted opening hours for each day of the week, as an array of seven
-   * strings; for
+   * The formatted opening hours for each day of the week, as an array of seven strings; for
    * example, {@code "Monday: 8:30 am – 5:30 pm"}.
    */
   public String[] weekdayText;

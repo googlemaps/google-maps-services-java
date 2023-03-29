@@ -21,25 +21,18 @@ import java.time.Instant;
 import java.util.Arrays;
 
 /**
- * The result of a Place Details request. A Place Details request returns more
- * comprehensive
- * information about the indicated place such as its complete address, phone
- * number, user rating,
+ * The result of a Place Details request. A Place Details request returns more comprehensive
+ * information about the indicated place such as its complete address, phone number, user rating,
  * and reviews.
  *
- * <p>
- * See <a href=
- * "https://developers.google.com/places/web-service/details#PlaceDetailsResults">
+ * <p>See <a href= "https://developers.google.com/places/web-service/details#PlaceDetailsResults">
  * Place Details Results</a> for more detail.
  */
 public class PlaceDetails implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  /**
-   * A list of separate address components that comprise the address of this
-   * place.
-   */
+  /** A list of separate address components that comprise the address of this place. */
   public AddressComponent[] addressComponents;
 
   /** A representation of the place's address in the adr microformat. */
@@ -52,10 +45,9 @@ public class PlaceDetails implements Serializable {
   public Boolean curbsidePickup;
 
   /**
-   * The hours of operation for the next seven days (including today). The time
-   * period starts at midnight on the date of the request and ends at 11:59 pm six
-   * days later. This field includes the special_days subfield of all hours, set
-   * for dates that have exceptional hours.
+   * The hours of operation for the next seven days (including today). The time period starts at
+   * midnight on the date of the request and ends at 11:59 pm six days later. This field includes
+   * the special_days subfield of all hours, set for dates that have exceptional hours.
    */
   public OpeningHours currentOpeningHours;
 
@@ -66,9 +58,9 @@ public class PlaceDetails implements Serializable {
   public Boolean dineIn;
 
   /**
-   * Contains a summary of the place. A summary is comprised of a textual
-   * overview, and also includes the language code for these if applicable.
-   * Summary text must be presented as-is and can not be modified or altered.
+   * Contains a summary of the place. A summary is comprised of a textual overview, and also
+   * includes the language code for these if applicable. Summary text must be presented as-is and
+   * can not be modified or altered.
    */
   public PlaceEditorialSummary editorialSummary;
 
@@ -82,15 +74,13 @@ public class PlaceDetails implements Serializable {
   public Geometry geometry;
 
   /**
-   * The URL of a suggested icon which may be displayed to the user when
-   * indicating this result on a
+   * The URL of a suggested icon which may be displayed to the user when indicating this result on a
    * map.
    */
   public URL icon;
 
   /**
-   * The place's phone number in international format. International format
-   * includes the country
+   * The place's phone number in international format. International format includes the country
    * code, and is prefixed with the plus (+) sign.
    */
   public String internationalPhoneNumber;
@@ -102,28 +92,22 @@ public class PlaceDetails implements Serializable {
   public OpeningHours openingHours;
 
   /** Whether the place has permanently closed. */
-  @Deprecated
-  public boolean permanentlyClosed;
+  @Deprecated public boolean permanentlyClosed;
 
-  /**
-   * A list of photos associated with this place, each containing a reference to
-   * an image.
-   */
+  /** A list of photos associated with this place, each containing a reference to an image. */
   public Photo[] photos;
 
   /** A textual identifier that uniquely identifies this place. */
   public String placeId;
 
   /** The scope of the placeId. */
-  @Deprecated
-  public PlaceIdScope scope;
+  @Deprecated public PlaceIdScope scope;
 
   /** The Plus Code location identifier for this place. */
   public PlusCode plusCode;
 
   /**
-   * The price level of the place. The exact amount indicated by a specific value
-   * will vary from
+   * The price level of the place. The exact amount indicated by a specific value will vary from
    * region to region.
    */
   public PriceLevel priceLevel;
@@ -134,21 +118,17 @@ public class PlaceDetails implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * The alternative placeId. The most likely reason for a place to have an
-     * alternative place ID
-     * is if your application adds a place and receives an application-scoped place
-     * ID, then later
+     * The alternative placeId. The most likely reason for a place to have an alternative place ID
+     * is if your application adds a place and receives an application-scoped place ID, then later
      * receives a Google-scoped place ID after passing the moderation process.
      */
     public String placeId;
 
     /**
-     * The scope of an alternative place ID will always be APP, indicating that the
-     * alternative
+     * The scope of an alternative place ID will always be APP, indicating that the alternative
      * place ID is recognised by your application only.
      */
-    @Deprecated
-    public PlaceIdScope scope;
+    @Deprecated public PlaceIdScope scope;
 
     @Override
     public String toString() {
@@ -157,12 +137,10 @@ public class PlaceDetails implements Serializable {
   }
 
   /**
-   * An optional array of alternative place IDs for the place, with a scope
-   * related to each
+   * An optional array of alternative place IDs for the place, with a scope related to each
    * alternative ID.
    */
-  @Deprecated
-  public AlternatePlaceIds[] altIds;
+  @Deprecated public AlternatePlaceIds[] altIds;
 
   /** The place's rating, from 1.0 to 5.0, based on aggregated user reviews. */
   public float rating;
@@ -186,8 +164,7 @@ public class PlaceDetails implements Serializable {
         SERVICE,
 
         /**
-         * Indicates an unknown rating type returned by the server. The Java Client for
-         * Google Maps
+         * Indicates an unknown rating type returned by the server. The Java Client for Google Maps
          * Services should be updated to support the new value.
          */
         UNKNOWN
@@ -201,22 +178,17 @@ public class PlaceDetails implements Serializable {
     }
 
     /**
-     * A list of AspectRating objects, each of which provides a rating of a single
-     * attribute of the
+     * A list of AspectRating objects, each of which provides a rating of a single attribute of the
      * establishment.
      *
-     * <p>
-     * Note: this is a <a
-     * href=
-     * "https://developers.google.com/places/web-service/details#PremiumData">Premium
-     * Data</a>
-     * field available to the Google Places API for Work customers.
+     * <p>Note: this is a <a href=
+     * "https://developers.google.com/places/web-service/details#PremiumData">Premium Data</a> field
+     * available to the Google Places API for Work customers.
      */
     public AspectRating[] aspects;
 
     /**
-     * The name of the user who submitted the review. Anonymous reviews are
-     * attributed to "A Google
+     * The name of the user who submitted the review. Anonymous reviews are attributed to "A Google
      * user".
      */
     public String authorName;
@@ -230,18 +202,14 @@ public class PlaceDetails implements Serializable {
     /** The URL of the user's Google+ profile photo, if available. */
     public String profilePhotoUrl;
 
-    /**
-     * The user's overall rating for this place. This is a whole number, ranging
-     * from 1 to 5.
-     */
+    /** The user's overall rating for this place. This is a whole number, ranging from 1 to 5. */
     public int rating;
 
     /** The relative time that the review was submitted. */
     public String relativeTimeDescription;
 
     /**
-     * The user's review. When reviewing a location with Google Places, text reviews
-     * are considered
+     * The user's review. When reviewing a location with Google Places, text reviews are considered
      * optional.
      */
     public String text;
@@ -254,22 +222,18 @@ public class PlaceDetails implements Serializable {
   public Boolean reservable;
 
   /**
-   * An array of up to five reviews. If a language parameter was specified in the
-   * Place Details
-   * request, the Places Service will bias the results to prefer reviews written
-   * in that language.
+   * An array of up to five reviews. If a language parameter was specified in the Place Details
+   * request, the Places Service will bias the results to prefer reviews written in that language.
    */
   public Review[] reviews;
 
   /**
-   * Contains an array of entries for the next seven days including information
-   * about secondary hours of a business. Secondary hours are different from a
-   * business's main hours. For example, a restaurant can specify drive through
-   * hours or delivery hours as its secondary hours. This field populates the type
-   * subfield, which draws from a predefined list of opening hours types (such as
-   * DRIVE_THROUGH, PICKUP, or TAKEOUT) based on the types of the place. This
-   * field includes the special_days subfield of all hours, set for dates that
-   * have exceptional hours.
+   * Contains an array of entries for the next seven days including information about secondary
+   * hours of a business. Secondary hours are different from a business's main hours. For example, a
+   * restaurant can specify drive through hours or delivery hours as its secondary hours. This field
+   * populates the type subfield, which draws from a predefined list of opening hours types (such as
+   * DRIVE_THROUGH, PICKUP, or TAKEOUT) based on the types of the place. This field includes the
+   * special_days subfield of all hours, set for dates that have exceptional hours.
    */
   public OpeningHours secondaryOpeningHours;
 
@@ -301,12 +265,9 @@ public class PlaceDetails implements Serializable {
   public AddressType[] types;
 
   /**
-   * The URL of the official Google page for this place. This will be the
-   * establishment's Google+
-   * page if the Google+ page exists, otherwise it will be the Google-owned page
-   * that contains the
-   * best available information about the place. Applications must link to or
-   * embed this page on any
+   * The URL of the official Google page for this place. This will be the establishment's Google+
+   * page if the Google+ page exists, otherwise it will be the Google-owned page that contains the
+   * best available information about the place. Applications must link to or embed this page on any
    * screen that shows detailed results about the place to the user.
    */
   public URL url;
@@ -318,8 +279,8 @@ public class PlaceDetails implements Serializable {
   public int utcOffset;
 
   /**
-   * A simplified address for the place, including the street name, street number,
-   * and locality, but not the province/state, postal code, or country.
+   * A simplified address for the place, including the street name, street number, and locality, but
+   * not the province/state, postal code, or country.
    */
   public String vicinity;
 
