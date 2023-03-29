@@ -339,7 +339,7 @@ public class PlaceDetails implements Serializable {
     sb.append(" ").append(placeId).append(" (").append(scope).append(")");
     sb.append(" address=\"").append(formattedAddress).append("\"");
     if (businessStatus != null) {
-      sb.append(", businessStatus=").append(businessStatus);
+      sb.append("businessStatus=").append(businessStatus);
     }
     if (curbsidePickup != null) {
       sb.append(", curbsidePickup=").append(curbsidePickup);
@@ -356,7 +356,7 @@ public class PlaceDetails implements Serializable {
     if (editorialSummary != null) {
       sb.append(", editorialSummary=").append(editorialSummary);
     }
-    sb.append(" geometry=").append(geometry);
+    sb.append(", geometry=").append(geometry);
     if (vicinity != null) {
       sb.append(", vicinity=").append(vicinity);
     }
