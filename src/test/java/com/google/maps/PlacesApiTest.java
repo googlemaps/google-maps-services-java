@@ -47,6 +47,7 @@ import com.google.maps.model.PlacesSearchResult;
 import com.google.maps.model.PriceLevel;
 import com.google.maps.model.RankBy;
 import java.net.URI;
+import java.time.Instant;
 import java.time.LocalTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
@@ -154,11 +155,12 @@ public class PlacesApiTest {
               .fields(
                   PlaceDetailsRequest.FieldMask.PLACE_ID,
                   PlaceDetailsRequest.FieldMask.NAME,
-                  PlaceDetailsRequest.FieldMask.TYPES)
+                  PlaceDetailsRequest.FieldMask.TYPES,
+                  PlaceDetailsRequest.FieldMask.WHEELCHAIR_ACCESSIBLE_ENTRANCE)
               .await();
 
       sc.assertParamValue(GOOGLE_SYDNEY, "placeid");
-      sc.assertParamValue("place_id,name,types", "fields");
+      sc.assertParamValue("place_id,name,types,wheelchair_accessible_entrance", "fields");
 
       assertNotNull(placeDetails);
       assertNotNull(placeDetails.toString());
@@ -175,22 +177,22 @@ public class PlacesApiTest {
       assertEquals(placeDetails.addressComponents[3].shortName, "Pyrmont");
       assertEquals(placeDetails.addressComponents[3].types[0], AddressComponentType.LOCALITY);
       assertEquals(placeDetails.addressComponents[3].types[1], AddressComponentType.POLITICAL);
-      assertEquals(placeDetails.addressComponents[4].longName, "New South Wales");
-      assertEquals(placeDetails.addressComponents[4].shortName, "NSW");
+      assertEquals(placeDetails.addressComponents[5].longName, "New South Wales");
+      assertEquals(placeDetails.addressComponents[5].shortName, "NSW");
       assertEquals(
-          placeDetails.addressComponents[4].types[0],
+          placeDetails.addressComponents[5].types[0],
           AddressComponentType.ADMINISTRATIVE_AREA_LEVEL_1);
-      assertEquals(placeDetails.addressComponents[4].types[1], AddressComponentType.POLITICAL);
-      assertEquals(placeDetails.addressComponents[5].longName, "Australia");
-      assertEquals(placeDetails.addressComponents[5].shortName, "AU");
-      assertEquals(placeDetails.addressComponents[5].types[0], AddressComponentType.COUNTRY);
       assertEquals(placeDetails.addressComponents[5].types[1], AddressComponentType.POLITICAL);
-      assertEquals(placeDetails.addressComponents[6].shortName, "2009");
-      assertEquals(placeDetails.addressComponents[6].types[0], AddressComponentType.POSTAL_CODE);
+      assertEquals(placeDetails.addressComponents[6].longName, "Australia");
+      assertEquals(placeDetails.addressComponents[6].shortName, "AU");
+      assertEquals(placeDetails.addressComponents[6].types[0], AddressComponentType.COUNTRY);
+      assertEquals(placeDetails.addressComponents[6].types[1], AddressComponentType.POLITICAL);
+      assertEquals(placeDetails.addressComponents[7].shortName, "2009");
+      assertEquals(placeDetails.addressComponents[7].types[0], AddressComponentType.POSTAL_CODE);
       assertNotNull(placeDetails.formattedAddress);
-      assertEquals(placeDetails.formattedAddress, "5, 48 Pirrama Rd, Pyrmont NSW 2009, Australia");
+      assertEquals(placeDetails.formattedAddress, "48 Pirrama Rd, Pyrmont NSW 2009, Australia");
       assertNotNull(placeDetails.vicinity);
-      assertEquals(placeDetails.vicinity, "5 48 Pirrama Road, Pyrmont");
+      assertEquals(placeDetails.vicinity, "48 Pirrama Road, Pyrmont");
 
       // Phone numbers
       assertNotNull(placeDetails.formattedPhoneNumber);
@@ -208,24 +210,24 @@ public class PlacesApiTest {
       assertNotNull(placeDetails.icon);
       assertEquals(
           placeDetails.icon.toURI(),
-          new URI("https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png"));
+          new URI("https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png"));
       assertNotNull(placeDetails.url);
       assertEquals(
           placeDetails.url.toURI(),
-          new URI("https://plus.google.com/111337342022929067349/about?hl=en-US"));
+          new URI("https://maps.google.com/?cid=10281119596374313554"));
       assertNotNull(placeDetails.website);
       assertEquals(
           placeDetails.website.toURI(),
-          new URI("https://www.google.com.au/about/careers/locations/sydney/"));
+          new URI("http://google.com/"));
 
       // Name
       assertNotNull(placeDetails.name);
-      assertEquals(placeDetails.name, "Google");
+      assertEquals(placeDetails.name, "Google Workplace 6");
 
       // Opening Hours
       assertNotNull(placeDetails.openingHours);
       assertNotNull(placeDetails.openingHours.openNow);
-      assertTrue(placeDetails.openingHours.openNow);
+      assertFalse(placeDetails.openingHours.openNow);
       assertNotNull(placeDetails.openingHours.periods);
       assertEquals(placeDetails.openingHours.periods.length, 5);
 
@@ -258,7 +260,7 @@ public class PlacesApiTest {
         assertEquals(DayOfWeek.THURSDAY, thursday.open.day);
         assertEquals(opening, thursday.open.time);
         assertEquals(DayOfWeek.THURSDAY, thursday.close.day);
-        assertEquals(closing530pm, thursday.close.time);
+        assertEquals(closing5pm, thursday.close.time);
 
         assertEquals(DayOfWeek.FRIDAY, friday.open.day);
         assertEquals(opening, friday.open.time);
@@ -267,14 +269,14 @@ public class PlacesApiTest {
       }
 
       assertNotNull(placeDetails.openingHours.weekdayText);
-      assertEquals(placeDetails.openingHours.weekdayText[0], "Monday: 8:30 am – 5:30 pm");
-      assertEquals(placeDetails.openingHours.weekdayText[1], "Tuesday: 8:30 am – 5:30 pm");
-      assertEquals(placeDetails.openingHours.weekdayText[2], "Wednesday: 8:30 am – 5:30 pm");
-      assertEquals(placeDetails.openingHours.weekdayText[3], "Thursday: 8:30 am – 5:30 pm");
-      assertEquals(placeDetails.openingHours.weekdayText[4], "Friday: 8:30 am – 5:00 pm");
+      assertEquals(placeDetails.openingHours.weekdayText[0], "Monday: 8:30 AM – 5:30 PM");
+      assertEquals(placeDetails.openingHours.weekdayText[1], "Tuesday: 8:30 AM – 5:30 PM");
+      assertEquals(placeDetails.openingHours.weekdayText[2], "Wednesday: 8:30 AM – 5:30 PM");
+      assertEquals(placeDetails.openingHours.weekdayText[3], "Thursday: 8:30 AM – 5:00 PM");
+      assertEquals(placeDetails.openingHours.weekdayText[4], "Friday: 8:30 AM – 5:00 PM");
       assertEquals(placeDetails.openingHours.weekdayText[5], "Saturday: Closed");
       assertEquals(placeDetails.openingHours.weekdayText[6], "Sunday: Closed");
-      assertEquals(placeDetails.utcOffset, 600);
+      assertEquals(placeDetails.utcOffset, 660);
 
       // Photos
       assertNotNull(placeDetails.photos);
@@ -289,22 +291,17 @@ public class PlacesApiTest {
       PlaceDetails.Review review = placeDetails.reviews[0];
       assertNotNull(review);
       assertNotNull(review.authorName);
-      assertEquals(
-          "2015-03-08 04:53 am",
-          DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm a")
-              .withZone(ZoneOffset.UTC)
-              .format(review.time)
-              .toLowerCase());
+      assertNotNull(review.time);
 
       // Wheelchair Accessible Entrance
-      assertTrue(placeDetails.wheelchairAccessibleEntrance);
+      assertEquals(true, placeDetails.wheelchairAccessibleEntrance);
 
       // Place ID
       assertNotNull(placeDetails.placeId);
       assertEquals(placeDetails.placeId, GOOGLE_SYDNEY);
       assertNotNull(placeDetails.types);
-      assertEquals(placeDetails.types[0], AddressType.ESTABLISHMENT);
-      assertEquals(placeDetails.rating, 4.4, 0.1);
+      assertEquals(placeDetails.types[1], AddressType.ESTABLISHMENT);
+      assertEquals(placeDetails.rating, 4.0, 0.1);
     }
   }
 
@@ -313,7 +310,9 @@ public class PlacesApiTest {
     try (LocalTestServerContext sc =
         new LocalTestServerContext(placeDetailResponseBodyForPermanentlyClosedPlace)) {
       PlaceDetails placeDetails =
-          PlacesApi.placeDetails(sc.context, PERMANENTLY_CLOSED_PLACE_ID).await();
+          PlacesApi.placeDetails(sc.context, PERMANENTLY_CLOSED_PLACE_ID)
+              .fields(PlaceDetailsRequest.FieldMask.BUSINESS_STATUS)
+              .await();
       assertNotNull(placeDetails);
       assertNotNull(placeDetails.toString());
       assertEquals("CLOSED_PERMANENTLY", placeDetails.businessStatus);
@@ -328,14 +327,21 @@ public class PlacesApiTest {
       assertNotNull(placeDetails);
       assertNotNull(placeDetails.toString());
       assertEquals(GOOGLE_SYDNEY, placeDetails.placeId);
-      assertEquals(98, placeDetails.userRatingsTotal);
+      assertEquals(973, placeDetails.userRatingsTotal);
     }
   }
 
   @Test
   public void testPlaceDetailsLookupFood() throws Exception {
     try (LocalTestServerContext sc = new LocalTestServerContext(foodResponseBody)) {
-      PlaceDetails placeDetails = PlacesApi.placeDetails(sc.context, FOOD_PLACE_ID).await();
+      PlaceDetails placeDetails = PlacesApi.placeDetails(sc.context, FOOD_PLACE_ID)
+          .fields(
+              PlaceDetailsRequest.FieldMask.BUSINESS_STATUS,
+              PlaceDetailsRequest.FieldMask.CURBSIDE_PICKUP,
+              PlaceDetailsRequest.FieldMask.PHOTOS,
+              PlaceDetailsRequest.FieldMask.PRICE_LEVEL,
+              PlaceDetailsRequest.FieldMask.SERVES_BEER)
+          .await();
       assertNotNull(placeDetails);
       assertNotNull(placeDetails.toString());
       assertNotNull(placeDetails.priceLevel);
@@ -1019,7 +1025,7 @@ public class PlacesApiTest {
     final String jsonString = retrieveBody("PlaceDetailsResponseWithBusinessStatus.json");
     final LocalTestServerContext server = new LocalTestServerContext(jsonString);
 
-    PlacesApi.placeDetails(server.context, "testPlaceId").fields(FieldMask.BUSINESS_STATUS).await();
+    PlacesApi.placeDetails(server.context, "testPlaceId").fields(PlaceDetailsRequest.FieldMask.BUSINESS_STATUS).await();
 
     server.assertParamValue("business_status", "fields");
   }

@@ -70,7 +70,7 @@ public class PlaceDetails implements Serializable {
    * overview, and also includes the language code for these if applicable.
    * Summary text must be presented as-is and can not be modified or altered.
    */
-  public Boolean editorialSummary;
+  public PlaceEditorialSummary editorialSummary;
 
   /** The human-readable address of this place. */
   public String formattedAddress;

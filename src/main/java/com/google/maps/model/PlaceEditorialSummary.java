@@ -36,10 +36,10 @@ public class PlaceEditorialSummary implements Serializable {
   public String toString() {
     StringBuilder sb = new StringBuilder("[EditorialSummary: ");
     if (language != null) {
-      sb.append(" (\"").append(language).append("\")");
+      sb.append("language=").append(language).append(", ");
     }
     if (overview != null) {
-      sb.append(" (\"").append(overview).append("\")");
+      sb.append("overview=").append(overview);
     }
     sb.append("]");
     return sb.toString();
