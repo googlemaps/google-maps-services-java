@@ -72,6 +72,29 @@ public class PlaceDetailsRequest
   }
 
   /**
+   * Specify reviews_no_translations=true to disable translation of reviews. Specify
+   * reviews_no_translations=false (default) to enable translation of reviews.
+   *
+   * @param reviews_no_translations Whether to disable translation of reviews.
+   * @return Returns this {@code PlaceDetailsRequest} for call chaining.
+   */
+  public PlaceDetailsRequest reviewsNoTranslations(boolean reviewsNoTranslations) {
+    return param("reviews_no_translations", String.valueOf(reviewsNoTranslations));
+  }
+
+  /**
+   * Specifies the sorting method to use when returning reviews. Can be set to most_relevant
+   * (default) or newest. Google recommends that you display how the reviews are being sorted to the
+   * end user.
+   *
+   * @param reviews_sort The sorting method to use when returning reviews.
+   * @return Returns this {@code PlaceDetailsRequest} for call chaining.
+   */
+  public PlaceDetailsRequest reviewsSort(String reviewsSort) {
+    return param("reviews_sort", reviewsSort);
+  }
+
+  /**
    * Specifies the field masks of the details to be returned by PlaceDetails.
    *
    * @param fields The Field Masks of the fields to return.
@@ -122,6 +145,10 @@ public class PlaceDetailsRequest
     @Deprecated
     ALT_ID("alt_id"),
     BUSINESS_STATUS("business_status"),
+    CURBSIDE_PICKUP("curbside_pickup"),
+    DELIVERY("delivery"),
+    DINE_IN("dine_in"),
+    EDITORIAL_SUMMARY("editorial_summary"),
     FORMATTED_ADDRESS("formatted_address"),
     FORMATTED_PHONE_NUMBER("formatted_phone_number"),
     GEOMETRY("geometry"),
@@ -141,6 +168,8 @@ public class PlaceDetailsRequest
     INTERNATIONAL_PHONE_NUMBER("international_phone_number"),
     NAME("name"),
     OPENING_HOURS("opening_hours"),
+    CURRENT_OPENING_HOURS("current_opening_hours"),
+    SECONDARY_OPENING_HOURS("secondary_opening_hours"),
     @Deprecated
     PERMANENTLY_CLOSED("permanently_closed"),
     USER_RATINGS_TOTAL("user_ratings_total"),
@@ -151,14 +180,26 @@ public class PlaceDetailsRequest
     RATING("rating"),
     @Deprecated
     REFERENCE("reference"),
+    RESERVABLE("reservable"),
+    @Deprecated
     REVIEW("review"),
+    REVIEWS("reviews"),
     @Deprecated
     SCOPE("scope"),
+    SERVES_BEER("serves_beer"),
+    SERVES_BREAKFAST("serves_breakfast"),
+    SERVES_BRUNCH("serves_brunch"),
+    SERVES_DINNER("serves_dinner"),
+    SERVES_LUNCH("serves_lunch"),
+    SERVES_VEGETARIAN_FOOD("serves_vegetarian_food"),
+    SERVES_WINE("serves_wine"),
+    TAKEOUT("takeout"),
     TYPES("types"),
     URL("url"),
     UTC_OFFSET("utc_offset"),
     VICINITY("vicinity"),
-    WEBSITE("website");
+    WEBSITE("website"),
+    WHEELCHAIR_ACCESSIBLE_ENTRANCE("wheelchair_accessible_entrance");
 
     private final String field;
 

@@ -1,0 +1,20 @@
+{
+  "html_attributions": [],
+  "result": {
+    "business_status": "OPERATIONAL",
+    "curbside_pickup": false,
+    "photos": [
+      {
+        "height": 2268,
+        "html_attributions": [
+          "<a href=\"https://maps.google.com\">redacted</a>"
+        ],
+        "photo_reference": "AUjq9jm6X1h9Eoc0ucEeqgYBZiRopmcAqwcUvm9OlR3iZnjuoLB3Shy4oqtt5Ny6bGSm2wH_O5-TPHBE1oBv33V5dlQhn3A0cGa-riAAtoOqFnD8RFgNGCZqIPI0246sC2gFHfePdmYgQ1NziVOAzzeJ33Y7sEvJMPAcc_0h4q_F2XhWbxf8",
+        "width": 4032
+      }
+    ],
+    "price_level": 1,
+    "serves_beer": true
+  },
+  "status": "OK"
+}
