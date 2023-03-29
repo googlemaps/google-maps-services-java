@@ -27,7 +27,6 @@ import com.google.maps.FindPlaceFromTextRequest.LocationBiasIP;
 import com.google.maps.FindPlaceFromTextRequest.LocationBiasPoint;
 import com.google.maps.FindPlaceFromTextRequest.LocationBiasRectangular;
 import com.google.maps.PlaceAutocompleteRequest.SessionToken;
-import com.google.maps.PlaceDetailsRequest.FieldMask;
 import com.google.maps.model.AddressComponentType;
 import com.google.maps.model.AddressType;
 import com.google.maps.model.AutocompletePrediction;
@@ -47,10 +46,7 @@ import com.google.maps.model.PlacesSearchResult;
 import com.google.maps.model.PriceLevel;
 import com.google.maps.model.RankBy;
 import java.net.URI;
-import java.time.Instant;
 import java.time.LocalTime;
-import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import org.junit.Test;
 
