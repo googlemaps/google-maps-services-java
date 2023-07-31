@@ -60,7 +60,7 @@ dependencies {
     testImplementation 'com.squareup.okhttp3:mockwebserver:4.11.0'
     testImplementation 'org.apache.httpcomponents:httpclient:4.5.14'
     testImplementation 'org.slf4j:slf4j-simple:2.0.6'
-    testImplementation 'org.apache.commons:commons-lang3:3.12.0'
+    testImplementation 'org.apache.commons:commons-lang3:3.13.0'
     testImplementation 'org.json:json:20230618'
     testImplementation 'io.opencensus:opencensus-impl:0.31.1'
     testImplementation "org.mockito:mockito-inline:5.2.0"
