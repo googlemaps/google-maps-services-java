@@ -54,7 +54,7 @@ public class TimeZoneApi {
         "0");
   }
 
-  private static class Response implements ApiResponse<TimeZone> {
+  public static class Response implements ApiResponse<TimeZone> {
     public String status;
     public String errorMessage;
 
