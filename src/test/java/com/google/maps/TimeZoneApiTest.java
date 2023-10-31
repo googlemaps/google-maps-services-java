@@ -18,6 +18,7 @@ package com.google.maps;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import com.google.maps.errors.ZeroResultsException;
@@ -59,7 +60,7 @@ public class TimeZoneApiTest {
     }
   }
 
-  @Test(expected = ZeroResultsException.class)
+  @Test
   public void testNoResult() throws Exception {
     try (LocalTestServerContext sc =
         new LocalTestServerContext("\n{\n   \"status\" : \"ZERO_RESULTS\"\n}\n")) {
@@ -70,7 +71,7 @@ public class TimeZoneApiTest {
 
       try (LocalTestServerContext sc2 =
           new LocalTestServerContext("\n{\n   \"status\" : \"ZERO_RESULTS\"\n}\n")) {
-        TimeZoneApi.getTimeZone(sc2.context, new LatLng(0, 0)).await();
+          assertThrows(ZeroResultsException.class, () -> TimeZoneApi.getTimeZone(sc2.context, new LatLng(0, 0)).await());
       }
     }
   }
