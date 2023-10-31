@@ -57,8 +57,7 @@ public class TimeZoneApi {
   public static class Response implements ApiResponse<TimeZone> {
     public String status;
     public String errorMessage;
-
-    private String timeZoneId;
+    public String timeZoneId;
 
     @Override
     public boolean successful() {
