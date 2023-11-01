@@ -1,0 +1,191 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > OpenCensusRequestMetrics</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.google.maps.metrics</a>
+</div>
+
+<h1>Coverage Summary for Class: OpenCensusRequestMetrics (com.google.maps.metrics)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">OpenCensusRequestMetrics</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (3/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    97.1%
+  </span>
+  <span class="absValue">
+    (34/35)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.google.maps.metrics;
+&nbsp;
+&nbsp;import io.opencensus.stats.StatsRecorder;
+&nbsp;import io.opencensus.tags.TagContext;
+&nbsp;import io.opencensus.tags.TagValue;
+&nbsp;import io.opencensus.tags.Tagger;
+&nbsp;
+&nbsp;/** An OpenCensus logger that generates success and latency metrics. */
+&nbsp;final class OpenCensusRequestMetrics implements RequestMetrics {
+&nbsp;  private final String requestName;
+&nbsp;  private final Tagger tagger;
+&nbsp;  private final StatsRecorder statsRecorder;
+&nbsp;
+&nbsp;  private long requestStart;
+&nbsp;  private long networkStart;
+&nbsp;  private long networkTime;
+&nbsp;  private boolean finished;
+&nbsp;
+<b class="fc">&nbsp;  OpenCensusRequestMetrics(String requestName, Tagger tagger, StatsRecorder statsRecorder) {</b>
+<b class="fc">&nbsp;    this.requestName = requestName;</b>
+<b class="fc">&nbsp;    this.tagger = tagger;</b>
+<b class="fc">&nbsp;    this.statsRecorder = statsRecorder;</b>
+<b class="fc">&nbsp;    this.requestStart = milliTime();</b>
+<b class="fc">&nbsp;    this.networkStart = milliTime();</b>
+<b class="fc">&nbsp;    this.networkTime = 0;</b>
+<b class="fc">&nbsp;    this.finished = false;</b>
+<b class="fc">&nbsp;  }</b>
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public void startNetwork() {
+<b class="fc">&nbsp;    this.networkStart = milliTime();</b>
+<b class="fc">&nbsp;  }</b>
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public void endNetwork() {
+<b class="fc">&nbsp;    this.networkTime += milliTime() - this.networkStart;</b>
+<b class="fc">&nbsp;  }</b>
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public void endRequest(Exception exception, int httpStatusCode, long retryCount) {
+&nbsp;    // multiple endRequest are ignored
+<b class="fc">&nbsp;    if (this.finished) {</b>
+<b class="fc">&nbsp;      return;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    this.finished = true;</b>
+<b class="fc">&nbsp;    long requestTime = milliTime() - this.requestStart;</b>
+&nbsp;
+<b class="fc">&nbsp;    TagContext tagContext =</b>
+&nbsp;        tagger
+<b class="fc">&nbsp;            .currentBuilder()</b>
+<b class="fc">&nbsp;            .putLocal(OpenCensusMetrics.Tags.REQUEST_NAME, TagValue.create(requestName))</b>
+<b class="fc">&nbsp;            .putLocal(</b>
+<b class="fc">&nbsp;                OpenCensusMetrics.Tags.HTTP_CODE, TagValue.create(Integer.toString(httpStatusCode)))</b>
+<b class="fc">&nbsp;            .putLocal(OpenCensusMetrics.Tags.API_STATUS, TagValue.create(exceptionName(exception)))</b>
+<b class="fc">&nbsp;            .build();</b>
+<b class="fc">&nbsp;    statsRecorder</b>
+<b class="fc">&nbsp;        .newMeasureMap()</b>
+<b class="fc">&nbsp;        .put(OpenCensusMetrics.Measures.LATENCY, requestTime)</b>
+<b class="fc">&nbsp;        .put(OpenCensusMetrics.Measures.NETWORK_LATENCY, this.networkTime)</b>
+<b class="fc">&nbsp;        .put(OpenCensusMetrics.Measures.RETRY_COUNT, retryCount)</b>
+<b class="fc">&nbsp;        .record(tagContext);</b>
+<b class="fc">&nbsp;  }</b>
+&nbsp;
+&nbsp;  private String exceptionName(Exception exception) {
+<b class="pc">&nbsp;    if (exception == null) {</b>
+<b class="fc">&nbsp;      return &quot;&quot;;</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      return exception.getClass().getName();</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private long milliTime() {
+<b class="fc">&nbsp;    return System.currentTimeMillis();</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-01 14:27</div>
+</div>
+</body>
+</html>

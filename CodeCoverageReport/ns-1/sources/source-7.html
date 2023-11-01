@@ -1,0 +1,297 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > GaeRequestHandler</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.google.maps</a>
+</div>
+
+<h1>Coverage Summary for Class: GaeRequestHandler (com.google.maps)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GaeRequestHandler</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/24)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">GaeRequestHandler$Builder</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/15)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/32)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * Copyright 2016 Google Inc. All rights reserved.
+&nbsp; *
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;); you may not use this
+&nbsp; * file except in compliance with the License. You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *     http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software distributed under
+&nbsp; * the License is distributed on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
+&nbsp; * ANY KIND, either express or implied. See the License for the specific language governing
+&nbsp; * permissions and limitations under the License.
+&nbsp; */
+&nbsp;
+&nbsp;package com.google.maps;
+&nbsp;
+&nbsp;import static java.nio.charset.StandardCharsets.UTF_8;
+&nbsp;
+&nbsp;import com.google.appengine.api.urlfetch.FetchOptions;
+&nbsp;import com.google.appengine.api.urlfetch.HTTPHeader;
+&nbsp;import com.google.appengine.api.urlfetch.HTTPMethod;
+&nbsp;import com.google.appengine.api.urlfetch.HTTPRequest;
+&nbsp;import com.google.appengine.api.urlfetch.URLFetchService;
+&nbsp;import com.google.appengine.api.urlfetch.URLFetchServiceFactory;
+&nbsp;import com.google.gson.FieldNamingPolicy;
+&nbsp;import com.google.maps.GeoApiContext.RequestHandler;
+&nbsp;import com.google.maps.internal.ApiResponse;
+&nbsp;import com.google.maps.internal.ExceptionsAllowedToRetry;
+&nbsp;import com.google.maps.internal.GaePendingResult;
+&nbsp;import com.google.maps.metrics.RequestMetrics;
+&nbsp;import java.net.MalformedURLException;
+&nbsp;import java.net.Proxy;
+&nbsp;import java.net.URL;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.concurrent.TimeUnit;
+&nbsp;import org.slf4j.Logger;
+&nbsp;import org.slf4j.LoggerFactory;
+&nbsp;
+&nbsp;/**
+&nbsp; * A strategy for handling URL requests using Google App Engine&#39;s URL Fetch API.
+&nbsp; *
+&nbsp; * @see com.google.maps.GeoApiContext.RequestHandler
+&nbsp; */
+&nbsp;public class GaeRequestHandler implements GeoApiContext.RequestHandler {
+<b class="nc">&nbsp;  private static final Logger LOG = LoggerFactory.getLogger(GaeRequestHandler.class.getName());</b>
+<b class="nc">&nbsp;  private final URLFetchService client = URLFetchServiceFactory.getURLFetchService();</b>
+&nbsp;
+<b class="nc">&nbsp;  /* package */ GaeRequestHandler() {}</b>
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public &lt;T, R extends ApiResponse&lt;T&gt;&gt; PendingResult&lt;T&gt; handle(
+&nbsp;      String hostName,
+&nbsp;      String url,
+&nbsp;      Map&lt;String, String&gt; headers,
+&nbsp;      Class&lt;R&gt; clazz,
+&nbsp;      FieldNamingPolicy fieldNamingPolicy,
+&nbsp;      long errorTimeout,
+&nbsp;      Integer maxRetries,
+&nbsp;      ExceptionsAllowedToRetry exceptionsAllowedToRetry,
+&nbsp;      RequestMetrics metrics) {
+<b class="nc">&nbsp;    FetchOptions fetchOptions = FetchOptions.Builder.withDeadline(10);</b>
+&nbsp;    final HTTPRequest req;
+&nbsp;    try {
+<b class="nc">&nbsp;      req = new HTTPRequest(new URL(hostName + url), HTTPMethod.POST, fetchOptions);</b>
+<b class="nc">&nbsp;      headers.forEach(</b>
+&nbsp;          (k, v) -&gt; {
+<b class="nc">&nbsp;            req.addHeader(new HTTPHeader(k, v));</b>
+&nbsp;          });
+<b class="nc">&nbsp;    } catch (MalformedURLException e) {</b>
+<b class="nc">&nbsp;      LOG.error(&quot;Request: {}{}&quot;, hostName, url, e);</b>
+<b class="nc">&nbsp;      throw (new RuntimeException(e));</b>
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+<b class="nc">&nbsp;    return new GaePendingResult&lt;&gt;(</b>
+&nbsp;        req,
+&nbsp;        client,
+&nbsp;        clazz,
+&nbsp;        fieldNamingPolicy,
+&nbsp;        errorTimeout,
+&nbsp;        maxRetries,
+&nbsp;        exceptionsAllowedToRetry,
+&nbsp;        metrics);
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public &lt;T, R extends ApiResponse&lt;T&gt;&gt; PendingResult&lt;T&gt; handlePost(
+&nbsp;      String hostName,
+&nbsp;      String url,
+&nbsp;      String payload,
+&nbsp;      Map&lt;String, String&gt; headers,
+&nbsp;      Class&lt;R&gt; clazz,
+&nbsp;      FieldNamingPolicy fieldNamingPolicy,
+&nbsp;      long errorTimeout,
+&nbsp;      Integer maxRetries,
+&nbsp;      ExceptionsAllowedToRetry exceptionsAllowedToRetry,
+&nbsp;      RequestMetrics metrics) {
+<b class="nc">&nbsp;    FetchOptions fetchOptions = FetchOptions.Builder.withDeadline(10);</b>
+&nbsp;    final HTTPRequest req;
+&nbsp;    try {
+<b class="nc">&nbsp;      req = new HTTPRequest(new URL(hostName + url), HTTPMethod.POST, fetchOptions);</b>
+<b class="nc">&nbsp;      req.setHeader(new HTTPHeader(&quot;Content-Type&quot;, &quot;application/json; charset=utf-8&quot;));</b>
+<b class="nc">&nbsp;      headers.forEach(</b>
+&nbsp;          (k, v) -&gt; {
+<b class="nc">&nbsp;            req.addHeader(new HTTPHeader(k, v));</b>
+&nbsp;          });
+<b class="nc">&nbsp;      req.setPayload(payload.getBytes(UTF_8));</b>
+<b class="nc">&nbsp;    } catch (MalformedURLException e) {</b>
+<b class="nc">&nbsp;      LOG.error(&quot;Request: {}{}&quot;, hostName, url, e);</b>
+<b class="nc">&nbsp;      throw (new RuntimeException(e));</b>
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+<b class="nc">&nbsp;    return new GaePendingResult&lt;&gt;(</b>
+&nbsp;        req,
+&nbsp;        client,
+&nbsp;        clazz,
+&nbsp;        fieldNamingPolicy,
+&nbsp;        errorTimeout,
+&nbsp;        maxRetries,
+&nbsp;        exceptionsAllowedToRetry,
+&nbsp;        metrics);
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public void shutdown() {
+&nbsp;    // do nothing
+<b class="nc">&nbsp;  }</b>
+&nbsp;
+&nbsp;  /** Builder strategy for constructing {@code GaeRequestHandler}. */
+<b class="nc">&nbsp;  public static class Builder implements GeoApiContext.RequestHandler.Builder {</b>
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Builder connectTimeout(long timeout, TimeUnit unit) {
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;connectTimeout not implemented for Google App Engine&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Builder readTimeout(long timeout, TimeUnit unit) {
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;readTimeout not implemented for Google App Engine&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Builder writeTimeout(long timeout, TimeUnit unit) {
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;writeTimeout not implemented for Google App Engine&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Builder queriesPerSecond(int maxQps) {
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;queriesPerSecond not implemented for Google App Engine&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Builder proxy(Proxy proxy) {
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;setProxy not implemented for Google App Engine&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Builder proxyAuthentication(String proxyUserName, String proxyUserPassword) {
+<b class="nc">&nbsp;      throw new RuntimeException(&quot;setProxyAuthentication not implemented for Google App Engine&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public RequestHandler build() {
+<b class="nc">&nbsp;      return new GaeRequestHandler();</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-01 14:27</div>
+</div>
+</body>
+</html>

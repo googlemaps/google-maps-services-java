@@ -1,0 +1,392 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > PlaceDetailsRequest</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.google.maps</a>
+</div>
+
+<h1>Coverage Summary for Class: PlaceDetailsRequest (com.google.maps)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PlaceDetailsRequest</td>
+<td class="coverageStat">
+  <span class="percent">
+    55.6%
+  </span>
+  <span class="absValue">
+    (5/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (1/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    61.5%
+  </span>
+  <span class="absValue">
+    (8/13)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">PlaceDetailsRequest$FieldMask</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (59/59)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">PlaceDetailsRequest$Response</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (3/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    37.5%
+  </span>
+  <span class="absValue">
+    (3/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    62.5%
+  </span>
+  <span class="absValue">
+    (5/8)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    68.8%
+  </span>
+  <span class="absValue">
+    (11/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    40%
+  </span>
+  <span class="absValue">
+    (4/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    90%
+  </span>
+  <span class="absValue">
+    (72/80)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * Copyright 2015 Google Inc. All rights reserved.
+&nbsp; *
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;); you may not use this
+&nbsp; * file except in compliance with the License. You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *     http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software distributed under
+&nbsp; * the License is distributed on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
+&nbsp; * ANY KIND, either express or implied. See the License for the specific language governing
+&nbsp; * permissions and limitations under the License.
+&nbsp; */
+&nbsp;
+&nbsp;package com.google.maps;
+&nbsp;
+&nbsp;import com.google.gson.FieldNamingPolicy;
+&nbsp;import com.google.maps.errors.ApiException;
+&nbsp;import com.google.maps.internal.ApiConfig;
+&nbsp;import com.google.maps.internal.ApiResponse;
+&nbsp;import com.google.maps.internal.StringJoin;
+&nbsp;import com.google.maps.internal.StringJoin.UrlValue;
+&nbsp;import com.google.maps.model.PlaceDetails;
+&nbsp;
+&nbsp;/**
+&nbsp; * A &lt;a href=&quot;https://developers.google.com/places/web-service/details#PlaceDetailsRequests&quot;&gt;Place
+&nbsp; * Details&lt;/a&gt; request.
+&nbsp; */
+&nbsp;public class PlaceDetailsRequest
+&nbsp;    extends PendingResultBase&lt;PlaceDetails, PlaceDetailsRequest, PlaceDetailsRequest.Response&gt; {
+&nbsp;
+<b class="fc">&nbsp;  static final ApiConfig API_CONFIG =</b>
+&nbsp;      new ApiConfig(&quot;/maps/api/place/details/json&quot;)
+<b class="fc">&nbsp;          .fieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);</b>
+&nbsp;
+&nbsp;  public PlaceDetailsRequest(GeoApiContext context) {
+<b class="fc">&nbsp;    super(context, API_CONFIG, Response.class);</b>
+<b class="fc">&nbsp;  }</b>
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Specifies the Place ID to get Place Details for. Required.
+&nbsp;   *
+&nbsp;   * @param placeId The Place ID to retrieve details for.
+&nbsp;   * @return Returns this {@code PlaceDetailsRequest} for call chaining.
+&nbsp;   */
+&nbsp;  public PlaceDetailsRequest placeId(String placeId) {
+<b class="fc">&nbsp;    return param(&quot;placeid&quot;, placeId);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Sets the SessionToken for this request. Use this for Place Details requests that are called
+&nbsp;   * following an autocomplete request in the same user session. Optional.
+&nbsp;   *
+&nbsp;   * @param sessionToken Session Token is the session identifier.
+&nbsp;   * @return Returns this {@code PlaceDetailsRequest} for call chaining.
+&nbsp;   */
+&nbsp;  public PlaceDetailsRequest sessionToken(PlaceAutocompleteRequest.SessionToken sessionToken) {
+<b class="nc">&nbsp;    return param(&quot;sessiontoken&quot;, sessionToken);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Sets the Region for this request. The region code, specified as a ccTLD (country code top-level
+&nbsp;   * domain) two-character value. Most ccTLD codes are identical to ISO 3166-1 codes, with some
+&nbsp;   * exceptions. This parameter will only influence, not fully restrict, results.
+&nbsp;   *
+&nbsp;   * @param region The region code.
+&nbsp;   * @return Returns this {@code PlaceDetailsRequest} for call chaining.
+&nbsp;   */
+&nbsp;  public PlaceDetailsRequest region(String region) {
+<b class="nc">&nbsp;    return param(&quot;region&quot;, region);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Specify reviews_no_translations=true to disable translation of reviews. Specify
+&nbsp;   * reviews_no_translations=false (default) to enable translation of reviews.
+&nbsp;   *
+&nbsp;   * @param reviewsNoTranslations Whether to disable translation of reviews.
+&nbsp;   * @return Returns this {@code PlaceDetailsRequest} for call chaining.
+&nbsp;   */
+&nbsp;  public PlaceDetailsRequest reviewsNoTranslations(boolean reviewsNoTranslations) {
+<b class="nc">&nbsp;    return param(&quot;reviews_no_translations&quot;, String.valueOf(reviewsNoTranslations));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Specifies the sorting method to use when returning reviews. Can be set to most_relevant
+&nbsp;   * (default) or newest. Google recommends that you display how the reviews are being sorted to the
+&nbsp;   * end user.
+&nbsp;   *
+&nbsp;   * @param reviewsSort The sorting method to use when returning reviews.
+&nbsp;   * @return Returns this {@code PlaceDetailsRequest} for call chaining.
+&nbsp;   */
+&nbsp;  public PlaceDetailsRequest reviewsSort(String reviewsSort) {
+<b class="nc">&nbsp;    return param(&quot;reviews_sort&quot;, reviewsSort);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Specifies the field masks of the details to be returned by PlaceDetails.
+&nbsp;   *
+&nbsp;   * @param fields The Field Masks of the fields to return.
+&nbsp;   * @return Returns this {@code PlaceDetailsRequest} for call chaining.
+&nbsp;   */
+&nbsp;  public PlaceDetailsRequest fields(FieldMask... fields) {
+<b class="fc">&nbsp;    return param(&quot;fields&quot;, StringJoin.join(&#39;,&#39;, fields));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected void validateRequest() {
+<b class="pc">&nbsp;    if (!params().containsKey(&quot;placeid&quot;)) {</b>
+<b class="nc">&nbsp;      throw new IllegalArgumentException(&quot;Request must contain &#39;placeId&#39;.&quot;);</b>
+&nbsp;    }
+<b class="fc">&nbsp;  }</b>
+&nbsp;
+<b class="fc">&nbsp;  public static class Response implements ApiResponse&lt;PlaceDetails&gt; {</b>
+&nbsp;    public String status;
+&nbsp;    public PlaceDetails result;
+&nbsp;    public String[] htmlAttributions;
+&nbsp;    public String errorMessage;
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean successful() {
+<b class="pc">&nbsp;      return &quot;OK&quot;.equals(status) || &quot;ZERO_RESULTS&quot;.equals(status);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public PlaceDetails getResult() {
+<b class="fc">&nbsp;      if (result != null) {</b>
+<b class="fc">&nbsp;        result.htmlAttributions = htmlAttributions;</b>
+&nbsp;      }
+<b class="fc">&nbsp;      return result;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public ApiException getError() {
+<b class="nc">&nbsp;      if (successful()) {</b>
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;      }
+<b class="nc">&nbsp;      return ApiException.from(status, errorMessage);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+<b class="fc">&nbsp;  public enum FieldMask implements UrlValue {</b>
+<b class="fc">&nbsp;    ADDRESS_COMPONENT(&quot;address_component&quot;),</b>
+<b class="fc">&nbsp;    ADR_ADDRESS(&quot;adr_address&quot;),</b>
+<b class="fc">&nbsp;    @Deprecated</b>
+&nbsp;    ALT_ID(&quot;alt_id&quot;),
+<b class="fc">&nbsp;    BUSINESS_STATUS(&quot;business_status&quot;),</b>
+<b class="fc">&nbsp;    CURBSIDE_PICKUP(&quot;curbside_pickup&quot;),</b>
+<b class="fc">&nbsp;    DELIVERY(&quot;delivery&quot;),</b>
+<b class="fc">&nbsp;    DINE_IN(&quot;dine_in&quot;),</b>
+<b class="fc">&nbsp;    EDITORIAL_SUMMARY(&quot;editorial_summary&quot;),</b>
+<b class="fc">&nbsp;    FORMATTED_ADDRESS(&quot;formatted_address&quot;),</b>
+<b class="fc">&nbsp;    FORMATTED_PHONE_NUMBER(&quot;formatted_phone_number&quot;),</b>
+<b class="fc">&nbsp;    GEOMETRY(&quot;geometry&quot;),</b>
+<b class="fc">&nbsp;    GEOMETRY_LOCATION(&quot;geometry/location&quot;),</b>
+<b class="fc">&nbsp;    GEOMETRY_LOCATION_LAT(&quot;geometry/location/lat&quot;),</b>
+<b class="fc">&nbsp;    GEOMETRY_LOCATION_LNG(&quot;geometry/location/lng&quot;),</b>
+<b class="fc">&nbsp;    GEOMETRY_VIEWPORT(&quot;geometry/viewport&quot;),</b>
+<b class="fc">&nbsp;    GEOMETRY_VIEWPORT_NORTHEAST(&quot;geometry/viewport/northeast&quot;),</b>
+<b class="fc">&nbsp;    GEOMETRY_VIEWPORT_NORTHEAST_LAT(&quot;geometry/viewport/northeast/lat&quot;),</b>
+<b class="fc">&nbsp;    GEOMETRY_VIEWPORT_NORTHEAST_LNG(&quot;geometry/viewport/northeast/lng&quot;),</b>
+<b class="fc">&nbsp;    GEOMETRY_VIEWPORT_SOUTHWEST(&quot;geometry/viewport/southwest&quot;),</b>
+<b class="fc">&nbsp;    GEOMETRY_VIEWPORT_SOUTHWEST_LAT(&quot;geometry/viewport/southwest/lat&quot;),</b>
+<b class="fc">&nbsp;    GEOMETRY_VIEWPORT_SOUTHWEST_LNG(&quot;geometry/viewport/southwest/lng&quot;),</b>
+<b class="fc">&nbsp;    ICON(&quot;icon&quot;),</b>
+<b class="fc">&nbsp;    @Deprecated</b>
+&nbsp;    ID(&quot;id&quot;),
+<b class="fc">&nbsp;    INTERNATIONAL_PHONE_NUMBER(&quot;international_phone_number&quot;),</b>
+<b class="fc">&nbsp;    NAME(&quot;name&quot;),</b>
+<b class="fc">&nbsp;    OPENING_HOURS(&quot;opening_hours&quot;),</b>
+<b class="fc">&nbsp;    CURRENT_OPENING_HOURS(&quot;current_opening_hours&quot;),</b>
+<b class="fc">&nbsp;    SECONDARY_OPENING_HOURS(&quot;secondary_opening_hours&quot;),</b>
+<b class="fc">&nbsp;    @Deprecated</b>
+&nbsp;    PERMANENTLY_CLOSED(&quot;permanently_closed&quot;),
+<b class="fc">&nbsp;    USER_RATINGS_TOTAL(&quot;user_ratings_total&quot;),</b>
+<b class="fc">&nbsp;    PHOTOS(&quot;photos&quot;),</b>
+<b class="fc">&nbsp;    PLACE_ID(&quot;place_id&quot;),</b>
+<b class="fc">&nbsp;    PLUS_CODE(&quot;plus_code&quot;),</b>
+<b class="fc">&nbsp;    PRICE_LEVEL(&quot;price_level&quot;),</b>
+<b class="fc">&nbsp;    RATING(&quot;rating&quot;),</b>
+<b class="fc">&nbsp;    @Deprecated</b>
+&nbsp;    REFERENCE(&quot;reference&quot;),
+<b class="fc">&nbsp;    RESERVABLE(&quot;reservable&quot;),</b>
+<b class="fc">&nbsp;    @Deprecated</b>
+&nbsp;    REVIEW(&quot;review&quot;),
+<b class="fc">&nbsp;    REVIEWS(&quot;reviews&quot;),</b>
+<b class="fc">&nbsp;    @Deprecated</b>
+&nbsp;    SCOPE(&quot;scope&quot;),
+<b class="fc">&nbsp;    SERVES_BEER(&quot;serves_beer&quot;),</b>
+<b class="fc">&nbsp;    SERVES_BREAKFAST(&quot;serves_breakfast&quot;),</b>
+<b class="fc">&nbsp;    SERVES_BRUNCH(&quot;serves_brunch&quot;),</b>
+<b class="fc">&nbsp;    SERVES_DINNER(&quot;serves_dinner&quot;),</b>
+<b class="fc">&nbsp;    SERVES_LUNCH(&quot;serves_lunch&quot;),</b>
+<b class="fc">&nbsp;    SERVES_VEGETARIAN_FOOD(&quot;serves_vegetarian_food&quot;),</b>
+<b class="fc">&nbsp;    SERVES_WINE(&quot;serves_wine&quot;),</b>
+<b class="fc">&nbsp;    TAKEOUT(&quot;takeout&quot;),</b>
+<b class="fc">&nbsp;    TYPES(&quot;types&quot;),</b>
+<b class="fc">&nbsp;    URL(&quot;url&quot;),</b>
+<b class="fc">&nbsp;    UTC_OFFSET(&quot;utc_offset&quot;),</b>
+<b class="fc">&nbsp;    VICINITY(&quot;vicinity&quot;),</b>
+<b class="fc">&nbsp;    WEBSITE(&quot;website&quot;),</b>
+<b class="fc">&nbsp;    WHEELCHAIR_ACCESSIBLE_ENTRANCE(&quot;wheelchair_accessible_entrance&quot;);</b>
+&nbsp;
+&nbsp;    private final String field;
+&nbsp;
+<b class="fc">&nbsp;    FieldMask(final String field) {</b>
+<b class="fc">&nbsp;      this.field = field;</b>
+<b class="fc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String toUrlValue() {
+<b class="fc">&nbsp;      return field;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-01 14:27</div>
+</div>
+</body>
+</html>

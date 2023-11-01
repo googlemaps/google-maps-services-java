@@ -1,0 +1,219 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > PolylineEncoding</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.google.maps.internal</a>
+</div>
+
+<h1>Coverage Summary for Class: PolylineEncoding (com.google.maps.internal)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PolylineEncoding</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    80%
+  </span>
+  <span class="absValue">
+    (4/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (16/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    97.8%
+  </span>
+  <span class="absValue">
+    (44/45)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * Copyright 2014 Google Inc. All rights reserved.
+&nbsp; *
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;); you may not use this
+&nbsp; * file except in compliance with the License. You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *     http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software distributed under
+&nbsp; * the License is distributed on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
+&nbsp; * ANY KIND, either express or implied. See the License for the specific language governing
+&nbsp; * permissions and limitations under the License.
+&nbsp; */
+&nbsp;
+&nbsp;package com.google.maps.internal;
+&nbsp;
+&nbsp;import com.google.maps.model.LatLng;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;/**
+&nbsp; * Utility class that encodes and decodes Polylines.
+&nbsp; *
+&nbsp; * &lt;p&gt;See &lt;a href=&quot;https://developers.google.com/maps/documentation/utilities/polylinealgorithm&quot;&gt;
+&nbsp; * https://developers.google.com/maps/documentation/utilities/polylinealgorithm&lt;/a&gt; for detailed
+&nbsp; * description of this format.
+&nbsp; */
+<b class="nc">&nbsp;public class PolylineEncoding {</b>
+&nbsp;  /** Decodes an encoded path string into a sequence of LatLngs. */
+&nbsp;  public static List&lt;LatLng&gt; decode(final String encodedPath) {
+&nbsp;
+<b class="fc">&nbsp;    int len = encodedPath.length();</b>
+&nbsp;
+<b class="fc">&nbsp;    final List&lt;LatLng&gt; path = new ArrayList&lt;&gt;(len / 2);</b>
+<b class="fc">&nbsp;    int index = 0;</b>
+<b class="fc">&nbsp;    int lat = 0;</b>
+<b class="fc">&nbsp;    int lng = 0;</b>
+&nbsp;
+<b class="fc">&nbsp;    while (index &lt; len) {</b>
+<b class="fc">&nbsp;      int result = 1;</b>
+<b class="fc">&nbsp;      int shift = 0;</b>
+&nbsp;      int b;
+&nbsp;      do {
+<b class="fc">&nbsp;        b = encodedPath.charAt(index++) - 63 - 1;</b>
+<b class="fc">&nbsp;        result += b &lt;&lt; shift;</b>
+<b class="fc">&nbsp;        shift += 5;</b>
+<b class="fc">&nbsp;      } while (b &gt;= 0x1f);</b>
+<b class="fc">&nbsp;      lat += (result &amp; 1) != 0 ? ~(result &gt;&gt; 1) : (result &gt;&gt; 1);</b>
+&nbsp;
+<b class="fc">&nbsp;      result = 1;</b>
+<b class="fc">&nbsp;      shift = 0;</b>
+&nbsp;      do {
+<b class="fc">&nbsp;        b = encodedPath.charAt(index++) - 63 - 1;</b>
+<b class="fc">&nbsp;        result += b &lt;&lt; shift;</b>
+<b class="fc">&nbsp;        shift += 5;</b>
+<b class="fc">&nbsp;      } while (b &gt;= 0x1f);</b>
+<b class="fc">&nbsp;      lng += (result &amp; 1) != 0 ? ~(result &gt;&gt; 1) : (result &gt;&gt; 1);</b>
+&nbsp;
+<b class="fc">&nbsp;      path.add(new LatLng(lat * 1e-5, lng * 1e-5));</b>
+<b class="fc">&nbsp;    }</b>
+&nbsp;
+<b class="fc">&nbsp;    return path;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /** Encodes a sequence of LatLngs into an encoded path string. */
+&nbsp;  public static String encode(final List&lt;LatLng&gt; path) {
+<b class="fc">&nbsp;    long lastLat = 0;</b>
+<b class="fc">&nbsp;    long lastLng = 0;</b>
+&nbsp;
+<b class="fc">&nbsp;    final StringBuilder result = new StringBuilder();</b>
+&nbsp;
+<b class="fc">&nbsp;    for (final LatLng point : path) {</b>
+<b class="fc">&nbsp;      long lat = Math.round(point.lat * 1e5);</b>
+<b class="fc">&nbsp;      long lng = Math.round(point.lng * 1e5);</b>
+&nbsp;
+<b class="fc">&nbsp;      long dLat = lat - lastLat;</b>
+<b class="fc">&nbsp;      long dLng = lng - lastLng;</b>
+&nbsp;
+<b class="fc">&nbsp;      encode(dLat, result);</b>
+<b class="fc">&nbsp;      encode(dLng, result);</b>
+&nbsp;
+<b class="fc">&nbsp;      lastLat = lat;</b>
+<b class="fc">&nbsp;      lastLng = lng;</b>
+<b class="fc">&nbsp;    }</b>
+<b class="fc">&nbsp;    return result.toString();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private static void encode(long v, StringBuilder result) {
+<b class="fc">&nbsp;    v = v &lt; 0 ? ~(v &lt;&lt; 1) : v &lt;&lt; 1;</b>
+<b class="fc">&nbsp;    while (v &gt;= 0x20) {</b>
+<b class="fc">&nbsp;      result.append(Character.toChars((int) ((0x20 | (v &amp; 0x1f)) + 63)));</b>
+<b class="fc">&nbsp;      v &gt;&gt;= 5;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    result.append(Character.toChars((int) (v + 63)));</b>
+<b class="fc">&nbsp;  }</b>
+&nbsp;
+&nbsp;  /** Encodes an array of LatLngs into an encoded path string. */
+&nbsp;  public static String encode(LatLng[] path) {
+<b class="fc">&nbsp;    return encode(Arrays.asList(path));</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-01 14:27</div>
+</div>
+</body>
+</html>

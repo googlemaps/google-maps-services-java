@@ -1,0 +1,207 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > DirectionsRoute</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.google.maps.model</a>
+</div>
+
+<h1>Coverage Summary for Class: DirectionsRoute (com.google.maps.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">DirectionsRoute</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    33.3%
+  </span>
+  <span class="absValue">
+    (2/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    80%
+  </span>
+  <span class="absValue">
+    (8/10)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * Copyright 2014 Google Inc. All rights reserved.
+&nbsp; *
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;); you may not use this
+&nbsp; * file except in compliance with the License. You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *     http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software distributed under
+&nbsp; * the License is distributed on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
+&nbsp; * ANY KIND, either express or implied. See the License for the specific language governing
+&nbsp; * permissions and limitations under the License.
+&nbsp; */
+&nbsp;
+&nbsp;package com.google.maps.model;
+&nbsp;
+&nbsp;import java.io.Serializable;
+&nbsp;import java.util.Arrays;
+&nbsp;
+&nbsp;/**
+&nbsp; * A Directions API result. When the Directions API returns results, it places them within a routes
+&nbsp; * array. Even if the service returns no results (such as if the origin and/or destination doesn&#39;t
+&nbsp; * exist) it still returns an empty routes array.
+&nbsp; *
+&nbsp; * &lt;p&gt;Please see &lt;a href=&quot;https://developers.google.com/maps/documentation/directions/intro#Routes&quot;&gt;
+&nbsp; * Routes&lt;/a&gt; for more detail.
+&nbsp; */
+<b class="fc">&nbsp;public class DirectionsRoute implements Serializable {</b>
+&nbsp;
+&nbsp;  private static final long serialVersionUID = 1L;
+&nbsp;  /**
+&nbsp;   * A short textual description for the route, suitable for naming and disambiguating the route
+&nbsp;   * from alternatives.
+&nbsp;   */
+&nbsp;  public String summary;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Information about legs of the route, between locations within the route. A separate leg will be
+&nbsp;   * present for each waypoint or destination specified. (A route with no waypoints will contain
+&nbsp;   * exactly one leg within the legs array.)
+&nbsp;   */
+&nbsp;  public DirectionsLeg[] legs;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Indicates the order of any waypoints in the calculated route. This waypoints may be reordered
+&nbsp;   * if the request was passed {@code optimize:true} within its {@code waypoints} parameter.
+&nbsp;   */
+&nbsp;  public int[] waypointOrder;
+&nbsp;
+&nbsp;  /** An approximate (smoothed) path of the resulting directions. */
+&nbsp;  public EncodedPolyline overviewPolyline;
+&nbsp;
+&nbsp;  /** The viewport bounding box of the overview_polyline. */
+&nbsp;  public Bounds bounds;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Copyrights text to be displayed for this route. You must handle and display this information
+&nbsp;   * yourself.
+&nbsp;   */
+&nbsp;  public String copyrights;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Information about the fare (that is, the ticket costs) on this route. This property is only
+&nbsp;   * returned for transit directions, and only for routes where fare information is available for
+&nbsp;   * all transit legs.
+&nbsp;   */
+&nbsp;  public Fare fare;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Warnings to be displayed when showing these directions. You must handle and display these
+&nbsp;   * warnings yourself.
+&nbsp;   */
+&nbsp;  public String[] warnings;
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String toString() {
+<b class="fc">&nbsp;    String str =</b>
+<b class="fc">&nbsp;        String.format(</b>
+&nbsp;            &quot;[DirectionsRoute: \&quot;%s\&quot;, %d legs, waypointOrder=%s, bounds=%s&quot;,
+<b class="fc">&nbsp;            summary, legs.length, Arrays.toString(waypointOrder), bounds);</b>
+<b class="pc">&nbsp;    if (fare != null) {</b>
+<b class="nc">&nbsp;      str = str + &quot;, fare=&quot; + fare;</b>
+&nbsp;    }
+<b class="pc">&nbsp;    if (warnings != null &amp;&amp; warnings.length &gt; 0) {</b>
+<b class="nc">&nbsp;      str = str + &quot;, &quot; + warnings.length + &quot; warnings&quot;;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    str = str + &quot;]&quot;;</b>
+<b class="fc">&nbsp;    return str;</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-01 14:27</div>
+</div>
+</body>
+</html>

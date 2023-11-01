@@ -1,0 +1,611 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > PlaceDetails</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.google.maps.model</a>
+</div>
+
+<h1>Coverage Summary for Class: PlaceDetails (com.google.maps.model)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PlaceDetails</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    71.6%
+  </span>
+  <span class="absValue">
+    (53/74)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    79.7%
+  </span>
+  <span class="absValue">
+    (59/74)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">PlaceDetails$AlternatePlaceIds</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">PlaceDetails$Review</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">PlaceDetails$Review$AspectRating</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">PlaceDetails$Review$AspectRating$RatingType</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (10/10)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    57.1%
+  </span>
+  <span class="absValue">
+    (4/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    71.6%
+  </span>
+  <span class="absValue">
+    (53/74)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    79.5%
+  </span>
+  <span class="absValue">
+    (70/88)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * Copyright 2015 Google Inc. All rights reserved.
+&nbsp; *
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;); you may not use this
+&nbsp; * file except in compliance with the License. You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *     http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software distributed under
+&nbsp; * the License is distributed on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
+&nbsp; * ANY KIND, either express or implied. See the License for the specific language governing
+&nbsp; * permissions and limitations under the License.
+&nbsp; */
+&nbsp;
+&nbsp;package com.google.maps.model;
+&nbsp;
+&nbsp;import java.io.Serializable;
+&nbsp;import java.net.URL;
+&nbsp;import java.time.Instant;
+&nbsp;import java.util.Arrays;
+&nbsp;
+&nbsp;/**
+&nbsp; * The result of a Place Details request. A Place Details request returns more comprehensive
+&nbsp; * information about the indicated place such as its complete address, phone number, user rating,
+&nbsp; * and reviews.
+&nbsp; *
+&nbsp; * &lt;p&gt;See &lt;a href= &quot;https://developers.google.com/places/web-service/details#PlaceDetailsResults&quot;&gt;
+&nbsp; * Place Details Results&lt;/a&gt; for more detail.
+&nbsp; */
+<b class="fc">&nbsp;public class PlaceDetails implements Serializable {</b>
+&nbsp;
+&nbsp;  private static final long serialVersionUID = 1L;
+&nbsp;
+&nbsp;  /** A list of separate address components that comprise the address of this place. */
+&nbsp;  public AddressComponent[] addressComponents;
+&nbsp;
+&nbsp;  /** A representation of the place&#39;s address in the adr microformat. */
+&nbsp;  public String adrAddress;
+&nbsp;
+&nbsp;  /** The status of the business (i.e. operational, temporarily closed, etc.). */
+&nbsp;  public String businessStatus;
+&nbsp;
+&nbsp;  /** Specifies if the business supports curbside pickup. */
+&nbsp;  public Boolean curbsidePickup;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * The hours of operation for the next seven days (including today). The time period starts at
+&nbsp;   * midnight on the date of the request and ends at 11:59 pm six days later. This field includes
+&nbsp;   * the special_days subfield of all hours, set for dates that have exceptional hours.
+&nbsp;   */
+&nbsp;  public OpeningHours currentOpeningHours;
+&nbsp;
+&nbsp;  /** Specifies if the business supports delivery. */
+&nbsp;  public Boolean delivery;
+&nbsp;
+&nbsp;  /** Specifies if the business supports indoor or outdoor seating options. */
+&nbsp;  public Boolean dineIn;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Contains a summary of the place. A summary is comprised of a textual overview, and also
+&nbsp;   * includes the language code for these if applicable. Summary text must be presented as-is and
+&nbsp;   * can not be modified or altered.
+&nbsp;   */
+&nbsp;  public PlaceEditorialSummary editorialSummary;
+&nbsp;
+&nbsp;  /** The human-readable address of this place. */
+&nbsp;  public String formattedAddress;
+&nbsp;
+&nbsp;  /** The place&#39;s phone number in its local format. */
+&nbsp;  public String formattedPhoneNumber;
+&nbsp;
+&nbsp;  /** The location of the Place. */
+&nbsp;  public Geometry geometry;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * The URL of a suggested icon which may be displayed to the user when indicating this result on a
+&nbsp;   * map.
+&nbsp;   */
+&nbsp;  public URL icon;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * The place&#39;s phone number in international format. International format includes the country
+&nbsp;   * code, and is prefixed with the plus (+) sign.
+&nbsp;   */
+&nbsp;  public String internationalPhoneNumber;
+&nbsp;
+&nbsp;  /** The human-readable name for the returned result. */
+&nbsp;  public String name;
+&nbsp;
+&nbsp;  /** The regular hours of operation. */
+&nbsp;  public OpeningHours openingHours;
+&nbsp;
+&nbsp;  /** Whether the place has permanently closed. */
+&nbsp;  @Deprecated public boolean permanentlyClosed;
+&nbsp;
+&nbsp;  /** A list of photos associated with this place, each containing a reference to an image. */
+&nbsp;  public Photo[] photos;
+&nbsp;
+&nbsp;  /** A textual identifier that uniquely identifies this place. */
+&nbsp;  public String placeId;
+&nbsp;
+&nbsp;  /** The scope of the placeId. */
+&nbsp;  @Deprecated public PlaceIdScope scope;
+&nbsp;
+&nbsp;  /** The Plus Code location identifier for this place. */
+&nbsp;  public PlusCode plusCode;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * The price level of the place. The exact amount indicated by a specific value will vary from
+&nbsp;   * region to region.
+&nbsp;   */
+&nbsp;  public PriceLevel priceLevel;
+&nbsp;
+&nbsp;  @Deprecated
+<b class="nc">&nbsp;  public static class AlternatePlaceIds implements Serializable {</b>
+&nbsp;
+&nbsp;    private static final long serialVersionUID = 1L;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The alternative placeId. The most likely reason for a place to have an alternative place ID
+&nbsp;     * is if your application adds a place and receives an application-scoped place ID, then later
+&nbsp;     * receives a Google-scoped place ID after passing the moderation process.
+&nbsp;     */
+&nbsp;    public String placeId;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The scope of an alternative place ID will always be APP, indicating that the alternative
+&nbsp;     * place ID is recognised by your application only.
+&nbsp;     */
+&nbsp;    @Deprecated public PlaceIdScope scope;
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String toString() {
+<b class="nc">&nbsp;      return String.format(&quot;%s (%s)&quot;, placeId, scope);</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * An optional array of alternative place IDs for the place, with a scope related to each
+&nbsp;   * alternative ID.
+&nbsp;   */
+&nbsp;  @Deprecated public AlternatePlaceIds[] altIds;
+&nbsp;
+&nbsp;  /** The place&#39;s rating, from 1.0 to 5.0, based on aggregated user reviews. */
+&nbsp;  public float rating;
+&nbsp;
+<b class="fc">&nbsp;  public static class Review implements Serializable {</b>
+&nbsp;
+&nbsp;    private static final long serialVersionUID = 1L;
+&nbsp;
+<b class="nc">&nbsp;    public static class AspectRating implements Serializable {</b>
+&nbsp;
+&nbsp;      private static final long serialVersionUID = 1L;
+&nbsp;
+<b class="fc">&nbsp;      public enum RatingType {</b>
+<b class="fc">&nbsp;        APPEAL,</b>
+<b class="fc">&nbsp;        ATMOSPHERE,</b>
+<b class="fc">&nbsp;        DECOR,</b>
+<b class="fc">&nbsp;        FACILITIES,</b>
+<b class="fc">&nbsp;        FOOD,</b>
+<b class="fc">&nbsp;        OVERALL,</b>
+<b class="fc">&nbsp;        QUALITY,</b>
+<b class="fc">&nbsp;        SERVICE,</b>
+&nbsp;
+&nbsp;        /**
+&nbsp;         * Indicates an unknown rating type returned by the server. The Java Client for Google Maps
+&nbsp;         * Services should be updated to support the new value.
+&nbsp;         */
+<b class="fc">&nbsp;        UNKNOWN</b>
+&nbsp;      }
+&nbsp;
+&nbsp;      /** The name of the aspect that is being rated. */
+&nbsp;      public RatingType type;
+&nbsp;
+&nbsp;      /** The user&#39;s rating for this particular aspect, from 0 to 3. */
+&nbsp;      public int rating;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * A list of AspectRating objects, each of which provides a rating of a single attribute of the
+&nbsp;     * establishment.
+&nbsp;     *
+&nbsp;     * &lt;p&gt;Note: this is a &lt;a href=
+&nbsp;     * &quot;https://developers.google.com/places/web-service/details#PremiumData&quot;&gt;Premium Data&lt;/a&gt; field
+&nbsp;     * available to the Google Places API for Work customers.
+&nbsp;     */
+&nbsp;    public AspectRating[] aspects;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The name of the user who submitted the review. Anonymous reviews are attributed to &quot;A Google
+&nbsp;     * user&quot;.
+&nbsp;     */
+&nbsp;    public String authorName;
+&nbsp;
+&nbsp;    /** The URL of the user&#39;s Google+ profile, if available. */
+&nbsp;    public URL authorUrl;
+&nbsp;
+&nbsp;    /** An IETF language code indicating the language used in the user&#39;s review. */
+&nbsp;    public String language;
+&nbsp;
+&nbsp;    /** The URL of the user&#39;s Google+ profile photo, if available. */
+&nbsp;    public String profilePhotoUrl;
+&nbsp;
+&nbsp;    /** The user&#39;s overall rating for this place. This is a whole number, ranging from 1 to 5. */
+&nbsp;    public int rating;
+&nbsp;
+&nbsp;    /** The relative time that the review was submitted. */
+&nbsp;    public String relativeTimeDescription;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The user&#39;s review. When reviewing a location with Google Places, text reviews are considered
+&nbsp;     * optional.
+&nbsp;     */
+&nbsp;    public String text;
+&nbsp;
+&nbsp;    /** The time that the review was submitted. */
+&nbsp;    public Instant time;
+&nbsp;  }
+&nbsp;
+&nbsp;  /** Specifies if the place supports reservations. */
+&nbsp;  public Boolean reservable;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * An array of up to five reviews. If a language parameter was specified in the Place Details
+&nbsp;   * request, the Places Service will bias the results to prefer reviews written in that language.
+&nbsp;   */
+&nbsp;  public Review[] reviews;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Contains an array of entries for the next seven days including information about secondary
+&nbsp;   * hours of a business. Secondary hours are different from a business&#39;s main hours. For example, a
+&nbsp;   * restaurant can specify drive through hours or delivery hours as its secondary hours. This field
+&nbsp;   * populates the type subfield, which draws from a predefined list of opening hours types (such as
+&nbsp;   * DRIVE_THROUGH, PICKUP, or TAKEOUT) based on the types of the place. This field includes the
+&nbsp;   * special_days subfield of all hours, set for dates that have exceptional hours.
+&nbsp;   */
+&nbsp;  public OpeningHours secondaryOpeningHours;
+&nbsp;
+&nbsp;  /** Specifies if the place serves beer. */
+&nbsp;  public Boolean servesBeer;
+&nbsp;
+&nbsp;  /** Specifies if the place serves breakfast. */
+&nbsp;  public Boolean servesBreakfast;
+&nbsp;
+&nbsp;  /** Specifies if the place serves brunch. */
+&nbsp;  public Boolean servesBrunch;
+&nbsp;
+&nbsp;  /** Specifies if the place serves dinner. */
+&nbsp;  public Boolean servesDinner;
+&nbsp;
+&nbsp;  /** Specifies if the place serves lunch. */
+&nbsp;  public Boolean servesLunch;
+&nbsp;
+&nbsp;  /** Specifies if the place serves vegetarian food. */
+&nbsp;  public Boolean servesVegetarianFood;
+&nbsp;
+&nbsp;  /** Specifies if the place serves wine. */
+&nbsp;  public Boolean servesWine;
+&nbsp;
+&nbsp;  /** Specifies if the business supports takeout. */
+&nbsp;  public Boolean takeout;
+&nbsp;
+&nbsp;  /** Feature types describing the given result. */
+&nbsp;  public AddressType[] types;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * The URL of the official Google page for this place. This will be the establishment&#39;s Google+
+&nbsp;   * page if the Google+ page exists, otherwise it will be the Google-owned page that contains the
+&nbsp;   * best available information about the place. Applications must link to or embed this page on any
+&nbsp;   * screen that shows detailed results about the place to the user.
+&nbsp;   */
+&nbsp;  public URL url;
+&nbsp;
+&nbsp;  /** The number of user reviews for this place */
+&nbsp;  public int userRatingsTotal;
+&nbsp;
+&nbsp;  /** The number of minutes this place’s current timezone is offset from UTC. */
+&nbsp;  public int utcOffset;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * A simplified address for the place, including the street name, street number, and locality, but
+&nbsp;   * not the province/state, postal code, or country.
+&nbsp;   */
+&nbsp;  public String vicinity;
+&nbsp;
+&nbsp;  /** The authoritative website for this place, such as a business&#39;s homepage. */
+&nbsp;  public URL website;
+&nbsp;
+&nbsp;  /** Specifies if the place has an entrance that is wheelchair-accessible. */
+&nbsp;  public Boolean wheelchairAccessibleEntrance;
+&nbsp;
+&nbsp;  /** Attributions about this listing which must be displayed to the user. */
+&nbsp;  public String[] htmlAttributions;
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String toString() {
+<b class="fc">&nbsp;    StringBuilder sb = new StringBuilder(&quot;[PlaceDetails: &quot;);</b>
+<b class="fc">&nbsp;    sb.append(&quot;\&quot;&quot;).append(name).append(&quot;\&quot;&quot;);</b>
+<b class="fc">&nbsp;    sb.append(&quot; &quot;).append(placeId).append(&quot; (&quot;).append(scope).append(&quot;)&quot;);</b>
+<b class="fc">&nbsp;    sb.append(&quot; address=\&quot;&quot;).append(formattedAddress).append(&quot;\&quot;&quot;);</b>
+<b class="fc">&nbsp;    if (businessStatus != null) {</b>
+<b class="fc">&nbsp;      sb.append(&quot;businessStatus=&quot;).append(businessStatus);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    if (curbsidePickup != null) {</b>
+<b class="fc">&nbsp;      sb.append(&quot;, curbsidePickup=&quot;).append(curbsidePickup);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    if (currentOpeningHours != null) {</b>
+<b class="fc">&nbsp;      sb.append(&quot;, currentOpeningHours=&quot;).append(currentOpeningHours);</b>
+&nbsp;    }
+<b class="pc">&nbsp;    if (delivery != null) {</b>
+<b class="nc">&nbsp;      sb.append(&quot;, delivery=&quot;).append(delivery);</b>
+&nbsp;    }
+<b class="pc">&nbsp;    if (dineIn != null) {</b>
+<b class="nc">&nbsp;      sb.append(&quot;, dineIn=&quot;).append(dineIn);</b>
+&nbsp;    }
+<b class="pc">&nbsp;    if (editorialSummary != null) {</b>
+<b class="nc">&nbsp;      sb.append(&quot;, editorialSummary=&quot;).append(editorialSummary);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    sb.append(&quot;, geometry=&quot;).append(geometry);</b>
+<b class="fc">&nbsp;    if (vicinity != null) {</b>
+<b class="fc">&nbsp;      sb.append(&quot;, vicinity=&quot;).append(vicinity);</b>
+&nbsp;    }
+<b class="pc">&nbsp;    if (types != null &amp;&amp; types.length &gt; 0) {</b>
+<b class="fc">&nbsp;      sb.append(&quot;, types=&quot;).append(Arrays.toString(types));</b>
+&nbsp;    }
+<b class="pc">&nbsp;    if (altIds != null &amp;&amp; altIds.length &gt; 0) {</b>
+<b class="nc">&nbsp;      sb.append(&quot;, altIds=&quot;).append(Arrays.toString(altIds));</b>
+&nbsp;    }
+<b class="fc">&nbsp;    if (formattedPhoneNumber != null) {</b>
+<b class="fc">&nbsp;      sb.append(&quot;, phone=&quot;).append(formattedPhoneNumber);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    if (internationalPhoneNumber != null) {</b>
+<b class="fc">&nbsp;      sb.append(&quot;, internationalPhoneNumber=&quot;).append(internationalPhoneNumber);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    if (url != null) {</b>
+<b class="fc">&nbsp;      sb.append(&quot;, url=&quot;).append(url);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    if (website != null) {</b>
+<b class="fc">&nbsp;      sb.append(&quot;, website=&quot;).append(website);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    if (icon != null) {</b>
+<b class="fc">&nbsp;      sb.append(&quot;, icon&quot;);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    if (openingHours != null) {</b>
+<b class="fc">&nbsp;      sb.append(&quot;, openingHours&quot;);</b>
+<b class="fc">&nbsp;      sb.append(&quot;, utcOffset=&quot;).append(utcOffset);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    if (priceLevel != null) {</b>
+<b class="fc">&nbsp;      sb.append(&quot;, priceLevel=&quot;).append(priceLevel);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    sb.append(&quot;, rating=&quot;).append(rating);</b>
+<b class="pc">&nbsp;    if (permanentlyClosed) {</b>
+<b class="nc">&nbsp;      sb.append(&quot;, permanentlyClosed&quot;);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    if (userRatingsTotal &gt; 0) {</b>
+<b class="fc">&nbsp;      sb.append(&quot;, userRatingsTotal=&quot;).append(userRatingsTotal);</b>
+&nbsp;    }
+<b class="pc">&nbsp;    if (photos != null &amp;&amp; photos.length &gt; 0) {</b>
+<b class="fc">&nbsp;      sb.append(&quot;, &quot;).append(photos.length).append(&quot; photos&quot;);</b>
+&nbsp;    }
+<b class="pc">&nbsp;    if (reservable != null) {</b>
+<b class="nc">&nbsp;      sb.append(&quot;, reservable=&quot;).append(reservable);</b>
+&nbsp;    }
+<b class="pc">&nbsp;    if (reviews != null &amp;&amp; reviews.length &gt; 0) {</b>
+<b class="fc">&nbsp;      sb.append(&quot;, &quot;).append(reviews.length).append(&quot; reviews&quot;);</b>
+&nbsp;    }
+<b class="pc">&nbsp;    if (secondaryOpeningHours != null) {</b>
+<b class="nc">&nbsp;      sb.append(&quot;, secondaryOpeningHours=&quot;).append(secondaryOpeningHours);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    if (servesBeer != null) {</b>
+<b class="fc">&nbsp;      sb.append(&quot;, servesBeer=&quot;).append(servesBeer);</b>
+&nbsp;    }
+<b class="pc">&nbsp;    if (servesBreakfast != null) {</b>
+<b class="nc">&nbsp;      sb.append(&quot;, servesBreakfast=&quot;).append(servesBreakfast);</b>
+&nbsp;    }
+<b class="pc">&nbsp;    if (servesBrunch != null) {</b>
+<b class="nc">&nbsp;      sb.append(&quot;, servesBrunch=&quot;).append(servesBrunch);</b>
+&nbsp;    }
+<b class="pc">&nbsp;    if (servesDinner != null) {</b>
+<b class="nc">&nbsp;      sb.append(&quot;, servesDinner=&quot;).append(servesDinner);</b>
+&nbsp;    }
+<b class="pc">&nbsp;    if (servesLunch != null) {</b>
+<b class="nc">&nbsp;      sb.append(&quot;, servesLunch=&quot;).append(servesLunch);</b>
+&nbsp;    }
+<b class="pc">&nbsp;    if (servesVegetarianFood != null) {</b>
+<b class="nc">&nbsp;      sb.append(&quot;, servesVegetarianFood=&quot;).append(servesVegetarianFood);</b>
+&nbsp;    }
+<b class="pc">&nbsp;    if (servesWine != null) {</b>
+<b class="nc">&nbsp;      sb.append(&quot;, servesWine=&quot;).append(servesWine);</b>
+&nbsp;    }
+<b class="pc">&nbsp;    if (takeout != null) {</b>
+<b class="nc">&nbsp;      sb.append(&quot;, takeout=&quot;).append(takeout);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    if (wheelchairAccessibleEntrance != null) {</b>
+<b class="fc">&nbsp;      sb.append(&quot;, wheelchairAccessibleEntrance=&quot;).append(wheelchairAccessibleEntrance);</b>
+&nbsp;    }
+<b class="pc">&nbsp;    if (htmlAttributions != null &amp;&amp; htmlAttributions.length &gt; 0) {</b>
+<b class="nc">&nbsp;      sb.append(&quot;, &quot;).append(htmlAttributions.length).append(&quot; htmlAttributions&quot;);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    sb.append(&quot;]&quot;);</b>
+<b class="fc">&nbsp;    return sb.toString();</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-01 14:27</div>
+</div>
+</body>
+</html>

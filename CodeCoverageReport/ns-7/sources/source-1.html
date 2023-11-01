@@ -1,0 +1,174 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > AddressComponent</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.google.maps.model</a>
+</div>
+
+<h1>Coverage Summary for Class: AddressComponent (com.google.maps.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AddressComponent</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (1/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (8/8)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * Copyright 2014 Google Inc. All rights reserved.
+&nbsp; *
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;); you may not use this
+&nbsp; * file except in compliance with the License. You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *     http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software distributed under
+&nbsp; * the License is distributed on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
+&nbsp; * ANY KIND, either express or implied. See the License for the specific language governing
+&nbsp; * permissions and limitations under the License.
+&nbsp; */
+&nbsp;
+&nbsp;package com.google.maps.model;
+&nbsp;
+&nbsp;import static com.google.maps.internal.StringJoin.join;
+&nbsp;
+&nbsp;import java.io.Serializable;
+&nbsp;
+&nbsp;/**
+&nbsp; * The parts of an address.
+&nbsp; *
+&nbsp; * &lt;p&gt;See &lt;a href=&quot;https://developers.google.com/maps/documentation/geocoding/intro#Types&quot;&gt;Address
+&nbsp; * Types and Address Component Types&lt;/a&gt; in the &lt;a
+&nbsp; * href=&quot;https://developers.google.com/maps/documentation/geocoding/intro&quot;&gt;Google Maps Geocoding API
+&nbsp; * Developer&#39;s Guide&lt;/a&gt; for more detail.
+&nbsp; */
+<b class="fc">&nbsp;public class AddressComponent implements Serializable {</b>
+&nbsp;
+&nbsp;  private static final long serialVersionUID = 1L;
+&nbsp;
+&nbsp;  /** The full text description or name of the address component as returned by the Geocoder. */
+&nbsp;  public String longName;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * An abbreviated textual name for the address component, if available. For example, an address
+&nbsp;   * component for the state of Alaska may have a longName of &quot;Alaska&quot; and a shortName of &quot;AK&quot; using
+&nbsp;   * the 2-letter postal abbreviation.
+&nbsp;   */
+&nbsp;  public String shortName;
+&nbsp;
+&nbsp;  /** Indicates the type of each part of the address. Examples include street number or country. */
+&nbsp;  public AddressComponentType[] types;
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String toString() {
+<b class="fc">&nbsp;    StringBuilder sb = new StringBuilder(&quot;[AddressComponent: &quot;);</b>
+<b class="fc">&nbsp;    sb.append(&quot;\&quot;&quot;).append(longName).append(&quot;\&quot;&quot;);</b>
+<b class="pc">&nbsp;    if (shortName != null) {</b>
+<b class="fc">&nbsp;      sb.append(&quot; (\&quot;&quot;).append(shortName).append(&quot;\&quot;)&quot;);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    sb.append(&quot; (&quot;).append(join(&quot;, &quot;, (Object[]) types)).append(&quot;)&quot;);</b>
+<b class="fc">&nbsp;    sb.append(&quot;]&quot;);</b>
+<b class="fc">&nbsp;    return sb.toString();</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-01 14:27</div>
+</div>
+</body>
+</html>

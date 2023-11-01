@@ -1,0 +1,212 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > ApiException</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.google.maps.errors</a>
+</div>
+
+<h1>Coverage Summary for Class: ApiException (com.google.maps.errors)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ApiException</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66.7%
+  </span>
+  <span class="absValue">
+    (28/42)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    69.6%
+  </span>
+  <span class="absValue">
+    (32/46)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * Copyright 2014 Google Inc. All rights reserved.
+&nbsp; *
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;); you may not use this
+&nbsp; * file except in compliance with the License. You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *     http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software distributed under
+&nbsp; * the License is distributed on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
+&nbsp; * ANY KIND, either express or implied. See the License for the specific language governing
+&nbsp; * permissions and limitations under the License.
+&nbsp; */
+&nbsp;
+&nbsp;package com.google.maps.errors;
+&nbsp;
+&nbsp;/**
+&nbsp; * ApiException and its descendants represent an error returned by the remote API. API errors are
+&nbsp; * determined by the {@code status} field returned in any of the Geo API responses.
+&nbsp; */
+&nbsp;public class ApiException extends Exception {
+&nbsp;  private static final long serialVersionUID = -6550606366694345191L;
+&nbsp;
+&nbsp;  protected ApiException(String message) {
+<b class="fc">&nbsp;    super(message);</b>
+<b class="fc">&nbsp;  }</b>
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Construct the appropriate ApiException from the response. If the response was successful, this
+&nbsp;   * method will return null.
+&nbsp;   *
+&nbsp;   * @param status The status field returned from the API
+&nbsp;   * @param errorMessage The error message returned from the API
+&nbsp;   * @return The appropriate ApiException based on the status or null if no error occurred.
+&nbsp;   */
+&nbsp;  public static ApiException from(String status, String errorMessage) {
+&nbsp;    // Classic Geo API error formats
+<b class="pc">&nbsp;    if (&quot;OK&quot;.equals(status)) {</b>
+<b class="nc">&nbsp;      return null;</b>
+<b class="fc">&nbsp;    } else if (&quot;INVALID_REQUEST&quot;.equals(status)) {</b>
+<b class="fc">&nbsp;      return new InvalidRequestException(errorMessage);</b>
+<b class="pc">&nbsp;    } else if (&quot;MAX_ELEMENTS_EXCEEDED&quot;.equals(status)) {</b>
+<b class="nc">&nbsp;      return new MaxElementsExceededException(errorMessage);</b>
+<b class="pc">&nbsp;    } else if (&quot;MAX_ROUTE_LENGTH_EXCEEDED&quot;.equals(status)) {</b>
+<b class="nc">&nbsp;      return new MaxRouteLengthExceededException(errorMessage);</b>
+<b class="pc">&nbsp;    } else if (&quot;MAX_WAYPOINTS_EXCEEDED&quot;.equals(status)) {</b>
+<b class="nc">&nbsp;      return new MaxWaypointsExceededException(errorMessage);</b>
+<b class="fc">&nbsp;    } else if (&quot;NOT_FOUND&quot;.equals(status)) {</b>
+<b class="fc">&nbsp;      return new NotFoundException(errorMessage);</b>
+<b class="fc">&nbsp;    } else if (&quot;OVER_QUERY_LIMIT&quot;.equals(status)) {</b>
+<b class="fc">&nbsp;      if (&quot;You have exceeded your daily request quota for this API. If you did not set a custom daily request quota, verify your project has an active billing account: http://g.co/dev/maps-no-account&quot;</b>
+<b class="pc">&nbsp;          .equalsIgnoreCase(errorMessage)) {</b>
+<b class="nc">&nbsp;        return new OverDailyLimitException(errorMessage);</b>
+&nbsp;      }
+<b class="fc">&nbsp;      return new OverQueryLimitException(errorMessage);</b>
+<b class="fc">&nbsp;    } else if (&quot;REQUEST_DENIED&quot;.equals(status)) {</b>
+<b class="fc">&nbsp;      return new RequestDeniedException(errorMessage);</b>
+<b class="pc">&nbsp;    } else if (&quot;UNKNOWN_ERROR&quot;.equals(status)) {</b>
+<b class="nc">&nbsp;      return new UnknownErrorException(errorMessage);</b>
+<b class="fc">&nbsp;    } else if (&quot;ZERO_RESULTS&quot;.equals(status)) {</b>
+<b class="fc">&nbsp;      return new ZeroResultsException(errorMessage);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // New-style Geo API error formats
+<b class="pc">&nbsp;    if (&quot;ACCESS_NOT_CONFIGURED&quot;.equals(status)) {</b>
+<b class="nc">&nbsp;      return new AccessNotConfiguredException(errorMessage);</b>
+<b class="pc">&nbsp;    } else if (&quot;INVALID_ARGUMENT&quot;.equals(status)) {</b>
+<b class="nc">&nbsp;      return new InvalidRequestException(errorMessage);</b>
+<b class="pc">&nbsp;    } else if (&quot;RESOURCE_EXHAUSTED&quot;.equals(status)) {</b>
+<b class="nc">&nbsp;      return new OverQueryLimitException(errorMessage);</b>
+<b class="pc">&nbsp;    } else if (&quot;PERMISSION_DENIED&quot;.equals(status)) {</b>
+<b class="nc">&nbsp;      return new RequestDeniedException(errorMessage);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // Geolocation Errors
+<b class="pc">&nbsp;    if (&quot;keyInvalid&quot;.equals(status)) {</b>
+<b class="nc">&nbsp;      return new AccessNotConfiguredException(errorMessage);</b>
+<b class="pc">&nbsp;    } else if (&quot;dailyLimitExceeded&quot;.equals(status)) {</b>
+<b class="nc">&nbsp;      return new OverDailyLimitException(errorMessage);</b>
+<b class="pc">&nbsp;    } else if (&quot;userRateLimitExceeded&quot;.equals(status)) {</b>
+<b class="nc">&nbsp;      return new OverQueryLimitException(errorMessage);</b>
+<b class="fc">&nbsp;    } else if (&quot;notFound&quot;.equals(status)) {</b>
+<b class="fc">&nbsp;      return new NotFoundException(errorMessage);</b>
+<b class="fc">&nbsp;    } else if (&quot;parseError&quot;.equals(status)) {</b>
+<b class="fc">&nbsp;      return new InvalidRequestException(errorMessage);</b>
+<b class="pc">&nbsp;    } else if (&quot;invalid&quot;.equals(status)) {</b>
+<b class="nc">&nbsp;      return new InvalidRequestException(errorMessage);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // We&#39;ve hit an unknown error. This is not a state we should hit,
+&nbsp;    // but we don&#39;t want to crash a user&#39;s application if we introduce a new error.
+<b class="fc">&nbsp;    return new UnknownErrorException(</b>
+&nbsp;        &quot;An unexpected error occurred. Status: &quot; + status + &quot;, Message: &quot; + errorMessage);
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-01 14:27</div>
+</div>
+</body>
+</html>

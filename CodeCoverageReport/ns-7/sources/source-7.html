@@ -1,0 +1,285 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > CellTower</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.google.maps.model</a>
+</div>
+
+<h1>Coverage Summary for Class: CellTower (com.google.maps.model)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CellTower</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (3/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    89.5%
+  </span>
+  <span class="absValue">
+    (17/19)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">CellTower$1</td>
+  </tr>
+  <tr>
+    <td class="name">CellTower$CellTowerBuilder</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (9/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (23/23)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    92.3%
+  </span>
+  <span class="absValue">
+    (12/13)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    95.2%
+  </span>
+  <span class="absValue">
+    (40/42)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * Copyright 2016 Google Inc. All rights reserved.
+&nbsp; *
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;); you may not use this
+&nbsp; * file except in compliance with the License. You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *     http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software distributed under
+&nbsp; * the License is distributed on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
+&nbsp; * ANY KIND, either express or implied. See the License for the specific language governing
+&nbsp; * permissions and limitations under the License.
+&nbsp; */
+&nbsp;
+&nbsp;package com.google.maps.model;
+&nbsp;
+&nbsp;import java.io.Serializable;
+&nbsp;
+&nbsp;/**
+&nbsp; * A cell tower object.
+&nbsp; *
+&nbsp; * &lt;p&gt;The Geolocation API request body&#39;s cellTowers array contains zero or more cell tower objects.
+&nbsp; *
+&nbsp; * &lt;p&gt;Please see &lt;a
+&nbsp; * href=&quot;https://developers.google.com/maps/documentation/geolocation/intro#cell_tower_object&quot;&gt;Cell
+&nbsp; * Tower Object&lt;/a&gt; for more detail.
+&nbsp; */
+<b class="fc">&nbsp;public class CellTower implements Serializable {</b>
+&nbsp;
+&nbsp;  private static final long serialVersionUID = 1L;
+&nbsp;
+<b class="nc">&nbsp;  public CellTower() {}</b>
+&nbsp;
+&nbsp;  // constructor only used by the builder class below
+&nbsp;  private CellTower(
+&nbsp;      Integer _cellId,
+&nbsp;      Integer _locationAreaCode,
+&nbsp;      Integer _mobileCountryCode,
+&nbsp;      Integer _mobileNetworkCode,
+&nbsp;      Integer _age,
+&nbsp;      Integer _signalStrength,
+<b class="fc">&nbsp;      Integer _timingAdvance) {</b>
+<b class="fc">&nbsp;    this.cellId = _cellId;</b>
+<b class="fc">&nbsp;    this.locationAreaCode = _locationAreaCode;</b>
+<b class="fc">&nbsp;    this.mobileCountryCode = _mobileCountryCode;</b>
+<b class="fc">&nbsp;    this.mobileNetworkCode = _mobileNetworkCode;</b>
+<b class="fc">&nbsp;    this.age = _age;</b>
+<b class="fc">&nbsp;    this.signalStrength = _signalStrength;</b>
+<b class="fc">&nbsp;    this.timingAdvance = _timingAdvance;</b>
+<b class="fc">&nbsp;  }</b>
+&nbsp;  /**
+&nbsp;   * Unique identifier of the cell (required). On GSM, this is the Cell ID (CID); CDMA networks use
+&nbsp;   * the Base Station ID (BID). WCDMA networks use the UTRAN/GERAN Cell Identity (UC-Id), which is a
+&nbsp;   * 32-bit value concatenating the Radio Network Controller (RNC) and Cell ID. Specifying only the
+&nbsp;   * 16-bit Cell ID value in WCDMA networks may return inaccurate results.
+&nbsp;   */
+<b class="fc">&nbsp;  public Integer cellId = null;</b>
+&nbsp;  /**
+&nbsp;   * The Location Area Code (LAC) for GSM and WCDMAnetworks or The Network ID (NID) for CDMA
+&nbsp;   * networks (required).
+&nbsp;   */
+<b class="fc">&nbsp;  public Integer locationAreaCode = null;</b>
+&nbsp;  /** The cell tower&#39;s Mobile Country Code (MCC) (required). */
+<b class="fc">&nbsp;  public Integer mobileCountryCode = null;</b>
+&nbsp;  /**
+&nbsp;   * The cell tower&#39;s Mobile Network Code (required). This is the MNC for GSM and WCDMA; CDMA uses
+&nbsp;   * the System ID (SID).
+&nbsp;   */
+<b class="fc">&nbsp;  public Integer mobileNetworkCode = null;</b>
+&nbsp;  /* The following optional fields are not currently used, but may be included if values are available. */
+&nbsp;  /**
+&nbsp;   * The number of milliseconds since this cell was primary. If age is 0, the cellId represents a
+&nbsp;   * current measurement.
+&nbsp;   */
+<b class="fc">&nbsp;  public Integer age = null;</b>
+&nbsp;  /** Radio signal strength measured in dBm. */
+<b class="fc">&nbsp;  public Integer signalStrength = null;</b>
+&nbsp;  /** The timing advance value. */
+<b class="fc">&nbsp;  public Integer timingAdvance = null;</b>
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String toString() {
+<b class="nc">&nbsp;    return String.format(</b>
+&nbsp;        &quot;[CellTower: cellId=%s, locationAreaCode=%s, mobileCountryCode=%s, &quot;
+&nbsp;            + &quot;mobileNetworkCode=%s, age=%s, signalStrength=%s, timingAdvance=%s]&quot;,
+&nbsp;        cellId,
+&nbsp;        locationAreaCode,
+&nbsp;        mobileCountryCode,
+&nbsp;        mobileNetworkCode,
+&nbsp;        age,
+&nbsp;        signalStrength,
+&nbsp;        timingAdvance);
+&nbsp;  }
+&nbsp;
+<b class="fc">&nbsp;  public static class CellTowerBuilder {</b>
+<b class="fc">&nbsp;    private Integer _cellId = null;</b>
+<b class="fc">&nbsp;    private Integer _locationAreaCode = null;</b>
+<b class="fc">&nbsp;    private Integer _mobileCountryCode = null;</b>
+<b class="fc">&nbsp;    private Integer _mobileNetworkCode = null;</b>
+<b class="fc">&nbsp;    private Integer _age = null;</b>
+<b class="fc">&nbsp;    private Integer _signalStrength = null;</b>
+<b class="fc">&nbsp;    private Integer _timingAdvance = null;</b>
+&nbsp;
+&nbsp;    // create the actual cell tower
+&nbsp;    public CellTower createCellTower() {
+<b class="fc">&nbsp;      return new CellTower(</b>
+&nbsp;          _cellId,
+&nbsp;          _locationAreaCode,
+&nbsp;          _mobileCountryCode,
+&nbsp;          _mobileNetworkCode,
+&nbsp;          _age,
+&nbsp;          _signalStrength,
+&nbsp;          _timingAdvance);
+&nbsp;    }
+&nbsp;
+&nbsp;    public CellTowerBuilder CellId(int newCellId) {
+<b class="fc">&nbsp;      this._cellId = newCellId;</b>
+<b class="fc">&nbsp;      return this;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public CellTowerBuilder LocationAreaCode(int newLocationAreaCode) {
+<b class="fc">&nbsp;      this._locationAreaCode = newLocationAreaCode;</b>
+<b class="fc">&nbsp;      return this;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public CellTowerBuilder MobileCountryCode(int newMobileCountryCode) {
+<b class="fc">&nbsp;      this._mobileCountryCode = newMobileCountryCode;</b>
+<b class="fc">&nbsp;      return this;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public CellTowerBuilder MobileNetworkCode(int newMobileNetworkCode) {
+<b class="fc">&nbsp;      this._mobileNetworkCode = newMobileNetworkCode;</b>
+<b class="fc">&nbsp;      return this;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public CellTowerBuilder Age(int newAge) {
+<b class="fc">&nbsp;      this._age = newAge;</b>
+<b class="fc">&nbsp;      return this;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public CellTowerBuilder SignalStrength(int newSignalStrength) {
+<b class="fc">&nbsp;      this._signalStrength = newSignalStrength;</b>
+<b class="fc">&nbsp;      return this;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public CellTowerBuilder TimingAdvance(int newTimingAdvance) {
+<b class="fc">&nbsp;      this._timingAdvance = newTimingAdvance;</b>
+<b class="fc">&nbsp;      return this;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-01 14:27</div>
+</div>
+</body>
+</html>

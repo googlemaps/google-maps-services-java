@@ -1,0 +1,382 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > GaePendingResult</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.google.maps.internal</a>
+</div>
+
+<h1>Coverage Summary for Class: GaePendingResult (com.google.maps.internal)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GaePendingResult</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/38)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/90)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * Copyright 2016 Google Inc. All rights reserved.
+&nbsp; *
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;); you may not use this
+&nbsp; * file except in compliance with the License. You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *     http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software distributed under
+&nbsp; * the License is distributed on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
+&nbsp; * ANY KIND, either express or implied. See the License for the specific language governing
+&nbsp; * permissions and limitations under the License.
+&nbsp; */
+&nbsp;
+&nbsp;package com.google.maps.internal;
+&nbsp;
+&nbsp;import com.google.appengine.api.urlfetch.HTTPHeader;
+&nbsp;import com.google.appengine.api.urlfetch.HTTPRequest;
+&nbsp;import com.google.appengine.api.urlfetch.HTTPResponse;
+&nbsp;import com.google.appengine.api.urlfetch.URLFetchService;
+&nbsp;import com.google.gson.FieldNamingPolicy;
+&nbsp;import com.google.gson.Gson;
+&nbsp;import com.google.gson.GsonBuilder;
+&nbsp;import com.google.gson.JsonSyntaxException;
+&nbsp;import com.google.maps.GeolocationApi;
+&nbsp;import com.google.maps.ImageResult;
+&nbsp;import com.google.maps.PendingResult;
+&nbsp;import com.google.maps.errors.ApiException;
+&nbsp;import com.google.maps.errors.UnknownErrorException;
+&nbsp;import com.google.maps.metrics.RequestMetrics;
+&nbsp;import com.google.maps.model.AddressComponentType;
+&nbsp;import com.google.maps.model.AddressType;
+&nbsp;import com.google.maps.model.Distance;
+&nbsp;import com.google.maps.model.Duration;
+&nbsp;import com.google.maps.model.EncodedPolyline;
+&nbsp;import com.google.maps.model.Fare;
+&nbsp;import com.google.maps.model.LatLng;
+&nbsp;import com.google.maps.model.LocationType;
+&nbsp;import com.google.maps.model.OpeningHours.Period.OpenClose.DayOfWeek;
+&nbsp;import com.google.maps.model.PlaceDetails.Review.AspectRating.RatingType;
+&nbsp;import com.google.maps.model.PriceLevel;
+&nbsp;import com.google.maps.model.TravelMode;
+&nbsp;import com.google.maps.model.VehicleType;
+&nbsp;import java.io.IOException;
+&nbsp;import java.nio.charset.Charset;
+&nbsp;import java.time.Instant;
+&nbsp;import java.time.LocalTime;
+&nbsp;import java.time.ZonedDateTime;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.List;
+&nbsp;import java.util.concurrent.ExecutionException;
+&nbsp;import java.util.concurrent.Future;
+&nbsp;import org.slf4j.Logger;
+&nbsp;import org.slf4j.LoggerFactory;
+&nbsp;
+&nbsp;/**
+&nbsp; * A PendingResult backed by a HTTP call executed by Google App Engine URL Fetch capability, a
+&nbsp; * deserialization step using Gson, and a retry policy.
+&nbsp; *
+&nbsp; * &lt;p&gt;{@code T} is the type of the result of this pending result, and {@code R} is the type of the
+&nbsp; * request.
+&nbsp; */
+&nbsp;public class GaePendingResult&lt;T, R extends ApiResponse&lt;T&gt;&gt; implements PendingResult&lt;T&gt; {
+&nbsp;  private final HTTPRequest request;
+&nbsp;  private final URLFetchService client;
+&nbsp;  private final Class&lt;R&gt; responseClass;
+&nbsp;  private final FieldNamingPolicy fieldNamingPolicy;
+&nbsp;  private final Integer maxRetries;
+&nbsp;  private final ExceptionsAllowedToRetry exceptionsAllowedToRetry;
+&nbsp;  private final RequestMetrics metrics;
+&nbsp;
+&nbsp;  private long errorTimeOut;
+<b class="nc">&nbsp;  private int retryCounter = 0;</b>
+<b class="nc">&nbsp;  private long cumulativeSleepTime = 0;</b>
+&nbsp;  private Future&lt;HTTPResponse&gt; call;
+&nbsp;
+<b class="nc">&nbsp;  private static final Logger LOG = LoggerFactory.getLogger(GaePendingResult.class.getName());</b>
+<b class="nc">&nbsp;  private static final List&lt;Integer&gt; RETRY_ERROR_CODES = Arrays.asList(500, 503, 504);</b>
+&nbsp;
+&nbsp;  /**
+&nbsp;   * @param request HTTP request to execute.
+&nbsp;   * @param client The client used to execute the request.
+&nbsp;   * @param responseClass Model class to unmarshal JSON body content.
+&nbsp;   * @param fieldNamingPolicy FieldNamingPolicy for unmarshaling JSON.
+&nbsp;   * @param errorTimeOut Number of milliseconds to re-send erroring requests.
+&nbsp;   * @param maxRetries Number of times allowed to re-send erroring requests.
+&nbsp;   */
+&nbsp;  public GaePendingResult(
+&nbsp;      HTTPRequest request,
+&nbsp;      URLFetchService client,
+&nbsp;      Class&lt;R&gt; responseClass,
+&nbsp;      FieldNamingPolicy fieldNamingPolicy,
+&nbsp;      long errorTimeOut,
+&nbsp;      Integer maxRetries,
+&nbsp;      ExceptionsAllowedToRetry exceptionsAllowedToRetry,
+<b class="nc">&nbsp;      RequestMetrics metrics) {</b>
+<b class="nc">&nbsp;    this.request = request;</b>
+<b class="nc">&nbsp;    this.client = client;</b>
+<b class="nc">&nbsp;    this.responseClass = responseClass;</b>
+<b class="nc">&nbsp;    this.fieldNamingPolicy = fieldNamingPolicy;</b>
+<b class="nc">&nbsp;    this.errorTimeOut = errorTimeOut;</b>
+<b class="nc">&nbsp;    this.maxRetries = maxRetries;</b>
+<b class="nc">&nbsp;    this.exceptionsAllowedToRetry = exceptionsAllowedToRetry;</b>
+<b class="nc">&nbsp;    this.metrics = metrics;</b>
+&nbsp;
+<b class="nc">&nbsp;    metrics.startNetwork();</b>
+<b class="nc">&nbsp;    this.call = client.fetchAsync(request);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public void setCallback(Callback&lt;T&gt; callback) {
+<b class="nc">&nbsp;    throw new RuntimeException(&quot;setCallback not implemented for Google App Engine&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public T await() throws ApiException, IOException, InterruptedException {
+&nbsp;    try {
+<b class="nc">&nbsp;      HTTPResponse result = call.get();</b>
+<b class="nc">&nbsp;      metrics.endNetwork();</b>
+<b class="nc">&nbsp;      return parseResponse(this, result);</b>
+<b class="nc">&nbsp;    } catch (ExecutionException e) {</b>
+<b class="nc">&nbsp;      if (e.getCause() instanceof IOException) {</b>
+<b class="nc">&nbsp;        throw (IOException) e.getCause();</b>
+&nbsp;      } else {
+&nbsp;        // According to
+&nbsp;        // https://cloud.google.com/appengine/docs/standard/java/javadoc/com/google/appengine/api/urlfetch/URLFetchService
+&nbsp;        // all exceptions should be subclass of IOException so this should not happen.
+<b class="nc">&nbsp;        throw new UnknownErrorException(&quot;Unexpected exception from &quot; + e.getMessage());</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public T awaitIgnoreError() {
+&nbsp;    try {
+<b class="nc">&nbsp;      return await();</b>
+<b class="nc">&nbsp;    } catch (Exception e) {</b>
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public void cancel() {
+<b class="nc">&nbsp;    call.cancel(true);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @SuppressWarnings(&quot;unchecked&quot;)
+&nbsp;  private T parseResponse(GaePendingResult&lt;T, R&gt; request, HTTPResponse response)
+&nbsp;      throws IOException, ApiException, InterruptedException {
+&nbsp;    try {
+<b class="nc">&nbsp;      T result = parseResponseInternal(request, response);</b>
+<b class="nc">&nbsp;      metrics.endRequest(null, response.getResponseCode(), retryCounter);</b>
+<b class="nc">&nbsp;      return result;</b>
+<b class="nc">&nbsp;    } catch (Exception e) {</b>
+<b class="nc">&nbsp;      metrics.endRequest(e, response.getResponseCode(), retryCounter);</b>
+<b class="nc">&nbsp;      throw e;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  @SuppressWarnings(&quot;unchecked&quot;)
+&nbsp;  private T parseResponseInternal(GaePendingResult&lt;T, R&gt; request, HTTPResponse response)
+&nbsp;      throws IOException, ApiException, InterruptedException {
+<b class="nc">&nbsp;    if (shouldRetry(response)) {</b>
+&nbsp;      // Retry is a blocking method, but that&#39;s OK. If we&#39;re here, we&#39;re either in an await()
+&nbsp;      // call, which is blocking anyway, or we&#39;re handling a callback in a separate thread.
+<b class="nc">&nbsp;      return request.retry();</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    byte[] bytes = response.getContent();</b>
+&nbsp;    R resp;
+&nbsp;
+<b class="nc">&nbsp;    String contentType = null;</b>
+<b class="nc">&nbsp;    for (HTTPHeader header : response.getHeaders()) {</b>
+<b class="nc">&nbsp;      if (header.getName().equalsIgnoreCase(&quot;Content-Type&quot;)) {</b>
+<b class="nc">&nbsp;        contentType = header.getValue();</b>
+&nbsp;      }
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+<b class="nc">&nbsp;    if (contentType != null</b>
+<b class="nc">&nbsp;        &amp;&amp; contentType.startsWith(&quot;image&quot;)</b>
+&nbsp;        &amp;&amp; responseClass == ImageResult.Response.class
+<b class="nc">&nbsp;        &amp;&amp; response.getResponseCode() == 200) {</b>
+<b class="nc">&nbsp;      ImageResult result = new ImageResult(contentType, bytes);</b>
+<b class="nc">&nbsp;      return (T) result;</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    Gson gson =</b>
+&nbsp;        new GsonBuilder()
+<b class="nc">&nbsp;            .registerTypeAdapter(ZonedDateTime.class, new ZonedDateTimeAdapter())</b>
+<b class="nc">&nbsp;            .registerTypeAdapter(Distance.class, new DistanceAdapter())</b>
+<b class="nc">&nbsp;            .registerTypeAdapter(Duration.class, new DurationAdapter())</b>
+<b class="nc">&nbsp;            .registerTypeAdapter(Fare.class, new FareAdapter())</b>
+<b class="nc">&nbsp;            .registerTypeAdapter(LatLng.class, new LatLngAdapter())</b>
+<b class="nc">&nbsp;            .registerTypeAdapter(</b>
+&nbsp;                AddressComponentType.class, new SafeEnumAdapter&lt;&gt;(AddressComponentType.UNKNOWN))
+<b class="nc">&nbsp;            .registerTypeAdapter(AddressType.class, new SafeEnumAdapter&lt;&gt;(AddressType.UNKNOWN))</b>
+<b class="nc">&nbsp;            .registerTypeAdapter(TravelMode.class, new SafeEnumAdapter&lt;&gt;(TravelMode.UNKNOWN))</b>
+<b class="nc">&nbsp;            .registerTypeAdapter(LocationType.class, new SafeEnumAdapter&lt;&gt;(LocationType.UNKNOWN))</b>
+<b class="nc">&nbsp;            .registerTypeAdapter(RatingType.class, new SafeEnumAdapter&lt;&gt;(RatingType.UNKNOWN))</b>
+<b class="nc">&nbsp;            .registerTypeAdapter(VehicleType.class, new SafeEnumAdapter&lt;&gt;(VehicleType.OTHER))</b>
+<b class="nc">&nbsp;            .registerTypeAdapter(DayOfWeek.class, new DayOfWeekAdapter())</b>
+<b class="nc">&nbsp;            .registerTypeAdapter(PriceLevel.class, new PriceLevelAdapter())</b>
+<b class="nc">&nbsp;            .registerTypeAdapter(Instant.class, new InstantAdapter())</b>
+<b class="nc">&nbsp;            .registerTypeAdapter(LocalTime.class, new LocalTimeAdapter())</b>
+<b class="nc">&nbsp;            .registerTypeAdapter(GeolocationApi.Response.class, new GeolocationResponseAdapter())</b>
+<b class="nc">&nbsp;            .registerTypeAdapter(EncodedPolyline.class, new EncodedPolylineInstanceCreator(&quot;&quot;))</b>
+<b class="nc">&nbsp;            .setFieldNamingPolicy(fieldNamingPolicy)</b>
+<b class="nc">&nbsp;            .create();</b>
+&nbsp;
+&nbsp;    // Attempt to de-serialize before checking the HTTP status code, as there may be JSON in the
+&nbsp;    // body that we can use to provide a more descriptive exception.
+&nbsp;    try {
+<b class="nc">&nbsp;      resp = gson.fromJson(new String(bytes, &quot;utf8&quot;), responseClass);</b>
+<b class="nc">&nbsp;    } catch (JsonSyntaxException e) {</b>
+&nbsp;      // Check HTTP status for a more suitable exception
+<b class="nc">&nbsp;      if (response.getResponseCode() &gt; 399) {</b>
+&nbsp;        // Some of the APIs return 200 even when the API request fails, as long as the transport
+&nbsp;        // mechanism succeeds. In these cases, INVALID_RESPONSE, etc are handled by the Gson
+&nbsp;        // parsing.
+<b class="nc">&nbsp;        throw new IOException(</b>
+<b class="nc">&nbsp;            String.format(</b>
+&nbsp;                &quot;Server Error: %d %s&quot;,
+<b class="nc">&nbsp;                response.getResponseCode(),</b>
+<b class="nc">&nbsp;                new String(response.getContent(), Charset.defaultCharset())));</b>
+&nbsp;      }
+&nbsp;
+&nbsp;      // Otherwise just cough up the syntax exception.
+<b class="nc">&nbsp;      throw e;</b>
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+<b class="nc">&nbsp;    if (resp.successful()) {</b>
+&nbsp;      // Return successful responses
+<b class="nc">&nbsp;      return resp.getResult();</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      ApiException e = resp.getError();</b>
+<b class="nc">&nbsp;      if (shouldRetry(e)) {</b>
+&nbsp;        // Retry over_query_limit errors
+<b class="nc">&nbsp;        return request.retry();</b>
+&nbsp;      } else {
+&nbsp;        // Throw anything else, including OQLs if we&#39;ve spent too much time retrying
+<b class="nc">&nbsp;        throw e;</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  private T retry() throws IOException, ApiException, InterruptedException {
+<b class="nc">&nbsp;    retryCounter++;</b>
+<b class="nc">&nbsp;    LOG.info(&quot;Retrying request. Retry #{}&quot;, retryCounter);</b>
+<b class="nc">&nbsp;    metrics.startNetwork();</b>
+<b class="nc">&nbsp;    this.call = client.fetchAsync(request);</b>
+<b class="nc">&nbsp;    return this.await();</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean shouldRetry(HTTPResponse response) {
+<b class="nc">&nbsp;    return RETRY_ERROR_CODES.contains(response.getResponseCode())</b>
+&nbsp;        &amp;&amp; cumulativeSleepTime &lt; errorTimeOut
+<b class="nc">&nbsp;        &amp;&amp; (maxRetries == null || retryCounter &lt; maxRetries);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private boolean shouldRetry(ApiException exception) {
+<b class="nc">&nbsp;    return exceptionsAllowedToRetry.contains(exception.getClass())</b>
+&nbsp;        &amp;&amp; cumulativeSleepTime &lt; errorTimeOut
+<b class="nc">&nbsp;        &amp;&amp; (maxRetries == null || retryCounter &lt; maxRetries);</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-01 14:27</div>
+</div>
+</body>
+</html>

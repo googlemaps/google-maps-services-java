@@ -1,0 +1,270 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > GeocodingApiRequest</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.google.maps</a>
+</div>
+
+<h1>Coverage Summary for Class: GeocodingApiRequest (com.google.maps)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GeocodingApiRequest</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (11/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    71.4%
+  </span>
+  <span class="absValue">
+    (10/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    85.7%
+  </span>
+  <span class="absValue">
+    (18/21)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * Copyright 2016 Google Inc. All rights reserved.
+&nbsp; *
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;); you may not use this
+&nbsp; * file except in compliance with the License. You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *     http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software distributed under
+&nbsp; * the License is distributed on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
+&nbsp; * ANY KIND, either express or implied. See the License for the specific language governing
+&nbsp; * permissions and limitations under the License.
+&nbsp; */
+&nbsp;
+&nbsp;package com.google.maps;
+&nbsp;
+&nbsp;import static com.google.maps.internal.StringJoin.join;
+&nbsp;
+&nbsp;import com.google.maps.internal.ApiConfig;
+&nbsp;import com.google.maps.model.AddressType;
+&nbsp;import com.google.maps.model.ComponentFilter;
+&nbsp;import com.google.maps.model.GeocodingResult;
+&nbsp;import com.google.maps.model.LatLng;
+&nbsp;import com.google.maps.model.LocationType;
+&nbsp;
+&nbsp;/** A request for the Geocoding API. */
+&nbsp;public class GeocodingApiRequest
+&nbsp;    extends PendingResultBase&lt;GeocodingResult[], GeocodingApiRequest, GeocodingApi.Response&gt; {
+&nbsp;
+<b class="fc">&nbsp;  private static final ApiConfig API_CONFIG = new ApiConfig(&quot;/maps/api/geocode/json&quot;);</b>
+&nbsp;
+&nbsp;  public GeocodingApiRequest(GeoApiContext context) {
+<b class="fc">&nbsp;    super(context, API_CONFIG, GeocodingApi.Response.class);</b>
+<b class="fc">&nbsp;  }</b>
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected void validateRequest() {
+&nbsp;    // Must not have both address and latlng.
+<b class="fc">&nbsp;    if (params().containsKey(&quot;latlng&quot;)</b>
+<b class="pc">&nbsp;        &amp;&amp; params().containsKey(&quot;address&quot;)</b>
+<b class="nc">&nbsp;        &amp;&amp; params().containsKey(&quot;place_id&quot;)) {</b>
+<b class="nc">&nbsp;      throw new IllegalArgumentException(</b>
+&nbsp;          &quot;Request must contain only one of &#39;address&#39;, &#39;latlng&#39; or &#39;place_id&#39;.&quot;);
+&nbsp;    }
+&nbsp;
+&nbsp;    // Must contain at least one of place_id, address, latlng, and components;
+<b class="fc">&nbsp;    if (!params().containsKey(&quot;latlng&quot;)</b>
+<b class="fc">&nbsp;        &amp;&amp; !params().containsKey(&quot;address&quot;)</b>
+<b class="fc">&nbsp;        &amp;&amp; !params().containsKey(&quot;components&quot;)</b>
+<b class="pc">&nbsp;        &amp;&amp; !params().containsKey(&quot;place_id&quot;)) {</b>
+<b class="nc">&nbsp;      throw new IllegalArgumentException(</b>
+&nbsp;          &quot;Request must contain at least one of &#39;address&#39;, &#39;latlng&#39;, &#39;place_id&#39; and &#39;components&#39;.&quot;);
+&nbsp;    }
+<b class="fc">&nbsp;  }</b>
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Creates a forward geocode for {@code address}.
+&nbsp;   *
+&nbsp;   * @param address The address to geocode.
+&nbsp;   * @return Returns this {@code GeocodingApiRequest} for call chaining.
+&nbsp;   */
+&nbsp;  public GeocodingApiRequest address(String address) {
+<b class="fc">&nbsp;    return param(&quot;address&quot;, address);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Creates a forward geocode for {@code placeId}.
+&nbsp;   *
+&nbsp;   * @param placeId The Place ID to geocode.
+&nbsp;   * @return Returns this {@code GeocodingApiRequest} for call chaining.
+&nbsp;   */
+&nbsp;  public GeocodingApiRequest place(String placeId) {
+<b class="fc">&nbsp;    return param(&quot;place_id&quot;, placeId);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Creates a reverse geocode for {@code latlng}.
+&nbsp;   *
+&nbsp;   * @param latlng The location to reverse geocode.
+&nbsp;   * @return Returns this {@code GeocodingApiRequest} for call chaining.
+&nbsp;   */
+&nbsp;  public GeocodingApiRequest latlng(LatLng latlng) {
+<b class="fc">&nbsp;    return param(&quot;latlng&quot;, latlng);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Sets the bounding box of the viewport within which to bias geocode results more prominently.
+&nbsp;   * This parameter will only influence, not fully restrict, results from the geocoder.
+&nbsp;   *
+&nbsp;   * &lt;p&gt;For more information see &lt;a
+&nbsp;   * href=&quot;https://developers.google.com/maps/documentation/geocoding/intro?hl=pl#Viewports&quot;&gt;
+&nbsp;   * Viewport Biasing&lt;/a&gt;.
+&nbsp;   *
+&nbsp;   * @param southWestBound The South West bound of the bounding box.
+&nbsp;   * @param northEastBound The North East bound of the bounding box.
+&nbsp;   * @return Returns this {@code GeocodingApiRequest} for call chaining.
+&nbsp;   */
+&nbsp;  public GeocodingApiRequest bounds(LatLng southWestBound, LatLng northEastBound) {
+<b class="fc">&nbsp;    return param(&quot;bounds&quot;, join(&#39;|&#39;, southWestBound, northEastBound));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Sets the region code, specified as a ccTLD (&quot;top-level domain&quot;) two-character value. This
+&nbsp;   * parameter will only influence, not fully restrict, results from the geocoder.
+&nbsp;   *
+&nbsp;   * &lt;p&gt;For more information see &lt;a
+&nbsp;   * href=&quot;https://developers.google.com/maps/documentation/geocoding/intro?hl=pl#RegionCodes&quot;&gt;Region
+&nbsp;   * Biasing&lt;/a&gt;.
+&nbsp;   *
+&nbsp;   * @param region The region code to influence results.
+&nbsp;   * @return Returns this {@code GeocodingApiRequest} for call chaining.
+&nbsp;   */
+&nbsp;  public GeocodingApiRequest region(String region) {
+<b class="fc">&nbsp;    return param(&quot;region&quot;, region);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Sets the component filters. Each component filter consists of a component:value pair and will
+&nbsp;   * fully restrict the results from the geocoder.
+&nbsp;   *
+&nbsp;   * &lt;p&gt;For more information see &lt;a
+&nbsp;   * href=&quot;https://developers.google.com/maps/documentation/geocoding/intro?hl=pl#ComponentFiltering&quot;&gt;
+&nbsp;   * Component Filtering&lt;/a&gt;.
+&nbsp;   *
+&nbsp;   * @param filters Component filters to apply to the request.
+&nbsp;   * @return Returns this {@code GeocodingApiRequest} for call chaining.
+&nbsp;   */
+&nbsp;  public GeocodingApiRequest components(ComponentFilter... filters) {
+<b class="fc">&nbsp;    return param(&quot;components&quot;, join(&#39;|&#39;, filters));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Sets the result type. Specifying a type will restrict the results to this type. If multiple
+&nbsp;   * types are specified, the API will return all addresses that match any of the types.
+&nbsp;   *
+&nbsp;   * @param resultTypes The result types to restrict to.
+&nbsp;   * @return Returns this {@code GeocodingApiRequest} for call chaining.
+&nbsp;   */
+&nbsp;  public GeocodingApiRequest resultType(AddressType... resultTypes) {
+<b class="fc">&nbsp;    return param(&quot;result_type&quot;, join(&#39;|&#39;, resultTypes));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Sets the location type. Specifying a type will restrict the results to this type. If multiple
+&nbsp;   * types are specified, the API will return all addresses that match any of the types.
+&nbsp;   *
+&nbsp;   * @param locationTypes The location types to restrict to.
+&nbsp;   * @return Returns this {@code GeocodingApiRequest} for call chaining.
+&nbsp;   */
+&nbsp;  public GeocodingApiRequest locationType(LocationType... locationTypes) {
+<b class="fc">&nbsp;    return param(&quot;location_type&quot;, join(&#39;|&#39;, locationTypes));</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-01 14:27</div>
+</div>
+</body>
+</html>

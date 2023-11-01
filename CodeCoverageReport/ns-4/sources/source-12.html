@@ -1,0 +1,184 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > SafeEnumAdapter</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.google.maps.internal</a>
+</div>
+
+<h1>Coverage Summary for Class: SafeEnumAdapter (com.google.maps.internal)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SafeEnumAdapter</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (3/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (2/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    60%
+  </span>
+  <span class="absValue">
+    (9/15)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * Copyright 2014 Google Inc. All rights reserved.
+&nbsp; *
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;); you may not use this
+&nbsp; * file except in compliance with the License. You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *     http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software distributed under
+&nbsp; * the License is distributed on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
+&nbsp; * ANY KIND, either express or implied. See the License for the specific language governing
+&nbsp; * permissions and limitations under the License.
+&nbsp; */
+&nbsp;
+&nbsp;package com.google.maps.internal;
+&nbsp;
+&nbsp;import com.google.gson.TypeAdapter;
+&nbsp;import com.google.gson.stream.JsonReader;
+&nbsp;import com.google.gson.stream.JsonToken;
+&nbsp;import com.google.gson.stream.JsonWriter;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.Locale;
+&nbsp;import org.slf4j.Logger;
+&nbsp;import org.slf4j.LoggerFactory;
+&nbsp;
+&nbsp;/**
+&nbsp; * A {@link com.google.gson.TypeAdapter} that maps case-insensitive values to an enum type. If the
+&nbsp; * value is not found, an UNKNOWN value is returned, and logged. This allows the server to return
+&nbsp; * values this client doesn&#39;t yet know about.
+&nbsp; *
+&nbsp; * @param &lt;E&gt; the enum type to map values to.
+&nbsp; */
+&nbsp;public class SafeEnumAdapter&lt;E extends Enum&lt;E&gt;&gt; extends TypeAdapter&lt;E&gt; {
+&nbsp;
+<b class="fc">&nbsp;  private static final Logger LOG = LoggerFactory.getLogger(SafeEnumAdapter.class.getName());</b>
+&nbsp;
+&nbsp;  private final Class&lt;E&gt; clazz;
+&nbsp;  private final E unknownValue;
+&nbsp;
+&nbsp;  /** @param unknownValue the value to return if the value cannot be found. */
+<b class="fc">&nbsp;  public SafeEnumAdapter(E unknownValue) {</b>
+<b class="pc">&nbsp;    if (unknownValue == null) throw new IllegalArgumentException();</b>
+&nbsp;
+<b class="fc">&nbsp;    this.unknownValue = unknownValue;</b>
+<b class="fc">&nbsp;    this.clazz = unknownValue.getDeclaringClass();</b>
+<b class="fc">&nbsp;  }</b>
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public void write(JsonWriter out, E value) throws IOException {
+<b class="nc">&nbsp;    throw new UnsupportedOperationException(&quot;Unimplemented method&quot;);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public E read(JsonReader reader) throws IOException {
+<b class="pc">&nbsp;    if (reader.peek() == JsonToken.NULL) {</b>
+<b class="nc">&nbsp;      reader.nextNull();</b>
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    String value = reader.nextString();</b>
+&nbsp;    try {
+<b class="fc">&nbsp;      return Enum.valueOf(clazz, value.toUpperCase(Locale.ENGLISH));</b>
+<b class="nc">&nbsp;    } catch (IllegalArgumentException iae) {</b>
+<b class="nc">&nbsp;      LOG.warn(&quot;Unknown type for enum {}: &#39;{}&#39;&quot;, clazz.getName(), value);</b>
+<b class="nc">&nbsp;      return unknownValue;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-01 14:27</div>
+</div>
+</body>
+</html>

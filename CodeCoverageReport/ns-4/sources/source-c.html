@@ -1,0 +1,193 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > LatLngAdapter</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.google.maps.internal</a>
+</div>
+
+<h1>Coverage Summary for Class: LatLngAdapter (com.google.maps.internal)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">LatLngAdapter</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66.7%
+  </span>
+  <span class="absValue">
+    (2/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (12/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    82.6%
+  </span>
+  <span class="absValue">
+    (19/23)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * Copyright 2015 Google Inc. All rights reserved.
+&nbsp; *
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;); you may not use this
+&nbsp; * file except in compliance with the License. You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *     http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software distributed under
+&nbsp; * the License is distributed on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
+&nbsp; * ANY KIND, either express or implied. See the License for the specific language governing
+&nbsp; * permissions and limitations under the License.
+&nbsp; */
+&nbsp;
+&nbsp;package com.google.maps.internal;
+&nbsp;
+&nbsp;import com.google.gson.TypeAdapter;
+&nbsp;import com.google.gson.stream.JsonReader;
+&nbsp;import com.google.gson.stream.JsonToken;
+&nbsp;import com.google.gson.stream.JsonWriter;
+&nbsp;import com.google.maps.model.LatLng;
+&nbsp;import java.io.IOException;
+&nbsp;
+&nbsp;/** Handle conversion from varying types of latitude and longitude representations. */
+<b class="fc">&nbsp;public class LatLngAdapter extends TypeAdapter&lt;LatLng&gt; {</b>
+&nbsp;  /**
+&nbsp;   * Reads in a JSON object and try to create a LatLng in one of the following formats.
+&nbsp;   *
+&nbsp;   * &lt;pre&gt;{
+&nbsp;   *   &quot;lat&quot; : -33.8353684,
+&nbsp;   *   &quot;lng&quot; : 140.8527069
+&nbsp;   * }
+&nbsp;   *
+&nbsp;   * {
+&nbsp;   *   &quot;latitude&quot;: -33.865257570508334,
+&nbsp;   *   &quot;longitude&quot;: 151.19287000481452
+&nbsp;   * }&lt;/pre&gt;
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  public LatLng read(JsonReader reader) throws IOException {
+<b class="pc">&nbsp;    if (reader.peek() == JsonToken.NULL) {</b>
+<b class="nc">&nbsp;      reader.nextNull();</b>
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    double lat = 0;</b>
+<b class="fc">&nbsp;    double lng = 0;</b>
+<b class="fc">&nbsp;    boolean hasLat = false;</b>
+<b class="fc">&nbsp;    boolean hasLng = false;</b>
+&nbsp;
+<b class="fc">&nbsp;    reader.beginObject();</b>
+<b class="fc">&nbsp;    while (reader.hasNext()) {</b>
+<b class="fc">&nbsp;      String name = reader.nextName();</b>
+<b class="fc">&nbsp;      if (&quot;lat&quot;.equals(name) || &quot;latitude&quot;.equals(name)) {</b>
+<b class="fc">&nbsp;        lat = reader.nextDouble();</b>
+<b class="fc">&nbsp;        hasLat = true;</b>
+<b class="pc">&nbsp;      } else if (&quot;lng&quot;.equals(name) || &quot;longitude&quot;.equals(name)) {</b>
+<b class="fc">&nbsp;        lng = reader.nextDouble();</b>
+<b class="fc">&nbsp;        hasLng = true;</b>
+&nbsp;      }
+<b class="fc">&nbsp;    }</b>
+<b class="fc">&nbsp;    reader.endObject();</b>
+&nbsp;
+<b class="pc">&nbsp;    if (hasLat &amp;&amp; hasLng) {</b>
+<b class="fc">&nbsp;      return new LatLng(lat, lng);</b>
+&nbsp;    } else {
+<b class="nc">&nbsp;      return null;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /** Not supported. */
+&nbsp;  @Override
+&nbsp;  public void write(JsonWriter out, LatLng value) throws IOException {
+<b class="nc">&nbsp;    throw new UnsupportedOperationException(&quot;Unimplemented method.&quot;);</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-01 14:27</div>
+</div>
+</body>
+</html>

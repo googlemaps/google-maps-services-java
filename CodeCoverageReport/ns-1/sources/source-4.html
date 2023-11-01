@@ -1,0 +1,321 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > DistanceMatrixApiRequest</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.google.maps</a>
+</div>
+
+<h1>Coverage Summary for Class: DistanceMatrixApiRequest (com.google.maps)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">DistanceMatrixApiRequest</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    78.6%
+  </span>
+  <span class="absValue">
+    (11/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    56.2%
+  </span>
+  <span class="absValue">
+    (9/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    73.1%
+  </span>
+  <span class="absValue">
+    (19/26)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * Copyright 2014 Google Inc. All rights reserved.
+&nbsp; *
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;); you may not use this
+&nbsp; * file except in compliance with the License. You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *     http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software distributed under
+&nbsp; * the License is distributed on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
+&nbsp; * ANY KIND, either express or implied. See the License for the specific language governing
+&nbsp; * permissions and limitations under the License.
+&nbsp; */
+&nbsp;
+&nbsp;package com.google.maps;
+&nbsp;
+&nbsp;import static com.google.maps.internal.StringJoin.join;
+&nbsp;
+&nbsp;import com.google.maps.DirectionsApi.RouteRestriction;
+&nbsp;import com.google.maps.DistanceMatrixApi.Response;
+&nbsp;import com.google.maps.model.DistanceMatrix;
+&nbsp;import com.google.maps.model.LatLng;
+&nbsp;import com.google.maps.model.TrafficModel;
+&nbsp;import com.google.maps.model.TransitMode;
+&nbsp;import com.google.maps.model.TransitRoutingPreference;
+&nbsp;import com.google.maps.model.TravelMode;
+&nbsp;import com.google.maps.model.Unit;
+&nbsp;import java.time.Instant;
+&nbsp;
+&nbsp;/** A request to the Distance Matrix API. */
+&nbsp;public class DistanceMatrixApiRequest
+&nbsp;    extends PendingResultBase&lt;DistanceMatrix, DistanceMatrixApiRequest, Response&gt; {
+&nbsp;
+&nbsp;  public DistanceMatrixApiRequest(GeoApiContext context) {
+<b class="fc">&nbsp;    super(context, DistanceMatrixApi.API_CONFIG, Response.class);</b>
+<b class="fc">&nbsp;  }</b>
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected void validateRequest() {
+<b class="pc">&nbsp;    if (!params().containsKey(&quot;origins&quot;)) {</b>
+<b class="nc">&nbsp;      throw new IllegalArgumentException(&quot;Request must contain &#39;origins&#39;&quot;);</b>
+&nbsp;    }
+<b class="pc">&nbsp;    if (!params().containsKey(&quot;destinations&quot;)) {</b>
+<b class="nc">&nbsp;      throw new IllegalArgumentException(&quot;Request must contain &#39;destinations&#39;&quot;);</b>
+&nbsp;    }
+<b class="pc">&nbsp;    if (params().containsKey(&quot;arrival_time&quot;) &amp;&amp; params().containsKey(&quot;departure_time&quot;)) {</b>
+<b class="nc">&nbsp;      throw new IllegalArgumentException(</b>
+&nbsp;          &quot;Transit request must not contain both a departureTime and an arrivalTime&quot;);
+&nbsp;    }
+<b class="fc">&nbsp;  }</b>
+&nbsp;
+&nbsp;  /**
+&nbsp;   * One or more addresses from which to calculate distance and time. The service will geocode the
+&nbsp;   * strings and convert them to latitude/longitude coordinates to calculate directions.
+&nbsp;   *
+&nbsp;   * @param origins Strings to geocode and use as an origin point (e.g. &quot;New York, NY&quot;)
+&nbsp;   * @return Returns this {@code DistanceMatrixApiRequest} for call chaining.
+&nbsp;   */
+&nbsp;  public DistanceMatrixApiRequest origins(String... origins) {
+<b class="fc">&nbsp;    return param(&quot;origins&quot;, join(&#39;|&#39;, origins));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * One or more latitude/longitude values from which to calculate distance and time.
+&nbsp;   *
+&nbsp;   * @param points The origin points.
+&nbsp;   * @return Returns this {@code DistanceMatrixApiRequest} for call chaining.
+&nbsp;   */
+&nbsp;  public DistanceMatrixApiRequest origins(LatLng... points) {
+<b class="fc">&nbsp;    return param(&quot;origins&quot;, join(&#39;|&#39;, points));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * One or more addresses to which to calculate distance and time. The service will geocode the
+&nbsp;   * strings and convert them to latitude/longitude coordinates to calculate directions.
+&nbsp;   *
+&nbsp;   * @param destinations Strings to geocode and use as a destination point (e.g. &quot;Jersey City, NJ&quot;)
+&nbsp;   * @return Returns this {@code DistanceMatrixApiRequest} for call chaining.
+&nbsp;   */
+&nbsp;  public DistanceMatrixApiRequest destinations(String... destinations) {
+<b class="fc">&nbsp;    return param(&quot;destinations&quot;, join(&#39;|&#39;, destinations));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * One or more latitude/longitude values to which to calculate distance and time.
+&nbsp;   *
+&nbsp;   * @param points The destination points.
+&nbsp;   * @return Returns this {@code DistanceMatrixApiRequest} for call chaining.
+&nbsp;   */
+&nbsp;  public DistanceMatrixApiRequest destinations(LatLng... points) {
+<b class="fc">&nbsp;    return param(&quot;destinations&quot;, join(&#39;|&#39;, points));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Specifies the mode of transport to use when calculating directions.
+&nbsp;   *
+&nbsp;   * &lt;p&gt;Note that Distance Matrix requests only support {@link TravelMode#DRIVING}, {@link
+&nbsp;   * TravelMode#WALKING}, {@link TravelMode#BICYCLING} and {@link TravelMode#TRANSIT}.
+&nbsp;   *
+&nbsp;   * @param mode One of the travel modes supported by the Distance Matrix API.
+&nbsp;   * @return Returns this {@code DistanceMatrixApiRequest} for call chaining.
+&nbsp;   */
+&nbsp;  public DistanceMatrixApiRequest mode(TravelMode mode) {
+<b class="fc">&nbsp;    if (TravelMode.DRIVING.equals(mode)</b>
+<b class="pc">&nbsp;        || TravelMode.WALKING.equals(mode)</b>
+<b class="fc">&nbsp;        || TravelMode.BICYCLING.equals(mode)</b>
+<b class="pc">&nbsp;        || TravelMode.TRANSIT.equals(mode)) {</b>
+<b class="fc">&nbsp;      return param(&quot;mode&quot;, mode);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    throw new IllegalArgumentException(</b>
+&nbsp;        &quot;Distance Matrix API travel modes must be Driving, Transit, Walking or Bicycling&quot;);
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Introduces restrictions to the route. Only one restriction can be specified.
+&nbsp;   *
+&nbsp;   * @param restriction A {@link RouteRestriction} object.
+&nbsp;   * @return Returns this {@code DistanceMatrixApiRequest} for call chaining.
+&nbsp;   */
+&nbsp;  public DistanceMatrixApiRequest avoid(RouteRestriction restriction) {
+<b class="fc">&nbsp;    return param(&quot;avoid&quot;, restriction);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Specifies the unit system to use when expressing distance as text. Distance Matrix results
+&nbsp;   * contain text within distance fields to indicate the distance of the calculated route.
+&nbsp;   *
+&nbsp;   * @param unit One of {@link Unit#METRIC} or {@link Unit#IMPERIAL}.
+&nbsp;   * @see &lt;a
+&nbsp;   *     href=&quot;https://developers.google.com/maps/documentation/distance-matrix/intro#unit_systems&quot;&gt;
+&nbsp;   *     Unit systems in the Distance Matrix API&lt;/a&gt;
+&nbsp;   * @return Returns this {@code DistanceMatrixApiRequest} for call chaining.
+&nbsp;   */
+&nbsp;  public DistanceMatrixApiRequest units(Unit unit) {
+<b class="fc">&nbsp;    return param(&quot;units&quot;, unit);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Specifies the desired time of departure.
+&nbsp;   *
+&nbsp;   * &lt;p&gt;The departure time may be specified in two cases:
+&nbsp;   *
+&nbsp;   * &lt;ul&gt;
+&nbsp;   *   &lt;li&gt;For requests where the travel mode is transit: You can optionally specify one of
+&nbsp;   *       departure_time or arrival_time. If neither time is specified, the departure_time defaults
+&nbsp;   *       to now. (That is, the departure time defaults to the current time.)
+&nbsp;   *   &lt;li&gt;For requests where the travel mode is driving: Google Maps API for Work customers can
+&nbsp;   *       specify the departure_time to receive trip duration considering current traffic
+&nbsp;   *       conditions. The departure_time must be set to within a few minutes of the current time.
+&nbsp;   * &lt;/ul&gt;
+&nbsp;   *
+&nbsp;   * &lt;p&gt;Setting the parameter to null will remove it from the API request.
+&nbsp;   *
+&nbsp;   * @param departureTime The time of departure.
+&nbsp;   * @return Returns this {@code DistanceMatrixApiRequest} for call chaining.
+&nbsp;   */
+&nbsp;  public DistanceMatrixApiRequest departureTime(Instant departureTime) {
+<b class="fc">&nbsp;    return param(&quot;departure_time&quot;, Long.toString(departureTime.toEpochMilli() / 1000L));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Specifies the assumptions to use when calculating time in traffic. This parameter may only be
+&nbsp;   * specified when the travel mode is driving and the request includes a departure_time.
+&nbsp;   *
+&nbsp;   * @param trafficModel The traffic model to use in estimating time in traffic.
+&nbsp;   * @return Returns this {@code DistanceMatrixApiRequest} for call chaining.
+&nbsp;   */
+&nbsp;  public DistanceMatrixApiRequest trafficModel(TrafficModel trafficModel) {
+<b class="fc">&nbsp;    return param(&quot;traffic_model&quot;, trafficModel);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Specifies the desired time of arrival for transit requests. You can specify either
+&nbsp;   * departure_time or arrival_time, but not both.
+&nbsp;   *
+&nbsp;   * @param arrivalTime The preferred arrival time.
+&nbsp;   * @return Returns this {@code DistanceMatrixApiRequest} for call chaining.
+&nbsp;   */
+&nbsp;  public DistanceMatrixApiRequest arrivalTime(Instant arrivalTime) {
+<b class="nc">&nbsp;    return param(&quot;arrival_time&quot;, Long.toString(arrivalTime.toEpochMilli() / 1000L));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Specifies one or more preferred modes of transit. This parameter may only be specified for
+&nbsp;   * requests where the mode is transit.
+&nbsp;   *
+&nbsp;   * @param transitModes The preferred transit modes.
+&nbsp;   * @return Returns this {@code DistanceMatrixApiRequest} for call chaining.
+&nbsp;   */
+&nbsp;  public DistanceMatrixApiRequest transitModes(TransitMode... transitModes) {
+<b class="nc">&nbsp;    return param(&quot;transit_mode&quot;, join(&#39;|&#39;, transitModes));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Specifies preferences for transit requests. Using this parameter, you can bias the options
+&nbsp;   * returned, rather than accepting the default best route chosen by the API.
+&nbsp;   *
+&nbsp;   * @param pref The transit routing preference for this distance matrix.
+&nbsp;   * @return Returns this {@code DistanceMatrixApiRequest} for call chaining.
+&nbsp;   */
+&nbsp;  public DistanceMatrixApiRequest transitRoutingPreference(TransitRoutingPreference pref) {
+<b class="nc">&nbsp;    return param(&quot;transit_routing_preference&quot;, pref);</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-01 14:27</div>
+</div>
+</body>
+</html>

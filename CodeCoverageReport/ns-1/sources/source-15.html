@@ -1,0 +1,331 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > PlacesApi</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.google.maps</a>
+</div>
+
+<h1>Coverage Summary for Class: PlacesApi (com.google.maps)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PlacesApi</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    69.2%
+  </span>
+  <span class="absValue">
+    (9/13)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    72.5%
+  </span>
+  <span class="absValue">
+    (29/40)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * Copyright 2014 Google Inc. All rights reserved.
+&nbsp; *
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;); you may not use this
+&nbsp; * file except in compliance with the License. You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *     http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software distributed under
+&nbsp; * the License is distributed on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
+&nbsp; * ANY KIND, either express or implied. See the License for the specific language governing
+&nbsp; * permissions and limitations under the License.
+&nbsp; */
+&nbsp;
+&nbsp;package com.google.maps;
+&nbsp;
+&nbsp;import com.google.maps.model.LatLng;
+&nbsp;import com.google.maps.model.PlaceType;
+&nbsp;
+&nbsp;/**
+&nbsp; * Performs a text search for places. The Google Places API enables you to get data from the same
+&nbsp; * database used by Google Maps and Google+ Local. Places features more than 100 million businesses
+&nbsp; * and points of interest that are updated frequently through owner-verified listings and
+&nbsp; * user-moderated contributions.
+&nbsp; *
+&nbsp; * &lt;p&gt;See also: &lt;a href=&quot;https://developers.google.com/places/web-service/&quot;&gt;Places API Web Service
+&nbsp; * documentation&lt;/a&gt;.
+&nbsp; */
+&nbsp;public class PlacesApi {
+&nbsp;
+<b class="nc">&nbsp;  private PlacesApi() {}</b>
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Performs a search for nearby Places.
+&nbsp;   *
+&nbsp;   * @param context The context on which to make Geo API requests.
+&nbsp;   * @param location The latitude/longitude around which to retrieve place information.
+&nbsp;   * @return Returns a NearbySearchRequest that can be configured and executed.
+&nbsp;   */
+&nbsp;  public static NearbySearchRequest nearbySearchQuery(GeoApiContext context, LatLng location) {
+<b class="fc">&nbsp;    NearbySearchRequest request = new NearbySearchRequest(context);</b>
+<b class="fc">&nbsp;    request.location(location);</b>
+<b class="fc">&nbsp;    return request;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Retrieves the next page of Nearby Search results. The nextPageToken, returned in a
+&nbsp;   * PlacesSearchResponse when there are more pages of results, encodes all of the original Nearby
+&nbsp;   * Search Request parameters, which are thus not required on this call.
+&nbsp;   *
+&nbsp;   * @param context The context on which to make Geo API requests.
+&nbsp;   * @param nextPageToken The nextPageToken returned as part of a PlacesSearchResponse.
+&nbsp;   * @return Returns a NearbySearchRequest that can be executed.
+&nbsp;   */
+&nbsp;  public static NearbySearchRequest nearbySearchNextPage(
+&nbsp;      GeoApiContext context, String nextPageToken) {
+<b class="nc">&nbsp;    NearbySearchRequest request = new NearbySearchRequest(context);</b>
+<b class="nc">&nbsp;    request.pageToken(nextPageToken);</b>
+<b class="nc">&nbsp;    return request;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Performs a search for Places using a text query; for example, &quot;pizza in New York&quot; or &quot;shoe
+&nbsp;   * stores near Ottawa&quot;.
+&nbsp;   *
+&nbsp;   * @param context The context on which to make Geo API requests.
+&nbsp;   * @param query The text string on which to search, for example: &quot;restaurant&quot;.
+&nbsp;   * @return Returns a TextSearchRequest that can be configured and executed.
+&nbsp;   */
+&nbsp;  public static TextSearchRequest textSearchQuery(GeoApiContext context, String query) {
+<b class="fc">&nbsp;    TextSearchRequest request = new TextSearchRequest(context);</b>
+<b class="fc">&nbsp;    request.query(query);</b>
+<b class="fc">&nbsp;    return request;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Performs a search for Places using a text query; for example, &quot;pizza in New York&quot; or &quot;shoe
+&nbsp;   * stores near Ottawa&quot;.
+&nbsp;   *
+&nbsp;   * @param context The context on which to make Geo API requests.
+&nbsp;   * @param query The text string on which to search, for example: &quot;restaurant&quot;.
+&nbsp;   * @param location The latitude/longitude around which to retrieve place information.
+&nbsp;   * @return Returns a TextSearchRequest that can be configured and executed.
+&nbsp;   */
+&nbsp;  public static TextSearchRequest textSearchQuery(
+&nbsp;      GeoApiContext context, String query, LatLng location) {
+<b class="fc">&nbsp;    TextSearchRequest request = new TextSearchRequest(context);</b>
+<b class="fc">&nbsp;    request.query(query);</b>
+<b class="fc">&nbsp;    request.location(location);</b>
+<b class="fc">&nbsp;    return request;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Performs a search for Places using a PlaceType parameter.
+&nbsp;   *
+&nbsp;   * @param context The context on which to make Geo API requests.
+&nbsp;   * @param type Restricts the results to places matching the specified PlaceType.
+&nbsp;   * @return Returns a TextSearchRequest that can be configured and executed.
+&nbsp;   */
+&nbsp;  public static TextSearchRequest textSearchQuery(GeoApiContext context, PlaceType type) {
+<b class="fc">&nbsp;    TextSearchRequest request = new TextSearchRequest(context);</b>
+<b class="fc">&nbsp;    request.type(type);</b>
+<b class="fc">&nbsp;    return request;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Retrieves the next page of Text Search results. The nextPageToken, returned in a
+&nbsp;   * PlacesSearchResponse when there are more pages of results, encodes all of the original Text
+&nbsp;   * Search Request parameters, which are thus not required on this call.
+&nbsp;   *
+&nbsp;   * @param context The context on which to make Geo API requests.
+&nbsp;   * @param nextPageToken The nextPageToken returned as part of a PlacesSearchResponse.
+&nbsp;   * @return Returns a TextSearchRequest that can be executed.
+&nbsp;   */
+&nbsp;  public static TextSearchRequest textSearchNextPage(GeoApiContext context, String nextPageToken) {
+<b class="nc">&nbsp;    TextSearchRequest request = new TextSearchRequest(context);</b>
+<b class="nc">&nbsp;    request.pageToken(nextPageToken);</b>
+<b class="nc">&nbsp;    return request;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Requests the details of a Place.
+&nbsp;   *
+&nbsp;   * &lt;p&gt;We are only enabling looking up Places by placeId as the older Place identifier, reference,
+&nbsp;   * is deprecated. Please see the &lt;a
+&nbsp;   * href=&quot;https://web.archive.org/web/20170521070241/https://developers.google.com/places/web-service/details#deprecation&quot;&gt;
+&nbsp;   * deprecation warning&lt;/a&gt;.
+&nbsp;   *
+&nbsp;   * @param context The context on which to make Geo API requests.
+&nbsp;   * @param placeId The PlaceID to request details on.
+&nbsp;   * @param sessionToken The Session Token for this request.
+&nbsp;   * @return Returns a PlaceDetailsRequest that you can configure and execute.
+&nbsp;   */
+&nbsp;  public static PlaceDetailsRequest placeDetails(
+&nbsp;      GeoApiContext context, String placeId, PlaceAutocompleteRequest.SessionToken sessionToken) {
+<b class="nc">&nbsp;    PlaceDetailsRequest request = new PlaceDetailsRequest(context);</b>
+<b class="nc">&nbsp;    request.placeId(placeId);</b>
+<b class="nc">&nbsp;    request.sessionToken(sessionToken);</b>
+<b class="nc">&nbsp;    return request;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Requests the details of a Place.
+&nbsp;   *
+&nbsp;   * &lt;p&gt;We are only enabling looking up Places by placeId as the older Place identifier, reference,
+&nbsp;   * is deprecated. Please see the &lt;a
+&nbsp;   * href=&quot;https://web.archive.org/web/20170521070241/https://developers.google.com/places/web-service/details#deprecation&quot;&gt;
+&nbsp;   * deprecation warning&lt;/a&gt;.
+&nbsp;   *
+&nbsp;   * @param context The context on which to make Geo API requests.
+&nbsp;   * @param placeId The PlaceID to request details on.
+&nbsp;   * @return Returns a PlaceDetailsRequest that you can configure and execute.
+&nbsp;   */
+&nbsp;  public static PlaceDetailsRequest placeDetails(GeoApiContext context, String placeId) {
+<b class="fc">&nbsp;    PlaceDetailsRequest request = new PlaceDetailsRequest(context);</b>
+<b class="fc">&nbsp;    request.placeId(placeId);</b>
+<b class="fc">&nbsp;    return request;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Requests a Photo from a PhotoReference.
+&nbsp;   *
+&nbsp;   * &lt;p&gt;Note: If you want to use a Photo in a web browser, please retrieve the photos for a place
+&nbsp;   * via our &lt;a
+&nbsp;   * href=&quot;https://developers.google.com/maps/documentation/javascript/places#places_photos&quot;&gt;
+&nbsp;   * JavaScript Places Library&lt;/a&gt;. Likewise, on Android, Places Photos can be retrieved using the
+&nbsp;   * &lt;a href=&quot;https://developers.google.com/places/android-api/photos&quot;&gt;Google Places API for
+&nbsp;   * Android&lt;/a&gt;.
+&nbsp;   *
+&nbsp;   * @param context The context on which to make Geo API requests.
+&nbsp;   * @param photoReference The reference to the photo to retrieve.
+&nbsp;   * @return Returns a PhotoRequest that you can execute.
+&nbsp;   */
+&nbsp;  public static PhotoRequest photo(GeoApiContext context, String photoReference) {
+<b class="fc">&nbsp;    PhotoRequest request = new PhotoRequest(context);</b>
+<b class="fc">&nbsp;    request.photoReference(photoReference);</b>
+<b class="fc">&nbsp;    return request;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Creates a new Places Autocomplete request for a given input. The Place Autocomplete service can
+&nbsp;   * match on full words as well as substrings. Applications can therefore send queries as the user
+&nbsp;   * types, to provide on-the-fly place predictions.
+&nbsp;   *
+&nbsp;   * @param context The context on which to make Geo API requests.
+&nbsp;   * @param input input is the text string on which to search.
+&nbsp;   * @param sessionToken Session token, to make sure requests are billed per session, instead of per
+&nbsp;   *     character.
+&nbsp;   * @return Returns a PlaceAutocompleteRequest that you can configure and execute.
+&nbsp;   */
+&nbsp;  public static PlaceAutocompleteRequest placeAutocomplete(
+&nbsp;      GeoApiContext context, String input, PlaceAutocompleteRequest.SessionToken sessionToken) {
+<b class="fc">&nbsp;    PlaceAutocompleteRequest request = new PlaceAutocompleteRequest(context);</b>
+<b class="fc">&nbsp;    request.input(input);</b>
+<b class="fc">&nbsp;    request.sessionToken(sessionToken);</b>
+<b class="fc">&nbsp;    return request;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Allows you to add on-the-fly geographic query predictions to your application.
+&nbsp;   *
+&nbsp;   * @param context The context on which to make Geo API requests.
+&nbsp;   * @param input input is the text string on which to search.
+&nbsp;   * @return Returns a QueryAutocompleteRequest that you can configure and execute.
+&nbsp;   */
+&nbsp;  public static QueryAutocompleteRequest queryAutocomplete(GeoApiContext context, String input) {
+<b class="fc">&nbsp;    QueryAutocompleteRequest request = new QueryAutocompleteRequest(context);</b>
+<b class="fc">&nbsp;    request.input(input);</b>
+<b class="fc">&nbsp;    return request;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Find places using either search text, or a phone number.
+&nbsp;   *
+&nbsp;   * @param context The context on which to make Geo API requests.
+&nbsp;   * @param input The input to search on.
+&nbsp;   * @param inputType Whether the input is search text, or a phone number.
+&nbsp;   * @return Returns a FindPlaceFromTextRequest that you can configure and execute.
+&nbsp;   */
+&nbsp;  public static FindPlaceFromTextRequest findPlaceFromText(
+&nbsp;      GeoApiContext context, String input, FindPlaceFromTextRequest.InputType inputType) {
+<b class="fc">&nbsp;    FindPlaceFromTextRequest request = new FindPlaceFromTextRequest(context);</b>
+<b class="fc">&nbsp;    request.input(input).inputType(inputType);</b>
+<b class="fc">&nbsp;    return request;</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-01 14:27</div>
+</div>
+</body>
+</html>

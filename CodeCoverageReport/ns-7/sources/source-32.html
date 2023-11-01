@@ -1,0 +1,199 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > TransitDetails</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.google.maps.model</a>
+</div>
+
+<h1>Coverage Summary for Class: TransitDetails (com.google.maps.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TransitDetails</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/13)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * Copyright 2015 Google Inc. All rights reserved.
+&nbsp; *
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;); you may not use this
+&nbsp; * file except in compliance with the License. You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *     http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software distributed under
+&nbsp; * the License is distributed on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
+&nbsp; * ANY KIND, either express or implied. See the License for the specific language governing
+&nbsp; * permissions and limitations under the License.
+&nbsp; */
+&nbsp;
+&nbsp;package com.google.maps.model;
+&nbsp;
+&nbsp;import java.io.Serializable;
+&nbsp;import java.time.ZonedDateTime;
+&nbsp;
+&nbsp;/**
+&nbsp; * Transit directions return additional information that is not relevant for other modes of
+&nbsp; * transportation. These additional properties are exposed through the {@code TransitDetails}
+&nbsp; * object, returned as a field of an element in the {@code steps} array. From the {@code
+&nbsp; * TransitDetails} object you can access additional information about the transit stop, transit
+&nbsp; * line, and transit agency.
+&nbsp; */
+<b class="nc">&nbsp;public class TransitDetails implements Serializable {</b>
+&nbsp;
+&nbsp;  private static final long serialVersionUID = 1L;
+&nbsp;
+&nbsp;  /** Information about the arrival stop/station for this part of the trip. */
+&nbsp;  public StopDetails arrivalStop;
+&nbsp;
+&nbsp;  /** Information about the departure stop/station for this part of the trip. */
+&nbsp;  public StopDetails departureStop;
+&nbsp;
+&nbsp;  /** The arrival time for this leg of the journey. */
+&nbsp;  public ZonedDateTime arrivalTime;
+&nbsp;
+&nbsp;  /** The departure time for this leg of the journey. */
+&nbsp;  public ZonedDateTime departureTime;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * The direction in which to travel on this line, as it is marked on the vehicle or at the
+&nbsp;   * departure stop. This will often be the terminus station.
+&nbsp;   */
+&nbsp;  public String headsign;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * The expected number of seconds between departures from the same stop at this time. For example,
+&nbsp;   * with a headway value of 600, you would expect a ten minute wait if you should miss your bus.
+&nbsp;   */
+&nbsp;  public long headway;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * The number of stops in this step, counting the arrival stop, but not the departure stop. For
+&nbsp;   * example, if your directions involve leaving from Stop A, passing through stops B and C, and
+&nbsp;   * arriving at stop D, {@code numStops} will equal 3.
+&nbsp;   */
+&nbsp;  public int numStops;
+&nbsp;
+&nbsp;  /** Information about the transit line used in this step. */
+&nbsp;  public TransitLine line;
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String toString() {
+<b class="nc">&nbsp;    StringBuilder sb = new StringBuilder(&quot;[&quot;);</b>
+<b class="nc">&nbsp;    sb.append(departureStop).append(&quot; at &quot;).append(departureTime);</b>
+<b class="nc">&nbsp;    sb.append(&quot; -&gt; &quot;);</b>
+<b class="nc">&nbsp;    sb.append(arrivalStop).append(&quot; at &quot;).append(arrivalTime);</b>
+<b class="nc">&nbsp;    if (headsign != null) {</b>
+<b class="nc">&nbsp;      sb.append(&quot; (&quot;).append(headsign).append(&quot; )&quot;);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (line != null) {</b>
+<b class="nc">&nbsp;      sb.append(&quot; on &quot;).append(line);</b>
+&nbsp;    }
+<b class="nc">&nbsp;    sb.append(&quot;, &quot;).append(numStops).append(&quot; stops&quot;);</b>
+<b class="nc">&nbsp;    sb.append(&quot;, headway=&quot;).append(headway).append(&quot; s&quot;);</b>
+<b class="nc">&nbsp;    sb.append(&quot;]&quot;);</b>
+<b class="nc">&nbsp;    return sb.toString();</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-01 14:27</div>
+</div>
+</body>
+</html>

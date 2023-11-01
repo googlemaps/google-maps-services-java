@@ -1,0 +1,796 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > GeoApiContext</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.google.maps</a>
+</div>
+
+<h1>Coverage Summary for Class: GeoApiContext (com.google.maps)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GeoApiContext</td>
+<td class="coverageStat">
+  <span class="percent">
+    83.3%
+  </span>
+  <span class="absValue">
+    (10/12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    55%
+  </span>
+  <span class="absValue">
+    (33/60)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    79%
+  </span>
+  <span class="absValue">
+    (79/100)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">GeoApiContext$Builder</td>
+<td class="coverageStat">
+  <span class="percent">
+    55%
+  </span>
+  <span class="absValue">
+    (11/20)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    25%
+  </span>
+  <span class="absValue">
+    (1/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    55.8%
+  </span>
+  <span class="absValue">
+    (29/52)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">GeoApiContext$RequestHandler</td>
+  </tr>
+  <tr>
+    <td class="name">GeoApiContext$RequestHandler$Builder</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    65.6%
+  </span>
+  <span class="absValue">
+    (21/32)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    53.1%
+  </span>
+  <span class="absValue">
+    (34/64)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    71.1%
+  </span>
+  <span class="absValue">
+    (108/152)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * Copyright 2014 Google Inc. All rights reserved.
+&nbsp; *
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;); you may not use this
+&nbsp; * file except in compliance with the License. You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *     http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software distributed under
+&nbsp; * the License is distributed on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
+&nbsp; * ANY KIND, either express or implied. See the License for the specific language governing
+&nbsp; * permissions and limitations under the License.
+&nbsp; */
+&nbsp;
+&nbsp;package com.google.maps;
+&nbsp;
+&nbsp;import com.google.gson.FieldNamingPolicy;
+&nbsp;import com.google.maps.errors.ApiException;
+&nbsp;import com.google.maps.errors.OverQueryLimitException;
+&nbsp;import com.google.maps.internal.ApiConfig;
+&nbsp;import com.google.maps.internal.ApiResponse;
+&nbsp;import com.google.maps.internal.ExceptionsAllowedToRetry;
+&nbsp;import com.google.maps.internal.HttpHeaders;
+&nbsp;import com.google.maps.internal.UrlSigner;
+&nbsp;import com.google.maps.metrics.NoOpRequestMetricsReporter;
+&nbsp;import com.google.maps.metrics.RequestMetrics;
+&nbsp;import com.google.maps.metrics.RequestMetricsReporter;
+&nbsp;import java.io.Closeable;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.UnsupportedEncodingException;
+&nbsp;import java.net.Proxy;
+&nbsp;import java.net.URLEncoder;
+&nbsp;import java.security.InvalidKeyException;
+&nbsp;import java.security.NoSuchAlgorithmException;
+&nbsp;import java.util.Collections;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.Map.Entry;
+&nbsp;import java.util.concurrent.TimeUnit;
+&nbsp;
+&nbsp;/**
+&nbsp; * The entry point for making requests against the Google Geo APIs.
+&nbsp; *
+&nbsp; * &lt;p&gt;Construct this object by using the enclosed {@link GeoApiContext.Builder}.
+&nbsp; *
+&nbsp; * &lt;h3&gt;GeoApiContexts should be shared&lt;/h3&gt;
+&nbsp; *
+&nbsp; * GeoApiContext works best when you create a single GeoApiContext instance, or one per API key, and
+&nbsp; * reuse it for all your Google Geo API queries. This is because each GeoApiContext manages its own
+&nbsp; * thread pool, back-end client, and other resources.
+&nbsp; *
+&nbsp; * &lt;p&gt;When you are finished with a GeoApiContext object, you must call {@link #shutdown()} on it to
+&nbsp; * release its resources.
+&nbsp; */
+&nbsp;public class GeoApiContext implements Closeable {
+&nbsp;
+&nbsp;  private static final String VERSION = &quot;@VERSION@&quot;; // Populated by the build script
+&nbsp;  private static final String USER_AGENT = &quot;GoogleGeoApiClientJava/&quot; + VERSION;
+&nbsp;  private static final int DEFAULT_BACKOFF_TIMEOUT_MILLIS = 60 * 1000; // 60s
+&nbsp;
+&nbsp;  private final RequestHandler requestHandler;
+&nbsp;  private final String apiKey;
+&nbsp;  private final String baseUrlOverride;
+&nbsp;  private final String channel;
+&nbsp;  private final String clientId;
+&nbsp;  private final long errorTimeout;
+&nbsp;  private final ExceptionsAllowedToRetry exceptionsAllowedToRetry;
+&nbsp;  private final Integer maxRetries;
+&nbsp;  private final UrlSigner urlSigner;
+&nbsp;  private final RequestMetricsReporter requestMetricsReporter;
+<b class="fc">&nbsp;  private final Map&lt;String, String&gt; defaultHeaders = new HashMap&lt;&gt;();</b>
+&nbsp;
+&nbsp;  /* package */
+&nbsp;  GeoApiContext(
+&nbsp;      RequestHandler requestHandler,
+&nbsp;      String apiKey,
+&nbsp;      String baseUrlOverride,
+&nbsp;      String channel,
+&nbsp;      String clientId,
+&nbsp;      long errorTimeout,
+&nbsp;      ExceptionsAllowedToRetry exceptionsAllowedToRetry,
+&nbsp;      Integer maxRetries,
+&nbsp;      UrlSigner urlSigner,
+<b class="fc">&nbsp;      RequestMetricsReporter requestMetricsReporter) {</b>
+<b class="fc">&nbsp;    this.requestHandler = requestHandler;</b>
+<b class="fc">&nbsp;    this.apiKey = apiKey;</b>
+<b class="fc">&nbsp;    this.baseUrlOverride = baseUrlOverride;</b>
+<b class="fc">&nbsp;    this.channel = channel;</b>
+<b class="fc">&nbsp;    this.clientId = clientId;</b>
+<b class="fc">&nbsp;    this.errorTimeout = errorTimeout;</b>
+<b class="fc">&nbsp;    this.exceptionsAllowedToRetry = exceptionsAllowedToRetry;</b>
+<b class="fc">&nbsp;    this.maxRetries = maxRetries;</b>
+<b class="fc">&nbsp;    this.urlSigner = urlSigner;</b>
+<b class="fc">&nbsp;    this.requestMetricsReporter = requestMetricsReporter;</b>
+<b class="fc">&nbsp;    defaultHeaders.put(HttpHeaders.USER_AGENT, USER_AGENT);</b>
+<b class="fc">&nbsp;  }</b>
+&nbsp;
+&nbsp;  /**
+&nbsp;   * standard Java API to reclaim resources
+&nbsp;   *
+&nbsp;   * @throws IOException
+&nbsp;   */
+&nbsp;  @Override
+&nbsp;  public void close() throws IOException {
+<b class="nc">&nbsp;    shutdown();</b>
+<b class="nc">&nbsp;  }</b>
+&nbsp;
+&nbsp;  /**
+&nbsp;   * The service provider interface that enables requests to be handled via switchable back ends.
+&nbsp;   * There are supplied implementations of this interface for both OkHttp and Google App Engine&#39;s
+&nbsp;   * URL Fetch API.
+&nbsp;   *
+&nbsp;   * @see OkHttpRequestHandler
+&nbsp;   * @see GaeRequestHandler
+&nbsp;   */
+&nbsp;  public interface RequestHandler {
+&nbsp;
+&nbsp;    &lt;T, R extends ApiResponse&lt;T&gt;&gt; PendingResult&lt;T&gt; handle(
+&nbsp;        String hostName,
+&nbsp;        String url,
+&nbsp;        Map&lt;String, String&gt; headers,
+&nbsp;        Class&lt;R&gt; clazz,
+&nbsp;        FieldNamingPolicy fieldNamingPolicy,
+&nbsp;        long errorTimeout,
+&nbsp;        Integer maxRetries,
+&nbsp;        ExceptionsAllowedToRetry exceptionsAllowedToRetry,
+&nbsp;        RequestMetrics metrics);
+&nbsp;
+&nbsp;    &lt;T, R extends ApiResponse&lt;T&gt;&gt; PendingResult&lt;T&gt; handlePost(
+&nbsp;        String hostName,
+&nbsp;        String url,
+&nbsp;        String payload,
+&nbsp;        Map&lt;String, String&gt; headers,
+&nbsp;        Class&lt;R&gt; clazz,
+&nbsp;        FieldNamingPolicy fieldNamingPolicy,
+&nbsp;        long errorTimeout,
+&nbsp;        Integer maxRetries,
+&nbsp;        ExceptionsAllowedToRetry exceptionsAllowedToRetry,
+&nbsp;        RequestMetrics metrics);
+&nbsp;
+&nbsp;    void shutdown();
+&nbsp;
+&nbsp;    /** Builder pattern for {@code GeoApiContext.RequestHandler}. */
+&nbsp;    interface Builder {
+&nbsp;
+&nbsp;      Builder connectTimeout(long timeout, TimeUnit unit);
+&nbsp;
+&nbsp;      Builder readTimeout(long timeout, TimeUnit unit);
+&nbsp;
+&nbsp;      Builder writeTimeout(long timeout, TimeUnit unit);
+&nbsp;
+&nbsp;      Builder queriesPerSecond(int maxQps);
+&nbsp;
+&nbsp;      Builder proxy(Proxy proxy);
+&nbsp;
+&nbsp;      Builder proxyAuthentication(String proxyUserName, String proxyUserPassword);
+&nbsp;
+&nbsp;      RequestHandler build();
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Shut down this GeoApiContext instance, reclaiming resources. After shutdown() has been called,
+&nbsp;   * no further queries may be done against this instance.
+&nbsp;   */
+&nbsp;  public void shutdown() {
+<b class="fc">&nbsp;    requestHandler.shutdown();</b>
+<b class="fc">&nbsp;  }</b>
+&nbsp;
+&nbsp;  private Map&lt;String, String&gt; addDefaultHeaders(Map&lt;String, String&gt; headers) {
+<b class="fc">&nbsp;    Map&lt;String, String&gt; newHeaders = new HashMap&lt;&gt;(headers);</b>
+<b class="fc">&nbsp;    for (Entry&lt;String, String&gt; entry : defaultHeaders.entrySet()) {</b>
+<b class="fc">&nbsp;      if (!newHeaders.containsKey(entry.getKey())) {</b>
+<b class="fc">&nbsp;        newHeaders.put(entry.getKey(), entry.getValue());</b>
+&nbsp;      }
+<b class="fc">&nbsp;    }</b>
+<b class="fc">&nbsp;    return newHeaders;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  &lt;T, R extends ApiResponse&lt;T&gt;&gt; PendingResult&lt;T&gt; get(
+&nbsp;      ApiConfig config,
+&nbsp;      Class&lt;? extends R&gt; clazz,
+&nbsp;      Map&lt;String, String&gt; headers,
+&nbsp;      Map&lt;String, List&lt;String&gt;&gt; params) {
+<b class="pc">&nbsp;    if (channel != null &amp;&amp; !channel.isEmpty() &amp;&amp; !params.containsKey(&quot;channel&quot;)) {</b>
+<b class="nc">&nbsp;      params.put(&quot;channel&quot;, Collections.singletonList(channel));</b>
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    StringBuilder query = new StringBuilder();</b>
+&nbsp;
+<b class="fc">&nbsp;    for (Map.Entry&lt;String, List&lt;String&gt;&gt; param : params.entrySet()) {</b>
+<b class="fc">&nbsp;      List&lt;String&gt; values = param.getValue();</b>
+<b class="fc">&nbsp;      for (String value : values) {</b>
+<b class="fc">&nbsp;        query.append(&#39;&amp;&#39;).append(param.getKey()).append(&quot;=&quot;);</b>
+&nbsp;        try {
+<b class="fc">&nbsp;          query.append(URLEncoder.encode(value, &quot;UTF-8&quot;));</b>
+<b class="nc">&nbsp;        } catch (UnsupportedEncodingException e) {</b>
+&nbsp;          // This should never happen. UTF-8 support is required for every Java implementation.
+<b class="nc">&nbsp;          throw new IllegalStateException(e);</b>
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;      }</b>
+<b class="fc">&nbsp;    }</b>
+&nbsp;
+<b class="fc">&nbsp;    return getWithPath(</b>
+&nbsp;        clazz,
+&nbsp;        config.fieldNamingPolicy,
+&nbsp;        config.hostName,
+&nbsp;        config.path,
+&nbsp;        config.supportsClientId,
+<b class="fc">&nbsp;        query.toString(),</b>
+<b class="fc">&nbsp;        requestMetricsReporter.newRequest(config.path),</b>
+&nbsp;        headers);
+&nbsp;  }
+&nbsp;
+&nbsp;  &lt;T, R extends ApiResponse&lt;T&gt;&gt; PendingResult&lt;T&gt; get(
+&nbsp;      ApiConfig config, Class&lt;? extends R&gt; clazz, Map&lt;String, List&lt;String&gt;&gt; params) {
+<b class="fc">&nbsp;    return get(config, clazz, Collections.emptyMap(), params);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  &lt;T, R extends ApiResponse&lt;T&gt;&gt; PendingResult&lt;T&gt; get(
+&nbsp;      ApiConfig config, Class&lt;? extends R&gt; clazz, Map&lt;String, String&gt; headers, String... params) {
+&nbsp;    // FIXME: Refactor this to reuse implementation in overloaded get()
+<b class="pc">&nbsp;    if (params.length % 2 != 0) {</b>
+<b class="nc">&nbsp;      throw new IllegalArgumentException(&quot;Params must be matching key/value pairs.&quot;);</b>
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    StringBuilder query = new StringBuilder();</b>
+&nbsp;
+<b class="fc">&nbsp;    boolean channelSet = false;</b>
+<b class="fc">&nbsp;    for (int i = 0; i &lt; params.length; i += 2) {</b>
+<b class="pc">&nbsp;      if (params[i].equals(&quot;channel&quot;)) {</b>
+<b class="nc">&nbsp;        channelSet = true;</b>
+&nbsp;      }
+<b class="fc">&nbsp;      query.append(&#39;&amp;&#39;).append(params[i]).append(&#39;=&#39;);</b>
+&nbsp;
+&nbsp;      // URL-encode the parameter.
+&nbsp;      try {
+<b class="fc">&nbsp;        query.append(URLEncoder.encode(params[i + 1], &quot;UTF-8&quot;));</b>
+<b class="nc">&nbsp;      } catch (UnsupportedEncodingException e) {</b>
+&nbsp;        // This should never happen. UTF-8 support is required for every Java implementation.
+<b class="nc">&nbsp;        throw new IllegalStateException(e);</b>
+<b class="fc">&nbsp;      }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // Channel can be supplied per-request or per-context. We prioritize it from the request,
+&nbsp;    // so if it&#39;s not provided there, provide it here
+<b class="pc">&nbsp;    if (!channelSet &amp;&amp; channel != null &amp;&amp; !channel.isEmpty()) {</b>
+<b class="nc">&nbsp;      query.append(&quot;&amp;channel=&quot;).append(channel);</b>
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    final Map&lt;String, String&gt; allHeaders = addDefaultHeaders(headers);</b>
+&nbsp;
+<b class="fc">&nbsp;    return getWithPath(</b>
+&nbsp;        clazz,
+&nbsp;        config.fieldNamingPolicy,
+&nbsp;        config.hostName,
+&nbsp;        config.path,
+&nbsp;        config.supportsClientId,
+<b class="fc">&nbsp;        query.toString(),</b>
+<b class="fc">&nbsp;        requestMetricsReporter.newRequest(config.path),</b>
+&nbsp;        allHeaders);
+&nbsp;  }
+&nbsp;
+&nbsp;  &lt;T, R extends ApiResponse&lt;T&gt;&gt; PendingResult&lt;T&gt; get(
+&nbsp;      ApiConfig config, Class&lt;? extends R&gt; clazz, String... params) {
+<b class="fc">&nbsp;    return get(config, clazz, Collections.emptyMap(), params);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  &lt;T, R extends ApiResponse&lt;T&gt;&gt; PendingResult&lt;T&gt; post(
+&nbsp;      ApiConfig config,
+&nbsp;      Class&lt;? extends R&gt; clazz,
+&nbsp;      Map&lt;String, String&gt; headers,
+&nbsp;      Map&lt;String, List&lt;String&gt;&gt; params) {
+<b class="fc">&nbsp;    checkContext(config.supportsClientId);</b>
+&nbsp;
+<b class="fc">&nbsp;    StringBuilder url = new StringBuilder(config.path);</b>
+<b class="pc">&nbsp;    if (config.supportsClientId &amp;&amp; clientId != null) {</b>
+<b class="nc">&nbsp;      url.append(&quot;?client=&quot;).append(clientId);</b>
+&nbsp;    } else {
+<b class="fc">&nbsp;      url.append(&quot;?key=&quot;).append(apiKey);</b>
+&nbsp;    }
+&nbsp;
+<b class="pc">&nbsp;    if (config.supportsClientId &amp;&amp; urlSigner != null) {</b>
+<b class="nc">&nbsp;      String signature = urlSigner.getSignature(url.toString());</b>
+<b class="nc">&nbsp;      url.append(&quot;&amp;signature=&quot;).append(signature);</b>
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    String hostName = config.hostName;</b>
+<b class="pc">&nbsp;    if (baseUrlOverride != null) {</b>
+<b class="fc">&nbsp;      hostName = baseUrlOverride;</b>
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    final Map&lt;String, String&gt; allHeaders = addDefaultHeaders(headers);</b>
+&nbsp;
+<b class="fc">&nbsp;    return requestHandler.handlePost(</b>
+&nbsp;        hostName,
+<b class="fc">&nbsp;        url.toString(),</b>
+<b class="fc">&nbsp;        params.get(&quot;_payload&quot;).get(0),</b>
+&nbsp;        allHeaders,
+&nbsp;        clazz,
+&nbsp;        config.fieldNamingPolicy,
+&nbsp;        errorTimeout,
+&nbsp;        maxRetries,
+&nbsp;        exceptionsAllowedToRetry,
+<b class="fc">&nbsp;        requestMetricsReporter.newRequest(config.path));</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  &lt;T, R extends ApiResponse&lt;T&gt;&gt; PendingResult&lt;T&gt; post(
+&nbsp;      ApiConfig config, Class&lt;? extends R&gt; clazz, Map&lt;String, List&lt;String&gt;&gt; params) {
+<b class="nc">&nbsp;    return post(config, clazz, Collections.emptyMap(), params);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  private &lt;T, R extends ApiResponse&lt;T&gt;&gt; PendingResult&lt;T&gt; getWithPath(
+&nbsp;      Class&lt;R&gt; clazz,
+&nbsp;      FieldNamingPolicy fieldNamingPolicy,
+&nbsp;      String hostName,
+&nbsp;      String path,
+&nbsp;      boolean canUseClientId,
+&nbsp;      String encodedPath,
+&nbsp;      RequestMetrics metrics,
+&nbsp;      Map&lt;String, String&gt; headers) {
+<b class="fc">&nbsp;    checkContext(canUseClientId);</b>
+<b class="pc">&nbsp;    if (!encodedPath.startsWith(&quot;&amp;&quot;)) {</b>
+<b class="nc">&nbsp;      throw new IllegalArgumentException(&quot;encodedPath must start with &amp;&quot;);</b>
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    StringBuilder url = new StringBuilder(path);</b>
+<b class="pc">&nbsp;    if (canUseClientId &amp;&amp; clientId != null) {</b>
+<b class="nc">&nbsp;      url.append(&quot;?client=&quot;).append(clientId);</b>
+&nbsp;    } else {
+<b class="fc">&nbsp;      url.append(&quot;?key=&quot;).append(apiKey);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    url.append(encodedPath);</b>
+&nbsp;
+<b class="pc">&nbsp;    if (canUseClientId &amp;&amp; urlSigner != null) {</b>
+<b class="nc">&nbsp;      String signature = urlSigner.getSignature(url.toString());</b>
+<b class="nc">&nbsp;      url.append(&quot;&amp;signature=&quot;).append(signature);</b>
+&nbsp;    }
+&nbsp;
+<b class="pc">&nbsp;    if (baseUrlOverride != null) {</b>
+<b class="fc">&nbsp;      hostName = baseUrlOverride;</b>
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    final Map&lt;String, String&gt; allHeaders = addDefaultHeaders(headers);</b>
+&nbsp;
+<b class="fc">&nbsp;    return requestHandler.handle(</b>
+&nbsp;        hostName,
+<b class="fc">&nbsp;        url.toString(),</b>
+&nbsp;        allHeaders,
+&nbsp;        clazz,
+&nbsp;        fieldNamingPolicy,
+&nbsp;        errorTimeout,
+&nbsp;        maxRetries,
+&nbsp;        exceptionsAllowedToRetry,
+&nbsp;        metrics);
+&nbsp;  }
+&nbsp;
+&nbsp;  private void checkContext(boolean canUseClientId) {
+<b class="pc">&nbsp;    if (urlSigner == null &amp;&amp; apiKey == null) {</b>
+<b class="nc">&nbsp;      throw new IllegalStateException(&quot;Must provide either API key or Maps for Work credentials.&quot;);</b>
+<b class="pc">&nbsp;    } else if (!canUseClientId &amp;&amp; apiKey == null) {</b>
+<b class="nc">&nbsp;      throw new IllegalStateException(</b>
+&nbsp;          &quot;API does not support client ID &amp; secret - you must provide a key&quot;);
+&nbsp;    }
+<b class="pc">&nbsp;    if (urlSigner == null &amp;&amp; !apiKey.startsWith(&quot;AIza&quot;)) {</b>
+<b class="nc">&nbsp;      throw new IllegalStateException(&quot;Invalid API key.&quot;);</b>
+&nbsp;    }
+<b class="fc">&nbsp;  }</b>
+&nbsp;
+&nbsp;  /** The Builder for {@code GeoApiContext}. */
+&nbsp;  public static class Builder {
+&nbsp;
+&nbsp;    private RequestHandler.Builder builder;
+&nbsp;
+&nbsp;    private String apiKey;
+&nbsp;    private String baseUrlOverride;
+&nbsp;    private String channel;
+&nbsp;    private String clientId;
+<b class="fc">&nbsp;    private long errorTimeout = DEFAULT_BACKOFF_TIMEOUT_MILLIS;</b>
+<b class="fc">&nbsp;    private ExceptionsAllowedToRetry exceptionsAllowedToRetry = new ExceptionsAllowedToRetry();</b>
+&nbsp;    private Integer maxRetries;
+&nbsp;    private UrlSigner urlSigner;
+<b class="fc">&nbsp;    private RequestMetricsReporter requestMetricsReporter = new NoOpRequestMetricsReporter();</b>
+&nbsp;
+&nbsp;    /** Builder pattern for the enclosing {@code GeoApiContext}. */
+<b class="fc">&nbsp;    public Builder() {</b>
+<b class="fc">&nbsp;      requestHandlerBuilder(new OkHttpRequestHandler.Builder());</b>
+<b class="fc">&nbsp;    }</b>
+&nbsp;
+<b class="nc">&nbsp;    public Builder(RequestHandler.Builder builder) {</b>
+<b class="nc">&nbsp;      requestHandlerBuilder(builder);</b>
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Changes the RequestHandler.Builder strategy to change between the {@code
+&nbsp;     * OkHttpRequestHandler} and the {@code GaeRequestHandler}.
+&nbsp;     *
+&nbsp;     * @param builder The {@code RequestHandler.Builder} to use for {@link #build()}
+&nbsp;     * @return Returns this builder for call chaining.
+&nbsp;     * @see OkHttpRequestHandler
+&nbsp;     * @see GaeRequestHandler
+&nbsp;     */
+&nbsp;    public Builder requestHandlerBuilder(RequestHandler.Builder builder) {
+<b class="fc">&nbsp;      this.builder = builder;</b>
+<b class="fc">&nbsp;      this.exceptionsAllowedToRetry.add(OverQueryLimitException.class);</b>
+<b class="fc">&nbsp;      return this;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Overrides the base URL of the API endpoint. Useful for testing or certain international usage
+&nbsp;     * scenarios.
+&nbsp;     *
+&nbsp;     * @param baseUrl The URL to use, without a trailing slash, e.g. https://maps.googleapis.com
+&nbsp;     * @return Returns this builder for call chaining.
+&nbsp;     */
+&nbsp;    public Builder baseUrlOverride(String baseUrl) {
+<b class="fc">&nbsp;      baseUrlOverride = baseUrl;</b>
+<b class="fc">&nbsp;      return this;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Older name for {@link #baseUrlOverride(String)}. This was used back when testing was the only
+&nbsp;     * use case foreseen for this.
+&nbsp;     *
+&nbsp;     * @deprecated Use baseUrlOverride(String) instead.
+&nbsp;     * @param baseUrl The URL to use, without a trailing slash, e.g. https://maps.googleapis.com
+&nbsp;     * @return Returns this builder for call chaining.
+&nbsp;     */
+&nbsp;    @Deprecated
+&nbsp;    Builder baseUrlForTesting(String baseUrl) {
+<b class="nc">&nbsp;      return baseUrlOverride(baseUrl);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets the API Key to use for authorizing requests.
+&nbsp;     *
+&nbsp;     * @param apiKey The API Key to use.
+&nbsp;     * @return Returns this builder for call chaining.
+&nbsp;     */
+&nbsp;    public Builder apiKey(String apiKey) {
+<b class="fc">&nbsp;      this.apiKey = apiKey;</b>
+<b class="fc">&nbsp;      return this;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets the ClientID/Secret pair to use for authorizing requests. Most users should use {@link
+&nbsp;     * #apiKey(String)} instead.
+&nbsp;     *
+&nbsp;     * @param clientId The Client ID to use.
+&nbsp;     * @param cryptographicSecret The Secret to use.
+&nbsp;     * @return Returns this builder for call chaining.
+&nbsp;     */
+&nbsp;    public Builder enterpriseCredentials(String clientId, String cryptographicSecret) {
+<b class="nc">&nbsp;      this.clientId = clientId;</b>
+&nbsp;      try {
+<b class="nc">&nbsp;        this.urlSigner = new UrlSigner(cryptographicSecret);</b>
+<b class="nc">&nbsp;      } catch (NoSuchAlgorithmException | InvalidKeyException e) {</b>
+<b class="nc">&nbsp;        throw new IllegalStateException(e);</b>
+<b class="nc">&nbsp;      }</b>
+<b class="nc">&nbsp;      return this;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets the default channel for requests (can be overridden by requests). Only useful for Google
+&nbsp;     * Maps for Work clients.
+&nbsp;     *
+&nbsp;     * @param channel The channel to use for analytics
+&nbsp;     * @return Returns this builder for call chaining.
+&nbsp;     */
+&nbsp;    public Builder channel(String channel) {
+<b class="nc">&nbsp;      this.channel = channel;</b>
+<b class="nc">&nbsp;      return this;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets the default connect timeout for new connections. A value of 0 means no timeout.
+&nbsp;     *
+&nbsp;     * @see java.net.URLConnection#setConnectTimeout(int)
+&nbsp;     * @param timeout The connect timeout period in {@code unit}s.
+&nbsp;     * @param unit The connect timeout time unit.
+&nbsp;     * @return Returns this builder for call chaining.
+&nbsp;     */
+&nbsp;    public Builder connectTimeout(long timeout, TimeUnit unit) {
+<b class="nc">&nbsp;      builder.connectTimeout(timeout, unit);</b>
+<b class="nc">&nbsp;      return this;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets the default read timeout for new connections. A value of 0 means no timeout.
+&nbsp;     *
+&nbsp;     * @see java.net.URLConnection#setReadTimeout(int)
+&nbsp;     * @param timeout The read timeout period in {@code unit}s.
+&nbsp;     * @param unit The read timeout time unit.
+&nbsp;     * @return Returns this builder for call chaining.
+&nbsp;     */
+&nbsp;    public Builder readTimeout(long timeout, TimeUnit unit) {
+<b class="nc">&nbsp;      builder.readTimeout(timeout, unit);</b>
+<b class="nc">&nbsp;      return this;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets the default write timeout for new connections. A value of 0 means no timeout.
+&nbsp;     *
+&nbsp;     * @param timeout The write timeout period in {@code unit}s.
+&nbsp;     * @param unit The write timeout time unit.
+&nbsp;     * @return Returns this builder for call chaining.
+&nbsp;     */
+&nbsp;    public Builder writeTimeout(long timeout, TimeUnit unit) {
+<b class="nc">&nbsp;      builder.writeTimeout(timeout, unit);</b>
+<b class="nc">&nbsp;      return this;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets the cumulative time limit for which retry-able errors will be retried. Defaults to 60
+&nbsp;     * seconds. Set to zero to retry requests forever.
+&nbsp;     *
+&nbsp;     * &lt;p&gt;This operates separately from the count-based {@link #maxRetries(Integer)}.
+&nbsp;     *
+&nbsp;     * @param timeout The retry timeout period in {@code unit}s.
+&nbsp;     * @param unit The retry timeout time unit.
+&nbsp;     * @return Returns this builder for call chaining.
+&nbsp;     */
+&nbsp;    public Builder retryTimeout(long timeout, TimeUnit unit) {
+<b class="fc">&nbsp;      this.errorTimeout = unit.toMillis(timeout);</b>
+<b class="fc">&nbsp;      return this;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets the maximum number of times each retry-able errors will be retried. Set this to null to
+&nbsp;     * not have a max number. Set this to zero to disable retries.
+&nbsp;     *
+&nbsp;     * &lt;p&gt;This operates separately from the time-based {@link #retryTimeout(long, TimeUnit)}.
+&nbsp;     *
+&nbsp;     * @param maxRetries The maximum number of times to retry.
+&nbsp;     * @return Returns this builder for call chaining.
+&nbsp;     */
+&nbsp;    public Builder maxRetries(Integer maxRetries) {
+<b class="fc">&nbsp;      this.maxRetries = maxRetries;</b>
+<b class="fc">&nbsp;      return this;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Disables retries completely, by setting max retries to 0 and retry timeout to 0.
+&nbsp;     *
+&nbsp;     * @return Returns this builder for call chaining.
+&nbsp;     */
+&nbsp;    public Builder disableRetries() {
+<b class="fc">&nbsp;      maxRetries(0);</b>
+<b class="fc">&nbsp;      retryTimeout(0, TimeUnit.MILLISECONDS);</b>
+<b class="fc">&nbsp;      return this;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets the maximum number of queries that will be executed during a 1 second interval. The
+&nbsp;     * default is 50. A minimum interval between requests will also be enforced, set to 1/(2 *
+&nbsp;     * {@code maxQps}).
+&nbsp;     *
+&nbsp;     * @param maxQps The maximum queries per second.
+&nbsp;     * @return Returns this builder for call chaining.
+&nbsp;     */
+&nbsp;    public Builder queryRateLimit(int maxQps) {
+<b class="fc">&nbsp;      builder.queriesPerSecond(maxQps);</b>
+<b class="fc">&nbsp;      return this;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Allows specific API exceptions to be retried or not retried.
+&nbsp;     *
+&nbsp;     * @param exception The {@code ApiException} to allow or deny being re-tried.
+&nbsp;     * @param allowedToRetry Whether to allow or deny re-trying {@code exception}.
+&nbsp;     * @return Returns this builder for call chaining.
+&nbsp;     */
+&nbsp;    public Builder setIfExceptionIsAllowedToRetry(
+&nbsp;        Class&lt;? extends ApiException&gt; exception, boolean allowedToRetry) {
+<b class="pc">&nbsp;      if (allowedToRetry) {</b>
+<b class="nc">&nbsp;        exceptionsAllowedToRetry.add(exception);</b>
+&nbsp;      } else {
+<b class="fc">&nbsp;        exceptionsAllowedToRetry.remove(exception);</b>
+&nbsp;      }
+<b class="fc">&nbsp;      return this;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sets the proxy for new connections.
+&nbsp;     *
+&nbsp;     * @param proxy The proxy to be used by the underlying HTTP client.
+&nbsp;     * @return Returns this builder for call chaining.
+&nbsp;     */
+&nbsp;    public Builder proxy(Proxy proxy) {
+<b class="nc">&nbsp;      builder.proxy(proxy == null ? Proxy.NO_PROXY : proxy);</b>
+<b class="nc">&nbsp;      return this;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * set authentication for proxy
+&nbsp;     *
+&nbsp;     * @param proxyUserName username for proxy authentication
+&nbsp;     * @param proxyUserPassword username for proxy authentication
+&nbsp;     * @return Returns this builder for call chaining.
+&nbsp;     */
+&nbsp;    public Builder proxyAuthentication(String proxyUserName, String proxyUserPassword) {
+<b class="nc">&nbsp;      builder.proxyAuthentication(proxyUserName, proxyUserPassword);</b>
+<b class="nc">&nbsp;      return this;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Builder requestMetricsReporter(RequestMetricsReporter requestMetricsReporter) {
+<b class="fc">&nbsp;      this.requestMetricsReporter = requestMetricsReporter;</b>
+<b class="fc">&nbsp;      return this;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Converts this builder into a {@code GeoApiContext}.
+&nbsp;     *
+&nbsp;     * @return Returns the built {@code GeoApiContext}.
+&nbsp;     */
+&nbsp;    public GeoApiContext build() {
+<b class="fc">&nbsp;      return new GeoApiContext(</b>
+<b class="fc">&nbsp;          builder.build(),</b>
+&nbsp;          apiKey,
+&nbsp;          baseUrlOverride,
+&nbsp;          channel,
+&nbsp;          clientId,
+&nbsp;          errorTimeout,
+&nbsp;          exceptionsAllowedToRetry,
+&nbsp;          maxRetries,
+&nbsp;          urlSigner,
+&nbsp;          requestMetricsReporter);
+&nbsp;    }
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-01 14:27</div>
+</div>
+</body>
+</html>

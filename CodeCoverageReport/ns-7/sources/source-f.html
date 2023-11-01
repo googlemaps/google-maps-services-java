@@ -1,0 +1,190 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > DistanceMatrixElement</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.google.maps.model</a>
+</div>
+
+<h1>Coverage Summary for Class: DistanceMatrixElement (com.google.maps.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">DistanceMatrixElement</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (1/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    11.1%
+  </span>
+  <span class="absValue">
+    (1/9)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * Copyright 2014 Google Inc. All rights reserved.
+&nbsp; *
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;); you may not use this
+&nbsp; * file except in compliance with the License. You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *     http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software distributed under
+&nbsp; * the License is distributed on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
+&nbsp; * ANY KIND, either express or implied. See the License for the specific language governing
+&nbsp; * permissions and limitations under the License.
+&nbsp; */
+&nbsp;
+&nbsp;package com.google.maps.model;
+&nbsp;
+&nbsp;import java.io.Serializable;
+&nbsp;
+&nbsp;/**
+&nbsp; * A single result corresponding to an origin/destination pair in a Distance Matrix response.
+&nbsp; *
+&nbsp; * &lt;p&gt;Be sure to check the status for each element, as a matrix response can have a mix of
+&nbsp; * successful and failed elements depending on the connectivity of the origin and destination.
+&nbsp; */
+<b class="fc">&nbsp;public class DistanceMatrixElement implements Serializable {</b>
+&nbsp;
+&nbsp;  private static final long serialVersionUID = 1L;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * The status of the request for this origin/destination pair.
+&nbsp;   *
+&nbsp;   * &lt;p&gt;Will be one of {@link com.google.maps.model.DistanceMatrixElementStatus}.
+&nbsp;   */
+&nbsp;  public DistanceMatrixElementStatus status;
+&nbsp;
+&nbsp;  /** The total duration of this leg. */
+&nbsp;  public Duration duration;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * The length of time to travel this route, based on current and historical traffic conditions.
+&nbsp;   * The duration in traffic will only be returned if all of the following are true:
+&nbsp;   *
+&nbsp;   * &lt;ol&gt;
+&nbsp;   *   &lt;li&gt;The request includes a departureTime parameter.
+&nbsp;   *   &lt;li&gt;The request includes a valid API key or a valid Google Maps APIs Premium Plan client ID
+&nbsp;   *       and signature.
+&nbsp;   *   &lt;li&gt;Traffic conditions are available for the requested route.
+&nbsp;   *   &lt;li&gt;The mode parameter is set to driving.
+&nbsp;   * &lt;/ol&gt;
+&nbsp;   */
+&nbsp;  public Duration durationInTraffic;
+&nbsp;
+&nbsp;  /** {@code distance} indicates the total distance covered by this leg. */
+&nbsp;  public Distance distance;
+&nbsp;
+&nbsp;  /** {@code fare} contains information about the fare (that is, the ticket costs) on this route. */
+&nbsp;  public Fare fare;
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String toString() {
+<b class="nc">&nbsp;    String str =</b>
+<b class="nc">&nbsp;        String.format(</b>
+&nbsp;            &quot;[DistanceMatrixElement %s distance=%s, duration=%s&quot;, status, distance, duration);
+<b class="nc">&nbsp;    if (durationInTraffic != null) {</b>
+<b class="nc">&nbsp;      str = str + &quot;, durationInTraffic=&quot; + durationInTraffic;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    if (fare != null) {</b>
+<b class="nc">&nbsp;      str = str + &quot;, fare=&quot; + fare;</b>
+&nbsp;    }
+<b class="nc">&nbsp;    str = str + &quot;]&quot;;</b>
+<b class="nc">&nbsp;    return str;</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-01 14:27</div>
+</div>
+</body>
+</html>

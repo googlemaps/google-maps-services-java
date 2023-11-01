@@ -1,0 +1,731 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > StaticMapsRequest</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.google.maps</a>
+</div>
+
+<h1>Coverage Summary for Class: StaticMapsRequest (com.google.maps)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">StaticMapsRequest</td>
+<td class="coverageStat">
+  <span class="percent">
+    93.8%
+  </span>
+  <span class="absValue">
+    (15/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (10/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    95.7%
+  </span>
+  <span class="absValue">
+    (22/23)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">StaticMapsRequest$ImageFormat</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (11/11)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">StaticMapsRequest$Markers</td>
+<td class="coverageStat">
+  <span class="percent">
+    90%
+  </span>
+  <span class="absValue">
+    (9/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (12/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    89.2%
+  </span>
+  <span class="absValue">
+    (33/37)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">StaticMapsRequest$Markers$CustomIconAnchor</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (11/11)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">StaticMapsRequest$Markers$MarkersSize</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/6)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">StaticMapsRequest$Path</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (8/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (4/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (25/25)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">StaticMapsRequest$StaticMapType</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/6)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    95.3%
+  </span>
+  <span class="absValue">
+    (41/43)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    76.5%
+  </span>
+  <span class="absValue">
+    (26/34)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    95.8%
+  </span>
+  <span class="absValue">
+    (114/119)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * Copyright 2018 Google Inc. All rights reserved.
+&nbsp; *
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;); you may not use this
+&nbsp; * file except in compliance with the License. You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *     http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software distributed under
+&nbsp; * the License is distributed on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
+&nbsp; * ANY KIND, either express or implied. See the License for the specific language governing
+&nbsp; * permissions and limitations under the License.
+&nbsp; */
+&nbsp;
+&nbsp;package com.google.maps;
+&nbsp;
+&nbsp;import com.google.maps.internal.ApiConfig;
+&nbsp;import com.google.maps.internal.StringJoin;
+&nbsp;import com.google.maps.internal.StringJoin.UrlValue;
+&nbsp;import com.google.maps.model.EncodedPolyline;
+&nbsp;import com.google.maps.model.LatLng;
+&nbsp;import com.google.maps.model.Size;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;public class StaticMapsRequest
+&nbsp;    extends PendingResultBase&lt;ImageResult, StaticMapsRequest, ImageResult.Response&gt; {
+&nbsp;
+<b class="fc">&nbsp;  static final ApiConfig API_CONFIG = new ApiConfig(&quot;/maps/api/staticmap&quot;);</b>
+&nbsp;
+&nbsp;  public StaticMapsRequest(GeoApiContext context) {
+<b class="fc">&nbsp;    super(context, API_CONFIG, ImageResult.Response.class);</b>
+<b class="fc">&nbsp;  }</b>
+&nbsp;
+&nbsp;  @Override
+&nbsp;  protected void validateRequest() {
+<b class="fc">&nbsp;    if (!((params().containsKey(&quot;center&quot;) &amp;&amp; params().containsKey(&quot;zoom&quot;))</b>
+<b class="fc">&nbsp;        || params().containsKey(&quot;markers&quot;)</b>
+<b class="fc">&nbsp;        || params().containsKey(&quot;path&quot;))) {</b>
+<b class="fc">&nbsp;      throw new IllegalArgumentException(</b>
+&nbsp;          &quot;Request must contain &#39;center&#39; and &#39;zoom&#39; if &#39;markers&#39; or &#39;path&#39; aren&#39;t present.&quot;);
+&nbsp;    }
+<b class="fc">&nbsp;    if (!params().containsKey(&quot;size&quot;)) {</b>
+<b class="fc">&nbsp;      throw new IllegalArgumentException(&quot;Request must contain &#39;size&#39;.&quot;);</b>
+&nbsp;    }
+<b class="fc">&nbsp;  }</b>
+&nbsp;
+&nbsp;  /**
+&nbsp;   * &lt;code&gt;center&lt;/code&gt; (required if markers not present) defines the center of the map,
+&nbsp;   * equidistant from all edges of the map.
+&nbsp;   *
+&nbsp;   * @param location The location of the center of the map.
+&nbsp;   * @return Returns this {@code StaticMapsRequest} for call chaining.
+&nbsp;   */
+&nbsp;  public StaticMapsRequest center(LatLng location) {
+<b class="fc">&nbsp;    return param(&quot;center&quot;, location);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * &lt;code&gt;center&lt;/code&gt; (required if markers not present) defines the center of the map,
+&nbsp;   * equidistant from all edges of the map.
+&nbsp;   *
+&nbsp;   * @param location The location of the center of the map.
+&nbsp;   * @return Returns this {@code StaticMapsRequest} for call chaining.
+&nbsp;   */
+&nbsp;  public StaticMapsRequest center(String location) {
+<b class="fc">&nbsp;    return param(&quot;center&quot;, location);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * &lt;code&gt;zoom&lt;/code&gt; (required if markers not present) defines the zoom level of the map, which
+&nbsp;   * determines the magnification level of the map.
+&nbsp;   *
+&nbsp;   * @param zoom The zoom level of the region.
+&nbsp;   * @return Returns this {@code StaticMapsRequest} for call chaining.
+&nbsp;   */
+&nbsp;  public StaticMapsRequest zoom(int zoom) {
+<b class="fc">&nbsp;    return param(&quot;zoom&quot;, zoom);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * &lt;code&gt;size&lt;/code&gt; defines the rectangular dimensions of the map image.
+&nbsp;   *
+&nbsp;   * @param size The Size of the static map.
+&nbsp;   * @return Returns this {@code StaticMapsRequest} for call chaining.
+&nbsp;   */
+&nbsp;  public StaticMapsRequest size(Size size) {
+<b class="fc">&nbsp;    return param(&quot;size&quot;, size);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * &lt;code&gt;scale&lt;/code&gt; affects the number of pixels that are returned. Setting &lt;code&gt;scale&lt;/code&gt;
+&nbsp;   * to 2 returns twice as many pixels as &lt;code&gt;scale&lt;/code&gt; set to 1 while retaining the same
+&nbsp;   * coverage area and level of detail (i.e. the contents of the map doesn&#39;t change).
+&nbsp;   *
+&nbsp;   * @param scale The scale of the static map.
+&nbsp;   * @return Returns this {@code StaticMapsRequest} for call chaining.
+&nbsp;   */
+&nbsp;  public StaticMapsRequest scale(int scale) {
+<b class="fc">&nbsp;    return param(&quot;scale&quot;, scale);</b>
+&nbsp;  }
+&nbsp;
+<b class="fc">&nbsp;  public enum ImageFormat implements UrlValue {</b>
+<b class="fc">&nbsp;    png(&quot;png&quot;),</b>
+<b class="fc">&nbsp;    png8(&quot;png8&quot;),</b>
+<b class="fc">&nbsp;    png32(&quot;png32&quot;),</b>
+<b class="fc">&nbsp;    gif(&quot;gif&quot;),</b>
+<b class="fc">&nbsp;    jpg(&quot;jpg&quot;),</b>
+<b class="fc">&nbsp;    jpgBaseline(&quot;jpg-baseline&quot;);</b>
+&nbsp;
+&nbsp;    private final String format;
+&nbsp;
+<b class="fc">&nbsp;    ImageFormat(String format) {</b>
+<b class="fc">&nbsp;      this.format = format;</b>
+<b class="fc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String toUrlValue() {
+<b class="fc">&nbsp;      return format;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * &lt;code&gt;format&lt;/code&gt; defines the format of the resulting image. By default, the Google Static
+&nbsp;   * Maps API creates PNG images. There are several possible formats including GIF, JPEG and PNG
+&nbsp;   * types.
+&nbsp;   *
+&nbsp;   * @param format The format of the static map.
+&nbsp;   * @return Returns this {@code StaticMapsRequest} for call chaining.
+&nbsp;   */
+&nbsp;  public StaticMapsRequest format(ImageFormat format) {
+<b class="fc">&nbsp;    return param(&quot;format&quot;, format);</b>
+&nbsp;  }
+&nbsp;
+<b class="fc">&nbsp;  public enum StaticMapType implements UrlValue {</b>
+<b class="fc">&nbsp;    roadmap,</b>
+<b class="fc">&nbsp;    satellite,</b>
+<b class="fc">&nbsp;    terrain,</b>
+<b class="fc">&nbsp;    hybrid;</b>
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String toUrlValue() {
+<b class="fc">&nbsp;      return this.name();</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * &lt;code&gt;maptype&lt;/code&gt; defines the type of map to construct.
+&nbsp;   *
+&nbsp;   * @param maptype The map type of the static map.
+&nbsp;   * @return Returns this {@code StaticMapsRequest} for call chaining.
+&nbsp;   */
+&nbsp;  public StaticMapsRequest maptype(StaticMapType maptype) {
+<b class="fc">&nbsp;    return param(&quot;maptype&quot;, maptype);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * &lt;code&gt;region&lt;/code&gt; defines the appropriate borders to display, based on geo-political
+&nbsp;   * sensitivities. Accepts a region code specified as a two-character ccTLD (&#39;top-level domain&#39;)
+&nbsp;   * value.
+&nbsp;   *
+&nbsp;   * @param region The region of the static map.
+&nbsp;   * @return Returns this {@code StaticMapsRequest} for call chaining.
+&nbsp;   */
+&nbsp;  public StaticMapsRequest region(String region) {
+<b class="fc">&nbsp;    return param(&quot;region&quot;, region);</b>
+&nbsp;  }
+&nbsp;
+<b class="fc">&nbsp;  public static class Markers implements UrlValue {</b>
+&nbsp;
+<b class="fc">&nbsp;    public enum MarkersSize implements UrlValue {</b>
+<b class="fc">&nbsp;      tiny,</b>
+<b class="fc">&nbsp;      mid,</b>
+<b class="fc">&nbsp;      small,</b>
+<b class="fc">&nbsp;      normal;</b>
+&nbsp;
+&nbsp;      @Override
+&nbsp;      public String toUrlValue() {
+<b class="fc">&nbsp;        return this.name();</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    public enum CustomIconAnchor implements UrlValue {</b>
+<b class="fc">&nbsp;      top,</b>
+<b class="fc">&nbsp;      bottom,</b>
+<b class="fc">&nbsp;      left,</b>
+<b class="fc">&nbsp;      right,</b>
+<b class="fc">&nbsp;      center,</b>
+<b class="fc">&nbsp;      topleft,</b>
+<b class="fc">&nbsp;      topright,</b>
+<b class="fc">&nbsp;      bottomleft,</b>
+<b class="fc">&nbsp;      bottomright;</b>
+&nbsp;
+&nbsp;      @Override
+&nbsp;      public String toUrlValue() {
+<b class="fc">&nbsp;        return this.name();</b>
+&nbsp;      }
+&nbsp;    }
+&nbsp;
+&nbsp;    private MarkersSize size;
+&nbsp;    private String color;
+&nbsp;    private String label;
+&nbsp;    private String customIconURL;
+&nbsp;    private CustomIconAnchor anchorPoint;
+&nbsp;    private Integer scale;
+<b class="fc">&nbsp;    private final List&lt;String&gt; locations = new ArrayList&lt;&gt;();</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Specifies the size of marker. If no size parameter is set, the marker will appear in its
+&nbsp;     * default (normal) size.
+&nbsp;     *
+&nbsp;     * @param size The size of the markers.
+&nbsp;     */
+&nbsp;    public void size(MarkersSize size) {
+<b class="fc">&nbsp;      this.size = size;</b>
+<b class="fc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Specifies a 24-bit color (example: color=0xFFFFCC) or a predefined color from the set {black,
+&nbsp;     * brown, green, purple, yellow, blue, gray, orange, red, white}.
+&nbsp;     *
+&nbsp;     * @param color The color of the markers.
+&nbsp;     */
+&nbsp;    public void color(String color) {
+<b class="fc">&nbsp;      this.color = color;</b>
+<b class="fc">&nbsp;    }</b>
+&nbsp;
+<b class="fc">&nbsp;    private static final Pattern labelPattern = Pattern.compile(&quot;^[A-Z0-9]$&quot;);</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Specifies a single uppercase alphanumeric character from the set {A-Z, 0-9}.
+&nbsp;     *
+&nbsp;     * @param label The label to add to markers.
+&nbsp;     */
+&nbsp;    public void label(String label) {
+<b class="pc">&nbsp;      if (!labelPattern.matcher(label).matches()) {</b>
+<b class="nc">&nbsp;        throw new IllegalArgumentException(</b>
+&nbsp;            &quot;Label &#39;&quot; + label + &quot;&#39; doesn&#39;t match acceptable label pattern.&quot;);
+&nbsp;      }
+&nbsp;
+<b class="fc">&nbsp;      this.label = label;</b>
+<b class="fc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Set a custom icon for these markers.
+&nbsp;     *
+&nbsp;     * @param url URL for the custom icon.
+&nbsp;     * @param anchorPoint The anchor point for this custom icon.
+&nbsp;     */
+&nbsp;    public void customIcon(String url, CustomIconAnchor anchorPoint) {
+<b class="nc">&nbsp;      this.customIconURL = url;</b>
+<b class="nc">&nbsp;      this.anchorPoint = anchorPoint;</b>
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Set a custom icon for these markers.
+&nbsp;     *
+&nbsp;     * @param url URL for the custom icon.
+&nbsp;     * @param anchorPoint The anchor point for this custom icon.
+&nbsp;     * @param scale Set the image density scale (1, 2, or 4) of the custom icon provided.
+&nbsp;     */
+&nbsp;    public void customIcon(String url, CustomIconAnchor anchorPoint, int scale) {
+<b class="fc">&nbsp;      this.customIconURL = url;</b>
+<b class="fc">&nbsp;      this.anchorPoint = anchorPoint;</b>
+<b class="fc">&nbsp;      this.scale = scale;</b>
+<b class="fc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Add the location of a marker. At least one is required.
+&nbsp;     *
+&nbsp;     * @param location The location of the added marker.
+&nbsp;     */
+&nbsp;    public void addLocation(String location) {
+<b class="fc">&nbsp;      locations.add(location);</b>
+<b class="fc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Add the location of a marker. At least one is required.
+&nbsp;     *
+&nbsp;     * @param location The location of the added marker.
+&nbsp;     */
+&nbsp;    public void addLocation(LatLng location) {
+<b class="fc">&nbsp;      locations.add(location.toUrlValue());</b>
+<b class="fc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String toUrlValue() {
+<b class="fc">&nbsp;      List&lt;String&gt; urlParts = new ArrayList&lt;&gt;();</b>
+&nbsp;
+<b class="fc">&nbsp;      if (customIconURL != null) {</b>
+<b class="fc">&nbsp;        urlParts.add(&quot;icon:&quot; + customIconURL);</b>
+&nbsp;      }
+&nbsp;
+<b class="fc">&nbsp;      if (anchorPoint != null) {</b>
+<b class="fc">&nbsp;        urlParts.add(&quot;anchor:&quot; + anchorPoint.toUrlValue());</b>
+&nbsp;      }
+&nbsp;
+<b class="fc">&nbsp;      if (scale != null) {</b>
+<b class="fc">&nbsp;        urlParts.add(&quot;scale:&quot; + scale);</b>
+&nbsp;      }
+&nbsp;
+<b class="pc">&nbsp;      if (size != null &amp;&amp; size != MarkersSize.normal) {</b>
+<b class="fc">&nbsp;        urlParts.add(&quot;size:&quot; + size.toUrlValue());</b>
+&nbsp;      }
+&nbsp;
+<b class="pc">&nbsp;      if (color != null) {</b>
+<b class="fc">&nbsp;        urlParts.add(&quot;color:&quot; + color);</b>
+&nbsp;      }
+&nbsp;
+<b class="pc">&nbsp;      if (label != null) {</b>
+<b class="fc">&nbsp;        urlParts.add(&quot;label:&quot; + label);</b>
+&nbsp;      }
+&nbsp;
+<b class="fc">&nbsp;      urlParts.addAll(locations);</b>
+&nbsp;
+<b class="fc">&nbsp;      return StringJoin.join(&#39;|&#39;, urlParts.toArray(new String[urlParts.size()]));</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * &lt;code&gt;markers&lt;/code&gt; parameter defines a set of one or more markers (map pins) at a set of
+&nbsp;   * locations. Each marker defined within a single markers declaration must exhibit the same visual
+&nbsp;   * style; if you wish to display markers with different styles, you will need to supply multiple
+&nbsp;   * markers parameters with separate style information.
+&nbsp;   *
+&nbsp;   * @param markers A group of markers with the same style.
+&nbsp;   * @return Returns this {@code StaticMapsRequest} for call chaining.
+&nbsp;   */
+&nbsp;  public StaticMapsRequest markers(Markers markers) {
+<b class="fc">&nbsp;    return paramAddToList(&quot;markers&quot;, markers);</b>
+&nbsp;  }
+&nbsp;
+<b class="fc">&nbsp;  public static class Path implements UrlValue {</b>
+&nbsp;
+&nbsp;    private int weight;
+&nbsp;    private String color;
+&nbsp;    private String fillcolor;
+&nbsp;    private boolean geodesic;
+<b class="fc">&nbsp;    private final List&lt;String&gt; points = new ArrayList&lt;&gt;();</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Specifies the thickness of the path in pixels. If no weight parameter is set, the path will
+&nbsp;     * appear in its default thickness (5 pixels).
+&nbsp;     *
+&nbsp;     * @param weight The thickness of the path in pixels.
+&nbsp;     */
+&nbsp;    public void weight(int weight) {
+<b class="fc">&nbsp;      this.weight = weight;</b>
+<b class="fc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Specifies a 24-bit color (example: color=0xFFFFCC) or a predefined color from the set {black,
+&nbsp;     * brown, green, purple, yellow, blue, gray, orange, red, white}.
+&nbsp;     *
+&nbsp;     * @param color The color of the path.
+&nbsp;     */
+&nbsp;    public void color(String color) {
+<b class="fc">&nbsp;      this.color = color;</b>
+<b class="fc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Specifies a 24-bit color (example: color=0xFFFFCC) or a predefined color from the set {black,
+&nbsp;     * brown, green, purple, yellow, blue, gray, orange, red, white}.
+&nbsp;     *
+&nbsp;     * @param color The fill color.
+&nbsp;     */
+&nbsp;    public void fillcolor(String color) {
+<b class="fc">&nbsp;      this.fillcolor = color;</b>
+<b class="fc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Indicates that the requested path should be interpreted as a geodesic line that follows the
+&nbsp;     * curvature of the earth.
+&nbsp;     *
+&nbsp;     * @param geodesic Whether the path is geodesic.
+&nbsp;     */
+&nbsp;    public void geodesic(boolean geodesic) {
+<b class="fc">&nbsp;      this.geodesic = geodesic;</b>
+<b class="fc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Add a point to the path. At least two are required.
+&nbsp;     *
+&nbsp;     * @param point The point to add.
+&nbsp;     */
+&nbsp;    public void addPoint(String point) {
+<b class="fc">&nbsp;      points.add(point);</b>
+<b class="fc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Add a point to the path. At least two are required.
+&nbsp;     *
+&nbsp;     * @param point The point to add.
+&nbsp;     */
+&nbsp;    public void addPoint(LatLng point) {
+<b class="fc">&nbsp;      points.add(point.toUrlValue());</b>
+<b class="fc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String toUrlValue() {
+<b class="fc">&nbsp;      List&lt;String&gt; urlParts = new ArrayList&lt;&gt;();</b>
+&nbsp;
+<b class="pc">&nbsp;      if (weight &gt; 0) {</b>
+<b class="fc">&nbsp;        urlParts.add(&quot;weight:&quot; + weight);</b>
+&nbsp;      }
+&nbsp;
+<b class="pc">&nbsp;      if (color != null) {</b>
+<b class="fc">&nbsp;        urlParts.add(&quot;color:&quot; + color);</b>
+&nbsp;      }
+&nbsp;
+<b class="pc">&nbsp;      if (fillcolor != null) {</b>
+<b class="fc">&nbsp;        urlParts.add(&quot;fillcolor:&quot; + fillcolor);</b>
+&nbsp;      }
+&nbsp;
+<b class="pc">&nbsp;      if (geodesic) {</b>
+<b class="fc">&nbsp;        urlParts.add(&quot;geodesic:&quot; + geodesic);</b>
+&nbsp;      }
+&nbsp;
+<b class="fc">&nbsp;      urlParts.addAll(points);</b>
+&nbsp;
+<b class="fc">&nbsp;      return StringJoin.join(&#39;|&#39;, urlParts.toArray(new String[urlParts.size()]));</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * The &lt;code&gt;path&lt;/code&gt; parameter defines a set of one or more locations connected by a path to
+&nbsp;   * overlay on the map image.
+&nbsp;   *
+&nbsp;   * @param path A path to render atop the map.
+&nbsp;   * @return Returns this {@code StaticMapsRequest} for call chaining.
+&nbsp;   */
+&nbsp;  public StaticMapsRequest path(Path path) {
+<b class="fc">&nbsp;    return paramAddToList(&quot;path&quot;, path);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * The &lt;code&gt;path&lt;/code&gt; parameter defines a set of one or more locations connected by a path to
+&nbsp;   * overlay on the map image. This variant of the method accepts the path as an EncodedPolyline.
+&nbsp;   *
+&nbsp;   * @param path A path to render atop the map, as an EncodedPolyline.
+&nbsp;   * @return Returns this {@code StaticMapsRequest} for call chaining.
+&nbsp;   */
+&nbsp;  public StaticMapsRequest path(EncodedPolyline path) {
+<b class="fc">&nbsp;    return paramAddToList(&quot;path&quot;, &quot;enc:&quot; + path.getEncodedPath());</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * &lt;code&gt;visible&lt;/code&gt; instructs the Google Static Maps API service to construct a map such that
+&nbsp;   * the existing locations remain visible.
+&nbsp;   *
+&nbsp;   * @param visibleLocation The location to be made visible in the requested Static Map.
+&nbsp;   * @return Returns this {@code StaticMapsRequest} for call chaining.
+&nbsp;   */
+&nbsp;  public StaticMapsRequest visible(LatLng visibleLocation) {
+<b class="nc">&nbsp;    return param(&quot;visible&quot;, visibleLocation);</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * &lt;code&gt;visible&lt;/code&gt; instructs the Google Static Maps API service to construct a map such that
+&nbsp;   * the existing locations remain visible.
+&nbsp;   *
+&nbsp;   * @param visibleLocation The location to be made visible in the requested Static Map.
+&nbsp;   * @return Returns this {@code StaticMapsRequest} for call chaining.
+&nbsp;   */
+&nbsp;  public StaticMapsRequest visible(String visibleLocation) {
+<b class="fc">&nbsp;    return param(&quot;visible&quot;, visibleLocation);</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-01 14:27</div>
+</div>
+</body>
+</html>

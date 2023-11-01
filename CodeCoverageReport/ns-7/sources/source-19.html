@@ -1,0 +1,212 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > GeocodingResult</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.google.maps.model</a>
+</div>
+
+<h1>Coverage Summary for Class: GeocodingResult (com.google.maps.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GeocodingResult</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (3/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    92.3%
+  </span>
+  <span class="absValue">
+    (12/13)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * Copyright 2014 Google Inc. All rights reserved.
+&nbsp; *
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;); you may not use this
+&nbsp; * file except in compliance with the License. You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *     http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software distributed under
+&nbsp; * the License is distributed on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
+&nbsp; * ANY KIND, either express or implied. See the License for the specific language governing
+&nbsp; * permissions and limitations under the License.
+&nbsp; */
+&nbsp;
+&nbsp;package com.google.maps.model;
+&nbsp;
+&nbsp;import java.io.Serializable;
+&nbsp;import java.util.Arrays;
+&nbsp;
+&nbsp;/** A result from a Geocoding API call. */
+<b class="fc">&nbsp;public class GeocodingResult implements Serializable {</b>
+&nbsp;
+&nbsp;  private static final long serialVersionUID = 1L;
+&nbsp;
+&nbsp;  /** The separate address components in this result. */
+&nbsp;  public AddressComponent[] addressComponents;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * The human-readable address of this location.
+&nbsp;   *
+&nbsp;   * &lt;p&gt;Often this address is equivalent to the &quot;postal address,&quot; which sometimes differs from
+&nbsp;   * country to country. (Note that some countries, such as the United Kingdom, do not allow
+&nbsp;   * distribution of true postal addresses due to licensing restrictions.) This address is generally
+&nbsp;   * composed of one or more address components. For example, the address &quot;111 8th Avenue, New York,
+&nbsp;   * NY&quot; contains separate address components for &quot;111&quot; (the street number, &quot;8th Avenue&quot; (the
+&nbsp;   * route), &quot;New York&quot; (the city) and &quot;NY&quot; (the US state). These address components contain
+&nbsp;   * additional information.
+&nbsp;   */
+&nbsp;  public String formattedAddress;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * All the localities contained in a postal code. This is only present when the result is a postal
+&nbsp;   * code that contains multiple localities.
+&nbsp;   */
+&nbsp;  public String[] postcodeLocalities;
+&nbsp;
+&nbsp;  /** Location information for this result. */
+&nbsp;  public Geometry geometry;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * The types of the returned result. This array contains a set of zero or more tags identifying
+&nbsp;   * the type of feature returned in the result. For example, a geocode of &quot;Chicago&quot; returns
+&nbsp;   * &quot;locality&quot; which indicates that &quot;Chicago&quot; is a city, and also returns &quot;political&quot; which
+&nbsp;   * indicates it is a political entity.
+&nbsp;   */
+&nbsp;  public AddressType[] types;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Indicates that the geocoder did not return an exact match for the original request, though it
+&nbsp;   * was able to match part of the requested address. You may wish to examine the original request
+&nbsp;   * for misspellings and/or an incomplete address.
+&nbsp;   *
+&nbsp;   * &lt;p&gt;Partial matches most often occur for street addresses that do not exist within the locality
+&nbsp;   * you pass in the request. Partial matches may also be returned when a request matches two or
+&nbsp;   * more locations in the same locality. For example, &quot;21 Henr St, Bristol, UK&quot; will return a
+&nbsp;   * partial match for both Henry Street and Henrietta Street. Note that if a request includes a
+&nbsp;   * misspelled address component, the geocoding service may suggest an alternate address.
+&nbsp;   * Suggestions triggered in this way will not be marked as a partial match.
+&nbsp;   */
+&nbsp;  public boolean partialMatch;
+&nbsp;
+&nbsp;  /** A unique identifier for this place. */
+&nbsp;  public String placeId;
+&nbsp;
+&nbsp;  /** The Plus Code identifier for this place. */
+&nbsp;  public PlusCode plusCode;
+&nbsp;
+&nbsp;  @Override
+&nbsp;  public String toString() {
+<b class="fc">&nbsp;    StringBuilder sb = new StringBuilder(&quot;[GeocodingResult&quot;);</b>
+<b class="fc">&nbsp;    if (partialMatch) {</b>
+<b class="fc">&nbsp;      sb.append(&quot; PARTIAL MATCH&quot;);</b>
+&nbsp;    }
+<b class="fc">&nbsp;    sb.append(&quot; placeId=&quot;).append(placeId);</b>
+<b class="fc">&nbsp;    sb.append(&quot; &quot;).append(geometry);</b>
+<b class="fc">&nbsp;    sb.append(&quot;, formattedAddress=&quot;).append(formattedAddress);</b>
+<b class="fc">&nbsp;    sb.append(&quot;, types=&quot;).append(Arrays.toString(types));</b>
+<b class="fc">&nbsp;    sb.append(&quot;, addressComponents=&quot;).append(Arrays.toString(addressComponents));</b>
+<b class="pc">&nbsp;    if (postcodeLocalities != null &amp;&amp; postcodeLocalities.length &gt; 0) {</b>
+<b class="nc">&nbsp;      sb.append(&quot;, postcodeLocalities=&quot;).append(Arrays.toString(postcodeLocalities));</b>
+&nbsp;    }
+<b class="fc">&nbsp;    sb.append(&quot;]&quot;);</b>
+<b class="fc">&nbsp;    return sb.toString();</b>
+&nbsp;  }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-01 14:27</div>
+</div>
+</body>
+</html>

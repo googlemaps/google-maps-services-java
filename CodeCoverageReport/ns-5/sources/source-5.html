@@ -1,0 +1,589 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > SmoothRateLimiter</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.google.maps.internal.ratelimiter</a>
+</div>
+
+<h1>Coverage Summary for Class: SmoothRateLimiter (com.google.maps.internal.ratelimiter)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SmoothRateLimiter</td>
+<td class="coverageStat">
+  <span class="percent">
+    71.4%
+  </span>
+  <span class="absValue">
+    (5/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    92%
+  </span>
+  <span class="absValue">
+    (23/25)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">SmoothRateLimiter$1</td>
+  </tr>
+  <tr>
+    <td class="name">SmoothRateLimiter$SmoothBursty</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/14)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">SmoothRateLimiter$SmoothWarmingUp</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (5/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    83.3%
+  </span>
+  <span class="absValue">
+    (5/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    96.6%
+  </span>
+  <span class="absValue">
+    (28/29)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    62.5%
+  </span>
+  <span class="absValue">
+    (10/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    58.3%
+  </span>
+  <span class="absValue">
+    (7/12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (51/68)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * Copyright (C) 2012 The Guava Authors
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;); you may not use this file except
+&nbsp; * in compliance with the License. You may obtain a copy of the License at
+&nbsp; *
+&nbsp; * http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software distributed under the License
+&nbsp; * is distributed on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+&nbsp; * or implied. See the License for the specific language governing permissions and limitations under
+&nbsp; * the License.
+&nbsp; */
+&nbsp;/*
+&nbsp; * Copyright 2017 Google Inc. All rights reserved.
+&nbsp; *
+&nbsp; *
+&nbsp; * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;); you may not use this
+&nbsp; * file except in compliance with the License. You may obtain a copy of the License at
+&nbsp; *
+&nbsp; *     http://www.apache.org/licenses/LICENSE-2.0
+&nbsp; *
+&nbsp; * Unless required by applicable law or agreed to in writing, software distributed under
+&nbsp; * the License is distributed on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
+&nbsp; * ANY KIND, either express or implied. See the License for the specific language governing
+&nbsp; * permissions and limitations under the License.
+&nbsp; */
+&nbsp;
+&nbsp;package com.google.maps.internal.ratelimiter;
+&nbsp;
+&nbsp;import static java.lang.Math.min;
+&nbsp;import static java.util.concurrent.TimeUnit.SECONDS;
+&nbsp;
+&nbsp;import java.util.concurrent.TimeUnit;
+&nbsp;
+<b class="fc">&nbsp;abstract class SmoothRateLimiter extends RateLimiter {</b>
+&nbsp;  /*
+&nbsp;   * How is the RateLimiter designed, and why?
+&nbsp;   *
+&nbsp;   * The primary feature of a RateLimiter is its &quot;stable rate&quot;, the maximum rate that is should
+&nbsp;   * allow at normal conditions. This is enforced by &quot;throttling&quot; incoming requests as needed, i.e.
+&nbsp;   * compute, for an incoming request, the appropriate throttle time, and make the calling thread
+&nbsp;   * wait as much.
+&nbsp;   *
+&nbsp;   * The simplest way to maintain a rate of QPS is to keep the timestamp of the last granted
+&nbsp;   * request, and ensure that (1/QPS) seconds have elapsed since then. For example, for a rate of
+&nbsp;   * QPS=5 (5 tokens per second), if we ensure that a request isn&#39;t granted earlier than 200ms after
+&nbsp;   * the last one, then we achieve the intended rate. If a request comes and the last request was
+&nbsp;   * granted only 100ms ago, then we wait for another 100ms. At this rate, serving 15 fresh permits
+&nbsp;   * (i.e. for an acquire(15) request) naturally takes 3 seconds.
+&nbsp;   *
+&nbsp;   * It is important to realize that such a RateLimiter has a very superficial memory of the past:
+&nbsp;   * it only remembers the last request. What if the RateLimiter was unused for a long period of
+&nbsp;   * time, then a request arrived and was immediately granted? This RateLimiter would immediately
+&nbsp;   * forget about that past underutilization. This may result in either underutilization or
+&nbsp;   * overflow, depending on the real world consequences of not using the expected rate.
+&nbsp;   *
+&nbsp;   * Past underutilization could mean that excess resources are available. Then, the RateLimiter
+&nbsp;   * should speed up for a while, to take advantage of these resources. This is important when the
+&nbsp;   * rate is applied to networking (limiting bandwidth), where past underutilization typically
+&nbsp;   * translates to &quot;almost empty buffers&quot;, which can be filled immediately.
+&nbsp;   *
+&nbsp;   * On the other hand, past underutilization could mean that &quot;the server responsible for handling
+&nbsp;   * the request has become less ready for future requests&quot;, i.e. its caches become stale, and
+&nbsp;   * requests become more likely to trigger expensive operations (a more extreme case of this
+&nbsp;   * example is when a server has just booted, and it is mostly busy with getting itself up to
+&nbsp;   * speed).
+&nbsp;   *
+&nbsp;   * To deal with such scenarios, we add an extra dimension, that of &quot;past underutilization&quot;,
+&nbsp;   * modeled by &quot;storedPermits&quot; variable. This variable is zero when there is no underutilization,
+&nbsp;   * and it can grow up to maxStoredPermits, for sufficiently large underutilization. So, the
+&nbsp;   * requested permits, by an invocation acquire(permits), are served from:
+&nbsp;   *
+&nbsp;   * - stored permits (if available)
+&nbsp;   *
+&nbsp;   * - fresh permits (for any remaining permits)
+&nbsp;   *
+&nbsp;   * How this works is best explained with an example:
+&nbsp;   *
+&nbsp;   * For a RateLimiter that produces 1 token per second, every second that goes by with the
+&nbsp;   * RateLimiter being unused, we increase storedPermits by 1. Say we leave the RateLimiter unused
+&nbsp;   * for 10 seconds (i.e., we expected a request at time X, but we are at time X + 10 seconds before
+&nbsp;   * a request actually arrives; this is also related to the point made in the last paragraph), thus
+&nbsp;   * storedPermits becomes 10.0 (assuming maxStoredPermits &gt;= 10.0). At that point, a request of
+&nbsp;   * acquire(3) arrives. We serve this request out of storedPermits, and reduce that to 7.0 (how
+&nbsp;   * this is translated to throttling time is discussed later). Immediately after, assume that an
+&nbsp;   * acquire(10) request arriving. We serve the request partly from storedPermits, using all the
+&nbsp;   * remaining 7.0 permits, and the remaining 3.0, we serve them by fresh permits produced by the
+&nbsp;   * rate limiter.
+&nbsp;   *
+&nbsp;   * We already know how much time it takes to serve 3 fresh permits: if the rate is
+&nbsp;   * &quot;1 token per second&quot;, then this will take 3 seconds. But what does it mean to serve 7 stored
+&nbsp;   * permits? As explained above, there is no unique answer. If we are primarily interested to deal
+&nbsp;   * with underutilization, then we want stored permits to be given out /faster/ than fresh ones,
+&nbsp;   * because underutilization = free resources for the taking. If we are primarily interested to
+&nbsp;   * deal with overflow, then stored permits could be given out /slower/ than fresh ones. Thus, we
+&nbsp;   * require a (different in each case) function that translates storedPermits to throtting time.
+&nbsp;   *
+&nbsp;   * This role is played by storedPermitsToWaitTime(double storedPermits, double permitsToTake). The
+&nbsp;   * underlying model is a continuous function mapping storedPermits (from 0.0 to maxStoredPermits)
+&nbsp;   * onto the 1/rate (i.e. intervals) that is effective at the given storedPermits. &quot;storedPermits&quot;
+&nbsp;   * essentially measure unused time; we spend unused time buying/storing permits. Rate is
+&nbsp;   * &quot;permits / time&quot;, thus &quot;1 / rate = time / permits&quot;. Thus, &quot;1/rate&quot; (time / permits) times
+&nbsp;   * &quot;permits&quot; gives time, i.e., integrals on this function (which is what storedPermitsToWaitTime()
+&nbsp;   * computes) correspond to minimum intervals between subsequent requests, for the specified number
+&nbsp;   * of requested permits.
+&nbsp;   *
+&nbsp;   * Here is an example of storedPermitsToWaitTime: If storedPermits == 10.0, and we want 3 permits,
+&nbsp;   * we take them from storedPermits, reducing them to 7.0, and compute the throttling for these as
+&nbsp;   * a call to storedPermitsToWaitTime(storedPermits = 10.0, permitsToTake = 3.0), which will
+&nbsp;   * evaluate the integral of the function from 7.0 to 10.0.
+&nbsp;   *
+&nbsp;   * Using integrals guarantees that the effect of a single acquire(3) is equivalent to {
+&nbsp;   * acquire(1); acquire(1); acquire(1); }, or { acquire(2); acquire(1); }, etc, since the integral
+&nbsp;   * of the function in [7.0, 10.0] is equivalent to the sum of the integrals of [7.0, 8.0], [8.0,
+&nbsp;   * 9.0], [9.0, 10.0] (and so on), no matter what the function is. This guarantees that we handle
+&nbsp;   * correctly requests of varying weight (permits), /no matter/ what the actual function is - so we
+&nbsp;   * can tweak the latter freely. (The only requirement, obviously, is that we can compute its
+&nbsp;   * integrals).
+&nbsp;   *
+&nbsp;   * Note well that if, for this function, we chose a horizontal line, at height of exactly (1/QPS),
+&nbsp;   * then the effect of the function is non-existent: we serve storedPermits at exactly the same
+&nbsp;   * cost as fresh ones (1/QPS is the cost for each). We use this trick later.
+&nbsp;   *
+&nbsp;   * If we pick a function that goes /below/ that horizontal line, it means that we reduce the area
+&nbsp;   * of the function, thus time. Thus, the RateLimiter becomes /faster/ after a period of
+&nbsp;   * underutilization. If, on the other hand, we pick a function that goes /above/ that horizontal
+&nbsp;   * line, then it means that the area (time) is increased, thus storedPermits are more costly than
+&nbsp;   * fresh permits, thus the RateLimiter becomes /slower/ after a period of underutilization.
+&nbsp;   *
+&nbsp;   * Last, but not least: consider a RateLimiter with rate of 1 permit per second, currently
+&nbsp;   * completely unused, and an expensive acquire(100) request comes. It would be nonsensical to just
+&nbsp;   * wait for 100 seconds, and /then/ start the actual task. Why wait without doing anything? A much
+&nbsp;   * better approach is to /allow/ the request right away (as if it was an acquire(1) request
+&nbsp;   * instead), and postpone /subsequent/ requests as needed. In this version, we allow starting the
+&nbsp;   * task immediately, and postpone by 100 seconds future requests, thus we allow for work to get
+&nbsp;   * done in the meantime instead of waiting idly.
+&nbsp;   *
+&nbsp;   * This has important consequences: it means that the RateLimiter doesn&#39;t remember the time of the
+&nbsp;   * _last_ request, but it remembers the (expected) time of the _next_ request. This also enables
+&nbsp;   * us to tell immediately (see tryAcquire(timeout)) whether a particular timeout is enough to get
+&nbsp;   * us to the point of the next scheduling time, since we always maintain that. And what we mean by
+&nbsp;   * &quot;an unused RateLimiter&quot; is also defined by that notion: when we observe that the
+&nbsp;   * &quot;expected arrival time of the next request&quot; is actually in the past, then the difference (now -
+&nbsp;   * past) is the amount of time that the RateLimiter was formally unused, and it is that amount of
+&nbsp;   * time which we translate to storedPermits. (We increase storedPermits with the amount of permits
+&nbsp;   * that would have been produced in that idle time). So, if rate == 1 permit per second, and
+&nbsp;   * arrivals come exactly one second after the previous, then storedPermits is _never_ increased --
+&nbsp;   * we would only increase it for arrivals _later_ than the expected one second.
+&nbsp;   */
+&nbsp;
+&nbsp;  /**
+&nbsp;   * This implements the following function where coldInterval = coldFactor * stableInterval.
+&nbsp;   *
+&nbsp;   * &lt;pre&gt;
+&nbsp;   *          ^ throttling
+&nbsp;   *          |
+&nbsp;   *    cold  +                  /
+&nbsp;   * interval |                 /.
+&nbsp;   *          |                / .
+&nbsp;   *          |               /  .   ? &quot;warmup period&quot; is the area of the trapezoid between
+&nbsp;   *          |              /   .     thresholdPermits and maxPermits
+&nbsp;   *          |             /    .
+&nbsp;   *          |            /     .
+&nbsp;   *          |           /      .
+&nbsp;   *   stable +----------/  WARM .
+&nbsp;   * interval |          .   UP  .
+&nbsp;   *          |          . PERIOD.
+&nbsp;   *          |          .       .
+&nbsp;   *        0 +----------+-------+--------------? storedPermits
+&nbsp;   *          0 thresholdPermits maxPermits
+&nbsp;   * &lt;/pre&gt;
+&nbsp;   *
+&nbsp;   * Before going into the details of this particular function, let&#39;s keep in mind the basics:
+&nbsp;   *
+&nbsp;   * &lt;ol&gt;
+&nbsp;   *   &lt;li&gt;The state of the RateLimiter (storedPermits) is a vertical line in this figure.
+&nbsp;   *   &lt;li&gt;When the RateLimiter is not used, this goes right (up to maxPermits)
+&nbsp;   *   &lt;li&gt;When the RateLimiter is used, this goes left (down to zero), since if we have
+&nbsp;   *       storedPermits, we serve from those first
+&nbsp;   *   &lt;li&gt;When _unused_, we go right at a constant rate! The rate at which we move to the right is
+&nbsp;   *       chosen as maxPermits / warmupPeriod. This ensures that the time it takes to go from 0 to
+&nbsp;   *       maxPermits is equal to warmupPeriod.
+&nbsp;   *   &lt;li&gt;When _used_, the time it takes, as explained in the introductory class note, is equal to
+&nbsp;   *       the integral of our function, between X permits and X-K permits, assuming we want to
+&nbsp;   *       spend K saved permits.
+&nbsp;   * &lt;/ol&gt;
+&nbsp;   *
+&nbsp;   * &lt;p&gt;In summary, the time it takes to move to the left (spend K permits), is equal to the area of
+&nbsp;   * the function of width == K.
+&nbsp;   *
+&nbsp;   * &lt;p&gt;Assuming we have saturated demand, the time to go from maxPermits to thresholdPermits is
+&nbsp;   * equal to warmupPeriod. And the time to go from thresholdPermits to 0 is warmupPeriod/2. (The
+&nbsp;   * reason that this is warmupPeriod/2 is to maintain the behavior of the original implementation
+&nbsp;   * where coldFactor was hard coded as 3.)
+&nbsp;   *
+&nbsp;   * &lt;p&gt;It remains to calculate thresholdsPermits and maxPermits.
+&nbsp;   *
+&nbsp;   * &lt;ul&gt;
+&nbsp;   *   &lt;li&gt;The time to go from thresholdPermits to 0 is equal to the integral of the function
+&nbsp;   *       between 0 and thresholdPermits. This is thresholdPermits * stableIntervals. By (5) it is
+&nbsp;   *       also equal to warmupPeriod/2. Therefore
+&nbsp;   *       &lt;blockquote&gt;
+&nbsp;   *       thresholdPermits = 0.5 * warmupPeriod / stableInterval
+&nbsp;   *       &lt;/blockquote&gt;
+&nbsp;   *   &lt;li&gt;The time to go from maxPermits to thresholdPermits is equal to the integral of the
+&nbsp;   *       function between thresholdPermits and maxPermits. This is the area of the pictured
+&nbsp;   *       trapezoid, and it is equal to 0.5 * (stableInterval + coldInterval) * (maxPermits -
+&nbsp;   *       thresholdPermits). It is also equal to warmupPeriod, so
+&nbsp;   *       &lt;blockquote&gt;
+&nbsp;   *       maxPermits = thresholdPermits + 2 * warmupPeriod / (stableInterval + coldInterval)
+&nbsp;   *       &lt;/blockquote&gt;
+&nbsp;   * &lt;/ul&gt;
+&nbsp;   */
+&nbsp;  static final class SmoothWarmingUp extends SmoothRateLimiter {
+&nbsp;    private final long warmupPeriodMicros;
+&nbsp;    /**
+&nbsp;     * The slope of the line from the stable interval (when permits == 0), to the cold interval
+&nbsp;     * (when permits == maxPermits)
+&nbsp;     */
+&nbsp;    private double slope;
+&nbsp;
+&nbsp;    private double thresholdPermits;
+&nbsp;    private double coldFactor;
+&nbsp;
+&nbsp;    SmoothWarmingUp(
+&nbsp;        SleepingStopwatch stopwatch, long warmupPeriod, TimeUnit timeUnit, double coldFactor) {
+<b class="fc">&nbsp;      super(stopwatch);</b>
+<b class="fc">&nbsp;      this.warmupPeriodMicros = timeUnit.toMicros(warmupPeriod);</b>
+<b class="fc">&nbsp;      this.coldFactor = coldFactor;</b>
+<b class="fc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    @Override
+&nbsp;    void doSetRate(double permitsPerSecond, double stableIntervalMicros) {
+<b class="fc">&nbsp;      double oldMaxPermits = maxPermits;</b>
+<b class="fc">&nbsp;      double coldIntervalMicros = stableIntervalMicros * coldFactor;</b>
+<b class="fc">&nbsp;      thresholdPermits = 0.5 * warmupPeriodMicros / stableIntervalMicros;</b>
+<b class="fc">&nbsp;      maxPermits =</b>
+&nbsp;          thresholdPermits + 2.0 * warmupPeriodMicros / (stableIntervalMicros + coldIntervalMicros);
+<b class="fc">&nbsp;      slope = (coldIntervalMicros - stableIntervalMicros) / (maxPermits - thresholdPermits);</b>
+<b class="pc">&nbsp;      if (oldMaxPermits == Double.POSITIVE_INFINITY) {</b>
+&nbsp;        // if we don&#39;t special-case this, we would get storedPermits == NaN, below
+<b class="nc">&nbsp;        storedPermits = 0.0;</b>
+&nbsp;      } else {
+<b class="fc">&nbsp;        storedPermits =</b>
+<b class="fc">&nbsp;            (oldMaxPermits == 0.0)</b>
+<b class="fc">&nbsp;                ? maxPermits // initial state is cold</b>
+<b class="fc">&nbsp;                : storedPermits * maxPermits / oldMaxPermits;</b>
+&nbsp;      }
+<b class="fc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    @Override
+&nbsp;    long storedPermitsToWaitTime(double storedPermits, double permitsToTake) {
+<b class="fc">&nbsp;      double availablePermitsAboveThreshold = storedPermits - thresholdPermits;</b>
+<b class="fc">&nbsp;      long micros = 0;</b>
+&nbsp;      // measuring the integral on the right part of the function (the climbing line)
+<b class="fc">&nbsp;      if (availablePermitsAboveThreshold &gt; 0.0) {</b>
+<b class="fc">&nbsp;        double permitsAboveThresholdToTake = min(availablePermitsAboveThreshold, permitsToTake);</b>
+<b class="fc">&nbsp;        double length =</b>
+<b class="fc">&nbsp;            permitsToTime(availablePermitsAboveThreshold)</b>
+<b class="fc">&nbsp;                + permitsToTime(availablePermitsAboveThreshold - permitsAboveThresholdToTake);</b>
+<b class="fc">&nbsp;        micros = (long) (permitsAboveThresholdToTake * length / 2.0);</b>
+<b class="fc">&nbsp;        permitsToTake -= permitsAboveThresholdToTake;</b>
+&nbsp;      }
+&nbsp;      // measuring the integral on the left part of the function (the horizontal line)
+<b class="fc">&nbsp;      micros += (long) (stableIntervalMicros * permitsToTake);</b>
+<b class="fc">&nbsp;      return micros;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private double permitsToTime(double permits) {
+<b class="fc">&nbsp;      return stableIntervalMicros + permits * slope;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    double coolDownIntervalMicros() {
+<b class="fc">&nbsp;      return warmupPeriodMicros / maxPermits;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * This implements a &quot;bursty&quot; RateLimiter, where storedPermits are translated to zero throttling.
+&nbsp;   * The maximum number of permits that can be saved (when the RateLimiter is unused) is defined in
+&nbsp;   * terms of time, in this sense: if a RateLimiter is 2qps, and this time is specified as 10
+&nbsp;   * seconds, we can save up to 2 * 10 = 20 permits.
+&nbsp;   */
+&nbsp;  static final class SmoothBursty extends SmoothRateLimiter {
+&nbsp;    /** The work (permits) of how many seconds can be saved up if this RateLimiter is unused? */
+&nbsp;    final double maxBurstSeconds;
+&nbsp;
+&nbsp;    SmoothBursty(SleepingStopwatch stopwatch, double maxBurstSeconds) {
+<b class="nc">&nbsp;      super(stopwatch);</b>
+<b class="nc">&nbsp;      this.maxBurstSeconds = maxBurstSeconds;</b>
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    @Override
+&nbsp;    void doSetRate(double permitsPerSecond, double stableIntervalMicros) {
+<b class="nc">&nbsp;      double oldMaxPermits = this.maxPermits;</b>
+<b class="nc">&nbsp;      maxPermits = maxBurstSeconds * permitsPerSecond;</b>
+<b class="nc">&nbsp;      if (oldMaxPermits == Double.POSITIVE_INFINITY) {</b>
+&nbsp;        // if we don&#39;t special-case this, we would get storedPermits == NaN, below
+<b class="nc">&nbsp;        storedPermits = maxPermits;</b>
+&nbsp;      } else {
+<b class="nc">&nbsp;        storedPermits =</b>
+<b class="nc">&nbsp;            (oldMaxPermits == 0.0)</b>
+<b class="nc">&nbsp;                ? 0.0 // initial state</b>
+<b class="nc">&nbsp;                : storedPermits * maxPermits / oldMaxPermits;</b>
+&nbsp;      }
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    @Override
+&nbsp;    long storedPermitsToWaitTime(double storedPermits, double permitsToTake) {
+<b class="nc">&nbsp;      return 0L;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    double coolDownIntervalMicros() {
+<b class="nc">&nbsp;      return stableIntervalMicros;</b>
+&nbsp;    }
+&nbsp;  }
+&nbsp;
+&nbsp;  /** The currently stored permits. */
+&nbsp;  double storedPermits;
+&nbsp;
+&nbsp;  /** The maximum number of stored permits. */
+&nbsp;  double maxPermits;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * The interval between two unit requests, at our stable rate. E.g., a stable rate of 5 permits
+&nbsp;   * per second has a stable interval of 200ms.
+&nbsp;   */
+&nbsp;  double stableIntervalMicros;
+&nbsp;
+&nbsp;  /**
+&nbsp;   * The time when the next request (no matter its size) will be granted. After granting a request,
+&nbsp;   * this is pushed further in the future. Large requests push this further than small requests.
+&nbsp;   */
+<b class="fc">&nbsp;  private long nextFreeTicketMicros = 0L; // could be either in the past or future</b>
+&nbsp;
+&nbsp;  private SmoothRateLimiter(SleepingStopwatch stopwatch) {
+<b class="fc">&nbsp;    super(stopwatch);</b>
+<b class="fc">&nbsp;  }</b>
+&nbsp;
+&nbsp;  @Override
+&nbsp;  final void doSetRate(double permitsPerSecond, long nowMicros) {
+<b class="fc">&nbsp;    resync(nowMicros);</b>
+<b class="fc">&nbsp;    double stableIntervalMicros = SECONDS.toMicros(1L) / permitsPerSecond;</b>
+<b class="fc">&nbsp;    this.stableIntervalMicros = stableIntervalMicros;</b>
+<b class="fc">&nbsp;    doSetRate(permitsPerSecond, stableIntervalMicros);</b>
+<b class="fc">&nbsp;  }</b>
+&nbsp;
+&nbsp;  abstract void doSetRate(double permitsPerSecond, double stableIntervalMicros);
+&nbsp;
+&nbsp;  @Override
+&nbsp;  final double doGetRate() {
+<b class="nc">&nbsp;    return SECONDS.toMicros(1L) / stableIntervalMicros;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  final long queryEarliestAvailable(long nowMicros) {
+<b class="nc">&nbsp;    return nextFreeTicketMicros;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  @Override
+&nbsp;  final long reserveEarliestAvailable(int requiredPermits, long nowMicros) {
+<b class="fc">&nbsp;    resync(nowMicros);</b>
+<b class="fc">&nbsp;    long returnValue = nextFreeTicketMicros;</b>
+<b class="fc">&nbsp;    double storedPermitsToSpend = min(requiredPermits, this.storedPermits);</b>
+<b class="fc">&nbsp;    double freshPermits = requiredPermits - storedPermitsToSpend;</b>
+<b class="fc">&nbsp;    long waitMicros =</b>
+<b class="fc">&nbsp;        storedPermitsToWaitTime(this.storedPermits, storedPermitsToSpend)</b>
+&nbsp;            + (long) (freshPermits * stableIntervalMicros);
+&nbsp;
+<b class="fc">&nbsp;    this.nextFreeTicketMicros = LongMath.saturatedAdd(nextFreeTicketMicros, waitMicros);</b>
+<b class="fc">&nbsp;    this.storedPermits -= storedPermitsToSpend;</b>
+<b class="fc">&nbsp;    return returnValue;</b>
+&nbsp;  }
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Translates a specified portion of our currently stored permits which we want to spend/acquire,
+&nbsp;   * into a throttling time. Conceptually, this evaluates the integral of the underlying function we
+&nbsp;   * use, for the range of [(storedPermits - permitsToTake), storedPermits].
+&nbsp;   *
+&nbsp;   * &lt;p&gt;This always holds: {@code 0 &lt;= permitsToTake &lt;= storedPermits}
+&nbsp;   */
+&nbsp;  abstract long storedPermitsToWaitTime(double storedPermits, double permitsToTake);
+&nbsp;
+&nbsp;  /**
+&nbsp;   * Returns the number of microseconds during cool down that we have to wait to get a new permit.
+&nbsp;   */
+&nbsp;  abstract double coolDownIntervalMicros();
+&nbsp;
+&nbsp;  /** Updates {@code storedPermits} and {@code nextFreeTicketMicros} based on the current time. */
+&nbsp;  void resync(long nowMicros) {
+&nbsp;    // if nextFreeTicket is in the past, resync to now
+<b class="fc">&nbsp;    if (nowMicros &gt; nextFreeTicketMicros) {</b>
+<b class="fc">&nbsp;      double newPermits = (nowMicros - nextFreeTicketMicros) / coolDownIntervalMicros();</b>
+<b class="fc">&nbsp;      storedPermits = min(maxPermits, storedPermits + newPermits);</b>
+<b class="fc">&nbsp;      nextFreeTicketMicros = nowMicros;</b>
+&nbsp;    }
+<b class="fc">&nbsp;  }</b>
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-11-01 14:27</div>
+</div>
+</body>
+</html>
