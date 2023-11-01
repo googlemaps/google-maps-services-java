@@ -263,11 +263,11 @@ public class PlacesApiTest {
       }
 
       assertNotNull(placeDetails.openingHours.weekdayText);
-      assertEquals(placeDetails.openingHours.weekdayText[0], "Monday: 8:30 AM – 5:30 PM");
-      assertEquals(placeDetails.openingHours.weekdayText[1], "Tuesday: 8:30 AM – 5:30 PM");
-      assertEquals(placeDetails.openingHours.weekdayText[2], "Wednesday: 8:30 AM – 5:30 PM");
-      assertEquals(placeDetails.openingHours.weekdayText[3], "Thursday: 8:30 AM – 5:00 PM");
-      assertEquals(placeDetails.openingHours.weekdayText[4], "Friday: 8:30 AM – 5:00 PM");
+      assertEquals(placeDetails.openingHours.weekdayText[0], "Monday: 8:30\u202FAM\u2009\u2013\u20095:30\u202FPM");
+      assertEquals(placeDetails.openingHours.weekdayText[1], "Tuesday: 8:30\u202FAM\u2009\u2013\u20095:30\u202FPM");
+      assertEquals(placeDetails.openingHours.weekdayText[2], "Wednesday: 8:30\u202FAM\u2009\u2013\u20095:30\u202FPM");
+      assertEquals(placeDetails.openingHours.weekdayText[3], "Thursday: 8:30\u202FAM\u2009\u2013\u20095:00\u202FPM");
+      assertEquals(placeDetails.openingHours.weekdayText[4], "Friday: 8:30\u202FAM\u2009\u2013\u20095:00\u202FPM");
       assertEquals(placeDetails.openingHours.weekdayText[5], "Saturday: Closed");
       assertEquals(placeDetails.openingHours.weekdayText[6], "Sunday: Closed");
       assertEquals(placeDetails.utcOffset, 660);
@@ -747,7 +747,7 @@ public class PlacesApiTest {
       assertEquals("ChIJ442GNENu5kcRGYUrvgqHw88", details.placeId);
       assertEquals(
           "35 Rue du Chevalier de la Barre, 75018 Paris, France", details.formattedAddress);
-      assertEquals("Sacré-Cœur", details.name);
+      assertEquals("Sacr\u00E9-C\u0153ur", details.name);
     }
   }
 

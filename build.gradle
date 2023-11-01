@@ -34,6 +34,10 @@ repositories {
     mavenCentral()
 }
 
+configurations {
+    liquibaseRuntime.exclude group: "org.codehaus.groovy"
+}
+
 task javadocJar(type: Jar, dependsOn: javadoc) {
     classifier = 'javadoc'
     from 'build/docs/javadoc'
@@ -64,6 +68,13 @@ dependencies {
     testImplementation 'org.json:json:20231013'
     testImplementation 'io.opencensus:opencensus-impl:0.31.1'
     testImplementation "org.mockito:mockito-inline:5.2.0"
+    liquibaseRuntime('org.liquibase:liquibase-core:3.8.1')
+    liquibaseRuntime('org.codehaus.groovy:groovy-all:3.0.3')
+    liquibaseRuntime 'org.postgresql:postgresql'
+    liquibaseRuntime('org.liquibase:liquibase-groovy-dsl:2.1.2')
+    liquibaseRuntime('org.liquibase.ext:liquibase-hibernate5:3.10.2')
+    liquibaseRuntime('org.springframework.boot:spring-boot-starter-data-jpa')
+    liquibaseRuntime sourceSets.main.output
 }
 
 task updateVersion(type: Copy) {
@@ -96,6 +107,7 @@ java {
 javadoc {
     exclude '**/internal/**'
     def currentJavaVersion = org.gradle.api.JavaVersion.current()
+    options.encoding "UTF-8"
 }
 
 jacoco {
