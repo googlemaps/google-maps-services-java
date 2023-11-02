@@ -1,3 +1,7 @@
+# This is the forked version of the original repository. And few test cases are added to improve the code coverage.
+
+### Original repository: https://github.com/googlemaps/google-maps-services-java
+
 Java Client for Google Maps Services
 ====================================
 

@@ -16,8 +16,7 @@
 package com.google.maps.internal;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import com.google.maps.SmallTests;
 import java.util.ArrayList;
@@ -50,6 +49,11 @@ public class UrlSignerTest {
   public void testUrlSigner() throws Exception {
     UrlSigner urlSigner = new UrlSigner(SIGNING_KEY);
     assertEquals(SIGNATURE, urlSigner.getSignature(MESSAGE));
+  }
+
+  @Test
+  public void testUrlSignerInvalidPrivateKey() throws Exception {
+    assertThrows(IllegalArgumentException.class, () -> new UrlSigner("custom/Signer"));
   }
 
   @Test
