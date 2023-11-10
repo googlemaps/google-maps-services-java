@@ -33,7 +33,7 @@ import org.junit.experimental.categories.Category;
 @Category(SmallTests.class)
 public class EnumsTest {
   @Test
-  public void testUnknown() throws Exception {
+  public void testUnknown() {
     assertNotNull(AddressComponentType.UNKNOWN); // Does not implement UrlValue.
 
     assertCannotGetUrlValue(AddressType.UNKNOWN);
@@ -43,7 +43,7 @@ public class EnumsTest {
 
   @Test
   public void testCanonicalLiteralsForAddressType() {
-    Map<AddressType, String> addressTypeToLiteralMap = new HashMap<AddressType, String>();
+    Map<AddressType, String> addressTypeToLiteralMap = new HashMap<>();
     // Short alias just to avoid line wrapping in the below code
     Map<AddressType, String> m = addressTypeToLiteralMap;
     m.put(AddressType.STREET_ADDRESS, "street_address");
@@ -57,6 +57,8 @@ public class EnumsTest {
     m.put(AddressType.ADMINISTRATIVE_AREA_LEVEL_3, "administrative_area_level_3");
     m.put(AddressType.ADMINISTRATIVE_AREA_LEVEL_4, "administrative_area_level_4");
     m.put(AddressType.ADMINISTRATIVE_AREA_LEVEL_5, "administrative_area_level_5");
+    m.put(AddressType.ADMINISTRATIVE_AREA_LEVEL_6, "administrative_area_level_6");
+    m.put(AddressType.ADMINISTRATIVE_AREA_LEVEL_7, "administrative_area_level_7");
     m.put(AddressType.COLLOQUIAL_AREA, "colloquial_area");
     m.put(AddressType.LOCALITY, "locality");
     m.put(AddressType.WARD, "ward");
@@ -203,8 +205,7 @@ public class EnumsTest {
 
   @Test
   public void testCanonicalLiteralsForAddressComponentType() {
-    Map<AddressComponentType, String> addressComponentTypeToLiteralMap =
-        new HashMap<AddressComponentType, String>();
+    Map<AddressComponentType, String> addressComponentTypeToLiteralMap = new HashMap<>();
     // Short alias just to avoid line wrapping in the below code
     Map<AddressComponentType, String> m = addressComponentTypeToLiteralMap;
     m.put(AddressComponentType.STREET_ADDRESS, "street_address");
@@ -218,6 +219,8 @@ public class EnumsTest {
     m.put(AddressComponentType.ADMINISTRATIVE_AREA_LEVEL_3, "administrative_area_level_3");
     m.put(AddressComponentType.ADMINISTRATIVE_AREA_LEVEL_4, "administrative_area_level_4");
     m.put(AddressComponentType.ADMINISTRATIVE_AREA_LEVEL_5, "administrative_area_level_5");
+    m.put(AddressComponentType.ADMINISTRATIVE_AREA_LEVEL_6, "administrative_area_level_6");
+    m.put(AddressComponentType.ADMINISTRATIVE_AREA_LEVEL_7, "administrative_area_level_7");
     m.put(AddressComponentType.COLLOQUIAL_AREA, "colloquial_area");
     m.put(AddressComponentType.LOCALITY, "locality");
     m.put(AddressComponentType.WARD, "ward");
