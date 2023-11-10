@@ -44,7 +44,7 @@ public class EnumsTest {
   @Test
   public void testCanonicalLiteralsForAddressType() {
     Map<AddressType, String> addressTypeToLiteralMap = new HashMap<>();
-    // Short alias just to avoid line wrapping in the below code
+    // Short alias just to avoid line wrapping in the below code.
     Map<AddressType, String> m = addressTypeToLiteralMap;
     m.put(AddressType.STREET_ADDRESS, "street_address");
     m.put(AddressType.ROUTE, "route");
