@@ -36,30 +36,38 @@ import java.util.List;
 public class GeolocationPayload implements Serializable {
 
   private static final long serialVersionUID = 1L;
+
   /** The mobile country code (MCC) for the device's home network. */
   public Integer homeMobileCountryCode = null;
+
   /** The mobile network code (MNC) for the device's home network. */
   public Integer homeMobileNetworkCode = null;
+
   /**
    * The mobile radio type. Supported values are {@code "lte"}, {@code "gsm"}, {@code "cdma"}, and
    * {@code "wcdma"}. While this field is optional, it should be included if a value is available,
    * for more accurate results.
    */
   public String radioType = null;
+
   /** The carrier name. */
   public String carrier = null;
+
   /**
    * Specifies whether to fall back to IP geolocation if wifi and cell tower signals are not
    * available. Note that the IP address in the request header may not be the IP of the device.
    * Defaults to true. Set considerIp to false to disable fall back.
    */
   public Boolean considerIp = null;
+
   /** An array of cell tower objects. See {@link com.google.maps.model.CellTower}. */
   public CellTower[] cellTowers;
+
   /** An array of WiFi access point objects. See {@link com.google.maps.model.WifiAccessPoint}. */
   public WifiAccessPoint[] wifiAccessPoints;
 
   public GeolocationPayload() {}
+
   // constructor only used by the builder class below
   private GeolocationPayload(
       Integer _homeMobileCountryCode,

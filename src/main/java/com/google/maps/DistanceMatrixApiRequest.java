@@ -21,6 +21,7 @@ import com.google.maps.DirectionsApi.RouteRestriction;
 import com.google.maps.DistanceMatrixApi.Response;
 import com.google.maps.model.*;
 import java.time.Instant;
+import java.util.Arrays;
 
 /** A request to the Distance Matrix API. */
 public class DistanceMatrixApiRequest
@@ -96,10 +97,11 @@ public class DistanceMatrixApiRequest
    * @return Returns this {@code DistanceMatrixApiRequest} for call chaining.
    */
   public DistanceMatrixApiRequest mode(TravelMode mode) {
-    if (TravelMode.DRIVING.equals(mode)
-        || TravelMode.WALKING.equals(mode)
-        || TravelMode.BICYCLING.equals(mode)
-        || TravelMode.TRANSIT.equals(mode)) {
+    TravelMode[] validModes = {
+      TravelMode.DRIVING, TravelMode.WALKING, TravelMode.BICYCLING, TravelMode.TRANSIT
+    };
+
+    if (Arrays.asList(validModes).contains(mode)) {
       return param("mode", mode);
     }
     throw new IllegalArgumentException(

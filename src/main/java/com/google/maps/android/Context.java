@@ -32,7 +32,9 @@ public class Context {
     }
   }
 
-  /** @return the package name of the Android app if available, otherwise, null */
+  /**
+   * @return the package name of the Android app if available, otherwise, null
+   */
   @Nullable
   public String getPackageName() {
     try {
