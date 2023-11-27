@@ -230,18 +230,8 @@ public class PlaceDetails implements Serializable {
     if (altIds != null && altIds.length > 0) {
       sb.append(", altIds=").append(Arrays.toString(altIds));
     }
-    if (formattedPhoneNumber != null) {
-      sb.append(", phone=").append(formattedPhoneNumber);
-    }
-    if (internationalPhoneNumber != null) {
-      sb.append(", internationalPhoneNumber=").append(internationalPhoneNumber);
-    }
-    if (url != null) {
-      sb.append(", url=").append(url);
-    }
-    if (website != null) {
-      sb.append(", website=").append(website);
-    }
+    sb.append(addPhoneNumber(sb));
+    sb.append(addWebsiteInfo(sb));
     if (icon != null) {
       sb.append(", icon");
     }
@@ -271,6 +261,41 @@ public class PlaceDetails implements Serializable {
     if (secondaryOpeningHours != null) {
       sb.append(", secondaryOpeningHours=").append(secondaryOpeningHours);
     }
+    sb.append(addServingInfo(sb));
+    if (takeout != null) {
+      sb.append(", takeout=").append(takeout);
+    }
+    if (wheelchairAccessibleEntrance != null) {
+      sb.append(", wheelchairAccessibleEntrance=").append(wheelchairAccessibleEntrance);
+    }
+    if (htmlAttributions != null && htmlAttributions.length > 0) {
+      sb.append(", ").append(htmlAttributions.length).append(" htmlAttributions");
+    }
+    sb.append("]");
+    return sb.toString();
+  }
+
+  private String addPhoneNumber(StringBuilder sb) {
+    if (formattedPhoneNumber != null) {
+      sb.append(", phone=").append(formattedPhoneNumber);
+    }
+    if (internationalPhoneNumber != null) {
+      sb.append(", internationalPhoneNumber=").append(internationalPhoneNumber);
+    }
+    return sb.toString();
+  }
+
+  private String addWebsiteInfo(StringBuilder sb) {
+    if (url != null) {
+      sb.append(", url=").append(url);
+    }
+    if (website != null) {
+      sb.append(", website=").append(website);
+    }
+    return sb.toString();
+  }
+
+  private String addServingInfo(StringBuilder sb) {
     if (servesBeer != null) {
       sb.append(", servesBeer=").append(servesBeer);
     }
@@ -292,16 +317,6 @@ public class PlaceDetails implements Serializable {
     if (servesWine != null) {
       sb.append(", servesWine=").append(servesWine);
     }
-    if (takeout != null) {
-      sb.append(", takeout=").append(takeout);
-    }
-    if (wheelchairAccessibleEntrance != null) {
-      sb.append(", wheelchairAccessibleEntrance=").append(wheelchairAccessibleEntrance);
-    }
-    if (htmlAttributions != null && htmlAttributions.length > 0) {
-      sb.append(", ").append(htmlAttributions.length).append(" htmlAttributions");
-    }
-    sb.append("]");
     return sb.toString();
   }
 

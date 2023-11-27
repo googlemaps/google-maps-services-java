@@ -23,8 +23,10 @@ import java.io.Serializable;
 public class ImageResult implements Serializable {
 
   private static final long serialVersionUID = 1L;
+
   /** The image data from the Photos API call. */
   public final byte[] imageData;
+
   /** The Content-Type header of the returned result. */
   public final String contentType;
 

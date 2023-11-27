@@ -100,6 +100,7 @@ public abstract class RateLimiter {
    * object to facilitate testing.
    */
   private final SleepingStopwatch stopwatch;
+
   // Can't be initialized in the constructor because mocks don't call the constructor.
   private volatile Object mutexDoNotUseDirectly;
 

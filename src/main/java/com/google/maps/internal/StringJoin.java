@@ -67,7 +67,9 @@ public class StringJoin {
    * string joinable.
    */
   public interface UrlValue {
-    /** @return the object, represented as a URL value (not URL encoded). */
+    /**
+     * @return the object, represented as a URL value (not URL encoded).
+     */
     String toUrlValue();
   }
 }
