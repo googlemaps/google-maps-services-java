@@ -21,8 +21,10 @@ import java.io.Serializable;
 public class Bounds implements Serializable {
 
   private static final long serialVersionUID = 1L;
+
   /** The northeast corner of the bounding box. */
   public LatLng northeast;
+
   /** The southwest corner of the bounding box. */
   public LatLng southwest;
 

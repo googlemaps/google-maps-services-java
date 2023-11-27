@@ -19,26 +19,16 @@ import static com.google.maps.TestUtils.retrieveBody;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
 
 import com.google.maps.DirectionsApi.RouteRestriction;
 import com.google.maps.errors.NotFoundException;
-import com.google.maps.model.AddressType;
-import com.google.maps.model.DirectionsResult;
-import com.google.maps.model.GeocodedWaypointStatus;
-import com.google.maps.model.LatLng;
-import com.google.maps.model.TrafficModel;
-import com.google.maps.model.TransitMode;
-import com.google.maps.model.TransitRoutingPreference;
-import com.google.maps.model.TravelMode;
-import com.google.maps.model.Unit;
+import com.google.maps.model.*;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import org.hamcrest.MatcherAssert;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -203,16 +193,16 @@ public class DirectionsApiTest {
   @Test
   public void testNewYorkToNewJerseyByAlternateRoute() throws Exception {
     try (LocalTestServerContext sc =
-                 new LocalTestServerContext("{\"routes\": [{}],\"status\": \"OK\"}")) {
+        new LocalTestServerContext("{\"routes\": [{}],\"status\": \"OK\"}")) {
       DirectionsApi.newRequest(sc.context)
-              .origin("New York")
-              .destination("New Jersey")
-              .alternatives(true)
-              .await();
+          .origin("New York")
+          .destination("New Jersey")
+          .alternatives(true)
+          .await();
 
       sc.assertParamValue("New York", "origin");
       sc.assertParamValue("New Jersey", "destination");
-        sc.assertParamValue("true", "alternatives");
+      sc.assertParamValue("true", "alternatives");
     }
   }
 
@@ -263,12 +253,12 @@ public class DirectionsApiTest {
   @Test
   public void testBostonToNewJerseyViaNewHavenWithPlaceId() throws Exception {
     try (LocalTestServerContext sc =
-                 new LocalTestServerContext("{\"routes\": [{}],\"status\": \"OK\"}")) {
+        new LocalTestServerContext("{\"routes\": [{}],\"status\": \"OK\"}")) {
       DirectionsApi.newRequest(sc.context)
-              .origin("Boston,US")
-              .destination("New Jersey,US")
-              .waypointsFromPlaceIds("G5c1s86wd2d") // This is a custom dummy place ID for New Haven,US
-              .await();
+          .origin("Boston,US")
+          .destination("New Jersey,US")
+          .waypointsFromPlaceIds("G5c1s86wd2d") // This is a custom dummy place ID for New Haven,US
+          .await();
 
       sc.assertParamValue("Boston,US", "origin");
       sc.assertParamValue("New Jersey,US", "destination");

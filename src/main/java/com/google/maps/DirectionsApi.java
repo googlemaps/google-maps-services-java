@@ -63,34 +63,6 @@ public class DirectionsApi {
     return new DirectionsApiRequest(context).origin(origin).destination(destination);
   }
 
-  public static class Response implements ApiResponse<DirectionsResult> {
-    public String status;
-    public String errorMessage;
-    public GeocodedWaypoint[] geocodedWaypoints;
-    public DirectionsRoute[] routes;
-
-    @Override
-    public boolean successful() {
-      return "OK".equals(status);
-    }
-
-    @Override
-    public DirectionsResult getResult() {
-      DirectionsResult result = new DirectionsResult();
-      result.geocodedWaypoints = geocodedWaypoints;
-      result.routes = routes;
-      return result;
-    }
-
-    @Override
-    public ApiException getError() {
-      if (successful()) {
-        return null;
-      }
-      return ApiException.from(status, errorMessage);
-    }
-  }
-
   /**
    * Directions may be calculated that adhere to certain restrictions. This is configured by calling
    * {@link com.google.maps.DirectionsApiRequest#avoid} or {@link
@@ -130,6 +102,34 @@ public class DirectionsApi {
     @Override
     public String toUrlValue() {
       return restriction;
+    }
+  }
+
+  public static class Response implements ApiResponse<DirectionsResult> {
+    public String status;
+    public String errorMessage;
+    public GeocodedWaypoint[] geocodedWaypoints;
+    public DirectionsRoute[] routes;
+
+    @Override
+    public boolean successful() {
+      return "OK".equals(status);
+    }
+
+    @Override
+    public DirectionsResult getResult() {
+      DirectionsResult result = new DirectionsResult();
+      result.geocodedWaypoints = geocodedWaypoints;
+      result.routes = routes;
+      return result;
+    }
+
+    @Override
+    public ApiException getError() {
+      if (successful()) {
+        return null;
+      }
+      return ApiException.from(status, errorMessage);
     }
   }
 }

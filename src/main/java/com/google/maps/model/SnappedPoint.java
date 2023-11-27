@@ -21,6 +21,7 @@ import java.io.Serializable;
 public class SnappedPoint implements Serializable {
 
   private static final long serialVersionUID = 1L;
+
   /** A latitude/longitude value representing the snapped location. */
   public LatLng location;
 

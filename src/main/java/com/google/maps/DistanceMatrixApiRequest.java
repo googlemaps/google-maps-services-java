@@ -19,13 +19,7 @@ import static com.google.maps.internal.StringJoin.join;
 
 import com.google.maps.DirectionsApi.RouteRestriction;
 import com.google.maps.DistanceMatrixApi.Response;
-import com.google.maps.model.DistanceMatrix;
-import com.google.maps.model.LatLng;
-import com.google.maps.model.TrafficModel;
-import com.google.maps.model.TransitMode;
-import com.google.maps.model.TransitRoutingPreference;
-import com.google.maps.model.TravelMode;
-import com.google.maps.model.Unit;
+import com.google.maps.model.*;
 import java.time.Instant;
 
 /** A request to the Distance Matrix API. */
@@ -127,10 +121,10 @@ public class DistanceMatrixApiRequest
    * contain text within distance fields to indicate the distance of the calculated route.
    *
    * @param unit One of {@link Unit#METRIC} or {@link Unit#IMPERIAL}.
+   * @return Returns this {@code DistanceMatrixApiRequest} for call chaining.
    * @see <a
    *     href="https://developers.google.com/maps/documentation/distance-matrix/intro#unit_systems">
    *     Unit systems in the Distance Matrix API</a>
-   * @return Returns this {@code DistanceMatrixApiRequest} for call chaining.
    */
   public DistanceMatrixApiRequest units(Unit unit) {
     return param("units", unit);

@@ -16,35 +16,14 @@
 package com.google.maps;
 
 import static com.google.maps.TestUtils.retrieveBody;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
-import com.google.maps.FindPlaceFromTextRequest.InputType;
-import com.google.maps.FindPlaceFromTextRequest.LocationBiasCircular;
-import com.google.maps.FindPlaceFromTextRequest.LocationBiasIP;
-import com.google.maps.FindPlaceFromTextRequest.LocationBiasPoint;
-import com.google.maps.FindPlaceFromTextRequest.LocationBiasRectangular;
+import com.google.maps.FindPlaceFromTextRequest.*;
 import com.google.maps.PlaceAutocompleteRequest.SessionToken;
-import com.google.maps.model.AddressComponentType;
-import com.google.maps.model.AddressType;
-import com.google.maps.model.AutocompletePrediction;
+import com.google.maps.model.*;
 import com.google.maps.model.AutocompletePrediction.MatchedSubstring;
-import com.google.maps.model.AutocompleteStructuredFormatting;
-import com.google.maps.model.ComponentFilter;
-import com.google.maps.model.FindPlaceFromText;
-import com.google.maps.model.LatLng;
 import com.google.maps.model.OpeningHours.Period;
 import com.google.maps.model.OpeningHours.Period.OpenClose.DayOfWeek;
-import com.google.maps.model.Photo;
-import com.google.maps.model.PlaceAutocompleteType;
-import com.google.maps.model.PlaceDetails;
-import com.google.maps.model.PlaceType;
-import com.google.maps.model.PlacesSearchResponse;
-import com.google.maps.model.PlacesSearchResult;
-import com.google.maps.model.PriceLevel;
-import com.google.maps.model.RankBy;
 import java.net.URI;
 import java.time.LocalTime;
 import java.util.Arrays;
@@ -263,11 +242,21 @@ public class PlacesApiTest {
       }
 
       assertNotNull(placeDetails.openingHours.weekdayText);
-      assertEquals(placeDetails.openingHours.weekdayText[0], "Monday: 8:30\u202FAM\u2009\u2013\u20095:30\u202FPM");
-      assertEquals(placeDetails.openingHours.weekdayText[1], "Tuesday: 8:30\u202FAM\u2009\u2013\u20095:30\u202FPM");
-      assertEquals(placeDetails.openingHours.weekdayText[2], "Wednesday: 8:30\u202FAM\u2009\u2013\u20095:30\u202FPM");
-      assertEquals(placeDetails.openingHours.weekdayText[3], "Thursday: 8:30\u202FAM\u2009\u2013\u20095:00\u202FPM");
-      assertEquals(placeDetails.openingHours.weekdayText[4], "Friday: 8:30\u202FAM\u2009\u2013\u20095:00\u202FPM");
+      assertEquals(
+          placeDetails.openingHours.weekdayText[0],
+          "Monday: 8:30\u202FAM\u2009\u2013\u20095:30\u202FPM");
+      assertEquals(
+          placeDetails.openingHours.weekdayText[1],
+          "Tuesday: 8:30\u202FAM\u2009\u2013\u20095:30\u202FPM");
+      assertEquals(
+          placeDetails.openingHours.weekdayText[2],
+          "Wednesday: 8:30\u202FAM\u2009\u2013\u20095:30\u202FPM");
+      assertEquals(
+          placeDetails.openingHours.weekdayText[3],
+          "Thursday: 8:30\u202FAM\u2009\u2013\u20095:00\u202FPM");
+      assertEquals(
+          placeDetails.openingHours.weekdayText[4],
+          "Friday: 8:30\u202FAM\u2009\u2013\u20095:00\u202FPM");
       assertEquals(placeDetails.openingHours.weekdayText[5], "Saturday: Closed");
       assertEquals(placeDetails.openingHours.weekdayText[6], "Sunday: Closed");
       assertEquals(placeDetails.utcOffset, 660);

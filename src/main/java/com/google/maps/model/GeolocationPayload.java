@@ -36,26 +36,6 @@ import java.util.List;
 public class GeolocationPayload implements Serializable {
 
   private static final long serialVersionUID = 1L;
-
-  public GeolocationPayload() {}
-
-  // constructor only used by the builder class below
-  private GeolocationPayload(
-      Integer _homeMobileCountryCode,
-      Integer _homeMobileNetworkCode,
-      String _radioType,
-      String _carrier,
-      Boolean _considerIp,
-      CellTower[] _cellTowers,
-      WifiAccessPoint[] _wifiAccessPoints) {
-    homeMobileCountryCode = _homeMobileCountryCode;
-    homeMobileNetworkCode = _homeMobileNetworkCode;
-    radioType = _radioType;
-    carrier = _carrier;
-    considerIp = _considerIp;
-    cellTowers = _cellTowers;
-    wifiAccessPoints = _wifiAccessPoints;
-  }
   /** The mobile country code (MCC) for the device's home network. */
   public Integer homeMobileCountryCode = null;
   /** The mobile network code (MNC) for the device's home network. */
@@ -78,6 +58,25 @@ public class GeolocationPayload implements Serializable {
   public CellTower[] cellTowers;
   /** An array of WiFi access point objects. See {@link com.google.maps.model.WifiAccessPoint}. */
   public WifiAccessPoint[] wifiAccessPoints;
+
+  public GeolocationPayload() {}
+  // constructor only used by the builder class below
+  private GeolocationPayload(
+      Integer _homeMobileCountryCode,
+      Integer _homeMobileNetworkCode,
+      String _radioType,
+      String _carrier,
+      Boolean _considerIp,
+      CellTower[] _cellTowers,
+      WifiAccessPoint[] _wifiAccessPoints) {
+    homeMobileCountryCode = _homeMobileCountryCode;
+    homeMobileNetworkCode = _homeMobileNetworkCode;
+    radioType = _radioType;
+    carrier = _carrier;
+    considerIp = _considerIp;
+    cellTowers = _cellTowers;
+    wifiAccessPoints = _wifiAccessPoints;
+  }
 
   @Override
   public String toString() {

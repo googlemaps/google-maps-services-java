@@ -15,10 +15,7 @@
 
 package com.google.maps.internal;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import com.google.maps.MediumTests;
 import java.util.AbstractMap;
@@ -35,6 +32,14 @@ public class RateLimitExecutorServiceTest {
 
   private static final Logger LOG =
       LoggerFactory.getLogger(RateLimitExecutorServiceTest.class.getName());
+
+  private static int countTotalRequests(AbstractMap<?, Integer> hashMap) {
+    int counter = 0;
+    for (Integer value : hashMap.values()) {
+      counter += value;
+    }
+    return counter;
+  }
 
   @Test
   public void testRateLimitDoesNotExceedSuppliedQps() throws Exception {
@@ -82,14 +87,6 @@ public class RateLimitExecutorServiceTest {
     assertEquals(100, countTotalRequests(executedTimestamps));
 
     service.shutdown();
-  }
-
-  private static int countTotalRequests(AbstractMap<?, Integer> hashMap) {
-    int counter = 0;
-    for (Integer value : hashMap.values()) {
-      counter += value;
-    }
-    return counter;
   }
 
   @Test

@@ -21,12 +21,7 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.maps.errors.ApiException;
 import com.google.maps.internal.ApiConfig;
 import com.google.maps.internal.ApiResponse;
-import com.google.maps.model.LatLng;
-import com.google.maps.model.PlaceType;
-import com.google.maps.model.PlacesSearchResponse;
-import com.google.maps.model.PlacesSearchResult;
-import com.google.maps.model.PriceLevel;
-import com.google.maps.model.RankBy;
+import com.google.maps.model.*;
 
 /**
  * A <a href="https://developers.google.com/places/web-service/search#PlaceSearchRequests">Nearby
@@ -162,9 +157,9 @@ public class NearbySearchRequest
    * Restricts the results to places matching the specified type. Provides support for multiple
    * types.
    *
-   * @deprecated Multiple search types are ignored by the Places API.
    * @param types The {@link PlaceType}s to restrict results to.
    * @return Returns this {@code NearbyApiRequest} for call chaining.
+   * @deprecated Multiple search types are ignored by the Places API.
    */
   @Deprecated
   public NearbySearchRequest type(PlaceType... types) {

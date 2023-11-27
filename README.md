@@ -39,14 +39,18 @@ to usage of the APIs when they're accessed through this library.
 - A Google Maps API key.
 
 ## API keys
-Each Google Maps Web Service request requires an API key. API keys are generated in the 'Credentials' page of the 'APIs & Services' tab of Google Cloud console.
 
-For even more information on getting started with Google Maps Platform and generating an API key, see [Get Started with Google Maps Platform](https://developers.google.com/maps/gmp-get-started) in our docs.
+Each Google Maps Web Service request requires an API key. API keys are generated in the 'Credentials' page of the '
+APIs & Services' tab of Google Cloud console.
+
+For even more information on getting started with Google Maps Platform and generating an API key,
+see [Get Started with Google Maps Platform](https://developers.google.com/maps/gmp-get-started) in our docs.
 
 ### API Key Security
 
 The Java Client for Google Maps Services is designed for use in both server and Android applications.
-In either case, it is important to add [API key restrictions](https://developers.google.com/maps/api-security-best-practices?hl=it)
+In either case, it is important to
+add [API key restrictions](https://developers.google.com/maps/api-security-best-practices?hl=it)
 to improve the security of your API key. Additional security measures, such as hiding your key
 from version control, should also be put in place to further improve the security of your API key.
 
@@ -102,6 +106,7 @@ You can find the latest version at the top of this README or by [searching
 Maven Central](https://search.maven.org/#search%7Cga%7C1%7Ca%3A%22google-maps-services%22).
 
 ## Developer Documentation
+
 View the [javadoc](https://www.javadoc.io/doc/com.google.maps/google-maps-services).
 
 Additional documentation for the included web services is available at
@@ -146,7 +151,8 @@ For more usage examples, check out [the tests](src/test/java/com/google/maps).
 
 ### Google App Engine Support
 
-To use Google App Engine with this client library add the latest [App Engine dependency](https://mvnrepository.com/artifact/com.google.appengine/appengine-api-1.0-sdk)
+To use Google App Engine with this client library add the
+latest [App Engine dependency](https://mvnrepository.com/artifact/com.google.appengine/appengine-api-1.0-sdk)
 to your `build.gradle` file:
 
 ```groovy
@@ -173,7 +179,9 @@ based strategy.
 Never sleep between requests again! By default, requests are sent at the expected rate limits for
 each web service, typically 50 queries per second for free users. If you want to speed up or slow
 down requests, you can do that too, using `new GeoApiContext.Builder().queryRateLimit(qps).build()`.
-Note that you still need to manually handle the [delay between the initial request and successive pages](https://developers.google.com/places/web-service/search#PlaceSearchPaging) when you're paging through multiple result sets.
+Note that you still need to manually handle
+the [delay between the initial request and successive pages](https://developers.google.com/places/web-service/search#PlaceSearchPaging)
+when you're paging through multiple result sets.
 
 ### Retry on Failure
 
@@ -247,18 +255,33 @@ contribute, please read [How to Contribute][contrib].
 
 
 [apikey]: https://developers.google.com/maps/faq#keysystem
+
 [clientid]: https://developers.google.com/maps/documentation/business/webservices/auth
+
 [contrib]: https://github.com/googlemaps/google-maps-services-java/blob/main/CONTRIB.md
+
 [Directions API]: https://developers.google.com/maps/documentation/directions
+
 [directions-key]: https://developers.google.com/maps/documentation/directions/get-api-key#key
+
 [directions-client-id]: https://developers.google.com/maps/documentation/directions/get-api-key#client-id
+
 [Distance Matrix API]: https://developers.google.com/maps/documentation/distancematrix
+
 [Elevation API]: https://developers.google.com/maps/documentation/elevation
+
 [Geocoding API]: https://developers.google.com/maps/documentation/geocoding
+
 [Google Maps API Web Services]: https://developers.google.com/maps/apis-by-platform#web_service_apis
+
 [issues]: https://github.com/googlemaps/google-maps-services-java/issues
+
 [Maps Static API]: https://developers.google.com/maps/documentation/maps-static/
+
 [Places API]: https://developers.google.com/places/web-service/
+
 [Time Zone API]: https://developers.google.com/maps/documentation/timezone
+
 [Roads API]: https://developers.google.com/maps/documentation/roads
+
 [Making the most of the Google Maps Web Service APIs]: https://maps-apis.googleblog.com/2016/09/making-most-of-google-maps-web-service.html

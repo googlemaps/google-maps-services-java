@@ -45,6 +45,17 @@ public class UrlSignerTest {
           .replace('+', '-')
           .replace('/', '_');
 
+  // Helper code from http://stackoverflow.com/questions/140131/
+  private static byte[] hexStringToByteArray(String s) {
+    int len = s.length();
+    byte[] data = new byte[len / 2];
+    for (int i = 0; i < len; i += 2) {
+      data[i / 2] =
+          (byte) ((Character.digit(s.charAt(i), 16) << 4) + Character.digit(s.charAt(i + 1), 16));
+    }
+    return data;
+  }
+
   @Test
   public void testUrlSigner() throws Exception {
     UrlSigner urlSigner = new UrlSigner(SIGNING_KEY);
@@ -84,16 +95,5 @@ public class UrlSignerTest {
     executor.awaitTermination(20, TimeUnit.SECONDS);
 
     assertTrue(fails.isEmpty());
-  }
-
-  // Helper code from http://stackoverflow.com/questions/140131/
-  private static byte[] hexStringToByteArray(String s) {
-    int len = s.length();
-    byte[] data = new byte[len / 2];
-    for (int i = 0; i < len; i += 2) {
-      data[i / 2] =
-          (byte) ((Character.digit(s.charAt(i), 16) << 4) + Character.digit(s.charAt(i + 1), 16));
-    }
-    return data;
   }
 }

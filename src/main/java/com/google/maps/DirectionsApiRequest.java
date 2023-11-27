@@ -18,25 +18,19 @@ package com.google.maps;
 import static com.google.maps.internal.StringJoin.join;
 import static java.util.Objects.requireNonNull;
 
-import com.google.maps.model.DirectionsResult;
-import com.google.maps.model.LatLng;
-import com.google.maps.model.TrafficModel;
-import com.google.maps.model.TransitMode;
-import com.google.maps.model.TransitRoutingPreference;
-import com.google.maps.model.TravelMode;
-import com.google.maps.model.Unit;
+import com.google.maps.model.*;
 import java.time.Instant;
 
 /** Request for the Directions API. */
 public class DirectionsApiRequest
     extends PendingResultBase<DirectionsResult, DirectionsApiRequest, DirectionsApi.Response> {
 
+  protected boolean optimizeWaypoints;
+  protected Waypoint[] waypoints;
+
   public DirectionsApiRequest(GeoApiContext context) {
     super(context, DirectionsApi.API_CONFIG, DirectionsApi.Response.class);
   }
-
-  protected boolean optimizeWaypoints;
-  protected Waypoint[] waypoints;
 
   @Override
   protected void validateRequest() {
