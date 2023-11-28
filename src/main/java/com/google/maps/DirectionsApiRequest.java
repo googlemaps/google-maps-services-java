@@ -32,6 +32,31 @@ public class DirectionsApiRequest
     super(context, DirectionsApi.API_CONFIG, DirectionsApi.Response.class);
   }
 
+  /**
+   * Creates a new DirectionsApiRequest using the given context, with all attributes at their
+   * default values.
+   *
+   * @param context Context that the DirectionsApiRequest will be executed against
+   * @return A newly constructed DirectionsApiRequest between the given points.
+   */
+  public static DirectionsApiRequest newRequest(GeoApiContext context) {
+    return new DirectionsApiRequest(context);
+  }
+
+  /**
+   * Creates a new DirectionsApiRequest between the given origin and destination, using the defaults
+   * for all other options.
+   *
+   * @param context Context that the DirectionsApiRequest will be executed against
+   * @param origin Origin address as text
+   * @param destination Destination address as text
+   * @return A newly constructed DirectionsApiRequest between the given points.
+   */
+  public static DirectionsApiRequest getDirections(
+      GeoApiContext context, String origin, String destination) {
+    return new DirectionsApiRequest(context).origin(origin).destination(destination);
+  }
+
   @Override
   protected void validateRequest() {
     if (!params().containsKey("origin")) {
@@ -350,6 +375,7 @@ public class DirectionsApiRequest
   public static class Waypoint {
     /** The location of this waypoint, expressed as an API-recognized location. */
     private String location;
+
     /** Whether this waypoint is a stopover waypoint. */
     private boolean isStopover;
 

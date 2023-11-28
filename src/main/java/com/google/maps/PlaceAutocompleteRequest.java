@@ -15,7 +15,6 @@
 
 package com.google.maps;
 
-import static com.google.maps.internal.StringJoin.join;
 
 import com.google.gson.FieldNamingPolicy;
 import com.google.maps.errors.ApiException;
@@ -23,15 +22,14 @@ import com.google.maps.internal.ApiConfig;
 import com.google.maps.internal.ApiResponse;
 import com.google.maps.internal.StringJoin.UrlValue;
 import com.google.maps.model.AutocompletePrediction;
-import com.google.maps.model.ComponentFilter;
 import com.google.maps.model.LatLng;
 import com.google.maps.model.PlaceAutocompleteType;
 import java.io.Serializable;
 import java.util.UUID;
 
 /**
- * A <a
- * href="https://developers.google.com/places/web-service/autocomplete#place_autocomplete_requests">Place
+ * A <a href=
+ * "https://developers.google.com/places/web-service/autocomplete#place_autocomplete_requests">Place
  * Autocomplete</a> request.
  */
 public class PlaceAutocompleteRequest
@@ -133,17 +131,6 @@ public class PlaceAutocompleteRequest
    */
   public PlaceAutocompleteRequest types(PlaceAutocompleteType types) {
     return param("types", types);
-  }
-
-  /**
-   * A grouping of places to which you would like to restrict your results. Currently, you can use
-   * components to filter by country.
-   *
-   * @param filters The component filter to restrict results with.
-   * @return Returns this {@code PlaceAutocompleteRequest} for call chaining.
-   */
-  public PlaceAutocompleteRequest components(ComponentFilter... filters) {
-    return param("components", join('|', filters));
   }
 
   /**
