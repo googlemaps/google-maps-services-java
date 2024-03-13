@@ -6,7 +6,9 @@ package com.google.maps.android;
  */
 public class AndroidAuthenticationConfigProvider {
 
-  /** @return the environment specific {@link AndroidAuthenticationConfig} */
+  /**
+   * @return the environment specific {@link AndroidAuthenticationConfig}
+   */
   public AndroidAuthenticationConfig provide() {
     Context context = Context.getApplicationContext();
     if (context == null) {

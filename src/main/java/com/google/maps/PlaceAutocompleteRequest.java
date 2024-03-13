@@ -15,7 +15,6 @@
 
 package com.google.maps;
 
-import static com.google.maps.internal.StringJoin.join;
 
 import com.google.gson.FieldNamingPolicy;
 import com.google.maps.errors.ApiException;
@@ -23,15 +22,14 @@ import com.google.maps.internal.ApiConfig;
 import com.google.maps.internal.ApiResponse;
 import com.google.maps.internal.StringJoin.UrlValue;
 import com.google.maps.model.AutocompletePrediction;
-import com.google.maps.model.ComponentFilter;
 import com.google.maps.model.LatLng;
 import com.google.maps.model.PlaceAutocompleteType;
 import java.io.Serializable;
 import java.util.UUID;
 
 /**
- * A <a
- * href="https://developers.google.com/places/web-service/autocomplete#place_autocomplete_requests">Place
+ * A <a href=
+ * "https://developers.google.com/places/web-service/autocomplete#place_autocomplete_requests">Place
  * Autocomplete</a> request.
  */
 public class PlaceAutocompleteRequest
@@ -44,52 +42,6 @@ public class PlaceAutocompleteRequest
 
   protected PlaceAutocompleteRequest(GeoApiContext context) {
     super(context, API_CONFIG, Response.class);
-  }
-
-  /** SessionToken represents an Autocomplete session. */
-  public static final class SessionToken implements UrlValue, Serializable {
-
-    private static final long serialVersionUID = 1L;
-
-    private UUID uuid;
-
-    /** This constructor creates a new session. */
-    public SessionToken() {
-      uuid = UUID.randomUUID();
-    }
-
-    /**
-     * Construct a session that is a continuation of a previous session.
-     *
-     * @param uuid The universally unique identifier for this session.
-     */
-    public SessionToken(UUID uuid) {
-      this.uuid = uuid;
-    }
-
-    /**
-     * Construct a session that is a continuation of a previous session.
-     *
-     * @param token The unique String to be used as the seed for the session identifier.
-     */
-    public SessionToken(String token) {
-      this.uuid = UUID.nameUUIDFromBytes(token.getBytes());
-    }
-
-    /**
-     * Retrieve the universally unique identifier for this session. This enables you to recreate the
-     * session token in a later context.
-     *
-     * @return Returns the universally unique identifier for this session.
-     */
-    public UUID getUUID() {
-      return uuid;
-    }
-
-    @Override
-    public String toUrlValue() {
-      return uuid.toString();
-    }
   }
 
   /**
@@ -182,17 +134,6 @@ public class PlaceAutocompleteRequest
   }
 
   /**
-   * A grouping of places to which you would like to restrict your results. Currently, you can use
-   * components to filter by country.
-   *
-   * @param filters The component filter to restrict results with.
-   * @return Returns this {@code PlaceAutocompleteRequest} for call chaining.
-   */
-  public PlaceAutocompleteRequest components(ComponentFilter... filters) {
-    return param("components", join('|', filters));
-  }
-
-  /**
    * StrictBounds returns only those places that are strictly within the region defined by location
    * and radius. This is a restriction, rather than a bias, meaning that results outside this region
    * will not be returned even if they match the user input.
@@ -208,6 +149,52 @@ public class PlaceAutocompleteRequest
   protected void validateRequest() {
     if (!params().containsKey("input")) {
       throw new IllegalArgumentException("Request must contain 'input'.");
+    }
+  }
+
+  /** SessionToken represents an Autocomplete session. */
+  public static final class SessionToken implements UrlValue, Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    private UUID uuid;
+
+    /** This constructor creates a new session. */
+    public SessionToken() {
+      uuid = UUID.randomUUID();
+    }
+
+    /**
+     * Construct a session that is a continuation of a previous session.
+     *
+     * @param uuid The universally unique identifier for this session.
+     */
+    public SessionToken(UUID uuid) {
+      this.uuid = uuid;
+    }
+
+    /**
+     * Construct a session that is a continuation of a previous session.
+     *
+     * @param token The unique String to be used as the seed for the session identifier.
+     */
+    public SessionToken(String token) {
+      this.uuid = UUID.nameUUIDFromBytes(token.getBytes());
+    }
+
+    /**
+     * Retrieve the universally unique identifier for this session. This enables you to recreate the
+     * session token in a later context.
+     *
+     * @return Returns the universally unique identifier for this session.
+     */
+    public UUID getUUID() {
+      return uuid;
+    }
+
+    @Override
+    public String toUrlValue() {
+      return uuid.toString();
     }
   }
 

@@ -102,26 +102,6 @@ public class StaticMapsRequest
     return param("scale", scale);
   }
 
-  public enum ImageFormat implements UrlValue {
-    png("png"),
-    png8("png8"),
-    png32("png32"),
-    gif("gif"),
-    jpg("jpg"),
-    jpgBaseline("jpg-baseline");
-
-    private final String format;
-
-    ImageFormat(String format) {
-      this.format = format;
-    }
-
-    @Override
-    public String toUrlValue() {
-      return format;
-    }
-  }
-
   /**
    * <code>format</code> defines the format of the resulting image. By default, the Google Static
    * Maps API creates PNG images. There are several possible formats including GIF, JPEG and PNG
@@ -132,18 +112,6 @@ public class StaticMapsRequest
    */
   public StaticMapsRequest format(ImageFormat format) {
     return param("format", format);
-  }
-
-  public enum StaticMapType implements UrlValue {
-    roadmap,
-    satellite,
-    terrain,
-    hybrid;
-
-    @Override
-    public String toUrlValue() {
-      return this.name();
-    }
   }
 
   /**
@@ -168,44 +136,105 @@ public class StaticMapsRequest
     return param("region", region);
   }
 
+  /**
+   * <code>markers</code> parameter defines a set of one or more markers (map pins) at a set of
+   * locations. Each marker defined within a single markers declaration must exhibit the same visual
+   * style; if you wish to display markers with different styles, you will need to supply multiple
+   * markers parameters with separate style information.
+   *
+   * @param markers A group of markers with the same style.
+   * @return Returns this {@code StaticMapsRequest} for call chaining.
+   */
+  public StaticMapsRequest markers(Markers markers) {
+    return paramAddToList("markers", markers);
+  }
+
+  /**
+   * The <code>path</code> parameter defines a set of one or more locations connected by a path to
+   * overlay on the map image.
+   *
+   * @param path A path to render atop the map.
+   * @return Returns this {@code StaticMapsRequest} for call chaining.
+   */
+  public StaticMapsRequest path(Path path) {
+    return paramAddToList("path", path);
+  }
+
+  /**
+   * The <code>path</code> parameter defines a set of one or more locations connected by a path to
+   * overlay on the map image. This variant of the method accepts the path as an EncodedPolyline.
+   *
+   * @param path A path to render atop the map, as an EncodedPolyline.
+   * @return Returns this {@code StaticMapsRequest} for call chaining.
+   */
+  public StaticMapsRequest path(EncodedPolyline path) {
+    return paramAddToList("path", "enc:" + path.getEncodedPath());
+  }
+
+  /**
+   * <code>visible</code> instructs the Google Static Maps API service to construct a map such that
+   * the existing locations remain visible.
+   *
+   * @param visibleLocation The location to be made visible in the requested Static Map.
+   * @return Returns this {@code StaticMapsRequest} for call chaining.
+   */
+  public StaticMapsRequest visible(LatLng visibleLocation) {
+    return param("visible", visibleLocation);
+  }
+
+  /**
+   * <code>visible</code> instructs the Google Static Maps API service to construct a map such that
+   * the existing locations remain visible.
+   *
+   * @param visibleLocation The location to be made visible in the requested Static Map.
+   * @return Returns this {@code StaticMapsRequest} for call chaining.
+   */
+  public StaticMapsRequest visible(String visibleLocation) {
+    return param("visible", visibleLocation);
+  }
+
+  public enum ImageFormat implements UrlValue {
+    png("png"),
+    png8("png8"),
+    png32("png32"),
+    gif("gif"),
+    jpg("jpg"),
+    jpgBaseline("jpg-baseline");
+
+    private final String format;
+
+    ImageFormat(String format) {
+      this.format = format;
+    }
+
+    @Override
+    public String toUrlValue() {
+      return format;
+    }
+  }
+
+  public enum StaticMapType implements UrlValue {
+    roadmap,
+    satellite,
+    terrain,
+    hybrid;
+
+    @Override
+    public String toUrlValue() {
+      return this.name();
+    }
+  }
+
   public static class Markers implements UrlValue {
 
-    public enum MarkersSize implements UrlValue {
-      tiny,
-      mid,
-      small,
-      normal;
-
-      @Override
-      public String toUrlValue() {
-        return this.name();
-      }
-    }
-
-    public enum CustomIconAnchor implements UrlValue {
-      top,
-      bottom,
-      left,
-      right,
-      center,
-      topleft,
-      topright,
-      bottomleft,
-      bottomright;
-
-      @Override
-      public String toUrlValue() {
-        return this.name();
-      }
-    }
-
+    private static final Pattern labelPattern = Pattern.compile("^[A-Z0-9]$");
+    private final List<String> locations = new ArrayList<>();
     private MarkersSize size;
     private String color;
     private String label;
     private String customIconURL;
     private CustomIconAnchor anchorPoint;
     private Integer scale;
-    private final List<String> locations = new ArrayList<>();
 
     /**
      * Specifies the size of marker. If no size parameter is set, the marker will appear in its
@@ -226,8 +255,6 @@ public class StaticMapsRequest
     public void color(String color) {
       this.color = color;
     }
-
-    private static final Pattern labelPattern = Pattern.compile("^[A-Z0-9]$");
 
     /**
      * Specifies a single uppercase alphanumeric character from the set {A-Z, 0-9}.
@@ -317,28 +344,44 @@ public class StaticMapsRequest
 
       return StringJoin.join('|', urlParts.toArray(new String[urlParts.size()]));
     }
-  }
 
-  /**
-   * <code>markers</code> parameter defines a set of one or more markers (map pins) at a set of
-   * locations. Each marker defined within a single markers declaration must exhibit the same visual
-   * style; if you wish to display markers with different styles, you will need to supply multiple
-   * markers parameters with separate style information.
-   *
-   * @param markers A group of markers with the same style.
-   * @return Returns this {@code StaticMapsRequest} for call chaining.
-   */
-  public StaticMapsRequest markers(Markers markers) {
-    return paramAddToList("markers", markers);
+    public enum MarkersSize implements UrlValue {
+      tiny,
+      mid,
+      small,
+      normal;
+
+      @Override
+      public String toUrlValue() {
+        return this.name();
+      }
+    }
+
+    public enum CustomIconAnchor implements UrlValue {
+      top,
+      bottom,
+      left,
+      right,
+      center,
+      topleft,
+      topright,
+      bottomleft,
+      bottomright;
+
+      @Override
+      public String toUrlValue() {
+        return this.name();
+      }
+    }
   }
 
   public static class Path implements UrlValue {
 
+    private final List<String> points = new ArrayList<>();
     private int weight;
     private String color;
     private String fillcolor;
     private boolean geodesic;
-    private final List<String> points = new ArrayList<>();
 
     /**
      * Specifies the thickness of the path in pixels. If no weight parameter is set, the path will
@@ -422,49 +465,5 @@ public class StaticMapsRequest
 
       return StringJoin.join('|', urlParts.toArray(new String[urlParts.size()]));
     }
-  }
-
-  /**
-   * The <code>path</code> parameter defines a set of one or more locations connected by a path to
-   * overlay on the map image.
-   *
-   * @param path A path to render atop the map.
-   * @return Returns this {@code StaticMapsRequest} for call chaining.
-   */
-  public StaticMapsRequest path(Path path) {
-    return paramAddToList("path", path);
-  }
-
-  /**
-   * The <code>path</code> parameter defines a set of one or more locations connected by a path to
-   * overlay on the map image. This variant of the method accepts the path as an EncodedPolyline.
-   *
-   * @param path A path to render atop the map, as an EncodedPolyline.
-   * @return Returns this {@code StaticMapsRequest} for call chaining.
-   */
-  public StaticMapsRequest path(EncodedPolyline path) {
-    return paramAddToList("path", "enc:" + path.getEncodedPath());
-  }
-
-  /**
-   * <code>visible</code> instructs the Google Static Maps API service to construct a map such that
-   * the existing locations remain visible.
-   *
-   * @param visibleLocation The location to be made visible in the requested Static Map.
-   * @return Returns this {@code StaticMapsRequest} for call chaining.
-   */
-  public StaticMapsRequest visible(LatLng visibleLocation) {
-    return param("visible", visibleLocation);
-  }
-
-  /**
-   * <code>visible</code> instructs the Google Static Maps API service to construct a map such that
-   * the existing locations remain visible.
-   *
-   * @param visibleLocation The location to be made visible in the requested Static Map.
-   * @return Returns this {@code StaticMapsRequest} for call chaining.
-   */
-  public StaticMapsRequest visible(String visibleLocation) {
-    return param("visible", visibleLocation);
   }
 }

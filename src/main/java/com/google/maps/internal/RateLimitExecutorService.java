@@ -18,17 +18,7 @@ package com.google.maps.internal;
 import com.google.maps.internal.ratelimiter.RateLimiter;
 import java.util.Collection;
 import java.util.List;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.SynchronousQueue;
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
+import java.util.concurrent.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,7 +28,7 @@ public class RateLimitExecutorService implements ExecutorService, Runnable {
   private static final Logger LOG =
       LoggerFactory.getLogger(RateLimitExecutorService.class.getName());
   private static final int DEFAULT_QUERIES_PER_SECOND = 50;
-
+  final Thread delayThread;
   // It's important we set Ok's second arg to threadFactory(.., true) to ensure the threads are
   // killed when the app exits. For synchronous requests this is ideal but it means any async
   // requests still pending after termination will be killed.
@@ -50,12 +40,9 @@ public class RateLimitExecutorService implements ExecutorService, Runnable {
           TimeUnit.SECONDS,
           new SynchronousQueue<Runnable>(),
           threadFactory("Rate Limited Dispatcher", true));
-
   private final BlockingQueue<Runnable> queue = new LinkedBlockingQueue<>();
   private final RateLimiter rateLimiter =
       RateLimiter.create(DEFAULT_QUERIES_PER_SECOND, 1, TimeUnit.SECONDS);
-
-  final Thread delayThread;
 
   public RateLimitExecutorService() {
     setQueriesPerSecond(DEFAULT_QUERIES_PER_SECOND);
@@ -63,6 +50,17 @@ public class RateLimitExecutorService implements ExecutorService, Runnable {
     delayThread.setDaemon(true);
     delayThread.setName("RateLimitExecutorDelayThread");
     delayThread.start();
+  }
+
+  private static ThreadFactory threadFactory(final String name, final boolean daemon) {
+    return new ThreadFactory() {
+      @Override
+      public Thread newThread(Runnable runnable) {
+        Thread result = new Thread(runnable, name);
+        result.setDaemon(daemon);
+        return result;
+      }
+    };
   }
 
   public void setQueriesPerSecond(int maxQps) {
@@ -83,17 +81,6 @@ public class RateLimitExecutorService implements ExecutorService, Runnable {
     } catch (InterruptedException ie) {
       LOG.info("Interrupted", ie);
     }
-  }
-
-  private static ThreadFactory threadFactory(final String name, final boolean daemon) {
-    return new ThreadFactory() {
-      @Override
-      public Thread newThread(Runnable runnable) {
-        Thread result = new Thread(runnable, name);
-        result.setDaemon(daemon);
-        return result;
-      }
-    };
   }
 
   @Override

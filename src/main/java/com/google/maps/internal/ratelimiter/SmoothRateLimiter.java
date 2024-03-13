@@ -149,6 +149,87 @@ abstract class SmoothRateLimiter extends RateLimiter {
    * we would only increase it for arrivals _later_ than the expected one second.
    */
 
+  /** The currently stored permits. */
+  double storedPermits;
+
+  /** The maximum number of stored permits. */
+  double maxPermits;
+
+  /**
+   * The interval between two unit requests, at our stable rate. E.g., a stable rate of 5 permits
+   * per second has a stable interval of 200ms.
+   */
+  double stableIntervalMicros;
+
+  /**
+   * The time when the next request (no matter its size) will be granted. After granting a request,
+   * this is pushed further in the future. Large requests push this further than small requests.
+   */
+  private long nextFreeTicketMicros = 0L; // could be either in the past or future
+
+  private SmoothRateLimiter(SleepingStopwatch stopwatch) {
+    super(stopwatch);
+  }
+
+  @Override
+  final void doSetRate(double permitsPerSecond, long nowMicros) {
+    resync(nowMicros);
+    double stableIntervalMicros = SECONDS.toMicros(1L) / permitsPerSecond;
+    this.stableIntervalMicros = stableIntervalMicros;
+    doSetRate(permitsPerSecond, stableIntervalMicros);
+  }
+
+  abstract void doSetRate(double permitsPerSecond, double stableIntervalMicros);
+
+  @Override
+  final double doGetRate() {
+    return SECONDS.toMicros(1L) / stableIntervalMicros;
+  }
+
+  @Override
+  final long queryEarliestAvailable(long nowMicros) {
+    return nextFreeTicketMicros;
+  }
+
+  @Override
+  final long reserveEarliestAvailable(int requiredPermits, long nowMicros) {
+    resync(nowMicros);
+    long returnValue = nextFreeTicketMicros;
+    double storedPermitsToSpend = min(requiredPermits, this.storedPermits);
+    double freshPermits = requiredPermits - storedPermitsToSpend;
+    long waitMicros =
+        storedPermitsToWaitTime(this.storedPermits, storedPermitsToSpend)
+            + (long) (freshPermits * stableIntervalMicros);
+
+    this.nextFreeTicketMicros = LongMath.saturatedAdd(nextFreeTicketMicros, waitMicros);
+    this.storedPermits -= storedPermitsToSpend;
+    return returnValue;
+  }
+
+  /**
+   * Translates a specified portion of our currently stored permits which we want to spend/acquire,
+   * into a throttling time. Conceptually, this evaluates the integral of the underlying function we
+   * use, for the range of [(storedPermits - permitsToTake), storedPermits].
+   *
+   * <p>This always holds: {@code 0 <= permitsToTake <= storedPermits}
+   */
+  abstract long storedPermitsToWaitTime(double storedPermits, double permitsToTake);
+
+  /**
+   * Returns the number of microseconds during cool down that we have to wait to get a new permit.
+   */
+  abstract double coolDownIntervalMicros();
+
+  /** Updates {@code storedPermits} and {@code nextFreeTicketMicros} based on the current time. */
+  void resync(long nowMicros) {
+    // if nextFreeTicket is in the past, resync to now
+    if (nowMicros > nextFreeTicketMicros) {
+      double newPermits = (nowMicros - nextFreeTicketMicros) / coolDownIntervalMicros();
+      storedPermits = min(maxPermits, storedPermits + newPermits);
+      nextFreeTicketMicros = nowMicros;
+    }
+  }
+
   /**
    * This implements the following function where coldInterval = coldFactor * stableInterval.
    *
@@ -171,7 +252,7 @@ abstract class SmoothRateLimiter extends RateLimiter {
    *          0 thresholdPermits maxPermits
    * </pre>
    *
-   * Before going into the details of this particular function, let's keep in mind the basics:
+   * <p>Before going into the details of this particular function, let's keep in mind the basics:
    *
    * <ol>
    *   <li>The state of the RateLimiter (storedPermits) is a vertical line in this figure.
@@ -214,6 +295,7 @@ abstract class SmoothRateLimiter extends RateLimiter {
    */
   static final class SmoothWarmingUp extends SmoothRateLimiter {
     private final long warmupPeriodMicros;
+
     /**
      * The slope of the line from the stable interval (when permits == 0), to the cold interval
      * (when permits == maxPermits)
@@ -315,87 +397,6 @@ abstract class SmoothRateLimiter extends RateLimiter {
     @Override
     double coolDownIntervalMicros() {
       return stableIntervalMicros;
-    }
-  }
-
-  /** The currently stored permits. */
-  double storedPermits;
-
-  /** The maximum number of stored permits. */
-  double maxPermits;
-
-  /**
-   * The interval between two unit requests, at our stable rate. E.g., a stable rate of 5 permits
-   * per second has a stable interval of 200ms.
-   */
-  double stableIntervalMicros;
-
-  /**
-   * The time when the next request (no matter its size) will be granted. After granting a request,
-   * this is pushed further in the future. Large requests push this further than small requests.
-   */
-  private long nextFreeTicketMicros = 0L; // could be either in the past or future
-
-  private SmoothRateLimiter(SleepingStopwatch stopwatch) {
-    super(stopwatch);
-  }
-
-  @Override
-  final void doSetRate(double permitsPerSecond, long nowMicros) {
-    resync(nowMicros);
-    double stableIntervalMicros = SECONDS.toMicros(1L) / permitsPerSecond;
-    this.stableIntervalMicros = stableIntervalMicros;
-    doSetRate(permitsPerSecond, stableIntervalMicros);
-  }
-
-  abstract void doSetRate(double permitsPerSecond, double stableIntervalMicros);
-
-  @Override
-  final double doGetRate() {
-    return SECONDS.toMicros(1L) / stableIntervalMicros;
-  }
-
-  @Override
-  final long queryEarliestAvailable(long nowMicros) {
-    return nextFreeTicketMicros;
-  }
-
-  @Override
-  final long reserveEarliestAvailable(int requiredPermits, long nowMicros) {
-    resync(nowMicros);
-    long returnValue = nextFreeTicketMicros;
-    double storedPermitsToSpend = min(requiredPermits, this.storedPermits);
-    double freshPermits = requiredPermits - storedPermitsToSpend;
-    long waitMicros =
-        storedPermitsToWaitTime(this.storedPermits, storedPermitsToSpend)
-            + (long) (freshPermits * stableIntervalMicros);
-
-    this.nextFreeTicketMicros = LongMath.saturatedAdd(nextFreeTicketMicros, waitMicros);
-    this.storedPermits -= storedPermitsToSpend;
-    return returnValue;
-  }
-
-  /**
-   * Translates a specified portion of our currently stored permits which we want to spend/acquire,
-   * into a throttling time. Conceptually, this evaluates the integral of the underlying function we
-   * use, for the range of [(storedPermits - permitsToTake), storedPermits].
-   *
-   * <p>This always holds: {@code 0 <= permitsToTake <= storedPermits}
-   */
-  abstract long storedPermitsToWaitTime(double storedPermits, double permitsToTake);
-
-  /**
-   * Returns the number of microseconds during cool down that we have to wait to get a new permit.
-   */
-  abstract double coolDownIntervalMicros();
-
-  /** Updates {@code storedPermits} and {@code nextFreeTicketMicros} based on the current time. */
-  void resync(long nowMicros) {
-    // if nextFreeTicket is in the past, resync to now
-    if (nowMicros > nextFreeTicketMicros) {
-      double newPermits = (nowMicros - nextFreeTicketMicros) / coolDownIntervalMicros();
-      storedPermits = min(maxPermits, storedPermits + newPermits);
-      nextFreeTicketMicros = nowMicros;
     }
   }
 }

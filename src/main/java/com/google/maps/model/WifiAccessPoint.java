@@ -31,6 +31,24 @@ public class WifiAccessPoint implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
+  /**
+   * The MAC address of the WiFi node (required). Separators must be {@code :} (colon) and hex
+   * digits must use uppercase.
+   */
+  public String macAddress;
+
+  /** The current signal strength measured in dBm. */
+  public Integer signalStrength = null;
+
+  /** The number of milliseconds since this access point was detected. */
+  public Integer age = null;
+
+  /** The channel over which the client is communicating with the access point. */
+  public Integer channel = null;
+
+  /** The current signal to noise ratio measured in dB. */
+  public Integer signalToNoiseRatio = null;
+
   public WifiAccessPoint() {}
 
   // constructor only used by the builder class below
@@ -46,19 +64,6 @@ public class WifiAccessPoint implements Serializable {
     channel = _channel;
     signalToNoiseRatio = _signalToNoiseRatio;
   }
-  /**
-   * The MAC address of the WiFi node (required). Separators must be {@code :} (colon) and hex
-   * digits must use uppercase.
-   */
-  public String macAddress;
-  /** The current signal strength measured in dBm. */
-  public Integer signalStrength = null;
-  /** The number of milliseconds since this access point was detected. */
-  public Integer age = null;
-  /** The channel over which the client is communicating with the access point. */
-  public Integer channel = null;
-  /** The current signal to noise ratio measured in dB. */
-  public Integer signalToNoiseRatio = null;
 
   @Override
   public String toString() {

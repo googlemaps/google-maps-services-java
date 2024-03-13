@@ -15,18 +15,17 @@
 
 package com.google.maps;
 
+import static com.google.maps.internal.StringJoin.join;
+
 import com.google.maps.errors.ApiException;
 import com.google.maps.internal.ApiConfig;
 import com.google.maps.internal.ApiResponse;
 import com.google.maps.internal.HttpHeaders;
 import com.google.maps.internal.StringJoin;
 import com.google.maps.internal.StringJoin.UrlValue;
+import com.google.maps.model.ComponentFilter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Base implementation for {@code PendingResult}.
@@ -145,7 +144,8 @@ abstract class PendingResultBase<T, A extends PendingResultBase<T, A, R>, R exte
   }
 
   protected A paramAddToList(String key, String val) {
-    // Multiple parameter values required to support Static Maps API paths and markers.
+    // Multiple parameter values required to support Static Maps API paths and
+    // markers.
     if (params.get(key) == null) {
       params.put(key, new ArrayList<String>());
     }
@@ -169,9 +169,9 @@ abstract class PendingResultBase<T, A extends PendingResultBase<T, A, R>, R exte
    * list may not be exhaustive.
    *
    * @param language The language code, e.g. "en-AU" or "es".
+   * @return Returns the request for call chaining.
    * @see <a href="https://developers.google.com/maps/faq#languagesupport">List of supported domain
    *     languages</a>
-   * @return Returns the request for call chaining.
    */
   public final A language(String language) {
     return param("language", language);
@@ -179,9 +179,9 @@ abstract class PendingResultBase<T, A extends PendingResultBase<T, A, R>, R exte
 
   /**
    * A channel to pass with the request. channel is used by Google Maps API for Work users to be
-   * able to track usage across different applications with the same clientID. See <a
-   * href="https://developers.google.com/maps/documentation/business/clientside/quota">Premium Plan
-   * Usage Rates and Limits</a>.
+   * able to track usage across different applications with the same clientID. See <a href=
+   * "https://developers.google.com/maps/documentation/business/clientside/quota">Premium Plan Usage
+   * Rates and Limits</a>.
    *
    * @param channel String to pass with the request for analytics.
    * @return Returns the request for call chaining.
@@ -191,13 +191,17 @@ abstract class PendingResultBase<T, A extends PendingResultBase<T, A, R>, R exte
   }
 
   /**
-   * Custom parameter. For advanced usage only.
+   * Sets the component filters. Each component filter consists of a component:value pair and will
+   * fully restrict the results from the geocoder.
    *
-   * @param parameter The name of the custom parameter.
-   * @param value The value of the custom parameter.
-   * @return Returns the request for call chaining.
+   * <p>For more information see <a href=
+   * "https://developers.google.com/maps/documentation/geocoding/intro?hl=pl#ComponentFiltering">
+   * Component Filtering</a>.
+   *
+   * @param filters Component filters to apply to the request.
+   * @return Returns this for call chaining.
    */
-  public A custom(String parameter, String value) {
-    return param(parameter, value);
+  public A components(ComponentFilter... filters) {
+    return param("components", join('|', filters));
   }
 }

@@ -18,25 +18,44 @@ package com.google.maps;
 import static com.google.maps.internal.StringJoin.join;
 import static java.util.Objects.requireNonNull;
 
-import com.google.maps.model.DirectionsResult;
-import com.google.maps.model.LatLng;
-import com.google.maps.model.TrafficModel;
-import com.google.maps.model.TransitMode;
-import com.google.maps.model.TransitRoutingPreference;
-import com.google.maps.model.TravelMode;
-import com.google.maps.model.Unit;
+import com.google.maps.model.*;
 import java.time.Instant;
 
 /** Request for the Directions API. */
 public class DirectionsApiRequest
     extends PendingResultBase<DirectionsResult, DirectionsApiRequest, DirectionsApi.Response> {
 
+  protected boolean optimizeWaypoints;
+  protected Waypoint[] waypoints;
+
   public DirectionsApiRequest(GeoApiContext context) {
     super(context, DirectionsApi.API_CONFIG, DirectionsApi.Response.class);
   }
 
-  protected boolean optimizeWaypoints;
-  protected Waypoint[] waypoints;
+  /**
+   * Creates a new DirectionsApiRequest using the given context, with all attributes at their
+   * default values.
+   *
+   * @param context Context that the DirectionsApiRequest will be executed against
+   * @return A newly constructed DirectionsApiRequest between the given points.
+   */
+  public static DirectionsApiRequest newRequest(GeoApiContext context) {
+    return new DirectionsApiRequest(context);
+  }
+
+  /**
+   * Creates a new DirectionsApiRequest between the given origin and destination, using the defaults
+   * for all other options.
+   *
+   * @param context Context that the DirectionsApiRequest will be executed against
+   * @param origin Origin address as text
+   * @param destination Destination address as text
+   * @return A newly constructed DirectionsApiRequest between the given points.
+   */
+  public static DirectionsApiRequest getDirections(
+      GeoApiContext context, String origin, String destination) {
+    return new DirectionsApiRequest(context).origin(origin).destination(destination);
+  }
 
   @Override
   protected void validateRequest() {
@@ -356,6 +375,7 @@ public class DirectionsApiRequest
   public static class Waypoint {
     /** The location of this waypoint, expressed as an API-recognized location. */
     private String location;
+
     /** Whether this waypoint is a stopover waypoint. */
     private boolean isStopover;
 

@@ -28,11 +28,11 @@ public enum PlaceAutocompleteType implements StringJoin.UrlValue {
   REGIONS("(regions)"),
   CITIES("(cities)");
 
+  private final String placeType;
+
   PlaceAutocompleteType(final String placeType) {
     this.placeType = placeType;
   }
-
-  private final String placeType;
 
   @Override
   public String toUrlValue() {

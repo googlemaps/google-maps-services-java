@@ -29,6 +29,7 @@ import java.util.Arrays;
 public class DirectionsRoute implements Serializable {
 
   private static final long serialVersionUID = 1L;
+
   /**
    * A short textual description for the route, suitable for naming and disambiguating the route
    * from alternatives.

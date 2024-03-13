@@ -39,59 +39,6 @@ public class DirectionsApi {
   private DirectionsApi() {}
 
   /**
-   * Creates a new DirectionsApiRequest using the given context, with all attributes at their
-   * default values.
-   *
-   * @param context Context that the DirectionsApiRequest will be executed against
-   * @return A newly constructed DirectionsApiRequest between the given points.
-   */
-  public static DirectionsApiRequest newRequest(GeoApiContext context) {
-    return new DirectionsApiRequest(context);
-  }
-
-  /**
-   * Creates a new DirectionsApiRequest between the given origin and destination, using the defaults
-   * for all other options.
-   *
-   * @param context Context that the DirectionsApiRequest will be executed against
-   * @param origin Origin address as text
-   * @param destination Destination address as text
-   * @return A newly constructed DirectionsApiRequest between the given points.
-   */
-  public static DirectionsApiRequest getDirections(
-      GeoApiContext context, String origin, String destination) {
-    return new DirectionsApiRequest(context).origin(origin).destination(destination);
-  }
-
-  public static class Response implements ApiResponse<DirectionsResult> {
-    public String status;
-    public String errorMessage;
-    public GeocodedWaypoint[] geocodedWaypoints;
-    public DirectionsRoute[] routes;
-
-    @Override
-    public boolean successful() {
-      return "OK".equals(status);
-    }
-
-    @Override
-    public DirectionsResult getResult() {
-      DirectionsResult result = new DirectionsResult();
-      result.geocodedWaypoints = geocodedWaypoints;
-      result.routes = routes;
-      return result;
-    }
-
-    @Override
-    public ApiException getError() {
-      if (successful()) {
-        return null;
-      }
-      return ApiException.from(status, errorMessage);
-    }
-  }
-
-  /**
    * Directions may be calculated that adhere to certain restrictions. This is configured by calling
    * {@link com.google.maps.DirectionsApiRequest#avoid} or {@link
    * com.google.maps.DistanceMatrixApiRequest#avoid}.
@@ -130,6 +77,34 @@ public class DirectionsApi {
     @Override
     public String toUrlValue() {
       return restriction;
+    }
+  }
+
+  public static class Response implements ApiResponse<DirectionsResult> {
+    public String status;
+    public String errorMessage;
+    public GeocodedWaypoint[] geocodedWaypoints;
+    public DirectionsRoute[] routes;
+
+    @Override
+    public boolean successful() {
+      return "OK".equals(status);
+    }
+
+    @Override
+    public DirectionsResult getResult() {
+      DirectionsResult result = new DirectionsResult();
+      result.geocodedWaypoints = geocodedWaypoints;
+      result.routes = routes;
+      return result;
+    }
+
+    @Override
+    public ApiException getError() {
+      if (successful()) {
+        return null;
+      }
+      return ApiException.from(status, errorMessage);
     }
   }
 }

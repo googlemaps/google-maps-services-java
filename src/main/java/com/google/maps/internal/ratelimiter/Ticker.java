@@ -38,17 +38,6 @@ package com.google.maps.internal.ratelimiter;
  * @author Kevin Bourrillion
  */
 public abstract class Ticker {
-  /** Constructor for use by subclasses. */
-  protected Ticker() {}
-
-  /** Returns the number of nanoseconds elapsed since this ticker's fixed point of reference. */
-  public abstract long read();
-
-  /** A ticker that reads the current time using {@link System#nanoTime}. */
-  public static Ticker systemTicker() {
-    return SYSTEM_TICKER;
-  }
-
   private static final Ticker SYSTEM_TICKER =
       new Ticker() {
         @Override
@@ -56,4 +45,15 @@ public abstract class Ticker {
           return Platform.systemNanoTime();
         }
       };
+
+  /** Constructor for use by subclasses. */
+  protected Ticker() {}
+
+  /** A ticker that reads the current time using {@link System#nanoTime}. */
+  public static Ticker systemTicker() {
+    return SYSTEM_TICKER;
+  }
+
+  /** Returns the number of nanoseconds elapsed since this ticker's fixed point of reference. */
+  public abstract long read();
 }

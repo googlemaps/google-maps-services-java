@@ -39,7 +39,8 @@ public class GeolocationResponseAdapter extends TypeAdapter<GeolocationApi.Respo
    *   }
    * </pre>
    *
-   * Error Case: The response contains an object with a single error object with the following keys:
+   * <p>Error Case: The response contains an object with a single error object with the following
+   * keys:
    *
    * <p>code: This is the same as the HTTP status of the response. {@code message}: A short
    * description of the error. {@code errors}: A list of errors which occurred. Each error contains

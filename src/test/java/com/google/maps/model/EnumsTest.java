@@ -16,22 +16,31 @@
 package com.google.maps.model;
 
 import static com.google.maps.internal.StringJoin.UrlValue;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import com.google.maps.SmallTests;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
 @Category(SmallTests.class)
 public class EnumsTest {
+  private static <T extends UrlValue> void assertCannotGetUrlValue(T unknown) {
+    assertNotNull(unknown);
+    try {
+      unknown.toUrlValue();
+      fail("Expected to throw UnsupportedOperationException");
+    } catch (UnsupportedOperationException expected) {
+      // Expected.
+    }
+  }
+
+  private static <T> List<T> setdiff(Collection<T> a, Collection<T> b) {
+    List<T> out = new ArrayList<>(a);
+    out.removeAll(b);
+    return out;
+  }
+
   @Test
   public void testUnknown() throws Exception {
     assertNotNull(AddressComponentType.UNKNOWN); // Does not implement UrlValue.
@@ -304,21 +313,5 @@ public class EnumsTest {
         "Unexpected enum elements: Only in test: " + onlyInTest + ". Only in enum: " + onlyInEnum,
         addressComponentTypeToLiteralMap.size() + 1, // 1 for unknown
         AddressComponentType.values().length);
-  }
-
-  private static <T extends UrlValue> void assertCannotGetUrlValue(T unknown) {
-    assertNotNull(unknown);
-    try {
-      unknown.toUrlValue();
-      fail("Expected to throw UnsupportedOperationException");
-    } catch (UnsupportedOperationException expected) {
-      // Expected.
-    }
-  }
-
-  private static <T> List<T> setdiff(Collection<T> a, Collection<T> b) {
-    List<T> out = new ArrayList<>(a);
-    out.removeAll(b);
-    return out;
   }
 }
