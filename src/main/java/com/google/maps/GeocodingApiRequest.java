@@ -20,13 +20,13 @@ import static com.google.maps.internal.StringJoin.join;
 import com.google.maps.internal.ApiConfig;
 import com.google.maps.model.AddressType;
 import com.google.maps.model.ComponentFilter;
-import com.google.maps.model.GeocodingResult;
+import com.google.maps.model.GeocodingResponse;
 import com.google.maps.model.LatLng;
 import com.google.maps.model.LocationType;
 
 /** A request for the Geocoding API. */
 public class GeocodingApiRequest
-    extends PendingResultBase<GeocodingResult[], GeocodingApiRequest, GeocodingApi.Response> {
+    extends PendingResultBase<GeocodingResponse, GeocodingApiRequest, GeocodingApi.Response> {
 
   private static final ApiConfig API_CONFIG = new ApiConfig("/maps/api/geocode/json");
 
@@ -150,5 +150,16 @@ public class GeocodingApiRequest
    */
   public GeocodingApiRequest locationType(LocationType... locationTypes) {
     return param("location_type", join('|', locationTypes));
+  }
+
+  /**
+   * Determines whether the address descriptor is returned in the response.
+   *
+   * @param enableAddressDescriptor Flag to determine whether to return the address descriptor in
+   *     the response.
+   * @return Returns this {@code GeocodingApiRequest} for call chaining.
+   */
+  public GeocodingApiRequest enableAddressDescriptor(boolean enableAddressDescriptor) {
+    return param("enable_address_descriptor", String.valueOf(enableAddressDescriptor));
   }
 }

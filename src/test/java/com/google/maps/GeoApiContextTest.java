@@ -193,7 +193,11 @@ public class GeoApiContextTest {
 
     // Execute
     GeocodingResult[] result =
-        builder.build().get(new ApiConfig("/"), GeocodingApi.Response.class, "k", "v").await();
+        builder
+            .build()
+            .get(new ApiConfig("/"), GeocodingApi.Response.class, "k", "v")
+            .await()
+            .results;
     assertEquals(1, result.length);
     assertEquals(
         "1600 Amphitheatre Parkway, Mountain View, CA 94043, USA", result[0].formattedAddress);
