@@ -112,30 +112,6 @@ public class PlaceDetails implements Serializable {
    */
   public PriceLevel priceLevel;
 
-  @Deprecated
-  public static class AlternatePlaceIds implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
-    /**
-     * The alternative placeId. The most likely reason for a place to have an alternative place ID
-     * is if your application adds a place and receives an application-scoped place ID, then later
-     * receives a Google-scoped place ID after passing the moderation process.
-     */
-    public String placeId;
-
-    /**
-     * The scope of an alternative place ID will always be APP, indicating that the alternative
-     * place ID is recognised by your application only.
-     */
-    @Deprecated public PlaceIdScope scope;
-
-    @Override
-    public String toString() {
-      return String.format("%s (%s)", placeId, scope);
-    }
-  }
-
   /**
    * An optional array of alternative place IDs for the place, with a scope related to each
    * alternative ID.
@@ -144,79 +120,6 @@ public class PlaceDetails implements Serializable {
 
   /** The place's rating, from 1.0 to 5.0, based on aggregated user reviews. */
   public float rating;
-
-  public static class Review implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
-    public static class AspectRating implements Serializable {
-
-      private static final long serialVersionUID = 1L;
-
-      public enum RatingType {
-        APPEAL,
-        ATMOSPHERE,
-        DECOR,
-        FACILITIES,
-        FOOD,
-        OVERALL,
-        QUALITY,
-        SERVICE,
-
-        /**
-         * Indicates an unknown rating type returned by the server. The Java Client for Google Maps
-         * Services should be updated to support the new value.
-         */
-        UNKNOWN
-      }
-
-      /** The name of the aspect that is being rated. */
-      public RatingType type;
-
-      /** The user's rating for this particular aspect, from 0 to 3. */
-      public int rating;
-    }
-
-    /**
-     * A list of AspectRating objects, each of which provides a rating of a single attribute of the
-     * establishment.
-     *
-     * <p>Note: this is a <a href=
-     * "https://developers.google.com/places/web-service/details#PremiumData">Premium Data</a> field
-     * available to the Google Places API for Work customers.
-     */
-    public AspectRating[] aspects;
-
-    /**
-     * The name of the user who submitted the review. Anonymous reviews are attributed to "A Google
-     * user".
-     */
-    public String authorName;
-
-    /** The URL of the user's Google+ profile, if available. */
-    public URL authorUrl;
-
-    /** An IETF language code indicating the language used in the user's review. */
-    public String language;
-
-    /** The URL of the user's Google+ profile photo, if available. */
-    public String profilePhotoUrl;
-
-    /** The user's overall rating for this place. This is a whole number, ranging from 1 to 5. */
-    public int rating;
-
-    /** The relative time that the review was submitted. */
-    public String relativeTimeDescription;
-
-    /**
-     * The user's review. When reviewing a location with Google Places, text reviews are considered
-     * optional.
-     */
-    public String text;
-
-    /** The time that the review was submitted. */
-    public Instant time;
-  }
 
   /** Specifies if the place supports reservations. */
   public Boolean reservable;
@@ -327,18 +230,8 @@ public class PlaceDetails implements Serializable {
     if (altIds != null && altIds.length > 0) {
       sb.append(", altIds=").append(Arrays.toString(altIds));
     }
-    if (formattedPhoneNumber != null) {
-      sb.append(", phone=").append(formattedPhoneNumber);
-    }
-    if (internationalPhoneNumber != null) {
-      sb.append(", internationalPhoneNumber=").append(internationalPhoneNumber);
-    }
-    if (url != null) {
-      sb.append(", url=").append(url);
-    }
-    if (website != null) {
-      sb.append(", website=").append(website);
-    }
+    sb.append(addPhoneNumber(sb));
+    sb.append(addWebsiteInfo(sb));
     if (icon != null) {
       sb.append(", icon");
     }
@@ -368,6 +261,41 @@ public class PlaceDetails implements Serializable {
     if (secondaryOpeningHours != null) {
       sb.append(", secondaryOpeningHours=").append(secondaryOpeningHours);
     }
+    sb.append(addServingInfo(sb));
+    if (takeout != null) {
+      sb.append(", takeout=").append(takeout);
+    }
+    if (wheelchairAccessibleEntrance != null) {
+      sb.append(", wheelchairAccessibleEntrance=").append(wheelchairAccessibleEntrance);
+    }
+    if (htmlAttributions != null && htmlAttributions.length > 0) {
+      sb.append(", ").append(htmlAttributions.length).append(" htmlAttributions");
+    }
+    sb.append("]");
+    return sb.toString();
+  }
+
+  private String addPhoneNumber(StringBuilder sb) {
+    if (formattedPhoneNumber != null) {
+      sb.append(", phone=").append(formattedPhoneNumber);
+    }
+    if (internationalPhoneNumber != null) {
+      sb.append(", internationalPhoneNumber=").append(internationalPhoneNumber);
+    }
+    return sb.toString();
+  }
+
+  private String addWebsiteInfo(StringBuilder sb) {
+    if (url != null) {
+      sb.append(", url=").append(url);
+    }
+    if (website != null) {
+      sb.append(", website=").append(website);
+    }
+    return sb.toString();
+  }
+
+  private String addServingInfo(StringBuilder sb) {
     if (servesBeer != null) {
       sb.append(", servesBeer=").append(servesBeer);
     }
@@ -389,16 +317,103 @@ public class PlaceDetails implements Serializable {
     if (servesWine != null) {
       sb.append(", servesWine=").append(servesWine);
     }
-    if (takeout != null) {
-      sb.append(", takeout=").append(takeout);
-    }
-    if (wheelchairAccessibleEntrance != null) {
-      sb.append(", wheelchairAccessibleEntrance=").append(wheelchairAccessibleEntrance);
-    }
-    if (htmlAttributions != null && htmlAttributions.length > 0) {
-      sb.append(", ").append(htmlAttributions.length).append(" htmlAttributions");
-    }
-    sb.append("]");
     return sb.toString();
+  }
+
+  @Deprecated
+  public static class AlternatePlaceIds implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * The alternative placeId. The most likely reason for a place to have an alternative place ID
+     * is if your application adds a place and receives an application-scoped place ID, then later
+     * receives a Google-scoped place ID after passing the moderation process.
+     */
+    public String placeId;
+
+    /**
+     * The scope of an alternative place ID will always be APP, indicating that the alternative
+     * place ID is recognised by your application only.
+     */
+    @Deprecated public PlaceIdScope scope;
+
+    @Override
+    public String toString() {
+      return String.format("%s (%s)", placeId, scope);
+    }
+  }
+
+  public static class Review implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * A list of AspectRating objects, each of which provides a rating of a single attribute of the
+     * establishment.
+     *
+     * <p>Note: this is a <a href=
+     * "https://developers.google.com/places/web-service/details#PremiumData">Premium Data</a> field
+     * available to the Google Places API for Work customers.
+     */
+    public AspectRating[] aspects;
+
+    /**
+     * The name of the user who submitted the review. Anonymous reviews are attributed to "A Google
+     * user".
+     */
+    public String authorName;
+
+    /** The URL of the user's Google+ profile, if available. */
+    public URL authorUrl;
+
+    /** An IETF language code indicating the language used in the user's review. */
+    public String language;
+
+    /** The URL of the user's Google+ profile photo, if available. */
+    public String profilePhotoUrl;
+
+    /** The user's overall rating for this place. This is a whole number, ranging from 1 to 5. */
+    public int rating;
+
+    /** The relative time that the review was submitted. */
+    public String relativeTimeDescription;
+
+    /**
+     * The user's review. When reviewing a location with Google Places, text reviews are considered
+     * optional.
+     */
+    public String text;
+
+    /** The time that the review was submitted. */
+    public Instant time;
+
+    public static class AspectRating implements Serializable {
+
+      private static final long serialVersionUID = 1L;
+
+      /** The name of the aspect that is being rated. */
+      public RatingType type;
+
+      /** The user's rating for this particular aspect, from 0 to 3. */
+      public int rating;
+
+      public enum RatingType {
+        APPEAL,
+        ATMOSPHERE,
+        DECOR,
+        FACILITIES,
+        FOOD,
+        OVERALL,
+        QUALITY,
+        SERVICE,
+
+        /**
+         * Indicates an unknown rating type returned by the server. The Java Client for Google Maps
+         * Services should be updated to support the new value.
+         */
+        UNKNOWN
+      }
+    }
   }
 }

@@ -64,27 +64,27 @@ public class GeolocationApiTest {
               .AddCellTower(
                   new CellTower.CellTowerBuilder()
                       .CellId(39627456)
-                      .LocationAreaCode(40495)
-                      .MobileCountryCode(310)
-                      .MobileNetworkCode(260)
-                      .Age(0)
-                      .SignalStrength(-95)
-                      .createCellTower())
+                          .LocationAreaCode(40495)
+                          .MobileCountryCode(310)
+                          .MobileNetworkCode(260)
+                          .Age(0)
+                          .SignalStrength(-95)
+                          .createCellTower())
               .AddWifiAccessPoint(
                   new WifiAccessPoint.WifiAccessPointBuilder()
                       .MacAddress("01:23:45:67:89:AB")
-                      .SignalStrength(-65)
-                      .SignalToNoiseRatio(8)
-                      .Channel(8)
-                      .Age(0)
-                      .createWifiAccessPoint())
+                          .SignalStrength(-65)
+                          .SignalToNoiseRatio(8)
+                          .Channel(8)
+                          .Age(0)
+                          .createWifiAccessPoint())
               .AddWifiAccessPoint(
                   new WifiAccessPoint.WifiAccessPointBuilder()
                       .MacAddress("01:23:45:67:89:AC")
-                      .SignalStrength(4)
-                      .SignalToNoiseRatio(4)
-                      .Age(0)
-                      .createWifiAccessPoint())
+                          .SignalStrength(4)
+                          .SignalToNoiseRatio(4)
+                          .Age(0)
+                          .createWifiAccessPoint())
               .CreatePayload()
               .await();
 
@@ -110,12 +110,10 @@ public class GeolocationApiTest {
               .ConsiderIp(false)
               .AddWifiAccessPoint(
                   new WifiAccessPoint.WifiAccessPointBuilder()
-                      .MacAddress("94:b4:0f:ff:6b:11")
-                      .createWifiAccessPoint())
+                      .MacAddress("94:b4:0f:ff:6b:11").createWifiAccessPoint())
               .AddWifiAccessPoint(
                   new WifiAccessPoint.WifiAccessPointBuilder()
-                      .MacAddress("94:b4:0f:ff:6b:10")
-                      .createWifiAccessPoint())
+                      .MacAddress("94:b4:0f:ff:6b:10").createWifiAccessPoint())
               .CreatePayload()
               .await();
 
@@ -141,15 +139,15 @@ public class GeolocationApiTest {
               .AddWifiAccessPoint(
                   new WifiAccessPoint.WifiAccessPointBuilder()
                       .MacAddress("92:68:c3:f8:76:47")
-                      .SignalStrength(-42)
-                      .SignalToNoiseRatio(68)
-                      .createWifiAccessPoint())
+                          .SignalStrength(-42)
+                          .SignalToNoiseRatio(68)
+                          .createWifiAccessPoint())
               .AddWifiAccessPoint(
                   new WifiAccessPoint.WifiAccessPointBuilder()
                       .MacAddress("94:b4:0f:ff:6b:11")
-                      .SignalStrength(-55)
-                      .SignalToNoiseRatio(55)
-                      .createWifiAccessPoint())
+                          .SignalStrength(-55)
+                          .SignalToNoiseRatio(55)
+                          .createWifiAccessPoint())
               .CreatePayload()
               .await();
 
@@ -178,12 +176,10 @@ public class GeolocationApiTest {
       WifiAccessPoint[] wifiAccessPoints = new WifiAccessPoint[2];
       wifiAccessPoints[0] =
           new WifiAccessPoint.WifiAccessPointBuilder()
-              .MacAddress("94:b4:0f:ff:6b:11")
-              .createWifiAccessPoint();
+              .MacAddress("94:b4:0f:ff:6b:11").createWifiAccessPoint();
       wifiAccessPoints[1] =
           new WifiAccessPoint.WifiAccessPointBuilder()
-              .MacAddress("94:b4:0f:ff:6b:10")
-              .createWifiAccessPoint();
+              .MacAddress("94:b4:0f:ff:6b:10").createWifiAccessPoint();
 
       GeolocationResult result =
           GeolocationApi.newRequest(sc.context)
@@ -220,19 +216,19 @@ public class GeolocationApiTest {
               .AddWifiAccessPoint(
                   new WifiAccessPoint.WifiAccessPointBuilder()
                       .MacAddress("94:b4:0f:ff:88:31")
-                      .SignalStrength(-61)
-                      .SignalToNoiseRatio(49)
-                      .Channel(40)
-                      .Age(0)
-                      .createWifiAccessPoint())
+                          .SignalStrength(-61)
+                          .SignalToNoiseRatio(49)
+                          .Channel(40)
+                          .Age(0)
+                          .createWifiAccessPoint())
               .AddWifiAccessPoint(
                   new WifiAccessPoint.WifiAccessPointBuilder()
                       .MacAddress("94:b4:0f:ff:88:30")
-                      .SignalStrength(-64)
-                      .SignalToNoiseRatio(46)
-                      .Channel(40)
-                      .Age(0)
-                      .createWifiAccessPoint())
+                          .SignalStrength(-64)
+                          .SignalToNoiseRatio(46)
+                          .Channel(40)
+                          .Age(0)
+                          .createWifiAccessPoint())
               .CreatePayload()
               .await();
 
@@ -272,10 +268,10 @@ public class GeolocationApiTest {
               .AddCellTower(
                   new CellTower.CellTowerBuilder()
                       .CellId(39627456)
-                      .LocationAreaCode(40495)
-                      .MobileCountryCode(310)
-                      .MobileNetworkCode(260)
-                      .createCellTower())
+                          .LocationAreaCode(40495)
+                          .MobileCountryCode(310)
+                          .MobileNetworkCode(260)
+                          .createCellTower())
               .CreatePayload()
               .await();
 
@@ -301,14 +297,14 @@ public class GeolocationApiTest {
       GeolocationPayload payload =
           new GeolocationPayload.GeolocationPayloadBuilder()
               .ConsiderIp(false)
-              .AddCellTower(
-                  new CellTower.CellTowerBuilder()
-                      .CellId(39627456)
-                      .LocationAreaCode(40495)
-                      .MobileCountryCode(310)
-                      .MobileNetworkCode(260)
-                      .createCellTower())
-              .createGeolocationPayload();
+                  .AddCellTower(
+                      new CellTower.CellTowerBuilder()
+                          .CellId(39627456)
+                              .LocationAreaCode(40495)
+                              .MobileCountryCode(310)
+                              .MobileNetworkCode(260)
+                              .createCellTower())
+                  .createGeolocationPayload();
 
       GeolocationResult result = GeolocationApi.geolocate(sc.context, payload).await();
       assertNotNull(result.toString());
@@ -338,13 +334,13 @@ public class GeolocationApiTest {
               .AddCellTower(
                   new CellTower.CellTowerBuilder()
                       .CellId(39627456)
-                      .LocationAreaCode(40495)
-                      .MobileCountryCode(310)
-                      .MobileNetworkCode(260)
-                      .Age(0)
-                      .SignalStrength(-103)
-                      .TimingAdvance(15)
-                      .createCellTower())
+                          .LocationAreaCode(40495)
+                          .MobileCountryCode(310)
+                          .MobileNetworkCode(260)
+                          .Age(0)
+                          .SignalStrength(-103)
+                          .TimingAdvance(15)
+                          .createCellTower())
               .CreatePayload()
               .await();
 

@@ -22,38 +22,38 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-      with:
-        token: ${{ secrets.SYNCED_GITHUB_TOKEN_REPO }}
-    - name: Create .gpg key
-      run: |
-        echo $GPG_KEY_ARMOR | base64 --decode > ./release.asc
-        gpg --quiet --output $GITHUB_WORKSPACE/release.gpg --dearmor ./release.asc
-
-        SONATYPE_PASSWORD_ESCAPED=$(printf '%s\n' "$SONATYPE_PASSWORD" | sed -e 's/[\/&]/\\&/g')
-        sed -i -e "s,sonatypeUsername=,sonatypeUsername=$SONATYPE_USERNAME,g" gradle.properties
-        sed -i -e "s,sonatypePassword=,sonatypePassword=$SONATYPE_PASSWORD_ESCAPED,g" gradle.properties
-        sed -i -e "s,githubPassword=,githubPassword=$GITHUB_PASSWORD,g" gradle.properties
-        sed -i -e "s,signing.keyId=,signing.keyId=$GPG_KEY_ID,g" gradle.properties
-        sed -i -e "s,signing.password=,signing.password=$GPG_PASSWORD,g" gradle.properties
-        sed -i -e "s,signing.secretKeyRingFile=,signing.secretKeyRingFile=$GITHUB_WORKSPACE/release.gpg,g" gradle.properties
-      env:
-        GPG_KEY_ARMOR: "${{ secrets.SYNCED_GPG_KEY_ARMOR }}"
-        GPG_KEY_ID: ${{ secrets.SYNCED_GPG_KEY_ID }}
-        GPG_PASSWORD: ${{ secrets.SYNCED_GPG_KEY_PASSWORD }}
-        SONATYPE_PASSWORD: '${{ secrets.SYNCED_SONATYPE_PASSWORD }}'
-        SONATYPE_USERNAME: ${{ secrets.SYNCED_SONATYPE_USERNAME }}
-        GITHUB_PASSWORD: '${{ secrets.SYNCED_GITHUB_TOKEN_REPO }}'
-    - name: Semantic Release
-      uses: cycjimmy/semantic-release-action@v3
-      with:
-        extra_plugins: |
-          "@semantic-release/commit-analyzer"
-          "@semantic-release/release-notes-generator"
-          "@google/semantic-release-replace-plugin"
-          "@semantic-release/exec"
-          "@semantic-release/git"
-          "@semantic-release/github"
-      env:
-        GH_TOKEN: ${{ secrets.SYNCED_GITHUB_TOKEN_REPO }}
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.SYNCED_GITHUB_TOKEN_REPO }}
+      - name: Create .gpg key
+        run: |
+          echo $GPG_KEY_ARMOR | base64 --decode > ./release.asc
+          gpg --quiet --output $GITHUB_WORKSPACE/release.gpg --dearmor ./release.asc
+          
+          SONATYPE_PASSWORD_ESCAPED=$(printf '%s\n' "$SONATYPE_PASSWORD" | sed -e 's/[\/&]/\\&/g')
+          sed -i -e "s,sonatypeUsername=,sonatypeUsername=$SONATYPE_USERNAME,g" gradle.properties
+          sed -i -e "s,sonatypePassword=,sonatypePassword=$SONATYPE_PASSWORD_ESCAPED,g" gradle.properties
+          sed -i -e "s,githubPassword=,githubPassword=$GITHUB_PASSWORD,g" gradle.properties
+          sed -i -e "s,signing.keyId=,signing.keyId=$GPG_KEY_ID,g" gradle.properties
+          sed -i -e "s,signing.password=,signing.password=$GPG_PASSWORD,g" gradle.properties
+          sed -i -e "s,signing.secretKeyRingFile=,signing.secretKeyRingFile=$GITHUB_WORKSPACE/release.gpg,g" gradle.properties
+        env:
+          GPG_KEY_ARMOR: "${{ secrets.SYNCED_GPG_KEY_ARMOR }}"
+          GPG_KEY_ID: ${{ secrets.SYNCED_GPG_KEY_ID }}
+          GPG_PASSWORD: ${{ secrets.SYNCED_GPG_KEY_PASSWORD }}
+          SONATYPE_PASSWORD: '${{ secrets.SYNCED_SONATYPE_PASSWORD }}'
+          SONATYPE_USERNAME: ${{ secrets.SYNCED_SONATYPE_USERNAME }}
+          GITHUB_PASSWORD: '${{ secrets.SYNCED_GITHUB_TOKEN_REPO }}'
+      - name: Semantic Release
+        uses: cycjimmy/semantic-release-action@v3
+        with:
+          extra_plugins: |
+            "@semantic-release/commit-analyzer"
+            "@semantic-release/release-notes-generator"
+            "@google/semantic-release-replace-plugin"
+            "@semantic-release/exec"
+            "@semantic-release/git"
+            "@semantic-release/github"
+        env:
+          GH_TOKEN: ${{ secrets.SYNCED_GITHUB_TOKEN_REPO }}

@@ -28,8 +28,10 @@ public class ElevationResult implements Serializable {
 
   /** Elevation in meters. */
   public double elevation;
+
   /** Location of the elevation data. */
   public LatLng location;
+
   /** Maximum distance between data points from which the elevation was interpolated, in meters. */
   public double resolution;
 

@@ -24,18 +24,9 @@ import com.google.maps.ImageResult;
 import com.google.maps.PendingResult;
 import com.google.maps.errors.ApiException;
 import com.google.maps.metrics.RequestMetrics;
-import com.google.maps.model.AddressComponentType;
-import com.google.maps.model.AddressType;
-import com.google.maps.model.Distance;
-import com.google.maps.model.Duration;
-import com.google.maps.model.Fare;
-import com.google.maps.model.LatLng;
-import com.google.maps.model.LocationType;
+import com.google.maps.model.*;
 import com.google.maps.model.OpeningHours.Period.OpenClose.DayOfWeek;
 import com.google.maps.model.PlaceDetails.Review.AspectRating.RatingType;
-import com.google.maps.model.PriceLevel;
-import com.google.maps.model.TravelMode;
-import com.google.maps.model.VehicleType;
 import java.io.IOException;
 import java.time.Instant;
 import java.time.LocalTime;
@@ -44,12 +35,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-import okhttp3.ResponseBody;
+import okhttp3.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -62,22 +48,20 @@ import org.slf4j.LoggerFactory;
  */
 public class OkHttpPendingResult<T, R extends ApiResponse<T>>
     implements PendingResult<T>, Callback {
+  private static final Logger LOG = LoggerFactory.getLogger(OkHttpPendingResult.class.getName());
+  private static final List<Integer> RETRY_ERROR_CODES = Arrays.asList(500, 503, 504);
   private final Request request;
   private final OkHttpClient client;
   private final Class<R> responseClass;
   private final FieldNamingPolicy fieldNamingPolicy;
   private final Integer maxRetries;
   private final RequestMetrics metrics;
-
   private Call call;
   private Callback<T> callback;
   private long errorTimeOut;
   private int retryCounter = 0;
   private long cumulativeSleepTime = 0;
   private ExceptionsAllowedToRetry exceptionsAllowedToRetry;
-
-  private static final Logger LOG = LoggerFactory.getLogger(OkHttpPendingResult.class.getName());
-  private static final List<Integer> RETRY_ERROR_CODES = Arrays.asList(500, 503, 504);
 
   /**
    * @param request HTTP request to execute.
@@ -114,25 +98,6 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
   public void setCallback(Callback<T> callback) {
     this.callback = callback;
     call.enqueue(this);
-  }
-
-  /** Preserve a request/response pair through an asynchronous callback. */
-  private class QueuedResponse {
-    private final OkHttpPendingResult<T, R> request;
-    private final Response response;
-    private final IOException e;
-
-    public QueuedResponse(OkHttpPendingResult<T, R> request, Response response) {
-      this.request = request;
-      this.response = response;
-      this.e = null;
-    }
-
-    public QueuedResponse(OkHttpPendingResult<T, R> request, IOException e) {
-      this.request = request;
-      this.response = null;
-      this.e = e;
-    }
   }
 
   @Override
@@ -340,5 +305,24 @@ public class OkHttpPendingResult<T, R extends ApiResponse<T>>
     return exceptionsAllowedToRetry.contains(exception.getClass())
         && cumulativeSleepTime < errorTimeOut
         && (maxRetries == null || retryCounter < maxRetries);
+  }
+
+  /** Preserve a request/response pair through an asynchronous callback. */
+  private class QueuedResponse {
+    private final OkHttpPendingResult<T, R> request;
+    private final Response response;
+    private final IOException e;
+
+    public QueuedResponse(OkHttpPendingResult<T, R> request, Response response) {
+      this.request = request;
+      this.response = response;
+      this.e = null;
+    }
+
+    public QueuedResponse(OkHttpPendingResult<T, R> request, IOException e) {
+      this.request = request;
+      this.response = null;
+      this.e = e;
+    }
   }
 }

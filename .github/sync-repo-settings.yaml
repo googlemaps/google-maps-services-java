@@ -19,26 +19,26 @@ squashMergeAllowed: true
 mergeCommitAllowed: false
 deleteBranchOnMerge: true
 branchProtectionRules:
-- pattern: main
-  isAdminEnforced: false
-  requiresStrictStatusChecks: false
-  requiredStatusCheckContexts:
-    - 'cla/google'
-    - 'test'
-    - 'snippet-bot check'
-    - 'header-check'
-  requiredApprovingReviewCount: 1
-  requiresCodeOwnerReviews: true
-- pattern: master
-  isAdminEnforced: false
-  requiresStrictStatusChecks: false
-  requiredStatusCheckContexts:
-    - 'cla/google'
-    - 'test'
-    - 'snippet-bot check'
-    - 'header-check'
-  requiredApprovingReviewCount: 1
-  requiresCodeOwnerReviews: true
+  - pattern: main
+    isAdminEnforced: false
+    requiresStrictStatusChecks: false
+    requiredStatusCheckContexts:
+      - 'cla/google'
+      - 'test'
+      - 'snippet-bot check'
+      - 'header-check'
+    requiredApprovingReviewCount: 1
+    requiresCodeOwnerReviews: true
+  - pattern: master
+    isAdminEnforced: false
+    requiresStrictStatusChecks: false
+    requiredStatusCheckContexts:
+      - 'cla/google'
+      - 'test'
+      - 'snippet-bot check'
+      - 'header-check'
+    requiredApprovingReviewCount: 1
+    requiresCodeOwnerReviews: true
 permissionRules:
   - team: admin
     permission: admin

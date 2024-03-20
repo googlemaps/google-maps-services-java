@@ -1,8 +1,6 @@
 package com.google.maps.android;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.mockStatic;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import com.google.maps.SmallTests;
 import org.junit.Assert;

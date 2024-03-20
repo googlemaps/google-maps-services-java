@@ -40,6 +40,7 @@ public class StaticMapsApiTest {
   private final int HEIGHT = 480;
   private final LatLng MELBOURNE = new LatLng(-37.8136, 144.9630);
   private final LatLng SYDNEY = new LatLng(-33.8688, 151.2093);
+
   /** This encoded path matches the exact [MELBOURNE, SYDNEY] points. */
   private final String MELBOURNE_TO_SYDNEY_ENCODED_POLYLINE = "~mxeFwaxsZ_naWk~be@";
 

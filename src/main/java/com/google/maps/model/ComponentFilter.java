@@ -43,16 +43,6 @@ public class ComponentFilter implements StringJoin.UrlValue {
     this.value = value;
   }
 
-  @Override
-  public String toString() {
-    return toUrlValue();
-  }
-
-  @Override
-  public String toUrlValue() {
-    return join(':', component, value);
-  }
-
   /**
    * Matches long or short name of a route.
    *
@@ -101,5 +91,15 @@ public class ComponentFilter implements StringJoin.UrlValue {
    */
   public static ComponentFilter country(String country) {
     return new ComponentFilter("country", country);
+  }
+
+  @Override
+  public String toString() {
+    return toUrlValue();
+  }
+
+  @Override
+  public String toUrlValue() {
+    return join(':', component, value);
   }
 }

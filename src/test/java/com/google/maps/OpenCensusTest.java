@@ -1,8 +1,6 @@
 package com.google.maps;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import com.google.maps.internal.ApiConfig;
 import com.google.maps.metrics.OpenCensusMetrics;

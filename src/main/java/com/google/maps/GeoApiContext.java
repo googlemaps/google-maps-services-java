@@ -18,11 +18,7 @@ package com.google.maps;
 import com.google.gson.FieldNamingPolicy;
 import com.google.maps.errors.ApiException;
 import com.google.maps.errors.OverQueryLimitException;
-import com.google.maps.internal.ApiConfig;
-import com.google.maps.internal.ApiResponse;
-import com.google.maps.internal.ExceptionsAllowedToRetry;
-import com.google.maps.internal.HttpHeaders;
-import com.google.maps.internal.UrlSigner;
+import com.google.maps.internal.*;
 import com.google.maps.metrics.NoOpRequestMetricsReporter;
 import com.google.maps.metrics.RequestMetrics;
 import com.google.maps.metrics.RequestMetricsReporter;
@@ -47,9 +43,9 @@ import java.util.concurrent.TimeUnit;
  *
  * <h3>GeoApiContexts should be shared</h3>
  *
- * GeoApiContext works best when you create a single GeoApiContext instance, or one per API key, and
- * reuse it for all your Google Geo API queries. This is because each GeoApiContext manages its own
- * thread pool, back-end client, and other resources.
+ * <p>GeoApiContext works best when you create a single GeoApiContext instance, or one per API key,
+ * and reuse it for all your Google Geo API queries. This is because each GeoApiContext manages its
+ * own thread pool, back-end client, and other resources.
  *
  * <p>When you are finished with a GeoApiContext object, you must call {@link #shutdown()} on it to
  * release its resources.
@@ -105,60 +101,6 @@ public class GeoApiContext implements Closeable {
   @Override
   public void close() throws IOException {
     shutdown();
-  }
-
-  /**
-   * The service provider interface that enables requests to be handled via switchable back ends.
-   * There are supplied implementations of this interface for both OkHttp and Google App Engine's
-   * URL Fetch API.
-   *
-   * @see OkHttpRequestHandler
-   * @see GaeRequestHandler
-   */
-  public interface RequestHandler {
-
-    <T, R extends ApiResponse<T>> PendingResult<T> handle(
-        String hostName,
-        String url,
-        Map<String, String> headers,
-        Class<R> clazz,
-        FieldNamingPolicy fieldNamingPolicy,
-        long errorTimeout,
-        Integer maxRetries,
-        ExceptionsAllowedToRetry exceptionsAllowedToRetry,
-        RequestMetrics metrics);
-
-    <T, R extends ApiResponse<T>> PendingResult<T> handlePost(
-        String hostName,
-        String url,
-        String payload,
-        Map<String, String> headers,
-        Class<R> clazz,
-        FieldNamingPolicy fieldNamingPolicy,
-        long errorTimeout,
-        Integer maxRetries,
-        ExceptionsAllowedToRetry exceptionsAllowedToRetry,
-        RequestMetrics metrics);
-
-    void shutdown();
-
-    /** Builder pattern for {@code GeoApiContext.RequestHandler}. */
-    interface Builder {
-
-      Builder connectTimeout(long timeout, TimeUnit unit);
-
-      Builder readTimeout(long timeout, TimeUnit unit);
-
-      Builder writeTimeout(long timeout, TimeUnit unit);
-
-      Builder queriesPerSecond(int maxQps);
-
-      Builder proxy(Proxy proxy);
-
-      Builder proxyAuthentication(String proxyUserName, String proxyUserPassword);
-
-      RequestHandler build();
-    }
   }
 
   /**
@@ -369,6 +311,60 @@ public class GeoApiContext implements Closeable {
     }
   }
 
+  /**
+   * The service provider interface that enables requests to be handled via switchable back ends.
+   * There are supplied implementations of this interface for both OkHttp and Google App Engine's
+   * URL Fetch API.
+   *
+   * @see OkHttpRequestHandler
+   * @see GaeRequestHandler
+   */
+  public interface RequestHandler {
+
+    <T, R extends ApiResponse<T>> PendingResult<T> handle(
+        String hostName,
+        String url,
+        Map<String, String> headers,
+        Class<R> clazz,
+        FieldNamingPolicy fieldNamingPolicy,
+        long errorTimeout,
+        Integer maxRetries,
+        ExceptionsAllowedToRetry exceptionsAllowedToRetry,
+        RequestMetrics metrics);
+
+    <T, R extends ApiResponse<T>> PendingResult<T> handlePost(
+        String hostName,
+        String url,
+        String payload,
+        Map<String, String> headers,
+        Class<R> clazz,
+        FieldNamingPolicy fieldNamingPolicy,
+        long errorTimeout,
+        Integer maxRetries,
+        ExceptionsAllowedToRetry exceptionsAllowedToRetry,
+        RequestMetrics metrics);
+
+    void shutdown();
+
+    /** Builder pattern for {@code GeoApiContext.RequestHandler}. */
+    interface Builder {
+
+      Builder connectTimeout(long timeout, TimeUnit unit);
+
+      Builder readTimeout(long timeout, TimeUnit unit);
+
+      Builder writeTimeout(long timeout, TimeUnit unit);
+
+      Builder queriesPerSecond(int maxQps);
+
+      Builder proxy(Proxy proxy);
+
+      Builder proxyAuthentication(String proxyUserName, String proxyUserPassword);
+
+      RequestHandler build();
+    }
+  }
+
   /** The Builder for {@code GeoApiContext}. */
   public static class Builder {
 
@@ -424,9 +420,9 @@ public class GeoApiContext implements Closeable {
      * Older name for {@link #baseUrlOverride(String)}. This was used back when testing was the only
      * use case foreseen for this.
      *
-     * @deprecated Use baseUrlOverride(String) instead.
      * @param baseUrl The URL to use, without a trailing slash, e.g. https://maps.googleapis.com
      * @return Returns this builder for call chaining.
+     * @deprecated Use baseUrlOverride(String) instead.
      */
     @Deprecated
     Builder baseUrlForTesting(String baseUrl) {
@@ -477,10 +473,10 @@ public class GeoApiContext implements Closeable {
     /**
      * Sets the default connect timeout for new connections. A value of 0 means no timeout.
      *
-     * @see java.net.URLConnection#setConnectTimeout(int)
      * @param timeout The connect timeout period in {@code unit}s.
      * @param unit The connect timeout time unit.
      * @return Returns this builder for call chaining.
+     * @see java.net.URLConnection#setConnectTimeout(int)
      */
     public Builder connectTimeout(long timeout, TimeUnit unit) {
       builder.connectTimeout(timeout, unit);
@@ -490,10 +486,10 @@ public class GeoApiContext implements Closeable {
     /**
      * Sets the default read timeout for new connections. A value of 0 means no timeout.
      *
-     * @see java.net.URLConnection#setReadTimeout(int)
      * @param timeout The read timeout period in {@code unit}s.
      * @param unit The read timeout time unit.
      * @return Returns this builder for call chaining.
+     * @see java.net.URLConnection#setReadTimeout(int)
      */
     public Builder readTimeout(long timeout, TimeUnit unit) {
       builder.readTimeout(timeout, unit);

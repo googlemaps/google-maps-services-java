@@ -13,7 +13,9 @@ public class PackageInfo {
     this.piInstance = piInstance;
   }
 
-  /** @return the signing signature for the app */
+  /**
+   * @return the signing signature for the app
+   */
   @Nullable
   public Object signingSignature() {
     try {

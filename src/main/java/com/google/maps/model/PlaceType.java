@@ -129,11 +129,11 @@ public enum PlaceType implements StringJoin.UrlValue {
   VETERINARY_CARE("veterinary_care"),
   ZOO("zoo");
 
+  private final String placeType;
+
   PlaceType(final String placeType) {
     this.placeType = placeType;
   }
-
-  private final String placeType;
 
   @Override
   public String toUrlValue() {

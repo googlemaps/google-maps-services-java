@@ -29,8 +29,10 @@ import java.io.Serializable;
 public class GeolocationResult implements Serializable {
 
   private static final long serialVersionUID = 1L;
+
   /** The user’s estimated latitude and longitude. */
   public LatLng location;
+
   /**
    * The accuracy of the estimated location, in meters. This represents the radius of a circle
    * around the returned {@code location}.

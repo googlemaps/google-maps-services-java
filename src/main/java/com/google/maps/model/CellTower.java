@@ -30,6 +30,42 @@ public class CellTower implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
+  /**
+   * Unique identifier of the cell (required). On GSM, this is the Cell ID (CID); CDMA networks use
+   * the Base Station ID (BID). WCDMA networks use the UTRAN/GERAN Cell Identity (UC-Id), which is a
+   * 32-bit value concatenating the Radio Network Controller (RNC) and Cell ID. Specifying only the
+   * 16-bit Cell ID value in WCDMA networks may return inaccurate results.
+   */
+  public Integer cellId = null;
+
+  /**
+   * The Location Area Code (LAC) for GSM and WCDMAnetworks or The Network ID (NID) for CDMA
+   * networks (required).
+   */
+  public Integer locationAreaCode = null;
+
+  /** The cell tower's Mobile Country Code (MCC) (required). */
+  public Integer mobileCountryCode = null;
+
+  /**
+   * The cell tower's Mobile Network Code (required). This is the MNC for GSM and WCDMA; CDMA uses
+   * the System ID (SID).
+   */
+  public Integer mobileNetworkCode = null;
+
+  /**
+   * The number of milliseconds since this cell was primary. If age is 0, the cellId represents a
+   * current measurement.
+   */
+  public Integer age = null;
+
+  /** Radio signal strength measured in dBm. */
+  public Integer signalStrength = null;
+
+  /* The following optional fields are not currently used, but may be included if values are available. */
+  /** The timing advance value. */
+  public Integer timingAdvance = null;
+
   public CellTower() {}
 
   // constructor only used by the builder class below
@@ -49,35 +85,6 @@ public class CellTower implements Serializable {
     this.signalStrength = _signalStrength;
     this.timingAdvance = _timingAdvance;
   }
-  /**
-   * Unique identifier of the cell (required). On GSM, this is the Cell ID (CID); CDMA networks use
-   * the Base Station ID (BID). WCDMA networks use the UTRAN/GERAN Cell Identity (UC-Id), which is a
-   * 32-bit value concatenating the Radio Network Controller (RNC) and Cell ID. Specifying only the
-   * 16-bit Cell ID value in WCDMA networks may return inaccurate results.
-   */
-  public Integer cellId = null;
-  /**
-   * The Location Area Code (LAC) for GSM and WCDMAnetworks or The Network ID (NID) for CDMA
-   * networks (required).
-   */
-  public Integer locationAreaCode = null;
-  /** The cell tower's Mobile Country Code (MCC) (required). */
-  public Integer mobileCountryCode = null;
-  /**
-   * The cell tower's Mobile Network Code (required). This is the MNC for GSM and WCDMA; CDMA uses
-   * the System ID (SID).
-   */
-  public Integer mobileNetworkCode = null;
-  /* The following optional fields are not currently used, but may be included if values are available. */
-  /**
-   * The number of milliseconds since this cell was primary. If age is 0, the cellId represents a
-   * current measurement.
-   */
-  public Integer age = null;
-  /** Radio signal strength measured in dBm. */
-  public Integer signalStrength = null;
-  /** The timing advance value. */
-  public Integer timingAdvance = null;
 
   @Override
   public String toString() {

@@ -17,22 +17,22 @@ name: Test
 
 on:
   repository_dispatch:
-    types: [test]
+    types: [ test ]
   pull_request:
-    branches: ['*']
+    branches: [ '*' ]
   push:
-    branches: ['*']
+    branches: [ '*' ]
 
 jobs:
   test:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-    - name: Run tests
-      run: ./gradlew check test jacocoTestReport --stacktrace
+      - name: Run tests
+        run: ./gradlew check test jacocoTestReport --stacktrace
 
-    - name: Send test results to CodeCov
-      run: bash <(curl -s https://codecov.io/bash)
+      - name: Send test results to CodeCov
+        run: bash <(curl -s https://codecov.io/bash)

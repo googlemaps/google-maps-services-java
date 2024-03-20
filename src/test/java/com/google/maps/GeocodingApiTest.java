@@ -18,18 +18,10 @@ package com.google.maps;
 import static com.google.maps.TestUtils.retrieveBody;
 import static com.google.maps.model.ComponentFilter.administrativeArea;
 import static com.google.maps.model.ComponentFilter.country;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import com.google.maps.internal.HttpHeaders;
-import com.google.maps.model.AddressComponentType;
-import com.google.maps.model.AddressType;
-import com.google.maps.model.ComponentFilter;
-import com.google.maps.model.GeocodingResult;
-import com.google.maps.model.LatLng;
-import com.google.maps.model.LocationType;
+import com.google.maps.model.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -874,7 +866,8 @@ public class GeocodingApiTest {
     try (LocalTestServerContext sc = new LocalTestServerContext(utfResultGeocodeResponse)) {
       LatLng location = new LatLng(46.8023388, 1.6551867);
       GeocodingResult[] results = GeocodingApi.newRequest(sc.context).latlng(location).await();
-      assertEquals("1 Rue Fernand Raynaud, 36000 Châteauroux, France", results[0].formattedAddress);
+      assertEquals(
+          "1 Rue Fernand Raynaud, 36000 Ch\u00E2teauroux, France", results[0].formattedAddress);
       sc.assertParamValue(location.toUrlValue(), "latlng");
     }
   }
@@ -998,7 +991,7 @@ public class GeocodingApiTest {
       assertNotNull(results);
       assertNotNull(Arrays.toString(results));
       assertEquals(
-          "Japan, 〒603-8361 Kyōto-fu, Kyōto-shi, Kita-ku, Kinkakujichō, １ 北山鹿苑寺金閣寺",
+          "Japan, \u3012603-8361 Ky\u014Dto-fu, Ky\u014Dto-shi, Kita-ku, Kinkakujich\u014D, \uFF11 \u5317\u5C71\u9E7F\u82D1\u5BFA\u91D1\u95A3\u5BFA",
           results[0].formattedAddress);
       assertEquals("Kita Ward", results[3].addressComponents[0].shortName);
       assertEquals("Kita Ward", results[3].addressComponents[0].longName);

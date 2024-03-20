@@ -29,19 +29,9 @@ import com.google.maps.PendingResult;
 import com.google.maps.errors.ApiException;
 import com.google.maps.errors.UnknownErrorException;
 import com.google.maps.metrics.RequestMetrics;
-import com.google.maps.model.AddressComponentType;
-import com.google.maps.model.AddressType;
-import com.google.maps.model.Distance;
-import com.google.maps.model.Duration;
-import com.google.maps.model.EncodedPolyline;
-import com.google.maps.model.Fare;
-import com.google.maps.model.LatLng;
-import com.google.maps.model.LocationType;
+import com.google.maps.model.*;
 import com.google.maps.model.OpeningHours.Period.OpenClose.DayOfWeek;
 import com.google.maps.model.PlaceDetails.Review.AspectRating.RatingType;
-import com.google.maps.model.PriceLevel;
-import com.google.maps.model.TravelMode;
-import com.google.maps.model.VehicleType;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.time.Instant;
@@ -62,6 +52,8 @@ import org.slf4j.LoggerFactory;
  * request.
  */
 public class GaePendingResult<T, R extends ApiResponse<T>> implements PendingResult<T> {
+  private static final Logger LOG = LoggerFactory.getLogger(GaePendingResult.class.getName());
+  private static final List<Integer> RETRY_ERROR_CODES = Arrays.asList(500, 503, 504);
   private final HTTPRequest request;
   private final URLFetchService client;
   private final Class<R> responseClass;
@@ -69,14 +61,10 @@ public class GaePendingResult<T, R extends ApiResponse<T>> implements PendingRes
   private final Integer maxRetries;
   private final ExceptionsAllowedToRetry exceptionsAllowedToRetry;
   private final RequestMetrics metrics;
-
   private long errorTimeOut;
   private int retryCounter = 0;
   private long cumulativeSleepTime = 0;
   private Future<HTTPResponse> call;
-
-  private static final Logger LOG = LoggerFactory.getLogger(GaePendingResult.class.getName());
-  private static final List<Integer> RETRY_ERROR_CODES = Arrays.asList(500, 503, 504);
 
   /**
    * @param request HTTP request to execute.

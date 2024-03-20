@@ -111,34 +111,6 @@ public class PlaceDetailsRequest
     }
   }
 
-  public static class Response implements ApiResponse<PlaceDetails> {
-    public String status;
-    public PlaceDetails result;
-    public String[] htmlAttributions;
-    public String errorMessage;
-
-    @Override
-    public boolean successful() {
-      return "OK".equals(status) || "ZERO_RESULTS".equals(status);
-    }
-
-    @Override
-    public PlaceDetails getResult() {
-      if (result != null) {
-        result.htmlAttributions = htmlAttributions;
-      }
-      return result;
-    }
-
-    @Override
-    public ApiException getError() {
-      if (successful()) {
-        return null;
-      }
-      return ApiException.from(status, errorMessage);
-    }
-  }
-
   public enum FieldMask implements UrlValue {
     ADDRESS_COMPONENT("address_component"),
     ADR_ADDRESS("adr_address"),
@@ -210,6 +182,34 @@ public class PlaceDetailsRequest
     @Override
     public String toUrlValue() {
       return field;
+    }
+  }
+
+  public static class Response implements ApiResponse<PlaceDetails> {
+    public String status;
+    public PlaceDetails result;
+    public String[] htmlAttributions;
+    public String errorMessage;
+
+    @Override
+    public boolean successful() {
+      return "OK".equals(status) || "ZERO_RESULTS".equals(status);
+    }
+
+    @Override
+    public PlaceDetails getResult() {
+      if (result != null) {
+        result.htmlAttributions = htmlAttributions;
+      }
+      return result;
+    }
+
+    @Override
+    public ApiException getError() {
+      if (successful()) {
+        return null;
+      }
+      return ApiException.from(status, errorMessage);
     }
   }
 }

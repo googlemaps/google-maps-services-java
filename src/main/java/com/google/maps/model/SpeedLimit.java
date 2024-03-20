@@ -21,6 +21,7 @@ import java.io.Serializable;
 public class SpeedLimit implements Serializable {
 
   private static final long serialVersionUID = 1L;
+
   /**
    * A unique identifier for a place. All placeIds returned by the Roads API will correspond to road
    * segments.
@@ -34,7 +35,9 @@ public class SpeedLimit implements Serializable {
    */
   public double speedLimit;
 
-  /** @return Returns the speed limit in miles per hour (MPH). */
+  /**
+   * @return Returns the speed limit in miles per hour (MPH).
+   */
   public long speedLimitMph() {
     return Math.round(speedLimit * 0.621371);
   }

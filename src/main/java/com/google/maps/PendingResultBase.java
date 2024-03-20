@@ -22,11 +22,7 @@ import com.google.maps.internal.HttpHeaders;
 import com.google.maps.internal.StringJoin;
 import com.google.maps.internal.StringJoin.UrlValue;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Base implementation for {@code PendingResult}.
@@ -169,9 +165,9 @@ abstract class PendingResultBase<T, A extends PendingResultBase<T, A, R>, R exte
    * list may not be exhaustive.
    *
    * @param language The language code, e.g. "en-AU" or "es".
+   * @return Returns the request for call chaining.
    * @see <a href="https://developers.google.com/maps/faq#languagesupport">List of supported domain
    *     languages</a>
-   * @return Returns the request for call chaining.
    */
   public final A language(String language) {
     return param("language", language);

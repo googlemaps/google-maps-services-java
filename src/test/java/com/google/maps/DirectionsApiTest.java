@@ -19,25 +19,17 @@ import static com.google.maps.TestUtils.retrieveBody;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
 
 import com.google.maps.DirectionsApi.RouteRestriction;
 import com.google.maps.errors.NotFoundException;
-import com.google.maps.model.AddressType;
-import com.google.maps.model.DirectionsResult;
-import com.google.maps.model.GeocodedWaypointStatus;
-import com.google.maps.model.LatLng;
-import com.google.maps.model.TrafficModel;
-import com.google.maps.model.TransitMode;
-import com.google.maps.model.TransitRoutingPreference;
-import com.google.maps.model.TravelMode;
-import com.google.maps.model.Unit;
+import com.google.maps.model.*;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.hamcrest.MatcherAssert;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
@@ -72,7 +64,7 @@ public class DirectionsApiTest {
       assertEquals(1, result.routes.length);
       assertNotNull(result.routes[0]);
       assertEquals("M31 and National Highway M31", result.routes[0].summary);
-      assertThat(result.routes[0].overviewPolyline.decodePath().size(), not(0));
+      MatcherAssert.assertThat(result.routes[0].overviewPolyline.decodePath().size(), not(0));
       assertEquals(1, result.routes[0].legs.length);
       assertEquals("Melbourne VIC, Australia", result.routes[0].legs[0].endAddress);
       assertEquals("Sydney NSW, Australia", result.routes[0].legs[0].startAddress);
@@ -198,6 +190,22 @@ public class DirectionsApiTest {
     }
   }
 
+  @Test
+  public void testNewYorkToNewJerseyByAlternateRoute() throws Exception {
+    try (LocalTestServerContext sc =
+        new LocalTestServerContext("{\"routes\": [{}],\"status\": \"OK\"}")) {
+      DirectionsApi.newRequest(sc.context)
+          .origin("New York")
+          .destination("New Jersey")
+          .alternatives(true)
+          .await();
+
+      sc.assertParamValue("New York", "origin");
+      sc.assertParamValue("New Jersey", "destination");
+      sc.assertParamValue("true", "alternatives");
+    }
+  }
+
   /**
    * Brooklyn to Queens by public transport.
    *
@@ -239,6 +247,22 @@ public class DirectionsApiTest {
       sc.assertParamValue("Boston,MA", "origin");
       sc.assertParamValue("Concord,MA", "destination");
       sc.assertParamValue("Charlestown,MA|Lexington,MA", "waypoints");
+    }
+  }
+
+  @Test
+  public void testBostonToNewJerseyViaNewHavenWithPlaceId() throws Exception {
+    try (LocalTestServerContext sc =
+        new LocalTestServerContext("{\"routes\": [{}],\"status\": \"OK\"}")) {
+      DirectionsApi.newRequest(sc.context)
+          .origin("Boston,US")
+          .destination("New Jersey,US")
+          .waypointsFromPlaceIds("G5c1s86wd2d") // This is a custom dummy place ID for New Haven,US
+          .await();
+
+      sc.assertParamValue("Boston,US", "origin");
+      sc.assertParamValue("New Jersey,US", "destination");
+      sc.assertParamValue("place_id:G5c1s86wd2d", "waypoints");
     }
   }
 

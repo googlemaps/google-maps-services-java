@@ -27,6 +27,7 @@ import java.util.Arrays;
 public class OpeningHours implements Serializable {
 
   private static final long serialVersionUID = 1L;
+
   /**
    * Whether the place is open at the current time.
    *
@@ -34,14 +35,71 @@ public class OpeningHours implements Serializable {
    */
   public Boolean openNow;
 
+  /** Opening periods covering seven days, starting from Sunday, in chronological order. */
+  public Period[] periods;
+
+  /** An array of up to seven entries corresponding to the next seven days. */
+  public SpecialDay[] specialDays;
+
+  /**
+   * A type string used to identify the type of secondary hours (for example, DRIVE_THROUGH,
+   * HAPPY_HOUR, DELIVERY, TAKEOUT, KITCHEN, BREAKFAST, LUNCH, DINNER, BRUNCH, PICKUP,
+   * SENIOR_HOURS). Set for secondary_opening_hours only.
+   */
+  public String type;
+
+  /**
+   * The formatted opening hours for each day of the week, as an array of seven strings; for
+   * example, {@code "Monday: 8:30 am – 5:30 pm"}.
+   */
+  public String[] weekdayText;
+
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder("[OpeningHours:");
+    if (openNow != null && openNow) {
+      sb.append(" openNow");
+    }
+    sb.append(" ").append(Arrays.toString(periods));
+    if (specialDays != null) {
+      sb.append(" (\"").append(specialDays).append("\")");
+    }
+    if (type != null) {
+      sb.append(" (\"").append(type).append("\")");
+    }
+    return sb.toString();
+  }
+
   /** The opening hours for a Place for a single day. */
   public static class Period implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    /** When the Place opens. */
+    public Period.OpenClose open;
+
+    /** When the Place closes. */
+    public Period.OpenClose close;
+
+    @Override
+    public String toString() {
+      return String.format("%s - %s", open, close);
+    }
+
     public static class OpenClose implements Serializable {
 
       private static final long serialVersionUID = 1L;
+
+      /** Day that this Open/Close pair is for. */
+      public Period.OpenClose.DayOfWeek day;
+
+      /** Time that this Open or Close happens at. */
+      public LocalTime time;
+
+      @Override
+      public String toString() {
+        return String.format("%s %s", day, time);
+      }
 
       public enum DayOfWeek {
         SUNDAY("Sunday"),
@@ -58,43 +116,18 @@ public class OpeningHours implements Serializable {
          */
         UNKNOWN("Unknown");
 
+        private final String name;
+
         private DayOfWeek(String name) {
           this.name = name;
         }
-
-        private final String name;
 
         public String getName() {
           return name;
         }
       }
-
-      /** Day that this Open/Close pair is for. */
-      public Period.OpenClose.DayOfWeek day;
-
-      /** Time that this Open or Close happens at. */
-      public LocalTime time;
-
-      @Override
-      public String toString() {
-        return String.format("%s %s", day, time);
-      }
-    }
-
-    /** When the Place opens. */
-    public Period.OpenClose open;
-
-    /** When the Place closes. */
-    public Period.OpenClose close;
-
-    @Override
-    public String toString() {
-      return String.format("%s - %s", open, close);
     }
   }
-
-  /** Opening periods covering seven days, starting from Sunday, in chronological order. */
-  public Period[] periods;
 
   /** An indicator of special hours for a Place for a single day. */
   public static class SpecialDay implements Serializable {
@@ -127,37 +160,5 @@ public class OpeningHours implements Serializable {
       sb.append("]");
       return sb.toString();
     }
-  }
-
-  /** An array of up to seven entries corresponding to the next seven days. */
-  public SpecialDay[] specialDays;
-
-  /**
-   * A type string used to identify the type of secondary hours (for example, DRIVE_THROUGH,
-   * HAPPY_HOUR, DELIVERY, TAKEOUT, KITCHEN, BREAKFAST, LUNCH, DINNER, BRUNCH, PICKUP,
-   * SENIOR_HOURS). Set for secondary_opening_hours only.
-   */
-  public String type;
-
-  /**
-   * The formatted opening hours for each day of the week, as an array of seven strings; for
-   * example, {@code "Monday: 8:30 am – 5:30 pm"}.
-   */
-  public String[] weekdayText;
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder("[OpeningHours:");
-    if (openNow != null && openNow) {
-      sb.append(" openNow");
-    }
-    sb.append(" ").append(Arrays.toString(periods));
-    if (specialDays != null) {
-      sb.append(" (\"").append(specialDays).append("\")");
-    }
-    if (type != null) {
-      sb.append(" (\"").append(type).append("\")");
-    }
-    return sb.toString();
   }
 }
