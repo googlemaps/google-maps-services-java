@@ -70,9 +70,7 @@ public class GeocodingApi {
     return request;
   }
 
-  /**
-   * Requests the street address of a {@code location}.
-   */
+  /** Requests the street address of a {@code location}. */
   public static class Response implements ApiResponse<GeocodingResponse> {
     public String status;
     public String errorMessage;

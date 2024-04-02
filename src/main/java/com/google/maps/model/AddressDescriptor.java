@@ -28,23 +28,18 @@ public class AddressDescriptor implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  /**
-   * Points of interest that provide a reference point for a location.
-  */
+  /** Points of interest that provide a reference point for a location. */
   public static class Landmark implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     /**
-     * The Place ID of the underlying establishment serving as the landmark.
-     * Can be used to resolve more information about the landmark through Place
-     * Details or Place Id Lookup. 
+     * The Place ID of the underlying establishment serving as the landmark. Can be used to resolve
+     * more information about the landmark through Place Details or Place Id Lookup.
      */
     public String placeId;
 
-    /**
-     * The best name for the landmark.
-     */
+    /** The best name for the landmark. */
     public LocalizedText displayName;
 
     /**
@@ -87,20 +82,19 @@ public class AddressDescriptor implements Serializable {
       }
     }
 
-    /**
-     * Defines the spatial relationship between the target location and the landmark.
-     */
+    /** Defines the spatial relationship between the target location and the landmark. */
     public SpatialRelationship spatialRelationship;
 
     /**
-     * The straight-line distance between the target location and one of the landmark's access points.
+     * The straight-line distance between the target location and one of the landmark's access
+     * points.
      */
     public float straightLineDistanceMeters;
 
     /**
-     * The travel distance along the road network between the target location's closest point on a 
-     * road, and the landmark's closest access point on a road. This can be unpopulated if the 
-     * landmark is disconnected from the road network the target is closest to OR if the target 
+     * The travel distance along the road network between the target location's closest point on a
+     * road, and the landmark's closest access point on a road. This can be unpopulated if the
+     * landmark is disconnected from the road network the target is closest to OR if the target
      * location was not actually considered to be on the road network.
      */
     public float travelDistanceMeters;
@@ -128,28 +122,23 @@ public class AddressDescriptor implements Serializable {
   }
 
   /**
-   * A ranked list of nearby landmarks. The most useful (recognizable and nearby) landmarks 
-   * are ranked first.
+   * A ranked list of nearby landmarks. The most useful (recognizable and nearby) landmarks are
+   * ranked first.
    */
   public Landmark landmarks[];
 
-  /**
-   * Precise regions that are useful at describing a location.
-   */
+  /** Precise regions that are useful at describing a location. */
   public static class Area implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     /**
-     * The Place ID of the underlying area feature. Can be used to
-     * resolve more information about the area through Place Details or
-     * Place Id Lookup. 
+     * The Place ID of the underlying area feature. Can be used to resolve more information about
+     * the area through Place Details or Place Id Lookup.
      */
     public String placeId;
 
-    /**
-     * The best name for the area.
-     */
+    /** The best name for the area. */
     public LocalizedText displayName;
 
     /** An enum representing the relationship in space between the area and the target. */
@@ -182,9 +171,7 @@ public class AddressDescriptor implements Serializable {
       }
     }
 
-    /**
-     * Defines the spatial relationship between the target location and the political region.
-     */
+    /** Defines the spatial relationship between the target location and the political region. */
     public Containment containment;
 
     @Override
@@ -205,8 +192,8 @@ public class AddressDescriptor implements Serializable {
   }
 
   /**
-   * A ranked list of containing or adjacent areas. The most useful (recognizable and precise) 
-   * areas are ranked first.
+   * A ranked list of containing or adjacent areas. The most useful (recognizable and precise) areas
+   * are ranked first.
    */
   public Area areas[];
 
