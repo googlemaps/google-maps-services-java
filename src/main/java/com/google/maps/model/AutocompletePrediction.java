@@ -59,6 +59,28 @@ public class AutocompletePrediction implements Serializable {
   public Integer distanceMeters;
 
   /**
+   * The locations of the entered term in the prediction result text, so that the term can be
+   * highlighted if desired.
+   */
+  public MatchedSubstring matchedSubstrings[];
+
+  /** A description of how the autocomplete query matched the returned result. */
+  public AutocompleteStructuredFormatting structuredFormatting;
+
+  @Override
+  public String toString() {
+    return String.format(
+        "[AutocompletePrediction: \"%s\", placeId=%s, types=%s, terms=%s, "
+            + "matchedSubstrings=%s, structuredFormatting=%s]",
+        description,
+        placeId,
+        Arrays.toString(types),
+        Arrays.toString(terms),
+        Arrays.toString(matchedSubstrings),
+        Objects.toString(structuredFormatting));
+  }
+
+  /**
    * Describes the location of the entered term in the prediction result text, so that the term can
    * be highlighted if desired.
    */
@@ -79,15 +101,6 @@ public class AutocompletePrediction implements Serializable {
   }
 
   /**
-   * The locations of the entered term in the prediction result text, so that the term can be
-   * highlighted if desired.
-   */
-  public MatchedSubstring matchedSubstrings[];
-
-  /** A description of how the autocomplete query matched the returned result. */
-  public AutocompleteStructuredFormatting structuredFormatting;
-
-  /**
    * Identifies each section of the returned description. (A section of the description is generally
    * terminated with a comma.)
    */
@@ -105,18 +118,5 @@ public class AutocompletePrediction implements Serializable {
     public String toString() {
       return String.format("(offset=%d, value=%s)", offset, value);
     }
-  }
-
-  @Override
-  public String toString() {
-    return String.format(
-        "[AutocompletePrediction: \"%s\", placeId=%s, types=%s, terms=%s, "
-            + "matchedSubstrings=%s, structuredFormatting=%s]",
-        description,
-        placeId,
-        Arrays.toString(types),
-        Arrays.toString(terms),
-        Arrays.toString(matchedSubstrings),
-        Objects.toString(structuredFormatting));
   }
 }

@@ -38,22 +38,6 @@ public class FindPlaceFromTextRequest
     super(context, API_CONFIG, Response.class);
   }
 
-  public enum InputType implements UrlValue {
-    TEXT_QUERY("textquery"),
-    PHONE_NUMBER("phonenumber");
-
-    private final String inputType;
-
-    InputType(final String inputType) {
-      this.inputType = inputType;
-    }
-
-    @Override
-    public String toUrlValue() {
-      return this.inputType;
-    }
-  }
-
   /**
    * The text input specifying which place to search for (for example, a name, address, or phone
    * number).
@@ -106,30 +90,19 @@ public class FindPlaceFromTextRequest
     }
   }
 
-  public static class Response implements ApiResponse<FindPlaceFromText> {
+  public enum InputType implements UrlValue {
+    TEXT_QUERY("textquery"),
+    PHONE_NUMBER("phonenumber");
 
-    public String status;
-    public PlacesSearchResult candidates[];
-    public String errorMessage;
+    private final String inputType;
 
-    @Override
-    public boolean successful() {
-      return "OK".equals(status) || "ZERO_RESULTS".equals(status);
+    InputType(final String inputType) {
+      this.inputType = inputType;
     }
 
     @Override
-    public FindPlaceFromText getResult() {
-      FindPlaceFromText result = new FindPlaceFromText();
-      result.candidates = candidates;
-      return result;
-    }
-
-    @Override
-    public ApiException getError() {
-      if (successful()) {
-        return null;
-      }
-      return ApiException.from(status, errorMessage);
+    public String toUrlValue() {
+      return this.inputType;
     }
   }
 
@@ -162,6 +135,33 @@ public class FindPlaceFromTextRequest
   }
 
   public interface LocationBias extends UrlValue {}
+
+  public static class Response implements ApiResponse<FindPlaceFromText> {
+
+    public String status;
+    public PlacesSearchResult candidates[];
+    public String errorMessage;
+
+    @Override
+    public boolean successful() {
+      return "OK".equals(status) || "ZERO_RESULTS".equals(status);
+    }
+
+    @Override
+    public FindPlaceFromText getResult() {
+      FindPlaceFromText result = new FindPlaceFromText();
+      result.candidates = candidates;
+      return result;
+    }
+
+    @Override
+    public ApiException getError() {
+      if (successful()) {
+        return null;
+      }
+      return ApiException.from(status, errorMessage);
+    }
+  }
 
   public static class LocationBiasIP implements LocationBias {
     @Override

@@ -18,11 +18,7 @@ package com.google.maps;
 import static com.google.maps.internal.StringJoin.join;
 
 import com.google.maps.internal.ApiConfig;
-import com.google.maps.model.AddressType;
-import com.google.maps.model.ComponentFilter;
-import com.google.maps.model.GeocodingResult;
-import com.google.maps.model.LatLng;
-import com.google.maps.model.LocationType;
+import com.google.maps.model.*;
 
 /** A request for the Geocoding API. */
 public class GeocodingApiRequest
@@ -37,21 +33,33 @@ public class GeocodingApiRequest
   @Override
   protected void validateRequest() {
     // Must not have both address and latlng.
-    if (params().containsKey("latlng")
-        && params().containsKey("address")
-        && params().containsKey("place_id")) {
-      throw new IllegalArgumentException(
-          "Request must contain only one of 'address', 'latlng' or 'place_id'.");
-    }
+    validateRequestHasOnlyOne("address", "latlng", "place_id");
 
     // Must contain at least one of place_id, address, latlng, and components;
-    if (!params().containsKey("latlng")
-        && !params().containsKey("address")
-        && !params().containsKey("components")
-        && !params().containsKey("place_id")) {
-      throw new IllegalArgumentException(
-          "Request must contain at least one of 'address', 'latlng', 'place_id' and 'components'.");
+    validateRequestHasAtLeastOne("address", "latlng", "place_id", "components");
+  }
+
+  private void validateRequestHasOnlyOne(String... keys) {
+    for (String key : keys) {
+      if (params().containsKey(key)) {
+        for (String otherKey : keys) {
+          if (!key.equals(otherKey) && params().containsKey(otherKey)) {
+            throw new IllegalArgumentException(
+                "Request must not contain both '" + key + "' and '" + otherKey + "'.");
+          }
+        }
+      }
     }
+  }
+
+  private void validateRequestHasAtLeastOne(String... keys) {
+    for (String key : keys) {
+      if (params().containsKey(key)) {
+        return;
+      }
+    }
+    throw new IllegalArgumentException(
+        "Request must contain at least one of '" + join("', '", keys) + "'.");
   }
 
   /**
@@ -62,6 +70,17 @@ public class GeocodingApiRequest
    */
   public GeocodingApiRequest address(String address) {
     return param("address", address);
+  }
+
+  /**
+   * Custom parameter. For advanced usage only.
+   *
+   * @param parameter The name of the custom parameter.
+   * @param value The value of the custom parameter.
+   * @return Returns the request for call chaining.
+   */
+  public GeocodingApiRequest custom(String parameter, String value) {
+    return param(parameter, value);
   }
 
   /**
@@ -113,21 +132,6 @@ public class GeocodingApiRequest
    */
   public GeocodingApiRequest region(String region) {
     return param("region", region);
-  }
-
-  /**
-   * Sets the component filters. Each component filter consists of a component:value pair and will
-   * fully restrict the results from the geocoder.
-   *
-   * <p>For more information see <a
-   * href="https://developers.google.com/maps/documentation/geocoding/intro?hl=pl#ComponentFiltering">
-   * Component Filtering</a>.
-   *
-   * @param filters Component filters to apply to the request.
-   * @return Returns this {@code GeocodingApiRequest} for call chaining.
-   */
-  public GeocodingApiRequest components(ComponentFilter... filters) {
-    return param("components", join('|', filters));
   }
 
   /**

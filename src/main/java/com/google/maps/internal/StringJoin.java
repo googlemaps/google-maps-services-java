@@ -20,15 +20,6 @@ import java.util.Objects;
 /** Utility class to join strings. */
 public class StringJoin {
 
-  /**
-   * Marker Interface to enable the URL Value enums in {@link com.google.maps.DirectionsApi} to be
-   * string joinable.
-   */
-  public interface UrlValue {
-    /** @return the object, represented as a URL value (not URL encoded). */
-    String toUrlValue();
-  }
-
   private StringJoin() {}
 
   public static String join(char delim, String... parts) {
@@ -69,5 +60,16 @@ public class StringJoin {
     }
 
     return join(delim, strings);
+  }
+
+  /**
+   * Marker Interface to enable the URL Value enums in {@link com.google.maps.DirectionsApi} to be
+   * string joinable.
+   */
+  public interface UrlValue {
+    /**
+     * @return the object, represented as a URL value (not URL encoded).
+     */
+    String toUrlValue();
   }
 }

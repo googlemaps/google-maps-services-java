@@ -46,52 +46,6 @@ public class PlaceAutocompleteRequest
     super(context, API_CONFIG, Response.class);
   }
 
-  /** SessionToken represents an Autocomplete session. */
-  public static final class SessionToken implements UrlValue, Serializable {
-
-    private static final long serialVersionUID = 1L;
-
-    private UUID uuid;
-
-    /** This constructor creates a new session. */
-    public SessionToken() {
-      uuid = UUID.randomUUID();
-    }
-
-    /**
-     * Construct a session that is a continuation of a previous session.
-     *
-     * @param uuid The universally unique identifier for this session.
-     */
-    public SessionToken(UUID uuid) {
-      this.uuid = uuid;
-    }
-
-    /**
-     * Construct a session that is a continuation of a previous session.
-     *
-     * @param token The unique String to be used as the seed for the session identifier.
-     */
-    public SessionToken(String token) {
-      this.uuid = UUID.nameUUIDFromBytes(token.getBytes());
-    }
-
-    /**
-     * Retrieve the universally unique identifier for this session. This enables you to recreate the
-     * session token in a later context.
-     *
-     * @return Returns the universally unique identifier for this session.
-     */
-    public UUID getUUID() {
-      return uuid;
-    }
-
-    @Override
-    public String toUrlValue() {
-      return uuid.toString();
-    }
-  }
-
   /**
    * Sets the SessionToken for this request. Using session token makes sure the autocomplete is
    * priced per session, instead of per keystroke.
@@ -208,6 +162,52 @@ public class PlaceAutocompleteRequest
   protected void validateRequest() {
     if (!params().containsKey("input")) {
       throw new IllegalArgumentException("Request must contain 'input'.");
+    }
+  }
+
+  /** SessionToken represents an Autocomplete session. */
+  public static final class SessionToken implements UrlValue, Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    private UUID uuid;
+
+    /** This constructor creates a new session. */
+    public SessionToken() {
+      uuid = UUID.randomUUID();
+    }
+
+    /**
+     * Construct a session that is a continuation of a previous session.
+     *
+     * @param uuid The universally unique identifier for this session.
+     */
+    public SessionToken(UUID uuid) {
+      this.uuid = uuid;
+    }
+
+    /**
+     * Construct a session that is a continuation of a previous session.
+     *
+     * @param token The unique String to be used as the seed for the session identifier.
+     */
+    public SessionToken(String token) {
+      this.uuid = UUID.nameUUIDFromBytes(token.getBytes());
+    }
+
+    /**
+     * Retrieve the universally unique identifier for this session. This enables you to recreate the
+     * session token in a later context.
+     *
+     * @return Returns the universally unique identifier for this session.
+     */
+    public UUID getUUID() {
+      return uuid;
+    }
+
+    @Override
+    public String toUrlValue() {
+      return uuid.toString();
     }
   }
 

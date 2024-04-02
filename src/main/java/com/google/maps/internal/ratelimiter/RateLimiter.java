@@ -31,9 +31,7 @@ package com.google.maps.internal.ratelimiter;
 import static com.google.maps.internal.ratelimiter.Preconditions.checkArgument;
 import static com.google.maps.internal.ratelimiter.Preconditions.checkNotNull;
 import static java.lang.Math.max;
-import static java.util.concurrent.TimeUnit.MICROSECONDS;
-import static java.util.concurrent.TimeUnit.NANOSECONDS;
-import static java.util.concurrent.TimeUnit.SECONDS;
+import static java.util.concurrent.TimeUnit.*;
 
 import com.google.maps.internal.ratelimiter.SmoothRateLimiter.SmoothBursty;
 import com.google.maps.internal.ratelimiter.SmoothRateLimiter.SmoothWarmingUp;
@@ -97,6 +95,19 @@ import java.util.concurrent.TimeUnit;
  * @since 13.0
  */
 public abstract class RateLimiter {
+  /**
+   * The underlying timer; used both to measure elapsed time and sleep as necessary. A separate
+   * object to facilitate testing.
+   */
+  private final SleepingStopwatch stopwatch;
+
+  // Can't be initialized in the constructor because mocks don't call the constructor.
+  private volatile Object mutexDoNotUseDirectly;
+
+  RateLimiter(SleepingStopwatch stopwatch) {
+    this.stopwatch = checkNotNull(stopwatch);
+  }
+
   /**
    * Creates a {@code RateLimiter} with the specified stable throughput, given as "permits per
    * second" (commonly referred to as <i>QPS</i>, queries per second).
@@ -176,14 +187,32 @@ public abstract class RateLimiter {
     return rateLimiter;
   }
 
-  /**
-   * The underlying timer; used both to measure elapsed time and sleep as necessary. A separate
-   * object to facilitate testing.
-   */
-  private final SleepingStopwatch stopwatch;
+  private static void checkPermits(int permits) {
+    checkArgument(permits > 0, "Requested permits (%s) must be positive", permits);
+  }
 
-  // Can't be initialized in the constructor because mocks don't call the constructor.
-  private volatile Object mutexDoNotUseDirectly;
+  /** Invokes {@code unit.}{@link TimeUnit#sleep(long) sleep(sleepFor)} uninterruptibly. */
+  private static void sleepUninterruptibly(long sleepFor, TimeUnit unit) {
+    boolean interrupted = false;
+    try {
+      long remainingNanos = unit.toNanos(sleepFor);
+      long end = System.nanoTime() + remainingNanos;
+      while (true) {
+        try {
+          // TimeUnit.sleep() treats negative timeouts just like zero.
+          NANOSECONDS.sleep(remainingNanos);
+          return;
+        } catch (InterruptedException e) {
+          interrupted = true;
+          remainingNanos = end - System.nanoTime();
+        }
+      }
+    } finally {
+      if (interrupted) {
+        Thread.currentThread().interrupt();
+      }
+    }
+  }
 
   private Object mutex() {
     Object mutex = mutexDoNotUseDirectly;
@@ -198,8 +227,18 @@ public abstract class RateLimiter {
     return mutex;
   }
 
-  RateLimiter(SleepingStopwatch stopwatch) {
-    this.stopwatch = checkNotNull(stopwatch);
+  abstract void doSetRate(double permitsPerSecond, long nowMicros);
+
+  /**
+   * Returns the stable rate (as {@code permits per seconds}) with which this {@code RateLimiter} is
+   * configured with. The initial value of this is the same as the {@code permitsPerSecond} argument
+   * passed in the factory method that produced this {@code RateLimiter}, and it is only updated
+   * after invocations to {@linkplain #setRate}.
+   */
+  public final double getRate() {
+    synchronized (mutex()) {
+      return doGetRate();
+    }
   }
 
   /**
@@ -225,20 +264,6 @@ public abstract class RateLimiter {
         permitsPerSecond > 0.0 && !Double.isNaN(permitsPerSecond), "rate must be positive");
     synchronized (mutex()) {
       doSetRate(permitsPerSecond, stopwatch.readMicros());
-    }
-  }
-
-  abstract void doSetRate(double permitsPerSecond, long nowMicros);
-
-  /**
-   * Returns the stable rate (as {@code permits per seconds}) with which this {@code RateLimiter} is
-   * configured with. The initial value of this is the same as the {@code permitsPerSecond} argument
-   * passed in the factory method that produced this {@code RateLimiter}, and it is only updated
-   * after invocations to {@linkplain #setRate}.
-   */
-  public final double getRate() {
-    synchronized (mutex()) {
-      return doGetRate();
     }
   }
 
@@ -395,13 +420,6 @@ public abstract class RateLimiter {
     /** Constructor for use by subclasses. */
     protected SleepingStopwatch() {}
 
-    /*
-     * We always hold the mutex when calling this.
-     */
-    protected abstract long readMicros();
-
-    protected abstract void sleepMicrosUninterruptibly(long micros);
-
     public static SleepingStopwatch createFromSystemTimer() {
       return new SleepingStopwatch() {
         final Stopwatch stopwatch = Stopwatch.createStarted();
@@ -419,32 +437,12 @@ public abstract class RateLimiter {
         }
       };
     }
-  }
 
-  private static void checkPermits(int permits) {
-    checkArgument(permits > 0, "Requested permits (%s) must be positive", permits);
-  }
+    /*
+     * We always hold the mutex when calling this.
+     */
+    protected abstract long readMicros();
 
-  /** Invokes {@code unit.}{@link TimeUnit#sleep(long) sleep(sleepFor)} uninterruptibly. */
-  private static void sleepUninterruptibly(long sleepFor, TimeUnit unit) {
-    boolean interrupted = false;
-    try {
-      long remainingNanos = unit.toNanos(sleepFor);
-      long end = System.nanoTime() + remainingNanos;
-      while (true) {
-        try {
-          // TimeUnit.sleep() treats negative timeouts just like zero.
-          NANOSECONDS.sleep(remainingNanos);
-          return;
-        } catch (InterruptedException e) {
-          interrupted = true;
-          remainingNanos = end - System.nanoTime();
-        }
-      }
-    } finally {
-      if (interrupted) {
-        Thread.currentThread().interrupt();
-      }
-    }
+    protected abstract void sleepMicrosUninterruptibly(long micros);
   }
 }
