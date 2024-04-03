@@ -1,5 +1,4 @@
-Java Client for Google Maps Services
-====================================
+# Java Client for Google Maps Services
 
 [![Build Status](https://travis-ci.org/googlemaps/google-maps-services-java.svg)](https://travis-ci.org/googlemaps/google-maps-services-java)
 [![Coverage Status](https://img.shields.io/coveralls/googlemaps/google-maps-services-java.svg)](https://coveralls.io/r/googlemaps/google-maps-services-java)
@@ -7,6 +6,16 @@ Java Client for Google Maps Services
 [![Javadocs](https://www.javadoc.io/badge/com.google.maps/google-maps-services.svg)](https://www.javadoc.io/doc/com.google.maps/google-maps-services)
 ![GitHub contributors](https://img.shields.io/github/contributors/googlemaps/google-maps-services-java?color=green)
 [![Stack Exchange questions](https://img.shields.io/stackexchange/stackoverflow/t/google-maps?color=orange&label=google-maps&logo=stackoverflow)](https://stackoverflow.com/questions/tagged/google-maps)
+
+> [!TIP]
+> If you are looking for Java client libraries for the following APIs, see the [Google Maps Platform APIs in the Cloud Client Libraries for Java](https://github.com/googleapis/google-cloud-java/tree/main) ([releases](https://github.com/googleapis/google-cloud-java/releases?q=maps&expanded=true)).
+>
+> - [Address Validation API](https://github.com/googleapis/google-cloud-java/tree/main/java-maps-addressvalidation)
+> - [Datasets API](https://github.com/googleapis/google-cloud-java/tree/main/java-maps-mapsplatformdatasets)
+> - [Places API (New)](https://github.com/googleapis/google-cloud-java/tree/main/java-maps-places)
+> - [Routes API](https://github.com/googleapis/google-cloud-java/tree/main/java-maps-routing)
+>
+> The new APIs will not be added to this client library.
 
 ## Description
 
@@ -26,18 +35,11 @@ APIs:
 - [Roads API]
 - [Time Zone API]
 
-Keep in mind that the same [terms and conditions](https://developers.google.com/maps/terms) apply
-to usage of the APIs when they're accessed through this library.
-
 ## Requirements
 
-- Java 1.8 or later.
-- A Google Maps API key.
-
-## API keys
-Each Google Maps Web Service request requires an API key. API keys are generated in the 'Credentials' page of the 'APIs & Services' tab of Google Cloud console.
-
-For even more information on getting started with Google Maps Platform and generating an API key, see [Get Started with Google Maps Platform](https://developers.google.com/maps/gmp-get-started) in our docs.
+- Java 1.8 or later
+- A [Cloud project](https://developers.google.com/maps/get-started) with the relevant API(s) enabled
+- An [API key](https://developers.google.com/maps/get-started) associated with the project above
 
 ### API Key Security
 
@@ -49,22 +51,15 @@ from version control, should also be put in place to further improve the securit
 You can refer to [API Security Best Practices](https://developers.google.com/maps/api-security-best-practices) to learn
 more about this topic.
 
-**NOTE**: If you are using this library on Android, ensure that your application
-is using at least version 0.19.0 of this library so that API key restrictions can be enforced.
+> [!NOTE]
+> If you are using this library on Android, ensure that your application is using at least version 0.19.0 of this library so that API key restrictions can be enforced.
 
 ## Installation
 
 You can add the library to your project via Maven or Gradle.
 
-**Note:** Since 0.1.18 there is now a dependency on [SLF4J](https://www.slf4j.org/). You need to add
-one of the adapter dependencies that makes sense for your logging setup. In the configuration
-samples below we are integrating
-[slf4j-nop](https://search.maven.org/#artifactdetails%7Corg.slf4j%7Cslf4j-nop%7C1.7.25%7Cjar),
-but there are others like
-[slf4j-log4j12](https://search.maven.org/#artifactdetails%7Corg.slf4j%7Cslf4j-log4j12%7C1.7.25%7Cjar)
-and [slf4j-jdk14](https://search.maven.org/#artifactdetails%7Corg.slf4j%7Cslf4j-jdk14%7C1.7.25%7Cjar)
-that will make more sense in other configurations. This will stop a warning message being emitted
-when you start using `google-maps-services`.
+> [!NOTE]
+> Since 0.1.18 there is now a dependency on [SLF4J](https://www.slf4j.org/). You need to add one of the adapter dependencies that makes sense for your logging setup. In the configuration samples below we are integrating [slf4j-nop](https://search.maven.org/#artifactdetails%7Corg.slf4j%7Cslf4j-nop%7C1.7.25%7Cjar), but there are others like [slf4j-log4j12](https://search.maven.org/#artifactdetails%7Corg.slf4j%7Cslf4j-log4j12%7C1.7.25%7Cjar) and [slf4j-jdk14](https://search.maven.org/#artifactdetails%7Corg.slf4j%7Cslf4j-jdk14%7C1.7.25%7Cjar) that will make more sense in other configurations. This will stop a warning message being emitted when you start using `google-maps-services`.
 
 ### Maven
 
@@ -97,11 +92,12 @@ dependencies {
 You can find the latest version at the top of this README or by [searching
 Maven Central](https://search.maven.org/#search%7Cga%7C1%7Ca%3A%22google-maps-services%22).
 
-## Developer Documentation
+## Documentation
+
 View the [javadoc](https://www.javadoc.io/doc/com.google.maps/google-maps-services).
 
 Additional documentation for the included web services is available at
-https://developers.google.com/maps/.
+<https://developers.google.com/maps/>.
 
 - [Directions API]
 - [Distance Matrix API]
@@ -220,34 +216,33 @@ req.setCallback(new PendingResult.Callback<GeocodingResult[]>() {
 
 ## Building the Project
 
-**Note:** You will need an API key or Client ID to run the tests.
+> [!NOTE]
+> You will need an API key to run the tests.
 
-    # Compile and package the project
-    $ ./gradlew jar
+```bash
+# Compile and package the project
+$ ./gradlew jar
 
-    # Run the tests
-    $ ./gradlew test
+# Run the tests
+$ ./gradlew test
+```
+
+## Terms
+
+This library uses Google Maps Platform services. Use of Google Maps Platform services through this library is subject to the [Google Maps Platform Terms of Service](https://cloud.google.com/maps-platform/terms).
+
+This library is not a Google Maps Platform Core Service. Therefore, the Google Maps Platform Terms of Service (e.g. Technical Support Services, Service Level Agreements, and Deprecation Policy) do not apply to the code in this library.
 
 ## Support
 
-This library is community supported. We're comfortable enough with the stability and features of
-the library that we want you to build real production applications on it. We will try to support,
-through Stack Overflow, the public and protected surface of the library and maintain backwards
-compatibility in the future; however, while the library is in version 0.x, we reserve the right
-to make backwards-incompatible changes. If we do remove some functionality (typically because
-better functionality exists or if the feature proved infeasible), our intention is to deprecate
-and give developers a year to update their code.
+This library is offered via an open source license. It is not governed by the [Google Maps Platform Support Technical Support Services Guidelines](https://cloud.google.com/maps-platform/terms/tssg), the [SLA](https://cloud.google.com/maps-platform/terms/sla), or the [Deprecation Policy](https://cloud.google.com/maps-platform/terms) (however, any Google Maps Platform services used by the library remain subject to the Google Maps Platform Terms of Service).
 
-If you find a bug, or have a feature suggestion, please [log an issue][issues]. If you'd like to
-contribute, please read [How to Contribute][contrib].
+This library adheres to [semantic versioning](https://semver.org/) to indicate when backwards-incompatible changes are introduced. Accordingly, while the library is in version 0.x, backwards-incompatible changes may be introduced at any time.
 
+If you find a bug, or have a feature request, please file an [issue][issues] on GitHub. If you would like to get answers to technical questions from other Google Maps Platform developers, ask through one of our [developer community channels](https://developers.google.com/maps/developer-community). If you'd like to contribute, please check the [Contributing guide][contrib] in the GitHub repository.
 
-[apikey]: https://developers.google.com/maps/faq#keysystem
-[clientid]: https://developers.google.com/maps/documentation/business/webservices/auth
 [contrib]: https://github.com/googlemaps/google-maps-services-java/blob/main/CONTRIB.md
 [Directions API]: https://developers.google.com/maps/documentation/directions
-[directions-key]: https://developers.google.com/maps/documentation/directions/get-api-key#key
-[directions-client-id]: https://developers.google.com/maps/documentation/directions/get-api-key#client-id
 [Distance Matrix API]: https://developers.google.com/maps/documentation/distancematrix
 [Elevation API]: https://developers.google.com/maps/documentation/elevation
 [Geocoding API]: https://developers.google.com/maps/documentation/geocoding
@@ -257,4 +252,3 @@ contribute, please read [How to Contribute][contrib].
 [Places API]: https://developers.google.com/places/web-service/
 [Time Zone API]: https://developers.google.com/maps/documentation/timezone
 [Roads API]: https://developers.google.com/maps/documentation/roads
-[Making the most of the Google Maps Web Service APIs]: https://maps-apis.googleblog.com/2016/09/making-most-of-google-maps-web-service.html
