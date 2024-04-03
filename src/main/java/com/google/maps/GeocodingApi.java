@@ -17,6 +17,8 @@ package com.google.maps;
 
 import com.google.maps.errors.ApiException;
 import com.google.maps.internal.ApiResponse;
+import com.google.maps.model.AddressDescriptor;
+import com.google.maps.model.GeocodingResponse;
 import com.google.maps.model.GeocodingResult;
 import com.google.maps.model.LatLng;
 
@@ -68,10 +70,12 @@ public class GeocodingApi {
     return request;
   }
 
-  public static class Response implements ApiResponse<GeocodingResult[]> {
+  /** Requests the street address of a {@code location}. */
+  public static class Response implements ApiResponse<GeocodingResponse> {
     public String status;
     public String errorMessage;
-    public GeocodingResult[] results;
+    public GeocodingResult results[];
+    public AddressDescriptor addressDescriptor;
 
     @Override
     public boolean successful() {
@@ -79,8 +83,11 @@ public class GeocodingApi {
     }
 
     @Override
-    public GeocodingResult[] getResult() {
-      return results;
+    public GeocodingResponse getResult() {
+      GeocodingResponse response = new GeocodingResponse();
+      response.results = results;
+      response.addressDescriptor = addressDescriptor;
+      return response;
     }
 
     @Override

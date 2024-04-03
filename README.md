@@ -116,10 +116,10 @@ This example uses the [Geocoding API] with an API key:
 GeoApiContext context = new GeoApiContext.Builder()
     .apiKey("AIza...")
     .build();
-GeocodingResult[] results =  GeocodingApi.geocode(context,
+GeocodingResponse response =  GeocodingApi.geocode(context,
     "1600 Amphitheatre Parkway Mountain View, CA 94043").await();
 Gson gson = new GsonBuilder().setPrettyPrinting().create();
-System.out.println(gson.toJson(results[0].addressComponents));
+System.out.println(gson.toJson(response.results[0].addressComponents));
 
 // Invoke .shutdown() after your application is done making requests
 context.shutdown();
@@ -201,9 +201,9 @@ try {
 req.awaitIgnoreError(); // No checked exception.
 
 // Async
-req.setCallback(new PendingResult.Callback<GeocodingResult[]>() {
+req.setCallback(new PendingResult.Callback<GeocodingResponse>() {
   @Override
-  public void onResult(GeocodingResult[] result) {
+  public void onResult(GeocodingResponse result) {
     // Handle successful request.
   }
 

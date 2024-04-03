@@ -25,8 +25,10 @@ import static org.junit.Assert.fail;
 
 import com.google.maps.internal.HttpHeaders;
 import com.google.maps.model.AddressComponentType;
+import com.google.maps.model.AddressDescriptor;
 import com.google.maps.model.AddressType;
 import com.google.maps.model.ComponentFilter;
+import com.google.maps.model.GeocodingResponse;
 import com.google.maps.model.GeocodingResult;
 import com.google.maps.model.LatLng;
 import com.google.maps.model.LocationType;
@@ -48,6 +50,7 @@ public class GeocodingApiTest {
   private static String simpleReverseGeocodeResponse;
   private static String utfResultGeocodeResponse;
   private static String reverseGeocodeWithKitaWardResponse;
+  private static String reverseGeocodeWithAddressDescriptorsResponse;
   private static String geocodeLibraryType;
 
   public GeocodingApiTest() {
@@ -57,13 +60,16 @@ public class GeocodingApiTest {
     simpleReverseGeocodeResponse = retrieveBody("SimpleReverseGeocodeResponse.json");
     utfResultGeocodeResponse = retrieveBody("UtfResultGeocodeResponse.json");
     reverseGeocodeWithKitaWardResponse = retrieveBody("ReverseGeocodeWithKitaWardResponse.json");
+    reverseGeocodeWithAddressDescriptorsResponse =
+        retrieveBody("ReverseGeocodeWithAddressDescriptorsResponse.json");
     geocodeLibraryType = retrieveBody("GeocodeLibraryType.json");
   }
 
   @Test
   public void testGeocodeLibraryType() throws Exception {
     try (LocalTestServerContext sc = new LocalTestServerContext(geocodeLibraryType)) {
-      GeocodingResult[] results = GeocodingApi.newRequest(sc.context).address("80 FR").await();
+      GeocodingResult[] results =
+          GeocodingApi.newRequest(sc.context).address("80 FR").await().results;
 
       assertEquals(1, results.length);
       assertEquals(3, results[0].types.length);
@@ -77,7 +83,8 @@ public class GeocodingApiTest {
   @Test
   public void testSimpleGeocode() throws Exception {
     try (LocalTestServerContext sc = new LocalTestServerContext(simpleGeocodeResponse)) {
-      GeocodingResult[] results = GeocodingApi.newRequest(sc.context).address("Sydney").await();
+      GeocodingResult[] results =
+          GeocodingApi.newRequest(sc.context).address("Sydney").await().results;
       checkSydneyResult(results);
       assertNotNull(Arrays.toString(results));
 
@@ -89,7 +96,8 @@ public class GeocodingApiTest {
   public void testPlaceGeocode() throws Exception {
     try (LocalTestServerContext sc = new LocalTestServerContext(placeGeocodeResponse)) {
       String placeID = "ChIJP3Sa8ziYEmsRUKgyFmh9AQM";
-      GeocodingResult[] results = GeocodingApi.newRequest(sc.context).place(placeID).await();
+      GeocodingResult[] results =
+          GeocodingApi.newRequest(sc.context).place(placeID).await().results;
       checkSydneyResult(results);
 
       sc.assertParamValue(placeID, "place_id");
@@ -121,7 +129,8 @@ public class GeocodingApiTest {
   public void testNoExperienceId() throws Exception {
     try (LocalTestServerContext sc = new LocalTestServerContext(placeGeocodeResponse)) {
       String placeID = "ChIJP3Sa8ziYEmsRUKgyFmh9AQM";
-      GeocodingResult[] results = GeocodingApi.newRequest(sc.context).place(placeID).await();
+      GeocodingResult[] results =
+          GeocodingApi.newRequest(sc.context).place(placeID).await().results;
       final Headers headers = sc.headers();
       final List<String> experienceIds = headers.values(HttpHeaders.X_GOOG_MAPS_EXPERIENCE_ID);
       assertEquals(0, experienceIds.size());
@@ -148,7 +157,11 @@ public class GeocodingApiTest {
       String expId = "experienceId";
       String expId2 = "experienceId2";
       GeocodingResult[] results =
-          GeocodingApi.newRequest(sc.context).experienceIds(expId, expId2).place(placeID).await();
+          GeocodingApi.newRequest(sc.context)
+              .experienceIds(expId, expId2)
+              .place(placeID)
+              .await()
+              .results;
       final Headers headers = sc.headers();
       final List<String> experienceIds = headers.values(HttpHeaders.X_GOOG_MAPS_EXPERIENCE_ID);
       assertEquals(1, experienceIds.size());
@@ -159,12 +172,12 @@ public class GeocodingApiTest {
   @Test
   public void testAsync() throws Exception {
     try (LocalTestServerContext sc = new LocalTestServerContext(simpleGeocodeResponse)) {
-      final List<GeocodingResult[]> resps = new ArrayList<>();
+      final List<GeocodingResponse> resps = new ArrayList<>();
 
-      PendingResult.Callback<GeocodingResult[]> callback =
-          new PendingResult.Callback<GeocodingResult[]>() {
+      PendingResult.Callback<GeocodingResponse> callback =
+          new PendingResult.Callback<GeocodingResponse>() {
             @Override
-            public void onResult(GeocodingResult[] result) {
+            public void onResult(GeocodingResponse result) {
               resps.add(result);
             }
 
@@ -179,7 +192,7 @@ public class GeocodingApiTest {
 
       assertFalse(resps.isEmpty());
       assertNotNull(resps.get(0));
-      checkSydneyResult(resps.get(0));
+      checkSydneyResult(resps.get(0).results);
 
       sc.assertParamValue("Sydney", "address");
     }
@@ -198,7 +211,8 @@ public class GeocodingApiTest {
   public void testReverseGeocode() throws Exception {
     try (LocalTestServerContext sc = new LocalTestServerContext(reverseGeocodeResponse)) {
       LatLng latlng = new LatLng(-33.8674869, 151.2069902);
-      GeocodingResult[] results = GeocodingApi.newRequest(sc.context).latlng(latlng).await();
+      GeocodingResult[] results =
+          GeocodingApi.newRequest(sc.context).latlng(latlng).await().results;
 
       assertEquals(10, results.length);
       assertEquals("343 George St, Sydney NSW 2000, Australia", results[0].formattedAddress);
@@ -300,7 +314,8 @@ public class GeocodingApiTest {
                 + "   \"status\" : \"OK\"\n"
                 + "}\n")) {
       String address = "1600 Amphitheatre Parkway, Mountain View, CA";
-      GeocodingResult[] results = GeocodingApi.newRequest(sc.context).address(address).await();
+      GeocodingResult[] results =
+          GeocodingApi.newRequest(sc.context).address(address).await().results;
 
       assertNotNull(results);
       assertNotNull(Arrays.toString(results));
@@ -389,7 +404,8 @@ public class GeocodingApiTest {
           GeocodingApi.newRequest(sc.context)
               .address("Winnetka")
               .bounds(new LatLng(34.172684, -118.604794), new LatLng(34.236144, -118.500938))
-              .await();
+              .await()
+              .results;
 
       assertNotNull(Arrays.toString(results));
 
@@ -471,7 +487,7 @@ public class GeocodingApiTest {
                 + "   \"status\" : \"OK\"\n"
                 + "}\n")) {
       GeocodingResult[] results =
-          GeocodingApi.newRequest(sc.context).address("Toledo").region("es").await();
+          GeocodingApi.newRequest(sc.context).address("Toledo").region("es").await().results;
 
       assertNotNull(Arrays.toString(results));
 
@@ -558,7 +574,8 @@ public class GeocodingApiTest {
           GeocodingApi.newRequest(sc.context)
               .address("santa cruz")
               .components(ComponentFilter.country("ES"))
-              .await();
+              .await()
+              .results;
 
       assertNotNull(Arrays.toString(results));
 
@@ -644,7 +661,8 @@ public class GeocodingApiTest {
           GeocodingApi.newRequest(sc.context)
               .address("Torun")
               .components(administrativeArea("TX"), country("US"))
-              .await();
+              .await()
+              .results;
 
       assertNotNull(Arrays.toString(results));
 
@@ -733,7 +751,8 @@ public class GeocodingApiTest {
                   ComponentFilter.route("Annegatan"),
                   ComponentFilter.administrativeArea("Helsinki"),
                   ComponentFilter.country("Finland"))
-              .await();
+              .await()
+              .results;
 
       assertNotNull(results);
       assertNotNull(Arrays.toString(results));
@@ -754,7 +773,8 @@ public class GeocodingApiTest {
   public void testSimpleReverseGeocode() throws Exception {
     try (LocalTestServerContext sc = new LocalTestServerContext(simpleReverseGeocodeResponse)) {
       LatLng latlng = new LatLng(40.714224, -73.961452);
-      GeocodingResult[] results = GeocodingApi.newRequest(sc.context).latlng(latlng).await();
+      GeocodingResult[] results =
+          GeocodingApi.newRequest(sc.context).latlng(latlng).await().results;
 
       assertNotNull(results);
       assertNotNull(Arrays.toString(results));
@@ -854,7 +874,8 @@ public class GeocodingApiTest {
               .latlng(latlng)
               .locationType(LocationType.ROOFTOP)
               .resultType(AddressType.STREET_ADDRESS)
-              .await();
+              .await()
+              .results;
 
       assertNotNull(results);
       assertNotNull(Arrays.toString(results));
@@ -873,7 +894,8 @@ public class GeocodingApiTest {
   public void testUtfResult() throws Exception {
     try (LocalTestServerContext sc = new LocalTestServerContext(utfResultGeocodeResponse)) {
       LatLng location = new LatLng(46.8023388, 1.6551867);
-      GeocodingResult[] results = GeocodingApi.newRequest(sc.context).latlng(location).await();
+      GeocodingResult[] results =
+          GeocodingApi.newRequest(sc.context).latlng(location).await().results;
       assertEquals("1 Rue Fernand Raynaud, 36000 Châteauroux, France", results[0].formattedAddress);
       sc.assertParamValue(location.toUrlValue(), "latlng");
     }
@@ -975,7 +997,8 @@ public class GeocodingApiTest {
           GeocodingApi.newRequest(sc.context)
               .address(address)
               .custom("new_forward_geocoder", "true")
-              .await();
+              .await()
+              .results;
 
       assertNotNull(Arrays.toString(results));
       assertEquals(
@@ -993,7 +1016,8 @@ public class GeocodingApiTest {
     try (LocalTestServerContext sc =
         new LocalTestServerContext(reverseGeocodeWithKitaWardResponse)) {
       LatLng location = new LatLng(35.03937, 135.729243);
-      GeocodingResult[] results = GeocodingApi.newRequest(sc.context).latlng(location).await();
+      GeocodingResult[] results =
+          GeocodingApi.newRequest(sc.context).latlng(location).await().results;
 
       assertNotNull(results);
       assertNotNull(Arrays.toString(results));
@@ -1087,7 +1111,8 @@ public class GeocodingApiTest {
                 + "   \"status\" : \"OK\"\n"
                 + "}\n")) {
       String address = "Noah's Marketplace, 21800 W Eleven Mile Rd";
-      GeocodingResult[] results = GeocodingApi.newRequest(sc.context).address(address).await();
+      GeocodingResult[] results =
+          GeocodingApi.newRequest(sc.context).address(address).await().results;
 
       assertNotNull(results);
       assertNotNull(Arrays.toString(results));
@@ -1172,7 +1197,8 @@ public class GeocodingApiTest {
                 + "   \"status\" : \"OK\"\n"
                 + "}\n")) {
       String address = "Ahavas Olam, 15620 W. Ten Mile Road";
-      GeocodingResult[] results = GeocodingApi.newRequest(sc.context).address(address).await();
+      GeocodingResult[] results =
+          GeocodingApi.newRequest(sc.context).address(address).await().results;
 
       assertNotNull(results);
       assertNotNull(Arrays.toString(results));
@@ -1182,6 +1208,61 @@ public class GeocodingApiTest {
       assertEquals(AddressType.SYNAGOGUE, results[0].types[3]);
 
       sc.assertParamValue(address, "address");
+    }
+  }
+
+  /** Testing Address Descriptors in reverse geocode. */
+  @Test
+  public void testReverseGeocodeWithAddressDescriptors() throws Exception {
+    try (LocalTestServerContext sc =
+        new LocalTestServerContext(reverseGeocodeWithAddressDescriptorsResponse)) {
+      LatLng location = new LatLng(35.03937, 135.729243);
+      GeocodingResponse response =
+          GeocodingApi.newRequest(sc.context)
+              .latlng(location)
+              .enableAddressDescriptor(true)
+              .await();
+      GeocodingResult[] results = response.results;
+
+      assertNotNull(results);
+      assertNotNull(Arrays.toString(results));
+      assertEquals(
+          "Japan, 〒603-8361 Kyōto-fu, Kyōto-shi, Kita-ku, Kinkakujichō, １ 北山鹿苑寺金閣寺",
+          results[0].formattedAddress);
+      assertEquals("Kita Ward", results[3].addressComponents[0].shortName);
+      assertEquals("Kita Ward", results[3].addressComponents[0].longName);
+      assertEquals(AddressComponentType.LOCALITY, results[3].addressComponents[0].types[0]);
+      assertEquals(AddressComponentType.POLITICAL, results[3].addressComponents[0].types[1]);
+      assertEquals(AddressComponentType.WARD, results[3].addressComponents[0].types[2]);
+
+      sc.assertParamValue(location.toUrlValue(), "latlng");
+
+      assertNotNull(response.addressDescriptor);
+      assertEquals("ChIJvUbrwCCoAWARX2QiHCsn5A4", response.addressDescriptor.landmarks[0].placeId);
+      assertEquals("Kinkaku-ji", response.addressDescriptor.landmarks[0].displayName.text);
+      assertEquals("en", response.addressDescriptor.landmarks[0].displayName.languageCode);
+      assertEquals(
+          0.009104185, response.addressDescriptor.landmarks[0].straightLineDistanceMeters, 0.0001);
+      assertEquals(0, response.addressDescriptor.landmarks[0].travelDistanceMeters, 0.0001);
+      assertEquals("establishment", response.addressDescriptor.landmarks[0].types[0]);
+      assertEquals(
+          AddressDescriptor.Area.Containment.WITHIN,
+          response.addressDescriptor.areas[0].containment);
+      assertEquals("ChIJe9XMwiCoAWARVrQpOsYqdBE", response.addressDescriptor.areas[0].placeId);
+      assertEquals("Kinkakujicho", response.addressDescriptor.areas[0].displayName.text);
+      assertEquals("en", response.addressDescriptor.areas[0].displayName.languageCode);
+      assertEquals(
+          AddressDescriptor.Area.Containment.WITHIN,
+          response.addressDescriptor.areas[0].containment);
+      assertEquals(
+          AddressDescriptor.Area.Containment.OUTSKIRTS,
+          response.addressDescriptor.areas[1].containment);
+      assertEquals(
+          AddressDescriptor.Landmark.SpatialRelationship.NEAR,
+          response.addressDescriptor.landmarks[0].spatialRelationship);
+      assertEquals(
+          AddressDescriptor.Landmark.SpatialRelationship.WITHIN,
+          response.addressDescriptor.landmarks[1].spatialRelationship);
     }
   }
 }
