@@ -1,3 +1,4 @@
+
 # Copyright 2020 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,7 +14,7 @@
 # limitations under the License.
 
 # A workflow that runs tests on every new pull request
-name: Run unit tests
+name: Test
 
 on:
   repository_dispatch:
@@ -29,7 +30,7 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v2
 
     - name: Run tests
       run: ./gradlew check test jacocoTestReport --stacktrace
