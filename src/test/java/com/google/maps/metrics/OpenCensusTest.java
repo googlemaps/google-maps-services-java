@@ -88,7 +88,7 @@ public class OpenCensusTest {
     server.enqueue(mockResponse(200, "OK", 300)); // succeed
 
     GeocodingResult[] result =
-        context.get(new ApiConfig("/path"), GeocodingApi.Response.class, "k", "v").await();
+        context.get(new ApiConfig("/path"), GeocodingApi.Response.class, "k", "v").await().results;
     assertEquals(1, result.length);
 
     List<TagValue> tags =
