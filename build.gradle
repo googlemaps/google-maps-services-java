@@ -14,8 +14,7 @@ buildscript {
 plugins {
     id 'com.github.ben-manes.versions' version '0.51.0'
     id 'com.github.sherter.google-java-format' version '0.8'
-    id "de.marcphilipp.nexus-publish" version "0.4.0"
-    id 'io.codearte.nexus-staging' version '0.30.0'
+    id "io.github.gradle-nexus.publish-plugin" version "1.3.0"
 }
 
 apply plugin: 'java'
@@ -104,8 +103,8 @@ jacoco {
 
 jacocoTestReport {
     reports {
-        xml.enabled = true // coveralls plugin depends on xml format report
-        html.enabled = true
+        xml.required = true // coveralls plugin depends on xml format report
+        html.required = true
     }
 }
 
@@ -184,6 +183,7 @@ publishing {
 }
 
 nexusPublishing {
+    packageGroup = "com.google.maps"
     repositories {
         sonatype {
             username = sonatypeUsername
@@ -191,12 +191,6 @@ nexusPublishing {
             clientTimeout = Duration.ofSeconds(120)
         }
     }
-}
-
-nexusStaging {
-    username = sonatypeUsername
-    password = sonatypePassword
-    packageGroup = "com.google.maps"
 }
 
 signing {
