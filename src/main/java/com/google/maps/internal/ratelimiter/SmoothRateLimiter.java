@@ -203,6 +203,7 @@ abstract class SmoothRateLimiter extends RateLimiter {
    *       <blockquote>
    *       thresholdPermits = 0.5 * warmupPeriod / stableInterval
    *       </blockquote>
+   *
    *   <li>The time to go from maxPermits to thresholdPermits is equal to the integral of the
    *       function between thresholdPermits and maxPermits. This is the area of the pictured
    *       trapezoid, and it is equal to 0.5 * (stableInterval + coldInterval) * (maxPermits -
@@ -210,6 +211,7 @@ abstract class SmoothRateLimiter extends RateLimiter {
    *       <blockquote>
    *       maxPermits = thresholdPermits + 2 * warmupPeriod / (stableInterval + coldInterval)
    *       </blockquote>
+   *
    * </ul>
    */
   static final class SmoothWarmingUp extends SmoothRateLimiter {

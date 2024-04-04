@@ -92,7 +92,7 @@ public class OkHttpRequestHandler implements GeoApiContext.RequestHandler {
       Integer maxRetries,
       ExceptionsAllowedToRetry exceptionsAllowedToRetry,
       RequestMetrics metrics) {
-    RequestBody body = RequestBody.create(JSON, payload);
+    RequestBody body = RequestBody.create(payload, JSON);
     Request.Builder builder = new Request.Builder().post(body);
     for (Entry<String, String> entry : headers.entrySet()) {
       builder = builder.header(entry.getKey(), entry.getValue());
