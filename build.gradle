@@ -40,7 +40,7 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
 
 task sourcesJar(type: Jar) {
     from sourceSets.main.allSource
-    archiveClassifierlassifier = 'sources'
+    archiveClassifier = 'sources'
 }
 
 artifacts {
