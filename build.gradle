@@ -33,6 +33,10 @@ repositories {
     mavenCentral()
 }
 
+googleJavaFormat {
+    toolVersion = "1.1"
+}
+
 task javadocJar(type: Jar, dependsOn: javadoc) {
     archiveClassifier = 'javadoc'
     from 'build/docs/javadoc'
