@@ -218,6 +218,8 @@ public class EnumsTest {
     m.put(AddressComponentType.ADMINISTRATIVE_AREA_LEVEL_3, "administrative_area_level_3");
     m.put(AddressComponentType.ADMINISTRATIVE_AREA_LEVEL_4, "administrative_area_level_4");
     m.put(AddressComponentType.ADMINISTRATIVE_AREA_LEVEL_5, "administrative_area_level_5");
+    m.put(AddressComponentType.ADMINISTRATIVE_AREA_LEVEL_6, "administrative_area_level_6");
+    m.put(AddressComponentType.ADMINISTRATIVE_AREA_LEVEL_7, "administrative_area_level_7");
     m.put(AddressComponentType.COLLOQUIAL_AREA, "colloquial_area");
     m.put(AddressComponentType.LOCALITY, "locality");
     m.put(AddressComponentType.WARD, "ward");
