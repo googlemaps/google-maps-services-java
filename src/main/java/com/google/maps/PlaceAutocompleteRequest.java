@@ -26,6 +26,8 @@ import com.google.maps.model.AutocompletePrediction;
 import com.google.maps.model.ComponentFilter;
 import com.google.maps.model.LatLng;
 import com.google.maps.model.PlaceAutocompleteType;
+import com.google.maps.model.PlaceType;
+
 import java.io.Serializable;
 import java.util.UUID;
 
@@ -179,6 +181,16 @@ public class PlaceAutocompleteRequest
    */
   public PlaceAutocompleteRequest types(PlaceAutocompleteType types) {
     return param("types", types);
+  }
+  
+  /**
+   * Restricts the results to places matching the specified types
+   *
+   * @param types The {@link PlaceType}s to restrict results to.
+   * @return Returns this {@code PlaceAutocompleteRequest} for call chaining.
+   */
+  public PlaceAutocompleteRequest types(PlaceType... types) {
+    return param("types", join('|',  types));
   }
 
   /**
