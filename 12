@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<html lang="en">
+ <head>
+ <meta charset="utf-8" />
+ <title>putMarker</title>
+ <script type = "text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyCeTBT4TeBN1u-dtfQ0E5oDLodtHAA21ck&libraries=geometry&sensor=true"></script>
+</head>
+<body onload="createMap()">
+<script type = "text/javascript">
+
+function createMap(){
+ var position = new google.maps.LatLng(38.348484, 140.839695);
+ var options = {
+ zoom: 15,
+ center: position,
+ mapTypeId: google.maps.MapTypeId.ROADMAP
+ }
+map = new google.maps.Map(document.getElementById('map'), options);
+var marker = new google.maps.Marker({
+ position: position,
+ map: map
+ })
+ }
+ </script>
+ <div id = "map" style = "width: 640px; height: 480px;">
+ </div>
+ </body>
+</html>
