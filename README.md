@@ -1,11 +1,17 @@
-# Java Client for Google Maps Services
+[![Maven Central](https://img.shields.io/maven-central/v/com.google.maps/google-maps-services)](https://maven-badges.herokuapp.com/maven-central/com.google.maps/google-maps-services)
+![Release](https://github.com/googlemaps/google-maps-services-java/workflows/Release/badge.svg)
+![Stable](https://img.shields.io/badge/stability-stable-green)
+[![Tests/Build](https://github.com/googlemaps/google-maps-services-java/actions/workflows/test.yml/badge.svg)](https://github.com/googlemaps/google-maps-services-java/actions/workflows/test.yml)
 
-[![Build Status](https://travis-ci.org/googlemaps/google-maps-services-java.svg)](https://travis-ci.org/googlemaps/google-maps-services-java)
-[![Coverage Status](https://img.shields.io/coveralls/googlemaps/google-maps-services-java.svg)](https://coveralls.io/r/googlemaps/google-maps-services-java)
-[![Maven Central Version](http://img.shields.io/maven-central/v/com.google.maps/google-maps-services.svg)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.google.maps%22%20a%3A%22google-maps-services%22)
-[![Javadocs](https://www.javadoc.io/badge/com.google.maps/google-maps-services.svg)](https://www.javadoc.io/doc/com.google.maps/google-maps-services)
-![GitHub contributors](https://img.shields.io/github/contributors/googlemaps/google-maps-services-java?color=green)
-[![Stack Exchange questions](https://img.shields.io/stackexchange/stackoverflow/t/google-maps?color=orange&label=google-maps&logo=stackoverflow)](https://stackoverflow.com/questions/tagged/google-maps)
+[![codecov](https://img.shields.io/coveralls/googlemaps/google-maps-services-java.svg)](https://coveralls.io/r/googlemaps/google-maps-services-java)
+[![Javadocs](https://www.javadoc.io/badge/com.google.maps/google-maps-services.svg)][documentation]
+
+![Contributors](https://img.shields.io/github/contributors/googlemaps/google-maps-services-java?color=green)
+[![License](https://img.shields.io/github/license/googlemaps/google-maps-services-java?color=blue)][license]
+[![StackOverflow](https://img.shields.io/stackexchange/stackoverflow/t/google-maps?color=orange&label=google-maps&logo=stackoverflow)](https://stackoverflow.com/questions/tagged/google-maps)
+[![Discord](https://img.shields.io/discord/676948200904589322?color=6A7EC2&logo=discord&logoColor=ffffff)][Discord server]
+
+# Java Client for Google Maps Services
 
 > [!TIP]
 > If you are looking for Java client libraries for the following APIs, see the [Google Maps Platform APIs in the Cloud Client Libraries for Java](https://github.com/googleapis/google-cloud-java/tree/main) ([releases](https://github.com/googleapis/google-cloud-java/releases?q=maps&expanded=true)).
@@ -19,37 +25,32 @@
 
 ## Description
 
-Use Java? Want to [geocode][Geocoding API] something? Looking for [directions][Directions API]?
-Maybe [matrices of directions][Distance Matrix API]? This library brings the [Google Maps API Web
-Services] to your server-side Java application.
+Use Java? Want to [geocode][Geocoding API] something? Looking for [directions][Directions API]? This client library brings the following [Google Maps Web Services APIs] to your server-side Java applications:
 
-The Java Client for Google Maps Services is a Java Client library for the following Google Maps
-APIs:
-
+- [Maps Static API]
 - [Directions API]
 - [Distance Matrix API]
 - [Elevation API]
 - [Geocoding API]
-- [Maps Static API]
 - [Places API]
 - [Roads API]
 - [Time Zone API]
 
 ## Requirements
 
-- Java 1.8 or later
-- A [Cloud project](https://developers.google.com/maps/get-started) with the relevant API(s) enabled
-- An [API key](https://developers.google.com/maps/get-started) associated with the project above
+- [Sign up with Google Maps Platform]
+- A Google Maps Platform [project] with the desired API(s) from the above list enabled
+- An [API key] associated with the project above
+- Java 1.8+
 
-### API Key Security
+## API Key Security
 
-The Java Client for Google Maps Services is designed for use in both server and Android applications.
-In either case, it is important to add [API key restrictions](https://developers.google.com/maps/api-security-best-practices?hl=it)
-to improve the security of your API key. Additional security measures, such as hiding your key
+This client library is designed for use in both server and Android applications.
+
+In either case, it is important to add [API key restrictions](https://developers.google.com/maps/api-security-best-practices#restricting-api-keys) to improve its security. Additional security measures, such as hiding your key
 from version control, should also be put in place to further improve the security of your API key.
 
-You can refer to [API Security Best Practices](https://developers.google.com/maps/api-security-best-practices) to learn
-more about this topic.
+Check out the [API Security Best Practices](https://developers.google.com/maps/api-security-best-practices) guide to learn more.
 
 > [!NOTE]
 > If you are using this library on Android, ensure that your application is using at least version 0.19.0 of this library so that API key restrictions can be enforced.
@@ -94,11 +95,7 @@ Maven Central](https://search.maven.org/#search%7Cga%7C1%7Ca%3A%22google-maps-se
 
 ## Documentation
 
-View the [javadoc](https://www.javadoc.io/doc/com.google.maps/google-maps-services).
-
-Additional documentation for the included web services is available at
-<https://developers.google.com/maps/>.
-
+You can find the reference [documentation] at JavaDoc, and each API also has its own set of documentation:
 - [Directions API]
 - [Distance Matrix API]
 - [Elevation API]
@@ -110,11 +107,11 @@ Additional documentation for the included web services is available at
 
 ## Usage
 
-This example uses the [Geocoding API] with an API key:
+This example uses the [Geocoding API]:
 
 ```java
 GeoApiContext context = new GeoApiContext.Builder()
-    .apiKey("AIza...")
+    .apiKey("YOUR_API_KEY")
     .build();
 GeocodingResponse response =  GeocodingApi.geocode(context,
     "1600 Amphitheatre Parkway Mountain View, CA 94043").await();
@@ -138,7 +135,7 @@ For more usage examples, check out [the tests](src/test/java/com/google/maps).
 
 ### Google App Engine Support
 
-To use Google App Engine with this client library add the latest [App Engine dependency](https://mvnrepository.com/artifact/com.google.appengine/appengine-api-1.0-sdk)
+To use [Google App Engine](https://cloud.google.com/appengine) with this client library add the latest [App Engine dependency](https://mvnrepository.com/artifact/com.google.appengine/appengine-api-1.0-sdk)
 to your `build.gradle` file:
 
 ```groovy
@@ -147,17 +144,17 @@ dependencies {
 }
 ```
 
-You can then use this client library on Google App Engine with the following code change:
+You can then use this client library on App Engine with the following code change:
 
 ```java
 new GeoApiContext.Builder(new GaeRequestHandler.Builder())
-    .apiKey("AIza...")
+    .apiKey("YOUR_API_KEY")
     .build();
 ```
 
 The `new GaeRequestHandler.Builder()` argument to `GeoApiContext.Builder`'s `requestHandlerBuilder`
 tells the Java Client for Google Maps Services to utilise the appropriate calls for making HTTP
-requests from Google App Engine, instead of the default [OkHttp3](https://square.github.io/okhttp/)
+requests from App Engine, instead of the default [OkHttp3](https://square.github.io/okhttp/)
 based strategy.
 
 ### Rate Limiting
@@ -227,28 +224,52 @@ $ ./gradlew jar
 $ ./gradlew test
 ```
 
-## Terms
+## Contributing
 
-This library uses Google Maps Platform services. Use of Google Maps Platform services through this library is subject to the [Google Maps Platform Terms of Service](https://cloud.google.com/maps-platform/terms).
+Contributions are welcome and encouraged! If you'd like to contribute, send us a [pull request] and refer to our [code of conduct] and [contributing guide].
+
+## Terms of Service
+
+This library uses Google Maps Platform services. Use of Google Maps Platform services through this library is subject to the Google Maps Platform [Terms of Service].
 
 This library is not a Google Maps Platform Core Service. Therefore, the Google Maps Platform Terms of Service (e.g. Technical Support Services, Service Level Agreements, and Deprecation Policy) do not apply to the code in this library.
 
 ## Support
 
-This library is offered via an open source license. It is not governed by the [Google Maps Platform Support Technical Support Services Guidelines](https://cloud.google.com/maps-platform/terms/tssg), the [SLA](https://cloud.google.com/maps-platform/terms/sla), or the [Deprecation Policy](https://cloud.google.com/maps-platform/terms) (however, any Google Maps Platform services used by the library remain subject to the Google Maps Platform Terms of Service).
+This library is offered via an open source [license]. It is not governed by the Google Maps Platform Support [Technical Support Services Guidelines, the SLA, or the [Deprecation Policy]. However, any Google Maps Platform services used by the library remain subject to the Google Maps Platform Terms of Service.
 
-This library adheres to [semantic versioning](https://semver.org/) to indicate when backwards-incompatible changes are introduced. Accordingly, while the library is in version 0.x, backwards-incompatible changes may be introduced at any time.
+This library adheres to [semantic versioning] to indicate when backwards-incompatible changes are introduced. Accordingly, while the library is in version 0.x, backwards-incompatible changes may be introduced at any time.
 
-If you find a bug, or have a feature request, please file an [issue][issues] on GitHub. If you would like to get answers to technical questions from other Google Maps Platform developers, ask through one of our [developer community channels](https://developers.google.com/maps/developer-community). If you'd like to contribute, please check the [Contributing guide][contrib] in the GitHub repository.
+If you find a bug, or have a feature request, please [file an issue] on GitHub. If you would like to get answers to technical questions from other Google Maps Platform developers, ask through one of our [developer community channels]. If you'd like to contribute, please check the [contributing guide].
 
-[contrib]: https://github.com/googlemaps/google-maps-services-java/blob/main/CONTRIB.md
+You can also discuss this library on our [Discord server].
+
+[Google Maps Platform Web Services APIs]: https://developers.google.com/maps/apis-by-platform#web_service_apis
+[Maps Static API]: https://developers.google.com/maps/documentation/maps-static
 [Directions API]: https://developers.google.com/maps/documentation/directions
 [Distance Matrix API]: https://developers.google.com/maps/documentation/distancematrix
 [Elevation API]: https://developers.google.com/maps/documentation/elevation
 [Geocoding API]: https://developers.google.com/maps/documentation/geocoding
-[Google Maps API Web Services]: https://developers.google.com/maps/apis-by-platform#web_service_apis
-[issues]: https://github.com/googlemaps/google-maps-services-java/issues
-[Maps Static API]: https://developers.google.com/maps/documentation/maps-static/
-[Places API]: https://developers.google.com/places/web-service/
-[Time Zone API]: https://developers.google.com/maps/documentation/timezone
+[Places API]: https://developers.google.com/places/web-service
 [Roads API]: https://developers.google.com/maps/documentation/roads
+[Time Zone API]: https://developers.google.com/maps/documentation/timezone
+
+[API key]: https://developers.google.com/maps/documentation/javascript/get-api-key
+[Maven Central]: https://central.sonatype.com/artifact/com.google.maps/google-maps-services
+[documentation]: https://javadoc.io/doc/com.google.maps/google-maps-services
+
+[code of conduct]: ?tab=coc-ov-file#readme
+[contributing guide]: CONTRIB.md
+[Deprecation Policy]: https://cloud.google.com/maps-platform/terms
+[developer community channels]: https://developers.google.com/maps/developer-community
+[Discord server]: https://discord.gg/hYsWbmk
+[file an issue]: https://github.com/googlemaps/google-maps-services-java/issues/new/choose
+[license]: LICENSE
+[pull request]: https://github.com/googlemaps/google-maps-services-java/compare
+[project]: https://developers.google.com/maps/documentation/javascript/cloud-setup#enabling-apis
+[semantic versioning]: https://semver.org
+[Sign up with Google Maps Platform]: https://console.cloud.google.com/google/maps-apis/start
+[similar inquiry]: https://github.com/googlemaps/google-maps-services-java/issues
+[SLA]: https://cloud.google.com/maps-platform/terms/sla
+[Technical Support Services Guidelines]: https://cloud.google.com/maps-platform/terms/tssg
+[Terms of Service]: https://cloud.google.com/maps-platform/terms
