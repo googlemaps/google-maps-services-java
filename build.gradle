@@ -64,7 +64,7 @@ dependencies {
     testImplementation 'org.apache.httpcomponents:httpclient:4.5.14'
     testImplementation 'org.slf4j:slf4j-simple:2.0.16'
     testImplementation 'org.apache.commons:commons-lang3:3.17.0'
-    testImplementation 'org.json:json:20240303'
+    testImplementation 'org.json:json:20250107'
     testImplementation 'io.opencensus:opencensus-impl:0.31.1'
     testImplementation "org.mockito:mockito-inline:5.2.0"
 }
