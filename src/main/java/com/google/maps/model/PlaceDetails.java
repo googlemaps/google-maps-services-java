@@ -235,7 +235,7 @@ public class PlaceDetails implements Serializable {
    * DRIVE_THROUGH, PICKUP, or TAKEOUT) based on the types of the place. This field includes the
    * special_days subfield of all hours, set for dates that have exceptional hours.
    */
-  public OpeningHours secondaryOpeningHours;
+  public OpeningHours[] secondaryOpeningHours;
 
   /** Specifies if the place serves beer. */
   public Boolean servesBeer;
