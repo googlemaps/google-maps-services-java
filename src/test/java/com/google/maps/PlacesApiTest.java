@@ -118,6 +118,13 @@ public class PlacesApiTest {
   }
 
   @Test
+  public void testPlaceDetailsFieldMasksDoNotIncludeUnsupportedScope() {
+    for (PlaceDetailsRequest.FieldMask fieldMask : PlaceDetailsRequest.FieldMask.values()) {
+      assertFalse("scope".equals(fieldMask.toUrlValue()));
+    }
+  }
+
+  @Test
   public void testAutocompletePredictionStructuredFormatting() throws Exception {
     try (LocalTestServerContext sc =
         new LocalTestServerContext(autocompletePredictionStructuredFormatting)) {
