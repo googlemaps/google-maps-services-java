@@ -7,13 +7,19 @@
 ![GitHub contributors](https://img.shields.io/github/contributors/googlemaps/google-maps-services-java?color=green)
 [![Stack Exchange questions](https://img.shields.io/stackexchange/stackoverflow/t/google-maps?color=orange&label=google-maps&logo=stackoverflow)](https://stackoverflow.com/questions/tagged/google-maps)
 
-> [!TIP]
-> If you are looking for Java client libraries for the following APIs, see the [Google Maps Platform APIs in the Cloud Client Libraries for Java](https://github.com/googleapis/google-cloud-java/tree/main) ([releases](https://github.com/googleapis/google-cloud-java/releases?q=maps&expanded=true)).
+> [!IMPORTANT]
+> **Legacy APIs End of Sale & Newer Client Libraries**
 >
-> - [Address Validation API](https://github.com/googleapis/google-cloud-java/tree/main/java-maps-addressvalidation)
-> - [Datasets API](https://github.com/googleapis/google-cloud-java/tree/main/java-maps-mapsplatformdatasets)
+> Several APIs supported by this library are in [Legacy status](https://developers.google.com/maps/legacy):
+> - **Places API (Legacy):** This product is in [Legacy status](https://developers.google.com/maps/legacy). As of October 2026, Places API (Legacy) can no longer be enabled for new Google Cloud projects. Existing projects remain fully supported. For new features and improved performance, [migrate to Places API (New)](https://developers.google.com/maps/documentation/places/web-service/legacy/migrate-overview).
+> - **Directions API (Legacy):** This product is in [Legacy status](https://developers.google.com/maps/legacy). As of October 2026, Directions API (Legacy) can no longer be enabled for new Google Cloud projects. Existing projects remain fully supported. For new features and improved performance, [migrate to the Routes API](https://developers.google.com/maps/documentation/routes/migrate-routes).
+> - **Distance Matrix API (Legacy):** This product is in [Legacy status](https://developers.google.com/maps/legacy). As of October 2026, Distance Matrix API (Legacy) can no longer be enabled for new Google Cloud projects. Existing projects remain fully supported. For new features and improved performance, [migrate to the Routes API](https://developers.google.com/maps/documentation/routes/migrate-routes).
+>
+> If you are looking for Java client libraries for our newer APIs, see the [Google Maps Platform APIs in the Cloud Client Libraries for Java](https://github.com/googleapis/google-cloud-java/tree/main) ([overview](https://docs.cloud.google.com/apis/docs/cloud-client-libraries), [releases](https://github.com/googleapis/google-cloud-java/releases?q=maps&expanded=true)):
 > - [Places API (New)](https://github.com/googleapis/google-cloud-java/tree/main/java-maps-places)
 > - [Routes API](https://github.com/googleapis/google-cloud-java/tree/main/java-maps-routing)
+> - [Address Validation API](https://github.com/googleapis/google-cloud-java/tree/main/java-maps-addressvalidation)
+> - [Datasets API](https://github.com/googleapis/google-cloud-java/tree/main/java-maps-mapsplatformdatasets)
 >
 > The new APIs will not be added to this client library.
 
@@ -26,14 +32,17 @@ Services] to your server-side Java application.
 The Java Client for Google Maps Services is a Java Client library for the following Google Maps
 APIs:
 
-- [Directions API]
-- [Distance Matrix API]
 - [Elevation API]
 - [Geocoding API]
 - [Maps Static API]
-- [Places API]
 - [Roads API]
 - [Time Zone API]
+
+As well as the following legacy APIs:
+
+- [Directions API (Legacy)][Directions API]
+- [Distance Matrix API (Legacy)][Distance Matrix API]
+- [Places API (Legacy)][Places API]
 
 ## Requirements
 
