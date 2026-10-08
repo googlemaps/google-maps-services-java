@@ -184,8 +184,6 @@ public class PlaceDetailsRequest
     @Deprecated
     REVIEW("review"),
     REVIEWS("reviews"),
-    @Deprecated
-    SCOPE("scope"),
     SERVES_BEER("serves_beer"),
     SERVES_BREAKFAST("serves_breakfast"),
     SERVES_BRUNCH("serves_brunch"),
