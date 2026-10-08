@@ -85,6 +85,16 @@ public enum AddressType implements UrlValue {
    * Not all nations exhibit these administrative levels.
    */
   ADMINISTRATIVE_AREA_LEVEL_5("administrative_area_level_5"),
+  /**
+   * A fifth-order civil entity below the country level. This type indicates a minor civil division.
+   * Not all nations exhibit these administrative levels.
+   */
+  ADMINISTRATIVE_AREA_LEVEL_6("administrative_area_level_6"),
+  /**
+   * A fifth-order civil entity below the country level. This type indicates a minor civil division.
+   * Not all nations exhibit these administrative levels.
+   */
+  ADMINISTRATIVE_AREA_LEVEL_7("administrative_area_level_7"),
 
   /** A commonly-used alternative name for the entity. */
   COLLOQUIAL_AREA("colloquial_area"),
